@@ -1,0 +1,1662 @@
+<!doctype html><html lang="ar"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>English Word Quest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;700;800&family=Tajawal:wght@400;500;700;800&family=Figtree:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: a quest map of unit cards; each unit opens a 4-stage path (Learn → Practice → Read → Test).
+   Deliberately single-theme: a bright school-notebook look that reads the same on any host. */
+:root{
+  color-scheme:light;
+  --bg:#f4f7ff; --surface:#ffffff; --ink:#172340; --muted:#55607d; --line:#d9e0f2;
+  --sky:#2f7cf6; --sun:#ffc531; --coral:#ff6a55; --mint:#12b28a; --grape:#7b5cff;
+  --good:#0e9b6c; --bad:#e03a4c; --chip:#eaf0ff; --soft:#fff7dc;
+  --display:"Baloo Bhaijaan 2","Baloo 2",system-ui,sans-serif; --body:"Figtree","Tajawal",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace; --ar:"Tajawal",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:19px;line-height:1.6;margin:0;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px);background-size:100% 34px}
+.wrap{max-width:900px;margin:0 auto;padding-inline:16px;padding-block:14px 60px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+button{font:inherit;cursor:pointer;color:inherit}
+button:focus-visible,input:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+.ar{direction:rtl;font-family:var(--ar);text-align:right}
+
+/* header */
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;padding-block:10px 18px}
+.brand .eyebrow{font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--coral);font-weight:700}
+.brand h1{font-size:clamp(2rem,7vw,3rem);margin-top:2px}
+.brand h1 span{color:var(--sky)}
+.brand p{font-size:1.1rem;margin:4px 0 0;color:var(--muted);font-family:var(--ar);direction:rtl;text-align:left}
+.toast{font-size:1.08rem;position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));max-width:560px;margin:0 auto;background:var(--ink);color:#fff;border-radius:16px;padding:12px 16px;z-index:60;font-family:var(--ar);direction:rtl;text-align:right;line-height:1.8;box-shadow:4px 4px 0 var(--sky)}
+.toast a{color:var(--sun);font-weight:700}
+.ctrls{display:grid;gap:10px;justify-items:end}
+.ctl{border:2px solid var(--ink);background:var(--surface);color:var(--ink);border-radius:999px;padding:7px 14px;font-weight:700;font-size:1rem;font-family:var(--body)}
+.ctl[aria-pressed="false"]{opacity:.55;text-decoration:line-through}
+.say.inl{position:static;width:32px;height:32px;display:inline-grid;vertical-align:middle;margin-inline-start:6px;flex-shrink:0}
+.say:hover{background:var(--sun)}
+.cam{display:inline-flex;align-items:center;gap:5px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);border-radius:999px;padding:3px 11px;font-weight:700;font-size:.92rem;text-decoration:none;font-family:var(--body);line-height:1.4;white-space:nowrap}
+.cam svg{width:15px;height:15px}
+.cam:hover,.cam:focus-visible{background:var(--sun)}
+.cam.inl{vertical-align:middle;margin-inline-start:6px}
+.cam.oncard{position:absolute;bottom:10px;left:10px}
+@media (max-width:560px){.ctrls{justify-items:start}}
+.level{display:flex;border:3px solid var(--ink);border-radius:999px;overflow:hidden;background:var(--surface);box-shadow:3px 3px 0 var(--ink);font-family:var(--ar)}
+.level button{border:none;background:none;padding:8px 16px;font-weight:700}
+.level button[aria-pressed="true"]{background:var(--ink);color:#fff}
+
+.note{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:14px 18px;margin-bottom:18px;font-size:1.12rem;line-height:1.9}
+.note b{font-family:var(--ar)}
+.lbl{display:inline-block;background:var(--mint);color:#fff;border-radius:999px;padding:0 10px;font-size:.92rem;font-weight:700;margin-inline-end:6px}
+
+/* home */
+.finder{background:var(--surface);border:3px solid var(--ink);border-radius:18px;padding:12px 16px;margin-bottom:22px;box-shadow:4px 4px 0 var(--ink);display:grid;gap:8px}
+.finder label{font-weight:700;font-size:1.12rem}
+.finder input{border:2px solid var(--ink);border-radius:12px;padding:10px 14px;font:inherit;font-size:1.25rem;background:#fff;color:var(--ink)}
+.fres{display:flex;flex-wrap:wrap;gap:8px}
+.fres:empty{display:none}
+.fres button{border:2px solid var(--ink);background:var(--soft);border-radius:999px;padding:6px 14px;font-weight:700;font-size:1.05rem}
+.fres .none{font-family:var(--ar);direction:rtl;color:var(--muted)}
+.sghead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:26px 0 12px;padding:10px 16px;border-radius:16px;border:2px solid var(--ink);direction:rtl;font-family:var(--ar)}
+.sghead b{font-size:1.45rem}
+.sghead span{font-size:1.05rem;color:var(--muted)}
+.sghead:first-child{margin-top:0}
+.ucard .wk{font-family:var(--ar);direction:rtl;font-size:.98rem;font-weight:700;color:var(--grape)}
+.units{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.ucard{text-align:left;background:var(--surface);border:3px solid var(--ink);border-radius:22px;padding:16px 18px;box-shadow:5px 5px 0 var(--ink);display:grid;gap:8px;position:relative;overflow:hidden}
+.ucard:hover{transform:translate(-1px,-1px);box-shadow:6px 6px 0 var(--ink)}
+.ucard .num{font-family:var(--display);font-size:3rem;line-height:1;font-weight:800}
+.ucard:nth-child(5n+1) .num{color:var(--sky)}.ucard:nth-child(5n+2) .num{color:var(--coral)}.ucard:nth-child(5n+3) .num{color:var(--grape)}.ucard:nth-child(5n+4) .num{color:var(--mint)}.ucard:nth-child(5n+5) .num{color:#e09a00}
+.ucard h3{font-size:1.4rem}
+.ucard .prev{font-size:1rem;color:var(--muted)}
+.meter{height:10px;background:var(--chip);border-radius:99px;overflow:hidden;border:2px solid var(--ink)}
+.meter i{display:block;height:100%;background:var(--mint)}
+.ucard .best{font-family:var(--mono);font-size:.9rem;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.badge{position:absolute;top:14px;right:14px;background:var(--sun);border:2px solid var(--ink);border-radius:999px;padding:2px 10px;font-weight:800;font-size:.78rem;transform:rotate(6deg)}
+
+/* unit */
+.uhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.back{border:2px solid var(--ink);background:var(--surface);border-radius:12px;padding:8px 14px;font-weight:700;box-shadow:3px 3px 0 var(--ink)}
+.uhead h2{font-size:clamp(1.5rem,5vw,2rem);flex:1;min-width:0}
+.uhead h2 small{display:block;font-family:var(--mono);font-size:.75rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.stages{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:16px}
+.stage{border:2px solid var(--ink);background:var(--surface);border-radius:14px;padding:8px 6px;font-weight:800;font-family:var(--display);display:grid;text-align:center}
+.stage small{font-family:var(--ar);font-weight:500;color:var(--muted);font-size:.95rem}
+.stage[aria-selected="true"]{background:var(--ink);color:#fff;box-shadow:3px 3px 0 var(--sky)}
+.stage[aria-selected="true"] small{color:#dfe6ff}
+.panel{background:var(--surface);border:3px solid var(--ink);border-radius:24px;padding:20px;box-shadow:6px 6px 0 var(--ink)}
+.how{direction:rtl;font-family:var(--ar);background:#e8fbf4;border:2px solid #b4ecd9;border-radius:14px;padding:12px 16px;margin:0 0 16px;line-height:1.9;font-size:1.12rem}
+
+/* learn */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.fc{position:relative;border:2px solid var(--ink);border-radius:16px;background:var(--soft);min-height:170px;display:flex}
+.fc .flip{all:unset;cursor:pointer;flex:1;padding:16px 16px 48px;display:grid;align-content:center;gap:4px;text-align:center;border-radius:14px}
+.fc .flip:focus-visible{outline:3px solid var(--sky)}
+.fc .w{font-family:var(--display);font-size:1.75rem;font-weight:800}
+.fc .pos{font-family:var(--mono);font-size:.9rem;color:var(--muted)}
+.fc .back-side{display:none;text-align:left;gap:8px}
+.fc.open{background:var(--surface)}
+.fc.open .front-side{display:none}
+.fc.open .back-side{display:grid}
+.fc .def{font-weight:600;font-size:1.12rem;line-height:1.5}
+.fc .arm{font-family:var(--ar);direction:rtl;text-align:right;color:var(--grape);font-weight:700;font-size:1.2rem}
+.fc .ex{font-size:1.1rem;line-height:1.55;color:#38425e;font-style:italic}
+.fc .ex b{color:var(--ink);font-style:normal}
+.say{position:absolute;bottom:8px;right:8px;width:40px;height:40px;border-radius:50%;border:2px solid var(--ink);background:var(--surface);display:grid;place-items:center;padding:0}
+.say svg{width:22px;height:22px}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+
+/* buttons */
+.btn{border:2px solid var(--ink);border-radius:14px;padding:11px 18px;font-weight:800;background:var(--sky);color:#fff;box-shadow:3px 3px 0 var(--ink);font-family:var(--display);font-size:1rem}
+.btn.alt{background:var(--sun);color:var(--ink)}
+.btn:active,.back:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.btn:disabled{opacity:.4;box-shadow:none;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.center{justify-content:center}
+
+/* practice */
+.modes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.mode{border:2px solid var(--ink);background:var(--surface);border-radius:999px;padding:8px 16px;font-weight:700;font-size:1.05rem}
+.mode[aria-pressed="true"]{background:var(--sun)}
+.tally{font-family:var(--mono);font-size:1rem;color:var(--muted);margin-inline-start:auto}
+.q{font-size:clamp(1.4rem,4.8vw,1.8rem);font-weight:700;text-align:center;margin-block:8px 6px;line-height:1.5}
+.q .k{display:block;font-family:var(--mono);font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.q .blank{display:inline-block;min-width:90px;border-bottom:4px solid var(--sun)}
+.hint{text-align:center;font-family:var(--ar);direction:rtl;color:var(--grape);font-weight:700;margin:0 0 14px;font-size:1.3rem}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:560px;margin-inline:auto}
+.opt{border:2px solid var(--ink);border-radius:14px;padding:14px 10px;font-weight:800;font-size:1.25rem;background:var(--surface);box-shadow:3px 3px 0 var(--ink)}
+.opt:nth-child(1){background:#e6f0ff}.opt:nth-child(2){background:#fff1d1}.opt:nth-child(3){background:#ffe5e1}.opt:nth-child(4){background:#e5f8f1}
+.opt.right{background:var(--good)!important;color:#fff}
+.opt.wrong{background:var(--bad)!important;color:#fff}
+.opt.pick{outline:4px solid var(--sky);outline-offset:2px}
+.fb{min-height:1.6em;text-align:center;font-weight:800;margin-block:12px 4px;font-size:1.15rem}
+.fb.good{color:var(--good)}.fb.bad{color:var(--bad)}
+.explain{max-width:620px;margin:8px auto 0;background:var(--chip);border-radius:14px;padding:14px 18px;font-size:1.15rem;line-height:1.6;display:grid;gap:8px}
+.explain .arm{font-family:var(--ar);direction:rtl;text-align:right;color:var(--grape);font-weight:700;font-size:1.25rem}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.match .col{display:grid;gap:10px;align-content:start}
+.tile{border:2px solid var(--ink);border-radius:14px;padding:12px 10px;font-weight:700;background:var(--surface);box-shadow:3px 3px 0 var(--ink);min-height:58px;font-size:1.12rem;line-height:1.45}
+.tile.big{font-size:1.3rem}
+.tile.artxt{font-family:var(--ar);direction:rtl}
+.tile.sel{background:var(--sun)}
+.tile.done{background:var(--good);color:#fff;box-shadow:none;opacity:.85;cursor:default}
+.tile.oops{background:var(--bad);color:#fff}
+.spell{display:flex;gap:8px;max-width:420px;margin:0 auto;flex-wrap:wrap}
+.spell input{flex:1;min-width:0;border:3px solid var(--ink);border-radius:14px;padding:12px 14px;font:inherit;font-size:1.4rem;font-family:var(--mono);background:#fff;color:var(--ink)}
+.dots{font-family:var(--mono);letter-spacing:.3em;text-align:center;color:var(--ink);margin-bottom:12px;font-size:1.5rem}
+
+/* read */
+.story{font-size:1.35rem;line-height:2.3;background:var(--soft);border:2px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:14px}
+.gap{display:inline-block;min-width:84px;text-align:center;border-bottom:3px dashed var(--muted);padding:0 6px;font-weight:700;color:var(--muted);line-height:1.6}
+.gap.cur{background:var(--sun);color:var(--ink);border:2px solid var(--ink);border-radius:8px}
+.gap.filled{color:var(--good);border-bottom:3px solid var(--good)}
+.bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chipw{border:2px solid var(--ink);background:var(--surface);border-radius:999px;padding:9px 18px;font-weight:700;font-size:1.15rem;box-shadow:3px 3px 0 var(--ink)}
+.chipw:disabled{opacity:.3;box-shadow:none;cursor:default}
+.chipw.shake{background:var(--bad);color:#fff;animation:shk .4s}
+@keyframes shk{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.tf{display:grid;gap:10px;margin-top:18px}
+.tf h3{font-size:1.4rem}
+.tfrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;border:2px solid var(--line);border-radius:14px;padding:10px 12px}
+.tfrow p{margin:0;flex:1;min-width:200px;font-weight:600;font-size:1.2rem;line-height:1.5}
+.tfrow .opt{padding:10px 18px;font-size:1.1rem}
+
+/* test */
+.tprog{height:12px;background:var(--chip);border-radius:99px;overflow:hidden;border:2px solid var(--ink);margin-bottom:14px}
+.tprog i{display:block;height:100%;background:var(--sky);transition:width .2s}
+.score{text-align:center;display:grid;gap:6px;justify-items:center;margin-bottom:16px}
+.score .big{font-family:var(--display);font-size:3.4rem;font-weight:800;line-height:1}
+.score .msg{font-family:var(--ar);font-weight:700;font-size:1.35rem}
+.review{display:grid;gap:8px}
+.rv{border:2px solid var(--line);border-left-width:2px;border-radius:12px;padding:12px 14px;display:grid;gap:6px;font-size:1.12rem;line-height:1.55}
+.rv.ok{border-color:#a9e6cf;background:#eefbf6}
+.rv.no{border-color:#f5b4bc;background:#fff1f2}
+.rv .yours{font-family:var(--mono);font-size:1rem}
+.foot{margin-top:28px;font-size:.95rem;color:var(--muted);text-align:center}
+@media (max-width:560px){.stages{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{padding:16px}.opts{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="eyebrow">Prince Faisal Secondary School · Al-Aqiq</div>
+      <h1>English Word <span>Quest</span></h1>
+      <p>منصة إثرائية للتدرّب الذاتي على مفردات الإنجليزية</p>
+    </div>
+    <div class="ctrls">
+      <div class="level" role="group" aria-label="المستوى">
+        <button id="lvBasic" aria-pressed="true">أساسي</button>
+        <button id="lvAdv" aria-pressed="false">متقدم</button>
+      </div>
+      <div class="row" style="justify-content:flex-end">
+        <button class="ctl" id="sfxBtn" aria-pressed="true">Sounds · المؤثرات</button>
+        <select class="ctl" id="accent" aria-label="Pronunciation accent"><option value="us">US accent</option><option value="uk">UK accent</option></select>
+      </div>
+    </div>
+  </header>
+
+  <main id="home">
+    <div class="note ar"><span class="lbl">كيف أستخدم المنصة؟</span>اختر وحدة، ثم سِر في مراحلها الأربع بالترتيب: <b>تعرّف</b> على الكلمات، ثم <b>تدرّب</b> عليها، ثم <b>اقرأ</b> القصة، ثم <b>اختبر نفسك</b>. كل إجابة تُصحَّح لك فورًا مع الشرح. المستوى <b>الأساسي</b> يعرض معاني الكلمات بالعربي، و<b>المتقدم</b> يعرض التعريفات الإنجليزية فقط.</div>
+    <div class="finder"><label for="q" class="ar">ابحث عن كلمة لتعرف وحدتها</label><input id="q" type="search" placeholder="Type a word… مثال: falcon" autocomplete="off" autocapitalize="off" spellcheck="false"><div class="fres" id="fres" aria-live="polite"></div></div>
+    <div id="units"></div>
+  </main>
+
+  <main id="unit" hidden>
+    <div class="uhead">
+      <button class="back" id="back">← Units</button>
+      <h2 id="uTitle"></h2>
+    </div>
+    <nav class="stages" role="tablist">
+      <button class="stage" role="tab" data-s="learn">Learn<small>تعرّف</small></button>
+      <button class="stage" role="tab" data-s="practice">Practice<small>تدرّب</small></button>
+      <button class="stage" role="tab" data-s="read">Read<small>اقرأ</small></button>
+      <button class="stage" role="tab" data-s="test">Test<small>اختبر نفسك</small></button>
+    </nav>
+    <section class="panel" id="panel"></section>
+  </main>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+  <p class="foot">Target words follow the word lists of <i>4000 Essential English Words, Book 1</i> (Units 1–30). Units 31–50 are theme units added for the self-learning guide. Definitions, sentences and stories are original practice material. · إعداد أ. أحمد السالم</p>
+</div>
+
+<script>
+(function(){
+const UNITS=[
+{n:1,title:"The Clever Rabbit",words:[
+["afraid","adj","feeling fear","خائف","My little sister is afraid of the dark."],
+["agree","v","to have the same opinion as someone","يوافق / يتفق","I agree with you; the test was easy."],
+["angry","adj","feeling very upset because something is wrong or unfair","غاضب","Dad was angry because I came home late."],
+["arrive","v","to reach a place","يصل","The train will arrive at six o'clock."],
+["attack","v","to try to hurt someone or something","يهاجم","The lion waited to attack the zebra."],
+["bottom","n","the lowest part of something","قاع / أسفل","The keys fell to the bottom of the pool."],
+["clever","adj","smart and quick to learn","ذكي","Omar is clever; he solved the puzzle in a minute."],
+["cruel","adj","causing pain to others on purpose","قاسٍ","It is cruel to hit animals."],
+["finally","adv","after a long time","أخيرًا","After three hours, we finally reached Abha."],
+["hide","v","to put something where no one can see it","يُخفي / يختبئ","Let's hide the gift under the bed."],
+["hunt","v","to chase and catch animals","يصطاد","Falcons hunt small birds in the desert."],
+["lot","n","a large amount (used as: a lot of)","الكثير","There are a lot of cars on the road today."],
+["middle","n","the centre of something","منتصف / وسط","The ball is in the middle of the field."],
+["moment","n","a very short time","لحظة","Please wait a moment; I'm coming."],
+["pleased","adj","happy about something","مسرور","The teacher was pleased with our work."],
+["promise","v","to say that you will surely do something","يَعِد","I promise to call you tomorrow."],
+["reply","v","to give an answer","يردّ / يجيب","He did not reply to my message."],
+["safe","adj","not in danger","آمن","Wear a seatbelt to stay safe."],
+["trick","n","something you do to fool someone","خدعة / حيلة","The magician showed us a card trick."],
+["well","adv","in a good way","جيدًا","My brother swims very well."]],
+story:{x:"A hungry wolf wanted to {attack} a little rabbit. The rabbit was {afraid}, but he was also very {clever}. He said, “Wait a {moment}! There is a big fish at the {bottom} of this old well.” The wolf jumped in to {hunt} the fish. But it was a {trick}! The rabbit was {safe}, and he ran home happily.",
+tf:[["The rabbit was clever.",true],["There was a big fish in the well.",false],["The wolf jumped into the well.",true]]}},
+
+{n:2,title:"The Secret Experiment",words:[
+["adventure","n","an exciting or unusual experience","مغامرة","Camping in the desert was a real adventure."],
+["approach","v","to come near","يقترب","Don't approach the camel from behind."],
+["carefully","adv","with great attention","بعناية / بحذر","Read the questions carefully."],
+["chemical","n","a substance used or made in science","مادة كيميائية","This chemical can burn your skin."],
+["create","v","to make something new","يبتكر / يصنع","Artists create beautiful things."],
+["evil","adj","very bad and cruel","شرير","In the story, the evil king locked the prince in a tower."],
+["experiment","n","a scientific test","تجربة علمية","We did an experiment with water and salt."],
+["kill","v","to make something die","يقتل","Too much sun can kill the plants."],
+["laboratory","n","a room for scientific work","مختبر","Wear safety glasses in the laboratory."],
+["laugh","v","to make sounds because something is funny","يضحك","His jokes always make me laugh."],
+["loud","adj","making a lot of sound","عالٍ (الصوت)","The music is too loud; turn it down."],
+["nervous","adj","worried and a little afraid","متوتر","I always feel nervous before exams."],
+["noise","n","a sound, often an unpleasant one","ضجيج / صوت","What is that noise outside?"],
+["project","n","a piece of planned work","مشروع","Our group project is about solar energy."],
+["scare","v","to make someone afraid","يُخيف","Don't scare your little brother with ghost stories."],
+["secret","n","something that other people must not know","سرّ","Can you keep a secret?"],
+["shout","v","to speak very loudly","يصرخ","Don't shout; I can hear you."],
+["smell","v","to notice something with your nose","يشمّ","I can smell fresh bread."],
+["terrible","adj","very bad","فظيع / سيئ جدًا","The traffic this morning was terrible."],
+["worse","adj","more bad","أسوأ","My cold is worse today than yesterday."]],
+story:{x:"Saad and Fahad had a science {project}. They went to the {laboratory} after school. Saad wanted to {create} a new colour. He mixed two {chemicals} very {carefully}. Then there was a {loud} {noise}! Fahad started to {laugh}. “Don't worry,” he said. “Nothing is {worse} than a boring experiment!”",
+tf:[["The boys went to the laboratory in the morning.",false],["Saad wanted to make a new colour.",true],["Fahad was angry about the noise.",false]]}},
+
+{n:3,title:"A Visitor from Space",words:[
+["alien","n","a creature from another planet","كائن فضائي","In the film, an alien landed in the desert."],
+["among","prep","in the middle of a group of things","بين / وسط","There is a cat among the boxes."],
+["chart","n","a picture that shows information","رسم بياني / جدول","The chart shows the temperatures this week."],
+["cloud","n","a white or grey shape in the sky made of water","سحابة","There isn't a single cloud in the sky."],
+["comprehend","v","to understand","يفهم / يستوعب","I can't comprehend this long article."],
+["describe","v","to say what something is like","يصف","Can you describe the thief?"],
+["ever","adv","at any time","قطّ / في أي وقت","Have you ever visited AlUla?"],
+["fail","v","to not succeed","يفشل / يرسب","If you don't study, you may fail the exam."],
+["friendly","adj","kind and nice to others","ودود","Our new neighbours are very friendly."],
+["grade","n","a mark for school work","درجة","I got a good grade in maths."],
+["instead","adv","in place of something else","بدلًا من ذلك","We didn't take the bus; we walked instead."],
+["library","n","a place with books you can read or borrow","مكتبة","I borrowed three books from the library."],
+["planet","n","a large round object that moves around a star","كوكب","Mars is called the red planet."],
+["report","n","a description of events, spoken or written","تقرير","Write a report about your trip."],
+["several","adj","more than two but not many","عدة","I have read several books this month."],
+["solve","v","to find the answer to a problem","يحلّ","Can you solve this maths problem?"],
+["suddenly","adv","quickly and without warning","فجأة","Suddenly, the lights went out."],
+["suppose","v","to think that something is probably true","يفترض / يظن","I suppose he is at home now."],
+["universe","n","everything that exists in space","الكون","The universe is very, very big."],
+["view","n","what you can see from a place","منظر / إطلالة","The view from the mountain is amazing."]],
+story:{x:"One night, Yousef looked up at the sky. There wasn't a single {cloud}. {Suddenly}, he saw a bright light. A small spaceship landed {among} the palm trees. A {friendly} {alien} came out and waved. It said it came from a far {planet} at the edge of the {universe}. Yousef couldn't {comprehend} what was happening!",
+tf:[["The sky was full of clouds.",false],["The alien was friendly.",true],["The spaceship landed in the sea.",false]]}},
+
+{n:4,title:"Life in the Village",words:[
+["appropriate","adj","right for a situation","مناسب","Sports clothes are not appropriate for a wedding."],
+["avoid","v","to stay away from something","يتجنّب","Avoid fast food if you want to be healthy."],
+["behave","v","to act in a certain way","يتصرّف","Please behave well in the mosque."],
+["calm","adj","quiet and relaxed","هادئ","The sea is calm this morning."],
+["concern","n","a worry","قلق / همّ","Her main concern is her father's health."],
+["content","adj","happy and satisfied","راضٍ / قانع","He is content with his simple life."],
+["expect","v","to think that something will happen","يتوقّع","I expect a lot of rain this week."],
+["frequently","adv","often","كثيرًا / بشكل متكرر","We frequently visit our grandparents."],
+["habit","n","something you do again and again","عادة","Reading before bed is a good habit."],
+["instruct","v","to tell someone what to do","يُرشد / يوجّه","The coach will instruct the players before the match."],
+["issue","n","a problem or topic that people talk about","قضية / مسألة","Pollution is a big issue in large cities."],
+["none","pron","not any","لا أحد / لا شيء","None of my friends came to the party."],
+["patient","adj","able to wait without getting angry","صبور","Be patient; your turn will come."],
+["positive","adj","hopeful and thinking about good things","إيجابي","Try to stay positive after a bad grade."],
+["punish","v","to make someone suffer for doing something wrong","يعاقب","The school will punish students who cheat."],
+["represent","v","to act or speak for a group","يمثّل","Khalid will represent our class in the competition."],
+["shake","v","to move quickly up and down or from side to side","يهزّ","Shake the bottle before you open it."],
+["spread","v","to move and cover a bigger area","ينتشر / ينشر","The news spread quickly around the school."],
+["stroll","v","to walk slowly for fun","يتمشّى","We like to stroll on the Corniche at night."],
+["village","n","a very small town in the countryside","قرية","My grandfather lives in a small village near Al-Baha."]],
+story:{x:"My grandfather lives in a small {village}. Every evening, he likes to {stroll} near the farms. He is always {calm} and {patient}. He says that a good {habit} is to sleep early and {avoid} too much sugar. He is {content} with his simple life, and he always has a {positive} attitude.",
+tf:[["Grandfather lives in a big city.",false],["He walks in the evening.",true],["He thinks eating a lot of sugar is a good habit.",false]]}},
+
+{n:5,title:"The Lost Falcon",words:[
+["aware","adj","knowing about something","مُدرِك / على علم","Are you aware that the test is tomorrow?"],
+["badly","adv","in a bad way","بشكل سيئ","He played badly in the last match."],
+["belong","v","to be owned by someone","يخصّ / ينتمي","Does this bag belong to you?"],
+["continue","v","to keep doing something","يستمر / يواصل","Continue reading until the bell rings."],
+["error","n","a mistake","خطأ","There is an error in your answer."],
+["experience","n","knowledge you get from doing things","خبرة / تجربة","He has a lot of experience in teaching."],
+["field","n","an open area of land","حقل / ملعب","The boys are playing football in the field."],
+["hurt","v","to cause pain","يؤذي / يجرح","Be careful not to hurt yourself."],
+["judgment","n","an opinion you form after thinking carefully","حُكم / تقدير","Use your best judgment to choose the answer."],
+["likely","adj","probably going to happen","مُرجَّح / محتمل","It is likely to rain tonight."],
+["normal","adj","usual and ordinary","طبيعي / عادي","It is normal to feel tired after exercise."],
+["rare","adj","not common","نادر","Snow is rare in Jeddah."],
+["relax","v","to rest and feel calm","يسترخي / يرتاح","After the exam, I want to relax."],
+["request","n","the act of asking for something politely","طلب","The manager agreed to my request."],
+["reside","v","to live in a place","يقيم / يسكن","Many families reside in this building."],
+["result","n","something that happens because of something else","نتيجة","The result of the match was 2–1."],
+["roll","v","to move by turning over and over","يتدحرج","The ball began to roll down the hill."],
+["since","prep","from a time in the past until now","منذ","I have lived here since 2015."],
+["visible","adj","able to be seen","مرئي / ظاهر","The moon is visible tonight."],
+["wild","adj","living in nature, not with people","برّي","Wild animals live in the forest."]],
+story:{x:"Last week, Salem found a {wild} falcon in a {field} near his house. Its wing was {hurt}. It is {rare} to see a falcon so close. Salem made a {request} to the vet to help it. The vet said, “It is {likely} that it will fly again.” After two weeks, the {result} was great: the falcon could fly! Salem {continues} to visit the field every day.",
+tf:[["Salem found the falcon in a field.",true],["The falcon's leg was hurt.",false],["The falcon could fly again.",true]]}},
+
+{n:6,title:"The Old House Ghost",words:[
+["advantage", "n", "something that helps you do better than others", "ميزة / أفضلية", "Being tall is a big advantage in basketball."],
+["cause", "v", "to make something happen or exist", "يسبّب", "Fast driving can cause terrible accidents on the road."],
+["choice", "n", "the act of picking one thing from several things", "اختيار", "You have a choice between tea and Arabic coffee."],
+["community", "n", "a group of people who live in the same area", "مجتمع", "Our community helps poor families during Ramadan."],
+["dead", "adj", "no longer living or alive", "ميّت", "The plants are dead because nobody watered them."],
+["distance", "n", "the amount of space between two places", "مسافة", "What is the distance from Al-Baha to Jeddah?"],
+["escape", "v", "to get away from a dangerous or closed place", "يهرب / يفرّ", "The little bird tried to escape from its cage."],
+["face", "v", "to deal with a difficult situation bravely", "يواجه", "You must face your problems, not run away from them."],
+["follow", "v", "to go or come after someone", "يتبع / يلحق", "Please follow me to the new classroom."],
+["fright", "n", "a sudden feeling of fear", "فزع / ذعر", "The loud noise in the night gave me a fright."],
+["ghost", "n", "the spirit of a dead person that some people say they see", "شبح", "My brother told us a scary story about a ghost."],
+["individual", "n", "one single person, not a group", "فرد", "Every individual in the team has an important job."],
+["pet", "n", "an animal that you keep at home as a friend", "حيوان أليف", "Khalid has a pet cat with soft white fur."],
+["reach", "v", "to arrive at a place you are going to", "يصل / يبلغ", "We will reach Riyadh before sunset."],
+["return", "v", "to go or come back to a place", "يعود / يرجع", "My father will return from Makkah tomorrow."],
+["survive", "v", "to stay alive after something dangerous or difficult", "ينجو / يبقى حيًّا", "Camels can survive for many days without water."],
+["upset", "adj", "unhappy or worried because something bad happened", "منزعج / مستاء", "Fahad was upset because his team lost the match."],
+["voice", "n", "the sound you make when you speak or sing", "صوت", "The imam of our mosque has a beautiful voice."],
+["weather", "n", "how hot, cold, rainy or windy it is outside", "الطقس / الجوّ", "The weather in Al-Baha is cool in summer."],
+["wise", "adj", "having good judgment from knowledge and experience", "حكيم", "My grandfather is a wise man, so people ask his advice."]],
+story:{x:"One night, Salem heard a strange {voice} coming from the old house near his farm. His friends said it was a {ghost}. Salem shook with {fright}, but his grandfather, a {wise} old man, said, “Don't run away. You must {face} your fears.” So Salem took a torch and walked slowly inside. In a dark corner, he found a small cat trying to {escape} from a box. Salem helped it out and decided to keep it as a {pet}. Now, every evening, the happy cat likes to {follow} him home.",
+tf:[["Salem's grandfather told him to run away.", false], ["Salem found a cat in the old house.", true], ["Salem kept the cat as a pet.", true]]}},
+
+{n:7,title:"The Brave Prince",words:[
+["allow", "v", "to let someone do something", "يسمح", "My father does not allow me to drive yet."],
+["announce", "v", "to tell many people something in public", "يُعلن", "The principal will announce the exam results tomorrow."],
+["beside", "prep", "at the side of someone or something", "بجانب", "Come and sit beside me on the bus."],
+["challenge", "n", "something new and difficult that tests your skill", "تحدٍّ", "Climbing the mountain in the heat was a real challenge."],
+["claim", "v", "to say that something is true without giving proof", "يدّعي / يزعم", "Some people claim that they saw a ghost."],
+["condition", "n", "the state that something or someone is in", "حالة", "The car is old, but it is in good condition."],
+["contribute", "v", "to give money, time or help to something", "يُسهم / يساهم", "Every student can contribute to keeping our school clean."],
+["difference", "n", "the way in which two things are not the same", "فرق / اختلاف", "What is the difference between these two phones?"],
+["divide", "v", "to split something into smaller parts", "يقسّم", "Mum will divide the cake into eight pieces."],
+["expert", "n", "a person who knows a lot about a subject", "خبير", "My uncle is an expert in training falcons."],
+["famous", "adj", "known by very many people", "مشهور", "Messi is famous all over the world."],
+["force", "v", "to make someone do something they do not want to do", "يُجبِر / يُرغِم", "Nobody can force you to change your mind."],
+["harm", "n", "damage or hurt done to someone or something", "ضرر / أذى", "Smoking does serious harm to your body."],
+["lay", "v", "to put something down gently in a flat position", "يضع / يمدّد", "Please lay the books gently on the table."],
+["peace", "n", "a time when there is no war or fighting", "سلام", "Everyone in the world wants to live in peace."],
+["prince", "n", "the son of a king or queen", "أمير", "The prince visited our school last year."],
+["protect", "v", "to keep someone or something safe from harm or danger", "يحمي", "Sunglasses protect your eyes from the strong sun."],
+["sense", "n", "a natural ability like sight, hearing or smell", "حاسّة / إحساس", "Dogs have a very strong sense of smell."],
+["sudden", "adj", "happening quickly and without any warning", "مفاجئ", "There was a sudden storm in the afternoon."],
+["therefore", "adv", "for that reason; as a result", "لذلك / وبالتالي", "It was raining heavily; therefore, the match was cancelled."]],
+story:{x:"Long ago, a young {prince} lived in a small kingdom. His people lived in {peace} for many years. One day, there was a {sudden} attack from a big army. The prince wanted to {protect} his people and keep them from {harm}. He asked an old {expert} in war for help. The old man said, “Do not fight them all at once.” He told the prince to {divide} his soldiers into three small groups. It was a hard {challenge}, but the prince's clever plan worked, and the big army ran away.",
+tf:[["The people lived in peace for many years.", true], ["The prince fought the whole army at once.", false], ["The prince's plan did not work.", false]]}},
+
+{n:8,title:"The Hurt Falcon",words:[
+["accept", "v", "to take something that someone offers you", "يقبل", "Please accept this small gift from me."],
+["arrange", "v", "to put things in a neat and useful order", "يرتّب / ينظّم", "Help me arrange the chairs for the meeting."],
+["attend", "v", "to go to an event, class or meeting", "يحضر", "All students must attend the morning assembly."],
+["balance", "n", "the ability to stay steady without falling", "توازن", "I lost my balance and fell off the bike."],
+["contrast", "n", "a clear difference between two things", "تباين / تناقض", "There is a strong contrast between the hot desert and the cool mountains."],
+["encourage", "v", "to give someone hope or support to do something", "يشجّع", "My parents always encourage me to read more books."],
+["familiar", "adj", "well known to you because you have seen it before", "مألوف", "His face looks familiar, but I can't remember his name."],
+["grab", "v", "to take hold of something quickly and roughly", "يُمسك بسرعة / يخطف", "Quickly grab your bag; the bus is here."],
+["hang", "v", "to put something up so that it does not touch the ground", "يعلّق", "Let's hang the picture on this wall."],
+["huge", "adj", "extremely big in size or amount", "ضخم / هائل", "Riyadh is a huge city with millions of people."],
+["necessary", "adj", "needed in order to do or have something", "ضروري", "Water is necessary for all living things."],
+["pattern", "n", "a design of lines, shapes or colours that repeats", "نمط / نقش", "My mother's carpet has a beautiful pattern."],
+["propose", "v", "to suggest a plan or idea to other people", "يقترح", "I propose that we visit the museum on Friday."],
+["purpose", "n", "the reason why something is done or made", "هدف / غرض", "The purpose of this trip is to learn about history."],
+["release", "v", "to let a person or animal go free", "يُطلق / يحرّر", "The hunter will release the falcon into the sky."],
+["require", "v", "to need something or make it necessary", "يتطلّب / يحتاج", "This job will require a lot of patience."],
+["single", "adj", "only one; not two or more", "واحد / مُفرَد", "Not a single student was late today."],
+["success", "n", "getting the good result that you wanted", "نجاح", "Hard work is the key to success."],
+["tear", "v", "to pull something apart into pieces", "يمزّق", "Don't tear the pages of your book."],
+["theory", "n", "an idea that tries to explain why something happens", "نظرية", "Scientists have a theory about how the moon formed."]],
+story:{x:"Every winter, Turki and his father {attend} a falcon show in the desert. This year, they found a hurt falcon with a {huge} cut across its wing. It could not keep its {balance} in the air. “Rest and good food are {necessary} for this bird,” said the doctor. Turki fed it every day. After a month, it was time to {release} the falcon. Turki was worried, but his father smiled to {encourage} him. The bird flew high into the sky. It was a great {success}! Now, a {familiar} falcon often visits their farm, and Turki always knows it.",
+tf:[["The falcon had a hurt wing.", true], ["Turki let the falcon go after one week.", false], ["The falcon flew high into the sky.", true]]}},
+
+{n:9,title:"Lost on the Island",words:[
+["against", "prep", "on the opposite side in a game or fight", "ضدّ", "Al-Hilal will play against Al-Nassr tonight."],
+["beach", "n", "the area of sand or stones next to the sea", "شاطئ", "We had a picnic on the beach in Jeddah."],
+["damage", "n", "physical harm that breaks or spoils something", "ضرر / تلف", "The storm caused damage to many houses."],
+["discover", "v", "to find or learn something for the first time", "يكتشف", "Scientists hope to discover new medicines."],
+["emotion", "n", "a strong feeling such as love, fear or anger", "عاطفة / شعور", "He spoke with great emotion about his late grandfather."],
+["fix", "v", "to repair something that is broken", "يُصلح", "Can you fix my bicycle before Friday?"],
+["frank", "adj", "honest and direct in what you say", "صريح", "To be frank, I didn't like the film."],
+["identify", "v", "to recognize someone or something and say who or what they are", "يتعرّف على / يحدّد", "Can you identify this bird from its picture?"],
+["island", "n", "a piece of land with water all around it", "جزيرة", "Farasan is a beautiful island in the Red Sea."],
+["ocean", "n", "a very large area of salt water", "محيط", "Huge whales live in the deep, cold ocean."],
+["perhaps", "adv", "used to say that something may be true", "ربما", "Khalid is late; perhaps he missed the bus."],
+["pleasant", "adj", "nice, enjoyable and making you feel happy", "لطيف / ممتع", "We had a pleasant evening at Grandma's house."],
+["prevent", "v", "to stop something from happening", "يمنع", "Washing your hands can prevent many illnesses."],
+["rock", "n", "a large, hard piece of stone", "صخرة", "Salem sat on a big rock near the sea."],
+["save", "v", "to keep someone safe from danger or death", "يُنقذ / يوفّر", "The firefighter ran inside to save the child."],
+["step", "n", "the movement of putting one foot in front of the other", "خطوة", "The baby took his first step today."],
+["still", "adv", "continuing until now and not stopping", "لا يزال / ما زال", "Omar is still sleeping, even though it is noon."],
+["taste", "n", "the flavour of food or drink in your mouth", "طعم / مذاق", "I love the taste of Arabic coffee with dates."],
+["throw", "v", "to send something through the air with your hand", "يرمي", "Don't throw rubbish on the street."],
+["wave", "n", "a moving line of water on the sea", "موجة", "A big wave knocked the boy over."]],
+story:{x:"Nawaf and his cousin took a small boat to an {island} in the Red Sea. While they were walking on the {beach}, a big {wave} pulled their boat away. Nawaf climbed a high {rock} to look around. “Don't drink too much,” he said. “We must {save} our water.” In the afternoon, they saw a fishing boat. They began to {throw} stones into the sea and shout. The fishermen were {pleasant} men, and they helped the boys. Later, everyone found the small boat on the sand. Luckily, there was no {damage} to it.",
+tf:[["The boys went to an island in the Red Sea.", true], ["A strong wind broke the boys' boat.", false], ["The fishermen helped the boys.", true]]}},
+
+{n:10,title:"The Brave Guard Dog",words:[
+["benefit", "n", "a good result or help that you get from something", "فائدة", "One benefit of reading is learning new words."],
+["certain", "adj", "feeling completely sure about something", "متأكّد / مؤكَّد", "I am certain that I locked the door."],
+["chance", "n", "a possibility that something will happen", "فرصة / احتمال", "Our team has a good chance of winning the cup."],
+["effect", "n", "a change that is caused by something else", "تأثير / أثر", "Too much sugar has a bad effect on your teeth."],
+["essential", "adj", "extremely important and completely necessary", "أساسي / ضروري", "Sleep is essential for good health."],
+["far", "adv", "at or to a long distance away", "بعيدًا", "How far is Taif from Al-Baha?"],
+["focus", "v", "to give all your attention to one thing", "يركّز", "Turn off your phone and focus on your homework."],
+["function", "n", "the job that something is made to do", "وظيفة", "The main function of the heart is to pump blood."],
+["grass", "n", "a green plant that covers fields and gardens", "عشب", "The goats are eating the fresh grass."],
+["guard", "n", "a person or animal whose job is to protect a place", "حارس", "The guard stood at the gate of the school."],
+["image", "n", "a picture seen on a screen or in your mind", "صورة", "The image on the screen was not clear."],
+["immediate", "adj", "happening now, without any waiting", "فوري", "The injured player needed immediate help."],
+["primary", "adj", "most important; the main one", "رئيسي / أساسي", "Safety is our primary concern on the road."],
+["proud", "adj", "pleased because of something you or others did", "فخور", "My father was proud of my good grades."],
+["remain", "v", "to stay in the same place or condition", "يبقى / يظلّ", "Please remain in your seats until the bell rings."],
+["rest", "n", "a period of relaxing or sleeping", "راحة", "After the long trip, we need some rest."],
+["separate", "adj", "not joined together; apart from each other", "منفصل", "My brother and I have separate rooms."],
+["site", "n", "a place where something is, was, or will be", "موقع", "This is the site of the new hospital."],
+["tail", "n", "the long part at the back of an animal's body", "ذيل", "The dog moved its tail when it saw me."],
+["trouble", "n", "problems, difficulties or worries you have", "مشكلة / متاعب", "I had trouble finding your house in the dark."]],
+story:{x:"Saud's family has a farm near Al-Baha. Their dog, Najm, is a good {guard}. At night, he watches the sheep. One evening, the sheep were eating {grass} near the valley when Najm heard a wolf. He barked loudly and ran toward it. The wolf ran {far} away into the mountains. Najm came back slowly, moving his {tail}. Saud saw that Najm's leg was hurt, so he gave him {immediate} help. “You saved us from {trouble},” Saud said. He was very {proud} of his dog. Then Najm had a long {rest} by the fire.",
+tf:[["Najm is a dog.", true], ["The wolf ate some of the sheep.", false], ["Najm's leg was hurt.", true]]}},
+
+{n:11,title:"The Strange Creature",words:[
+["anymore", "adv", "no longer; not now as it was before", "بعد الآن", "I don't play video games anymore."],
+["asleep", "adj", "in the state of sleeping; not awake", "نائم", "The baby is asleep in his bed."],
+["berry", "n", "a small round fruit that grows on bushes", "حبّة توت", "This berry tastes sweet and a little sour."],
+["collect", "v", "to bring things together from different places", "يجمع", "My brother likes to collect old coins."],
+["compete", "v", "to try to win against other people", "يتنافس", "Twenty schools will compete in the football cup."],
+["conversation", "n", "a talk between two or more people", "محادثة", "I had a long conversation with my uncle."],
+["creature", "n", "any living animal, big or small", "مخلوق / كائن", "The camel is a strong desert creature."],
+["decision", "n", "a choice that you make after thinking", "قرار", "Leaving the team was a hard decision."],
+["either", "conj", "used before the first of two choices (either ... or)", "إمّا ... أو", "You can either walk or take the bus."],
+["forest", "n", "a large area of land full of trees", "غابة", "There is a beautiful forest near Al-Baha city."],
+["ground", "n", "the surface of the earth that you walk on", "الأرض", "The ripe apple fell to the ground."],
+["introduce", "v", "to tell people each other's names when they first meet", "يعرّف / يقدّم", "Let me introduce my friend Faisal to you."],
+["marry", "v", "to become someone's husband or wife", "يتزوّج", "My older brother will marry in the summer."],
+["prepare", "v", "to make something or someone ready", "يُعِدّ / يستعدّ", "Mum is helping me prepare for the exam."],
+["sail", "v", "to travel on water in a boat or ship", "يُبحر", "We will sail to the island tomorrow morning."],
+["serious", "adj", "very bad or important; not joking", "خطير / جادّ", "Smoking can cause serious health problems."],
+["spend", "v", "to use money or time on something", "يُنفق / يقضي", "I spend two hours a day studying."],
+["strange", "adj", "unusual and hard to understand or explain", "غريب", "I heard a strange noise outside last night."],
+["truth", "n", "the real facts about something", "الحقيقة", "Always tell the truth, even when it is hard."],
+["wake", "v", "to stop sleeping, or to make someone stop sleeping", "يستيقظ / يوقظ", "I wake up early for Fajr prayer."]],
+story:{x:"Ahmed and Omar went camping in a {forest} near Abha. At night, Omar heard a {strange} sound outside the tent. Ahmed was {asleep}, so Omar tried to {wake} him. “There is a big {creature} out there!” he whispered. They looked out slowly. A small hedgehog was eating a red {berry} under a tree. The boys laughed. In the morning, they told their friends the {truth}: the scary monster was tiny! Then they went to {collect} wood for a small fire.",
+tf:[["The boys went camping near Abha.", true], ["The creature was a big wolf.", false], ["Ahmed heard the sound first.", false]]}},
+
+{n:12,title:"The Young Artist",words:[
+["alone", "adj", "without any other people with you", "وحيد / بمفرده", "My grandmother does not like to stay alone."],
+["apartment", "n", "a set of rooms for living in, inside a building", "شقّة", "We live in an apartment on the third floor."],
+["article", "n", "a piece of writing in a newspaper or on a website", "مقال / مقالة", "I read an article about the new metro in Riyadh."],
+["artist", "n", "a person who paints or draws pictures", "فنّان / رسّام", "The artist painted the green mountains of Al-Baha."],
+["attitude", "n", "the way you think and feel about something", "موقف / سلوك", "Khalid has a positive attitude toward school."],
+["compare", "v", "to look at how things are alike or different", "يقارن", "Let's compare the prices of these two phones."],
+["judge", "n", "a person who decides cases in a court", "قاضٍ", "The judge listened carefully to both men."],
+["magazine", "n", "a thin book with pictures, sold every week or month", "مجلّة", "My father buys a car magazine every month."],
+["material", "n", "cloth or any substance used to make things", "مادّة / قماش", "This thobe is made of soft, light material."],
+["meal", "n", "the food that you eat at one time, like lunch", "وجبة", "Lunch is the main meal for my family."],
+["method", "n", "a planned way of doing something", "طريقة / أسلوب", "Our teacher uses a new method to teach grammar."],
+["neighbor", "n", "a person who lives near you", "جار", "Our neighbor brought us dates from his farm."],
+["professional", "adj", "doing a job for money and with great skill", "محترف / مهنيّ", "Salem wants to be a professional football player."],
+["profit", "n", "money you earn after paying all costs", "ربح", "The shop made a big profit during Eid."],
+["quality", "n", "how good or bad something is", "جودة", "These shoes are of very high quality."],
+["shape", "n", "the outer form of something, like round or square", "شكل", "The cake was in the shape of a football."],
+["space", "n", "an empty area that can be used", "مساحة / فراغ", "There is enough space for five people in the car."],
+["stair", "n", "one of a set of steps inside a building", "درجة سُلَّم", "He sat on the bottom stair and tied his shoes."],
+["symbol", "n", "a sign or picture that stands for something", "رمز", "The palm tree is a symbol of Saudi Arabia."],
+["thin", "adj", "having little fat on the body; not thick", "نحيف / رقيق", "The bread is very thin and crispy."]],
+story:{x:"Faisal lives with his family in a small {apartment} in Jeddah. He loves to draw, and he wants to be an {artist} one day. Every afternoon, he sits {alone} in his room and paints. One day, their {neighbor}, Abu Saad, saw his pictures and was amazed. Abu Saad worked for a {magazine}, so he wrote an {article} about Faisal. Now, a {professional} painter teaches Faisal every week. His favourite painting shows a falcon, the {symbol} of courage in his family.",
+tf:[["Faisal lives in Jeddah.", true], ["Abu Saad wrote an article about Faisal.", true], ["Faisal does not like drawing.", false]]}},
+
+{n:13,title:"Fire on the Farm",words:[
+["blood", "n", "the red liquid that moves around your body", "دم", "He gave blood at the hospital to help others."],
+["burn", "v", "to damage something with fire or heat", "يحرق / يحترق", "Be careful not to burn your hand on the stove."],
+["cell", "n", "the smallest living part of a plant or animal", "خليّة", "We looked at a plant cell under the microscope."],
+["contain", "v", "to have something inside it", "يحتوي على", "This old box may contain my grandfather's letters."],
+["correct", "adj", "right and without any mistakes", "صحيح", "Your answer is correct; well done!"],
+["crop", "n", "a plant that farmers grow for food", "محصول", "Dates are the most important crop in Al-Ahsa."],
+["demand", "v", "to ask for something strongly", "يطالب", "The angry customers demand their money back."],
+["equal", "adj", "the same in size, number or value", "متساوٍ", "Cut the bread into two equal parts."],
+["feed", "v", "to give food to a person or animal", "يُطعم", "Every morning, I feed the chickens on our farm."],
+["hole", "n", "an empty space or opening in something", "حفرة / ثقب", "There is a small hole in my sock."],
+["increase", "v", "to become or make bigger in number or amount", "يزيد / يرتفع", "The number of students will increase next year."],
+["lord", "n", "a man of high rank, especially in Britain", "لورد / نبيل", "The old lord lived in a big castle in England."],
+["owe", "v", "to need to pay back money to someone", "يَدين / مَدين بـ", "I owe my brother ten riyals."],
+["position", "n", "the place or role of someone or something", "موضع / مركز", "What position does Nawaf play in the team?"],
+["raise", "v", "to lift or move something up", "يرفع", "Raise your hand if you know the answer."],
+["responsible", "adj", "having the duty to take care of something", "مسؤول", "Fahad is responsible for cleaning the classroom today."],
+["sight", "n", "the ability to see; something that you see", "البصر / منظر", "My grandfather's sight is weak, so he wears glasses."],
+["spot", "n", "a particular small place or area", "مكان / بقعة", "This is the best spot for watching the sunset."],
+["structure", "n", "something that is built, like a building or bridge", "مبنى / بِنية", "Kingdom Centre is a famous structure in Riyadh."],
+["whole", "adj", "all of something, with nothing missing", "كامل / كلّ", "I ate the whole pizza by myself."]],
+story:{x:"Salem's father grows wheat on their farm in Al-Baha. This year, Salem was {responsible} for helping him. Every morning, he had to {feed} the cows and chickens. One hot day, Salem saw smoke in the field. It was a scary {sight}! A small fire could {burn} all the wheat. Salem ran to the {spot} where the smoke was rising. He put sand on the fire before it reached the {whole} field. His father hugged him and said, “You saved our {crop}!” Because of Salem, the family's money will {increase} this year.",
+tf:[["Salem's father grows wheat.", true], ["Salem used water to stop the fire.", false], ["The fire burned the whole field.", false]]}},
+
+{n:14,title:"The School Play",words:[
+["coach", "n", "a person who trains a sports team or player", "مدرّب", "Our coach makes us run before every match."],
+["control", "v", "to have power over how something moves or acts", "يتحكّم / يسيطر", "It is hard to control a young falcon at first."],
+["description", "n", "words that tell what something is like", "وصف", "The police asked for a description of the thief."],
+["direct", "adj", "going straight to a place without stopping", "مباشر", "Is there a direct flight from Al-Baha to Riyadh?"],
+["exam", "n", "an important test of what you know", "امتحان / اختبار", "I studied all night for the English exam."],
+["example", "n", "something that shows what others of its kind are like", "مثال", "Can you give me an example of a verb?"],
+["limit", "n", "the greatest amount that is allowed", "حدّ", "The speed limit on this road is 120."],
+["local", "adj", "from or in the area near you", "محلّي", "We buy honey from a local farm in Al-Baha."],
+["magical", "adj", "having special powers, or very wonderful", "سحري / ساحر", "The view from the mountain at sunset was magical."],
+["mail", "n", "letters and packages sent by post", "بريد", "Did we get any mail from the post office?"],
+["novel", "n", "a long book that tells an invented story", "رواية", "I am reading an English novel this month."],
+["outline", "n", "the main ideas of something without the details", "مخطّط / ملخّص", "Write an outline before you start your essay."],
+["poet", "n", "a person who writes poems", "شاعر", "Al-Mutanabbi is a famous Arab poet."],
+["print", "v", "to put words or pictures on paper with a machine", "يطبع", "Can you print this page for me?"],
+["scene", "n", "one part of a film, play or book", "مشهد", "The last scene of the film was very sad."],
+["sheet", "n", "a thin flat piece of paper", "ورقة", "Take a sheet of paper and write your name."],
+["silly", "adj", "not sensible; foolish in a funny way", "سخيف / أحمق", "Stop making silly faces in class."],
+["store", "n", "a shop where people buy things", "متجر", "I bought a new phone charger from the store."],
+["suffer", "v", "to feel pain or have a difficult problem", "يعاني", "Many people suffer from the heat in summer."],
+["technology", "n", "machines and tools made by using science", "تقنية / تكنولوجيا", "Modern technology helps doctors save lives."]],
+story:{x:"Omar's English teacher asked the class to act out a {scene} from a famous {novel}. First, the boys wrote an {outline} of the story on a large {sheet} of paper. Omar played a {poet} who wrote poems for the king. Khalid used {technology} to make sounds and lights. On the day of the show, Omar forgot his words and said something {silly}. Everybody laughed, even the teacher! In the end, the parents clapped and said the show was {magical}.",
+tf:[["The class acted out a scene from a novel.", true], ["Omar played the king.", false], ["The parents did not enjoy the show.", false]]}},
+
+{n:15,title:"The Desert Race",words:[
+["across", "prep", "from one side of something to the other side", "عَبْرَ", "We walked across the street to the mosque."],
+["breathe", "v", "to take air into your body and let it out", "يتنفّس", "It is hard to breathe in a smoky room."],
+["characteristic", "n", "a typical quality or feature of someone or something", "سِمة / خاصيّة", "Kindness is a characteristic of my grandfather."],
+["consume", "v", "to eat, drink, or use up something", "يستهلك", "Big cars consume a lot of petrol."],
+["excite", "v", "to make someone feel very happy and eager", "يُثير / يُحمّس", "Football matches always excite my little brother."],
+["extreme", "adj", "very great or very strong, far beyond normal", "شديد / مُفرِط", "The desert has extreme heat in summer."],
+["fear", "n", "the feeling you have when you are afraid", "خوف", "Khalid has a fear of high places."],
+["fortunate", "adj", "lucky; having good things happen to you", "محظوظ", "We are fortunate to have a good teacher."],
+["happen", "v", "to take place, often without planning", "يحدث", "What will happen if it rains during the match?"],
+["length", "n", "how long something is from one end to the other", "طول", "What is the length of this table?"],
+["mistake", "n", "something that is wrong or not correct", "خطأ", "I made a mistake in my spelling test."],
+["observe", "v", "to watch someone or something carefully", "يراقب / يلاحظ", "We went outside to observe the stars at night."],
+["opportunity", "n", "a good chance to do something", "فرصة", "The trip to Jeddah is a great opportunity to learn."],
+["prize", "n", "something you get for winning", "جائزة", "Omar won a prize in the reading competition."],
+["race", "n", "a competition to see who is the fastest", "سباق", "Fahad came first in the running race at school."],
+["realize", "v", "to suddenly understand or know something", "يُدرك", "Did you realize that the shop was closed?"],
+["respond", "v", "to answer or react to something", "يستجيب / يردّ", "Please respond quickly to the teacher's question."],
+["risk", "n", "the chance that something bad will happen", "مخاطرة / خطر", "Driving too fast is a big risk."],
+["wonder", "v", "to think about something and want to know more", "يتساءل", "I wonder why the sky is blue."],
+["yet", "adv", "until now (used in questions and negatives)", "بعدُ / حتى الآن", "Turki has not finished his homework yet."]],
+story:{x:"Salem joined a camel {race} in the desert near Riyadh. The heat was {extreme}, and it was hard to {breathe}. Salem felt some {fear}, but he did not stop. Near the end, his friend Nawaf made a {mistake} and fell. Salem stopped to help him. He did not win first {prize}, but he did not care. “I am {fortunate} to have a friend like you,” Nawaf said. Salem smiled. He began to {realize} that friendship is better than winning.",
+tf:[["The race was in the desert.", true], ["Salem won first prize.", false], ["Nawaf fell near the end of the race.", true]]}},
+
+{n:16,title:"The Hidden Map",words:[
+["academy", "n", "a school that gives special training", "أكاديمية", "My cousin studies at a police academy in Riyadh."],
+["ancient", "adj", "very old; from a long time ago", "قديم / عتيق", "We visited an ancient village in Al-Baha."],
+["board", "n", "a flat surface on the wall where teachers write", "سبّورة / لوح", "The teacher wrote the answer on the board."],
+["century", "n", "a period of one hundred years", "قرن", "This mosque was built more than a century ago."],
+["clue", "n", "a piece of information that helps you solve a problem", "دليل / إشارة", "The teacher gave us a clue to answer the riddle."],
+["concert", "n", "a public show where people perform music", "حفل موسيقي", "Thousands of people went to the concert in Riyadh."],
+["county", "n", "an area of a country with its own local government", "مقاطعة", "He lives in a small county in England."],
+["dictionary", "n", "a book that explains the meanings of words", "قاموس / معجم", "Use a dictionary to check the spelling."],
+["exist", "v", "to be real; to be present in the world", "يوجد", "Do dragons really exist?"],
+["flat", "adj", "smooth and level, with no high or low parts", "مستوٍ / مُسطَّح", "The land near the coast is very flat."],
+["gentleman", "n", "a polite and kind man", "رجل نبيل", "My grandfather is a true gentleman to everyone."],
+["hidden", "adj", "kept out of sight; not easy to find", "مخفيّ", "We found a hidden cave in the mountains."],
+["maybe", "adv", "possibly; perhaps", "ربما", "Maybe we will go to Abha next weekend."],
+["officer", "n", "a person with authority in the police or army", "ضابط", "The police officer helped the old man cross the road."],
+["original", "adj", "first; existing from the beginning", "أصليّ", "This is the original copy of the book."],
+["pound", "n", "a unit of money used in Britain", "جنيه (إسترليني)", "This notebook costs one pound in London."],
+["process", "n", "a series of steps to do or make something", "عملية / إجراء", "Making Arabic coffee is a simple process."],
+["publish", "v", "to print a book or article for people to read", "ينشر", "The school will publish our stories in a magazine."],
+["theater", "n", "a building where people watch plays or shows", "مسرح", "Our class watched a play at the theater."],
+["wealth", "n", "a large amount of money or valuable things", "ثروة", "Oil brought great wealth to the country."]],
+story:{x:"Faisal found an {ancient} book in his grandfather's house. It was more than a {century} old. Inside, there was a {hidden} map. Faisal could not read some of the old words, so he used a {dictionary}. Each word was a {clue}. “This map may lead to great {wealth}!” he said. He followed the map to the mountains. There, he found the {original} home of his family, a small stone house. Later, he wrote about his adventure, and the school decided to {publish} his story.",
+tf:[["Faisal found the book in a mosque.", false], ["Faisal used a dictionary to read the old words.", true], ["Faisal found a lot of money in the mountains.", false]]}},
+
+{n:17,title:"The Rainy Season",words:[
+["appreciate", "v", "to be thankful for something", "يُقدّر", "I appreciate your help with my homework."],
+["available", "adj", "ready to be used or bought", "متاح / متوفّر", "Is this phone available in white?"],
+["beat", "v", "to win against someone in a game", "يهزم / يتغلّب على", "Our team will beat them in the final."],
+["bright", "adj", "full of light or shining strongly", "ساطع / مُشرق", "The sun is very bright in Jeddah today."],
+["celebrate", "v", "to do something special for a happy event", "يحتفل", "We celebrate Eid with our whole family."],
+["determine", "v", "to find out or decide something", "يُحدّد / يقرّر", "The test will determine who joins the team."],
+["disappear", "v", "to go away and become impossible to see", "يختفي", "The moon will disappear behind the clouds."],
+["else", "adv", "other; different", "آخر / غير ذلك", "Do you want anything else to drink?"],
+["fair", "adj", "treating people equally and in the right way", "عادل / منصف", "The referee was fair to both teams."],
+["flow", "v", "to move smoothly and continuously, like water", "يتدفّق / يجري", "After the rain, water began to flow down the valley."],
+["forward", "adv", "toward the front", "إلى الأمام", "Please move forward and sit in the first row."],
+["hill", "n", "a high area of land, smaller than a mountain", "تلّ", "We climbed the hill to watch the sunset."],
+["level", "n", "the height or amount of something", "مستوى", "The level of water in the dam is low."],
+["lone", "adj", "alone; the only one", "وحيد / منفرد", "A lone falcon flew over the desert."],
+["puddle", "n", "a small pool of water on the ground", "بِركة صغيرة", "Saud jumped over the puddle on the road."],
+["response", "n", "an answer or reaction", "ردّ / استجابة", "I am still waiting for a response to my email."],
+["season", "n", "one of the four parts of the year", "فصل / موسم", "Winter is the best season to visit Riyadh."],
+["solution", "n", "an answer to a problem", "حلّ", "Ahmed found a quick solution to the math problem."],
+["waste", "v", "to use something badly or more than needed", "يُهدر / يُضيّع", "Don't waste water when you wash your hands."],
+["whether", "conj", "used to talk about two possible choices; if", "ما إذا / سواء", "I don't know whether he will come or not."]],
+story:{x:"It was the rainy {season} in Al-Baha. Water began to {flow} down the {hill} near Nawaf's house. A small {puddle} became a big pool on the road. Nawaf did not want to {waste} the water. He found a {solution}: he put buckets outside to collect it for the farm. His father was very happy. “I {appreciate} your good idea,” he said. That evening, the sky was clear and the moon was {bright}.",
+tf:[["Water flowed down a hill near Nawaf's house.", true], ["Nawaf collected the water in buckets.", true], ["Nawaf's father was angry.", false]]}},
+
+{n:18,title:"At the Market",words:[
+["argue", "v", "to speak angrily with someone because you disagree", "يتجادل", "My brothers argue about which team is the best."],
+["communicate", "v", "to share information or ideas with others", "يتواصل", "We communicate with our cousins by phone."],
+["crowd", "n", "a large group of people in one place", "حشد / جمهور", "A big crowd watched the match at the stadium."],
+["depend", "v", "to need someone or something for help (used with on)", "يعتمد", "Young children depend on their parents."],
+["dish", "n", "food prepared in a special way", "طبق", "Kabsa is my favorite dish."],
+["empty", "adj", "having nothing inside", "فارغ", "The fridge is empty, so we need to go shopping."],
+["exact", "adj", "completely correct in every detail", "دقيق / بالضبط", "What is the exact time of the flight?"],
+["fresh", "adj", "new; recently made or picked", "طازج", "My mother buys fresh bread every morning."],
+["gather", "v", "to come together in one place", "يتجمّع / يجمع", "The family will gather at grandfather's house on Friday."],
+["indicate", "v", "to show or point to something", "يُشير / يدلّ", "Dark clouds indicate that rain is coming."],
+["item", "n", "one thing in a list or group", "غرض / بند", "Each item in this shop costs ten riyals."],
+["offer", "v", "to say you will give or do something", "يعرض / يقدّم", "Let me offer you a cup of Arabic coffee."],
+["price", "n", "the amount of money you pay for something", "سعر / ثمن", "The price of this phone is too high."],
+["product", "n", "something made or grown to be sold", "منتَج", "Dates are an important product of Al-Qassim."],
+["property", "n", "something that belongs to someone, like land or a house", "ملكية / عقار", "This farm is my uncle's property."],
+["purchase", "v", "to buy something", "يشتري", "You can purchase tickets for the match online."],
+["recommend", "v", "to say that something is good and worth trying", "يوصي / ينصح بـ", "I recommend this restaurant; the food is great."],
+["select", "v", "to choose something carefully", "يختار", "Please select one answer for each question."],
+["tool", "n", "something you hold and use to do a job", "أداة", "A hammer is a useful tool."],
+["treat", "v", "to behave toward someone in a certain way", "يُعامِل", "We should treat our neighbors with respect."]],
+story:{x:"Every Thursday, a big {crowd} comes to the market in Al-Aqiq. Khalid went with his father to {purchase} some food. A farmer wanted to sell them his {fresh} dates. “What is the {price}?” asked Khalid's father. “Twenty riyals,” said the farmer, “but I can {offer} you a better deal for two boxes.” Khalid's father did not want to {argue}, so he bought two boxes. At home, Khalid's mother made a delicious {dish} with the dates. Soon all the plates were {empty}.",
+tf:[["Khalid went to the market on Thursday.", true], ["Khalid's father bought one box of dates.", false], ["Khalid's mother cooked with the dates.", true]]}},
+
+{n:19,title:"The Captain's Speech",words:[
+["alive", "adj", "living; not dead", "حيّ", "The fish was still alive in the net."],
+["bone", "n", "one of the hard parts inside your body", "عَظْم", "Khalid broke a bone in his arm playing football."],
+["bother", "v", "to annoy someone or make them feel worried", "يُزعج", "Please don't bother your brother while he studies."],
+["captain", "n", "the leader of a team or a ship", "قائد / كابتن", "Faisal is the captain of our school team."],
+["conclusion", "n", "the end part of something, or a final decision", "خاتمة / استنتاج", "Write a short conclusion at the end of your essay."],
+["doubt", "n", "a feeling of not being sure", "شكّ", "There is no doubt that Omar is the best player."],
+["explore", "v", "to travel around a place to learn about it", "يستكشف", "We want to explore the mountains of Al-Baha."],
+["foreign", "adj", "from or in another country", "أجنبيّ", "Learning a foreign language opens many doors."],
+["glad", "adj", "happy and pleased", "سعيد / مسرور", "I am glad you came to visit us."],
+["however", "adv", "but; in spite of this", "ومع ذلك / لكنّ", "It was raining; however, we still played football."],
+["injustice", "n", "a situation where people are treated unfairly", "ظُلم", "The judge worked hard to stop injustice."],
+["international", "adj", "between or involving different countries", "دوليّ", "Riyadh airport has many international flights."],
+["lawyer", "n", "a person whose job is to help people with the law", "محامٍ", "My uncle is a lawyer in Jeddah."],
+["mention", "v", "to talk about something quickly, without details", "يذكر", "Did the teacher mention the test tomorrow?"],
+["policy", "n", "a plan or set of rules made by a group", "سياسة", "Our school has a policy against phones in class."],
+["social", "adj", "related to people and society", "اجتماعيّ", "Many students use social media every day."],
+["speech", "n", "a formal talk given to a group of people", "خطاب / كلمة", "The principal gave a speech on the first day."],
+["staff", "n", "all the people who work in a place", "طاقم / موظفون", "The school staff prepared a party for the students."],
+["toward", "prep", "in the direction of", "نحو / باتجاه", "The falcon flew toward the mountains."],
+["wood", "n", "the hard material that trees are made of", "خشب", "This old door is made of wood."]],
+story:{x:"Saud was the {captain} of the school football team. Before the final match, he gave a short {speech}. “I have no {doubt} that we can win,” he said. In the first half, Saud fell and hurt a {bone} in his leg, so he could not play. The team played hard without him, and they won! The school {staff} came to celebrate with the players. The coach walked {toward} Saud and said, “You are a true leader.” Saud was very {glad}. The next day, the local newspaper did not forget to {mention} his speech.",
+tf:[["Saud scored the winning goal.", false], ["Saud hurt his leg in the first half.", true], ["The team won the final match.", true]]}},
+
+{n:20,title:"Omar's Big Goal",words:[
+["achieve", "v", "to succeed in doing something after hard work", "يُحقّق", "If you study hard, you will achieve your dreams."],
+["advise", "v", "to tell someone what you think they should do", "ينصح", "Doctors advise people to drink more water."],
+["already", "adv", "before now, or earlier than expected", "بالفعل / مُسبقًا", "I have already finished my homework."],
+["basic", "adj", "simple and most important; at the first level", "أساسيّ", "Learn the basic rules before you play."],
+["bit", "n", "a small piece or amount (used as: a bit)", "قليل / قطعة صغيرة", "Can I have a bit of sugar in my tea?"],
+["consider", "v", "to think carefully about something", "يفكّر في / يَعتبر", "Please consider my idea before you decide."],
+["destroy", "v", "to damage something so badly it cannot be used", "يُدمّر", "Strong floods can destroy roads and houses."],
+["entertain", "v", "to keep people happy and interested", "يُسلّي / يُمتع", "My uncle likes to entertain us with funny stories."],
+["extra", "adj", "more than usual or needed", "إضافيّ", "Bring an extra bottle of water to the desert."],
+["goal", "n", "something you want to achieve; a point in football", "هدف", "Salem scored a great goal in the last minute."],
+["lie", "v", "to say something that is not true", "يكذب", "A good friend will never lie to you."],
+["meat", "n", "food from animals, like lamb or chicken", "لحم", "We cook meat and rice for our guests."],
+["opinion", "n", "what you think about something", "رأي", "In my opinion, Abha is the most beautiful city."],
+["real", "adj", "true; not imaginary or fake", "حقيقيّ", "Is that a real falcon or a toy?"],
+["reflect", "v", "to show an image of something, like a mirror", "يعكس", "The calm lake can reflect the mountains."],
+["regard", "v", "to think of someone or something in a certain way", "يَعتبر / يَعُدّ", "People regard my grandfather as a wise man."],
+["serve", "v", "to give food or drink to people", "يُقدّم (الطعام)", "In Saudi homes, we serve coffee with dates."],
+["vegetable", "n", "a plant you eat, like a carrot or potato", "خُضار / نوع من الخضروات", "My little brother does not like any vegetable."],
+["war", "n", "fighting between countries or large groups", "حرب", "Many people lost their homes in the war."],
+["worth", "adj", "having a certain value; good enough to do", "يستحقّ / بقيمة", "The museum in Riyadh is worth a visit."]],
+story:{x:"Omar had a {goal}: he wanted to join the national football team. His coach said, “I {advise} you to train every day.” Omar listened. He ate healthy food, like {meat}, rice, and a {vegetable} at every meal. He also did {extra} training after school. Some friends thought his dream was not {real}, but Omar did not give up. After three years, he was chosen for the team. “Hard work is {worth} it,” he said. “Anyone can {achieve} their dreams.”",
+tf:[["Omar's coach told him to train every day.", true], ["Omar gave up his dream.", false], ["Omar joined the team after one year.", false]]}},
+
+{n:21,title:"A Hero at the Hospital",words:[
+["appear", "v", "to start to be seen", "يظهر", "Stars appear in the sky after sunset."],
+["base", "n", "the bottom part that something stands on", "قاعدة", "The base of the lamp is made of stone."],
+["brain", "n", "the part inside your head that you think with", "دماغ / مُخّ", "Reading books is good exercise for your brain."],
+["career", "n", "the job you do for a long part of your life", "مهنة / مسيرة مهنية", "Fahad wants a career in medicine."],
+["clerk", "n", "a person who keeps records in an office or serves in a shop", "موظّف / كاتب", "The clerk at the bank was very helpful."],
+["effort", "n", "hard work you do to achieve something", "جُهد", "Learning English takes time and effort."],
+["enter", "v", "to come or go into a place", "يدخل", "Please knock before you enter the room."],
+["excellent", "adj", "very, very good", "ممتاز", "Your English test result is excellent."],
+["hero", "n", "a brave person that people admire", "بطل", "The firefighter was a hero to the whole town."],
+["hurry", "v", "to move or do things quickly", "يُسرع / يستعجل", "We must hurry or we will miss the bus."],
+["inform", "v", "to tell someone facts or information", "يُبلّغ / يُخبر", "Please inform your parents about the school trip."],
+["later", "adv", "at a time after now", "لاحقًا / فيما بعد", "I will call you later tonight."],
+["leave", "v", "to go away from a place", "يغادر", "We leave school at one o'clock every day."],
+["locate", "v", "to find where something is", "يُحدّد مكان", "Use the map to locate the nearest mosque."],
+["nurse", "n", "a person who cares for sick people in a hospital", "ممرّض / ممرّضة", "The nurse gave my brother some medicine."],
+["operation", "n", "when a doctor cuts into the body to fix a problem", "عملية جراحية", "My grandfather had an operation on his knee."],
+["pain", "n", "the feeling you have when part of your body hurts", "ألم", "I have a pain in my back."],
+["refuse", "v", "to say you will not do or accept something", "يرفض", "Never refuse to help someone in need."],
+["though", "conj", "even if; although", "مع أنّ / رغم أنّ", "We went out, though it was very cold."],
+["various", "adj", "of many different kinds", "متنوّع / مختلف", "The shop sells various kinds of dates."]],
+story:{x:"One night, Turki felt a terrible {pain} in his stomach. His father said, “We must {hurry} to the hospital!” A kind {nurse} met them at the door. The doctor said Turki needed an {operation} right away. Turki was scared, but the doctor did an {excellent} job. Two days {later}, Turki felt much better. He decided that he wanted a {career} in medicine. “The doctor is my {hero},” he told his father.",
+tf:[["Turki had a pain in his head.", false], ["A nurse met Turki and his father at the door.", true], ["Turki wants to work in medicine.", true]]}},
+
+{n:22,title:"The Phone Mystery",words:[
+["actual", "adj", "real; true, not guessed", "فعليّ / حقيقيّ", "The actual cost of the trip was higher."],
+["amaze", "v", "to surprise someone very much", "يُدهش", "The view from the mountain will amaze you."],
+["charge", "v", "to put electricity into a battery", "يشحن", "I need to charge my phone before we leave."],
+["comfort", "v", "to make someone feel less sad or worried", "يواسي / يُطمئن", "Mom tried to comfort my sister when she cried."],
+["contact", "v", "to call or write to someone", "يتواصل مع / يتصل بـ", "You can contact me by email."],
+["customer", "n", "a person who buys things from a shop", "زبون / عميل", "The shop owner smiled at every customer."],
+["deliver", "v", "to take something to a person or place", "يوصّل / يُسلّم", "The man will deliver the food in twenty minutes."],
+["earn", "v", "to get money for work you do", "يكسب", "My brother works in a shop to earn money."],
+["gate", "n", "a door in a wall or fence", "بوّابة", "Please close the gate of the farm."],
+["include", "v", "to have something as one part of a whole", "يشمل / يتضمّن", "Does the ticket price include lunch?"],
+["manage", "v", "to succeed in doing something difficult", "يتمكّن من / يُدير", "Can you manage to carry all those bags?"],
+["mystery", "n", "something strange that no one can explain", "لغز", "Where the cat went is still a mystery."],
+["occur", "v", "to happen", "يحدث / يقع", "Accidents often occur on wet roads."],
+["opposite", "adj", "on the other side; completely different", "مقابل / معاكس", "The mosque is on the opposite side of the street."],
+["plate", "n", "a flat dish you eat food from", "صحن", "Put the rice on a big plate."],
+["receive", "v", "to get something that someone gives or sends", "يستلم / يتلقّى", "Did you receive my message?"],
+["reward", "n", "something given to thank you for good work", "مكافأة", "The teacher gave us a reward for good behavior."],
+["set", "v", "to put something in a place", "يضع / يُجهّز", "Please set the cups on the table."],
+["steal", "v", "to take something that is not yours", "يسرق", "It is wrong to steal from others."],
+["thief", "n", "a person who steals things", "لصّ / سارق", "The police caught the thief near the market."]],
+story:{x:"Nawaf could not find his new phone. It was a {mystery}. Did a {thief} come in at night to {steal} it? His little sister tried to {comfort} him: “Don't worry. We will find it.” They looked everywhere. Finally, they found it behind the sofa, near the place where Nawaf usually plugs it in to {charge} it. He had dropped it there the night before! His father gave his sister a small {reward}: a {plate} of sweets. The next morning, Nawaf was happy to {receive} a message from his friend on his phone.",
+tf:[["A thief stole Nawaf's phone.", false], ["They found the phone behind the sofa.", true], ["Nawaf's father gave his sister a reward.", true]]}},
+
+{n:23,title:"The Young Swimmer",words:[
+["advance", "v", "to move forward or make progress", "يتقدّم", "Our team needs one more win to advance to the final."],
+["athlete", "n", "a person who is good at sports", "رياضيّ", "Every athlete must train hard to win."],
+["average", "adj", "normal or typical; in the middle", "متوسّط / عاديّ", "He is of average height for his age."],
+["behavior", "n", "the way a person acts", "سلوك / تصرّف", "The teacher praised Omar's good behavior in class."],
+["behind", "prep", "at the back of", "خلف / وراء", "The cat is hiding behind the door."],
+["course", "n", "a set of lessons about a subject", "دورة / مقرّر", "Khalid took a computer course in the summer."],
+["lower", "v", "to move something down", "يُخفض / يُنزل", "Please lower your voice in the library."],
+["match", "n", "a game between two players or teams", "مباراة", "We watched the football match on TV."],
+["member", "n", "a person who belongs to a group", "عضو", "Saud is a member of the school chess club."],
+["mental", "adj", "related to the mind", "عقليّ / ذهنيّ", "Sleep is important for your mental health."],
+["passenger", "n", "a person traveling in a car, bus, or plane", "راكب", "Every passenger must wear a seatbelt."],
+["personality", "n", "the kind of person someone is", "شخصية", "My friend Turki has a funny personality."],
+["poem", "n", "a piece of writing with special rhythm, often rhyming", "قصيدة", "We learned a famous Arabic poem by heart."],
+["pole", "n", "a long, thin stick of wood or metal", "عمود / عصا", "The flag is at the top of the pole."],
+["remove", "v", "to take something away from a place", "يُزيل / ينزع", "Please remove your shoes before entering the mosque."],
+["safety", "n", "the state of being safe from danger", "سلامة / أمان", "Wear a helmet for your safety."],
+["shoot", "v", "to kick or throw the ball toward the goal", "يُسدّد", "Fahad will shoot the ball from far away."],
+["sound", "n", "something that you hear", "صوت", "I heard a strange sound outside."],
+["swim", "v", "to move through water using your arms and legs", "يسبح", "We swim in the sea at Jeddah every summer."],
+["web", "n", "the thin net that a spider makes", "شبكة / بيت العنكبوت", "A spider made a web in the corner."]],
+story:{x:"Ahmed is a young {athlete} from Jeddah. He loves to {swim} in the sea. Last summer, he joined a swimming {course} at a sports club, and soon he became a {member} of the club team. The coach always talked about {safety} first: “Never go into the water alone!” Ahmed trained hard every day. In his first race, he heard the {sound} of the whistle and jumped in. He did not finish first, but he was not far {behind} the winner. He hopes to {advance} to the national team one day.",
+tf:[["Ahmed is from Riyadh.", false], ["Ahmed won his first race.", false], ["The coach talked about safety.", true]]}},
+
+{n:24,title:"The Big Match",words:[
+["block", "v", "to stop something from moving or passing through", "يسدّ / يمنع", "Big rocks block the road after heavy rain."],
+["cheer", "v", "to shout to show support or happiness", "يهتف / يشجّع", "We cheer loudly when our team scores a goal."],
+["complex", "adj", "having many parts and hard to understand", "معقّد", "This math problem is too complex for me."],
+["critic", "n", "a person who judges books, films, or food", "ناقد", "The food critic loved the kabsa at this restaurant."],
+["event", "n", "something important or special that happens", "حدث / مناسبة", "The school sports day is a big event."],
+["exercise", "n", "physical activity that keeps the body healthy", "تمرين / رياضة", "Daily exercise keeps your body strong."],
+["fit", "adj", "healthy and strong in body", "لائق بدنيًّا", "Khalid runs every morning to stay fit."],
+["friendship", "n", "the close relationship between two or more friends", "صداقة", "Our friendship started in the first grade."],
+["guide", "n", "a person who shows the way to visitors", "مرشد / دليل", "The guide showed us the old village in Al-Baha."],
+["lack", "n", "the state of not having enough of something", "نقص / قلّة", "The plants died because of a lack of water."],
+["passage", "n", "a short part of a book or text", "فقرة / مقطع", "Read the passage and answer the questions."],
+["perform", "v", "to do an action or a show in front of people", "يؤدّي", "The students will perform a short play on Thursday."],
+["pressure", "n", "a feeling of stress because of what you must do", "ضغط", "Fahad felt a lot of pressure before the final exam."],
+["probable", "adj", "likely to happen or be true", "محتمل / مرجّح", "Rain is probable in Abha this afternoon."],
+["public", "adj", "open to and used by all people", "عامّ", "The public library is free for everyone."],
+["strike", "v", "to hit someone or something hard", "يضرب", "Lightning can strike tall trees during a storm."],
+["support", "v", "to help and encourage someone", "يدعم / يساند", "My parents always support me in my studies."],
+["task", "n", "a piece of work that you must do", "مهمّة", "My first task today is to clean my room."],
+["term", "n", "one of the periods that a school year is divided into", "فصل دراسي", "Our exams are at the end of the term."],
+["unite", "v", "to join together as one group", "يوحّد / يتّحد", "Sports can unite people from different cities."]],
+story:{x:"Our school had a big football {event} against a team from Riyadh. The game was hard, and the players felt a lot of {pressure}. Our coach said, “Stay {fit} and help each other. Winning is a {task} for the whole team.” Many fans came to {cheer} for us. In the second half, the other team tried to {block} every shot, but Nawaf scored a great goal. We won! Our {friendship} grew stronger that day, and the coach thanked the fans for their {support}.",
+tf:[["The other team was from Riyadh.", true], ["Nawaf missed every shot.", false], ["Many fans came to the game.", true]]}},
+
+{n:25,title:"Clean Valley Day",words:[
+["associate", "v", "to connect one thing with another in your mind", "يربط / يقرن", "I associate the smell of coffee with my grandfather's house."],
+["environment", "n", "the natural world of land, air, and water", "البيئة", "We must protect the environment from pollution."],
+["factory", "n", "a building where things are made by machines", "مصنع", "My uncle works in a juice factory in Jeddah."],
+["feature", "n", "an important part or quality of something", "ميزة / سِمة", "The best feature of this phone is its camera."],
+["instance", "n", "one example or case of something", "مثال / حالة", "Some fruits, for instance dates, are very sweet."],
+["involve", "v", "to include someone or something as a part", "يشمل / يُشرك", "The project will involve every student in the class."],
+["medicine", "n", "something you take to get better when you are sick", "دواء", "Take this medicine twice a day after meals."],
+["mix", "v", "to put different things together", "يخلط / يمزج", "Mix the flour and the water in a big bowl."],
+["organize", "v", "to plan and arrange something", "ينظّم", "Salem will organize a trip to the mountains."],
+["period", "n", "a length of time, short or long", "فترة / مدّة", "The shop was closed for a short period."],
+["populate", "v", "to live in an area in large numbers", "يسكن / يعمُر", "Many birds populate the green valleys of Al-Baha."],
+["produce", "v", "to make or grow something", "يُنتج", "Farms in Al-Qassim produce a lot of dates."],
+["range", "n", "a group of different things of the same type", "مجموعة / تشكيلة", "The shop sells a large range of phones."],
+["recognize", "v", "to know someone because you have seen them before", "يتعرّف على", "I did not recognize Omar with his new glasses."],
+["regular", "adj", "happening often at the same times", "منتظم / معتاد", "Regular sleep helps you study better."],
+["sign", "n", "a board with words or pictures that gives information", "لافتة / إشارة", "The sign says the mosque is two kilometers away."],
+["tip", "n", "a small piece of useful advice", "نصيحة / إرشاد", "My teacher gave me a good tip for the exam."],
+["tradition", "n", "a custom passed down from older people", "تقليد / عادة", "Serving coffee to guests is an old Saudi tradition."],
+["trash", "n", "things that people throw away", "نفايات / قمامة", "Please put your trash in the bin."],
+["wide", "adj", "large from one side to the other", "عريض / واسع", "The new road to Taif is very wide."]],
+story:{x:"Our teacher wanted to {organize} a clean-up day in the valley near our village. He said, “A clean {environment} is good for everyone.” This day was a school {tradition} every spring. Many students came, and we picked up {trash} for three hours. We found plastic bottles near a big {sign} at the entrance. The teacher gave us a useful {tip}: “Wear gloves and drink water.” Later, we watched the birds that {populate} the valley. It was clean again after a short {period} of hard work.",
+tf:[["The clean-up day was in a valley.", true], ["The students worked for one hour.", false], ["The teacher told them to wear gloves.", true]]}},
+
+{n:26,title:"The Mountain Climb",words:[
+["advice", "n", "words that tell someone what they should do", "نصيحة", "My father gave me good advice about saving money."],
+["along", "prep", "from one end toward the other of a road or line", "على طول", "We walked along the beach in Jeddah."],
+["attention", "n", "careful listening, watching, or thinking", "انتباه", "Please pay attention to the teacher."],
+["attract", "v", "to make people or animals come near", "يجذب", "Flowers attract bees with their bright colors."],
+["climb", "v", "to go up something using your hands and feet", "يتسلّق", "We will climb the mountain early in the morning."],
+["drop", "v", "to let something fall from your hand", "يُسقط / يُوقِع", "Be careful not to drop the glass."],
+["final", "adj", "coming at the end; last", "نهائي / أخير", "Our team won the final match of the season."],
+["further", "adv", "to a greater distance; more", "أبعد / أكثر", "We cannot walk any further today."],
+["imply", "v", "to suggest something without saying it directly", "يُلمّح / يعني ضمنًا", "His smile seemed to imply that he knew the answer."],
+["maintain", "v", "to keep something in good condition", "يحافظ على / يصون", "It costs a lot of money to maintain an old car."],
+["neither", "pron", "not one and not the other of two", "لا أحد من الاثنين", "Neither of my brothers likes fish."],
+["otherwise", "adv", "if not; used to say what will happen", "وإلّا", "Hurry up, otherwise we will miss the bus."],
+["physical", "adj", "connected with the body, not the mind", "بدني / جسدي", "Football is a very physical sport."],
+["prove", "v", "to show that something is true", "يُثبت", "Can you prove that your answer is right?"],
+["react", "v", "to act or feel in answer to something", "يتفاعل / يستجيب", "How did your mother react to the good news?"],
+["ride", "v", "to sit on and control a camel, horse, or bike", "يركب", "Turki learned to ride a camel when he was eight."],
+["situated", "adj", "placed in a certain area", "واقع / يقع", "Our school is situated near the main mosque."],
+["society", "n", "people living together in a community", "المجتمع", "Teachers play an important role in society."],
+["standard", "n", "a level of quality that people expect", "معيار / مستوى", "This hospital has a high standard of care."],
+["suggest", "v", "to give an idea for others to think about", "يقترح", "I suggest we meet at the cafe after school."]],
+story:{x:"Faisal and his brother wanted to {climb} a high mountain near Al-Baha. Their uncle gave them some {advice}: “Take water, {otherwise} you will get very tired.” They walked {along} a narrow path. The view was beautiful, and colorful birds caught their {attention}. Near the top, Faisal was tired and wanted to stop. His brother said, “Don't give up! You can {prove} that you are strong.” After the {final} step, they reached the top. They rested there, but they did not go any {further} because it was getting dark.",
+tf:[["Their uncle gave them advice.", true], ["They walked along a wide road.", false], ["The brothers reached the top.", true]]}},
+
+{n:27,title:"A Desert Journey",words:[
+["actually", "adv", "in fact; used to say what is really true", "في الحقيقة / فعلًا", "I thought the test was hard, but it was actually easy."],
+["bite", "v", "to cut something with your teeth", "يعضّ", "Be careful, that dog may bite."],
+["coast", "n", "the land next to the sea", "ساحل", "Jeddah is a big city on the coast of the Red Sea."],
+["deal", "n", "an agreement between people, often in business", "صفقة / اتفاق", "My father made a good deal on the new car."],
+["desert", "n", "a large, dry, sandy area", "صحراء", "Camels can walk in the desert for days."],
+["earthquake", "n", "a sudden shaking of the ground", "زلزال", "The earthquake shook the buildings for ten seconds."],
+["effective", "adj", "working well and giving good results", "فعّال", "Reading every day is an effective way to learn."],
+["examine", "v", "to look at something carefully", "يفحص", "The doctor will examine your eyes."],
+["false", "adj", "not true or not correct", "خاطئ / غير صحيح", "Is this sentence true or false?"],
+["gift", "n", "something you give to someone", "هديّة", "I bought a gift for my mother."],
+["hunger", "n", "the feeling of needing food", "جوع", "After the long walk, we felt great hunger."],
+["imagine", "v", "to make a picture of something in your mind", "يتخيّل", "Imagine you are flying over the city."],
+["journey", "n", "a long trip from one place to another", "رحلة", "The journey from Riyadh to Abha takes ten hours."],
+["puzzle", "n", "a game or problem that tests your thinking", "لغز / أُحجية", "Omar finished the puzzle in ten minutes."],
+["quite", "adv", "very, or more than a little", "إلى حدٍّ ما / تمامًا", "The weather is quite cold in Al-Baha tonight."],
+["rather", "adv", "more willingly; used to say what you prefer", "بالأحرى / يُفضّل", "I would rather stay home than go out tonight."],
+["specific", "adj", "exact and clear, not general", "محدّد / معيّن", "Please give me a specific time for the meeting."],
+["tour", "n", "a visit to see the interesting parts of a place", "جولة", "We took a tour of the old palace."],
+["trip", "n", "a short visit to a place", "رحلة / مشوار", "Our class went on a trip to the museum."],
+["value", "n", "how much something is worth", "قيمة", "The value of this old coin is very high."]],
+story:{x:"Last winter, Saud's family went on a long {journey} across the {desert} to visit his grandfather. The weather was {quite} cold at night. They drove for hours, and Saud's little brother cried with {hunger}, so they stopped to eat dates and bread. When they arrived, Saud gave his grandfather a {gift}: a small falcon statue. Grandfather smiled and said, “I {actually} love falcons more than anything!” Later, Grandfather took them on a {tour} of his old farm. Saud said, “I can't {imagine} a better holiday!”",
+tf:[["Saud's family visited his grandfather.", true], ["The weather was hot at night.", false], ["Saud gave his grandfather a falcon statue.", true]]}},
+
+{n:28,title:"The Stormy Night",words:[
+["band", "n", "a group of people who play music together", "فرقة", "A band played the national anthem at the ceremony."],
+["barely", "adv", "almost not at all; only just", "بالكاد", "I could barely see the road in the fog."],
+["boring", "adj", "not interesting, making you feel tired", "مُملّ", "The film was so boring that I fell asleep."],
+["cancel", "v", "to stop something that was planned", "يُلغي", "They had to cancel the match because of the rain."],
+["driveway", "n", "a short private road from the street to a house", "ممرّ السيارة أمام المنزل", "Dad parked the car in the driveway."],
+["garbage", "n", "food and things that people throw away", "قمامة / نفايات", "Take the garbage out before you go to school."],
+["instrument", "n", "a tool used for special or careful work", "أداة / جهاز", "A thermometer is an instrument that measures temperature."],
+["list", "n", "names or things written one after another", "قائمة", "Mom wrote a shopping list for me."],
+["magic", "n", "clever tricks that seem impossible", "خِدَع سحرية / سِحر", "The magic show at the mall made the kids laugh."],
+["message", "n", "information that you send to someone", "رسالة", "I sent Khalid a message on my phone."],
+["notice", "v", "to see or become aware of something", "يلاحظ", "Did you notice the new car outside?"],
+["own", "adj", "belonging to a particular person", "خاصّ به", "Nawaf has his own room now."],
+["predict", "v", "to say what will happen in the future", "يتنبّأ / يتوقّع", "Experts predict very hot weather this summer."],
+["professor", "n", "a high-ranking teacher at a university", "أستاذ جامعي", "My cousin is a professor at King Saud University."],
+["rush", "v", "to move or do something very quickly", "يُسرع / يستعجل", "Don't rush; we have plenty of time."],
+["schedule", "n", "a plan that shows the times of things", "جدول زمني", "Check the bus schedule before you leave."],
+["share", "v", "to have or use something with others", "يتشارك / يُشارك", "Let's share the pizza with our friends."],
+["stage", "n", "a raised area where people perform or speak", "منصّة / خشبة المسرح", "The students stood on the stage to receive prizes."],
+["storm", "n", "very bad weather with strong wind and rain", "عاصفة", "A strong storm hit Jeddah last night."],
+["within", "prep", "inside a period of time or an area", "خلال / ضِمن", "Please reply to my message within two days."]],
+story:{x:"Last Thursday, the school planned a party with a {magic} show on the big {stage}. But in the afternoon, the weather news began to {predict} a heavy {storm}. The head teacher sent every family a {message}: “We must {cancel} the party tonight. Please stay at home.” Turki was sad. Then, at night, he heard loud thunder and could {barely} sleep. In the morning, he saw broken branches all over the {driveway} in front of his house. “The head teacher was right,” he said.",
+tf:[["The party had a magic show.", true], ["The party happened on Thursday night.", false], ["Turki saw branches in the driveway.", true]]}},
+
+{n:29,title:"The Class Leader",words:[
+["advertise", "v", "to tell people about a product so they buy it", "يُعلن عن", "Companies advertise their products on social media."],
+["assign", "v", "to give someone a job or a piece of work", "يُكلّف / يُعيّن", "The teacher will assign us homework every day."],
+["audience", "n", "the people who watch or listen to a show", "الجمهور", "The audience clapped at the end of the play."],
+["breakfast", "n", "the first meal of the day", "الفطور", "I eat eggs and bread for breakfast."],
+["competition", "n", "an event where people try to win", "مسابقة / منافسة", "Ahmed won the Quran reading competition."],
+["cool", "adj", "a little cold in a pleasant way", "بارد قليلًا / منعش", "The air in Al-Baha is cool in summer."],
+["gain", "v", "to get more of something", "يكسب / يكتسب", "You gain experience by working hard."],
+["importance", "n", "the quality of being important", "أهمّية", "Our teacher talked about the importance of sleep."],
+["knowledge", "n", "information and understanding that you have", "معرفة / علم", "Reading good books every day increases your knowledge."],
+["major", "adj", "very important, big, or serious", "رئيسي / كبير", "Riyadh is a major city in the Middle East."],
+["mean", "v", "to have a certain meaning", "يعني", "What does this English word mean in Arabic?"],
+["prefer", "v", "to like one thing more than another", "يُفضّل", "I prefer tea to coffee in the morning."],
+["president", "n", "the leader of a country or a club", "رئيس", "The president of the club gave a speech."],
+["progress", "n", "improvement or development over time", "تقدّم", "Fahad made great progress in English this year."],
+["respect", "n", "a feeling that someone is good or important", "احترام", "We must show respect to older people."],
+["rich", "adj", "having a lot of money", "غنيّ", "The rich man built a new mosque in the village."],
+["skill", "n", "the ability to do something well", "مهارة", "Swimming is a useful skill for every young person."],
+["somehow", "adv", "in a way that is not known", "بطريقةٍ ما", "Somehow, the cat got onto the roof."],
+["strength", "n", "the quality of being physically strong", "قوّة", "He lifted the heavy box with all his strength."],
+["vote", "v", "to choose someone or something officially", "يصوّت", "Students will vote for the class leader tomorrow."]],
+story:{x:"Every year, students at our school {vote} for a student council {president}. This year, Omar wanted the job. He had a great {skill}: he could speak well in front of people. Before the {competition}, he stood on the stage. The {audience} listened carefully. He talked about the {importance} of helping new students. Some people thought he could not win, but {somehow} he got the most votes. Everyone showed him {respect} because he was kind and honest.",
+tf:[["Omar could speak well in front of people.", true], ["The audience did not listen to Omar.", false], ["Omar got the most votes.", true]]}},
+
+{n:30,title:"The Lost Wallet",words:[
+["above", "prep", "in a higher place than something else", "فوق / أعلى من", "The plane flew high above the clouds."],
+["ahead", "adv", "in front of someone; forward", "إلى الأمام / أمامًا", "Always look ahead when you are driving."],
+["amount", "n", "how much of something there is", "كمّية / مبلغ", "Drink a large amount of water in summer."],
+["belief", "n", "a strong feeling that something is true", "اعتقاد / إيمان", "He has a strong belief in hard work."],
+["center", "n", "the middle point or part of something", "مركز / وسط", "The shop is in the center of the city."],
+["common", "adj", "happening often or found in many places", "شائع", "Palm trees are common in Al-Ahsa."],
+["cost", "v", "to have a certain price", "يُكلّف", "How much does this phone cost?"],
+["demonstrate", "v", "to show clearly how something works or is true", "يُوضّح / يُبيّن", "The teacher will demonstrate the experiment."],
+["different", "adj", "not the same as another thing", "مختلف", "My brother and I have different hobbies."],
+["evidence", "n", "facts that show something is true", "دليل / بُرهان", "The police found evidence at the scene."],
+["honesty", "n", "the quality of telling the truth", "الصدق / الأمانة", "My father taught me the value of honesty."],
+["idiom", "n", "a group of words with a special meaning", "تعبير اصطلاحي", "Our teacher explained a new English idiom today."],
+["independent", "adj", "not needing help from other people", "مستقلّ", "Salem is independent and makes his own decisions."],
+["inside", "prep", "in or into a place", "داخل", "Let's wait inside the car until the rain stops."],
+["master", "v", "to learn something completely and very well", "يُتقن", "It takes years to master a language."],
+["memory", "n", "the ability to remember things", "ذاكرة / ذكرى", "My grandfather has a great memory for names."],
+["proper", "adj", "right or correct for the situation", "مناسب / صحيح", "Wear proper shoes for the hike."],
+["scan", "v", "to look at something quickly to find information", "يتصفّح / يمسح بنظره", "Scan the text quickly to find the dates."],
+["section", "n", "one of the parts that something is divided into", "قسم / جزء", "The sports section is at the back of the newspaper."],
+["surface", "n", "the top or outside part of something", "سطح", "Oil floats on the surface of water."]],
+story:{x:"One day, Khalid found a wallet {inside} the school mosque. It had a large {amount} of money in it. His friend said, “Keep it!” But Khalid had a strong {belief} that {honesty} is always best. He walked {ahead} of his friends to the office and gave the wallet to the head teacher. The next day, the owner came. He said, “You {demonstrate} good manners, young man. That is not very {common} these days.” Khalid will keep this happy {memory} for a long time.",
+tf:[["Khalid found the wallet in the school mosque.", true], ["Khalid kept the money.", false], ["The owner came the next day.", true]]}},
+
+{n:31,title:"The Family Wedding",words:[
+["family", "n", "a group of people who are related to each other", "عائلة / أسرة", "My family lives in a small village near Al-Baha."],
+["relative", "n", "a person in your family", "قريب (من الأقارب)", "A relative from Jeddah came to see us."],
+["cousin", "n", "the child of your uncle or aunt", "ابن العمّ / ابن الخال", "My cousin Nawaf is in the same class as me."],
+["guest", "n", "a person you invite to your home or an event", "ضيف", "We serve coffee and dates to every guest."],
+["invite", "v", "to ask someone to come to your home or an event", "يدعو", "I want to invite my friends to lunch."],
+["wedding", "n", "the ceremony when two people get married", "حفل زفاف / عُرس", "My brother's wedding will be in Taif."],
+["visit", "v", "to go to see a person or a place", "يزور", "We visit my grandmother every Friday."],
+["greet", "v", "to say hello to someone", "يُحيّي / يُسلّم على", "Always greet your teacher when you see him."],
+["polite", "adj", "having good manners and showing respect to others", "مؤدّب / مهذّب", "It is polite to say thank you."],
+["generous", "adj", "happy to give things to other people", "كريم", "Our neighbor is generous; he shares his food with everyone."],
+["elder", "adj", "older (used for people in the same family)", "الأكبر سنًّا", "My elder brother studies in Riyadh."],
+["childhood", "n", "the time when you are a child", "الطفولة", "My father spent his childhood in Al-Aqiq."],
+["parent", "n", "a mother or a father", "أحد الوالدين", "Every parent wants the best for their children."],
+["grandparent", "n", "the father or mother of your mother or father", "أحد الأجداد (جدّ أو جدّة)", "Each grandparent has a special story to tell."],
+["sibling", "n", "a brother or a sister", "أخ أو أخت / شقيق", "Do you have a sibling, or are you an only child?"],
+["uncle", "n", "the brother of your father or mother", "عمّ / خال", "My uncle took us fishing in Jeddah."],
+["aunt", "n", "the sister of your father or mother", "عمّة / خالة", "My aunt makes the best kabsa in the family."],
+["nephew", "n", "the son of your brother or sister", "ابن الأخ / ابن الأخت", "My nephew is only two years old."],
+["niece", "n", "the daughter of your brother or sister", "ابنة الأخ / ابنة الأخت", "My niece started school this year."],
+["twin", "n", "one of two children born to the same mother at the same time", "توأم", "Fahad has a twin who looks exactly like him."]],
+story:{x:"Last summer, my {cousin} Saud had his {wedding} in Al-Baha. His father wanted to {invite} everyone, so the whole {family} came. My {uncle}, Saud's father, stood at the door to {greet} each {guest} with a big smile. He was very {generous}; there was lots of food, coffee, and dates for everyone. Even my old grandfather came, and he told funny stories about Saud's childhood. We stayed until midnight. It was a wonderful night for all of us.",
+tf:[["The wedding was in Al-Baha.", true], ["Saud's father did not come to the wedding.", false], ["Grandfather told funny stories.", true]]}},
+
+{n:32,title:"Cooking With Grandma",words:[
+["kitchen", "n", "the room where food is cooked", "مطبخ", "My mother is cooking lunch in the kitchen."],
+["recipe", "n", "instructions for cooking a dish", "وصفة طبخ", "This recipe for jareesh is from my grandmother."],
+["ingredient", "n", "one of the foods used to make a dish", "مُكوّن", "Rice is the main ingredient in kabsa."],
+["bake", "v", "to cook food in an oven", "يخبز", "We bake fresh bread every morning."],
+["boil", "v", "to heat a liquid until it bubbles", "يغلي", "Boil the water before you make tea."],
+["fry", "v", "to cook food in hot oil", "يقلي", "Don't fry the fish for too long."],
+["slice", "v", "to cut something into thin flat pieces", "يُقطّع شرائح", "Please slice the tomatoes for the salad."],
+["flavor", "n", "the taste of a food or drink", "نكهة / طعم", "I like the flavor of cardamom in coffee."],
+["delicious", "adj", "tasting or smelling very good", "لذيذ", "The dates from Al-Qassim are delicious."],
+["spicy", "adj", "having a strong hot taste", "حارّ / كثير التوابل", "This chicken is too spicy for my little brother."],
+["sweet", "adj", "tasting like sugar or honey", "حُلو", "Kunafa is a sweet dessert that many people love."],
+["bitter", "adj", "having a sharp, strong, unpleasant taste", "مُرّ", "Some coffee without sugar tastes very bitter."],
+["hungry", "adj", "wanting or needing to eat food", "جائع", "After football practice, I am always hungry."],
+["thirsty", "adj", "wanting or needing a drink", "عطشان / ظمآن", "Drink water whenever you feel thirsty."],
+["portion", "n", "an amount of food for one person", "حصّة / نصيب", "This portion of rice is too big for me."],
+["healthy", "adj", "good for your body and your health", "صحّي", "Eating vegetables every day is healthy."],
+["diet", "n", "the food that you usually eat", "نظام غذائي / حِمية", "A good diet includes fruit and vegetables."],
+["vitamin", "n", "a natural substance in food that keeps you healthy", "فيتامين", "Oranges are full of vitamin C."],
+["protein", "n", "a substance in meat, eggs, and beans that builds muscles", "بروتين", "Eggs give your body a lot of protein."],
+["snack", "n", "a small amount of food eaten between meals", "وجبة خفيفة", "I eat a small snack after school."]],
+story:{x:"On Friday, Ahmed helped his grandmother in the {kitchen}. She wanted to teach him an old {recipe} for chicken and rice. First, she told him to {boil} water in a big pot. Then he had to {slice} some onions with a sharp knife. His eyes were full of tears! Grandma added a lot of black pepper, so the food was a little {spicy}. When the family sat down to eat, everyone was very {hungry}. They loved the {flavor} of the food. “This is {delicious}!” said Ahmed's father.",
+tf:[["Ahmed helped his grandmother on Friday.", true], ["Ahmed cut the onions with scissors.", false], ["The family loved the food.", true]]}},
+
+{n:33,title:"Omar Gets Better",words:[
+["illness", "n", "a state of being sick", "مرض", "Khalid missed school for a week because of a serious illness."],
+["fever", "n", "a body temperature that is higher than normal", "حُمّى / سخونة", "My little brother has a high fever, so he is staying home."],
+["cough", "n", "a loud sound when air is forced out of your throat", "سُعال / كحّة", "Drink warm water with honey to help your cough."],
+["injury", "n", "harm done to the body, often in an accident", "إصابة", "Faisal had a knee injury during the football match."],
+["recover", "v", "to become healthy again after being sick", "يتعافى / يُشفى", "Rest well and you will recover in a few days."],
+["pharmacy", "n", "a shop where you can buy medicine", "صيدلية", "Is there a pharmacy open near the mosque at night?"],
+["clinic", "n", "a place where doctors see and treat patients", "عيادة", "The clinic in Al-Aqiq opens at eight in the morning."],
+["symptom", "n", "a sign that shows you may be sick", "عَرَض (مرضي)", "A sore throat is a common symptom of a cold."],
+["bandage", "n", "a strip of cloth used to cover a wound", "ضِمادة", "The nurse put a clean bandage on my cut hand."],
+["sleep", "v", "to rest with your eyes closed, usually at night", "ينام", "Teenagers need to sleep at least eight hours every night."],
+["stress", "n", "a feeling of worry caused by problems or pressure", "توتّر / ضغط نفسي", "Exams can cause a lot of stress for students."],
+["energy", "n", "the strength to be active and work hard", "طاقة / نشاط", "Dates give you quick energy before a football match."],
+["weight", "n", "how heavy someone or something is", "وزن", "Salem wants to lose weight before the summer holiday."],
+["muscle", "n", "a body part that helps you move and lift things", "عضلة", "Lifting heavy boxes can hurt a muscle in your back."],
+["headache", "n", "a pain in your head", "صُداع", "Looking at my phone for hours gives me a headache."],
+["stomach", "n", "the body part where food goes after you eat", "معدة", "Don't swim with a full stomach after lunch."],
+["dentist", "n", "a doctor who takes care of teeth", "طبيب أسنان", "I visit the dentist twice a year to check my teeth."],
+["heal", "v", "(of a cut or wound) to get better and close", "يلتئم / يُشفى", "This small cut will heal in a few days."],
+["sneeze", "v", "to blow air out of your nose suddenly and loudly", "يعطس", "Dust in the desert makes me sneeze all the time."],
+["allergy", "n", "a bad body reaction to some foods, dust, or plants", "حساسية", "Nawaf has an allergy to nuts, so he checks every label."]],
+story:{x:"Omar woke up with a pain in his head, a bad {headache}. His body was very hot because of a high {fever}. He also had a dry {cough} all night. His mother took him to the {clinic} near their house. The doctor checked every {symptom} and said, “It is only the flu. Drink water and {sleep} early every night.” On the way home, they stopped at the {pharmacy} to buy medicine. After three days of rest, Omar started to {recover} and feel healthy again, and soon he was back at school.",
+tf:[["Omar had a high fever.", true], ["The doctor said Omar had a broken arm.", false], ["They bought medicine at the pharmacy.", true]]}},
+
+{n:34,title:"Turki's Big Exam",words:[
+["school", "n", "a place where children and teenagers go to learn", "مدرسة", "Our school is close to the mosque in Al-Aqiq."],
+["subject", "n", "an area of study, like maths or science", "مادة دراسية", "English is my favourite subject this year."],
+["lesson", "n", "a period of time when a teacher teaches something", "درس", "Today's lesson was about the history of Al-Baha."],
+["homework", "n", "school work that students do at home", "واجب منزلي", "I always finish my homework before playing football."],
+["pass", "v", "to succeed in an exam or test", "ينجح (في الاختبار)", "Fahad studied hard to pass the maths exam."],
+["revise", "v", "to study again what you learned before an exam", "يراجع (الدروس)", "Let's revise the new words together before the test."],
+["explain", "v", "to make something clear and easy to understand", "يشرح / يوضّح", "Can you explain this grammar rule again, please?"],
+["question", "n", "something you ask to get an answer", "سؤال", "Raise your hand if you have a question."],
+["answer", "n", "what you say or write when someone asks you something", "إجابة / جواب", "Write your answer clearly on the paper."],
+["improve", "v", "to become better or make something better", "يتحسّن / يُحسِّن", "Reading every day will improve your English."],
+["notebook", "n", "a small book of empty pages for writing notes", "دفتر", "Saud wrote the new words in his notebook."],
+["timetable", "n", "a list showing the times of classes or events", "جدول (الحصص / المواعيد)", "According to the timetable, we have science first on Sunday."],
+["semester", "n", "one of the two main parts of a school year", "فصل دراسي", "The second semester starts in January."],
+["graduate", "v", "to finish your studies at a school or university", "يتخرّج", "My brother will graduate from university next year."],
+["certificate", "n", "an official paper that shows you finished a course", "شهادة", "Omar got a certificate for perfect attendance."],
+["classroom", "n", "a room where students have lessons", "غرفة الصف / الفصل", "Please keep the classroom clean and tidy."],
+["principal", "n", "the person in charge of a school", "مدير المدرسة", "The principal gave a short speech in the morning assembly."],
+["student", "n", "a person who is learning at a school or university", "طالب", "Every student must bring a pen to the exam."],
+["tutor", "n", "a teacher who teaches one student or a small group", "مُدرِّس خصوصي", "Khalid's tutor helps him with physics every Thursday."],
+["assignment", "n", "a piece of work a teacher gives students to do", "مهمة / تكليف دراسي", "The teacher gave us an assignment about healthy food."]],
+story:{x:"Turki was a good {student}, but science was a hard {subject} for him. He did not understand the last {lesson} at all. His father found a {tutor} who visited him twice a week. This teacher would {explain} every idea slowly and clearly. Turki asked a {question} whenever he was confused. Before the final exam, he made a plan to {revise} his notes every evening. When the results came, Turki was very happy. He was able to {pass} the exam with a high mark!",
+tf:[["Science was easy for Turki.", false], ["A tutor visited Turki twice a week.", true], ["Turki passed the exam.", true]]}},
+
+{n:35,title:"A Day in Riyadh",words:[
+["city", "n", "a large and important town", "مدينة", "Jeddah is a big city by the Red Sea."],
+["street", "n", "a road in a town with buildings along it", "شارع", "Our house is on a small street near the school."],
+["traffic", "n", "the cars and other vehicles on a road", "حركة المرور / زحمة السير", "There was heavy traffic on King Fahd Road this morning."],
+["bridge", "n", "a structure built over a river or road to cross it", "جسر", "We crossed the bridge over the valley on our way to Abha."],
+["building", "n", "a structure with walls and a roof, like a house", "مبنى", "That tall building is a new bank."],
+["crowded", "adj", "full of too many people", "مزدحم", "The market is always crowded on Thursday evening."],
+["quiet", "adj", "with little or no noise", "هادئ", "The library is a quiet place to study."],
+["modern", "adj", "new and using the latest ideas", "حديث / عصري", "Riyadh has many modern buildings and wide roads."],
+["market", "n", "a place where people buy and sell goods", "سوق", "We buy fresh dates and honey from the market."],
+["mall", "n", "a large building with many shops inside", "مركز تسوّق / مول", "Let's meet at the mall after the evening prayer."],
+["mosque", "n", "a building where Muslims pray", "مسجد / جامع", "My grandfather walks to the mosque five times a day."],
+["park", "n", "a public garden with grass and trees", "حديقة / منتزه", "Children play football in the park every evening."],
+["museum", "n", "a building where people can see old or important things", "متحف", "We saw old swords and coins at the museum."],
+["airport", "n", "a place where planes land and take off", "مطار", "Our flight leaves early, so we must reach the airport at five."],
+["station", "n", "a place where trains or buses stop", "محطة", "The bus station is near the city centre."],
+["map", "n", "a drawing that shows roads, cities, and places", "خريطة", "I opened the map on my phone to find the stadium."],
+["direction", "n", "the way you go to reach a place", "اتجاه", "We drove in the wrong direction for ten minutes."],
+["corner", "n", "the place where two streets meet", "زاوية / ناصية", "The shop is on the corner of this street."],
+["hospital", "n", "a place where sick or injured people get treatment", "مستشفى", "The ambulance took the injured man to the hospital."],
+["tower", "n", "a tall, narrow building", "برج", "From the top of the tower, we could see the whole city."]],
+story:{x:"Last weekend, Nawaf visited his uncle in Riyadh, a huge {city}. They drove through heavy {traffic} on the main road. First, they prayed in a big {mosque}. Then they visited the national {museum} and saw old swords and coins. In the afternoon, they went to the {mall} to buy new shoes. It was very {crowded}, with people everywhere. At night, they climbed a tall {tower} and looked at the lights. Before going home, Nawaf looked at a {map} on his phone to find his uncle's street.",
+tf:[["Nawaf visited his uncle in Jeddah.", false], ["The mall was very crowded.", true], ["They climbed a tall tower at night.", true]]}},
+
+{n:36,title:"Salem's First Trip Abroad",words:[
+["travel", "v", "to go from one place to another, often far away", "يسافر", "My family likes to travel to Abha in the summer."],
+["ticket", "n", "a paper or card that lets you travel or enter", "تذكرة", "I bought a bus ticket to Jeddah online."],
+["passport", "n", "an official book you need to visit other countries", "جواز سفر", "Don't forget your passport when you go to the airport."],
+["luggage", "n", "the bags and cases you take on a trip", "أمتعة / حقائب السفر", "Our luggage was too heavy for the small car."],
+["flight", "n", "a journey in a plane", "رحلة طيران", "The flight from Riyadh to Al-Baha takes about one hour."],
+["delay", "n", "a time when something happens later than planned", "تأخير / تأخّر", "There was a two-hour delay because of the bad weather."],
+["depart", "v", "to leave a place, especially to start a trip", "يغادر / ينطلق", "The train will depart at seven in the morning."],
+["destination", "n", "the place you are going to", "وِجهة", "Al-Ula is a popular destination for families."],
+["abroad", "adv", "in or to another country", "في الخارج / إلى الخارج", "Khalid's cousin is studying abroad in Canada."],
+["tourist", "n", "a person who visits a place for fun", "سائح", "A tourist asked me how to get to the old village."],
+["hotel", "n", "a building where people pay to stay and sleep", "فندق", "We stayed in a small hotel near the beach in Jeddah."],
+["reserve", "v", "to ask for a room or seat to be kept for you", "يحجز", "Dad called the restaurant to reserve a table for six people."],
+["visa", "n", "an official permission to enter a country", "تأشيرة", "You need a visa to visit some countries."],
+["border", "n", "the line between two countries", "حدود", "We waited for an hour at the border with Jordan."],
+["souvenir", "n", "a small thing you buy to remember a place", "تذكار / هدية تذكارية", "Faisal bought a souvenir for his mother in Istanbul."],
+["airline", "n", "a company that flies planes for passengers", "شركة طيران", "Which airline are you flying with to Cairo?"],
+["baggage", "n", "the bags you carry when you travel", "أمتعة", "Please collect your baggage from belt number three."],
+["boarding", "n", "getting onto a plane, ship, or train", "الصعود (إلى الطائرة)", "Please show your boarding pass at the gate."],
+["arrival", "n", "the act of reaching a place", "وصول", "Our arrival in Madinah was just before sunset."],
+["departure", "n", "the act of leaving a place", "مغادرة / إقلاع", "Check the departure time on the screen at the airport."]],
+story:{x:"Salem was excited because it was his first trip {abroad}. His {destination} was Turkey, where his uncle lives. He put his clothes into his {luggage} and checked that he had his {passport} and ticket. At the airport, there was a short {delay}, so he waited an extra hour. Finally, the plane was ready to {depart}, and Salem smiled. In Istanbul, he stayed at a small {hotel} near the sea. Before going home, he bought a {souvenir} for his little sister.",
+tf:[["Salem's uncle lives in Turkey.", true], ["The flight left early.", false], ["Salem bought a souvenir for his sister.", true]]}},
+
+{n:37,title:"Weather in Al-Baha",words:[
+["climate", "n", "the usual weather of a place over a long time", "مناخ", "Al-Baha has a mild climate in the summer."],
+["temperature", "n", "how hot or cold something is", "درجة الحرارة", "The temperature in Riyadh reached 47 degrees today."],
+["humid", "adj", "warm and wet in the air, making you feel sticky", "رطب", "Jeddah is very humid in August."],
+["dry", "adj", "without water or rain", "جاف", "The desert is dry and empty for many kilometres."],
+["rain", "n", "water that falls from clouds", "مطر", "The rain made the mountain roads wet and dangerous."],
+["sunny", "adj", "bright with a lot of sunshine", "مشمس", "It is a sunny day, so let's play football outside."],
+["windy", "adj", "with a lot of wind blowing", "عاصف / كثير الرياح", "It was too windy to have a picnic on the mountain."],
+["sand", "n", "tiny grains of rock found in deserts and on beaches", "رمل", "The children built a castle of sand on the beach."],
+["dust", "n", "very small, dry bits of dirt in the air", "غبار", "After the storm, there was dust on every car."],
+["summer", "n", "the hottest season of the year", "الصيف", "Many families visit Abha in summer because it is cool."],
+["winter", "n", "the coldest season of the year", "الشتاء", "In winter, we sit around the fire and drink tea."],
+["heat", "n", "a high temperature; the feeling of being very warm", "حرارة / حَرّ", "I couldn't sleep because of the heat last night."],
+["freeze", "v", "to become hard and icy because it is very cold", "يتجمّد", "Water starts to freeze at zero degrees."],
+["forecast", "n", "a report that says what the weather will be", "توقّعات الطقس / نشرة جوية", "The forecast says it will rain tomorrow in Abha."],
+["degree", "n", "a unit for measuring temperature", "درجة", "It was only one degree above zero this morning in Tabuk."],
+["cold", "adj", "having a low temperature", "بارد", "Wear a jacket; it is cold in the mountains at night."],
+["warm", "adj", "a little hot, in a pleasant way", "دافئ", "This jacket keeps me warm in the mountains."],
+["hot", "adj", "having a high temperature", "حارّ", "Be careful, the tea is very hot."],
+["breeze", "n", "a light, gentle wind", "نسيم", "A cool breeze came from the mountains in the evening."],
+["thunder", "n", "the loud noise in the sky during a storm", "رعد", "The thunder was so loud that my little brother woke up."]],
+story:{x:"Fahad lives in Riyadh, where the {climate} is hot and {dry}. In {summer}, the {temperature} can reach fifty degrees. One weekend, his family drove to Al-Baha to escape the {heat}. The mountains were green and cool. In the evening, a light {breeze} blew through the trees. Suddenly, dark clouds came, and they heard loud {thunder}. Soon, heavy {rain} began to fall on the mountains. Fahad smiled and said, “I love this weather!”",
+tf:[["Riyadh's climate is hot and dry.", true], ["It was very hot in Al-Baha.", false], ["It rained in the evening.", true]]}},
+
+{n:38,title:"The Falcon's Nest",words:[
+["nature", "n", "plants, animals, and everything not made by people", "الطبيعة", "We spent the weekend enjoying nature in the Al-Baha mountains."],
+["mountain", "n", "a very high hill", "جبل", "We climbed the mountain early to see the sunrise."],
+["valley", "n", "low land between hills or mountains", "وادٍ", "After the rain, water ran through the valley."],
+["river", "n", "a large natural flow of water", "نهر", "There is no river in Saudi Arabia, but there are many valleys."],
+["tree", "n", "a tall plant with a trunk and branches", "شجرة", "We sat in the shade of a big tree."],
+["plant", "n", "a living thing that grows in soil, like grass", "نبات / نبتة", "Water this plant every morning, and it will stay green."],
+["flower", "n", "the colourful part of a plant", "زهرة / وردة", "Ahmed gave his mother a red flower from the garden."],
+["seed", "n", "a small part of a plant that grows into a new plant", "بذرة", "Put the seed in the ground and water it."],
+["soil", "n", "the top layer of earth where plants grow", "تربة", "Al-Baha has rich soil for growing fruit."],
+["grow", "v", "to get bigger over time", "ينمو", "Tomatoes grow quickly in warm weather."],
+["harvest", "v", "to collect crops from the fields", "يحصد", "Farmers harvest dates in late summer."],
+["farm", "n", "land used for growing crops or keeping animals", "مزرعة", "My uncle has a farm with goats and palm trees."],
+["camel", "n", "a large desert animal with a hump on its back", "جمل / ناقة", "A camel can walk many days without water."],
+["falcon", "n", "a fast bird that hunts other animals", "صقر", "Turki trained his falcon to come back to his hand."],
+["wildlife", "n", "wild animals and plants living in nature", "الحياة البرية", "The park protects the wildlife of the mountains."],
+["stream", "n", "a small, narrow river", "جدول ماء / غدير", "The children put their feet in the cold stream."],
+["lake", "n", "a large area of water with land all around it", "بحيرة", "We saw ducks swimming on the lake."],
+["nest", "n", "a home that birds build for their eggs", "عُشّ", "The bird built its nest on the roof of our house."],
+["cave", "n", "a large hole in the side of a hill or mountain", "كهف", "Long ago, people lived in a cave in the mountains."],
+["branch", "n", "a part of a tree that grows out from the trunk", "غصن / فرع", "A small bird sat on the branch of the tree."]],
+story:{x:"Saud and his grandfather walked down into the green {valley} near their village. A small {stream} of cold water ran between the rocks. They sat under a tall {tree} to rest. Suddenly, Saud saw a {falcon} flying high above them. “Look! It is going to its {nest}!” said Grandfather. The bird landed on a high {branch} of an old tree. Then they walked to a dark {cave} in the side of the {mountain}. Saud loved this day in nature.",
+tf:[["Saud walked with his father.", false], ["They saw a falcon.", true], ["They visited a dark cave.", true]]}},
+
+{n:39,title:"Khalid's New Laptop",words:[
+["computer", "n", "an electronic machine that stores and works with information", "حاسوب / كمبيوتر", "Our school has a new computer lab."],
+["device", "n", "a machine or tool made for a special job", "جهاز", "Turn off every device before you go to sleep."],
+["screen", "n", "the flat part of a TV or phone that shows pictures", "شاشة", "The screen of my phone broke when it fell."],
+["keyboard", "n", "the set of keys you press to type", "لوحة المفاتيح", "This keyboard has big letters, so it is easy to use."],
+["download", "v", "to copy files from the internet to your device", "يُنزِّل / يحمِّل (من الإنترنت)", "You can download the game for free."],
+["upload", "v", "to send files from your device to the internet", "يرفع (إلى الإنترنت)", "Please upload your homework before nine o'clock."],
+["website", "n", "a place on the internet with pages of information", "موقع إلكتروني", "The school website shows the exam timetable."],
+["password", "n", "a secret word you use to open an account", "كلمة المرور", "Never tell anyone your password, not even a friend."],
+["online", "adv", "connected to or using the internet", "عبر الإنترنت", "My brother buys his books online."],
+["offline", "adv", "not connected to the internet", "دون اتصال بالإنترنت", "You can watch the video offline after you save it."],
+["battery", "n", "a thing that gives electric power to a device", "بطارية", "My phone's battery is almost empty."],
+["app", "n", "a small program you use on a phone or tablet", "تطبيق", "This app helps me learn new English words every day."],
+["signal", "n", "the radio waves that let a phone connect", "إشارة (الشبكة)", "There is no signal on top of the mountain."],
+["network", "n", "a group of connected computers or phones", "شبكة", "The school's network is slow in the morning."],
+["digital", "adj", "using computers or electronic technology", "رقمي", "Many students now read digital books on their phones."],
+["program", "n", "a set of instructions that makes a computer work", "برنامج", "Omar wrote a simple program that adds numbers."],
+["software", "n", "the programs that run on a computer", "برمجيات / برامج", "Dad bought new software to edit family videos."],
+["laptop", "n", "a small computer you can carry easily", "حاسوب محمول", "Nawaf carries his laptop to the library every day."],
+["tablet", "n", "a thin, flat computer you use by touching it", "جهاز لوحي", "My little sister reads stories on her tablet."],
+["smartphone", "n", "a mobile phone that can use the internet and apps", "هاتف ذكي", "Faisal's grandfather bought his first smartphone last year."]],
+story:{x:"Khalid saved his money for a year and bought a new {laptop}. It was light and fast, with a big, clear {screen}. First, he made a strong {password} so no one could open it. Then he connected it to the home {network}. He used it to {download} a free English dictionary from the internet. The next day, his teacher asked him to {upload} his science project to the school {website}. In the evening, the {battery} was almost empty, so he charged it.",
+tf:[["Khalid bought a new laptop.", true], ["Khalid did not use a password.", false], ["His teacher asked him to upload a project.", true]]}},
+
+{n:40,title:"Ahmed's First Job",words:[
+["work", "v", "to do a job to earn money", "يعمل", "My uncle starts to work at seven every morning."],
+["job", "n", "the work a person does to earn money", "وظيفة / عمل", "Salem found a summer job at a bookshop."],
+["employee", "n", "a person who is paid to work for a company or person", "موظَّف", "Every new employee gets a badge on the first day."],
+["employer", "n", "a person or company that pays people to work", "صاحب العمل", "A good employer treats workers with respect."],
+["salary", "n", "money you receive every month for your work", "راتب", "He saves part of his salary every month."],
+["office", "n", "a room or building where people work at desks", "مكتب", "Dad's office is on the fifth floor."],
+["manager", "n", "a person who controls a team or business", "مدير", "The manager thanked the team for a great month."],
+["meeting", "n", "a time when people come together to talk", "اجتماع", "We have a meeting with the teachers on Monday."],
+["colleague", "n", "a person you work with", "زميل (في العمل)", "My colleague helped me finish the report."],
+["interview", "n", "a formal talk to decide if someone gets a job", "مقابلة (عمل)", "Khalid was nervous before his interview at the bank."],
+["apply", "v", "to ask formally, in writing, for a job or a place", "يتقدّم (بطلب)", "Nawaf will apply to King Saud University next month."],
+["deadline", "n", "the last time or date to finish something", "الموعد النهائي", "The deadline for the science project is Thursday."],
+["contract", "n", "an official written agreement between people", "عقد", "Read the contract carefully before you sign it."],
+["retire", "v", "to stop working because of old age", "يتقاعد", "My grandfather decided to retire at the age of sixty."],
+["profession", "n", "a job that needs special training, like a doctor", "مهنة", "My father says teaching is a noble profession."],
+["worker", "n", "a person who does a job, often with their hands", "عامل", "Each worker must wear a helmet at the building site."],
+["boss", "n", "the person who is in charge of you at work", "رئيس (في العمل) / مدير", "My boss gave me a day off after the busy week."],
+["company", "n", "a business that sells goods or services", "شركة", "Omar's uncle owns a small coffee company in Jeddah."],
+["business", "n", "the work of buying and selling to make money", "تجارة / عمل تجاري", "His family has a successful date business in Al-Ahsa."],
+["hire", "v", "to give someone a job", "يوظِّف", "The hotel plans to hire twenty new staff for the summer."]],
+story:{x:"Ahmed finished university and wanted to find a {job}. He saw an online advert and decided to {apply}. A week later, he had an {interview} with the {manager} of a big company. The man asked him many questions, and Ahmed answered well. The next day, they called him with good news. He signed a {contract} for two years. On his first day, he met a friendly {colleague} who showed him his new {office}. At the end of the month, Ahmed received his first {salary}. He used it to buy a gift for his mother.",
+tf:[["Ahmed saw the job advert online.", true], ["Ahmed signed a contract for five years.", false], ["Ahmed bought a gift for his mother.", true]]}},
+
+{n:41,title:"Saving for a Bike",words:[
+["money", "n", "coins and paper notes used to buy things", "مال / نقود", "I save some money every week for the holiday."],
+["cheap", "adj", "low in price", "رخيص", "Vegetables are cheap at the market today."],
+["expensive", "adj", "costing a lot of money", "غالٍ / باهظ الثمن", "This phone is too expensive for me."],
+["budget", "n", "a plan for how to spend your money", "ميزانية", "Make a budget before you go shopping."],
+["bank", "n", "a place that keeps and lends money", "بنك / مصرف", "Dad went to the bank to get a new card."],
+["account", "n", "an arrangement to keep your money in a bank", "حساب (بنكي)", "Fahad opened a savings account when he turned eighteen."],
+["cash", "n", "money in coins or notes, not a card", "نقد (كاش)", "The old man at the market only takes cash."],
+["pay", "v", "to give money for something you get", "يدفع", "Can I pay with my card, please?"],
+["discount", "n", "a lower price than usual", "خصم / تخفيض", "The store gives students a ten percent discount."],
+["receipt", "n", "a paper that shows you paid for something", "إيصال", "Keep the receipt in case you want to return the shoes."],
+["shop", "n", "a place where you can buy things", "متجر / محل", "There is a new coffee shop near the school."],
+["buy", "v", "to get something by paying for it", "يشتري", "I want to buy a new football."],
+["sell", "v", "to give something to someone for money", "يبيع", "Farmers sell honey by the road in Al-Baha."],
+["afford", "v", "to have enough money to pay for something", "يستطيع تحمّل ثمن / يقدر على شراء", "We can't afford a new car this year."],
+["wallet", "n", "a small flat case for money and cards", "محفظة", "Omar lost his wallet at the stadium."],
+["coin", "n", "a small round piece of metal money", "عملة معدنية", "My little brother keeps every coin in a glass jar."],
+["loan", "n", "money that you borrow and must pay back", "قرض", "My cousin took a loan to start his business."],
+["debt", "n", "money that you owe to someone", "دَين", "Salem paid back his debt to his friend."],
+["invoice", "n", "a paper that lists what you must pay for goods or work", "فاتورة", "The company sent an invoice for the repair work."],
+["rent", "n", "money you pay regularly to live in a place", "إيجار", "The rent for this flat is two thousand riyals a month."]],
+story:{x:"Turki wanted a new bike, but it was very {expensive}. He did not have enough {money}, so he made a {budget} and saved some every week. He kept every {coin} in a glass jar. After three months, he went to the bike {shop} near his house. There was a {discount} of twenty percent! Now Turki could {afford} the bike. He paid in {cash}, not with a card, and kept the receipt. He was very proud of himself.",
+tf:[["The bike was cheap.", false], ["Turki kept his coins in a jar.", true], ["Turki paid with a card.", false]]}},
+
+{n:42,title:"The Big Final",words:[
+["sport", "n", "a game or activity people do for exercise or fun", "رياضة", "Football is the most popular sport in Saudi Arabia."],
+["team", "n", "a group of players who play together", "فريق", "Our school team won the match yesterday."],
+["player", "n", "a person who takes part in a game", "لاعب", "Salem is the best player in our class."],
+["score", "v", "to get a point or a goal in a game", "يُسجّل (هدفًا)", "Nawaf hopes to score a goal tonight."],
+["win", "v", "to be first or best in a game or competition", "يفوز / يربح", "We need to win this match to reach the final."],
+["lose", "v", "to not be the winner in a game or competition", "يخسر", "Nobody likes to lose, but it happens to every team."],
+["train", "v", "to practise a sport again and again to get better", "يتدرّب", "The players train every evening after Maghrib prayer."],
+["stadium", "n", "a large place with seats where people watch sports", "ملعب / استاد", "The stadium in Jeddah was full of happy fans."],
+["referee", "n", "the person who makes sure players follow the rules", "حَكَم", "The referee blew his whistle to end the game."],
+["fan", "n", "a person who loves a team or a player very much", "مشجّع", "My uncle is a big fan of Al-Hilal."],
+["champion", "n", "the winner of a competition", "بطل", "Khalid became the school chess champion this year."],
+["fitness", "n", "the state of being healthy and strong", "لياقة بدنية", "Running every morning improves your fitness."],
+["talent", "n", "a natural ability to do something well", "موهبة", "Omar has a real talent for drawing."],
+["practice", "n", "doing something again and again to improve", "تدريب / ممارسة", "Football practice starts at four o'clock."],
+["trophy", "n", "a cup or prize given to the winner", "كأس / جائزة", "The captain lifted the trophy above his head."],
+["tournament", "n", "a competition with many teams or players", "بطولة / دورة", "Ten schools joined the football tournament in Al-Baha."],
+["league", "n", "a group of teams that play against each other", "دوري", "The Saudi league has many famous players."],
+["cup", "n", "a competition in which the winner gets a big prize", "كأس (بطولة)", "Our team played in the King's Cup this season."],
+["medal", "n", "a round piece of metal given as a prize", "ميدالية", "Faisal won a gold medal in swimming."],
+["kick", "v", "to hit something with your foot", "يركل", "Kick the ball hard toward the goal."]],
+story:{x:"Our school {team} reached the final of the {tournament}. Every day after school, we would {train} for two hours. On the big day, the {stadium} was full, and every {fan} was shouting. The match was hard. In the last minute, Fahad got the ball. He did not want to {lose}. He ran fast and kicked it. Goal! The {referee} blew his whistle, and we were the champions. Our captain lifted the {trophy}, and everyone cheered.",
+tf:[["The match was very easy.", false], ["Fahad scored a goal in the last minute.", true], ["The team trained for two hours every day.", true]]}},
+
+{n:43,title:"Salem's First Speech",words:[
+["feeling", "n", "something you feel, like happiness or anger", "شعور / إحساس", "I have a feeling that we will win today."],
+["happy", "adj", "feeling good and pleased about something", "سعيد", "Grandma was happy to see us on Eid."],
+["sad", "adj", "feeling unhappy, for example when something bad happens", "حزين", "Turki was sad when his friend moved to Riyadh."],
+["excited", "adj", "very happy and full of energy about something", "متحمّس", "The boys are excited about the trip to Abha."],
+["bored", "adj", "tired and unhappy because nothing is interesting", "ضَجِر / يشعر بالملل", "I get bored when I have nothing to do."],
+["surprised", "adj", "feeling that something unexpected has happened", "مندهش / متفاجئ", "Ahmed was surprised by the gift from his father."],
+["worried", "adj", "thinking that something bad may happen", "قَلِق", "Mum is worried because my brother is late."],
+["lonely", "adj", "sad because you are alone or have no friends", "وحيد", "Saud felt lonely in his first week at the new school."],
+["jealous", "adj", "unhappy because someone has something you want", "غيور / حسود", "Nawaf was jealous of his cousin's new phone."],
+["grateful", "adj", "wanting to thank someone for something they did", "ممتنّ / شاكر", "I am grateful to my teacher for his help."],
+["hopeful", "adj", "believing that something good will happen", "متفائل / آمِل", "The farmers are hopeful that rain will come soon."],
+["ashamed", "adj", "feeling bad about something wrong that you did", "خَجِل / نادم", "Omar was ashamed of lying to his mother."],
+["confident", "adj", "sure that you can do something well", "واثق (من نفسه)", "Khalid felt confident before his English exam."],
+["curious", "adj", "wanting to know or learn about something", "فضولي / محبّ للاستطلاع", "Little children are curious about everything around them."],
+["brave", "adj", "ready to face danger or pain without fear", "شجاع", "The brave man saved the boy from the fire."],
+["scared", "adj", "feeling afraid that something bad will happen", "خائف", "My little brother is scared of big dogs."],
+["delighted", "adj", "very pleased and happy about something", "مسرور جدًا / مبتهج", "Father was delighted with my school results."],
+["anxious", "adj", "nervous and worried about something", "قَلِق / متوتّر", "Faisal felt anxious while waiting for the exam to start."],
+["embarrassed", "adj", "feeling shy and uncomfortable in front of others", "مُحرَج", "I was embarrassed when I fell in front of the class."],
+["disappointed", "adj", "sad because something was not as good as expected", "خائب الأمل", "The fans were disappointed after the team lost."]],
+story:{x:"Salem had to give a speech in front of the whole school. The night before, he felt {anxious} and could not sleep. He was afraid he would forget his words and feel {embarrassed}. But his father said, “Be {brave}, my son. You are ready.” Salem walked onto the stage and began. At first his voice was quiet, but soon he felt {confident}. When he finished, everyone clapped. Salem was {surprised} by the loud cheers. His teacher was {delighted} and shook his hand. Salem was {grateful} for his father's kind words, and he enjoyed the warm {feeling} of success.",
+tf:[["Salem slept well the night before.", false], ["Salem's father gave him kind advice.", true], ["Nobody clapped at the end.", false]]}},
+
+{n:44,title:"The Class Debate",words:[
+["communication", "n", "sharing information or ideas with other people", "تواصل / اتصال", "Good communication is important in every family."],
+["speak", "v", "to say words; to use a language", "يتكلّم / يتحدّث", "Can you speak English with the visitors?"],
+["talk", "v", "to say things to someone in a conversation", "يتحدّث / يتكلّم", "I like to talk with my grandfather after dinner."],
+["discuss", "v", "to talk about something to share ideas", "يناقش", "Let's discuss the project before the lesson starts."],
+["whisper", "v", "to speak very quietly so others cannot hear", "يهمس", "Please whisper in the library so others can study."],
+["ask", "v", "to say something to get an answer", "يسأل / يطلب", "If you do not understand, ask the teacher."],
+["warn", "v", "to tell someone about a possible danger", "يُحذّر", "Signs warn drivers about camels on the road."],
+["complain", "v", "to say that you are not happy about something", "يشتكي / يتذمّر", "My brother likes to complain about the hot weather."],
+["apologize", "v", "to say that you are sorry", "يعتذر", "You should apologize to Omar for breaking his pen."],
+["chat", "v", "to talk in a friendly, relaxed way", "يدردش", "The boys chat over coffee every Thursday night."],
+["express", "v", "to show feelings or ideas in words or actions", "يُعبّر عن", "It is hard to express my thanks in words."],
+["repeat", "v", "to say or do something again", "يُكرّر", "Could you repeat the question, please?"],
+["pronounce", "v", "to make the sound of a word", "ينطق / يلفظ", "How do you pronounce this English word?"],
+["translate", "v", "to change words into another language", "يترجم", "Can you translate this Arabic poem into English?"],
+["interrupt", "v", "to stop someone while they are speaking", "يقاطع", "Do not interrupt your father when he is speaking."],
+["persuade", "v", "to make someone agree to do or believe something", "يُقنع", "I tried to persuade Dad to buy a new car."],
+["debate", "n", "a formal discussion where people give different opinions", "مناظرة / نقاش", "Our class won the school debate about technology."],
+["nod", "v", "to move your head up and down to say yes", "يومئ برأسه", "The students nod when they understand the lesson."],
+["gesture", "n", "a movement of the hand or head to show meaning", "إيماءة / إشارة", "He made a friendly gesture to welcome the guests."],
+["pause", "v", "to stop for a short time", "يتوقّف قليلًا", "The speaker will pause to drink some water."]],
+story:{x:"Last week, our class had a {debate} about phones in school. Our teacher asked each student to {express} his opinion clearly. Nawaf started, but Turki tried to {interrupt} him. The teacher said, “Please don't do that. Wait for your turn.” Turki had to {apologize} to Nawaf. Then Nawaf continued. He wanted to {persuade} everyone that phones help us learn. Sometimes he would {pause} to think. When a new student did not know an English word, Nawaf showed him how to {pronounce} it. At the end, the teacher said our {communication} skills were getting better.",
+tf:[["The debate was about phones in school.", true], ["Nawaf interrupted Turki.", false], ["The teacher was happy with the students' skills.", true]]}},
+
+{n:45,title:"Omar's New Habits",words:[
+["time", "n", "what we measure in minutes, hours and days", "وقت / زمن", "What time does the bus leave tomorrow?"],
+["minute", "n", "a period of time equal to sixty seconds", "دقيقة", "The bus will arrive in one minute, so hurry."],
+["hour", "n", "a period of time equal to sixty minutes", "ساعة", "The flight from Riyadh to Abha takes about an hour."],
+["daily", "adj", "happening or done every day", "يومي", "Reading the Quran is part of my daily routine."],
+["weekly", "adj", "happening or done once every week", "أسبوعي", "We have a weekly football match on Fridays."],
+["monthly", "adj", "happening or done once every month", "شهري", "My father pays the monthly phone bill."],
+["yearly", "adj", "happening or done once every year", "سنوي", "The yearly date festival in Al-Qassim is famous."],
+["early", "adv", "before the usual or expected time", "مبكّرًا", "I wake up early to pray Fajr."],
+["late", "adv", "after the usual or expected time", "متأخّرًا", "Fahad arrived late to class this morning."],
+["soon", "adv", "in a short time from now", "قريبًا", "The summer holiday will start soon."],
+["recently", "adv", "a short time ago; not long before now", "مؤخّرًا / حديثًا", "My uncle recently bought a new car."],
+["during", "prep", "while something else is happening", "خلال / أثناء", "Please do not talk during the exam."],
+["until", "prep", "up to a certain time", "حتى / إلى أن", "The shop stays open until ten o'clock."],
+["ago", "adv", "before now (used after a period of time)", "منذ / قبل", "We moved to Al-Baha two years ago."],
+["tomorrow", "adv", "on the day after today", "غدًا", "We have an English test tomorrow."],
+["tonight", "adv", "during the evening or night of today", "الليلة", "Let's watch the match together tonight."],
+["weekend", "n", "the days of rest at the end of the week", "عطلة نهاية الأسبوع", "This weekend we will visit our grandparents."],
+["midnight", "n", "the middle of the night; twelve o'clock at night", "منتصف الليل", "Do not stay up after midnight on school days."],
+["noon", "n", "twelve o'clock in the middle of the day", "الظُّهر / منتصف النهار", "We eat lunch at noon after the prayer."],
+["past", "n", "the time before now; things that already happened", "الماضي", "In the past, people travelled by camel."]],
+story:{x:"Omar used to arrive {late} to school every day, and his teacher was not happy. A month {ago}, Omar made a plan to change. Now he goes to bed before {midnight} and wakes up {early} for Fajr prayer. He does not use his phone {during} breakfast. He also reads for one {hour} every evening. On the {weekend}, he plays football with his friends. Omar has {recently} become one of the best students in his class. “Good habits change everything,” he says.",
+tf:[["In the past, Omar always arrived early.", false], ["Omar reads for one hour every evening.", true], ["Omar plays football on the weekend.", true]]}},
+
+{n:46,title:"Khalid's Robot",words:[
+["science", "n", "the study of nature and the physical world", "علم / علوم", "Science is my favorite subject at school."],
+["research", "n", "careful study to find new facts", "بحث (علمي)", "The students did research on desert plants."],
+["invent", "v", "to make something new for the first time", "يخترع", "I want to invent a car that uses water."],
+["scientist", "n", "a person who works in science", "عالِم", "Ibn Sina was a famous Muslim scientist."],
+["measure", "v", "to find the size, length or amount of something", "يقيس", "Use a ruler to measure the table."],
+["data", "n", "facts and numbers collected for study", "بيانات", "The weather app collects data from many cities."],
+["gravity", "n", "the force that pulls things toward the ground", "الجاذبية", "Gravity makes the ball fall back to the ground."],
+["oxygen", "n", "the gas in air that people and animals need to live", "أكسجين", "Plants give us the oxygen we breathe."],
+["microscope", "n", "a tool that makes very small things look bigger", "مجهر", "We looked at a leaf under the microscope."],
+["telescope", "n", "a tool for looking at stars and faraway things", "تلسكوب / مِقراب", "On clear nights, Saud uses his telescope to see the moon."],
+["atom", "n", "the smallest part of a chemical element", "ذرّة", "An atom is too small to see with your eyes."],
+["electricity", "n", "power that makes lights and machines work", "كهرباء", "Solar panels make electricity from sunlight."],
+["magnet", "n", "a piece of metal that pulls iron toward it", "مغناطيس", "The magnet picked up all the small nails."],
+["formula", "n", "a rule written with numbers, letters and signs", "صيغة / معادلة", "Learn the formula for the area of a circle."],
+["engineer", "n", "a person who designs machines, roads or buildings", "مهندس", "My brother works as an engineer in Riyadh."],
+["robot", "n", "a machine that can do jobs by itself", "روبوت / إنسان آلي", "Our school team built a robot that can walk."],
+["invention", "n", "something new that someone has made for the first time", "اختراع", "The phone is a very useful invention."],
+["biology", "n", "the science of living things", "علم الأحياء", "In biology we learned about the human heart."],
+["physics", "n", "the science of force, energy and movement", "الفيزياء", "Physics helps us understand how cars move."],
+["gene", "n", "a tiny part of a cell that passes features from parents to children", "جين / مُورِّثة", "A gene from your parents can decide your eye color."]],
+story:{x:"Khalid loves {science}. His dream is to become an {engineer}. Last year, he decided to build a {robot} for the school fair. First, he did some {research} on the internet. Then he used a ruler to {measure} every part. He needed {electricity} to make it move, so he added a small battery. He also put a {magnet} in its hand so it could pick up nails. At the fair, everyone loved his {invention}, and Khalid won first prize.",
+tf:[["Khalid wants to be an engineer.", true], ["The robot could pick up nails.", true], ["Khalid did not win anything at the fair.", false]]}},
+
+{n:47,title:"The School Newspaper",words:[
+["media", "n", "TV, radio, newspapers and the internet as a group", "وسائل الإعلام", "Social media can spread news very fast."],
+["news", "n", "information about things that happened recently", "أخبار", "My father watches the news every evening."],
+["newspaper", "n", "printed pages with news, usually sold every day", "صحيفة / جريدة", "Grandpa reads the newspaper with his morning coffee."],
+["journalist", "n", "a person who writes or reports the news", "صحفي", "The journalist asked the minister many questions."],
+["channel", "n", "a TV or radio station with its own programs", "قناة", "Which channel is showing the football match?"],
+["advertisement", "n", "a notice or short film that tries to sell something", "إعلان", "I saw an advertisement for a new phone."],
+["fact", "n", "something that is known to be true", "حقيقة", "It is a fact that the sun is a star."],
+["rumor", "n", "a story that may not be true, passed between people", "إشاعة", "Do not believe every rumor you hear online."],
+["headline", "n", "the title of a news story, in large letters", "عنوان رئيسي", "The headline said our team won the cup."],
+["broadcast", "v", "to send out a program on TV or radio", "يبثّ / يذيع", "They will broadcast the match live tonight."],
+["podcast", "n", "a recorded talk you can listen to online", "بودكاست", "Nawaf listens to a science podcast on the bus."],
+["video", "n", "a recording of moving pictures", "فيديو / مقطع مرئي", "Omar made a short video about Al-Baha's mountains."],
+["photograph", "n", "a picture taken with a camera", "صورة (فوتوغرافية)", "This old photograph shows my grandfather as a boy."],
+["television", "n", "a machine that shows programs with pictures and sound", "تلفاز / تلفزيون", "We watched the game on television at home."],
+["radio", "n", "a machine for listening to programs sent through the air", "راديو / مِذياع", "Dad listens to the Quran on the radio in the car."],
+["camera", "n", "a device for taking photos or videos", "كاميرا / آلة تصوير", "Bring your camera to take pictures of the falcons."],
+["reporter", "n", "a person who tells the news on TV, radio or in newspapers", "مراسل صحفي", "A reporter spoke to fans outside the stadium."],
+["edit", "v", "to correct or change a text, photo or video", "يحرّر / يعدّل", "I need to edit my essay before I send it."],
+["caption", "n", "words under a picture that explain it", "تعليق (على صورة)", "Write a short caption under each photo."],
+["blog", "n", "a website where someone writes regular posts", "مدوّنة", "Faisal writes a blog about Saudi food."]],
+story:{x:"Our school started a new student {newspaper}. Saud wanted to be a {journalist}, so he joined the team. His first story was about a football match. He took a {photograph} of the players with his {camera}. Then he wrote a short {caption} under it. His teacher helped him {edit} his story and fix the mistakes. The big {headline} on the front page said, “Al-Aqiq Wins Again!” Later, the local radio station asked to {broadcast} an interview with Saud.",
+tf:[["Saud's first story was about a football match.", true], ["Saud's teacher wrote the story for him.", false], ["Saud took a photograph of the players.", true]]}},
+
+{n:48,title:"Two Different Brothers",words:[
+["character", "n", "the qualities that make a person who they are", "شخصية / طبع", "My grandfather has a strong and kind character."],
+["honest", "adj", "always telling the truth and never cheating", "صادق / أمين", "An honest boy returned the lost wallet."],
+["loyal", "adj", "always supporting your friends, family or country", "وفيّ / مخلص", "A loyal friend stays with you in hard times."],
+["kind", "adj", "friendly and helpful to others", "لطيف / طيّب", "It was kind of you to help the old man."],
+["selfish", "adj", "caring only about yourself and not about others", "أناني", "Don't be selfish; share your snacks with your brother."],
+["lazy", "adj", "not wanting to work or make any effort", "كسول", "The lazy student did not do his homework."],
+["hardworking", "adj", "putting a lot of effort into your work", "مجتهد", "My father is a hardworking farmer in Al-Baha."],
+["careful", "adj", "thinking about what you do to avoid danger or mistakes", "حَذِر / حريص", "Be careful when you cross the street."],
+["careless", "adj", "not paying enough attention, so mistakes happen", "مُهمِل / غير مبالٍ", "Turki made careless mistakes in his math test."],
+["shy", "adj", "nervous about talking to new people", "خجول", "The new student is shy and speaks very little."],
+["humble", "adj", "not thinking you are better than others", "متواضع", "The famous player is humble and friendly with fans."],
+["ambitious", "adj", "wanting very much to succeed", "طَموح", "Ahmed is ambitious and wants to study medicine."],
+["creative", "adj", "good at making new things or ideas", "مُبدِع", "Salem is creative; he designs his own games."],
+["reliable", "adj", "able to be trusted to do what is expected", "يُعتمَد عليه / موثوق", "Omar is reliable; he always finishes his work on time."],
+["gentle", "adj", "calm and soft, and careful not to hurt", "لطيف / رقيق", "Be gentle when you hold the baby falcon."],
+["rude", "adj", "not polite; showing no respect to others", "وقِح / قليل الأدب", "It is rude to use your phone during dinner."],
+["cheerful", "adj", "happy and full of good feelings", "مَرِح / بشوش", "Our cheerful neighbor always greets us with a smile."],
+["modest", "adj", "not talking much about your own success", "متواضع (لا يتباهى)", "Fahad is modest about his high grades."],
+["strict", "adj", "making people follow rules carefully", "صارم", "Our math teacher is strict but fair."],
+["trustworthy", "adj", "honest, so people can believe and depend on you", "جدير بالثقة / أمين", "A trustworthy friend never tells your secrets."]],
+story:{x:"Fahad and Nawaf are brothers, but each has his own {character}. Fahad is {hardworking}. He studies every evening and helps his father on the farm. Nawaf is {lazy}; he sleeps until noon and never helps. Fahad is also {honest} and always tells the truth. One day, Nawaf broke a window and said it was the cat! He was also {rude} to his teacher. Their father is {strict}, but he is also {kind}. He spoke to Nawaf calmly. Nawaf listened and said sorry. Now he is trying to be more {careful} with his words.",
+tf:[["Nawaf helps his father on the farm.", false], ["Nawaf broke a window.", true], ["Their father shouted at Nawaf angrily.", false]]}},
+
+{n:49,title:"Turki's Big Dream",words:[
+["future", "n", "the time that will come after now", "المستقبل", "In the future, I want to be a pilot."],
+["plan", "n", "an idea of what you will do and how", "خطة", "We made a plan for the summer holiday."],
+["dream", "n", "something you hope very much to do one day", "حلم", "My dream is to play for the national team."],
+["hope", "v", "to want something good to happen", "يأمل / يتمنّى", "I hope it rains in Al-Baha this week."],
+["wish", "v", "to want something that is not likely to happen", "يتمنّى", "I wish I could fly like a falcon."],
+["decide", "v", "to make a choice after thinking about it", "يقرّر", "You must decide which university to apply to."],
+["choose", "v", "to pick one thing from many", "يختار", "Choose one book from the shelf to read."],
+["succeed", "v", "to do what you tried to do", "ينجح", "If you study hard, you will succeed."],
+["develop", "v", "to grow or make something grow and become better", "يطوّر / ينمو", "Reading helps you develop your English."],
+["ambition", "n", "a strong wish to achieve something", "طموح", "His ambition is to become a famous doctor."],
+["target", "n", "a goal or result you try to reach", "هدف", "My target is to read ten books this year."],
+["determined", "adj", "having a strong wish to do something and not stopping", "مُصمِّم / عازم", "Saud was determined to finish the race."],
+["motivate", "v", "to make someone want to do something", "يحفّز / يشجّع", "A good coach can motivate his players."],
+["persist", "v", "to keep trying even when it is hard", "يثابر / يستمرّ", "If you persist, you will learn to swim."],
+["overcome", "v", "to succeed in dealing with a problem", "يتغلّب على", "Faisal worked hard to overcome his fear of speaking."],
+["attempt", "n", "a try to do something", "محاولة", "He passed the driving test on his first attempt."],
+["aim", "n", "the purpose of something; what you want to achieve", "هدف / غاية", "The aim of this lesson is to learn new words."],
+["confidence", "n", "belief in your own ability", "ثقة (بالنفس)", "Practice gives you confidence in speaking English."],
+["intention", "n", "something you plan or mean to do", "نيّة / قصد", "My intention was to help, not to cause trouble."],
+["dedication", "n", "hard work and strong commitment to something", "تفانٍ / إخلاص", "The coach thanked the players for their dedication."]],
+story:{x:"Turki has a big {dream}. He wants to become a pilot in the {future}. But he is weak in English, and pilots need good English. So he made a {plan}. Every day he learns ten new words. His {target} is to pass the English exam with a high grade. Some days are hard, but Turki is {determined}, and he does not give up. His teacher says, “You will {succeed} if you keep trying.” Slowly, Turki started to {overcome} his problem, and his {confidence} grew.",
+tf:[["Turki wants to become a doctor.", false], ["Turki learns ten new words every day.", true], ["Turki gave up when it was hard.", false]]}},
+
+{n:50,title:"A Good Citizen",words:[
+["citizen", "n", "a person who legally belongs to a country", "مواطن", "Every citizen should respect the law."],
+["country", "n", "a land with its own people, borders and leaders", "دولة / بلد", "Saudi Arabia is a large country with many deserts."],
+["government", "n", "the group of people who rule a country", "حكومة", "The government built a new hospital in Al-Baha."],
+["law", "n", "an official rule that everyone must follow", "قانون", "It is against the law to drive without a license."],
+["rule", "n", "something that tells you what you must or must not do", "قاعدة", "Our class has one rule: be on time."],
+["right", "n", "something you are allowed to have or do", "حقّ", "Every child has the right to go to school."],
+["duty", "n", "something you must do because it is correct", "واجب", "It is our duty to help our parents."],
+["volunteer", "v", "to offer to do work without being paid", "يتطوّع", "Many students volunteer to clean the beach in Jeddah."],
+["charity", "n", "an organization that helps people in need", "جمعية خيرية", "Our school gave money to a local charity."],
+["culture", "n", "the customs, ideas and way of life of a group", "ثقافة", "Arabic coffee is an important part of Saudi culture."],
+["language", "n", "a system of words people use to speak and write", "لغة", "Arabic is the language of the Quran."],
+["history", "n", "the study of past events", "تاريخ", "We learned about the history of Diriyah."],
+["nation", "n", "a country and all of its people", "أمّة / دولة", "The whole nation was proud of the team's win."],
+["freedom", "n", "the right to do or say what you want", "حرّية", "Birds in the open sky enjoy their freedom."],
+["global", "adj", "relating to or including the whole world", "عالمي", "Climate change is a global problem."],
+["population", "n", "the number of people living in a place", "عدد السكان", "The population of Riyadh is growing quickly."],
+["capital", "n", "the main city where a country's leaders work", "عاصمة", "Riyadh is the capital of Saudi Arabia."],
+["flag", "n", "a piece of cloth with colors that represents a country", "عَلَم / راية", "The green flag waved above the school."],
+["national", "adj", "belonging to or about a whole country", "وطني", "We celebrate our national day on 23 September."],
+["region", "n", "a large area of a country", "منطقة", "The Al-Baha region is famous for its green mountains."]],
+story:{x:"Khalid is proud of his {country}, Saudi Arabia. On {national} day, he hangs a green {flag} on his house. Khalid knows that a good {citizen} follows the {law} and helps others. Every weekend, he and his friends {volunteer} at a {charity} that gives food to poor families. He also loves the {history} of his area, and he visits old villages in Al-Baha with his grandfather. “Helping others is our duty,” his grandfather always says.",
+tf:[["Khalid hangs a green flag on National Day.", true], ["The charity gives books to children.", false], ["Khalid visits old villages with his grandfather.", true]]}}
+];
+
+const $=id=>document.getElementById(id);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const W=w=>({w:w[0],pos:w[1],def:w[2],ar:w[3],ex:w[4]});
+const POS={n:"noun · اسم",v:"verb · فعل",adj:"adjective · صفة",adv:"adverb · ظرف",prep:"preposition · حرف جر",pron:"pronoun · ضمير",conj:"conjunction · أداة ربط"};
+const blankEx=(x)=>x.ex.replace(new RegExp("\\b"+x.w+"\\b","i"),"\u0000");
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+let level=store.get("wq-level")||"basic", U=null, stage="learn";
+const basic=()=>level==="basic";
+
+/* speech */
+/* ---------- audio: pronunciation (browser voices, best available English voice) ---------- */
+const canSpeak=typeof window.speechSynthesis!=="undefined"&&typeof window.SpeechSynthesisUtterance!=="undefined";
+let accent=store.get("wq-accent")||"us",voice=null;
+const PREF={us:[/Google US English/i,/(Aria|Jenny|Guy|Ana|Michelle|Ava|Andrew|Emma|Brian).*(Natural|Online)/i,/Samantha/i,/Ava/i,/Allison/i,/Microsoft (Aria|Jenny|Zira|David|Mark)/i,/Alex/i],
+  uk:[/Google UK English Female/i,/Google UK English Male/i,/(Sonia|Libby|Ryan|Maisie|Thomas).*(Natural|Online)/i,/Daniel/i,/Kate/i,/Serena/i,/Microsoft (Hazel|George|Susan)/i,/Arthur|Martha/i]};
+function pickVoice(){if(!canSpeak)return null;const tag=accent==="uk"?"en-gb":"en-us";
+  let vs=[];try{vs=speechSynthesis.getVoices().filter(v=>/^en[-_]/i.test(v.lang))}catch(e){}
+  if(!vs.length)return null;
+  const exact=vs.filter(v=>v.lang.replace("_","-").toLowerCase()===tag);
+  for(const r of PREF[accent]){const v=exact.find(v=>r.test(v.name))||vs.find(v=>r.test(v.name)&&v.lang.toLowerCase().replace("_","-")===tag);if(v)return v}
+  return exact.find(v=>/natural|neural|premium|enhanced/i.test(v.name))||exact.find(v=>v.localService)||exact[0]||vs.find(v=>/en[-_]us/i.test(v.lang))||vs[0]}
+if(canSpeak){voice=pickVoice();try{speechSynthesis.addEventListener("voiceschanged",()=>{voice=pickVoice()})}catch(e){speechSynthesis.onvoiceschanged=()=>{voice=pickVoice()}}}
+function utter(t,rate){const u=new SpeechSynthesisUtterance(t);if(!voice)voice=pickVoice();if(voice){u.voice=voice;u.lang=voice.lang}else u.lang=accent==="uk"?"en-GB":"en-US";u.rate=rate;u.pitch=1;u.volume=1;return u}
+function noSpeech(word){const t=$("toast");const one=/^[a-z]+$/i.test(word||"");
+  t.innerHTML=`<b>النطق الصوتي لا يعمل في هذا العارض.</b> افتح رابط المنصة في متصفح <b>Chrome</b> أو <b>Safari</b> لتسمع نطق الكلمات وقراءة الجمل، وتأكد أن صوت الجوال مرتفع والوضع الصامت مغلق.${one?`<br><a href="https://dictionary.cambridge.org/dictionary/english/${encodeURIComponent(word.toLowerCase())}" target="_blank" rel="noopener">استمع لنطق «${esc(word)}» في قاموس كامبريدج</a>`:""}`;
+  t.hidden=false;clearTimeout(noSpeech.h);noSpeech.h=setTimeout(()=>{t.hidden=true},9000)}
+function speak(parts){if(!parts.length)return;if(!canSpeak){noSpeech(parts[0][0]);return}
+  try{speechSynthesis.cancel();let started=false;
+    parts.forEach(([t,r],i)=>{const u=utter(t,r);u.onstart=()=>{started=true;$("toast").hidden=true};u.onerror=ev=>{if(i===0&&ev.error!=="interrupted"&&ev.error!=="canceled")noSpeech(parts[0][0])};speechSynthesis.speak(u)});
+    setTimeout(()=>{if(!started&&!speechSynthesis.speaking)noSpeech(parts[0][0])},1600)}catch(e){noSpeech(parts[0][0])}}
+const sayWord=w=>speak([[w,.75]]);
+const sayWordEx=(w,ex)=>speak([[w,.75],[ex,.88]]);
+const sayText=t=>speak((t.match(/[^.!?]+[.!?]+["”]?|[^.!?]+$/g)||[t]).map(x=>[x.trim(),.88]).filter(x=>x[0]));
+const SPK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+const CAMI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>';
+const camLink=(w,cls)=>`<a class="cam ${cls||""}" href="https://dictionary.cambridge.org/dictionary/english/${encodeURIComponent(w.toLowerCase())}" target="_blank" rel="noopener" aria-label="Cambridge pronunciation of ${esc(w)}">Cambridge ${CAMI}</a>`;
+const sayBtn=(text,label,mode,cls)=>true?`<button class="say ${cls||"inl"}" data-say="${esc(text)}" data-mode="${mode||"w"}" aria-label="Listen: ${esc(label||text)}">${SPK}</button>`:"";
+document.addEventListener("click",e=>{const b=e.target.closest("[data-say]");if(!b)return;e.stopPropagation();const m=b.dataset.mode,t=b.dataset.say;
+  if(m==="w")sayWord(t);else if(m==="we"){const [w,ex]=t.split("||");sayWordEx(w,ex)}else sayText(t)},true);
+if(!canSpeak){const a=$("accent");if(a)a.hidden=true}
+$("accent").value=accent;$("accent").onchange=e=>{accent=e.target.value;store.set("wq-accent",accent);voice=pickVoice();sayWord(accent==="uk"?"Hello! This is the British accent.":"Hello! This is the American accent.")};
+
+/* ---------- audio: action sound effects (synthesised, no files) ---------- */
+let sfxOn=store.get("wq-sfx")!=="off",actx=null,armed=false;
+["pointerdown","keydown"].forEach(ev=>document.addEventListener(ev,()=>{armed=true},{capture:true,once:false}));
+function ac(){if(!actx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;try{actx=new C()}catch(e){return null}}if(actx.state==="suspended")actx.resume();return actx}
+function tone(f,t0,d,type,v,f2){const c=ac();if(!c)return;const T=c.currentTime+t0,o=c.createOscillator(),g=c.createGain();o.type=type||"sine";o.frequency.setValueAtTime(f,T);if(f2)o.frequency.exponentialRampToValueAtTime(f2,T+d);
+  g.gain.setValueAtTime(0.0001,T);g.gain.exponentialRampToValueAtTime(v,T+.012);g.gain.exponentialRampToValueAtTime(0.0001,T+d);o.connect(g);g.connect(c.destination);o.start(T);o.stop(T+d+.03)}
+function noise(t0,d,f1,f2,v){const c=ac();if(!c)return;const T=c.currentTime+t0,len=Math.max(1,Math.floor(c.sampleRate*d)),buf=c.createBuffer(1,len,c.sampleRate),ch=buf.getChannelData(0);for(let i=0;i<len;i++)ch[i]=Math.random()*2-1;
+  const s=c.createBufferSource();s.buffer=buf;const bf=c.createBiquadFilter();bf.type="bandpass";bf.Q.value=1.1;bf.frequency.setValueAtTime(f1,T);bf.frequency.exponentialRampToValueAtTime(f2,T+d);
+  const g=c.createGain();g.gain.setValueAtTime(0.0001,T);g.gain.exponentialRampToValueAtTime(v,T+d*.3);g.gain.exponentialRampToValueAtTime(0.0001,T+d);s.connect(bf);bf.connect(g);g.connect(c.destination);s.start(T);s.stop(T+d+.03)}
+const SFX={
+  click:()=>tone(900,0,.05,"triangle",.07,640),
+  page:()=>{noise(0,.32,2800,450,.22);tone(392,.03,.16,"triangle",.05,523)},
+  flip:()=>{noise(0,.2,700,4200,.28);tone(560,0,.1,"sine",.04,980)},
+  good:()=>{tone(784,0,.12,"triangle",.13);tone(1175,.09,.24,"triangle",.13)},
+  bad:()=>{tone(220,0,.22,"sawtooth",.06,140);tone(165,.07,.22,"square",.035,110)},
+  soft:()=>{tone(523,0,.16,"triangle",.1);tone(440,.13,.28,"triangle",.1)},
+  win:()=>{[523,659,784,1047].forEach((f,i)=>tone(f,i*.1,.24,"triangle",.13));tone(1568,.42,.55,"sine",.07);noise(.4,.4,5000,9000,.05)}
+};
+const RANK=["click","page","flip","good","bad","soft","win"];let pend=null;
+function sfx(n){if(!sfxOn||!armed)return;if(!pend){pend=n;setTimeout(()=>{const p=pend;pend=null;try{SFX[p]()}catch(e){}},0)}else if(RANK.indexOf(n)>RANK.indexOf(pend))pend=n}
+document.addEventListener("click",e=>{if(e.target.closest("button,select"))sfx("click")},true);
+new MutationObserver(ms=>{for(const m of ms){const el=m.target;if(!el.classList)continue;const c=el.classList,old=(m.oldValue||"").split(/\s+/),added=k=>c.contains(k)&&!old.includes(k);
+  if(added("wrong")||added("oops")||added("shake"))sfx("bad");
+  else if(added("right")||added("done")||added("filled"))sfx("good");
+  else if(c.contains("fc")&&(added("open")||(!c.contains("open")&&old.includes("open"))))sfx("flip")}})
+  .observe(document.body,{subtree:true,attributes:true,attributeFilter:["class"],attributeOldValue:true});
+function setSfx(on){sfxOn=on;store.set("wq-sfx",on?"on":"off");$("sfxBtn").setAttribute("aria-pressed",on)}
+setSfx(sfxOn);$("sfxBtn").onclick=()=>{setSfx(!sfxOn);if(sfxOn){armed=true;sfx("good")}};
+
+/* level */
+function setLevel(l){level=l;store.set("wq-level",l);$("lvBasic").setAttribute("aria-pressed",l==="basic");$("lvAdv").setAttribute("aria-pressed",l!=="basic");if(U)renderStage()}
+$("lvBasic").onclick=()=>setLevel("basic");$("lvAdv").onclick=()=>setLevel("adv");
+setLevel(level);
+
+/* home */
+const STG=[["المرحلة 1: البذرة","#fff7df","الأسابيع <bdi dir=\"ltr\">1–5</bdi>"],["المرحلة 2: البرعم","#e6f7f1","الأسابيع <bdi dir=\"ltr\">6–10</bdi>"],["المرحلة 3: الغصن","#eaf2ff","الأسابيع <bdi dir=\"ltr\">11–15</bdi>"],["المرحلة 4: الشجرة","#f1edff","الأسابيع <bdi dir=\"ltr\">16–20</bdi>"]];
+const wkOf=i=>Math.floor(i/50)+1;
+function renderHome(){
+  $("home").hidden=false;$("unit").hidden=true;U=null;
+  const H=$("units");H.innerHTML="";let grid=null,cur=-1;
+  UNITS.forEach(u=>{const f=(u.n-1)*20,st=Math.min(3,Math.floor(f/250));
+    if(st!==cur){cur=st;const h=document.createElement("div");h.className="sghead";h.style.background=STG[st][1];h.innerHTML=`<b>${STG[st][0]}</b><span>${STG[st][2]}</span>`;H.appendChild(h);grid=document.createElement("div");grid.className="units";H.appendChild(grid)}
+    const best=+(store.get("wq-best-"+u.n)||0),w1=wkOf(f),w2=wkOf(f+19);
+    const b=document.createElement("button");b.className="ucard";
+    b.innerHTML=`${best>=8?'<span class="badge">Badge</span>':''}<span class="num">${u.n}</span><h3>Unit ${u.n} · ${esc(u.title)}</h3>
+      <span class="wk">${w1===w2?"الأسبوع "+w1:"الأسبوعان "+w1+" و"+w2} · الكلمات <bdi dir="ltr">${f+1}–${f+20}</bdi></span>
+      <span class="prev">${u.words.slice(0,6).map(w=>esc(w[0])).join(" · ")} …</span>
+      <span class="meter"><i style="width:${best*10}%"></i></span>
+      <span class="best"><span>20 words</span><span>Best test: ${best}/10</span></span>`;
+    b.onclick=()=>{sfx("page");openUnit(u)};grid.appendChild(b)});
+}
+$("q").oninput=()=>{const v=$("q").value.trim().toLowerCase(),R=$("fres");R.innerHTML="";if(!v)return;
+  const hits=[];UNITS.forEach(u=>u.words.forEach(w=>{if(w[0].startsWith(v))hits.push([w[0],u])}));
+  if(!hits.length){R.innerHTML='<span class="none">لم نجد هذه الكلمة في الوحدات.</span>';return}
+  hits.slice(0,12).forEach(([w,u])=>{const b=document.createElement("button");b.textContent=`${w} → Unit ${u.n}`;b.onclick=()=>{sfx("page");$("q").value="";R.innerHTML="";openUnit(u)};R.appendChild(b)})};
+$("back").onclick=()=>{sfx("page");renderHome()};
+function openUnit(u){U=u;$("home").hidden=true;$("unit").hidden=false;$("uTitle").innerHTML=`<small>Unit ${u.n}</small>${esc(u.title)}`;setStage("learn");window.scrollTo(0,0)}
+document.querySelectorAll(".stage").forEach(b=>b.onclick=()=>{sfx("page");setStage(b.dataset.s)});
+function setStage(s){stage=s;document.querySelectorAll(".stage").forEach(b=>b.setAttribute("aria-selected",b.dataset.s===s));renderStage()}
+function renderStage(){({learn:renderLearn,practice:renderPractice,read:renderRead,test:renderTest})[stage]()}
+const how=t=>`<p class="how"><span class="lbl">المطلوب</span>${t}</p>`;
+
+/* ---------- LEARN ---------- */
+function renderLearn(){
+  const P=$("panel");
+  P.innerHTML=how("اضغط على كل بطاقة لترى تعريف الكلمة"+(basic()?" ومعناها بالعربي":"")+" وجملة مثال."+(true?" عند فتح البطاقة تسمع نطق الكلمة، واضغط زر السماعة لتسمع الكلمة ثم الجملة. يمكنك اختيار اللهجة الأمريكية أو البريطانية من أعلى الصفحة. وزر Cambridge يفتح الكلمة في قاموس كامبريدج لتسمع نطقها بصوت بشري.":"")+" اقرأ الكلمات العشرين قبل الانتقال إلى التدريب.")+
+   `<div class="tools"><button class="btn alt" id="openAll">Show all · اكشف الكل</button><button class="btn alt" id="closeAll">Hide all · أخفِ الكل</button><button class="btn" id="sayAll">Listen to all · استمع لكل الكلمات</button></div><div class="cards" id="cards"></div>`;
+  const C=$("cards");
+  U.words.map(W).forEach(x=>{const d=document.createElement("div");d.className="fc";
+    d.innerHTML=`<button class="flip" aria-label="${esc(x.w)}"><span class="front-side"><span class="w">${esc(x.w)}</span><br><span class="pos">${POS[x.pos]}</span></span>
+      <span class="back-side"><span class="w" style="font-size:1.5rem">${esc(x.w)}</span><span class="def">${esc(x.def)}</span>${basic()?`<span class="arm">${esc(x.ar)}</span>`:""}<span class="ex">${esc(x.ex).replace(new RegExp("\\b("+x.w+")\\b","i"),"<b>$1</b>")}</span></span></button>
+      ${sayBtn(x.w+"||"+x.ex,x.w,"we","card")}${camLink(x.w,"oncard")}`;
+    d.querySelector(".flip").onclick=()=>{d.classList.toggle("open");if(d.classList.contains("open"))sayWord(x.w)};
+    C.appendChild(d)});
+  $("openAll").onclick=()=>C.querySelectorAll(".fc").forEach(c=>c.classList.add("open"));
+  $("closeAll").onclick=()=>C.querySelectorAll(".fc").forEach(c=>c.classList.remove("open"));
+  if($("sayAll"))$("sayAll").onclick=()=>speak(U.words.map(w=>[w[0],.75]));
+}
+
+/* ---------- PRACTICE ---------- */
+let pmode="match",tally={r:0,t:0};
+const MODES={match:["Match","طابق"],meaning:["Meaning","المعنى"],gap:["Fill the gap","أكمل الجملة"],spell:["Spell it","اكتب الكلمة"]};
+function renderPractice(){
+  const P=$("panel");
+  const H={match:basic()?"اضغط على كلمة إنجليزية ثم على معناها بالعربي. إن أخطأت ستتلوّن باللون الأحمر، فحاول مرة أخرى.":"اضغط على كلمة إنجليزية ثم على تعريفها الإنجليزي. إن أخطأت ستتلوّن باللون الأحمر، فحاول مرة أخرى.",
+    meaning:"اقرأ التعريف واختر الكلمة الصحيحة. بعد الإجابة يظهر لك التصحيح والشرح.",
+    gap:"اختر الكلمة التي تكمل الجملة. بعد الإجابة تظهر الجملة كاملة مع الشرح.",
+    spell:"اكتب الكلمة الإنجليزية بنفسك ثم اضغط Check. عدد الشرطات يساوي عدد الحروف، والحرف الأول ظاهر لمساعدتك."};
+  P.innerHTML=`<div class="modes">${Object.entries(MODES).map(([k,v])=>`<button class="mode" data-m="${k}" aria-pressed="${k===pmode}">${v[0]} · <span class="ar" style="display:inline">${v[1]}</span></button>`).join("")}<span class="tally" id="tally"></span></div>`+how(H[pmode])+`<div id="pz"></div>`;
+  P.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{pmode=b.dataset.m;renderPractice()});
+  showTally();({match:pMatch,meaning:pMeaning,gap:pGap,spell:pSpell})[pmode]();
+}
+function showTally(){const t=$("tally");if(t)t.textContent=`Correct ${tally.r} / ${tally.t}`}
+function count(ok){tally.t++;if(ok)tally.r++;showTally()}
+function explainHTML(x){return `<div class="explain"><span><b>${esc(x.w)}</b>${sayBtn(x.w+"||"+x.ex,x.w,"we")}${camLink(x.w,"inl")} (${x.pos}): ${esc(x.def)}</span>${basic()?`<span class="arm">${esc(x.ar)}</span>`:""}<span style="color:#38425e;font-style:italic">${esc(x.ex)}</span></div>`}
+function nextBtn(fn){return Object.assign(document.createElement("div"),{className:"row center",style:"margin-top:14px",innerHTML:'<button class="btn">Next · التالي</button>'}).firstChild.onclick=fn,null}
+function choiceRound(qHTML,ans,pool,after){
+  const Z=$("pz");Z.innerHTML=qHTML+`<div class="opts" id="opts"></div><div class="fb" id="fb"></div><div id="ex"></div><div class="row center" style="margin-top:14px"><button class="btn" id="nx" hidden>Next · التالي</button></div>`;
+  const opts=shuffle([ans,...shuffle(pool.filter(w=>w!==ans)).slice(0,3)]);let done=false;
+  opts.forEach(o=>{const b=document.createElement("button");b.className="opt";b.textContent=o;
+    b.onclick=()=>{if(done)return;done=true;const ok=o===ans;count(ok);
+      if(ok){b.classList.add("right");sayWord(ans);$("fb").textContent="Correct! أحسنت";$("fb").className="fb good"}
+      else{b.classList.add("wrong");[...$("opts").children].forEach(c=>{if(c.textContent===ans)c.classList.add("right")});$("fb").textContent="The right answer is: "+ans;$("fb").className="fb bad"}
+      $("ex").innerHTML=after();$("nx").hidden=false;$("nx").focus()};$("opts").appendChild(b)});
+}
+function pMeaning(){const ws=U.words.map(W),x=ws[Math.floor(Math.random()*ws.length)];
+  choiceRound(`<div class="q"><span class="k">Definition</span>${esc(x.def)}</div>`,x.w,ws.map(w=>w.w),()=>explainHTML(x));$("nx").onclick=pMeaning}
+function pGap(){const ws=U.words.map(W),x=ws[Math.floor(Math.random()*ws.length)];
+  choiceRound(`<div class="q"><span class="k">Complete the sentence</span>${esc(blankEx(x)).replace("\u0000",'<span class="blank">&nbsp;</span>')}</div>`,x.w,ws.map(w=>w.w),()=>explainHTML(x));$("nx").onclick=pGap}
+function pSpell(){const ws=U.words.map(W),x=ws[Math.floor(Math.random()*ws.length)];const Z=$("pz");
+  Z.innerHTML=`<div class="q"><span class="k">Write the word</span>${esc(x.def)}</div>${basic()?`<p class="hint">${esc(x.ar)}</p>`:""}
+   <div class="dots">${x.w[0].toUpperCase()} ${"_ ".repeat(x.w.length-1)}</div>
+   <div class="row center" style="margin-bottom:12px"><button type="button" class="btn alt" id="lis">Listen · استمع للكلمة</button></div>
+   <form class="spell" id="sf"><input id="sp" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Type the word"><button class="btn">Check</button></form>
+   <div class="fb" id="fb"></div><div id="ex"></div><div class="row center" style="margin-top:14px"><button class="btn" id="nx" hidden>Next · التالي</button></div>`;
+  let tries=0,done=false;$("sp").focus();if($("lis"))$("lis").onclick=()=>speak([[x.w,.7]]);
+  $("sf").onsubmit=e=>{e.preventDefault();if(done)return;const v=$("sp").value.trim().toLowerCase();if(!v)return;tries++;
+    if(v===x.w){done=true;count(true);sfx("good");sayWord(x.w);$("fb").textContent="Correct spelling! أحسنت";$("fb").className="fb good";$("ex").innerHTML=explainHTML(x);$("nx").hidden=false}
+    else if(tries<2){sfx("bad");$("fb").textContent="Not quite. Check the letters and try once more · راجع الحروف وحاول مرة أخرى";$("fb").className="fb bad"}
+    else{done=true;count(false);sfx("bad");$("fb").textContent="The correct spelling is: "+x.w;$("fb").className="fb bad";$("ex").innerHTML=explainHTML(x);$("nx").hidden=false}};
+  $("nx").onclick=pSpell}
+function pMatch(){const ws=shuffle(U.words.map(W)).slice(0,5);const Z=$("pz");
+  Z.innerHTML=`<div class="match"><div class="col" id="mL"></div><div class="col" id="mR"></div></div><div class="fb" id="fb"></div><div class="row center"><button class="btn" id="nx" hidden>New round · جولة جديدة</button></div>`;
+  let sel=null,left=5,miss=0;
+  ws.forEach(x=>{const b=document.createElement("button");b.className="tile big";b.textContent=x.w;b.dataset.k=x.w;
+    b.onclick=()=>{if(b.classList.contains("done"))return;$("mL").querySelectorAll(".tile").forEach(t=>t.classList.remove("sel"));b.classList.add("sel");sel=b;sayWord(x.w)};$("mL").appendChild(b)});
+  shuffle(ws).forEach(x=>{const b=document.createElement("button");b.className="tile"+(basic()?" artxt big":"");b.textContent=basic()?x.ar:x.def;b.dataset.k=x.w;
+    b.onclick=()=>{if(b.classList.contains("done"))return;
+      if(!sel){$("fb").textContent="Choose an English word first · اختر كلمة إنجليزية أولًا";$("fb").className="fb bad";return}
+      if(sel.dataset.k===b.dataset.k){sel.classList.remove("sel");sel.classList.add("done");b.classList.add("done");sel=null;left--;$("fb").textContent="Correct!";$("fb").className="fb good";
+        if(left===0){sfx("win");tally.t+=5+miss;tally.r+=5;showTally();$("fb").textContent=miss?`All matched with ${miss} mistake${miss>1?"s":""}.`:"Perfect round! جولة كاملة بدون أخطاء";$("nx").hidden=false}}
+      else{miss++;b.classList.add("oops");$("fb").textContent="Try again · حاول مرة أخرى";$("fb").className="fb bad";setTimeout(()=>b.classList.remove("oops"),500)}};
+    $("mR").appendChild(b)});
+  $("nx").onclick=pMatch}
+
+/* ---------- READ ---------- */
+function renderRead(){
+  const P=$("panel"),st=U.story;
+  P.innerHTML=how("اقرأ القصة واملأ الفراغات بالترتيب. الفراغ الأصفر هو المطلوب الآن؛ اختر كلمته من البنك. بعد إكمال القصة أجب عن أسئلة صح أو خطأ.")+
+    `<h3 style="margin-bottom:8px">${esc(U.title)}</h3><div class="story" id="stx"></div><div class="bank" id="bank"></div><div class="fb" id="fb"></div><div class="tf" id="tf" hidden></div>`;
+  const T=$("stx"),gaps=[];
+  st.x.split(/(\{[^}]+\})/).forEach(seg=>{const m=seg.match(/^\{(.+)\}$/);
+    if(m){const g=document.createElement("span");g.className="gap";g.dataset.w=m[1];g.textContent="("+(gaps.length+1)+")";gaps.push(g);T.appendChild(g)}else T.appendChild(document.createTextNode(seg))});
+  let gi=0;gaps[0].classList.add("cur");
+  shuffle(gaps.map(g=>g.dataset.w)).forEach(w=>{const b=document.createElement("button");b.className="chipw";b.textContent=w;
+    b.onclick=()=>{if(b.disabled||gi>=gaps.length)return;const g=gaps[gi];
+      if(w===g.dataset.w){g.textContent=w;g.classList.remove("cur");g.classList.add("filled");b.disabled=true;gi++;
+        if(gi<gaps.length){gaps[gi].classList.add("cur");$("fb").textContent="Correct!";$("fb").className="fb good"}
+        else{sfx("win");$("fb").textContent="Story complete! أكملت القصة، أجب الآن عن الأسئلة";$("fb").className="fb good";
+          {const r=document.createElement("div");r.className="row center";r.style.marginBottom="8px";r.innerHTML=`<button class="btn alt" data-say="${esc(st.x.replace(/\{([^}]+)\}/g,"$1"))}" data-mode="t">Listen to the story · استمع للقصة</button>`;$("fb").after(r)}
+          showTF()}}
+      else{b.classList.add("shake");setTimeout(()=>b.classList.remove("shake"),450);$("fb").textContent="Not this one. Read the sentence again · اقرأ الجملة مرة أخرى";$("fb").className="fb bad"}};
+    $("bank").appendChild(b)});
+  function showTF(){const F=$("tf");F.hidden=false;F.innerHTML="<h3>True or False? · صح أم خطأ؟</h3>";
+    st.tf.forEach(([q,a])=>{const r=document.createElement("div");r.className="tfrow";r.innerHTML=`<p>${esc(q)}</p>`;let done=false;
+      [["True",true],["False",false]].forEach(([l,v])=>{const b=document.createElement("button");b.className="opt";b.textContent=l;
+        b.onclick=()=>{if(done)return;done=true;if(v===a)b.classList.add("right");else{b.classList.add("wrong");[...r.querySelectorAll(".opt")].forEach(o=>{if(o.textContent===(a?"True":"False"))o.classList.add("right")})}};r.appendChild(b)});
+      F.appendChild(r)})}
+}
+
+/* ---------- TEST ---------- */
+function buildTest(){const ws=shuffle(U.words.map(W)).slice(0,10),all=U.words.map(w=>w[0]);
+  return ws.map((x,i)=>{const kind=i<4?"meaning":i<8?"gap":"arabic";
+    const q=kind==="meaning"?`<span class="k">Definition</span>${esc(x.def)}`:kind==="gap"?`<span class="k">Complete the sentence</span>${esc(blankEx(x)).replace("\u0000",'<span class="blank">&nbsp;</span>')}`:`<span class="k">Which English word means</span><span class="ar" style="display:block;text-align:center">${esc(x.ar)}</span>`;
+    const rq=kind==="meaning"?esc(x.def):kind==="gap"?esc(blankEx(x)).replace("\u0000","_____"):"Which word means: <span class=\"ar\" style=\"display:inline\">"+esc(x.ar)+"</span>";
+    return {x,q,rq,opts:shuffle([x.w,...shuffle(all.filter(w=>w!==x.w)).slice(0,3)]),ans:x.w,pick:null}}).sort(()=>Math.random()-.5)}
+function renderTest(){
+  const P=$("panel");let T=buildTest(),i=0;
+  P.innerHTML=how("عشرة أسئلة متنوعة من كلمات الوحدة. اختر إجابتك ثم اضغط التالي. لا يظهر التصحيح إلا في النهاية، ثم ترى درجتك ومراجعة لكل سؤال. إذا حصلت على 8 من 10 أو أكثر تنال شارة الوحدة.")+`<div id="tz"></div>`;
+  const Z=$("tz");
+  function q(){const t=T[i];Z.innerHTML=`<div class="tprog"><i style="width:${i*10}%"></i></div><div class="row" style="justify-content:space-between"><span class="tally" style="margin:0">Question ${i+1} / 10</span></div>
+    <div class="q">${t.q}</div><div class="opts" id="opts"></div><div class="row center" style="margin-top:16px"><button class="btn" id="tn" disabled>${i<9?"Next · التالي":"Finish · إنهاء"}</button></div>`;
+    t.opts.forEach(o=>{const b=document.createElement("button");b.className="opt";b.textContent=o;
+      b.onclick=()=>{t.pick=o;$("opts").querySelectorAll(".opt").forEach(c=>c.classList.toggle("pick",c===b));$("tn").disabled=false};$("opts").appendChild(b)});
+    $("tn").onclick=()=>{i++;i<10?q():end()}}
+  function end(){const s=T.filter(t=>t.pick===t.ans).length;const prev=+(store.get("wq-best-"+U.n)||0);if(s>prev)store.set("wq-best-"+U.n,String(s));
+    sfx(s>=8?"win":"soft");const msg=s===10?"ممتاز! درجة كاملة":s>=8?"رائع! حصلت على شارة الوحدة":s>=6?"جيد، راجع الكلمات التي أخطأت فيها وأعد المحاولة":"راجع مرحلتي تعرّف وتدرّب ثم أعد الاختبار";
+    Z.innerHTML=`<div class="score"><span class="big" style="color:${s>=8?"var(--good)":s>=6?"#c98500":"var(--bad)"}">${s} / 10</span><span class="msg ar" style="text-align:center">${msg}</span>${s>=8?'<span class="badge" style="position:static;transform:rotate(-3deg)">Unit '+U.n+' Badge</span>':""}</div>
+      <h3 style="margin-bottom:8px">Review · المراجعة</h3><div class="review" id="rv"></div><div class="row center" style="margin-top:16px"><button class="btn" id="again">Try again · أعد الاختبار</button></div>`;
+    T.forEach((t,k)=>{const ok=t.pick===t.ans;const d=document.createElement("div");d.className="rv "+(ok?"ok":"no");
+      d.innerHTML=`<span><b>${k+1}.</b> ${t.rq}</span><span style="display:flex;align-items:center;gap:4px;font-weight:700">${esc(t.ans)}${sayBtn(t.x.w+"||"+t.x.ex,t.x.w,"we")}${camLink(t.x.w,"inl")}</span>
+        <span class="yours">${ok?"✓ ":"✗ "}Your answer: ${esc(t.pick)}${ok?"":" · Correct: "+esc(t.ans)}</span>${ok?"":`<span style="color:#38425e">${esc(t.x.w)}: ${esc(t.x.def)}${basic()?" · "+esc(t.x.ar):""}</span>`}`;
+      $("rv").appendChild(d)});
+    $("again").onclick=renderTest}
+  q();
+}
+
+renderHome();
+})();
+</script>
+
+<a href="../index.html" class="site-home" aria-label="الصفحة الرئيسية" style="position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:10px;z-index:999;background:#ffffff;color:#2f3a55;border:2px solid #dfe5f1;border-radius:999px;padding:6px 14px;font:700 15px Tajawal,system-ui,sans-serif;text-decoration:none;box-shadow:0 4px 14px -6px rgba(0,0,0,.25)">🏠 الرئيسية</a>

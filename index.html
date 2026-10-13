@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>نادي اللغة الإنجليزية · ثانوية الأمير فيصل</title>
+<meta name="description" content="ألعاب ومنصات تعلّم ذاتي للغة الإنجليزية: بوابة الكبسولات، ورحلة التعلّم الذاتي، وميدان المفردات.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@500;700&display=swap">
+<style>
+/* Layout: a school "club noticeboard" home — one header, then three shelves of game cards; light pastel per collection. */
+:root{
+  color-scheme:light;
+  --paper:#fafbff; --card:#ffffff; --ink:#26304a; --muted:#5d6782; --line:#e2e7f2;
+  --violet:#6d4aff; --violet-soft:#efeaff; --teal:#13896f; --teal-soft:#e6f7f1; --sun:#b07c06; --sun-soft:#fff6dd;
+  --ar:"Tajawal","Segoe UI",Tahoma,sans-serif; --en:"Lexend","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper)}
+body{color:var(--ink);font-family:var(--ar);font-size:19px;line-height:1.7;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.wrap{max-width:1000px;margin:0 auto;padding-inline:16px;padding-block:28px 60px}
+a{color:inherit}
+a:focus-visible{outline:3px solid var(--violet);outline-offset:3px;border-radius:12px}
+header{text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;padding-block:10px 18px}
+.chip{background:var(--violet-soft);color:var(--violet);font-weight:800;font-size:.95rem;border-radius:999px;padding:4px 18px}
+h1{font-size:clamp(2.1rem,7vw,3.4rem);font-weight:800;line-height:1.15;margin:4px 0 0;text-wrap:balance}
+.sub{margin:0;color:var(--muted);font-size:1.12rem;max-width:36em;text-wrap:balance}
+.shelf{margin-top:30px}
+.shelf h2{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:1.55rem;font-weight:800;margin:0 0 12px;padding:10px 18px;border-radius:18px}
+.shelf h2 span{font-size:1rem;font-weight:500;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.card{display:flex;flex-direction:column;gap:4px;text-decoration:none;background:var(--card);border:2px solid var(--line);border-radius:20px;padding:14px 16px;transition:transform .15s,border-color .15s}
+.card:hover{transform:translateY(-2px);border-color:var(--c,var(--violet))}
+.card .ic{font-size:2rem;line-height:1.2}
+.card b{font-size:1.2rem;font-weight:800;color:var(--c,var(--ink))}
+.card .en{font-family:var(--en);font-size:.9rem;color:var(--muted);direction:ltr;text-align:right}
+.card p{margin:2px 0 0;font-size:.98rem;color:var(--muted);line-height:1.6}
+.card.wide{grid-column:1/-1;flex-direction:row;align-items:center;gap:16px}
+.card.wide .ic{font-size:2.6rem}
+.go{margin-inline-start:auto;font-weight:800;color:var(--c);white-space:nowrap}
+footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
+@media (max-width:560px){.card.wide{flex-wrap:wrap}.go{margin-inline-start:0}}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="chip">ثانوية الأمير فيصل بالعقيق</span>
+    <h1>نادي اللغة الإنجليزية</h1>
+    <p class="sub">ألعاب ومنصات للتعلّم الذاتي: تدرّب كل يوم قليلاً، واجمع النجوم، وتقدّم بخطوات ثابتة.</p>
+  </header>
+
+  <section class="shelf" aria-labelledby="s1">
+    <h2 id="s1" style="background:var(--violet-soft);color:var(--violet)">بوابة الكبسولات <span>8 كبسولات · جمل ومعانٍ · مراحل ونجوم</span></h2>
+    <div class="grid">
+      <a class="card wide" href="capsules/index.html" style="--c:var(--violet)"><span class="ic" aria-hidden="true">🌟</span><div><b>بوابة الكبسولات</b><p>اختر كبسولتك من الثماني، والعب مراحلها وراجع أخطاءك.</p></div><span class="go">ادخل البوابة ←</span></a>
+      <a class="card" href="capsules/space.html" style="--c:#6d4aff"><span class="ic" aria-hidden="true">🚀</span><b>كبسولة الفضاء</b><span class="en">Space</span></a>
+      <a class="card" href="capsules/flavor.html" style="--c:#c25a20"><span class="ic" aria-hidden="true">🍊</span><b>كبسولة النكهة</b><span class="en">Flavor</span></a>
+      <a class="card" href="capsules/life.html" style="--c:#7d47c4"><span class="ic" aria-hidden="true">🦋</span><b>كبسولة الحياة</b><span class="en">Life</span></a>
+      <a class="card" href="capsules/adventure.html" style="--c:#2477b5"><span class="ic" aria-hidden="true">🎈</span><b>كبسولة المغامرة</b><span class="en">Adventure</span></a>
+      <a class="card" href="capsules/emotion.html" style="--c:#9a7200"><span class="ic" aria-hidden="true">💛</span><b>كبسولة المشاعر</b><span class="en">Emotions</span></a>
+      <a class="card" href="capsules/career.html" style="--c:#2f5fa8"><span class="ic" aria-hidden="true">🎓</span><b>كبسولة المسيرة</b><span class="en">Career</span></a>
+      <a class="card" href="capsules/nature.html" style="--c:#1d7a50"><span class="ic" aria-hidden="true">🌍</span><b>كبسولة الطبيعة</b><span class="en">Nature</span></a>
+      <a class="card" href="capsules/health.html" style="--c:#13807f"><span class="ic" aria-hidden="true">🩺</span><b>كبسولة التعافي</b><span class="en">Health</span></a>
+    </div>
+  </section>
+
+  <section class="shelf" aria-labelledby="s2">
+    <h2 id="s2" style="background:var(--teal-soft);color:var(--teal)">رحلة التعلّم الذاتي <span>1000 كلمة في 20 أسبوعاً</span></h2>
+    <div class="grid">
+      <a class="card" href="journey/word-quest.html" style="--c:#2f6fd6"><span class="ic" aria-hidden="true">🗺️</span><b>English Word Quest</b><p>50 وحدة: تعرّف، وتدرّب، واقرأ القصة، واختبر نفسك.</p></a>
+      <a class="card" href="journey/dictionary.html" style="--c:#13896f"><span class="ic" aria-hidden="true">📖</span><b>قاموس رحلة الألف كلمة</b><p>المعنى والنوع والنطق وأمثلة لكل كلمة، بالأسبوع واليوم.</p></a>
+      <a class="card" href="journey/conversation-lab.html" style="--c:#c9573a"><span class="ic" aria-hidden="true">💬</span><b>مختبر المحادثة</b><p>20 محادثة: استمع، وأجب، واقرأ النص، ثم مثّل الدور.</p></a>
+    </div>
+  </section>
+
+  <section class="shelf" aria-labelledby="s3">
+    <h2 id="s3" style="background:var(--sun-soft);color:var(--sun)">ميدان المفردات <span>مفردات Mega Goal</span></h2>
+    <div class="grid">
+      <a class="card" href="vocab/mega-goal-1.html" style="--c:#b07c06"><span class="ic" aria-hidden="true">🏟️</span><b>ميدان المفردات 1</b><span class="en">Mega Goal 1.1</span></a>
+      <a class="card" href="vocab/mega-goal-2.html" style="--c:#b07c06"><span class="ic" aria-hidden="true">🏆</span><b>ميدان المفردات 2</b><span class="en">Mega Goal 2.1</span></a>
+    </div>
+  </section>
+
+  <footer>إعداد: أ. أحمد السالم — معلم اللغة الإنجليزية، ثانوية الأمير فيصل بالعقيق</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,693 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>بوابة الكبسولات</title>
+<meta name="theme-color" content="#181229">
+<style>
+  :root{
+    --bg:#181229;
+    --panel:#211a38;
+    --ink:#f3eeff;
+    --ink-soft:#a89ecf;
+    --line:#352b57;
+
+    --space-a:#2a2058;
+    --space-b:#4a3aa0;
+    --space-accent:#9c85ff;
+
+    --flavor-a:#5c3320;
+    --flavor-b:#c8642c;
+    --flavor-accent:#f3a35c;
+
+    --life-a:#2a2140;
+    --life-b:#5a4390;
+    --life-accent:#c6a8ff;
+
+    --adv-a:#1c5680;
+    --adv-b:#4fa8d8;
+    --adv-accent:#f0a83c;
+
+    --emo-a:#3d2a5c;
+    --emo-b:#7a4fa0;
+    --emo-accent:#f0d24a;
+
+    --career-a:#0f2540;
+    --career-b:#2f7fb0;
+    --career-accent:#d9a441;
+
+    --nature-a:#0a2e28;
+    --nature-b:#2f9e6a;
+    --nature-accent:#5cd69c;
+
+    --health-a:#0a2c2c;
+    --health-b:#2f9e9e;
+    --health-accent:#5cd6d6;
+    color-scheme: dark;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(900px 500px at 15% -10%, rgba(156,133,255,.16), transparent 60%),
+      radial-gradient(900px 500px at 90% 110%, rgba(243,163,92,.12), transparent 60%),
+      var(--bg);
+    color:var(--ink);
+    font-family:"Tajawal","Nunito",system-ui,sans-serif;
+    direction:rtl;
+    padding-inline:16px;
+    padding-block: max(36px, env(safe-area-inset-top,0px)) max(36px, env(safe-area-inset-bottom,0px));
+    min-height:100%;
+  }
+  .wrap{max-width:1400px;margin:0 auto;}
+
+  header{text-align:center; margin-bottom:34px;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(156,133,255,.12);
+    border:1px solid rgba(156,133,255,.35);
+    color:#c9bcff;
+    font-size:.85rem; font-weight:500;
+    padding:6px 16px; border-radius:999px;
+    margin-bottom:16px;
+  }
+  h1{
+    font-family:"Baloo Bhaijaan 2","Tajawal",sans-serif;
+    font-size:clamp(1.7rem,5vw,2.4rem);
+    margin:0 0 10px;
+    text-wrap:balance;
+  }
+  header p{
+    color:var(--ink-soft);
+    font-size:1rem;
+    margin:0;
+    line-height:1.7;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+  }
+  @media (max-width:1500px){
+    .grid{grid-template-columns:repeat(3,1fr);}
+  }
+  @media (max-width:900px){
+    .grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:680px){
+    .grid{grid-template-columns:1fr;}
+  }
+
+  .capsule{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    border-radius:26px;
+    padding:0;
+    overflow:hidden;
+    border:1px solid var(--line);
+    background:var(--panel);
+    text-decoration:none;
+    color:inherit;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .capsule:hover{
+    transform:translateY(-4px);
+    box-shadow:0 22px 46px -20px rgba(0,0,0,.55);
+  }
+  .capsule:active{transform:translateY(-1px);}
+
+  .scene{
+    position:relative;
+    aspect-ratio:16/10;
+    width:100%;
+    overflow:hidden;
+  }
+  .scene canvas{position:absolute;inset:0;width:100%;height:100%;display:block;}
+  .scene .glow{
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, transparent 40%, rgba(0,0,0,.35) 100%);
+  }
+
+  .capsule.space .scene{background:linear-gradient(155deg,var(--space-a),var(--space-b));}
+  .capsule.flavor .scene{background:linear-gradient(155deg,var(--flavor-a),var(--flavor-b));}
+  .capsule.life .scene{background:linear-gradient(155deg,var(--life-a),var(--life-b));}
+  .capsule.adventure .scene{background:linear-gradient(155deg,var(--adv-a),var(--adv-b));}
+  .capsule.emotion .scene{background:linear-gradient(155deg,var(--emo-a),var(--emo-b));}
+  .capsule.career .scene{background:linear-gradient(155deg,var(--career-a),var(--career-b));}
+  .capsule.nature .scene{background:linear-gradient(155deg,var(--nature-a),var(--nature-b));}
+  .capsule.health .scene{background:linear-gradient(155deg,var(--health-a),var(--health-b));}
+
+  .body{
+    padding:22px 24px 26px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    flex:1;
+  }
+  .name{
+    font-family:"Baloo Bhaijaan 2","Tajawal",sans-serif;
+    font-size:1.35rem;
+    font-weight:700;
+    margin:0;
+  }
+  .tagline{
+    color:var(--ink-soft);
+    font-size:.92rem;
+    line-height:1.7;
+    margin:0;
+    flex:1;
+  }
+  .meta-row{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:2px;
+  }
+  .chip{
+    font-size:.72rem;
+    font-weight:600;
+    padding:4px 11px;
+    border-radius:999px;
+    background:rgba(255,255,255,.07);
+    color:var(--ink-soft);
+    border:1px solid var(--line);
+  }
+  .cta{
+    margin-top:12px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    border-radius:999px;
+    padding:12px 20px;
+    font-weight:700;
+    font-size:.95rem;
+    color:#171029;
+  }
+  .capsule.space .cta{background:linear-gradient(180deg,#c1b0ff,var(--space-accent));}
+  .capsule.flavor .cta{background:linear-gradient(180deg,#ffcf9e,var(--flavor-accent));}
+  .capsule.life .cta{background:linear-gradient(180deg,#e6d6ff,var(--life-accent));}
+  .capsule.adventure .cta{background:linear-gradient(180deg,#ffe0b3,var(--adv-accent));}
+  .capsule.emotion .cta{background:linear-gradient(180deg,#f7e6a3,var(--emo-accent));}
+  .capsule.career .cta{background:linear-gradient(180deg,#ffe4ad,var(--career-accent));}
+  .capsule.nature .cta{background:linear-gradient(180deg,#bdf0d4,var(--nature-accent));}
+  .capsule.health .cta{background:linear-gradient(180deg,#bdf0f0,var(--health-accent));}
+
+  footer{
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:.82rem;
+    margin-top:38px;
+    line-height:1.8;
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">🎓 كبسولات اللغة الإنجليزية</span>
+    <h1>اختر كبسولتك</h1>
+    <p>تدرّب على الجمل الإنجليزية والمعاني العربية — استمع، اختر، واحصل على أعلى سلسلة إجابات صحيحة.</p>
+  </header>
+
+  <div class="grid">
+    <a class="capsule space" href="space.html">
+      <div class="scene">
+        <canvas id="spaceCanvas"></canvas>
+        <div class="glow"></div>
+      </div>
+      <div class="body">
+        <h2 class="name">كبسولة الفضاء 🚀</h2>
+        <p class="tagline">جمل عن رواد الفضاء والمركبات والمجرات — رحلة استكشاف بين النجوم.</p>
+        <div class="meta-row">
+          <span class="chip">A1–B1</span>
+          <span class="chip">قواعد متنوعة</span>
+        </div>
+        <span class="cta">ابدأ الرحلة ▶</span>
+      </div>
+    </a>
+
+    <a class="capsule flavor" href="flavor.html">
+      <div class="scene">
+        <canvas id="flavorCanvas"></canvas>
+        <div class="glow"></div>
+      </div>
+      <div class="body">
+        <h2 class="name">كبسولة النكهة 🍊</h2>
+        <p class="tagline">جمل عن الطعام والمطاعم والطبخ والتذوق — تراكيب من الحياة اليومية.</p>
+        <div class="meta-row">
+          <span class="chip">A1–B1</span>
+          <span class="chip">قواعد متنوعة</span>
+        </div>
+        <span class="cta">ابدأ التذوق ▶</span>
+      </div>
+    </a>
+
+    <a class="capsule life" href="life.html">
+      <div class="scene">
+        <canvas id="lifeCanvas"></canvas>
+        <div class="glow"></div>
+      </div>
+      <div class="body">
+        <h2 class="name">كبسولة الحياة 🦋</h2>
+        <p class="tagline">جمل عن العائلة والأصدقاء والحياة والميلاد — رحلة إنسانية دافئة.</p>
+        <div class="meta-row">
+          <span class="chip">A1–B1</span>
+          <span class="chip">قواعد متنوعة</span>
+        </div>
+        <span class="cta">ابدأ الرحلة ▶</span>
+      </div>
+    </a>
+
+    <a class="capsule adventure" href="adventure.html">
+      <div class="scene">
+        <canvas id="advCanvas"></canvas>
+        <div class="glow"></div>
+      </div>
+      <div class="body">
+        <h2 class="name">كبسولة المغامرة 🎈</h2>
+        <p class="tagline">جمل عن السفر والطيران والانتقال والتخييم والكشافة — رحلة مليئة بالإثارة.</p>
+        <div class="meta-row">
+          <span class="chip">A1–B1</span>
+          <span class="chip">قواعد متنوعة</span>
+        </div>
+        <span class="cta">انطلق بالمغامرة ▶</span>
+      </div>
+    </a>
+
+    <a class="capsule emotion" href="emotion.html">
+      <div class="scene">
+        <canvas id="emotionCanvas"></canvas>
+        <div class="glow"></div>
+      </div>
+      <div class="body">
+        <h2 class="name">كبسولة المشاعر 🎈</h2>
+        <p class="tagline">جمل عن المشاعر والانفعالات والتعبير عنها — رحلة داخل عالم العواطف.</p>
+        <div class="meta-row">
+          <span class="chip">A1–B1</span>
+          <span class="chip">قواعد متنوعة</span>
+        </div>
+        <span class="cta">استكشف مشاعرك ▶</span>
+      </div>
+    </a>
+
+    <a class="capsule career" href="career.html">
+      <div class="scene">
+        <canvas id="careerCanvas"></canvas>
+        <div class="glow"></div>
+      </div>
+      <div class="body">
+        <h2 class="name">كبسولة المسيرة 🎓</h2>
+        <p class="tagline">جمل عن التعلم والتعليم والعمل والوظائف والتقاعد — رحلة مهنية متكاملة.</p>
+        <div class="meta-row">
+          <span class="chip">A1–B1</span>
+          <span class="chip">قواعد متنوعة</span>
+        </div>
+        <span class="cta">ابدأ المسيرة ▶</span>
+      </div>
+    </a>
+    <a class="capsule nature" href="nature.html">
+      <div class="scene">
+        <canvas id="natureCanvas"></canvas>
+        <div class="glow"></div>
+      </div>
+      <div class="body">
+        <h2 class="name">كبسولة الطبيعة 🌍</h2>
+        <p class="tagline">جمل عن الطبيعة والحيوانات والبيئة وتغيّر المناخ — رحلة خضراء لحماية كوكبنا.</p>
+        <div class="meta-row">
+          <span class="chip">A1–B1</span>
+          <span class="chip">قواعد متنوعة</span>
+        </div>
+        <span class="cta">استكشف الطبيعة ▶</span>
+      </div>
+    </a>
+    <a class="capsule health" href="health.html">
+      <div class="scene">
+        <canvas id="healthCanvas"></canvas>
+        <div class="glow"></div>
+      </div>
+      <div class="body">
+        <h2 class="name">كبسولة التعافي 🩺</h2>
+        <p class="tagline">جمل عن الصحة والمستشفيات والأطباء والدواء والعافية — رحلة نحو التعافي والاستجمام.</p>
+        <div class="meta-row">
+          <span class="chip">A1–B1</span>
+          <span class="chip">قواعد متنوعة</span>
+        </div>
+        <span class="cta">اعتنِ بصحتك ▶</span>
+      </div>
+    </a>
+  </div>
+
+  <footer>إعداد: أحمد السالم — معلم اللغة الإنجليزية، ثانوية الأمير فيصل، العقيق</footer>
+</div>
+
+<script>
+(function(){
+  function mulberry32(a){
+    return function(){
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function fit(canvas){
+    var w = canvas.clientWidth, h = canvas.clientHeight;
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = w*dpr; canvas.height = h*dpr;
+    var ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    return {ctx:ctx, w:w, h:h};
+  }
+
+  function drawSpace(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h;
+    var rand = mulberry32(42);
+    for (var i=0;i<60;i++){
+      var x = rand()*w, y = rand()*h*0.85, r = rand()*1.6+0.3;
+      ctx.globalAlpha = 0.35 + rand()*0.6;
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    var px = w*0.32, py = h*0.62, pr = Math.min(w,h)*0.24;
+    var grad = ctx.createRadialGradient(px-pr*0.3,py-pr*0.3,pr*0.15,px,py,pr);
+    grad.addColorStop(0,"#c9a8ff");
+    grad.addColorStop(1,"#5a2f9e");
+    ctx.fillStyle = grad;
+    ctx.beginPath(); ctx.arc(px,py,pr,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle = "rgba(255,255,255,.35)";
+    ctx.lineWidth = pr*0.07;
+    ctx.beginPath();
+    ctx.ellipse(px,py,pr*1.5,pr*0.35, -0.3, 0, Math.PI*2);
+    ctx.stroke();
+    var sx = w*0.74, sy = h*0.28;
+    ctx.fillStyle = "rgba(255,255,255,.9)";
+    ctx.beginPath();
+    ctx.moveTo(sx-13,sy); ctx.lineTo(sx+13,sy); ctx.lineTo(sx,sy-15);
+    ctx.closePath(); ctx.fill();
+  }
+
+  function drawFlavor(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h;
+    var rand = mulberry32(7);
+    for (var i=0;i<20;i++){
+      var x = rand()*w, y = rand()*h*0.9, r = rand()*2+0.6;
+      ctx.globalAlpha = 0.25 + rand()*0.4;
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    var cx = w*0.3, cy = h*0.64, cr = Math.min(w,h)*0.26;
+    ctx.fillStyle = "#f3c26b";
+    ctx.beginPath(); ctx.arc(cx,cy,cr,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = "#d9531f";
+    ctx.beginPath(); ctx.arc(cx,cy,cr*0.82,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = "rgba(255,247,225,.92)";
+    ctx.beginPath(); ctx.arc(cx,cy,cr*0.68,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle = "rgba(232,98,44,.55)";
+    ctx.lineWidth = Math.max(1, cr*0.05);
+    for (var s=0; s<8; s++){
+      var ang = (Math.PI*2/8)*s;
+      ctx.beginPath();
+      ctx.moveTo(cx,cy);
+      ctx.lineTo(cx + Math.cos(ang)*cr*0.65, cy + Math.sin(ang)*cr*0.65);
+      ctx.stroke();
+    }
+    var bx = w*0.74, by = h*0.3, br = Math.min(w,h)*0.2;
+    ctx.fillStyle = "rgba(255,255,255,.92)";
+    ctx.beginPath();
+    ctx.ellipse(bx, by+br*0.35, br, br*0.55, 0, 0, Math.PI, false);
+    ctx.fill();
+    ctx.fillStyle = "rgba(224,150,70,.6)";
+    ctx.beginPath();
+    ctx.ellipse(bx, by, br*0.82, br*0.28, 0, 0, Math.PI*2);
+    ctx.fill();
+  }
+
+  function drawLife(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h;
+    var rand = mulberry32(19);
+
+    var mx = w*0.72, my = h*0.28, mr = Math.min(w,h)*0.22;
+    var moonGlow = ctx.createRadialGradient(mx,my,mr*0.2,mx,my,mr*2.1);
+    moonGlow.addColorStop(0,'rgba(255,250,235,.5)');
+    moonGlow.addColorStop(1,'rgba(255,250,235,0)');
+    ctx.fillStyle = moonGlow;
+    ctx.beginPath(); ctx.arc(mx,my,mr*2.1,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,251,240,.92)';
+    ctx.beginPath(); ctx.arc(mx,my,mr,0,Math.PI*2); ctx.fill();
+
+    for (var i=0;i<26;i++){
+      var x = rand()*w, y = rand()*h*0.9, r = rand()*2+0.7;
+      ctx.globalAlpha = 0.3 + rand()*0.55;
+      ctx.fillStyle = "#ffe9a8";
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    var bx = w*0.3, by = h*0.66, bs = Math.min(w,h)*0.2;
+    ctx.save();
+    ctx.translate(bx,by);
+    ctx.rotate(-0.12);
+    var wingGrad = ctx.createRadialGradient(0,0,bs*0.05,0,0,bs);
+    wingGrad.addColorStop(0,'rgba(200,170,255,.9)');
+    wingGrad.addColorStop(1,'rgba(140,110,210,.4)');
+    ctx.fillStyle = wingGrad;
+    ctx.beginPath();
+    ctx.ellipse(-bs*0.55, -bs*0.15, bs*0.55, bs*0.4, -0.4, 0, Math.PI*2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(-bs*0.4, bs*0.35, bs*0.4, bs*0.28, 0.3, 0, Math.PI*2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(bs*0.55, -bs*0.15, bs*0.55, bs*0.4, 0.4, 0, Math.PI*2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(bs*0.4, bs*0.35, bs*0.4, bs*0.28, -0.3, 0, Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,.85)';
+    ctx.beginPath();
+    ctx.ellipse(0,0, bs*0.06, bs*0.42, 0, 0, Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawAdventure(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h;
+    var rand = mulberry32(31);
+
+    for (var c=0;c<3;c++){
+      var cx = rand()*w, cy = h*(0.1+rand()*0.3), cr = Math.min(w,h)*(0.09+rand()*0.05);
+      ctx.globalAlpha = 0.55 + rand()*0.25;
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath(); ctx.ellipse(cx,cy,cr*1.4,cr*0.7,0,0,Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(cx-cr*0.9,cy+cr*0.15,cr*0.9,cr*0.55,0,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    var hx = w*0.34, hy = h*0.7, hs = Math.min(w,h)*0.22;
+    var colors = ["#e2572b","#f0a83c","#2f9e8f","#e2572b","#f0d24a"];
+    var strands = 5;
+    for (var i=0;i<strands;i++){
+      var ang = -Math.PI/2 + (i - (strands-1)/2)*0.24;
+      var bx = hx + Math.cos(ang)*hs*1.5;
+      var by = hy - hs*0.6 + Math.sin(ang)*hs*1.5;
+      ctx.strokeStyle = "rgba(255,255,255,.55)";
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(bx, by + hs*0.3);
+      ctx.lineTo(hx, hy - hs*0.15);
+      ctx.stroke();
+      ctx.fillStyle = colors[i % colors.length];
+      ctx.beginPath();
+      ctx.ellipse(bx, by, hs*0.28, hs*0.35, 0, 0, Math.PI*2);
+      ctx.fill();
+    }
+    ctx.fillStyle = "#fdf3e2";
+    ctx.fillRect(hx - hs*0.45, hy - hs*0.15, hs*0.9, hs*0.6);
+    ctx.fillStyle = "#c14a45";
+    ctx.beginPath();
+    ctx.moveTo(hx - hs*0.55, hy - hs*0.15);
+    ctx.lineTo(hx + hs*0.55, hy - hs*0.15);
+    ctx.lineTo(hx, hy - hs*0.5);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  function drawEmotion(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h;
+    var rand = mulberry32(58);
+    var colors = ["#f0d24a","#4a90d2","#e0473f","#8a5ce0","#4ab06a"];
+    var count = 5;
+    for (var i=0;i<count;i++){
+      var ox = w*(0.14 + (i/(count-1))*0.72 + (rand()-0.5)*0.04);
+      var oy = h*(0.34 + rand()*0.3);
+      var or = Math.min(w,h)*(0.11 + rand()*0.03);
+      var glow = ctx.createRadialGradient(ox,oy,or*0.1,ox,oy,or*1.8);
+      glow.addColorStop(0, colors[i] + 'cc');
+      glow.addColorStop(1, colors[i] + '00');
+      ctx.fillStyle = glow;
+      ctx.beginPath(); ctx.arc(ox,oy,or*1.8,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = colors[i];
+      ctx.beginPath(); ctx.arc(ox,oy,or,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = 'rgba(255,255,255,.55)';
+      ctx.beginPath(); ctx.arc(ox-or*0.3,oy-or*0.3,or*0.26,0,Math.PI*2); ctx.fill();
+    }
+    for (var i=0;i<14;i++){
+      var x = rand()*w, y = rand()*h*0.9, r = rand()*1.4+0.4;
+      ctx.globalAlpha = 0.2 + rand()*0.4;
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawCareer(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h;
+    var rand = mulberry32(66);
+
+    var sx = w*0.78, sy = h*0.22, sr = Math.min(w,h)*0.18;
+    var sunGlow = ctx.createRadialGradient(sx,sy,sr*0.1,sx,sy,sr*2.2);
+    sunGlow.addColorStop(0,'rgba(255,220,150,.4)');
+    sunGlow.addColorStop(1,'rgba(255,220,150,0)');
+    ctx.fillStyle = sunGlow;
+    ctx.beginPath(); ctx.arc(sx,sy,sr*2.2,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,230,180,.85)';
+    ctx.beginPath(); ctx.arc(sx,sy,sr*0.5,0,Math.PI*2); ctx.fill();
+
+    var steps = 4;
+    var baseY = h*0.9, stepH = h*0.1, stepW = w*0.2;
+    for (var i=0;i<steps;i++){
+      var sxp = w*0.08 + i*stepW*0.9;
+      var syp = baseY - i*stepH;
+      ctx.fillStyle = i===steps-1 ? 'rgba(217,164,65,.55)' : 'rgba(255,255,255,.14)';
+      ctx.fillRect(sxp, syp, stepW, h - syp);
+    }
+
+    var cx1 = w*0.08 + stepW*0.46, cy1 = baseY - stepH - 12;
+    ctx.fillStyle = 'rgba(20,25,35,.85)';
+    ctx.beginPath();
+    ctx.moveTo(cx1-12, cy1); ctx.lineTo(cx1+12, cy1); ctx.lineTo(cx1, cy1-7);
+    ctx.closePath(); ctx.fill();
+    ctx.fillRect(cx1-5, cy1-1, 10, 6);
+
+    var cx2 = w*0.08 + stepW*2*0.9 + stepW*0.46, cy2 = baseY - 2*stepH - 16;
+    ctx.fillStyle = 'rgba(47,127,176,.85)';
+    ctx.fillRect(cx2-12, cy2, 24, 16);
+    ctx.strokeStyle = 'rgba(255,255,255,.6)';
+    ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.moveTo(cx2-5,cy2); ctx.lineTo(cx2-5,cy2-5); ctx.lineTo(cx2+5,cy2-5); ctx.lineTo(cx2+5,cy2); ctx.stroke();
+
+    for (var i=0;i<14;i++){
+      var x = rand()*w, y = rand()*h*0.6, r = rand()*1.4+0.4;
+      ctx.globalAlpha = 0.2 + rand()*0.4;
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawNature(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h;
+    var rand = mulberry32(77);
+
+    var sx = w*0.76, sy = h*0.24, sr = Math.min(w,h)*0.16;
+    var sunGlow = ctx.createRadialGradient(sx,sy,sr*0.1,sx,sy,sr*2.4);
+    sunGlow.addColorStop(0,'rgba(255,230,160,.45)');
+    sunGlow.addColorStop(1,'rgba(255,230,160,0)');
+    ctx.fillStyle = sunGlow;
+    ctx.beginPath(); ctx.arc(sx,sy,sr*2.4,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,236,180,.9)';
+    ctx.beginPath(); ctx.arc(sx,sy,sr*0.55,0,Math.PI*2); ctx.fill();
+
+    ctx.fillStyle = 'rgba(255,255,255,.10)';
+    ctx.beginPath();
+    ctx.moveTo(0,h*0.72);
+    ctx.quadraticCurveTo(w*0.25,h*0.6, w*0.55,h*0.74);
+    ctx.quadraticCurveTo(w*0.8,h*0.85, w,h*0.7);
+    ctx.lineTo(w,h); ctx.lineTo(0,h); ctx.closePath(); ctx.fill();
+
+    var tx = w*0.26, ty = h*0.8;
+    ctx.fillStyle = 'rgba(30,20,10,.6)';
+    ctx.fillRect(tx-3, ty-24, 6, 24);
+    ctx.fillStyle = 'rgba(40,140,90,.9)';
+    ctx.beginPath(); ctx.arc(tx, ty-32, 17, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(tx-12, ty-24, 11, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(tx+12, ty-24, 11, 0, Math.PI*2); ctx.fill();
+
+    for (var i=0;i<12;i++){
+      var x = rand()*w, y = h*0.5 + rand()*h*0.4, r = rand()*1.3+0.4;
+      ctx.globalAlpha = 0.2 + rand()*0.4;
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawHealth(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h;
+    var rand = mulberry32(88);
+
+    var cx = w*0.5, cy = h*0.42, cr = Math.min(w,h)*0.5;
+    var glow = ctx.createRadialGradient(cx,cy,cr*0.1,cx,cy,cr);
+    glow.addColorStop(0,'rgba(255,255,255,.12)');
+    glow.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle = glow;
+    ctx.beginPath(); ctx.arc(cx,cy,cr,0,Math.PI*2); ctx.fill();
+
+    var mx = w*0.74, my = h*0.26, ms = Math.min(w,h)*0.1;
+    var crossGlow = ctx.createRadialGradient(mx,my,ms*0.1,mx,my,ms*2.2);
+    crossGlow.addColorStop(0,'rgba(220,255,250,.35)');
+    crossGlow.addColorStop(1,'rgba(220,255,250,0)');
+    ctx.fillStyle = crossGlow;
+    ctx.beginPath(); ctx.arc(mx,my,ms*2.2,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,.9)';
+    ctx.fillRect(mx-ms*0.2, my-ms*0.55, ms*0.4, ms*1.1);
+    ctx.fillRect(mx-ms*0.55, my-ms*0.2, ms*1.1, ms*0.4);
+
+    var py = h*0.64;
+    ctx.strokeStyle = 'rgba(255,255,255,.55)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, py);
+    ctx.lineTo(w*0.35, py);
+    ctx.lineTo(w*0.45, py - h*0.14);
+    ctx.lineTo(w*0.55, py + h*0.18);
+    ctx.lineTo(w*0.65, py - h*0.06);
+    ctx.lineTo(w, py);
+    ctx.stroke();
+
+    for (var i=0;i<10;i++){
+      var x = rand()*w, y = rand()*h*0.9, r = rand()*1.3+0.4;
+      ctx.globalAlpha = 0.2 + rand()*0.4;
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawAll(){
+    drawSpace(document.getElementById('spaceCanvas'));
+    drawFlavor(document.getElementById('flavorCanvas'));
+    drawLife(document.getElementById('lifeCanvas'));
+    drawAdventure(document.getElementById('advCanvas'));
+    drawEmotion(document.getElementById('emotionCanvas'));
+    drawCareer(document.getElementById('careerCanvas'));
+    drawNature(document.getElementById('natureCanvas'));
+    drawHealth(document.getElementById('healthCanvas'));
+  }
+  drawAll();
+  window.addEventListener('resize', drawAll);
+})();
+</script>
+
+<a href="../index.html" style="position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:10px;z-index:999;background:#ffffff;color:#2f3a55;border:2px solid #dfe5f1;border-radius:999px;padding:6px 14px;font:700 15px Tajawal,system-ui,sans-serif;text-decoration:none">🏠 الرئيسية</a>
+</body></html>

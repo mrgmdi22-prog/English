@@ -1,0 +1,1280 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>ميدان المفردات 1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{
+  --bg:#F5F8FC;
+  --surface:#FFFFFF;
+  --surface-2:#E9F0FA;
+  --ink:#12203A;
+  --ink-soft:#5A6B85;
+  --accent:#2158A6;
+  --accent-2:#173D78;
+  --accent-ink:#FFFFFF;
+  --good:#178A70;
+  --good-bg:#E3F5EF;
+  --bad:#D14432;
+  --bad-bg:#FBE7E3;
+  --gold:#C4860F;
+  --border:#DCE6F2;
+  --shadow: 0 10px 30px -12px rgba(18,32,58,.25);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1626;
+    --surface:#16213A;
+    --surface-2:#1D2C4A;
+    --ink:#EDF2FA;
+    --ink-soft:#9FB0CC;
+    --accent:#5C97E0;
+    --accent-2:#3E76C4;
+    --accent-ink:#0E1626;
+    --good:#4FD3AE;
+    --good-bg:#183B34;
+    --bad:#FF8A76;
+    --bad-bg:#3E211D;
+    --gold:#F0C15C;
+    --border:#2A3B5C;
+    --shadow: 0 10px 30px -12px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1626;
+  --surface:#16213A;
+  --surface-2:#1D2C4A;
+  --ink:#EDF2FA;
+  --ink-soft:#9FB0CC;
+  --accent:#5C97E0;
+  --accent-2:#3E76C4;
+  --accent-ink:#0E1626;
+  --good:#4FD3AE;
+  --good-bg:#183B34;
+  --bad:#FF8A76;
+  --bad-bg:#3E211D;
+  --gold:#F0C15C;
+  --border:#2A3B5C;
+  --shadow: 0 10px 30px -12px rgba(0,0,0,.5);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800;900&family=Poppins:ital,wght@0,500;0,600;0,700;1,600&display=swap');
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:
+    radial-gradient(var(--border) 1px, transparent 1.4px) 0 0/22px 22px,
+    var(--bg);
+  color:var(--ink);
+  font-family:'Cairo',system-ui,sans-serif;
+  padding-inline:18px;
+  padding-block:22px;
+  min-height:100dvh;
+}
+h1,h2,h3{ text-wrap:balance; margin:0; }
+.wrap{ max-width:560px; margin:0 auto; display:flex; flex-direction:column; gap:16px; }
+
+/* ---------- top bar ---------- */
+.topbar{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+.brand{ display:flex; align-items:center; gap:10px; }
+.brand-badge{
+  width:42px;height:42px;border-radius:13px;
+  background:linear-gradient(160deg,var(--accent),var(--accent-2));
+  display:flex;align-items:center;justify-content:center;
+  color:var(--accent-ink); font-weight:900; font-size:19px;
+  box-shadow:var(--shadow);
+  flex:none;
+}
+.brand h1{ font-size:19px; font-weight:800; }
+.brand p{ margin:0; font-size:12px; color:var(--ink-soft); font-weight:600; }
+
+.iconbtn{
+  border:1.5px solid var(--border); background:var(--surface); color:var(--ink-soft);
+  width:38px;height:38px;border-radius:11px; display:flex;align-items:center;justify-content:center;
+  cursor:pointer; font-size:16px; flex:none;
+}
+.iconbtn:hover{ color:var(--ink); border-color:var(--accent); }
+
+/* ---------- cards ---------- */
+.card{
+  background:var(--surface); border:1px solid var(--border); border-radius:20px;
+  box-shadow:var(--shadow); padding:20px;
+}
+
+/* ---------- start screen ---------- */
+.hero-line{ display:flex; align-items:center; gap:8px; color:var(--accent); font-weight:800; font-size:12.5px; letter-spacing:.04em; }
+.hero-line .dot{ width:6px;height:6px;border-radius:50%; background:var(--accent); }
+.start-title{ font-size:26px; font-weight:900; margin-top:6px; line-height:1.35; }
+.start-sub{ color:var(--ink-soft); font-size:14px; margin-top:6px; font-weight:600; }
+
+.section-label{ font-size:12.5px; font-weight:800; color:var(--ink-soft); letter-spacing:.03em; margin-bottom:8px; }
+
+.unit-grid{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+.unit-chip{
+  text-align:start; border:1.6px solid var(--border); background:var(--surface-2);
+  border-radius:14px; padding:10px 12px; cursor:pointer; display:flex; flex-direction:column; gap:2px;
+}
+.unit-chip .en{ font-family:'Poppins',sans-serif; font-size:10.5px; color:var(--ink-soft); font-weight:600; direction:ltr; text-align:start; }
+.unit-chip .ar{ font-size:14.5px; font-weight:800; }
+.unit-chip .count{ font-size:10.5px; color:var(--ink-soft); font-weight:700; margin-top:2px; }
+.unit-chip.active{ border-color:var(--accent); background:color-mix(in srgb, var(--accent) 14%, var(--surface)); }
+.unit-chip.all{ grid-column:1 / -1; }
+
+.len-row{ display:flex; gap:8px; }
+.len-btn{
+  flex:1; border:1.6px solid var(--border); background:var(--surface-2); color:var(--ink);
+  border-radius:12px; padding:9px 0; font-weight:800; font-size:14px; cursor:pointer; font-family:inherit;
+}
+.len-btn.active{ border-color:var(--accent); background:var(--accent); color:var(--accent-ink); }
+
+.start-btn{
+  width:100%; border:none; border-radius:15px; padding:15px 0; margin-top:4px;
+  background:linear-gradient(160deg,var(--accent),var(--accent-2)); color:var(--accent-ink);
+  font-family:inherit; font-weight:900; font-size:16.5px; cursor:pointer;
+  box-shadow:0 10px 22px -8px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+.start-btn:active{ transform:translateY(1px); }
+
+.legend{ display:flex; flex-wrap:wrap; gap:10px; margin-top:2px; }
+.legend span{ font-size:11.5px; color:var(--ink-soft); font-weight:700; display:flex; align-items:center; gap:5px; }
+.legend b{ color:var(--ink); }
+
+/* ---------- game hud ---------- */
+.hud{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.hearts{ display:flex; gap:4px; font-size:18px; letter-spacing:1px; }
+.heart.lost{ opacity:.25; filter:grayscale(1); }
+.hud-mid{ display:flex; flex-direction:column; align-items:center; gap:4px; flex:1; }
+.progress-track{ width:100%; height:7px; border-radius:5px; background:var(--surface-2); overflow:hidden; }
+.progress-fill{ height:100%; background:linear-gradient(90deg,var(--accent),var(--accent-2)); border-radius:5px; transition:width .35s ease; }
+.progress-text{ font-size:11px; color:var(--ink-soft); font-weight:700; }
+.score-pill{
+  background:var(--surface-2); border:1px solid var(--border); border-radius:12px; padding:6px 11px;
+  font-weight:900; font-size:14px; display:flex; align-items:center; gap:5px; white-space:nowrap;
+}
+.score-pill .star{ color:var(--gold); }
+
+/* ---------- question card ---------- */
+.timer-track{ height:5px; border-radius:4px; background:var(--surface-2); overflow:hidden; margin-bottom:16px; }
+.timer-fill{ height:100%; background:var(--good); border-radius:4px; transition:width 1s linear, background .3s; }
+.timer-fill.warn{ background:var(--gold); }
+.timer-fill.danger{ background:var(--bad); }
+
+.direction-tag{
+  display:inline-flex; align-items:center; gap:6px; background:var(--surface-2); color:var(--ink-soft);
+  font-size:11px; font-weight:800; padding:5px 10px; border-radius:20px; margin-bottom:14px;
+}
+
+.prompt-box{
+  text-align:center; padding:26px 10px 30px; border-radius:16px;
+  background:var(--surface-2);
+  margin-bottom:18px;
+}
+.prompt-box .unit-tag{ font-size:11px; font-weight:800; color:var(--accent); letter-spacing:.03em; }
+.prompt-word{
+  margin-top:8px; font-weight:900; line-height:1.3;
+}
+.prompt-word.en{ font-family:'Poppins',sans-serif; font-size:clamp(24px,7vw,32px); direction:ltr; }
+.prompt-word.ar{ font-size:clamp(21px,6.4vw,28px); }
+
+.choices{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.choice{
+  border:1.8px solid var(--border); background:var(--surface); border-radius:14px;
+  padding:14px 10px; cursor:pointer; font-family:inherit; font-weight:700; font-size:14.5px;
+  text-align:center; color:var(--ink); transition:transform .12s ease, border-color .15s, background .15s;
+  min-height:58px; display:flex; align-items:center; justify-content:center; line-height:1.35;
+}
+.choice.en{ font-family:'Poppins',sans-serif; direction:ltr; font-size:13.5px; }
+.choice:active{ transform:scale(.97); }
+.choice.correct{ border-color:var(--good); background:var(--good-bg); color:var(--good); }
+.choice.wrong{ border-color:var(--bad); background:var(--bad-bg); color:var(--bad); animation:shake .35s; }
+.choice.dim{ opacity:.45; }
+.choice[disabled]{ cursor:default; }
+@keyframes shake{ 0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px);} 75%{transform:translateX(6px);} }
+
+.feedback-row{ min-height:26px; text-align:center; margin-top:14px; font-weight:800; font-size:13.5px; }
+.feedback-row.good{ color:var(--good); }
+.feedback-row.bad{ color:var(--bad); }
+.feedback-row.neutral{ color:var(--ink-soft); }
+.choice.selected{ border-color:var(--accent); background:color-mix(in srgb, var(--accent) 14%, var(--surface)); }
+
+.test-name-input{
+  width:100%; border:1.6px solid var(--border); background:var(--surface); color:var(--ink);
+  border-radius:12px; padding:10px 12px; font-family:inherit; font-size:14px; margin-top:10px;
+}
+.test-name-input::placeholder{ color:var(--ink-soft); }
+
+.test-result-card{
+  text-align:center; border:2px dashed var(--accent); background:var(--surface-2);
+}
+.test-result-label{ font-size:13px; font-weight:800; color:var(--accent); letter-spacing:.02em; }
+.test-result-name{ font-size:20px; font-weight:900; margin-top:8px; }
+.test-result-score{ font-size:42px; font-weight:900; margin-top:10px; color:var(--accent); }
+.test-result-pct{ font-size:15px; color:var(--ink-soft); font-weight:700; margin-top:4px; }
+.test-result-date{ font-size:11px; color:var(--ink-soft); margin-top:10px; }
+.test-result-hint{ font-size:12px; color:var(--ink-soft); font-weight:700; margin-top:10px; }
+
+.level-meter{ display:flex; gap:6px; justify-content:center; margin-top:14px; }
+.level-dot{ flex:1; height:8px; border-radius:5px; background:var(--surface); }
+.level-dot.reached{ background:linear-gradient(160deg,var(--accent),var(--accent-2)); }
+.level-name{ font-size:24px; font-weight:900; margin-top:14px; }
+.level-name-en{ font-family:'Poppins',sans-serif; font-size:13px; color:var(--ink-soft); font-weight:700; direction:ltr; margin-top:2px; }
+.level-desc{ font-size:13.5px; color:var(--ink-soft); font-weight:600; margin-top:10px; line-height:1.5; }
+
+/* ---------- end screen ---------- */
+.result-badge{
+  width:74px;height:74px;border-radius:50%; margin:4px auto 4px;
+  background:linear-gradient(160deg,var(--accent),var(--accent-2));
+  display:flex;align-items:center;justify-content:center; font-size:32px; color:var(--accent-ink);
+  box-shadow:var(--shadow);
+}
+.result-title{ text-align:center; font-size:20px; font-weight:900; margin-top:6px; }
+.result-sub{ text-align:center; color:var(--ink-soft); font-size:13.5px; font-weight:700; margin-top:4px; }
+.stat-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:18px; }
+.stat{ background:var(--surface-2); border-radius:13px; padding:12px 6px; text-align:center; }
+.stat b{ display:block; font-size:20px; font-weight:900; }
+.stat span{ font-size:10.5px; color:var(--ink-soft); font-weight:700; }
+
+.review-list{ margin-top:18px; display:flex; flex-direction:column; gap:7px; }
+.review-item{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  background:var(--bad-bg); border:1px solid color-mix(in srgb, var(--bad) 35%, transparent);
+  border-radius:11px; padding:9px 12px; font-size:13px; font-weight:700;
+}
+.review-item .en{ font-family:'Poppins',sans-serif; direction:ltr; color:var(--bad); }
+.review-item .ar{ color:var(--ink); }
+
+.action-row{ display:flex; gap:10px; margin-top:20px; }
+.action-row .start-btn{ margin-top:0; }
+.ghost-btn{
+  flex:1; border:1.6px solid var(--border); background:transparent; color:var(--ink);
+  border-radius:15px; font-family:inherit; font-weight:800; font-size:14.5px; cursor:pointer;
+}
+
+[hidden]{ display:none !important; }
+
+@media (prefers-reduced-motion:reduce){
+  *{ animation-duration:.001s !important; transition-duration:.001s !important; }
+}
+</style>
+
+<div class="wrap" dir="rtl" lang="ar" id="app"></div>
+
+<script>
+(function(){
+
+/* ================= DATA ================= */
+const UNITS = [
+  { id:'u1', ar:'الوحدة الأولى', en:'Big Changes', words:[
+    ['biologist','عالم أحياء'],['citizen','مواطن'],['currency','عملة'],
+    ['federation','اتحاد فدرالي'],['government','حكومة'],['infrastructure','بنية تحتية'],
+    ['reunification','لم الشمل'],['satellite','ساتلايت / قمر صناعي'],['transmission','بث / نقل'],
+    ['disease','مرض'],['economy','اقتصاد'],['endangered species','كائنات مهددة بالانقراض'],
+    ['fresh water','مياه عذبة'],['globalization','عولمة'],['global warming','الاحتباس الحراري'],
+    ['natural disaster','كارثة طبيعية'],['overpopulation','الانفجار السكاني / فرط عدد السكان'],
+    ['pollution','تلوث'],['poverty','فقر'],['security','أمن'],
+    ['traffic','حركة المرور / الازدحام المروري'],['unemployment','البطالة'],
+    ['affect','يؤثر'],['establish','ينشئ / يؤسس'],['initiate','يبدأ'],['launch','يطلق'],
+    ['lose touch','يفقد الاتصال'],['obtain','يحصل على'],
+    ['accessible','يمكن الوصول أو النفاذ إليه'],['legendary','أسطوري'],['numerous','كثير'],
+    ['take for granted','أمر مفروغ منه / مسلم به'],
+    ['by the way','على فكرة'],['fit in','يندمج'],['in fact','في الحقيقة'],['you see','كما ترى / في الواقع'],
+  ]},
+  { id:'u2', ar:'الوحدة الثانية', en:'Careers', words:[
+    ['Animation','رسوم متحركة'],['animator','رسام الرسوم المتحركة'],
+    ['computer generated Imagery (CGI)','صور من إنشاء الكمبيوتر'],['flavor','نكهة'],
+    ['microscope','مجهر'],['qualification','مؤهل'],['sculptor','نحات'],['sculpture','تمثال / مجسم'],
+    ['showroom','صالة العرض'],['staff','طاقم العمل'],['test tube','أنبوبة اختبار'],
+    ['Adaptability','التكيف'],['analytical skills','مهارة التحليل'],['Flexibility','المرونة'],
+    ['honesty','الأمانة / الإخلاص'],['Initiative','المبادرة'],['integrity','النزاهة'],
+    ['Motivation','الدافعية'],['teamwork skills','مهارة العمل الجماعي'],['work ethic','أخلاقيات المهنة'],
+    ['design','يصمم'],['experiment','يجرب'],['visualize','يتصور'],
+    ['challenging','صعب / يمثل تحديا'],['creative','إبداعي'],['crucial','مهم / حيوي'],['efficient','فعال'],
+    ['hardworking','مجتهد / مجدّ'],['lucky','محظوظ'],['miniature','مصغر'],
+    ['permanent','دائم'],['reliable','موثوق'],['sociable','اجتماعي'],['stuck','عالق'],
+    ['bored to death','أشعر بضجر شديد'],
+    ['day after day, day in and day out','يوما بعد يوم، يوما تلو يوم (تكرار نفس الروتين دون تغيير)'],
+    ['luckily','لحسن الحظ'],
+    ['talk someone out of it','يقنع شخص بالعدول عن فكرته'],
+  ]},
+  { id:'u3', ar:'الوحدة الثالثة', en:'What Will Be, Will Be', words:[
+    ['appliance','جهاز / أداة'],['character','شخصية'],['exploration','بعثة / استكشاف'],['glass','زجاج'],
+    ['haircut','حلاقة شعر'],['novel','رواية'],['prediction','تنبؤ / توقع'],['robot','رجل آلي'],
+    ['rocket','صاروخ'],['shard','شظية'],['shipwreck','حطام السفينة'],['skyscraper','ناطحة السحاب'],
+    ['steel','صلب / حديد'],['submarine','غواصة'],['tentacle','مجس'],['vision','رؤية'],
+    ['visionary','صاحب رؤية'],['whale','حوت'],
+    ['activate','يفعل / ينشط'],['attach','يلتصق بـ / يعلق على'],['dive','يغوص'],['monitor','يراقب'],['optimize','يحسن / يعدل'],
+    ['gas-powered','تعمل بالوقود'],['high-speed','عالية السرعة'],
+    ['Certainly','بالطبع'],['No kidding?','بدون مزاح؟ / أحقا ما تقول؟'],
+  ]},
+  { id:'u4', ar:'الوحدة الرابعة', en:'The Art of Advertising', words:[
+    ['classic','كلاسيكي'],['combination','مزيج'],
+    ['compact car','سيارة مدمجة (صغيرة الحجم)'],['legend','أسطورة'],
+    ['option','خيار'],['pedal','دواسة'],['provider','مزود'],['triumph','انتصار'],
+    ['customize','يخصص حسب الطلب'],['devise','يبتكر'],['opt','يختار / يقرر'],
+    ['bulky','ضخم'],['portable','محمول'],['smooth','ناعم'],
+    ['substantial','كبير / جوهري'],['surgical','جراحي'],['wireless','لاسلكي'],
+    ['What are you up to?','مالذي تريده / ستقوم به؟'],["What on earth . . . ?",'ما الذي يحدث؟'],
+  ]},
+  { id:'u5', ar:'الوحدة الخامسة', en:'Did You Hurt Yourself?', words:[
+    ['badge','شارة'],['equipment','معدات'],['fog','ضباب'],['helmet','خوذة'],['injury','إصابة'],
+    ['intersection','تقاطع'],['knee pad','واقي للركبة'],['ostrich','نعامة'],['risk','مخاطرة'],
+    ['shock','صدمة / صعقة'],['snowstorm','عاصفة ثلجية'],
+    ['avoid','يتجنب'],['crash','يصطدم'],['encounter','يواجه'],['misjudge','يسيء الحكم'],
+    ['obey','يطيع'],['occur','يحدث / يظهر'],['pay attention','ينتبه'],['prevent','يمنع'],
+    ['release','يطلق السراح'],['skid','ينزلق'],['speed','يسرع'],['swerve','ينحرف'],
+    ['tailgate','يلاصق السيارة الأمامية بشدة'],['weave','يتعرّج بين السيارات'],
+    ['Break','يكسر'],['Burn','يحرق'],['Cut','يقطع'],['Die','يموت'],['Fracture','يكسر / يمزق'],
+    ['Poke','ينكز'],['Scar','يندب'],['Slip','يزلق'],['Sprain','يلتوي'],
+    ['aggressive','عدواني'],['cautious','حذر'],['distracted','مشتت'],['drowsy','نعسان'],
+    ['injured','مصاب'],['rude','وقح'],['severe','شديد'],['unconscious','فاقد الوعي'],
+    ['herself','بنفسها'],['himself','بنفسه'],['itself','بذاته (لغير العاقل)'],['myself','بنفسي'],
+    ['ourselves','بأنفسنا'],['themselves','بأنفسهم / بأنفسهن'],['yourself','بنفسك'],['yourselves','بأنفسكم'],
+    ['because','لأن'],['so','لذلك / وأنا أيضًا (كذلك فعلت)'],
+    ['I guess','أعتقد'],['look at it this way','انظر للموضوع من هذا الجانب'],
+    ['lucky day','يوم جميل / سعيد'],['stuck in','عالق في'],
+  ]},
+  { id:'u6', ar:'الوحدة السادسة', en:'Take My Advice', words:[
+    ['anorexia','فقدان الشهية'],['appetite','شهية'],['carbohydrate','كربوهيدرات'],['counselor','مستشار'],
+    ['eating disorder','اضطرابات الأكل'],['fitness','اللياقة البدنية'],['peer pressure','ضغط الأصدقاء'],
+    ['principle','مبدأ'],['self-worth','القيمة الذاتية'],
+    ['avoid','يتفادى'],['gain weight','يكتسب الوزن'],['lose weight','يخسر من وزنه'],
+    ['could','بإمكانك'],['had better','من الأفضل أن'],['might','ربما'],['ought to','يجب / ينبغي'],['should','يجب'],
+    ['give up','يستسلم'],['put off','يؤجل'],['take up','يبدأ ممارسة (هواية)'],
+    ['throw away','يرمي / يتخلص من'],['turn down','يرفض'],
+    ['cut down on','يقلل من'],['get along with','ينسجم مع'],['put up with','يتحمل'],
+    ['feeling down','محبط'],['look out for myself','أعتني بنفسي'],['to be honest','حتى أكون صادقا'],
+  ]},
+  { id:'exp', ar:'الوحدات الموسعة', en:'Expansion Units', words:[
+    ['cell','خلية'],['composition','تكوين'],['disinfectant','مطهر'],
+    ['immune system','الجهاز المناعي'],['infection','عدوى'],['lead','يقود'],
+    ['literacy','الإلمام بالقراءة والكتابة'],['molecule','جزيء'],['property','خاصية'],
+    ['concoct','يلفق'],
+    ['ward off','يزيل / يبعد / يحمي'],
+    ['adept','بارع'],['articulate','فصيح / بليغ'],['conventional','تقليدي'],['integral','أساسي / جوهري'],
+    ['preventive','وقائي'],['striking','لافت'],
+  ]},
+];
+
+/* ================= PLACEMENT TEST (Level Placement) ================= */
+const LEVELS = [
+  { n:1, ar:'مبتدئ', en:'Beginner', desc:'أنت في بداية الطريق! ركّز على المفردات الأساسية والقواعد البسيطة، وستتقدم بسرعة.' },
+  { n:2, ar:'مبتدئ أعلى', en:'High Beginner', desc:'أساس جيد يتكوّن لديك! استمر بالتدريب على الجمل والمحادثات اليومية.' },
+  { n:3, ar:'متوسط', en:'Intermediate', desc:'مستوى متوسط قوي! يمكنك التوسّع في القواعد الأكثر تعقيدًا والمحادثة الحرة.' },
+  { n:4, ar:'متوسط أعلى', en:'High Intermediate', desc:'أداء متميز! ركّز الآن على التراكيب المتقدمة والتعبير الدقيق.' },
+  { n:5, ar:'متقدم', en:'Advanced', desc:'مستوى متقدم رائع! يمكنك تطوير الطلاقة والدقة الأكاديمية في اللغة.' },
+  { n:6, ar:'متقدم أعلى', en:'High Advanced', desc:'مستوى قريب من الطلاقة الكاملة! تميّز حقيقي في اللغة الإنجليزية.' },
+];
+
+const PLACEMENT_BANK = [
+  // Level 1 - Beginner
+  { level:1, type:'grammar', q:"She ____ a teacher.", choices:["is","be","am","are"], correct:"is" },
+  { level:1, type:'grammar', q:"I ____ from Saudi Arabia.", choices:["am","is","are","be"], correct:"am" },
+  { level:1, type:'grammar', q:"They ____ students.", choices:["is","am","are","be"], correct:"are" },
+  { level:1, type:'vocab', q:"Choose the opposite of 'big'.", choices:["small","tall","fast","slow"], correct:"small" },
+  { level:1, type:'grammar', q:"This is my book. ____ is on the table.", choices:["It","He","She","They"], correct:"It" },
+  { level:1, type:'structure', q:"Where ____ you live?", choices:["do","does","is","are"], correct:"do" },
+  { level:1, type:'grammar', q:"He ____ like coffee.", choices:["don't","doesn't","isn't","aren't"], correct:"doesn't" },
+  { level:1, type:'grammar', q:"There ____ a cat in the garden.", choices:["is","are","be","am"], correct:"is" },
+  // Level 2 - High Beginner
+  { level:2, type:'grammar', q:"Yesterday, I ____ to the market.", choices:["go","goes","went","going"], correct:"went" },
+  { level:2, type:'structure', q:"This book is ____ than that one.", choices:["interesting","more interesting","most interesting","interestinger"], correct:"more interesting" },
+  { level:2, type:'structure', q:"She was tired, ____ she went to bed early.", choices:["but","so","because","or"], correct:"so" },
+  { level:2, type:'vocab', q:"Choose the opposite of 'happy'.", choices:["sad","kind","fast","new"], correct:"sad" },
+  { level:2, type:'grammar', q:"We ____ watching TV when the phone rang.", choices:["are","were","is","was"], correct:"were" },
+  { level:2, type:'grammar', q:"How ____ brothers do you have?", choices:["much","many","any","some"], correct:"many" },
+  { level:2, type:'grammar', q:"I have ____ money in my pocket.", choices:["a","an","some","many"], correct:"some" },
+  { level:2, type:'structure', q:"He is the ____ student in the class.", choices:["tall","taller","tallest","more tall"], correct:"tallest" },
+  // Level 3 - Intermediate
+  { level:3, type:'grammar', q:"I ____ never been to Japan.", choices:["have","has","had","having"], correct:"have" },
+  { level:3, type:'grammar', q:"By this time tomorrow, she ____ finished the project.", choices:["will have","will","has","have"], correct:"will have" },
+  { level:3, type:'structure', q:"He has been working here ____ 2015.", choices:["for","since","from","at"], correct:"since" },
+  { level:3, type:'vocab', q:"Choose the word closest in meaning to 'difficult'.", choices:["hard","easy","simple","quick"], correct:"hard" },
+  { level:3, type:'grammar', q:"If it rains, we ____ stay home.", choices:["will","would","had","have"], correct:"will" },
+  { level:3, type:'grammar', q:"The keys ____ on the table.", choices:["is","was","are","be"], correct:"are" },
+  { level:3, type:'structure', q:"She is interested ____ learning French.", choices:["in","on","at","for"], correct:"in" },
+  { level:3, type:'structure', q:"Neither Ali ____ Sara came to the party.", choices:["or","and","nor","but"], correct:"nor" },
+  // Level 4 - High Intermediate
+  { level:4, type:'grammar', q:"The letter ____ by John yesterday.", choices:["wrote","was written","is writing","written"], correct:"was written" },
+  { level:4, type:'grammar', q:"If I ____ more time, I would travel more.", choices:["have","had","has","having"], correct:"had" },
+  { level:4, type:'structure', q:"The man ____ car was stolen called the police.", choices:["who","whose","which","whom"], correct:"whose" },
+  { level:4, type:'vocab', q:"'Reluctant' most nearly means:", choices:["unwilling","eager","careless","brave"], correct:"unwilling" },
+  { level:4, type:'grammar', q:"By the time we arrived, the movie ____ already started.", choices:["has","had","have","was"], correct:"had" },
+  { level:4, type:'grammar', q:"She said she ____ call me later.", choices:["will","would","can","must"], correct:"would" },
+  { level:4, type:'structure', q:"Despite ____ hard, he failed the exam.", choices:["study","studying","studied","to study"], correct:"studying" },
+  { level:4, type:'structure', q:"Not only ____ she smart, but also kind.", choices:["is","was","does","did"], correct:"is" },
+  // Level 5 - Advanced
+  { level:5, type:'grammar', q:"I wish I ____ more careful.", choices:["was","were","am","be"], correct:"were" },
+  { level:5, type:'structure', q:"Hardly ____ he arrived when the meeting started.", choices:["had","did","does","has"], correct:"had" },
+  { level:5, type:'grammar', q:"It is essential that he ____ present.", choices:["is","be","was","being"], correct:"be" },
+  { level:5, type:'vocab', q:"'Ubiquitous' means:", choices:["everywhere","rare","hidden","ancient"], correct:"everywhere" },
+  { level:5, type:'structure', q:"No sooner ____ she left than it started to rain.", choices:["had","did","has","does"], correct:"had" },
+  { level:5, type:'structure', q:"____ he studied harder, he would have passed.", choices:["Had","If","Should","Would"], correct:"Had" },
+  { level:5, type:'grammar', q:"The report, ____ was submitted late, contained errors.", choices:["that","which","who","whom"], correct:"which" },
+  { level:5, type:'structure', q:"Seldom ____ such dedication seen in young athletes.", choices:["is","are","has","have"], correct:"is" },
+  // Level 6 - High Advanced
+  { level:6, type:'structure', q:"Were it not for your help, I ____ failed.", choices:["would have","will have","had","would"], correct:"would have" },
+  { level:6, type:'structure', q:"The committee's decision, controversial ____ it was, sparked debate.", choices:["that","as","though","which"], correct:"as" },
+  { level:6, type:'vocab', q:"'Ephemeral' most nearly means:", choices:["short-lived","permanent","massive","ancient"], correct:"short-lived" },
+  { level:6, type:'vocab', q:"Such was her ____ that everyone admired her.", choices:["eloquence","eloquent","eloquently","eloquentness"], correct:"eloquence" },
+  { level:6, type:'structure', q:"Not until the results were announced ____ realize her mistake.", choices:["did she","she did","she does","does she"], correct:"did she" },
+  { level:6, type:'structure', q:"He is, ____ all accounts, a brilliant strategist.", choices:["by","on","in","for"], correct:"by" },
+  { level:6, type:'grammar', q:"The findings, far from ____ conclusive, raised further questions.", choices:["be","being","been","to be"], correct:"being" },
+  { level:6, type:'vocab', q:"'Meticulous' means:", choices:["careful","careless","quick","lazy"], correct:"careful" },
+];
+PLACEMENT_BANK.forEach((q,i) => { q.id = i; });
+
+function catLabel(type){
+  return type === 'grammar' ? '📚 قواعد' : type === 'vocab' ? '🔤 مفردات' : '🧩 تركيب';
+}
+
+/* ================= STATE ================= */
+let state = {
+  screen:'start',
+  selectedUnits: new Set(['ALL']),
+  roundLen: 10,
+  practiceMode: false,
+  testMode: false,
+  studentName: '',
+  retryQueue: null,
+  pool: [],
+  qIndex: 0,
+  score:0,
+  streak:0,
+  bestStreak:0,
+  lives:3,
+  wrongList:[],
+  current:null,
+  timer:null,
+  timeLeft:12,
+  locked:false,
+  currentLevel:3,
+  levelHistory:[],
+  usedPlacementIds:new Set(),
+  placementIndex:0,
+  placementTotal:16,
+  placementScore:0,
+  currentPlacementQ:null,
+  pTimer:null,
+  pTimeLeft:18,
+  pLocked:false,
+};
+
+const TIME_PER_Q = 12;
+const TIME_PER_PLACEMENT_Q = 18;
+
+function allWordsFromSelection(){
+  let list = [];
+  if (state.selectedUnits.has('ALL')) {
+    UNITS.forEach(u => u.words.forEach(w => list.push({en:w[0], ar:w[1], unit:u.ar})));
+  } else {
+    UNITS.filter(u => state.selectedUnits.has(u.id)).forEach(u => u.words.forEach(w => list.push({en:w[0], ar:w[1], unit:u.ar})));
+  }
+  return list;
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildRound(){
+  const fullSource = allWordsFromSelection();
+  const source = state.retryQueue && state.retryQueue.length ? state.retryQueue : fullSource;
+  const distractSource = fullSource.length >= 4 ? fullSource : source;
+  const n = state.retryQueue ? source.length : Math.min(state.roundLen, source.length);
+  const chosen = shuffle(source).slice(0, n);
+  state.pool = chosen.map(item => {
+    const dir = Math.random() < 0.5 ? 'en2ar' : 'ar2en';
+    const correct = dir === 'en2ar' ? item.ar : item.en;
+    let distractPool = distractSource.filter(x => x !== item).map(x => dir === 'en2ar' ? x.ar : x.en);
+    distractPool = [...new Set(distractPool)].filter(x => x !== correct);
+    const distractors = shuffle(distractPool).slice(0, 3);
+    const choices = shuffle([correct, ...distractors]);
+    return { item, dir, correct, choices };
+  });
+}
+
+/* ================= SPEECH ================= */
+function speak(text, lang){
+  try {
+    if (!window.speechSynthesis || !text) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lang;
+    u.rate = 0.92;
+    window.speechSynthesis.speak(u);
+  } catch(e) {}
+}
+
+/* ================= SOUND EFFECTS ================= */
+let audioCtx = null;
+function getAudioCtx(){
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  } catch(e) { return null; }
+}
+function playTone(freqStart, freqEnd, duration, volume){
+  const ctx = getAudioCtx();
+  if (!ctx) return;
+  try {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    const t0 = ctx.currentTime;
+    osc.frequency.setValueAtTime(freqStart, t0);
+    osc.frequency.exponentialRampToValueAtTime(Math.max(freqEnd,1), t0 + duration);
+    gain.gain.setValueAtTime(0.0001, t0);
+    gain.gain.exponentialRampToValueAtTime(volume, t0 + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(t0); osc.stop(t0 + duration + 0.02);
+  } catch(e) {}
+}
+function playCorrectSound(){ playTone(520, 830, 0.18, 0.08); }
+function playWrongSound(){ playTone(340, 190, 0.24, 0.06); }
+function playClickSound(){ playTone(600, 700, 0.06, 0.045); }
+
+/* ================= RENDER HELPERS ================= */
+function el(tag, cls, html){
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (html !== undefined) e.innerHTML = html;
+  return e;
+}
+
+function render(){
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  if (state.screen === 'start') app.appendChild(renderStart());
+  else if (state.screen === 'quiz') app.appendChild(renderQuiz());
+  else if (state.screen === 'result') app.appendChild(renderResult());
+  else if (state.screen === 'gameover') app.appendChild(renderGameOver());
+  else if (state.screen === 'placementQuiz') app.appendChild(renderPlacementQuiz());
+  else if (state.screen === 'placementResult') app.appendChild(renderPlacementResult());
+}
+
+/* ---------- topbar (shared) ---------- */
+function topbar(showBack){
+  const bar = el('div','topbar');
+  const brand = el('div','brand');
+  const badge = el('div','brand-badge','🎯');
+  const txt = el('div');
+  txt.appendChild(el('h1',null,'ميدان المفردات'));
+  txt.appendChild(el('p',null,'Mega Goal 1.1 · قاموس الفصل الأول'));
+  brand.appendChild(badge); brand.appendChild(txt);
+  bar.appendChild(brand);
+  if (showBack){
+    const btn = el('button','iconbtn','↩');
+    btn.title = 'رجوع للقائمة';
+    btn.onclick = () => { stopTimer(); state.retryQueue = null; state.screen = 'start'; render(); };
+    bar.appendChild(btn);
+  }
+  return bar;
+}
+
+/* ---------- start screen ---------- */
+function renderStart(){
+  const frag = document.createDocumentFragment();
+  frag.appendChild(topbar(false));
+
+  const card = el('div','card');
+  const line = el('div','hero-line');
+  line.appendChild(el('span','dot'));
+  line.appendChild(document.createTextNode('تحدَّ نفسك في مفردات الفصل الأول'));
+  card.appendChild(line);
+  card.appendChild(el('div','start-title','اختبر معلوماتك بأسلوب لعبة سريعة، اختر الوحدة وابدأ التحدي'));
+  card.appendChild(el('div','start-sub','٣ محاولات فقط · اختيار من متعدد · اتجاه عشوائي بين الإنجليزي والعربي'));
+  frag.appendChild(card);
+
+  const unitCard = el('div','card');
+
+  const modeLabel = el('div','section-label','نمط اللعب');
+  unitCard.appendChild(modeLabel);
+  const modeRow = el('div','len-row');
+  const challengeBtn = el('button','len-btn' + (!state.practiceMode && !state.testMode ? ' active' : ''), '🏆 تحدي');
+  challengeBtn.type = 'button';
+  challengeBtn.style.flex = '1';
+  challengeBtn.onclick = () => { state.practiceMode = false; state.testMode = false; render(); };
+  const practiceBtn = el('button','len-btn' + (state.practiceMode && !state.testMode ? ' active' : ''), '📖 تدريب');
+  practiceBtn.type = 'button';
+  practiceBtn.style.flex = '1';
+  practiceBtn.onclick = () => { state.practiceMode = true; state.testMode = false; render(); };
+  const testBtn = el('button','len-btn' + (state.testMode ? ' active' : ''), '🎯 تحديد المستوى');
+  testBtn.type = 'button';
+  testBtn.style.flex = '1';
+  testBtn.onclick = () => { state.testMode = true; render(); };
+  modeRow.appendChild(challengeBtn);
+  modeRow.appendChild(practiceBtn);
+  modeRow.appendChild(testBtn);
+  unitCard.appendChild(modeRow);
+
+  if (!state.testMode) {
+    const unitLabel = el('div','section-label','اختر الوحدة');
+    unitLabel.style.marginTop = '16px';
+    unitCard.appendChild(unitLabel);
+    const grid = el('div','unit-grid');
+
+    const allChip = el('div','unit-chip all' + (state.selectedUnits.has('ALL') ? ' active' : ''));
+    allChip.appendChild(el('div','en','ALL UNITS'));
+    allChip.appendChild(el('div','ar','كل الوحدات مجتمعة'));
+    const totalCount = UNITS.reduce((s,u)=>s+u.words.length,0);
+    allChip.appendChild(el('div','count', totalCount + ' كلمة'));
+    allChip.onclick = () => { playClickSound(); state.selectedUnits = new Set(['ALL']); render(); };
+    grid.appendChild(allChip);
+
+    UNITS.forEach(u => {
+      const chip = el('div','unit-chip' + (state.selectedUnits.has(u.id) && !state.selectedUnits.has('ALL') ? ' active' : ''));
+      chip.appendChild(el('div','en', u.en));
+      chip.appendChild(el('div','ar', u.ar));
+      chip.appendChild(el('div','count', u.words.length + ' كلمة'));
+      chip.onclick = () => {
+        playClickSound();
+        const sel = new Set(state.selectedUnits);
+        sel.delete('ALL');
+        if (sel.has(u.id)) sel.delete(u.id); else sel.add(u.id);
+        if (sel.size === 0) sel.add('ALL');
+        state.selectedUnits = sel;
+        render();
+      };
+      grid.appendChild(chip);
+    });
+    unitCard.appendChild(grid);
+
+    const lenLabel = el('div','section-label','عدد الأسئلة');
+    lenLabel.style.marginTop = '16px';
+    unitCard.appendChild(lenLabel);
+    const lenRow = el('div','len-row');
+    [10,15,20].forEach(n => {
+      const b = el('button','len-btn' + (state.roundLen === n ? ' active' : ''), n);
+      b.type = 'button';
+      b.onclick = () => { state.roundLen = n; render(); };
+      lenRow.appendChild(b);
+    });
+    unitCard.appendChild(lenRow);
+  } else {
+    const introBox = el('div');
+    introBox.style.marginTop = '16px';
+    introBox.appendChild(el('div','section-label','اختبار تجريبي لتحديد مستواك في الإنجليزية'));
+    const introText = el('div');
+    introText.style.fontSize = '13px';
+    introText.style.color = 'var(--ink-soft)';
+    introText.style.fontWeight = '600';
+    introText.style.lineHeight = '1.6';
+    introText.textContent = 'أسئلة متنوعة في القواعد والمفردات والتراكيب، لتقيسك من مبتدئ إلى متقدم أعلى.';
+    introBox.appendChild(introText);
+
+    const nameInput = document.createElement('input');
+    nameInput.type = 'text';
+    nameInput.className = 'test-name-input';
+    nameInput.placeholder = 'اسم الطالب (اختياري)';
+    nameInput.value = state.studentName;
+    nameInput.oninput = (e) => { state.studentName = e.target.value; };
+    introBox.appendChild(nameInput);
+
+    unitCard.appendChild(introBox);
+  }
+
+  const legend = el('div','legend');
+  legend.style.marginTop = '16px';
+  legend.innerHTML = state.testMode
+    ? '<span>⏱ <b>18</b> ثانية لكل سؤال</span><span>📚 قواعد + مفردات + تراكيب</span><span>🏅 نتيجة واضحة لمستواك</span>'
+    : state.practiceMode
+    ? '<span>♾️ بلا خسارة محاولات</span><span>⏱ <b>12</b> ثانية لكل سؤال</span><span>⭐ نقاط إضافية لسلسلة الإجابات الصحيحة</span>'
+    : '<span>❤️ <b>3</b> محاولات</span><span>⏱ <b>12</b> ثانية لكل سؤال</span><span>⭐ نقاط إضافية لسلسلة الإجابات الصحيحة</span>';
+  unitCard.appendChild(legend);
+
+  const startBtn = el('button','start-btn', state.testMode ? 'ابدأ اختبار تحديد المستوى 🎯' : 'ابدأ اللعب 🚀');
+  startBtn.onclick = () => {
+    playClickSound();
+    if (state.testMode) { startPlacementTest(); }
+    else { state.retryQueue = null; startGame(); }
+  };
+  unitCard.appendChild(startBtn);
+
+  frag.appendChild(unitCard);
+  return frag;
+}
+
+/* ---------- quiz screen ---------- */
+function renderQuiz(){
+  const frag = document.createDocumentFragment();
+  frag.appendChild(topbar(true));
+
+  const hud = el('div','card');
+  const hudRow = el('div','hud');
+
+  const hearts = el('div','hearts');
+  if (state.testMode) {
+    hearts.appendChild(el('span',null,'📝'));
+  } else if (state.practiceMode) {
+    hearts.appendChild(el('span',null,'♾️'));
+  } else {
+    for (let i=0;i<3;i++){
+      hearts.appendChild(el('span','heart' + (i >= state.lives ? ' lost' : ''), '❤️'));
+    }
+  }
+  hudRow.appendChild(hearts);
+
+  const mid = el('div','hud-mid');
+  const track = el('div','progress-track');
+  const fill = el('div','progress-fill');
+  fill.style.width = Math.round((state.qIndex / state.pool.length) * 100) + '%';
+  track.appendChild(fill);
+  mid.appendChild(track);
+  mid.appendChild(el('div','progress-text', `سؤال ${state.qIndex + 1} من ${state.pool.length}`));
+  hudRow.appendChild(mid);
+
+  const scorePill = el('div','score-pill');
+  scorePill.innerHTML = `<span class="star">⭐</span> ${state.score}`;
+  hudRow.appendChild(scorePill);
+
+  hud.appendChild(hudRow);
+  frag.appendChild(hud);
+
+  const qCard = el('div','card');
+  const timerTrack = el('div','timer-track');
+  const timerFill = el('div','timer-fill');
+  timerFill.id = 'timerFill';
+  timerFill.style.width = '100%';
+  timerTrack.appendChild(timerFill);
+  qCard.appendChild(timerTrack);
+
+  const q = state.pool[state.qIndex];
+  const dirTag = el('div','direction-tag', q.dir === 'en2ar' ? '🇬🇧 إلى 🇸🇦 اختر المعنى بالعربية' : '🇸🇦 إلى 🇬🇧 اختر الكلمة الإنجليزية');
+  qCard.appendChild(dirTag);
+
+  const promptBox = el('div','prompt-box');
+  promptBox.appendChild(el('div','unit-tag', q.item.unit));
+  const promptWord = el('div','prompt-word ' + (q.dir === 'en2ar' ? 'en' : 'ar'));
+  if (q.dir === 'en2ar') { promptWord.dir = 'ltr'; }
+  promptWord.textContent = q.dir === 'en2ar' ? q.item.en : q.item.ar;
+  promptBox.appendChild(promptWord);
+  qCard.appendChild(promptBox);
+
+  const choicesEl = el('div','choices');
+  q.choices.forEach(choice => {
+    const isEnglish = q.dir === 'ar2en';
+    const btn = el('button','choice' + (isEnglish ? ' en' : ''), choice);
+    btn.type = 'button';
+    if (isEnglish) btn.dir = 'ltr';
+    btn.onclick = () => handleAnswer(choice, btn, choicesEl);
+    choicesEl.appendChild(btn);
+  });
+  qCard.appendChild(choicesEl);
+
+  qCard.appendChild(el('div','feedback-row', ''));
+  frag.appendChild(qCard);
+
+  setTimeout(() => {
+    startTimer();
+    if (q.dir === 'en2ar') speak(promptWord.textContent, 'en-US');
+  }, 0);
+  return frag;
+}
+
+function startTimer(){
+  stopTimer();
+  state.timeLeft = TIME_PER_Q;
+  state.locked = false;
+  const fillEl = document.getElementById('timerFill');
+  if (!fillEl) return;
+  fillEl.style.transition = 'none';
+  fillEl.style.width = '100%';
+  fillEl.className = 'timer-fill';
+  void fillEl.offsetWidth;
+  fillEl.style.transition = 'width 1s linear, background .3s';
+
+  state.timer = setInterval(() => {
+    state.timeLeft -= 1;
+    const pct = Math.max(0, (state.timeLeft / TIME_PER_Q) * 100);
+    if (fillEl) {
+      fillEl.style.width = pct + '%';
+      fillEl.className = 'timer-fill' + (pct < 25 ? ' danger' : pct < 55 ? ' warn' : '');
+    }
+    if (state.timeLeft <= 0) {
+      stopTimer();
+      timeExpired();
+    }
+  }, 1000);
+}
+function stopTimer(){ if (state.timer) { clearInterval(state.timer); state.timer = null; } }
+
+function timeExpired(){
+  if (state.locked) return;
+  state.locked = true;
+  const q = state.pool[state.qIndex];
+  const buttons = document.querySelectorAll('.choice');
+  buttons.forEach(b => {
+    b.disabled = true;
+    if (state.testMode) { b.classList.add('dim'); }
+    else if (b.textContent === q.correct) b.classList.add('correct'); else b.classList.add('dim');
+  });
+  registerWrong(q);
+  const fb = document.querySelector('.feedback-row');
+  if (state.testMode) {
+    playClickSound();
+    if (fb) { fb.textContent = '⏰ انتهى الوقت لهذا السؤال'; fb.className = 'feedback-row neutral'; }
+  } else {
+    playWrongSound();
+    if (fb) { fb.textContent = '⏰ انتهى الوقت!'; fb.className = 'feedback-row bad'; }
+  }
+  advanceSoon();
+}
+
+function handleAnswer(choice, btnEl, choicesEl){
+  if (state.locked) return;
+  state.locked = true;
+  stopTimer();
+  const q = state.pool[state.qIndex];
+  const buttons = choicesEl.querySelectorAll('.choice');
+  const fb = document.querySelector('.feedback-row');
+  const isCorrect = choice === q.correct;
+
+  buttons.forEach(b => {
+    b.disabled = true;
+    if (state.testMode) {
+      if (b === btnEl) b.classList.add('selected'); else b.classList.add('dim');
+    } else if (b.textContent === q.correct) b.classList.add('correct');
+    else if (b === btnEl && !isCorrect) b.classList.add('wrong');
+    else b.classList.add('dim');
+  });
+
+  if (isCorrect) {
+    state.streak += 1;
+    state.bestStreak = Math.max(state.bestStreak, state.streak);
+    const bonus = Math.min(state.streak - 1, 5) * 2;
+    state.score += 10 + bonus;
+    if (state.testMode) {
+      playClickSound();
+      if (fb) { fb.textContent = '✔️ تم تسجيل إجابتك'; fb.className = 'feedback-row neutral'; }
+    } else {
+      if (fb) { fb.textContent = state.streak > 1 ? `🔥 صحيح! سلسلة من ${state.streak}` : '✅ إجابة صحيحة!'; fb.className = 'feedback-row good'; }
+      burst(btnEl);
+      playCorrectSound();
+      if (q.dir === 'ar2en') speak(q.correct, 'en-US');
+    }
+  } else {
+    registerWrong(q);
+    if (state.testMode) {
+      playClickSound();
+      if (fb) { fb.textContent = '✔️ تم تسجيل إجابتك'; fb.className = 'feedback-row neutral'; }
+    } else {
+      playWrongSound();
+      if (fb) { fb.textContent = `❌ خطأ، الصحيح: ${q.correct}`; fb.className = 'feedback-row bad'; }
+    }
+  }
+  advanceSoon();
+}
+
+function registerWrong(q){
+  state.streak = 0;
+  state.wrongList.push({ en: q.item.en, ar: q.item.ar });
+  if (!state.practiceMode) {
+    state.lives -= 1;
+    const hearts = document.querySelectorAll('.heart');
+    if (hearts.length) hearts[state.lives]?.classList.add('lost');
+  }
+}
+
+function advanceSoon(){
+  setTimeout(() => {
+    if (!state.practiceMode && state.lives <= 0) { state.screen = 'gameover'; render(); return; }
+    state.qIndex += 1;
+    if (state.qIndex >= state.pool.length) { state.screen = 'result'; render(); }
+    else render();
+  }, state.testMode ? 650 : 1300);
+}
+
+function burst(originEl){
+  try {
+    const rect = originEl.getBoundingClientRect();
+    const colors = ['#2158A6','#178A70','#C4860F','#D14432'];
+    for (let i=0;i<10;i++){
+      const p = document.createElement('div');
+      const size = 5 + Math.random()*4;
+      p.style.cssText = `position:fixed;left:${rect.left+rect.width/2}px;top:${rect.top+rect.height/2}px;width:${size}px;height:${size}px;border-radius:50%;background:${colors[i%colors.length]};pointer-events:none;z-index:999;`;
+      document.body.appendChild(p);
+      const ang = Math.random()*Math.PI*2;
+      const dist = 40 + Math.random()*50;
+      const dx = Math.cos(ang)*dist, dy = Math.sin(ang)*dist;
+      p.animate([
+        { transform:'translate(0,0)', opacity:1 },
+        { transform:`translate(${dx}px,${dy}px)`, opacity:0 }
+      ], { duration:600+Math.random()*300, easing:'cubic-bezier(.2,.7,.3,1)' }).onfinish = () => p.remove();
+    }
+  } catch(e) {}
+}
+
+/* ---------- result screen ---------- */
+function renderResult(){
+  const frag = document.createDocumentFragment();
+  frag.appendChild(topbar(false));
+
+  const total = state.pool.length;
+  const correctCount = total - state.wrongList.length;
+  const pct = Math.round((correctCount/total)*100);
+
+  if (state.testMode) {
+    const testCard = el('div','card test-result-card');
+    const typeLabel = state.testType === 'pre' ? '📝 اختبار قبلي (Pre-Test)' : '📝 اختبار بعدي (Post-Test)';
+    testCard.appendChild(el('div','test-result-label', typeLabel));
+    if (state.studentName && state.studentName.trim()) {
+      testCard.appendChild(el('div','test-result-name', state.studentName.trim()));
+    }
+    testCard.appendChild(el('div','test-result-score', `${correctCount} / ${total}`));
+    testCard.appendChild(el('div','test-result-pct', `${pct}% نسبة الإجابات الصحيحة`));
+    const dateStr = new Date().toLocaleDateString('ar-SA');
+    testCard.appendChild(el('div','test-result-date', dateStr));
+    testCard.appendChild(el('div','test-result-hint','📸 التقط صورة شاشة لهذه النتيجة وأرسلها لمعلمك'));
+    frag.appendChild(testCard);
+  }
+
+  const card = el('div','card');
+  card.appendChild(el('div','result-badge', pct >= 80 ? '🏆' : pct >= 50 ? '👍' : '💪'));
+  card.appendChild(el('div','result-title', pct >= 80 ? 'أداء رائع!' : pct >= 50 ? 'أداء جيد!' : 'استمر بالمحاولة!'));
+  card.appendChild(el('div','result-sub', `أجبت بشكل صحيح على ${correctCount} من ${total} سؤال`));
+
+  const stats = el('div','stat-row');
+  const s1 = el('div','stat'); s1.appendChild(el('b',null,state.score)); s1.appendChild(el('span',null,'النقاط')); stats.appendChild(s1);
+  const s2 = el('div','stat'); s2.appendChild(el('b',null,pct+'%')); s2.appendChild(el('span',null,'الدقة')); stats.appendChild(s2);
+  const s3 = el('div','stat'); s3.appendChild(el('b',null,state.bestStreak)); s3.appendChild(el('span',null,'أفضل سلسلة')); stats.appendChild(s3);
+  card.appendChild(stats);
+
+  if (state.wrongList.length){
+    card.appendChild((() => { const l = el('div','section-label','كلمات للمراجعة'); l.style.marginTop='20px'; return l; })());
+    const list = el('div','review-list');
+    state.wrongList.forEach(w => {
+      const item = el('div','review-item');
+      const en = el('span','en'); en.dir='ltr'; en.textContent = w.en;
+      item.appendChild(en);
+      item.appendChild(el('span','ar', w.ar));
+      list.appendChild(item);
+    });
+    card.appendChild(list);
+  }
+
+  if (state.wrongList.length){
+    const retryBtn = el('button','ghost-btn','🎯 راجع أخطائي فقط (' + state.wrongList.length + ')');
+    retryBtn.style.width = '100%';
+    retryBtn.style.marginTop = '10px';
+    retryBtn.onclick = () => {
+      state.retryQueue = state.wrongList.map(w => ({ en:w.en, ar:w.ar, unit:'مراجعة' }));
+      startGame();
+    };
+    card.appendChild(retryBtn);
+  }
+
+  const actions = el('div','action-row');
+  const again = el('button','start-btn','العب مرة أخرى 🔁');
+  again.style.flex = '1';
+  again.onclick = () => { state.retryQueue = null; startGame(); };
+  const change = el('button','ghost-btn','تغيير الوحدة');
+  change.onclick = () => { state.retryQueue = null; state.screen = 'start'; render(); };
+  actions.appendChild(again);
+  actions.appendChild(change);
+  card.appendChild(actions);
+
+  frag.appendChild(card);
+  return frag;
+}
+
+/* ---------- game over ---------- */
+function renderGameOver(){
+  const frag = document.createDocumentFragment();
+  frag.appendChild(topbar(false));
+
+  const card = el('div','card');
+  card.appendChild(el('div','result-badge', '💔'));
+  card.appendChild(el('div','result-title', 'انتهت محاولاتك!'));
+  card.appendChild(el('div','result-sub', `وصلت للسؤال ${state.qIndex + 1} برصيد ${state.score} نقطة`));
+
+  if (state.wrongList.length){
+    card.appendChild((() => { const l = el('div','section-label','الكلمات التي أخطأت بها'); l.style.marginTop='20px'; return l; })());
+    const list = el('div','review-list');
+    state.wrongList.forEach(w => {
+      const item = el('div','review-item');
+      const en = el('span','en'); en.dir='ltr'; en.textContent = w.en;
+      item.appendChild(en);
+      item.appendChild(el('span','ar', w.ar));
+      list.appendChild(item);
+    });
+    card.appendChild(list);
+  }
+
+  if (state.wrongList.length){
+    const retryBtn = el('button','ghost-btn','🎯 راجع أخطائي فقط (' + state.wrongList.length + ')');
+    retryBtn.style.width = '100%';
+    retryBtn.style.marginTop = '10px';
+    retryBtn.onclick = () => {
+      state.retryQueue = state.wrongList.map(w => ({ en:w.en, ar:w.ar, unit:'مراجعة' }));
+      startGame();
+    };
+    card.appendChild(retryBtn);
+  }
+
+  const actions = el('div','action-row');
+  const again = el('button','start-btn','حاول مجددًا 🔁');
+  again.style.flex = '1';
+  again.onclick = () => { state.retryQueue = null; startGame(); };
+  const change = el('button','ghost-btn','تغيير الوحدة');
+  change.onclick = () => { state.retryQueue = null; state.screen = 'start'; render(); };
+  actions.appendChild(again);
+  actions.appendChild(change);
+  card.appendChild(actions);
+
+  frag.appendChild(card);
+  return frag;
+}
+
+/* ---------- placement (level) test screen ---------- */
+function renderPlacementQuiz(){
+  const frag = document.createDocumentFragment();
+  frag.appendChild(topbar(true));
+
+  const hud = el('div','card');
+  const hudRow = el('div','hud');
+  hudRow.appendChild(el('div',null,'🎯'));
+  const mid = el('div','hud-mid');
+  const track = el('div','progress-track');
+  const fill = el('div','progress-fill');
+  fill.style.width = Math.round((state.placementIndex / state.placementTotal) * 100) + '%';
+  track.appendChild(fill);
+  mid.appendChild(track);
+  mid.appendChild(el('div','progress-text', `سؤال ${state.placementIndex + 1} من ${state.placementTotal}`));
+  hudRow.appendChild(mid);
+  hudRow.appendChild(el('div',null,''));
+  hud.appendChild(hudRow);
+  frag.appendChild(hud);
+
+  const qCard = el('div','card');
+  const timerTrack = el('div','timer-track');
+  const timerFill = el('div','timer-fill');
+  timerFill.id = 'timerFill';
+  timerFill.style.width = '100%';
+  timerTrack.appendChild(timerFill);
+  qCard.appendChild(timerTrack);
+
+  const q = state.currentPlacementQ;
+  qCard.appendChild(el('div','direction-tag', catLabel(q.type)));
+
+  const promptBox = el('div','prompt-box');
+  const promptWord = el('div','prompt-word en');
+  promptWord.dir = 'ltr';
+  promptWord.style.fontSize = 'clamp(17px,4.6vw,21px)';
+  promptWord.style.lineHeight = '1.5';
+  promptWord.textContent = q.q;
+  promptBox.appendChild(promptWord);
+  qCard.appendChild(promptBox);
+
+  const choicesEl = el('div','choices');
+  q.choices.forEach(choice => {
+    const btn = el('button','choice en', choice);
+    btn.type = 'button';
+    btn.dir = 'ltr';
+    btn.onclick = () => handlePlacementAnswer(choice, btn, choicesEl);
+    choicesEl.appendChild(btn);
+  });
+  qCard.appendChild(choicesEl);
+
+  qCard.appendChild(el('div','feedback-row', ''));
+  frag.appendChild(qCard);
+
+  setTimeout(() => { startPlacementTimer(); }, 0);
+  return frag;
+}
+
+function startPlacementTimer(){
+  stopPlacementTimer();
+  state.pTimeLeft = TIME_PER_PLACEMENT_Q;
+  state.pLocked = false;
+  const fillEl = document.getElementById('timerFill');
+  if (!fillEl) return;
+  fillEl.style.transition = 'none';
+  fillEl.style.width = '100%';
+  fillEl.className = 'timer-fill';
+  void fillEl.offsetWidth;
+  fillEl.style.transition = 'width 1s linear, background .3s';
+
+  state.pTimer = setInterval(() => {
+    state.pTimeLeft -= 1;
+    const pct = Math.max(0, (state.pTimeLeft / TIME_PER_PLACEMENT_Q) * 100);
+    if (fillEl) {
+      fillEl.style.width = pct + '%';
+      fillEl.className = 'timer-fill' + (pct < 25 ? ' danger' : pct < 55 ? ' warn' : '');
+    }
+    if (state.pTimeLeft <= 0) {
+      stopPlacementTimer();
+      placementTimeExpired();
+    }
+  }, 1000);
+}
+function stopPlacementTimer(){ if (state.pTimer) { clearInterval(state.pTimer); state.pTimer = null; } }
+
+function placementTimeExpired(){
+  if (state.pLocked) return;
+  state.pLocked = true;
+  const buttons = document.querySelectorAll('.choice');
+  buttons.forEach(b => { b.disabled = true; b.classList.add('dim'); });
+  playClickSound();
+  const fb = document.querySelector('.feedback-row');
+  if (fb) { fb.textContent = '⏰ انتهى الوقت، لا بأس، إلى السؤال التالي!'; fb.className = 'feedback-row neutral'; }
+  registerPlacementAnswer(false);
+  advancePlacementSoon();
+}
+
+function handlePlacementAnswer(choice, btnEl, choicesEl){
+  if (state.pLocked) return;
+  state.pLocked = true;
+  stopPlacementTimer();
+  const q = state.currentPlacementQ;
+  const buttons = choicesEl.querySelectorAll('.choice');
+  const fb = document.querySelector('.feedback-row');
+  const isCorrect = choice === q.correct;
+
+  buttons.forEach(b => {
+    b.disabled = true;
+    if (b === btnEl) b.classList.add('selected'); else b.classList.add('dim');
+  });
+
+  playClickSound();
+  if (fb) { fb.textContent = '✔️ تم تسجيل إجابتك'; fb.className = 'feedback-row neutral'; }
+  registerPlacementAnswer(isCorrect);
+  advancePlacementSoon();
+}
+
+function registerPlacementAnswer(isCorrect){
+  if (isCorrect) {
+    state.placementScore += 1;
+    state.currentLevel = Math.min(6, state.currentLevel + 1);
+  } else {
+    state.currentLevel = Math.max(1, state.currentLevel - 1);
+  }
+}
+
+function advancePlacementSoon(){
+  setTimeout(() => {
+    state.placementIndex += 1;
+    if (state.placementIndex >= state.placementTotal) {
+      state.screen = 'placementResult';
+      render();
+    } else {
+      buildPlacementQuestion();
+      render();
+    }
+  }, 650);
+}
+
+function computeFinalLevel(){
+  const recent = state.levelHistory.slice(-8);
+  const avg = recent.reduce((a,b)=>a+b,0) / recent.length;
+  return Math.min(6, Math.max(1, Math.round(avg)));
+}
+
+/* ---------- placement result screen ---------- */
+function renderPlacementResult(){
+  const frag = document.createDocumentFragment();
+  frag.appendChild(topbar(false));
+
+  const finalLevel = computeFinalLevel();
+  const levelInfo = LEVELS.find(l => l.n === finalLevel);
+
+  const card = el('div','card test-result-card');
+  card.appendChild(el('div','test-result-label','🎯 نتيجة اختبار تحديد المستوى'));
+  if (state.studentName && state.studentName.trim()) {
+    card.appendChild(el('div','test-result-name', state.studentName.trim()));
+  }
+  card.appendChild(el('div','level-name', levelInfo.ar));
+  card.appendChild(el('div','level-name-en', levelInfo.en));
+
+  const meter = el('div','level-meter');
+  for (let i=1;i<=6;i++){
+    meter.appendChild(el('div','level-dot' + (i<=finalLevel ? ' reached' : '')));
+  }
+  card.appendChild(meter);
+
+  card.appendChild(el('div','level-desc', levelInfo.desc));
+  const dateStr = new Date().toLocaleDateString('ar-SA');
+  card.appendChild(el('div','test-result-date', dateStr));
+  card.appendChild(el('div','test-result-hint','📸 التقط صورة شاشة واحتفظ بها لمقارنة تقدمك في المرة القادمة'));
+
+  const actions = el('div','action-row');
+  const again = el('button','start-btn','أعد الاختبار 🔁');
+  again.style.flex = '1';
+  again.onclick = () => { startPlacementTest(); };
+  const change = el('button','ghost-btn','رجوع للقائمة');
+  change.onclick = () => { state.screen = 'start'; render(); };
+  actions.appendChild(again);
+  actions.appendChild(change);
+  card.appendChild(actions);
+
+  frag.appendChild(card);
+  return frag;
+}
+
+/* ================= GAME FLOW ================= */
+function startGame(){
+  stopTimer();
+  buildRound();
+  state.qIndex = 0;
+  state.score = 0;
+  state.streak = 0;
+  state.bestStreak = 0;
+  state.lives = 3;
+  state.wrongList = [];
+  state.screen = 'quiz';
+  render();
+}
+
+function startPlacementTest(){
+  stopTimer();
+  stopPlacementTimer();
+  state.currentLevel = 3;
+  state.levelHistory = [];
+  state.usedPlacementIds = new Set();
+  state.placementIndex = 0;
+  state.placementTotal = 16;
+  state.placementScore = 0;
+  state.pLocked = false;
+  buildPlacementQuestion();
+  state.screen = 'placementQuiz';
+  render();
+}
+
+function buildPlacementQuestion(){
+  let pool = PLACEMENT_BANK.filter(q => q.level === state.currentLevel && !state.usedPlacementIds.has(q.id));
+  let spread = 1;
+  while (!pool.length && spread <= 5) {
+    pool = PLACEMENT_BANK.filter(q => Math.abs(q.level - state.currentLevel) <= spread && !state.usedPlacementIds.has(q.id));
+    spread += 1;
+  }
+  if (!pool.length) {
+    state.usedPlacementIds.clear();
+    pool = PLACEMENT_BANK.filter(q => q.level === state.currentLevel);
+  }
+  const picked = pool[Math.floor(Math.random() * pool.length)];
+  state.usedPlacementIds.add(picked.id);
+  state.currentPlacementQ = picked;
+  state.levelHistory.push(picked.level);
+}
+
+/* ================= BOOT ================= */
+function boot(data){
+  render();
+}
+if (window.claude && window.claude.hot) {
+  window.claude.hot.ready ? window.claude.hot.ready(boot) : boot(window.claude.hot.data || {});
+} else {
+  boot({});
+}
+})();
+</script>
+
+<a href="../index.html" class="site-home" aria-label="الصفحة الرئيسية" style="position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:10px;z-index:999;background:#ffffff;color:#2f3a55;border:2px solid #dfe5f1;border-radius:999px;padding:6px 14px;font:700 15px Tajawal,system-ui,sans-serif;text-decoration:none;box-shadow:0 4px 14px -6px rgba(0,0,0,.25)">🏠 الرئيسية</a>
+</body></html>
