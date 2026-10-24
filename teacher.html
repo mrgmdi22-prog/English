@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>إدارة لوحة الشرف</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap">
+<link rel="stylesheet" href="assets/club.css">
+<style>
+/* Teacher moderation: pending nicknames first (approve / edit / delete), then the approved list. */
+:root{color-scheme:light;--paper:#f8f9fe;--card:#fff;--ink:#232c47;--muted:#5a6482;--line:#e4e8f3;--gold:#b27a00;--ok:#16825d;--ok-soft:#e3f6ee;--bad:#b3261e;--bad-soft:#fdeceb;--wait-soft:#fff0dc}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper)}
+body{color:var(--ink);font-family:"Tajawal","Segoe UI",Tahoma,sans-serif;font-size:19px;line-height:1.7}
+.wrap{max-width:860px;margin:0 auto;padding:64px 16px 60px}
+h1{font-size:2rem;margin:0 0 4px;font-weight:800}
+.note{color:var(--muted);margin:0}
+.panel{background:var(--card);border:1.5px solid var(--line);border-radius:22px;padding:18px;margin-top:18px}
+.panel h2{margin:0 0 10px;font-size:1.3rem;display:flex;align-items:center;gap:10px}
+.count{background:var(--wait-soft);color:#a35a00;border-radius:999px;padding:0 12px;font-size:1rem}
+.btn{font:inherit;font-weight:800;font-size:1rem;border:0;border-radius:999px;padding:9px 18px;cursor:pointer;background:#6046e8;color:#fff}
+.btn.ok{background:var(--ok)}.btn.bad{background:var(--bad-soft);color:var(--bad)}.btn.soft{background:#eef0f6;color:var(--ink)}
+.btn:disabled{opacity:.5}
+.item{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.item .nm{flex:1;min-width:140px;font-weight:800;font-size:1.15rem;overflow-wrap:anywhere}
+.item .sc{color:var(--gold);font-weight:800;min-width:80px;font-variant-numeric:tabular-nums}
+.item .acts{display:flex;gap:6px;flex-wrap:wrap}
+.empty{color:var(--muted);padding:8px 0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.err{color:var(--bad);font-weight:700;margin-top:10px}
+</style>
+</head>
+<body>
+<a class="club-home" href="honor.html">🏆 لوحة الشرف</a>
+<div class="wrap">
+  <div class="top"><div><h1>إدارة لوحة الشرف</h1><p class="note" id="who">للمعلم فقط</p></div><div id="authBox"></div></div>
+  <div id="main"></div>
+</div>
+<script type="module">
+import * as H from './assets/honor.js';
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => Number(n||0).toLocaleString('en-US');
+
+async function start() {
+  if (!H.ready) { $('main').innerHTML = '<div class="panel"><h2>لم يُربط Firebase بعد</h2><p class="note">أضف إعدادات المشروع في الملف assets/firebase-config.js.</p></div>'; return; }
+  const u = await H.teacherUser();
+  if (!u) {
+    $('authBox').innerHTML = '';
+    $('main').innerHTML = '<div class="panel"><h2>تسجيل الدخول</h2><p class="note">ادخل بحساب Google الخاص بالمعلم لمراجعة الأسماء المستعارة والموافقة عليها.</p><p style="margin-top:14px"><button class="btn" id="si">الدخول بحساب Google</button></p><div class="err" id="er"></div></div>';
+    $('si').onclick = async () => { try { await H.teacherSignIn(); start(); } catch (e) { $('er').textContent = 'تعذّر الدخول: ' + (e.code || e.message); } };
+    return;
+  }
+  $('who').textContent = 'مسجّل باسم: ' + (u.email || '');
+  $('authBox').innerHTML = '<button class="btn soft" id="so">خروج</button>';
+  $('so').onclick = async () => { await H.teacherSignOut(); start(); };
+  await load();
+}
+
+async function load() {
+  let rows;
+  try { rows = await H.allPlayers(); }
+  catch (e) { $('main').innerHTML = '<div class="panel"><h2>لا توجد صلاحية</h2><p class="note">هذا الحساب ليس حساب المعلم المسجّل في إعدادات اللوحة.</p></div>'; return; }
+  rows.sort((a,b) => (b.score||0) - (a.score||0));
+  const pend = rows.filter(r => !r.approved), ok = rows.filter(r => r.approved);
+  const item = (r, pending) => `<div class="item" data-id="${r.id}"><span class="nm">${esc(r.nick)}</span><span class="sc">${fmt(r.score)}</span><span class="acts">
+    ${pending ? '<button class="btn ok" data-a="ok">✓ موافقة</button>' : '<button class="btn soft" data-a="hide">إخفاء</button>'}
+    <button class="btn soft" data-a="ren">تعديل الاسم</button><button class="btn bad" data-a="del">حذف</button></span></div>`;
+  $('main').innerHTML = `
+    <div class="panel"><h2>بانتظار الموافقة <span class="count">${pend.length}</span></h2>${pend.map(r => item(r, true)).join('') || '<div class="empty">لا توجد أسماء جديدة.</div>'}</div>
+    <div class="panel"><h2>ظاهرون في اللوحة <span class="count" style="background:var(--ok-soft);color:var(--ok)">${ok.length}</span></h2>${ok.map(r => item(r, false)).join('') || '<div class="empty">لا أحد بعد.</div>'}</div>`;
+  $('main').querySelectorAll('button[data-a]').forEach(b => b.onclick = async () => {
+    const id = b.closest('.item').dataset.id, a = b.dataset.a, r = rows.find(x => x.id === id);
+    b.disabled = true;
+    try {
+      if (a === 'ok') await H.setApproved(id, true);
+      if (a === 'hide') await H.setApproved(id, false);
+      if (a === 'ren') { const n = prompt('الاسم المستعار:', r.nick); if (n && H.cleanNick(n).length >= 2) await H.rename(id, n); }
+      if (a === 'del' && confirm('حذف «' + r.nick + '» من اللوحة؟')) await H.remove(id);
+    } catch (e) { alert('تعذّر التنفيذ: ' + (e.code || e.message)); }
+    load();
+  });
+}
+start();
+</script>
+</body>
+</html>

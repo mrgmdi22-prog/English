@@ -847,6 +847,7 @@ function handleAnswer(choice, btnEl, choicesEl){
   });
 
   if (isCorrect) {
+    try { const _k='mg1-known', _s=new Set(JSON.parse(localStorage.getItem(_k)||'[]')); _s.add(String(q.item.en)); localStorage.setItem(_k, JSON.stringify([..._s])); } catch(e) {}
     state.streak += 1;
     state.bestStreak = Math.max(state.bestStreak, state.streak);
     const bonus = Math.min(state.streak - 1, 5) * 2;

@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // حساب المعلم الذي يوافق على الأسماء (Google)
+    function isTeacher() {
+      return request.auth != null && request.auth.token.email_verified == true
+        && request.auth.token.email in ['mr.gmdi22@gmail.com'];
+    }
+    function validStudentData(d) {
+      return d.keys().hasOnly(['nick', 'approved', 'score', 'parts', 'updatedAt'])
+        && d.nick is string && d.nick.size() >= 2 && d.nick.size() <= 20
+        && d.score is int && d.score >= 0 && d.score <= 10000
+        && d.parts is map && d.approved is bool;
+    }
+
+    match /players/{uid} {
+      allow read: if (request.auth != null && request.auth.uid == uid)
+        || isTeacher()
+        || resource.data.approved == true;
+
+      // الطالب ينشئ سجله فقط، ولا يستطيع أن يوافق على نفسه
+      allow create: if request.auth != null && request.auth.uid == uid
+        && validStudentData(request.resource.data)
+        && request.resource.data.approved == false;
+
+      // الطالب يحدّث نقاطه؛ وإذا غيّر اسمه يعود إلى انتظار الموافقة
+      allow update: if isTeacher() || (
+        request.auth != null && request.auth.uid == uid
+        && validStudentData(request.resource.data)
+        && ((request.resource.data.nick == resource.data.nick && request.resource.data.approved == resource.data.approved)
+            || request.resource.data.approved == false));
+
+      allow delete: if isTeacher();
+    }
+  }
+}

@@ -58,6 +58,20 @@ h1 .en{display:block;font-family:var(--en);font-weight:600;font-size:.38em;lette
 .resume b{font-size:1.25rem}
 .resume .go{margin-inline-start:auto;background:var(--violet);color:#fff;font-weight:800;border-radius:999px;padding:9px 18px;white-space:nowrap;font-size:1rem}
 
+/* ---------- honor board entry ---------- */
+.honor{display:flex;align-items:center;gap:14px;margin-top:14px;text-decoration:none;border-radius:24px;padding:16px 18px;
+  background:linear-gradient(120deg,#fff6d6,#fffdf5 70%);border:2px solid #f2dc97;transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+.honor:hover{transform:translateY(-2px);box-shadow:0 18px 32px -22px rgba(178,122,0,.7)}
+.honor .tro{font-size:2.4rem;width:64px;height:64px;display:grid;place-items:center;background:#fff;border-radius:20px;border:1.5px solid #f2dc97;flex:none}
+.honor .txt{flex:1;min-width:0}
+.honor b{display:block;font-size:1.35rem;color:#8a5d00}
+.honor small{display:block;color:var(--muted);font-size:1rem;line-height:1.6}
+.top3{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.top3:empty{display:none}
+.top3 span{background:#fff;border:1px solid #f2dc97;border-radius:999px;padding:1px 10px;font-size:.95rem;font-weight:700}
+.honor .go{background:#b27a00;color:#fff;font-weight:800;border-radius:999px;padding:9px 18px;white-space:nowrap;font-size:1rem}
+@media (max-width:600px){.honor{flex-wrap:wrap}.honor .go{width:100%;text-align:center}}
+
 /* ---------- jump nav ---------- */
 .jump{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:26px 0 4px}
 .jump a{text-decoration:none;font-weight:700;font-size:1rem;padding:8px 16px;border-radius:999px;background:var(--card);border:1.5px solid var(--line);transition:border-color .2s,background .2s}
@@ -143,6 +157,13 @@ footer b{color:var(--ink)}
     <span class="go">أكمل ←</span>
   </a>
 
+  <a class="honor reveal" href="honor.html">
+    <span class="tro" aria-hidden="true">🏆</span>
+    <span class="txt"><b>لوحة الشرف</b><small id="hSub">تنافس مع زملائك: كل نجمة وإجابة صحيحة تمنحك نقاطاً.</small>
+      <span class="top3" id="top3"></span></span>
+    <span class="go">ادخل ←</span>
+  </a>
+
   <nav class="jump" aria-label="الأقسام">
     <a href="#s1" style="color:var(--violet)">🌟 بوابة الكبسولات</a>
     <a href="#s2" style="color:var(--teal)">🧭 رحلة التعلّم الذاتي</a>
@@ -198,6 +219,17 @@ footer b{color:var(--ink)}
 </div>
 
 <script src="assets/club.js"></script>
+<script type="module">
+// Top three on the honor board (only once Firebase is configured)
+import('./assets/honor.js').then(async H => {
+  const s = H.computeScore().score;
+  if (s > 0) document.getElementById('hSub').textContent = 'نقاطك الآن: ' + s.toLocaleString('en-US') + ' نقطة — انضم وتنافس مع زملائك.';
+  if (!H.ready) return;
+  const rows = await H.board(3);
+  const m = ['🥇','🥈','🥉'], t = document.getElementById('top3');
+  rows.forEach((r, i) => { const e = document.createElement('span'); e.textContent = m[i] + ' ' + r.nick; t.appendChild(e); });
+}).catch(() => {});
+</script>
 <script>
 (function(){
   function get(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } }

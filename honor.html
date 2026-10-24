@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>لوحة الشرف · نادي اللغة الإنجليزية</title>
+<meta name="theme-color" content="#fff8e6">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@500;600&display=swap">
+<link rel="stylesheet" href="assets/club.css">
+<style>
+/* Honor board: warm light gold page — podium for the top three, a clean ranked list, and the student's own card on top. */
+:root{color-scheme:light;--paper:#fffcf4;--card:#fff;--ink:#2a2a3d;--muted:#666a80;--line:#efe7d3;--gold:#b27a00;--gold-soft:#fff3cf;
+  --violet:#6046e8;--violet-soft:#efebff;--ok:#16825d;--ok-soft:#e3f6ee;--wait:#a35a00;--wait-soft:#fff0dc;
+  --ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif;--ease:cubic-bezier(.2,.7,.2,1)}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{margin:0;background:radial-gradient(900px 420px at 50% -120px,#fff0c2,transparent 70%),var(--paper);color:var(--ink);font-family:var(--ar);font-size:19px;line-height:1.7;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);overflow-x:hidden}
+.wrap{max-width:820px;margin:0 auto;padding:64px 16px 64px}
+header{text-align:center}
+.trophy{font-size:3.4rem;line-height:1;display:inline-block;animation:bob 3.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px) rotate(-3deg)}}
+h1{font-size:clamp(2.2rem,8vw,3.2rem);font-weight:800;margin:8px 0 4px;line-height:1.2}
+header p{margin:0 auto;color:var(--muted);font-size:1.1rem;max-width:30em;text-wrap:balance}
+
+.panel{background:var(--card);border:1.5px solid var(--line);border-radius:26px;padding:20px;margin-top:22px;box-shadow:0 16px 34px -30px rgba(120,90,0,.5)}
+.panel h2{margin:0 0 10px;font-size:1.3rem;font-weight:800}
+.note{color:var(--muted);font-size:1rem;margin:0}
+label{display:block;font-weight:700;margin-bottom:6px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+input[type=text]{flex:1;min-width:0;font:inherit;font-size:1.1rem;padding:12px 16px;border:2px solid var(--line);border-radius:16px;background:#fffdf8;color:var(--ink);outline:none;transition:border-color .2s}
+input[type=text]:focus{border-color:var(--gold)}
+.btn{font:inherit;font-weight:800;font-size:1.05rem;border:0;border-radius:999px;padding:12px 22px;cursor:pointer;background:var(--gold);color:#fff;transition:transform .15s,opacity .2s}
+.btn:hover{transform:translateY(-1px)}.btn:disabled{opacity:.55;cursor:default;transform:none}
+.btn.soft{background:var(--gold-soft);color:var(--gold)}
+.btn.link{background:none;color:var(--muted);padding:6px 8px;font-weight:700;text-decoration:underline}
+.msg{margin-top:10px;font-weight:700;font-size:1rem}
+.msg.err{color:#b3261e}.msg.ok{color:var(--ok)}
+
+.me{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.me .av{width:64px;height:64px;border-radius:20px;display:grid;place-items:center;font-size:2rem;background:var(--gold-soft);flex:none}
+.me .who{flex:1;min-width:150px}
+.me .who b{font-size:1.4rem;display:block;line-height:1.3}
+.status{display:inline-block;font-size:.92rem;font-weight:800;border-radius:999px;padding:2px 12px;margin-top:4px}
+.status.ok{background:var(--ok-soft);color:var(--ok)}.status.wait{background:var(--wait-soft);color:var(--wait)}
+.me .pts{text-align:center;background:var(--gold-soft);border-radius:20px;padding:8px 18px}
+.me .pts b{display:block;font-size:2rem;font-weight:800;color:var(--gold);line-height:1.2;font-variant-numeric:tabular-nums}
+.me .pts span{font-size:.92rem;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chips span{background:#faf7ef;border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.95rem}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;align-items:center}
+
+/* podium */
+.podium{display:grid;grid-template-columns:1fr 1.12fr 1fr;align-items:end;gap:10px;margin-top:30px}
+.pl{text-align:center;opacity:0;transform:translateY(16px);animation:up .7s var(--ease) forwards}
+.pl:nth-child(1){animation-delay:.15s}.pl:nth-child(2){animation-delay:0s}.pl:nth-child(3){animation-delay:.3s}
+@keyframes up{to{opacity:1;transform:none}}
+.pl .medal{font-size:2.6rem;line-height:1}
+.pl .nm{font-weight:800;font-size:1.15rem;margin:4px 0 0;overflow-wrap:anywhere;line-height:1.35}
+.pl .sc{color:var(--muted);font-size:.98rem;font-variant-numeric:tabular-nums}
+.pl .block{margin-top:8px;border-radius:20px 20px 10px 10px;display:grid;place-items:center;font-weight:800;font-size:1.8rem;color:#fff}
+.pl.g1 .block{height:132px;background:linear-gradient(180deg,#f7c948,#d99a00)}
+.pl.g2 .block{height:100px;background:linear-gradient(180deg,#c9d3e3,#97a3b8)}
+.pl.g3 .block{height:80px;background:linear-gradient(180deg,#f0b88a,#c97d45)}
+.pl.empty .nm{color:#b9b2a0}
+
+.list{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:8px}
+.list li{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:10px 16px;
+  opacity:0;transform:translateY(8px);animation:up .5s var(--ease) forwards}
+.list li.mine{border-color:var(--gold);background:#fffaea}
+.list .rk{width:38px;height:38px;border-radius:12px;background:#f6f2e7;display:grid;place-items:center;font-weight:800;color:var(--muted);flex:none;font-variant-numeric:tabular-nums}
+.list .nm{flex:1;font-weight:700;font-size:1.1rem;overflow-wrap:anywhere}
+.list .sc{font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap}
+.empty-board{text-align:center;color:var(--muted);padding:24px 10px}
+
+.rules{width:100%;border-collapse:collapse;font-size:1.02rem}
+.rules td{padding:9px 6px;border-bottom:1px solid var(--line)}
+.rules tr:last-child td{border-bottom:0}
+.rules td:last-child{text-align:left;font-weight:800;color:var(--gold);white-space:nowrap}
+footer{margin-top:36px;text-align:center;color:var(--muted);font-size:.98rem}
+footer a{color:var(--muted)}
+.skeleton{color:var(--muted);text-align:center;padding:18px}
+@media (max-width:520px){.podium{gap:6px}.pl .nm{font-size:1rem}.pl .medal{font-size:2.2rem}.me .pts{width:100%}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pl,.list li{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<a class="club-home" href="index.html">🏠 الرئيسية</a>
+<div class="wrap">
+  <header>
+    <span class="trophy" aria-hidden="true">🏆</span>
+    <h1>لوحة الشرف</h1>
+    <p>كل نجمة وكل إجابة صحيحة في أدوات النادي تمنحك نقاطاً. تدرّب، واصعد إلى القمة!</p>
+  </header>
+
+  <section class="panel" id="mePanel"><div class="skeleton">جارٍ التحميل…</div></section>
+
+  <section aria-labelledby="topH">
+    <h2 id="topH" style="text-align:center;margin:34px 0 0;font-size:1.5rem">الأوائل</h2>
+    <div class="podium" id="podium"></div>
+    <ol class="list" id="list"></ol>
+  </section>
+
+  <section class="panel">
+    <h2>كيف تُحسب النقاط؟</h2>
+    <table class="rules" id="rules"></table>
+    <p class="note" style="margin-top:10px">تُحدَّث نقاطك تلقائياً كلما فتحت الموقع، ويمكنك تحديثها الآن من بطاقتك. النقاط محفوظة على جهازك، فاستخدم الجهاز نفسه دائماً.</p>
+  </section>
+
+  <footer>إعداد: أ. أحمد آل سالم — نادي اللغة الإنجليزية، ثانوية الأمير فيصل بالعقيق<br><a href="teacher.html">دخول المعلم</a></footer>
+</div>
+<script src="assets/club.js"></script>
+<script type="module">
+const demo = /[?&]demo\b/.test(location.search);
+let H;
+if (demo) {
+  const m = await import('./assets/honor.js').catch(() => null);
+  const fake = ['نسر الصحراء','Falcon7','نجم الشمال','Lion King','القمر المضيء','Speedy','بطل العقيق','Eagle Eye','الشهاب','Rocket'].map((n,i)=>({id:'d'+i,nick:n,score:3200-i*270-(i%3)*35,approved:true}));
+  let me = null;
+  H = { ready:true, RULES:m.RULES, computeScore:m.computeScore, cleanNick:m.cleanNick,
+    myEntry: async()=>me, join: async(n)=>(me={id:'me',nick:m.cleanNick(n),approved:false,...m.computeScore()}),
+    sync: async()=>null, board: async()=>fake };
+} else {
+  H = await import('./assets/honor.js');
+}
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => Number(n||0).toLocaleString('en-US');
+
+$('rules').innerHTML = H.RULES.map(r => `<tr><td>${r.icon} ${r.label}</td><td>${r.per} نقاط</td></tr>`).join('');
+
+let ME = null, ROWS = [];
+
+function renderBoard() {
+  const top = ROWS.slice(0, 3), rest = ROWS.slice(3, 50);
+  const order = [1, 0, 2], medals = ['🥇','🥈','🥉'];
+  $('podium').innerHTML = order.map(i => {
+    const r = top[i];
+    return r ? `<div class="pl g${i+1}"><div class="medal">${medals[i]}</div><div class="nm">${esc(r.nick)}</div><div class="sc">${fmt(r.score)} نقطة</div><div class="block">${i+1}</div></div>`
+             : `<div class="pl g${i+1} empty"><div class="medal" style="opacity:.35">${medals[i]}</div><div class="nm">مكان شاغر</div><div class="sc">&nbsp;</div><div class="block">${i+1}</div></div>`;
+  }).join('');
+  $('list').innerHTML = rest.map((r, i) => `<li class="${ME && r.id===ME.id?'mine':''}" style="animation-delay:${Math.min(i,12)*40}ms"><span class="rk">${i+4}</span><span class="nm">${esc(r.nick)}</span><span class="sc">${fmt(r.score)}</span></li>`).join('')
+    || (ROWS.length ? '' : `<li class="empty-board" style="opacity:1;transform:none;border:0;background:none">لا أحد في اللوحة بعد — كن أول اسم يظهر هنا!</li>`);
+}
+
+function rankOf(id, score) {
+  const i = ROWS.findIndex(r => r.id === id);
+  if (i >= 0) return i + 1;
+  return ROWS.filter(r => (r.score||0) > score).length + 1;
+}
+
+function renderMe(msg) {
+  const P = $('mePanel');
+  const local = H.computeScore();
+  if (!ME) {
+    P.innerHTML = `<h2>انضم إلى لوحة الشرف</h2>
+      <p class="note">نقاطك الآن على هذا الجهاز: <b style="color:var(--gold)">${fmt(local.score)}</b> نقطة. اختر اسماً مستعاراً يظهر في اللوحة، ولا تكتب اسمك الحقيقي.</p>
+      <form id="jf" style="margin-top:14px"><label for="nk">اسمك المستعار</label>
+      <div class="row"><input id="nk" type="text" maxlength="20" minlength="2" placeholder="مثل: نسر العقيق" autocomplete="off" required>
+      <button class="btn" id="jb">انضم 🚀</button></div>
+      <p class="note" style="margin-top:8px;font-size:.95rem">يظهر اسمك بعد أن يوافق عليه المعلم.</p></form>
+      <div class="msg ${msg&&msg.err?'err':'ok'}">${msg?esc(msg.t):''}</div>`;
+    $('jf').onsubmit = async e => {
+      e.preventDefault();
+      const n = H.cleanNick($('nk').value);
+      if (n.length < 2) { renderMe({err:1,t:'اكتب اسماً من حرفين على الأقل.'}); return; }
+      $('jb').disabled = true; $('jb').textContent = 'جارٍ الحفظ…';
+      try { ME = await H.join(n); renderMe({t:'تم! سيظهر اسمك بعد موافقة المعلم.'}); }
+      catch (err) { console.error(err); renderMe({err:1,t:'تعذّر الحفظ، تأكد من الاتصال بالإنترنت ثم حاول مرة أخرى.'}); }
+    };
+    return;
+  }
+  const rk = rankOf(ME.id, ME.score);
+  const p = local.parts;
+  P.innerHTML = `<div class="me"><span class="av" aria-hidden="true">🏅</span>
+      <div class="who"><b>${esc(ME.nick)}</b>
+        <span class="status ${ME.approved?'ok':'wait'}">${ME.approved?'✓ ظاهر في اللوحة · المركز '+rk:'⏳ بانتظار موافقة المعلم'}</span></div>
+      <div class="pts"><b>${fmt(local.score)}</b><span>نقطة</span></div></div>
+    <div class="chips">${H.RULES.map(r=>`<span>${r.icon} ${fmt(p[r.key])} × ${r.per}</span>`).join('')}</div>
+    <div class="actions"><button class="btn soft" id="ub">🔄 حدّث نقاطي</button><button class="btn link" id="cn">تغيير الاسم المستعار</button></div>
+    <div class="msg ${msg&&msg.err?'err':'ok'}">${msg?esc(msg.t):''}</div>`;
+  $('ub').onclick = async () => {
+    $('ub').disabled = true;
+    try { await H.sync(true); ME = await H.myEntry(); ROWS = await H.board(); renderBoard(); renderMe({t:'تم تحديث نقاطك.'}); }
+    catch (err) { console.error(err); renderMe({err:1,t:'تعذّر التحديث، حاول لاحقاً.'}); }
+  };
+  $('cn').onclick = () => {
+    const n = prompt('اكتب الاسم المستعار الجديد (سيحتاج موافقة المعلم من جديد):', ME.nick);
+    if (n == null) return;
+    const c = H.cleanNick(n); if (c.length < 2 || c === ME.nick) return;
+    H.join(c).then(async r => { ME = await H.myEntry() || r; ROWS = await H.board(); renderBoard(); renderMe({t:'تم تغيير الاسم، وهو بانتظار موافقة المعلم.'}); })
+      .catch(() => renderMe({err:1,t:'تعذّر الحفظ.'}));
+  };
+}
+
+if (!H.ready) {
+  $('mePanel').innerHTML = `<h2>لوحة الشرف قيد الإعداد ⏳</h2><p class="note">ستفتح اللوحة قريباً. واصل جمع النقاط الآن، فكل ما تجمعه محفوظ وسيُحسب لك. نقاطك الحالية: <b style="color:var(--gold)">${fmt(H.computeScore().score)}</b></p>`;
+  renderBoard();
+} else {
+  try {
+    await H.sync(false).catch(() => {});
+    [ME, ROWS] = await Promise.all([H.myEntry(), H.board()]);
+    renderMe(); renderBoard();
+  } catch (err) {
+    console.error(err);
+    $('mePanel').innerHTML = `<h2>تعذّر الاتصال</h2><p class="note">تأكد من اتصالك بالإنترنت ثم أعد تحميل الصفحة.</p>`;
+    renderBoard();
+  }
+}
+</script>
+</body>
+</html>
