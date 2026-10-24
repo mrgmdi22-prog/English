@@ -1,0 +1,12 @@
+/* Shared by every page of the English Club site: soft page transitions + the floating home button. */
+@view-transition{navigation:auto}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.3s;animation-timing-function:ease}
+.club-home{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:10px;z-index:999;display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#2f3a55;
+  border:1.5px solid #dfe5f1;border-radius:999px;padding:7px 15px 7px 13px;font:700 16px/1.2 Tajawal,"Segoe UI",system-ui,sans-serif;
+  text-decoration:none;box-shadow:0 8px 20px -12px rgba(40,50,90,.5);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.club-home:hover{transform:translateY(-2px);border-color:#b9c4ec;box-shadow:0 12px 24px -12px rgba(60,70,140,.55)}
+.club-home:active{transform:translateY(0)}
+.club-home:focus-visible{outline:3px solid #6d4aff;outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.club-home{transition:none}::view-transition-old(root),::view-transition-new(root){animation:none}}
+@media print{.club-home{display:none}}

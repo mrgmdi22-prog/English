@@ -1,89 +1,248 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>نادي اللغة الإنجليزية · ثانوية الأمير فيصل</title>
 <meta name="description" content="ألعاب ومنصات تعلّم ذاتي للغة الإنجليزية: بوابة الكبسولات، ورحلة التعلّم الذاتي، وميدان المفردات.">
+<meta name="theme-color" content="#f6f4ff">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@500;700&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@500;600&display=swap">
+<link rel="stylesheet" href="assets/club.css">
 <style>
-/* Layout: a school "club noticeboard" home — one header, then three shelves of game cards; light pastel per collection. */
+/* Home of the English Club site: airy pastel hero with a slow "orbit" motif, a continue-where-you-left-off card,
+   then three shelves of cards. Everything light; text sizes generous for phones. */
 :root{
   color-scheme:light;
-  --paper:#fafbff; --card:#ffffff; --ink:#26304a; --muted:#5d6782; --line:#e2e7f2;
-  --violet:#6d4aff; --violet-soft:#efeaff; --teal:#13896f; --teal-soft:#e6f7f1; --sun:#b07c06; --sun-soft:#fff6dd;
+  --paper:#f8f9fe; --card:#ffffff; --ink:#232c47; --muted:#5a6482; --line:#e4e8f3;
+  --violet:#6046e8; --violet-soft:#efebff;
+  --teal:#11826a;  --teal-soft:#e3f6ef;
+  --sun:#a26f00;   --sun-soft:#fff4d6;
   --ar:"Tajawal","Segoe UI",Tahoma,sans-serif; --en:"Lexend","Segoe UI",system-ui,sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
 }
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--paper)}
-body{color:var(--ink);font-family:var(--ar);font-size:19px;line-height:1.7;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-.wrap{max-width:1000px;margin:0 auto;padding-inline:16px;padding-block:28px 60px}
+html{background:var(--paper);scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ar);font-size:19px;line-height:1.7;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);overflow-x:hidden}
 a{color:inherit}
-a:focus-visible{outline:3px solid var(--violet);outline-offset:3px;border-radius:12px}
-header{text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;padding-block:10px 18px}
-.chip{background:var(--violet-soft);color:var(--violet);font-weight:800;font-size:.95rem;border-radius:999px;padding:4px 18px}
-h1{font-size:clamp(2.1rem,7vw,3.4rem);font-weight:800;line-height:1.15;margin:4px 0 0;text-wrap:balance}
-.sub{margin:0;color:var(--muted);font-size:1.12rem;max-width:36em;text-wrap:balance}
-.shelf{margin-top:30px}
-.shelf h2{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:1.55rem;font-weight:800;margin:0 0 12px;padding:10px 18px;border-radius:18px}
-.shelf h2 span{font-size:1rem;font-weight:500;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
-.card{display:flex;flex-direction:column;gap:4px;text-decoration:none;background:var(--card);border:2px solid var(--line);border-radius:20px;padding:14px 16px;transition:transform .15s,border-color .15s}
-.card:hover{transform:translateY(-2px);border-color:var(--c,var(--violet))}
-.card .ic{font-size:2rem;line-height:1.2}
-.card b{font-size:1.2rem;font-weight:800;color:var(--c,var(--ink))}
-.card .en{font-family:var(--en);font-size:.9rem;color:var(--muted);direction:ltr;text-align:right}
-.card p{margin:2px 0 0;font-size:.98rem;color:var(--muted);line-height:1.6}
-.card.wide{grid-column:1/-1;flex-direction:row;align-items:center;gap:16px}
-.card.wide .ic{font-size:2.6rem}
-.go{margin-inline-start:auto;font-weight:800;color:var(--c);white-space:nowrap}
-footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
-@media (max-width:560px){.card.wide{flex-wrap:wrap}.go{margin-inline-start:0}}
-@media (prefers-reduced-motion:reduce){.card{transition:none}}
+a:focus-visible,button:focus-visible{outline:3px solid var(--violet);outline-offset:3px;border-radius:16px}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:16px;padding-block:18px 64px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;border-radius:32px;padding:44px 22px 40px;text-align:center;
+  background:linear-gradient(135deg,#efeaff 0%,#e6f6f1 52%,#fff2dc 100%);border:1px solid #e7e2fb}
+.hero .orbits{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero .orbits ellipse{fill:none;stroke:rgba(96,70,232,.16);stroke-width:1.4}
+.hero .orbits circle{transform-box:view-box;transform-origin:500px 210px}
+.o1{animation:spin 26s linear infinite}.o2{animation:spin 38s linear infinite reverse}.o3{animation:spin 50s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero > *:not(.orbits){position:relative}
+.chip{display:inline-block;background:rgba(255,255,255,.85);color:var(--violet);font-weight:800;font-size:.95rem;border-radius:999px;padding:5px 18px;border:1px solid #ddd5ff}
+h1{font-size:clamp(2.2rem,8vw,3.6rem);font-weight:800;line-height:1.15;margin:14px 0 8px;letter-spacing:-.5px;text-wrap:balance}
+h1 .en{display:block;font-family:var(--en);font-weight:600;font-size:.38em;letter-spacing:2px;color:var(--violet);margin-top:8px;direction:ltr}
+.sub{margin:0 auto;color:var(--muted);font-size:1.15rem;max-width:32em;text-wrap:balance}
+.stats{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:24px}
+.stat{background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:18px;padding:10px 18px;min-width:118px}
+.stat b{display:block;font-size:1.6rem;font-weight:800;line-height:1.2;font-variant-numeric:tabular-nums}
+.stat span{font-size:.95rem;color:var(--muted)}
+
+/* ---------- continue ---------- */
+.resume{display:none;margin-top:16px;align-items:center;gap:14px;background:var(--card);border:2px solid #d9d1ff;border-radius:22px;padding:14px 18px;text-decoration:none;
+  box-shadow:0 14px 30px -22px rgba(96,70,232,.6);transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+.resume.on{display:flex}
+.resume:hover{transform:translateY(-2px);box-shadow:0 18px 34px -20px rgba(96,70,232,.6)}
+.resume .ic{font-size:2rem;width:58px;height:58px;display:grid;place-items:center;background:var(--violet-soft);border-radius:18px;flex:none}
+.resume small{display:block;color:var(--muted);font-size:.95rem}
+.resume b{font-size:1.25rem}
+.resume .go{margin-inline-start:auto;background:var(--violet);color:#fff;font-weight:800;border-radius:999px;padding:9px 18px;white-space:nowrap;font-size:1rem}
+
+/* ---------- jump nav ---------- */
+.jump{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:26px 0 4px}
+.jump a{text-decoration:none;font-weight:700;font-size:1rem;padding:8px 16px;border-radius:999px;background:var(--card);border:1.5px solid var(--line);transition:border-color .2s,background .2s}
+.jump a:hover{border-color:currentColor}
+
+/* ---------- shelves ---------- */
+.shelf{margin-top:34px;scroll-margin-top:16px}
+.shelf-head{display:flex;align-items:center;gap:14px;margin:0 0 14px}
+.shelf-head .badge{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:1.7rem;flex:none}
+.shelf-head h2{margin:0;font-size:1.65rem;font-weight:800;line-height:1.25}
+.shelf-head p{margin:0;color:var(--muted);font-size:1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.grid.caps{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+
+.card{--c:var(--violet);--t:var(--violet-soft);position:relative;display:flex;flex-direction:column;gap:6px;text-decoration:none;background:var(--card);
+  border:1.5px solid var(--line);border-radius:24px;padding:18px;transition:transform .22s var(--ease),box-shadow .22s var(--ease),border-color .22s}
+.card:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--c) 45%,white);box-shadow:0 18px 34px -24px color-mix(in srgb,var(--c) 70%,black)}
+.card:active{transform:translateY(-1px)}
+.card .ic{width:56px;height:56px;border-radius:18px;background:var(--t);display:grid;place-items:center;font-size:1.9rem;margin-bottom:4px;transition:transform .3s var(--ease)}
+.card:hover .ic{transform:scale(1.08) rotate(-4deg)}
+.card b{font-size:1.25rem;font-weight:800;color:var(--ink);line-height:1.35}
+.card .en{font-family:var(--en);font-size:.92rem;color:var(--c);direction:ltr;text-align:right;font-weight:600}
+.card p{margin:0;font-size:1rem;color:var(--muted);line-height:1.65}
+.card .arrow{position:absolute;top:18px;left:18px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--t);color:var(--c);font-weight:800;
+  transition:transform .22s var(--ease),background .22s,color .22s}
+.card:hover .arrow{transform:translateX(-4px);background:var(--c);color:#fff}
+.bar{height:8px;border-radius:99px;background:#eef0f6;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;width:0;border-radius:99px;background:var(--c);transition:width .8s var(--ease)}
+.prog{font-size:.9rem;color:var(--muted);margin-top:2px}
+
+.portal{grid-column:1/-1;flex-direction:row;align-items:center;gap:16px;background:linear-gradient(120deg,#f3efff,#ffffff 70%)}
+.portal .ic{width:68px;height:68px;font-size:2.4rem;margin:0;background:#fff;border:1.5px solid #e2dbff}
+.portal .txt{flex:1}
+.portal .go{background:var(--violet);color:#fff;font-weight:800;border-radius:999px;padding:10px 20px;white-space:nowrap;font-size:1rem}
+.portal .arrow{display:none}
+
+footer{margin-top:48px;text-align:center;color:var(--muted);font-size:1rem;line-height:1.9}
+footer b{color:var(--ink)}
+
+/* ---------- motion ---------- */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media (max-width:600px){
+  .hero{padding:34px 16px 30px;border-radius:26px}
+  .portal{flex-wrap:wrap}.portal .go{width:100%;text-align:center}
+  .resume{flex-wrap:wrap}.resume .go{width:100%;text-align:center;margin:0}
+  .grid.caps{grid-template-columns:1fr 1fr;gap:10px}
+  .grid.caps .card{padding:14px}
+  .grid.caps .card .arrow{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
+
+  <section class="hero reveal">
+    <svg class="orbits" viewBox="0 0 1000 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <ellipse cx="500" cy="210" rx="430" ry="120"/>
+      <ellipse cx="500" cy="210" rx="430" ry="120" transform="rotate(30 500 210)"/>
+      <ellipse cx="500" cy="210" rx="430" ry="120" transform="rotate(-30 500 210)"/>
+      <circle class="o1" cx="930" cy="210" r="9" fill="#a996ff"/>
+      <circle class="o2" cx="70" cy="210" r="7" fill="#6fd0b3"/>
+      <circle class="o3" cx="500" cy="90" r="8" fill="#ffc46b"/>
+    </svg>
     <span class="chip">ثانوية الأمير فيصل بالعقيق</span>
-    <h1>نادي اللغة الإنجليزية</h1>
+    <h1>نادي اللغة الإنجليزية<span class="en">ENGLISH CLUB</span></h1>
     <p class="sub">ألعاب ومنصات للتعلّم الذاتي: تدرّب كل يوم قليلاً، واجمع النجوم، وتقدّم بخطوات ثابتة.</p>
-  </header>
-
-  <section class="shelf" aria-labelledby="s1">
-    <h2 id="s1" style="background:var(--violet-soft);color:var(--violet)">بوابة الكبسولات <span>8 كبسولات · جمل ومعانٍ · مراحل ونجوم</span></h2>
-    <div class="grid">
-      <a class="card wide" href="capsules/index.html" style="--c:var(--violet)"><span class="ic" aria-hidden="true">🌟</span><div><b>بوابة الكبسولات</b><p>اختر كبسولتك من الثماني، والعب مراحلها وراجع أخطاءك.</p></div><span class="go">ادخل البوابة ←</span></a>
-      <a class="card" href="capsules/space.html" style="--c:#6d4aff"><span class="ic" aria-hidden="true">🚀</span><b>كبسولة الفضاء</b><span class="en">Space</span></a>
-      <a class="card" href="capsules/flavor.html" style="--c:#c25a20"><span class="ic" aria-hidden="true">🍊</span><b>كبسولة النكهة</b><span class="en">Flavor</span></a>
-      <a class="card" href="capsules/life.html" style="--c:#7d47c4"><span class="ic" aria-hidden="true">🦋</span><b>كبسولة الحياة</b><span class="en">Life</span></a>
-      <a class="card" href="capsules/adventure.html" style="--c:#2477b5"><span class="ic" aria-hidden="true">🎈</span><b>كبسولة المغامرة</b><span class="en">Adventure</span></a>
-      <a class="card" href="capsules/emotion.html" style="--c:#9a7200"><span class="ic" aria-hidden="true">💛</span><b>كبسولة المشاعر</b><span class="en">Emotions</span></a>
-      <a class="card" href="capsules/career.html" style="--c:#2f5fa8"><span class="ic" aria-hidden="true">🎓</span><b>كبسولة المسيرة</b><span class="en">Career</span></a>
-      <a class="card" href="capsules/nature.html" style="--c:#1d7a50"><span class="ic" aria-hidden="true">🌍</span><b>كبسولة الطبيعة</b><span class="en">Nature</span></a>
-      <a class="card" href="capsules/health.html" style="--c:#13807f"><span class="ic" aria-hidden="true">🩺</span><b>كبسولة التعافي</b><span class="en">Health</span></a>
+    <div class="stats">
+      <div class="stat"><b>8</b><span>كبسولات</span></div>
+      <div class="stat"><b>1000</b><span>كلمة</span></div>
+      <div class="stat"><b>20</b><span>محادثة</span></div>
+      <div class="stat"><b id="myStars">0</b><span>نجمة جمعتها ⭐</span></div>
     </div>
   </section>
 
-  <section class="shelf" aria-labelledby="s2">
-    <h2 id="s2" style="background:var(--teal-soft);color:var(--teal)">رحلة التعلّم الذاتي <span>1000 كلمة في 20 أسبوعاً</span></h2>
-    <div class="grid">
-      <a class="card" href="journey/word-quest.html" style="--c:#2f6fd6"><span class="ic" aria-hidden="true">🗺️</span><b>English Word Quest</b><p>50 وحدة: تعرّف، وتدرّب، واقرأ القصة، واختبر نفسك.</p></a>
-      <a class="card" href="journey/dictionary.html" style="--c:#13896f"><span class="ic" aria-hidden="true">📖</span><b>قاموس رحلة الألف كلمة</b><p>المعنى والنوع والنطق وأمثلة لكل كلمة، بالأسبوع واليوم.</p></a>
-      <a class="card" href="journey/conversation-lab.html" style="--c:#c9573a"><span class="ic" aria-hidden="true">💬</span><b>مختبر المحادثة</b><p>20 محادثة: استمع، وأجب، واقرأ النص، ثم مثّل الدور.</p></a>
+  <a class="resume" id="resume" href="#">
+    <span class="ic" id="rIc" aria-hidden="true">▶️</span>
+    <span><small>تابع من حيث توقفت</small><b id="rName"></b></span>
+    <span class="go">أكمل ←</span>
+  </a>
+
+  <nav class="jump" aria-label="الأقسام">
+    <a href="#s1" style="color:var(--violet)">🌟 بوابة الكبسولات</a>
+    <a href="#s2" style="color:var(--teal)">🧭 رحلة التعلّم الذاتي</a>
+    <a href="#s3" style="color:var(--sun)">🏟️ ميدان المفردات</a>
+  </nav>
+
+  <section class="shelf" id="s1" aria-labelledby="h1s">
+    <div class="shelf-head reveal">
+      <span class="badge" style="background:var(--violet-soft)" aria-hidden="true">🌟</span>
+      <div><h2 id="h1s" style="color:var(--violet)">بوابة الكبسولات</h2><p>8 كبسولات · جمل ومعانٍ · مراحل ونجوم ومراجعة ذكية</p></div>
+    </div>
+    <div class="grid caps">
+      <a class="card portal reveal" href="capsules/index.html">
+        <span class="ic" aria-hidden="true">🌟</span>
+        <span class="txt"><b>ادخل البوابة</b><p>شاهد الكبسولات الثماني معاً، واختر ما يناسبك.</p></span>
+        <span class="go">ادخل البوابة ←</span>
+      </a>
+      <a class="card reveal" data-cap="space" data-stages="16" href="capsules/space.html" style="--c:#6046e8;--t:#efebff"><span class="arrow">←</span><span class="ic" aria-hidden="true">🚀</span><b>الفضاء</b><span class="en">Space</span><div class="bar"><i></i></div><span class="prog"></span></a>
+      <a class="card reveal" data-cap="flavor" data-stages="23" href="capsules/flavor.html" style="--c:#c25a20;--t:#fff0e4"><span class="arrow">←</span><span class="ic" aria-hidden="true">🍊</span><b>النكهة</b><span class="en">Flavor</span><div class="bar"><i></i></div><span class="prog"></span></a>
+      <a class="card reveal" data-cap="life" data-stages="16" href="capsules/life.html" style="--c:#7d47c4;--t:#f3ebff"><span class="arrow">←</span><span class="ic" aria-hidden="true">🦋</span><b>الحياة</b><span class="en">Life</span><div class="bar"><i></i></div><span class="prog"></span></a>
+      <a class="card reveal" data-cap="adventure" data-stages="16" href="capsules/adventure.html" style="--c:#2477b5;--t:#e6f3fc"><span class="arrow">←</span><span class="ic" aria-hidden="true">🎈</span><b>المغامرة</b><span class="en">Adventure</span><div class="bar"><i></i></div><span class="prog"></span></a>
+      <a class="card reveal" data-cap="emotion" data-stages="17" href="capsules/emotion.html" style="--c:#9a6a00;--t:#fff6d8"><span class="arrow">←</span><span class="ic" aria-hidden="true">💛</span><b>المشاعر</b><span class="en">Emotions</span><div class="bar"><i></i></div><span class="prog"></span></a>
+      <a class="card reveal" data-cap="career" data-stages="17" href="capsules/career.html" style="--c:#2f5fa8;--t:#e8effb"><span class="arrow">←</span><span class="ic" aria-hidden="true">🎓</span><b>المسيرة</b><span class="en">Career</span><div class="bar"><i></i></div><span class="prog"></span></a>
+      <a class="card reveal" data-cap="nature" data-stages="16" href="capsules/nature.html" style="--c:#1d7a50;--t:#e4f5ec"><span class="arrow">←</span><span class="ic" aria-hidden="true">🌍</span><b>الطبيعة</b><span class="en">Nature</span><div class="bar"><i></i></div><span class="prog"></span></a>
+      <a class="card reveal" data-cap="health" data-stages="16" href="capsules/health.html" style="--c:#13807f;--t:#e2f5f4"><span class="arrow">←</span><span class="ic" aria-hidden="true">🩺</span><b>التعافي</b><span class="en">Health</span><div class="bar"><i></i></div><span class="prog"></span></a>
     </div>
   </section>
 
-  <section class="shelf" aria-labelledby="s3">
-    <h2 id="s3" style="background:var(--sun-soft);color:var(--sun)">ميدان المفردات <span>مفردات Mega Goal</span></h2>
+  <section class="shelf" id="s2" aria-labelledby="h2s">
+    <div class="shelf-head reveal">
+      <span class="badge" style="background:var(--teal-soft)" aria-hidden="true">🧭</span>
+      <div><h2 id="h2s" style="color:var(--teal)">رحلة التعلّم الذاتي</h2><p>1000 كلمة في 20 أسبوعاً</p></div>
+    </div>
     <div class="grid">
-      <a class="card" href="vocab/mega-goal-1.html" style="--c:#b07c06"><span class="ic" aria-hidden="true">🏟️</span><b>ميدان المفردات 1</b><span class="en">Mega Goal 1.1</span></a>
-      <a class="card" href="vocab/mega-goal-2.html" style="--c:#b07c06"><span class="ic" aria-hidden="true">🏆</span><b>ميدان المفردات 2</b><span class="en">Mega Goal 2.1</span></a>
+      <a class="card reveal" href="journey/word-quest.html" style="--c:#2f6fd6;--t:#e8f0fd"><span class="arrow">←</span><span class="ic" aria-hidden="true">🗺️</span><b>English Word Quest</b><p>50 وحدة: تعرّف على الكلمات، وتدرّب، واقرأ القصة، واختبر نفسك.</p></a>
+      <a class="card reveal" href="journey/dictionary.html" style="--c:#11826a;--t:#e3f6ef"><span class="arrow">←</span><span class="ic" aria-hidden="true">📖</span><b>قاموس الألف كلمة</b><p>المعنى والنوع والنطق وأمثلة لكل كلمة، مرتّبة بالأسبوع واليوم.</p></a>
+      <a class="card reveal" href="journey/conversation-lab.html" style="--c:#c4532f;--t:#fdece5"><span class="arrow">←</span><span class="ic" aria-hidden="true">💬</span><b>مختبر المحادثة</b><p>20 محادثة: استمع، وأجب، واقرأ النص، ثم مثّل الدور.</p></a>
     </div>
   </section>
 
-  <footer>إعداد: أ. أحمد السالم — معلم اللغة الإنجليزية، ثانوية الأمير فيصل بالعقيق</footer>
+  <section class="shelf" id="s3" aria-labelledby="h3s">
+    <div class="shelf-head reveal">
+      <span class="badge" style="background:var(--sun-soft)" aria-hidden="true">🏟️</span>
+      <div><h2 id="h3s" style="color:var(--sun)">ميدان المفردات</h2><p>مفردات منهج Mega Goal</p></div>
+    </div>
+    <div class="grid">
+      <a class="card reveal" href="vocab/mega-goal-1.html" style="--c:#a26f00;--t:#fff4d6"><span class="arrow">←</span><span class="ic" aria-hidden="true">🏟️</span><b>ميدان المفردات 1</b><span class="en">Mega Goal 1.1</span><p>مفردات الكتاب الأول في تحديات سريعة.</p></a>
+      <a class="card reveal" href="vocab/mega-goal-2.html" style="--c:#b0560c;--t:#ffeedd"><span class="arrow">←</span><span class="ic" aria-hidden="true">🏆</span><b>ميدان المفردات 2</b><span class="en">Mega Goal 2.1</span><p>مفردات الكتاب الثاني في تحديات سريعة.</p></a>
+    </div>
+  </section>
+
+  <footer>إعداد: <b>أ. أحمد آل سالم</b> — معلم اللغة الإنجليزية<br>ثانوية الأمير فيصل بالعقيق</footer>
 </div>
+
+<script src="assets/club.js"></script>
+<script>
+(function(){
+  function get(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } }
+
+  // Progress per capsule (stars are saved by each capsule as cap2-<name>-stars = {stage: 1..3})
+  var total = 0;
+  document.querySelectorAll('[data-cap]').forEach(function(a){
+    var st = get('cap2-' + a.dataset.cap + '-stars') || {}, n = +a.dataset.stages;
+    var done = 0, stars = 0;
+    Object.keys(st).forEach(function(k){ var v = +st[k] || 0; if(v > 0){ done++; stars += v; } });
+    total += stars;
+    var pct = Math.min(100, Math.round(done / n * 100));
+    a.querySelector('.prog').textContent = done ? (done + ' من ' + n + ' مرحلة · ⭐ ' + stars) : (n + ' مرحلة');
+    requestAnimationFrame(function(){ a.querySelector('.bar i').style.width = pct + '%'; });
+  });
+  document.getElementById('myStars').textContent = total;
+
+  // Continue where you left off
+  var names = {
+    'capsules/space.html':['كبسولة الفضاء','🚀'], 'capsules/flavor.html':['كبسولة النكهة','🍊'], 'capsules/life.html':['كبسولة الحياة','🦋'],
+    'capsules/adventure.html':['كبسولة المغامرة','🎈'], 'capsules/emotion.html':['كبسولة المشاعر','💛'], 'capsules/career.html':['كبسولة المسيرة','🎓'],
+    'capsules/nature.html':['كبسولة الطبيعة','🌍'], 'capsules/health.html':['كبسولة التعافي','🩺'],
+    'journey/word-quest.html':['English Word Quest','🗺️'], 'journey/dictionary.html':['قاموس الألف كلمة','📖'], 'journey/conversation-lab.html':['مختبر المحادثة','💬'],
+    'vocab/mega-goal-1.html':['ميدان المفردات 1','🏟️'], 'vocab/mega-goal-2.html':['ميدان المفردات 2','🏆']
+  };
+  var last = get('club-last');
+  if(last && last.p){
+    for(var k in names){
+      if(last.p.slice(-k.length) === k){
+        var r = document.getElementById('resume');
+        r.href = k; document.getElementById('rName').textContent = names[k][0]; document.getElementById('rIc').textContent = names[k][1];
+        r.classList.add('on'); break;
+      }
+    }
+  }
+
+  // Gentle reveal on scroll
+  var els = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {rootMargin:'0px 0px -6% 0px'});
+    els.forEach(function(el, i){ el.style.transitionDelay = Math.min(i % 9, 8) * 45 + 'ms'; io.observe(el); });
+  } else { els.forEach(function(el){ el.classList.add('in'); }); }
+})();
+</script>
 </body>
 </html>
