@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Syntax Tree Lab · English Club</title>
+<meta name="description" content="See how English sentences break into phrases and word classes, as a tree.">
+<meta name="theme-color" content="#F4F7FA">
+<style>*{box-sizing:border-box}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&display=swap">
+<style>
+/* Layout: one centered study column; the tree gets a full-width scrollable panel, details sit in two columns below. */
+:root{
+  --bg:#F4F7FA; --panel:#FFFFFF; --ink:#1C2836; --muted:#566578; --line:#D6DEE7;
+  --accent:#3A5BD0; --accent-ink:#FFFFFF;
+  --phrase-fill:#ECEFFC; --phrase-stroke:#6C7BD6; --phrase-ink:#26307A;
+  --pos-fill:#E2F4EC; --pos-stroke:#3F9B78; --pos-ink:#14523B;
+  --edge:#9AA8B8; --sel:#F2B33D; --warn-bg:#FFF4DE; --warn-ink:#7A4B00;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141B24; --panel:#1C2531; --ink:#E7EDF4; --muted:#A3B0BF; --line:#2F3B4A;
+  --accent:#8FA5FF; --accent-ink:#121826;
+  --phrase-fill:#262E57; --phrase-stroke:#8E9BF0; --phrase-ink:#DDE1FF;
+  --pos-fill:#183B30; --pos-stroke:#5CC79E; --pos-ink:#D3F5E7;
+  --edge:#5E6C7D; --sel:#F2B33D; --warn-bg:#3A2D12; --warn-ink:#F6D58E; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141B24; --panel:#1C2531; --ink:#E7EDF4; --muted:#A3B0BF; --line:#2F3B4A;
+  --accent:#8FA5FF; --accent-ink:#121826;
+  --phrase-fill:#262E57; --phrase-stroke:#8E9BF0; --phrase-ink:#DDE1FF;
+  --pos-fill:#183B30; --pos-stroke:#5CC79E; --pos-ink:#D3F5E7;
+  --edge:#5E6C7D; --sel:#F2B33D; --warn-bg:#3A2D12; --warn-ink:#F6D58E; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 48px}
+.wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,5vw,42px);line-height:1.1;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-weight:500;font-size:22px;margin:0 0 10px}
+.lede{color:var(--muted);margin:6px 0 0;max-width:62ch}
+.topnav a{color:var(--accent);font-weight:700;text-decoration:none;font-size:17px}
+.topnav a:hover{text-decoration:underline}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+label.big{font-weight:700;display:block;margin-bottom:8px}
+textarea{width:100%;box-sizing:border-box;font:inherit;font-size:20px;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;resize:vertical;min-height:84px}
+textarea:focus-visible,button:focus-visible{outline:3px solid var(--sel);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+button{font:inherit;font-size:18px;border-radius:10px;cursor:pointer;padding:10px 18px;border:1.5px solid var(--line);background:var(--panel);color:var(--ink)}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+button:disabled{opacity:.55;cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;align-items:center}
+.chips span{color:var(--muted);font-size:16px}
+.chip{font-size:16px;padding:6px 12px;border-radius:999px}
+.status{font-size:17px;color:var(--muted);min-height:1.6em}
+.status.err{color:var(--warn-ink);background:var(--warn-bg);padding:8px 12px;border-radius:8px}
+.treebox{overflow-x:auto;padding-bottom:6px}
+.treebox svg{display:block;margin:0 auto}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:16px;margin-bottom:10px}
+.meta b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:1.1fr 1fr;gap:22px}
+.grid>*{min-width:0}
+@media (max-width:760px){.grid{grid-template-columns:1fr}}
+table{width:100%;border-collapse:collapse;font-size:17px}
+th{text-align:left;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:6px 8px;border-bottom:1.5px solid var(--line)}
+td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+td.w{font-weight:700}
+.tag{display:inline-block;font-weight:700;font-size:15px;padding:1px 8px;border-radius:6px;background:var(--pos-fill);color:var(--pos-ink);border:1px solid var(--pos-stroke)}
+ul.notes{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:8px}
+.explain{margin-top:16px;padding:14px 16px;border-radius:10px;background:var(--phrase-fill);color:var(--phrase-ink);font-size:17px}
+.explain b{font-family:var(--display);font-size:19px}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:15px;color:var(--muted);margin-top:8px}
+.sw{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:6px}
+svg .node{cursor:pointer}
+svg .node:focus{outline:none}
+svg .node:focus rect,svg .node.sel rect{stroke:var(--sel);stroke-width:3}
+.tableScroll{overflow-x:auto}
+@media (prefers-reduced-motion:no-preference){svg .node rect{transition:stroke .15s}}
+</style>
+
+<div class="wrap">
+  <nav class="topnav"><a href="../index.html">← English Club</a></nav>
+  <header>
+    <h1>Syntax Tree Lab</h1>
+    <p class="lede">Type any English sentence and see how it breaks into phrases and word classes. Tap a box in the tree to learn what its label means.</p>
+  </header>
+
+  <section class="panel" aria-labelledby="inLabel">
+    <label class="big" id="inLabel" for="sentence">Your sentence</label>
+    <textarea id="sentence" maxlength="300" spellcheck="true">His happy childhood comes to an abrupt end.</textarea>
+    <div class="row">
+      <button class="primary" id="go">Draw the tree</button>
+      <button id="stop" hidden>Stop</button>
+      <div class="status" id="status" role="status" aria-live="polite"></div>
+    </div>
+    <div class="chips" id="examples"><span>Try an example:</span></div>
+  </section>
+
+  <section class="panel" aria-labelledby="treeH">
+    <h2 id="treeH">Tree diagram</h2>
+    <div class="meta" id="meta"></div>
+    <div class="treebox"><svg id="tree" role="img" aria-label="Syntax tree"></svg></div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--phrase-fill);border:1.5px solid var(--phrase-stroke)"></i>Phrase or clause</span>
+      <span><i class="sw" style="background:var(--pos-fill);border:1.5px solid var(--pos-stroke)"></i>Word class</span>
+    </div>
+    <div class="explain" id="explain">Tap any box in the tree to see what it means.</div>
+  </section>
+
+  <div class="grid">
+    <section class="panel" aria-labelledby="wordsH">
+      <h2 id="wordsH">Word by word</h2>
+      <div class="tableScroll"><table><thead><tr><th>Word</th><th>Class</th><th>Job in the sentence</th></tr></thead><tbody id="words"></tbody></table></div>
+    </section>
+    <section class="panel" aria-labelledby="notesH">
+      <h2 id="notesH">Teaching notes</h2>
+      <ul class="notes" id="notes"></ul>
+    </section>
+  </div>
+  <footer style="text-align:center;color:var(--muted);font-size:16px;padding-top:8px">إعداد: <b>أ. أحمد آل سالم</b> — معلم اللغة الإنجليزية</footer>
+</div>
+
+<script>
+const GLOSS={
+  S:["Sentence","The whole sentence. It usually splits into a subject (NP) and a predicate (VP)."],
+  NP:["Noun phrase","A group of words built around a noun or pronoun, like “the old house” or “she”. It can be a subject, an object or a complement."],
+  VP:["Verb phrase","The verb together with its objects, complements and modifiers. In a sentence it is the predicate: what the subject does or is."],
+  PP:["Prepositional phrase","A preposition plus a noun phrase, like “in the morning”. It tells us where, when, how, or adds detail to a noun."],
+  AdjP:["Adjective phrase","An adjective with any words that go with it, like “very happy” or “famous for its format”."],
+  AdvP:["Adverb phrase","An adverb with any words that go with it, like “very quickly” or “twice a year”."],
+  CP:["Clause (CP)","A clause inside the sentence, often starting with who, which, that, because or when. Relative clauses describe a noun."],
+  TP:["Infinitive clause","A clause built on “to + verb”, like “to phrase their answers”."],
+  ConjP:["Coordinated phrase","Two or more phrases joined by a conjunction such as and, but or or."],
+  Det:["Determiner","A word that introduces a noun: a, an, the, this, my, his, some."],
+  N:["Noun","A word for a person, place, thing or idea. Nouns can also describe other nouns, like “sports” in “sports program”."],
+  Pron:["Pronoun","A word that stands in for a noun: he, they, someone, which, it."],
+  V:["Verb","The main action or state word: run, is, comes, aired."],
+  Aux:["Auxiliary verb","A helping verb that adds tense, aspect or voice: be, have, do."],
+  Modal:["Modal verb","A helping verb for ability, possibility or duty: can, must, should, will."],
+  Adj:["Adjective","A word that describes a noun: happy, popular, first."],
+  Adv:["Adverb","A word that describes a verb, adjective or whole clause: quickly, live, twice."],
+  P:["Preposition","A word that links a noun phrase to the rest of the sentence: in, on, of, in front of."],
+  Conj:["Conjunction","A joining word: and, but, or, because, although."],
+  Num:["Number","A numeral or number word: 21, 1964, three."],
+  Inf:["Infinitive marker","The word “to” before a base verb: to go, to phrase."],
+  Part:["Particle","A small word that belongs to a phrasal verb: look up, give in."],
+  Interj:["Interjection","An exclamation: oh, wow, hello."]
+};
+const ROLE={subject:"The subject: who or what the sentence is about.",predicate:"The predicate: what is said about the subject.",object:"The object: who or what receives the action.",complement:"A complement: it completes the meaning of the verb or word before it.",modifier:"A modifier: it adds detail to another word.",appositive:"An appositive: it renames the noun next to it.","relative clause":"A relative clause: it describes a noun, usually starting with who, which or that.",adverbial:"An adverbial: it tells when, where, how or how often."};
+
+const L=(label,word)=>({label,word});
+const P=(label,children,role)=>role?{label,role,children}:{label,children};
+const EXAMPLES=[
+ {sentence:"His happy childhood comes to an abrupt end.",type:"Simple sentence",
+  tree:P("S",[P("NP",[L("Det","His"),L("Adj","happy"),L("N","childhood")],"subject"),P("VP",[L("V","comes"),P("PP",[L("P","to"),P("NP",[L("Det","an"),L("Adj","abrupt"),L("N","end")])],"complement")],"predicate")]),
+  words:[["His","Det","Possessive determiner before “childhood”"],["happy","Adj","Describes “childhood”"],["childhood","N","Head of the subject"],["comes","V","Main verb, present simple"],["to","P","Starts the complement phrase"],["an","Det","Article before “abrupt end”"],["abrupt","Adj","Describes “end”"],["end","N","Head of the noun phrase after “to”"]],
+  notes:["“His” is a possessive determiner, not a pronoun, because it comes before a noun.","“Come to an end” is a fixed expression that means “finish”.","The PP “to an abrupt end” sits inside the VP because the verb needs it to complete its meaning."]},
+ {sentence:"Someone has been plotting a series of disturbing crimes.",type:"Simple sentence",
+  tree:P("S",[P("NP",[L("Pron","Someone")],"subject"),P("VP",[L("Aux","has"),L("Aux","been"),L("V","plotting"),P("NP",[L("Det","a"),L("N","series"),P("PP",[L("P","of"),P("NP",[L("Adj","disturbing"),L("N","crimes")])],"modifier")],"object")],"predicate")]),
+  words:[["Someone","Pron","Indefinite pronoun, the subject"],["has","Aux","Helps form the present perfect"],["been","Aux","Helps form the continuous aspect"],["plotting","V","Main verb, -ing form"],["a","Det","Article before “series”"],["series","N","Head of the object"],["of","P","Links “series” to “crimes”"],["disturbing","Adj","Describes “crimes”"],["crimes","N","Head of the NP inside the PP"]],
+  notes:["“has been plotting” is the present perfect continuous: an action that started in the past and is still going on.","“disturbing” ends in -ing but works as an adjective here, unlike the verb “plotting”.","The PP “of disturbing crimes” describes “series”, so it sits inside the object NP."]},
+ {sentence:"This popular Japanese sports entertainment program airs twice a year.",type:"Simple sentence",
+  tree:P("S",[P("NP",[L("Det","This"),L("Adj","popular"),L("Adj","Japanese"),L("N","sports"),L("N","entertainment"),L("N","program")],"subject"),P("VP",[L("V","airs"),P("AdvP",[L("Adv","twice"),P("NP",[L("Det","a"),L("N","year")])],"adverbial")],"predicate")]),
+  words:[["This","Det","Demonstrative before “program”"],["popular","Adj","Describes “program”"],["Japanese","Adj","Describes “program”"],["sports","N","Noun used to describe another noun"],["entertainment","N","Noun used to describe “program”"],["program","N","Head of the subject"],["airs","V","Main verb, present simple"],["twice","Adv","Says how often"],["a","Det","Means “per” here"],["year","N","Head of the NP “a year”"]],
+  notes:["The head noun of the subject is “program”. All the words before it describe it.","“sports” and “entertainment” are nouns, but here they work like adjectives. This is very common in English.","“twice a year” is an adverbial of frequency. “a year” means “every year”."]},
+ {sentence:"The first episode of the show was aired on March 30, 1964.",type:"Simple sentence",
+  tree:P("S",[P("NP",[L("Det","The"),L("Adj","first"),L("N","episode"),P("PP",[L("P","of"),P("NP",[L("Det","the"),L("N","show")])],"modifier")],"subject"),P("VP",[L("Aux","was"),L("V","aired"),P("PP",[L("P","on"),P("NP",[L("N","March"),L("Num","30"),L("Num","1964")])],"adverbial")],"predicate")]),
+  words:[["The","Det","Article before “episode”"],["first","Adj","Ordinal number describing “episode”"],["episode","N","Head of the subject"],["of","P","Links “episode” to “the show”"],["the","Det","Article before “show”"],["show","N","Head of the NP inside the PP"],["was","Aux","Helps form the past passive"],["aired","V","Main verb, past participle"],["on","P","Starts the time phrase"],["March","N","Head of the date"],["30","Num","Day of the month"],["1964","Num","Year"]],
+  notes:["“was aired” is in the passive voice: the subject receives the action, and no “by …” agent is given.","“of the show” describes “episode”, so it stays inside the subject NP.","“on March 30, 1964” tells us when, so it is an adverbial attached to the VP."]},
+ {sentence:"This morning show, recorded live in front of an audience, is broadcast in the United States.",type:"Simple sentence",
+  tree:P("S",[P("NP",[L("Det","This"),L("N","morning"),L("N","show"),P("VP",[L("V","recorded"),L("Adv","live"),P("PP",[L("P","in front of"),P("NP",[L("Det","an"),L("N","audience")])])],"modifier")],"subject"),P("VP",[L("Aux","is"),L("V","broadcast"),P("PP",[L("P","in"),P("NP",[L("Det","the"),L("N","United States")])],"adverbial")],"predicate")]),
+  words:[["This","Det","Demonstrative before “show”"],["morning","N","Noun used to describe “show”"],["show","N","Head of the subject"],["recorded","V","Past participle starting the extra-information clause"],["live","Adv","Says how it is recorded"],["in front of","P","Complex preposition (three words, one job)"],["an","Det","Article before “audience”"],["audience","N","Head of the NP after “in front of”"],["is","Aux","Helps form the present passive"],["broadcast","V","Main verb, past participle"],["in","P","Starts the place phrase"],["the","Det","Article before “United States”"],["United States","N","Proper noun, one name"]],
+  notes:["“recorded live in front of an audience” is a reduced clause meaning “which is recorded live…”. It describes “show”.","“is broadcast” is passive. “Broadcast” has the same form in the present, past and past participle.","“in front of” works as one preposition."]}
+];
+
+const $=id=>document.getElementById(id);
+const svgNS="http://www.w3.org/2000/svg";
+let current=null, selected=null;
+
+function el(tag,attrs,parent){const e=document.createElementNS(svgNS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
+const ctx=document.createElement("canvas").getContext("2d");
+function textW(t,bold){ctx.font=(bold?"700 ":"400 ")+"18px 'Atkinson Hyperlegible', system-ui, sans-serif";return ctx.measureText(t).width}
+
+function normalize(n){
+  if(!n||typeof n!=="object")return null;
+  const label=String(n.label||"?").slice(0,24);
+  if(n.word!=null&&!(Array.isArray(n.children)&&n.children.length))return{label,word:String(n.word).slice(0,40)};
+  const kids=(Array.isArray(n.children)?n.children:[]).map(normalize).filter(Boolean);
+  if(!kids.length)return{label,word:String(n.word??"")};
+  const out={label,children:kids};if(n.role)out.role=String(n.role).slice(0,30).toLowerCase();return out;
+}
+function depth(n){return n.children?1+Math.max(...n.children.map(depth)):0}
+
+function drawTree(tree){
+  const svg=$("tree");svg.textContent="";selected=null;
+  const LV=72, BOXH=36, POSH=32, GAP=18, PAD=20;
+  const maxD=depth(tree);
+  const leaves=[];let x=PAD;
+  (function place(n,d){
+    n.d=d;
+    if(!n.children){
+      const w=Math.max(textW(n.word,true),textW(n.label,true)+24,44);
+      n.x=x+w/2;n.w=w;x+=w+GAP;leaves.push(n);return;
+    }
+    n.children.forEach(c=>place(c,d+1));
+    n.x=(n.children[0].x+n.children[n.children.length-1].x)/2;
+  })(tree,0);
+  const width=Math.max(x-GAP+PAD,320);
+  const posY=PAD+maxD*LV, wordY=posY+POSH+34, height=wordY+28;
+  svg.setAttribute("viewBox",`0 0 ${width} ${height}`);
+  svg.setAttribute("width",width);svg.setAttribute("height",height);
+  const gE=el("g",{},svg), gN=el("g",{},svg);
+  const yOf=n=>n.children?PAD+n.d*LV:posY;
+  (function walk(n){
+    if(!n.children){
+      el("line",{x1:n.x,y1:posY+POSH,x2:n.x,y2:wordY-16,stroke:"var(--edge)","stroke-width":1.5},gE);
+      return;
+    }
+    n.children.forEach(c=>{el("line",{x1:n.x,y1:yOf(n)+BOXH,x2:c.x,y2:yOf(c),stroke:"var(--edge)","stroke-width":1.5},gE);walk(c)});
+  })(tree);
+  const all=[];(function col(n){all.push(n);(n.children||[]).forEach(col)})(tree);
+  all.forEach(n=>{
+    const phrase=!!n.children;
+    const txt=phrase&&n.role?`${n.label} · ${n.role}`:n.label;
+    const h=phrase?BOXH:POSH;
+    const w=Math.max(textW(txt,true)+24,44);
+    const g=el("g",{class:"node",tabindex:"0",role:"button","aria-label":txt+(phrase?"":" "+n.word)},gN);
+    el("rect",{x:n.x-w/2,y:yOf(n),width:w,height:h,rx:8,fill:phrase?"var(--phrase-fill)":"var(--pos-fill)",stroke:phrase?"var(--phrase-stroke)":"var(--pos-stroke)","stroke-width":1.5},g);
+    const t=el("text",{x:n.x,y:yOf(n)+h/2,"text-anchor":"middle","dominant-baseline":"central",fill:phrase?"var(--phrase-ink)":"var(--pos-ink)","font-size":18,"font-weight":700,"font-family":"Atkinson Hyperlegible, system-ui, sans-serif"},g);t.textContent=txt;
+    const pick=()=>{if(selected)selected.classList.remove("sel");g.classList.add("sel");selected=g;explain(n)};
+    g.addEventListener("click",pick);g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();pick()}});
+    if(!phrase){const wt=el("text",{x:n.x,y:wordY,"text-anchor":"middle","dominant-baseline":"central",fill:"var(--ink)","font-size":19,"font-weight":700,"font-family":"Atkinson Hyperlegible, system-ui, sans-serif"},gN);wt.textContent=n.word}
+  });
+  svg.setAttribute("aria-label","Syntax tree for: "+leaves.map(l=>l.word).join(" "));
+}
+
+function explain(n){
+  const box=$("explain");box.textContent="";
+  const g=GLOSS[n.label];
+  const b=document.createElement("b");b.textContent=n.label+(g?" = "+g[0]:"");box.appendChild(b);
+  const p=document.createElement("div");
+  let s=g?g[1]:"A label used in this tree.";
+  if(n.word)s+=` Here the word is “${n.word}”.`;
+  if(n.role&&ROLE[n.role])s+=" "+ROLE[n.role];
+  p.textContent=s;box.appendChild(p);
+}
+
+function render(data){
+  current=data;
+  drawTree(data.tree);
+  const meta=$("meta");meta.textContent="";
+  const add=(k,v)=>{if(!v)return;const s=document.createElement("span");const b=document.createElement("b");b.textContent=v;s.append(k+": ",b);meta.appendChild(s)};
+  add("Sentence",data.sentence);add("Type",data.type);
+  const tb=$("words");tb.textContent="";
+  (data.words||[]).forEach(w=>{const tr=document.createElement("tr");
+    const a=document.createElement("td");a.className="w";a.textContent=w[0];
+    const b=document.createElement("td");const t=document.createElement("span");t.className="tag";t.textContent=w[1];b.appendChild(t);
+    const c=document.createElement("td");c.textContent=w[2];tr.append(a,b,c);tb.appendChild(tr)});
+  const ul=$("notes");ul.textContent="";
+  (data.notes||[]).forEach(n=>{const li=document.createElement("li");li.textContent=n;ul.appendChild(li)});
+  $("explain").textContent="Tap any box in the tree to see what it means.";
+}
+
+EXAMPLES.forEach(ex=>{const b=document.createElement("button");b.className="chip";b.textContent=ex.sentence.length>34?ex.sentence.slice(0,32)+"…":ex.sentence;b.title=ex.sentence;
+  b.onclick=()=>{$("sentence").value=ex.sentence;setStatus("");render(ex)};$("examples").appendChild(b)});
+render(EXAMPLES[0]);
+
+function showOpen(){
+  const s=$("status");s.textContent="";s.classList.add("err");
+  s.append("To analyze your own sentence, open the lab in Claude: ");
+  const a=document.createElement("a");a.href=CLAUDE_URL;a.target="_blank";a.rel="noopener";a.textContent="Open Syntax Tree Lab in Claude";a.style.color="inherit";a.style.fontWeight="700";
+  s.append(a,". The examples below work here.");
+}
+const CLAUDE_URL="https://claude.ai/artifact/FAKXTXNvvHPvdZbBQz58bd";
+function setStatus(msg,err){const s=$("status");s.textContent=msg;s.classList.toggle("err",!!err)}
+const ERR={not_granted:"The page needs your permission to use Claude. Reload the page and choose Allow to analyze your own sentences.",sampling_disabled:"Sentence analysis isn't available on this account. You can still explore the examples.",rate_limited:"Too many requests right now. Wait a minute, then try again.",session_expired:"Please sign in to Claude again, then try again.",refused:"That text couldn't be analyzed. Try a different sentence.",invalid_json:"The analysis came back in the wrong format. Press “Draw the tree” to try again.",empty_completion:"No analysis came back. Try a shorter sentence.",prompt_too_large:"That text is too long. Use one sentence."};
+
+function buildPrompt(s){return `You are an English grammar teacher helping secondary-school students who are learning English as a foreign language. Analyze this sentence with a phrase-structure (constituency) tree.
+
+Sentence: """${s}"""
+
+Rules:
+- If there are several sentences, analyze only the first one.
+- Phrase labels: S, NP, VP, PP, AdjP, AdvP, CP (relative or subordinate clause), TP (infinitive clause), ConjP (coordinated phrases).
+- Word-class labels: Det, N, Pron, V, Aux, Modal, Adj, Adv, P, Conj, Num, Inf (the "to" of an infinitive), Part (phrasal-verb particle), Interj.
+- Keep the tree simple and teachable: put auxiliaries and modals flat inside the VP; treat a multi-word proper name (United States, New York) as one N leaf; treat a complex preposition (in front of, because of) as one P leaf; nouns that describe other nouns are N.
+- Every word of the sentence appears exactly once, in order, as a leaf. Leave out punctuation.
+- Give main phrases a "role" where it helps: subject, predicate, object, complement, modifier, appositive, relative clause, adverbial.
+
+Reply with only JSON in this exact shape:
+{"sentence":"the sentence analyzed","type":"Simple sentence | Compound sentence | Complex sentence | Compound-complex sentence","tree":{"label":"S","children":[{"label":"NP","role":"subject","children":[{"label":"Det","word":"The"},{"label":"N","word":"cat"}]},{"label":"VP","role":"predicate","children":[{"label":"V","word":"slept"}]}]},"words":[["The","Det","short job of this word in the sentence"]],"notes":["2 to 4 short teaching notes in plain English, one or two sentences each, about the most useful grammar points in this sentence"]}
+
+If the text is not an English sentence, reply {"error":"a short, friendly explanation"}.`}
+
+let samplerP=window.claude?claude.use("sample"):Promise.resolve(null);
+let ctl=null;
+$("go").onclick=async()=>{
+  const s=$("sentence").value.trim().replace(/\s+/g," ");
+  if(!s){setStatus("Type a sentence first.",true);$("sentence").focus();return}
+  if(s.split(" ").length>40){setStatus("That's a long one. Try a sentence of 40 words or fewer.",true);return}
+  const ex=EXAMPLES.find(e=>e.sentence.toLowerCase()===s.toLowerCase());
+  if(ex){setStatus("");render(ex);return}
+  const sample=await samplerP;
+  if(!sample){showOpen();return}
+  $("go").disabled=true;$("stop").hidden=false;setStatus("Thinking… this usually takes 10–30 seconds.");
+  ctl=new AbortController();
+  try{
+    const data=await sample.json(buildPrompt(s),{signal:ctl.signal});
+    if(data&&data.error){setStatus(String(data.error),true);return}
+    const tree=normalize(data&&data.tree);
+    if(!tree||!tree.children){setStatus(ERR.invalid_json,true);return}
+    render({sentence:String(data.sentence||s),type:String(data.type||""),tree,
+      words:(Array.isArray(data.words)?data.words:[]).filter(Array.isArray).map(w=>[String(w[0]??""),String(w[1]??""),String(w[2]??"")]),
+      notes:(Array.isArray(data.notes)?data.notes:[]).map(String).slice(0,5)});
+    setStatus("Done. Tap the boxes to explore.");
+  }catch(e){
+    if(e&&e.code==="cancelled")setStatus("Stopped.");
+    else setStatus(ERR[e&&e.code]||"Something went wrong. Press “Draw the tree” to try again.",true);
+  }finally{$("go").disabled=false;$("stop").hidden=true}
+};
+$("stop").onclick=()=>ctl&&ctl.abort();
+$("sentence").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("go").click()}});
+document.fonts&&document.fonts.ready.then(()=>{if(current)drawTree(current.tree)});
+</script>
+<script src="../assets/club.js"></script>
+</body>
+</html>

@@ -170,6 +170,7 @@ footer b{color:var(--ink)}
     <a href="#s2" style="color:var(--teal)">🧭 رحلة التعلّم الذاتي</a>
     <a href="#s3" style="color:var(--sun)">🏟️ ميدان المفردات</a>
     <a href="#s4" style="color:var(--coral)">🍳 إنجليزي الحياة اليومية</a>
+    <a href="#s5" style="color:#3A5BD0">🌳 القواعد</a>
   </nav>
 
   <section class="shelf" id="s1" aria-labelledby="h1s">
@@ -227,6 +228,16 @@ footer b{color:var(--ink)}
     </div>
   </section>
 
+  <section class="shelf" id="s5" aria-labelledby="h5s">
+    <div class="shelf-head reveal">
+      <span class="badge" style="background:#ECEFFC" aria-hidden="true">🌳</span>
+      <div><h2 id="h5s" style="color:#3A5BD0">القواعد</h2><p>Grammar · افهم تركيب الجملة</p></div>
+    </div>
+    <div class="grid">
+      <a class="card reveal" href="grammar/syntax-tree-lab.html" style="--c:#3A5BD0;--t:#ECEFFC"><span class="arrow">←</span><span class="ic" aria-hidden="true">🌳</span><b>Syntax Tree Lab</b><span class="en">See how a sentence is built</span><p>شجرة تُظهر أجزاء الجملة الإنجليزية ونوع كل كلمة، مع شرح لكل جزء.</p></a>
+    </div>
+  </section>
+
   <footer>إعداد: <b>أ. أحمد آل سالم</b> — معلم اللغة الإنجليزية<br>ثانوية الأمير فيصل بالعقيق</footer>
 </div>
 
@@ -266,7 +277,8 @@ import('./assets/honor.js').then(async H => {
     'capsules/nature.html':['كبسولة الطبيعة','🌍'], 'capsules/health.html':['كبسولة التعافي','🩺'],
     'journey/word-quest.html':['English Word Quest','🗺️'], 'journey/dictionary.html':['قاموس الألف كلمة','📖'], 'journey/conversation-lab.html':['مختبر المحادثة','💬'],
     'vocab/mega-goal-1.html':['ميدان المفردات 1','🏟️'], 'vocab/mega-goal-2.html':['ميدان المفردات 2','🏆'],
-    'everyday/breakfast.html':['Breakfast Challenge','🍳']
+    'everyday/breakfast.html':['Breakfast Challenge','🍳'],
+    'grammar/syntax-tree-lab.html':['Syntax Tree Lab','🌳']
   };
   var last = get('club-last');
   if(last && last.p){
