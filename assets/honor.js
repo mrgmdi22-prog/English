@@ -9,7 +9,8 @@ export const RULES = [
   { key: 'caps', label: 'نجمة في الكبسولات', icon: '🌟', per: 10, max: 411 },
   { key: 'wq',   label: 'إجابة صحيحة في Word Quest', icon: '🗺️', per: 5, max: 500 },
   { key: 'lab',  label: 'إجابة صحيحة في مختبر المحادثة', icon: '💬', per: 10, max: 100 },
-  { key: 'mg',   label: 'كلمة أتقنتها في ميدان المفردات', icon: '🏟️', per: 3, max: 600 }
+  { key: 'mg',   label: 'كلمة أتقنتها في ميدان المفردات', icon: '🏟️', per: 3, max: 600 },
+  { key: 'bf',   label: 'إجابة صحيحة في Breakfast Challenge', icon: '🍳', per: 10, max: 10 }
 ];
 const CAPS = ['space', 'flavor', 'life', 'adventure', 'emotion', 'career', 'nature', 'health'];
 
@@ -23,7 +24,8 @@ export function computeScore() {
   let wq = 0; for (let n = 1; n <= 50; n++) wq += Math.max(0, Math.min(10, N('wq-best-' + n)));
   let lab = 0; for (let w = 1; w <= 20; w++) lab += Math.max(0, Math.min(5, N('cl-q-' + w)));
   const mg = Math.min(300, (J('mg1-known') || []).length) + Math.min(300, (J('mg2-known') || []).length);
-  const parts = { caps, wq, lab, mg };
+  const bf = Math.max(0, Math.min(10, N('bf-best')));
+  const parts = { caps, wq, lab, mg, bf };
   const score = RULES.reduce((t, r) => t + Math.min(parts[r.key], r.max) * r.per, 0);
   return { score, parts };
 }

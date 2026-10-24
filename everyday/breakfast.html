@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Breakfast Challenge · English Club</title>
+<meta name="description" content="Learn food words in English while you build a healthy breakfast.">
+<meta name="theme-color" content="#FFF7DD">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&family=Baloo+Bhaijaan+2:wght@500;600;700;800&display=swap">
+<style>
+/* Layout: phone-first app, one screen at a time (home → 4 steps → result), a 4-cell breakfast battery as the through-line.
+   English first, Arabic meaning under each word. Single light theme on purpose (the teacher asked for light colours and large type). */
+:root{
+  color-scheme:light;
+  --bg:#FFF7DD; --card:#FFFFFF; --ink:#1E2A44; --muted:#4F5B74; --line:#EADFC0;
+  --coral:#FF6B4A; --coral-ink:#C2452A;
+  --grain:#FFD37A; --prot:#FFA593; --veg:#8EDDB0; --drink:#9BD0F3;
+  --good:#1F7A52; --good-soft:#DDF5E7; --warn:#B4541E; --warn-soft:#FFEBDD; --empty:#F1EBDA;
+  --en:'Lexend','Segoe UI',system-ui,sans-serif;
+  --ar:'Baloo Bhaijaan 2','Tajawal','Segoe UI',Tahoma,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--ink)}
+body{margin:0;font-family:var(--en);font-size:19px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-top:calc(64px + env(safe-area-inset-top,0px));padding-bottom:calc(32px + env(safe-area-inset-bottom,0px))}
+.app{max-width:560px;margin:0 auto}
+h1,h2,h3,p{margin:0}
+h1,h2{text-wrap:balance}
+button{font-family:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:4px solid var(--coral);outline-offset:3px}
+.ar{font-family:var(--ar);direction:rtl;unicode-bidi:isolate}
+
+.screen{display:flex;flex-direction:column;gap:20px;animation:enter .32s ease both}
+@keyframes enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.screen{animation:none}*{transition:none!important}}
+
+.bar-top{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px}
+.back{display:inline-flex;align-items:center;gap:6px;min-height:48px;padding:6px 16px 6px 12px;border-radius:999px;border:3px solid var(--ink);background:var(--card);font-size:17px;font-weight:700;cursor:pointer}
+.back svg{width:20px;height:20px}
+.step-label{font-size:17px;font-weight:600;color:var(--muted)}
+
+/* battery */
+.battery{display:flex;align-items:center}
+.battery .body{flex:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:7px;border:6px solid var(--ink);border-radius:22px;background:var(--card)}
+.battery .nub{flex:0 0 14px;height:34px;background:var(--ink);border-radius:0 8px 8px 0}
+.cell{min-height:56px;border-radius:12px;background:var(--empty);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#8C8470;text-align:center;line-height:1.2;padding:4px;transition:background .3s ease,color .3s ease}
+.cell .ar{font-size:13px;font-weight:600}
+.cell.grain.on{background:var(--grain);color:var(--ink)}
+.cell.prot.on{background:var(--prot);color:var(--ink)}
+.cell.veg.on{background:var(--veg);color:var(--ink)}
+.cell.drink.on{background:var(--drink);color:var(--ink)}
+.cell.trap{background:var(--warn-soft);color:var(--warn)}
+.cell.now{box-shadow:inset 0 0 0 3px var(--coral)}
+
+/* home */
+.hero{display:flex;flex-direction:column;gap:10px;padding:26px 22px;background:var(--card);border:4px solid var(--ink);border-radius:28px;box-shadow:7px 7px 0 var(--coral)}
+.tag{align-self:flex-start;transform:rotate(-3deg);background:var(--coral);color:#FFFFFF;font-size:16px;font-weight:700;padding:4px 16px;border-radius:12px;letter-spacing:.5px}
+.hero h1{font-size:44px;font-weight:800;line-height:1.15;letter-spacing:-.5px}
+.hero h1 span{color:var(--coral)}
+.hero p{font-size:19px;color:var(--muted)}
+.hero p.ar{font-size:19px}
+.menu{display:flex;flex-direction:column;gap:14px}
+.menu button{display:flex;align-items:center;gap:16px;width:100%;min-height:92px;padding:14px 18px;border-radius:24px;border:3px solid var(--ink);background:var(--card);text-align:left;cursor:pointer;transition:transform .12s ease}
+.menu button:active{transform:scale(.98)}
+.menu .ic{flex:0 0 58px;height:58px;border-radius:50%;border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:28px}
+.menu .txt{flex:1;min-width:0}
+.menu b{display:block;font-size:23px;font-weight:700;line-height:1.3}
+.menu small{display:block;font-size:16px;color:var(--muted);line-height:1.4}
+.menu small.ar{font-size:17px;text-align:left}
+.menu .go{flex:0 0 auto;width:26px;height:26px;color:var(--muted)}
+.week-mini{font-size:17px;font-weight:600;color:var(--muted);text-align:center}
+
+/* step options */
+.ask{font-size:31px;font-weight:800;line-height:1.25}
+.ask-ar{font-size:20px;color:var(--muted);margin-top:-14px}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.opt{display:flex;align-items:center;gap:12px;min-height:92px;padding:12px 14px;border-radius:20px;border:3px solid var(--line);background:var(--card);text-align:left;cursor:pointer;transition:border-color .15s ease,background .15s ease,transform .12s ease}
+.opt:active{transform:scale(.97)}
+.opt .em{flex:0 0 auto;font-size:32px;line-height:1}
+.opt .words{display:flex;flex-direction:column;min-width:0}
+.opt .w{font-size:19px;font-weight:700;line-height:1.25}
+.opt .m{font-size:17px;color:var(--muted);line-height:1.4;text-align:left}
+.opt .best{align-self:flex-start;margin-top:3px;font-size:13px;font-weight:700;color:var(--good);background:var(--good-soft);padding:0 9px;border-radius:999px;line-height:1.8}
+.opt.sel{border-color:var(--ink);background:var(--good-soft)}
+.opt.sel.bad{background:var(--warn-soft)}
+.skip{grid-column:1/-1;min-height:60px;justify-content:center;color:var(--muted);border-style:dashed}
+.skip .w{font-size:18px}
+
+.tip{display:flex;flex-direction:column;gap:10px;padding:18px 20px;border-radius:22px;background:var(--warn-soft);border:3px solid var(--warn)}
+.tip b{font-size:22px;color:var(--warn);line-height:1.3}
+.tip p{font-size:18px}
+.tip p.ar{font-size:19px;color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.btn{flex:1 1 180px;min-height:58px;padding:10px 20px;border-radius:18px;border:3px solid var(--ink);background:var(--coral);color:#FFFFFF;font-size:19px;font-weight:700;cursor:pointer;box-shadow:4px 4px 0 var(--ink);transition:transform .1s ease,box-shadow .1s ease}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.btn.light{background:var(--card);color:var(--ink)}
+
+/* result */
+.verdict{display:flex;flex-direction:column;gap:4px;text-align:center;align-items:center}
+.verdict .big{font-size:40px;font-weight:800;line-height:1.15}
+.verdict .big.full{color:var(--good)} .verdict .big.mid{color:var(--coral-ink)}
+.verdict p{font-size:19px;color:var(--muted)}
+.notes{display:flex;flex-direction:column;gap:10px}
+.note{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:18px;background:var(--card);border:2px solid var(--line)}
+.note i{flex:0 0 14px;height:14px;margin-top:8px;border-radius:50%;background:var(--coral)}
+.note.ok i{background:var(--good)}
+.note span{display:flex;flex-direction:column;gap:2px;font-size:18px;min-width:0}
+.note span .ar{font-size:18px;color:var(--muted);text-align:left}
+.saved{font-size:18px;font-weight:600;color:var(--good);text-align:center;min-height:28px}
+
+/* quiz */
+.dots{display:flex;gap:6px}
+.dots i{flex:1;height:10px;border-radius:999px;background:var(--empty)}
+.dots i.done{background:var(--coral)}
+.q{font-size:26px;font-weight:700;line-height:1.4}
+.q-ar{font-size:19px;color:var(--muted);margin-top:-12px;text-align:left}
+.qopts{display:flex;flex-direction:column;gap:12px}
+.qopt{min-height:64px;padding:12px 18px;border-radius:20px;border:3px solid var(--line);background:var(--card);font-size:19px;font-weight:600;text-align:left;cursor:pointer}
+.qopt.right{border-color:var(--good);background:var(--good-soft);color:var(--good)}
+.qopt.wrong{border-color:var(--warn);background:var(--warn-soft);color:var(--warn)}
+.qopt:disabled{cursor:default}
+.explain{display:flex;flex-direction:column;gap:6px;padding:16px 18px;border-radius:20px;background:var(--card);border:2px solid var(--line);font-size:18px}
+.explain b{font-size:21px;line-height:1.3}
+.explain .ar{font-size:18px;color:var(--muted);text-align:left}
+.score{font-size:76px;font-weight:800;line-height:1.1;color:var(--coral);text-align:center}
+
+/* words */
+.wgroup{display:flex;flex-direction:column;gap:8px}
+.wgroup h2{font-size:22px;font-weight:700}
+.wlist{display:flex;flex-direction:column;gap:8px}
+.wrow{display:flex;align-items:center;gap:12px;padding:10px 12px 10px 14px;border-radius:18px;background:var(--card);border:2px solid var(--line)}
+.wrow .em{font-size:28px;flex:0 0 36px;text-align:center}
+.wrow .words{flex:1;min-width:0;display:flex;flex-direction:column}
+.wrow .w{font-size:19px;font-weight:700;line-height:1.3}
+.wrow .m{font-size:17px;color:var(--muted);text-align:left;line-height:1.4}
+.say{flex:0 0 48px;height:48px;border-radius:50%;border:2.5px solid var(--ink);background:var(--grain);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.say svg{width:22px;height:22px}
+
+/* week */
+.week{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.day{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:104px;padding:8px 2px;border-radius:20px;border:3px solid var(--line);background:var(--card);font-size:16px;font-weight:700;cursor:pointer}
+.day .ar{font-size:14px;font-weight:600;color:var(--muted)}
+.day .tick{width:32px;height:32px;border-radius:50%;border:3px solid var(--line);display:flex;align-items:center;justify-content:center}
+.day .tick svg{width:18px;height:18px;opacity:0}
+.day[aria-pressed="true"]{border-color:var(--ink);background:var(--good-soft)}
+.day[aria-pressed="true"] .tick{background:var(--good);border-color:var(--good)}
+.day[aria-pressed="true"] .tick svg{opacity:1}
+.meals{display:flex;flex-direction:column;gap:8px}
+.meal{display:flex;flex-direction:column;gap:0;padding:12px 16px;border-radius:16px;background:var(--card);border:2px solid var(--line)}
+.meal b{font-size:19px}
+.meal span{font-size:16px;color:var(--muted)}
+.meal .ar{font-size:17px;text-align:left}
+.card{display:flex;flex-direction:column;gap:14px;padding:20px;border-radius:24px;background:var(--card);border:3px solid var(--line)}
+.card h2{font-size:24px;font-weight:700;line-height:1.3}
+
+.src{font-size:14px;line-height:1.7;color:var(--muted);text-align:center;padding-top:6px}
+.src .ar{display:block}
+@media (max-width:390px){
+  .hero h1{font-size:37px} .ask{font-size:27px} .opt{padding:10px} .opt .em{font-size:26px} .opt .w{font-size:17px}
+  .day{font-size:14px} .menu b{font-size:21px}
+}
+</style>
+<link rel="stylesheet" href="../assets/club.css">
+</head>
+<body>
+<a class="club-home" href="../index.html">🏠 الرئيسية</a>
+<div class="app" id="app"></div>
+
+<script>
+(function(){
+  var ICON={
+    back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>',
+    go:'<svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>',
+    tick:'<svg viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>',
+    sound:'<svg viewBox="0 0 24 24" fill="none" stroke="#1E2A44" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"></path><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"></path></svg>'
+  };
+  var SRC='Source: Healthy Nutrition Guide, Health Promotion Department, Riyadh Second Health Cluster (based on Saudi Ministry of Health and WHO advice).'+
+          '<span class="ar">إعداد: أ. أحمد آل سالم — ثانوية الأمير فيصل بالعقيق</span>';
+
+  // Food words (w = English, m = Arabic meaning, e = emoji)
+  var STEPS=[
+    {g:'grain',cell:'Bread',cellAr:'خبز',ask:'What bread do you have today?',askAr:'وش خبزك اليوم؟',opts:[
+      {w:'Whole wheat bread',m:'خبز بُر',e:'🍞',best:1},{w:'Tamees bread',m:'خبز تميس',e:'🫓'},
+      {w:'Brown toast',m:'توست أسمر',e:'🍞',best:1},{w:'Samoli bun',m:'صامولي',e:'🥖'},
+      {w:'Donut',m:'دونات',e:'🍩',bad:['Donuts are high in sugar and unhealthy fats. Whole wheat bread keeps you full longer.','الدونات فيها سكر ودهون غير صحية، وخبز البُر يشبعك وقتاً أطول.']},
+      {w:'Chocolate croissant',m:'كرواسون بالشوكولاتة',e:'🥐',bad:['A chocolate croissant has a lot of fat and sugar. Have it only sometimes.','الكرواسون بالشوكولاتة فيه دهون وسكر كثيرة، فاجعله نادراً.']}],
+      skip:['No bread','بدون خبز']},
+    {g:'prot',cell:'Protein',cellAr:'بروتين',ask:'Which protein goes with it?',askAr:'ومعه أي بروتين؟',opts:[
+      {w:'Eggs',m:'بيض',e:'🥚',best:1},{w:'Fava beans',m:'فول',e:'🫘',best:1},
+      {w:'White cheese',m:'جبنة بيضاء',e:'🧀'},{w:'Labneh',m:'لبنة',e:'🥣'},
+      {w:'Shakshuka',m:'شكشوكة',e:'🍳'},
+      {w:'Sausages',m:'نقانق',e:'🌭',bad:['Sausages are processed meat with a lot of salt. Eggs or fava beans are better.','النقانق لحوم مصنّعة فيها ملح كثير، والبيض أو الفول أفضل منها.']}],
+      skip:['No protein','بدون بروتين']},
+    {g:'veg',cell:'Fruit & Veg',cellAr:'خضار وفاكهة',ask:'Any vegetables or fruit?',askAr:'خضار أو فاكهة؟',opts:[
+      {w:'Cucumber & tomato',m:'خيار وطماطم',e:'🥒',best:1},{w:'Dates',m:'تمر',e:'🌴',best:1},
+      {w:'Banana',m:'موز',e:'🍌'},{w:'Apple',m:'تفاح',e:'🍎'},
+      {w:'Orange',m:'برتقال',e:'🍊'},{w:'Olives',m:'زيتون',e:'🫒'}],
+      skip:['None today','ولا شيء منها']},
+    {g:'drink',cell:'Milk',cellAr:'حليب',ask:'What will you drink?',askAr:'وش بتشرب؟',opts:[
+      {w:'Milk',m:'حليب',e:'🥛',best:1},{w:'Laban',m:'لبن',e:'🥛',best:1},
+      {w:'Yogurt',m:'زبادي',e:'🍶'},
+      {w:'Packaged juice',m:'عصير معلّب',e:'🧃',bad:['Packaged juice has a lot of added sugar. Fresh fruit or milk is better.','العصير المعلّب فيه سكر مضاف كثير، والفاكهة الطازجة أو الحليب أفضل.']},
+      {w:'Soda',m:'مشروب غازي',e:'🥤',bad:['Soda is sugar with no benefit. Choose milk or laban, then water.','المشروب الغازي سكر بلا فائدة، فاختر الحليب أو اللبن، ثم الماء.']},
+      {w:'Energy drink',m:'مشروب طاقة',e:'⚡',bad:['Energy drinks are not for students. They have too much sugar and caffeine.','مشروبات الطاقة لا تناسب الطلاب، ففيها سكر وكافيين كثير.']}],
+      skip:['Just water','ماء فقط']}
+  ];
+  var NEED={
+    grain:['Add bread. Whole wheat or brown toast is best.','أضف خبزاً، ويُفضّل البُر أو التوست الأسمر.'],
+    prot:['Add protein, like eggs, fava beans or cheese.','أضف بروتيناً مثل البيض أو الفول أو الجبن.'],
+    veg:['Add vegetables or fruit, like cucumber or dates.','أضف خضاراً أو فاكهة مثل الخيار أو التمر.'],
+    drink:['Add a glass of milk or laban.','أضف كوب حليب أو لبن.']
+  };
+  var KEYWORDS=[
+    {w:'Breakfast',m:'الإفطار',e:'🌅'},{w:'Protein',m:'بروتين',e:'💪'},{w:'Fiber',m:'ألياف',e:'🌾'},
+    {w:'Whole grains',m:'حبوب كاملة',e:'🌾'},{w:'Added sugar',m:'سكر مضاف',e:'🍬'},{w:'Salt',m:'ملح',e:'🧂'},
+    {w:'Processed food',m:'طعام مصنّع',e:'🏭'},{w:'Nutrition label',m:'البطاقة الغذائية',e:'🏷️'},
+    {w:'Healthy plate',m:'الطبق الصحي',e:'🍽️'},{w:'Energy',m:'طاقة',e:'⚡'}
+  ];
+  var DAYS=[['Sun','الأحد'],['Mon','الاثنين'],['Tue','الثلاثاء'],['Wed','الأربعاء'],['Thu','الخميس']];
+  // First option is always the right one (they are shuffled on screen)
+  var QS=[
+    {q:'Which is better for breakfast?',qa:'أيهما أفضل في إفطارك؟',o:['An orange','A box of orange juice'],e:['Fresh fruit has all its fiber. Packaged juice often has added sugar.','الفاكهة الطازجة فيها أليافها كاملة، والعصير المعلّب كثيراً ما فيه سكر مضاف.']},
+    {q:'Half of a healthy plate is…',qa:'نصف الطبق الصحي يتكون من…',o:['vegetables and fruit','rice and bread','meat and chicken'],e:['A healthy plate is half vegetables and fruit, and half grains and protein.','الطبق الصحي: نصفه خضار وفاكهة، والنصف الآخر حبوب وبروتين.']},
+    {q:'Which one is processed meat?',qa:'أيّ هذه من اللحوم المصنّعة؟',o:['Sausages','Grilled chicken','Fish'],e:['Sausages and mortadella are processed. They have a lot of salt.','النقانق والمرتديلا لحوم مصنّعة فيها ملح كثير.']},
+    {q:'Why is whole wheat bread better than white bread?',qa:'لماذا خبز البُر أفضل من الخبز الأبيض؟',o:['It has fiber that keeps you full','It is sweeter','It is lighter'],e:['Whole grains have more fiber, vitamins and minerals.','الحبوب الكاملة فيها ألياف وفيتامينات ومعادن أكثر.']},
+    {q:'Instead of soda, it is better to drink…',qa:'بدل المشروب الغازي، الأفضل أن تشرب…',o:['water with lemon or mint','packaged juice','an energy drink'],e:['Water with lemon or mint is fresh and has no added sugar.','الماء بالليمون أو النعناع منعش وبلا سكر مضاف.']},
+    {q:'Where can you find hidden sugar and salt?',qa:'أين تجد السكر والملح المخفيين؟',o:['On the nutrition label','On the colour of the box','In the price'],e:['The nutrition label shows sugar, salt (sodium) and fat in one serving.','البطاقة الغذائية توضح السكر والملح والدهون في الحصة الواحدة.']},
+    {q:'Cooked food left out of the fridge for more than two hours is…',qa:'الطعام المطبوخ خارج الثلاجة أكثر من ساعتين…',o:['not safe','always safe','better'],e:['Do not leave cooked food at room temperature for more than two hours.','لا تترك الطعام المطبوخ في حرارة الغرفة أكثر من ساعتين.']},
+    {q:'To use less salt in a salad, add…',qa:'لتقليل الملح في السلطة نضيف…',o:['lemon or vinegar','more salt','pickles'],e:['Lemon and vinegar give flavour without extra salt.','الليمون والخل يعطيان النكهة دون ملح زائد.']},
+    {q:'What does "fiber" mean?',qa:'ما معنى كلمة fiber؟',o:['ألياف','دهون','سكر'],e:['Fiber (ألياف) is in whole grains, fruit and vegetables. It helps you feel full.','الألياف موجودة في الحبوب الكاملة والفاكهة والخضار، وتشعرك بالشبع.']},
+    {q:'"Skip breakfast" means…',qa:'ما معنى skip breakfast؟',o:['not eat breakfast','eat a big breakfast','cook breakfast'],e:['Don\'t skip breakfast! It gives you energy for the school day.','لا تترك الإفطار! فهو طاقتك ليومك الدراسي.']}
+  ];
+
+  var app=document.getElementById('app');
+  var picks=[null,null,null,null];
+
+  function store(get,key,val){try{if(get)return JSON.parse(localStorage.getItem(key));localStorage.setItem(key,JSON.stringify(val));}catch(e){return null}}
+  function weekKey(){var d=new Date();var s=new Date(d.getFullYear(),d.getMonth(),d.getDate()-d.getDay());return 'bf-week-'+s.getFullYear()+'-'+(s.getMonth()+1)+'-'+s.getDate();}
+  function week(){var w=store(true,weekKey());return Array.isArray(w)&&w.length===5?w:[false,false,false,false,false];}
+  function say(text){try{var u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=.9;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}}
+
+  function mount(html){app.innerHTML='<div class="screen">'+html+'</div>';window.scrollTo(0,0);}
+  function topBar(label){
+    return '<div class="bar-top"><button class="back" id="back" type="button">'+ICON.back+'Back</button><span class="step-label">'+(label||'')+'</span></div>';
+  }
+  function battery(current){
+    var h='<div class="battery" role="img" aria-label="Breakfast battery"><div class="body">';
+    STEPS.forEach(function(s,i){
+      var p=picks[i],cls='cell '+s.g;
+      if(p&&!p.skip&&!p.bad)cls+=' on'; else if(p&&p.bad)cls+=' trap';
+      if(i===current)cls+=' now';
+      h+='<div class="'+cls+'"><span>'+s.cell+'</span><span class="ar">'+s.cellAr+'</span></div>';
+    });
+    return h+'</div><div class="nub"></div></div>';
+  }
+  function filled(){return picks.filter(function(p){return p&&!p.skip&&!p.bad}).length;}
+  function bi(pair){return '<span>'+pair[0]+'<span class="ar">'+pair[1]+'</span></span>';}
+
+  // HOME
+  function home(){
+    var c=week().filter(Boolean).length;
+    mount(
+      '<div class="hero"><span class="tag">BREAKFAST CHALLENGE</span><h1>Power up with <span>breakfast!</span></h1><p>Build your breakfast and learn the food words in English.</p><p class="ar">ابنِ إفطارك وتعلّم أسماء الأطعمة بالإنجليزية.</p></div>'+
+      '<div class="menu">'+
+        '<button type="button" id="m-build"><span class="ic" style="background:var(--grain)" aria-hidden="true">🍳</span><span class="txt"><b>Build my breakfast</b><small class="ar">ابنِ إفطارك في أربع خطوات</small></span>'+ICON.go+'</button>'+
+        '<button type="button" id="m-quiz"><span class="ic" style="background:var(--prot)" aria-hidden="true">⚡</span><span class="txt"><b>Word Challenge</b><small class="ar">'+QS.length+' أسئلة · نقاط في لوحة الشرف</small></span>'+ICON.go+'</button>'+
+        '<button type="button" id="m-words"><span class="ic" style="background:var(--drink)" aria-hidden="true">🔊</span><span class="txt"><b>Food Words</b><small class="ar">استمع للكلمات وتعلّم نطقها</small></span>'+ICON.go+'</button>'+
+        '<button type="button" id="m-week"><span class="ic" style="background:var(--veg)" aria-hidden="true">📅</span><span class="txt"><b>My Week</b><small class="ar">سجّل الأيام التي أفطرت فيها</small></span>'+ICON.go+'</button>'+
+      '</div>'+
+      '<p class="week-mini">This week: breakfast on '+c+' of 5 school days</p>'+
+      '<p class="src">'+SRC+'</p>'
+    );
+    document.getElementById('m-build').onclick=function(){picks=[null,null,null,null];step(0);};
+    document.getElementById('m-quiz').onclick=quizStart;
+    document.getElementById('m-words').onclick=wordsScreen;
+    document.getElementById('m-week').onclick=weekScreen;
+  }
+
+  // BUILD STEPS
+  function step(i){
+    var s=STEPS[i];
+    var h=topBar('Step '+(i+1)+' of 4')+battery(i)+'<h2 class="ask">'+s.ask+'</h2><p class="ask-ar ar">'+s.askAr+'</p><div class="opts" id="opts">';
+    s.opts.forEach(function(o,n){
+      var sel=picks[i]&&picks[i].w===o.w;
+      h+='<button type="button" class="opt'+(sel?' sel':'')+(sel&&o.bad?' bad':'')+'" id="o'+n+'"><span class="em" aria-hidden="true">'+o.e+'</span><span class="words"><span class="w">'+o.w+'</span><span class="m ar">'+o.m+'</span>'+(o.best?'<span class="best">Best choice</span>':'')+'</span></button>';
+    });
+    h+='<button type="button" class="opt skip" id="oskip"><span class="words"><span class="w">'+s.skip[0]+'</span><span class="m ar">'+s.skip[1]+'</span></span></button></div><div id="tipbox"></div>';
+    mount(h);
+    document.getElementById('back').onclick=function(){i===0?home():step(i-1);};
+    s.opts.forEach(function(o,n){
+      document.getElementById('o'+n).onclick=function(){say(o.w);choose(i,{w:o.w,bad:o.bad||null},this);};
+    });
+    document.getElementById('oskip').onclick=function(){choose(i,{w:s.skip[0],skip:true},this);};
+  }
+  function choose(i,p,el){
+    picks[i]=p;
+    document.querySelectorAll('#opts .opt').forEach(function(b){b.classList.remove('sel','bad')});
+    el.classList.add('sel');if(p.bad)el.classList.add('bad');
+    var c=document.querySelectorAll('.battery .cell')[i];
+    c.classList.remove('on','trap');if(p.bad)c.classList.add('trap');else if(!p.skip)c.classList.add('on');
+    var tb=document.getElementById('tipbox');
+    if(p.bad){
+      tb.innerHTML='<div class="tip" role="status"><b>Wait a second!</b><p>'+p.bad[0]+'</p><p class="ar">'+p.bad[1]+'</p><div class="row"><button type="button" class="btn light" id="change">Change it</button><button type="button" class="btn" id="cont">Keep going</button></div></div>';
+      document.getElementById('change').onclick=function(){picks[i]=null;step(i);};
+      document.getElementById('cont').onclick=function(){next(i);};
+      tb.scrollIntoView({behavior:'smooth',block:'nearest'});
+    } else {
+      tb.innerHTML='';
+      setTimeout(function(){next(i);},650);
+    }
+  }
+  function next(i){i<3?step(i+1):result();}
+
+  // RESULT
+  function result(){
+    var n=filled(),traps=picks.filter(function(p){return p&&p.bad});
+    var big,cls,line;
+    if(n===4&&!traps.length){big='Fully charged!';cls='full';line='A complete breakfast. You are ready for school.';}
+    else if(n>=3){big='Almost there!';cls='mid';line='One small change and you are fully charged.';}
+    else{big='Low battery';cls='mid';line='Your breakfast needs a few simple additions.';}
+    var notes='';
+    picks.forEach(function(p,i){ if(!p||p.skip||p.bad)notes+='<div class="note"><i></i>'+bi(NEED[STEPS[i].g])+'</div>'; });
+    traps.forEach(function(p){notes+='<div class="note"><i></i>'+bi(p.bad)+'</div>';});
+    if(!notes)notes='<div class="note ok"><i></i>'+bi(['Bread, protein, fruit or vegetables, and milk. Keep it up every day!','خبز وبروتين وخضار أو فاكهة وحليب. استمر على هذا كل يوم!'])+'</div>';
+    var wd=new Date().getDay();
+    mount(
+      topBar('Your result')+battery(-1)+
+      '<div class="verdict"><div class="big '+cls+'">'+big+'</div><p>'+line+'</p></div>'+
+      '<div class="notes">'+notes+'</div>'+
+      '<div class="row"><button type="button" class="btn" id="save">Save today\'s breakfast</button><button type="button" class="btn light" id="again">Build another one</button></div>'+
+      '<p class="saved" id="saved" aria-live="polite"></p>'+
+      '<p class="src">'+SRC+'</p>'
+    );
+    document.getElementById('back').onclick=function(){step(3);};
+    document.getElementById('again').onclick=function(){picks=[null,null,null,null];step(0);};
+    document.getElementById('save').onclick=function(){
+      var out=document.getElementById('saved');
+      if(n===0){out.textContent='Choose your breakfast first, then save it.';return;}
+      if(wd>4){out.textContent='It\'s the weekend. A healthy breakfast matters today too!';return;}
+      var w=week();w[wd]=true;store(false,weekKey(),w);
+      out.textContent='Saved! '+DAYS[wd][0]+' is ticked in My Week.';
+    };
+  }
+
+  // QUIZ
+  var qOrder=[],qi=0,qScore=0;
+  function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+  function quizStart(){qOrder=shuffle(QS.map(function(_,i){return i}));qi=0;qScore=0;quizQ();}
+  function quizQ(){
+    if(qi>=QS.length)return quizEnd();
+    var Q=QS[qOrder[qi]],opts=shuffle(Q.o.map(function(t,i){return {t:t,i:i}}));
+    var dots='<div class="dots" aria-hidden="true">';for(var k=0;k<QS.length;k++)dots+='<i class="'+(k<qi?'done':'')+'"></i>';dots+='</div>';
+    var h=topBar('Question '+(qi+1)+' of '+QS.length)+dots+'<p class="q">'+Q.q+'</p><p class="q-ar ar">'+Q.qa+'</p><div class="qopts" id="qopts">';
+    opts.forEach(function(o,n){h+='<button type="button" class="qopt'+(/[؀-ۿ]/.test(o.t)?' ar':'')+'" id="q'+n+'">'+o.t+'</button>';});
+    h+='</div><div id="after"></div>';
+    mount(h);
+    document.getElementById('back').onclick=home;
+    opts.forEach(function(o,n){
+      document.getElementById('q'+n).onclick=function(){
+        var ok=o.i===0;
+        document.querySelectorAll('.qopt').forEach(function(b,m){b.disabled=true;if(opts[m].i===0)b.classList.add('right');});
+        if(!ok)this.classList.add('wrong'); else qScore++;
+        document.getElementById('after').innerHTML='<div style="display:flex;flex-direction:column;gap:14px"><div class="explain"><b>'+(ok?'Correct! Well done.':'The right answer is in green.')+'</b><span>'+Q.e[0]+'</span><span class="ar">'+Q.e[1]+'</span></div><div class="row"><button type="button" class="btn" id="next">'+(qi+1<QS.length?'Next question':'See my score')+'</button></div></div>';
+        document.getElementById('next').onclick=function(){qi++;quizQ();};
+        document.getElementById('after').scrollIntoView({behavior:'smooth',block:'nearest'});
+      };
+    });
+  }
+  function quizEnd(){
+    var best=Math.max(qScore,+(store(true,'bf-best')||0));store(false,'bf-best',best);
+    var msg=qScore===QS.length?'Perfect! You are a nutrition expert.':qScore>=7?'Great job! Try again to get them all.':'Good start. Try again and learn more.';
+    mount(topBar('Your score')+'<div class="card" style="align-items:center;text-align:center"><div class="score">'+qScore+' / '+QS.length+'</div><p style="font-size:22px;font-weight:700">'+msg+'</p><p style="font-size:16px;color:var(--muted)">Best score: '+best+' / '+QS.length+'</p><p class="ar" style="font-size:17px;color:var(--muted)">كل إجابة صحيحة في أفضل محاولة لك تُضاف إلى نقاطك في لوحة الشرف.</p></div><div class="row"><button type="button" class="btn" id="again">Try again</button><button type="button" class="btn light" id="toHome">Home</button></div>');
+    document.getElementById('back').onclick=home;
+    document.getElementById('again').onclick=quizStart;
+    document.getElementById('toHome').onclick=home;
+  }
+
+  // WORDS
+  function wordsScreen(){
+    var groups=[{t:'Key words',ta:'كلمات مهمة',list:KEYWORDS}].concat(STEPS.map(function(s){return {t:s.cell,ta:s.cellAr,list:s.opts};}));
+    var all=[],h=topBar('Food Words');
+    groups.forEach(function(g){
+      h+='<div class="wgroup"><h2>'+g.t+' <span class="ar" style="font-size:18px;color:var(--muted);font-weight:600">'+g.ta+'</span></h2><div class="wlist">';
+      g.list.forEach(function(x){
+        var id=all.length;all.push(x.w);
+        h+='<div class="wrow"><span class="em" aria-hidden="true">'+x.e+'</span><span class="words"><span class="w">'+x.w+'</span><span class="m ar">'+x.m+'</span></span><button type="button" class="say" id="s'+id+'" aria-label="Listen: '+x.w+'">'+ICON.sound+'</button></div>';
+      });
+      h+='</div></div>';
+    });
+    h+='<p class="src">'+SRC+'</p>';
+    mount(h);
+    document.getElementById('back').onclick=home;
+    all.forEach(function(w,i){document.getElementById('s'+i).onclick=function(){say(w);};});
+  }
+
+  // WEEK
+  function weekScreen(){
+    var w=week();
+    var h=topBar('My Week')+'<div class="card"><h2>Did you eat breakfast before school?</h2><p class="ar" style="font-size:17px;color:var(--muted);text-align:left">اضغط على اليوم الذي أفطرت فيه. يُحفظ على جوالك فقط.</p><div class="week" id="week">';
+    DAYS.forEach(function(d,i){h+='<button type="button" class="day" id="d'+i+'" aria-pressed="'+(w[i]?'true':'false')+'"><span class="tick">'+ICON.tick+'</span>'+d[0]+'<span class="ar">'+d[1]+'</span></button>';});
+    h+='</div><p id="wcount" style="font-size:20px;font-weight:700;text-align:center"></p></div>'+
+      '<div class="card"><h2>Your meals in a day</h2><div class="meals">'+
+      '<div class="meal"><b>Breakfast</b><span>At home, before school</span><span class="ar">الإفطار: في البيت قبل المدرسة</span></div>'+
+      '<div class="meal"><b>Break-time snack</b><span>Fruit, yogurt or a small sandwich</span><span class="ar">الفسحة: فاكهة أو زبادي أو ساندويتش صغير</span></div>'+
+      '<div class="meal"><b>Lunch</b><span>Half vegetables, a quarter grains, a quarter protein</span><span class="ar">الغداء: نصفه خضار، وربعه حبوب، وربعه بروتين</span></div>'+
+      '<div class="meal"><b>Afternoon snack</b><span>Dates and laban, or unsalted nuts</span><span class="ar">العصر: تمر ولبن، أو مكسرات غير مملحة</span></div>'+
+      '<div class="meal"><b>Dinner</b><span>Light and early, well before bed</span><span class="ar">العشاء: خفيف ومبكر قبل النوم</span></div>'+
+      '</div></div><p class="src">'+SRC+'</p>';
+    mount(h);
+    document.getElementById('back').onclick=home;
+    function count(){var c=w.filter(Boolean).length;document.getElementById('wcount').textContent=c===5?'Breakfast every day this week. Champion!':'Breakfast on '+c+' of 5 days';}
+    DAYS.forEach(function(_,i){document.getElementById('d'+i).onclick=function(){w[i]=!w[i];store(false,weekKey(),w);this.setAttribute('aria-pressed',w[i]?'true':'false');count();};});
+    count();
+  }
+
+  home();
+})();
+</script>
+<script src="../assets/club.js"></script>
+</body>
+</html>

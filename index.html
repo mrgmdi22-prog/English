@@ -19,6 +19,7 @@
   --violet:#6046e8; --violet-soft:#efebff;
   --teal:#11826a;  --teal-soft:#e3f6ef;
   --sun:#a26f00;   --sun-soft:#fff4d6;
+  --coral:#c2452a; --coral-soft:#ffece4;
   --ar:"Tajawal","Segoe UI",Tahoma,sans-serif; --en:"Lexend","Segoe UI",system-ui,sans-serif;
   --ease:cubic-bezier(.2,.7,.2,1);
 }
@@ -168,6 +169,7 @@ footer b{color:var(--ink)}
     <a href="#s1" style="color:var(--violet)">🌟 بوابة الكبسولات</a>
     <a href="#s2" style="color:var(--teal)">🧭 رحلة التعلّم الذاتي</a>
     <a href="#s3" style="color:var(--sun)">🏟️ ميدان المفردات</a>
+    <a href="#s4" style="color:var(--coral)">🍳 إنجليزي الحياة اليومية</a>
   </nav>
 
   <section class="shelf" id="s1" aria-labelledby="h1s">
@@ -215,6 +217,16 @@ footer b{color:var(--ink)}
     </div>
   </section>
 
+  <section class="shelf" id="s4" aria-labelledby="h4s">
+    <div class="shelf-head reveal">
+      <span class="badge" style="background:var(--coral-soft)" aria-hidden="true">🍳</span>
+      <div><h2 id="h4s" style="color:var(--coral)">إنجليزي الحياة اليومية</h2><p>Everyday English · كلمات من يومك</p></div>
+    </div>
+    <div class="grid">
+      <a class="card reveal" href="everyday/breakfast.html" style="--c:#c2452a;--t:#ffece4"><span class="arrow">←</span><span class="ic" aria-hidden="true">🍳</span><b>Breakfast Challenge</b><span class="en">Power up with breakfast!</span><p>ابنِ إفطارك، وتعلّم أسماء الأطعمة ونطقها، وخض تحدي الكلمات.</p></a>
+    </div>
+  </section>
+
   <footer>إعداد: <b>أ. أحمد آل سالم</b> — معلم اللغة الإنجليزية<br>ثانوية الأمير فيصل بالعقيق</footer>
 </div>
 
@@ -253,7 +265,8 @@ import('./assets/honor.js').then(async H => {
     'capsules/adventure.html':['كبسولة المغامرة','🎈'], 'capsules/emotion.html':['كبسولة المشاعر','💛'], 'capsules/career.html':['كبسولة المسيرة','🎓'],
     'capsules/nature.html':['كبسولة الطبيعة','🌍'], 'capsules/health.html':['كبسولة التعافي','🩺'],
     'journey/word-quest.html':['English Word Quest','🗺️'], 'journey/dictionary.html':['قاموس الألف كلمة','📖'], 'journey/conversation-lab.html':['مختبر المحادثة','💬'],
-    'vocab/mega-goal-1.html':['ميدان المفردات 1','🏟️'], 'vocab/mega-goal-2.html':['ميدان المفردات 2','🏆']
+    'vocab/mega-goal-1.html':['ميدان المفردات 1','🏟️'], 'vocab/mega-goal-2.html':['ميدان المفردات 2','🏆'],
+    'everyday/breakfast.html':['Breakfast Challenge','🍳']
   };
   var last = get('club-last');
   if(last && last.p){
