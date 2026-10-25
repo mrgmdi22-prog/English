@@ -8,7 +8,8 @@ service cloud.firestore {
         && request.auth.token.email in ['mr.gmdi22@gmail.com'];
     }
     function validStudentData(d) {
-      return d.keys().hasOnly(['nick', 'approved', 'score', 'parts', 'updatedAt'])
+      return d.keys().hasOnly(['nick', 'approved', 'score', 'parts', 'region', 'updatedAt'])
+        && (!('region' in d) || (d.region is string && d.region.size() <= 30))
         && d.nick is string && d.nick.size() >= 2 && d.nick.size() <= 20
         && d.score is int && d.score >= 0 && d.score <= 10000
         && d.parts is map && d.approved is bool;

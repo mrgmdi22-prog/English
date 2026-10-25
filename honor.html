@@ -103,6 +103,8 @@ select:focus{border-color:var(--gold);outline:none}
 .idbox input[type=text]{width:100%}
 .need{margin-top:14px;background:#fff6ec;border:1.5px solid #f3d3a8;border-radius:18px;padding:14px}
 .need > b{display:block;margin-bottom:10px;color:#a35a00}
+.reg{display:block;font-size:.85rem;font-weight:700;color:var(--muted);line-height:1.4}
+.pl .reg{margin-top:2px}
 .rules{width:100%;border-collapse:collapse;font-size:1.02rem}
 .rules td{padding:9px 6px;border-bottom:1px solid var(--line)}
 .rules tr:last-child td{border-bottom:0}
@@ -150,7 +152,7 @@ if (demo) {
   const fake = ['نسر الصحراء','Falcon7','نجم الشمال','Lion King','القمر المضيء','Speedy','بطل العقيق','Eagle Eye','الشهاب','Rocket'].map((n,i)=>({id:'d'+i,nick:n,score:3200-i*270-(i%3)*35,approved:true}));
   let me = null, priv = null;
   H = { ready:true, RULES:m.RULES, computeScore:m.computeScore, cleanNick:m.cleanNick,
-    GRADES:m.GRADES, EXTERNAL:m.EXTERNAL, cleanText:m.cleanText, myPrivate: async()=>priv, savePrivate: async(p)=>{priv=p}, myEntry: async()=>me, join: async(n)=>(me={id:'me',nick:m.cleanNick(n),approved:false,...m.computeScore()}),
+    GRADES:m.GRADES, EXTERNAL:m.EXTERNAL, REGIONS:m.REGIONS, HOME_REGION:m.HOME_REGION, setRegion: async(r)=>{me.region=r}, cleanText:m.cleanText, myPrivate: async()=>priv, savePrivate: async(p)=>{priv=p}, myEntry: async()=>me, join: async(n,r)=>(me={id:'me',nick:m.cleanNick(n),region:r,approved:false,...m.computeScore()}),
     sync: async()=>null, board: async()=>fake };
 } else {
   H = await import('./assets/honor.js');
@@ -169,10 +171,10 @@ function renderBoard() {
   const order = [1, 0, 2], medals = ['🥇','🥈','🥉'];
   $('podium').innerHTML = order.map(i => {
     const r = top[i];
-    return r ? `<div class="pl g${i+1}"><div class="medal">${medals[i]}</div><div class="nm">${esc(r.nick)}</div><div class="sc">${fmt(r.score)} نقطة</div><div class="block">${i+1}</div></div>`
+    return r ? `<div class="pl g${i+1}"><div class="medal">${medals[i]}</div><div class="nm">${esc(r.nick)}</div>${regTag(r)}<div class="sc">${fmt(r.score)} نقطة</div><div class="block">${i+1}</div></div>`
              : `<div class="pl g${i+1} empty"><div class="medal" style="opacity:.35">${medals[i]}</div><div class="nm">مكان شاغر</div><div class="sc">&nbsp;</div><div class="block">${i+1}</div></div>`;
   }).join('');
-  $('list').innerHTML = rest.map((r, i) => `<li class="${ME && r.id===ME.id?'mine':''}" style="animation-delay:${Math.min(i,12)*40}ms"><span class="rk">${i+4}</span><span class="nm">${esc(r.nick)}</span><span class="sc">${fmt(r.score)}</span></li>`).join('')
+  $('list').innerHTML = rest.map((r, i) => `<li class="${ME && r.id===ME.id?'mine':''}" style="animation-delay:${Math.min(i,12)*40}ms"><span class="rk">${i+4}</span><span class="nm">${esc(r.nick)}${regTag(r)}</span><span class="sc">${fmt(r.score)}</span></li>`).join('')
     || (ROWS.length ? '' : `<li class="empty-board" style="opacity:1;transform:none;border:0;background:none">لا أحد في اللوحة بعد — كن أول اسم يظهر هنا!</li>`);
 }
 
@@ -231,6 +233,8 @@ function renderRace(myScore) {
 }
 
 
+function regionOpts(sel) { return H.REGIONS.map(x => `<option${sel===x?' selected':''}>${x}</option>`).join(''); }
+function regTag(r) { return r && r.region ? `<small class="reg">📍 ${esc(r.region)}</small>` : ''; }
 function showMsg(t, ok) { const m = document.querySelector('#mePanel .msg'); if (m) { m.className = 'msg ' + (ok ? 'ok' : 'err'); m.textContent = t; } }
 
 function idFields(p) {
@@ -241,7 +245,8 @@ function idFields(p) {
     <label for="rn">اسمك الثلاثي</label><input id="rn" type="text" maxlength="60" placeholder="مثل: فهد محمد الغامدي" autocomplete="name" value="${esc(p.name||'')}">
     <div class="row2"><div><label for="gr">الصف</label><select id="gr"><option value="">اختر</option>${g}</select></div>
     <div id="scBox"><label for="sc">الشعبة</label><select id="sc"><option value="">اختر</option>${sec}</select></div></div>
-    <div id="exBox" hidden style="margin-top:10px"><label for="ex">اسم مدرستك أو جهتك ومدينتك</label><input id="ex" type="text" maxlength="60" placeholder="مثل: ثانوية الملك فهد · الباحة" value="${esc(p.school||'')}"></div></div>`;
+    <div id="exBox" hidden style="margin-top:10px"><label for="ex">اسم مدرستك أو جهتك ومدينتك</label><input id="ex" type="text" maxlength="60" placeholder="مثل: ثانوية الملك فهد · الباحة" value="${esc(p.school||'')}">
+      <label for="rg" style="margin-top:10px">منطقتك (تظهر للجميع بجانب اسمك المستعار)</label><select id="rg"><option value="">اختر</option>${regionOpts('')}</select></div></div>`;
 }
 function wireId() {
   const gr = $('gr'), box = $('scBox'); if (!gr || !box) return;
@@ -256,7 +261,9 @@ function readId() {
   if (!section) return { err: 'اختر شعبتك.' };
   const school = ext ? H.cleanText($('ex').value, 60) : '';
   if (ext && school.length < 3) return { err: 'اكتب اسم مدرستك أو جهتك ومدينتك.' };
-  return ext ? { name, grade, section, school } : { name, grade, section };
+  const region = ext ? $('rg').value : H.HOME_REGION;
+  if (ext && !region) return { err: 'اختر منطقتك.' };
+  return ext ? { name, grade, section, school, region } : { name, grade, section, region };
 }
 
 function renderMe(msg) {
@@ -280,7 +287,8 @@ function renderMe(msg) {
       if (n.replace(/\s/g,'') === id.name.replace(/\s/g,'') || id.name.split(' ').some(w => w.length > 2 && n.includes(w))) { showMsg('اختر اسماً مستعاراً لا يحتوي على اسمك الحقيقي.'); return; }
       $('jb').disabled = true; $('jb').textContent = 'جارٍ الحفظ…';
       let step = 'private';
-      try { await H.savePrivate(id); PRIV = id; step = 'player'; ME = await H.join(n); renderMe({t:'تم! سيظهر اسمك بعد موافقة المعلم.'}); }
+      const region = id.region; delete id.region;
+      try { await H.savePrivate(id); PRIV = id; step = 'player'; ME = await H.join(n, region); renderMe({t:'تم! سيظهر اسمك بعد موافقة المعلم.'}); }
       catch (err) {
         console.error(err);
         const code = (err && (err.code || err.message) || '').toString();
@@ -299,17 +307,24 @@ function renderMe(msg) {
         <span class="status ${ME.approved?'ok':'wait'}">${ME.approved?'✓ ظاهر في اللوحة · المركز '+rk:'⏳ بانتظار موافقة المعلم'}</span></div>
       <div class="pts"><b>${fmt(local.score)}</b><span>نقطة</span></div></div>
     <div class="chips">${H.RULES.map(r=>`<span>${r.icon} ${fmt(p[r.key])} × ${r.per}</span>`).join('')}</div>
+    ${ME.region ? `<p class="lock" style="margin-top:12px">📍 منطقتك في اللوحة: <b>${esc(ME.region)}</b></p>` : (!(PRIV && PRIV.grade === H.EXTERNAL) ? '' : `<form id="rf" class="need"><b>📍 اختر منطقتك لتظهر بجانب اسمك</b><select id="rg2"><option value="">اختر</option>${regionOpts('')}</select><button class="btn" style="margin-top:10px">حفظ</button></form>`)}
     ${PRIV ? `<p class="lock" style="margin-top:12px">🔒 بيانات التكريم: <b>${esc(PRIV.name)}</b> · ${PRIV.grade === H.EXTERNAL ? 'مشارك من خارج المدرسة' + (PRIV.school ? ' (' + esc(PRIV.school) + ')' : '') : esc(PRIV.grade) + ' · الشعبة ' + esc(PRIV.section)}. لا يراها إلا المعلم.</p>`
            : `<form id="pf" class="need"><b>⚠️ أكمل بياناتك ليُحسب لك التكريم في نهاية العام</b>${idFields(null)}<button class="btn" id="pb" style="margin-top:12px">حفظ بياناتي</button></form>`}
     <div class="actions"><button class="btn soft" id="ub">🔄 حدّث نقاطي</button><button class="btn link" id="cn">تغيير الاسم المستعار</button></div>
     <div class="msg ${msg&&msg.err?'err':'ok'}">${msg?esc(msg.t):''}</div>`;
   renderRace(local.score);
+  if (ME && !ME.region && PRIV && PRIV.grade !== H.EXTERNAL) { H.setRegion(H.HOME_REGION).then(() => { ME.region = H.HOME_REGION; }).catch(() => {}); }
+  if ($('rf')) $('rf').onsubmit = async e => {
+    e.preventDefault(); const r = $('rg2').value; if (!r) { showMsg('اختر منطقتك.'); return; }
+    try { await H.setRegion(r); ME.region = r; ROWS = await H.board(); renderBoard(); renderMe({t:'تم حفظ منطقتك.'}); } catch (err) { console.error(err); showMsg('تعذّر الحفظ. (' + (err.code || err.message) + ')'); }
+  };
   wireId();
   if ($('pf')) $('pf').onsubmit = async e => {
     e.preventDefault();
     const id = readId(); if (id.err) { showMsg(id.err); return; }
     $('pb').disabled = true;
-    try { await H.savePrivate(id); PRIV = id; renderMe({t:'تم حفظ بياناتك. شكراً!'}); }
+    const region = id.region; delete id.region;
+    try { await H.savePrivate(id); PRIV = id; if (region) { await H.setRegion(region).catch(() => {}); ME.region = region; } renderMe({t:'تم حفظ بياناتك. شكراً!'}); }
     catch (err) { console.error(err); showMsg('تعذّر الحفظ، حاول مرة أخرى.'); $('pb').disabled = false; }
   };
   $('ub').onclick = async () => {

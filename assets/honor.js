@@ -77,6 +77,8 @@ export async function myEntry() {
 /* ---------- private identity (real name, grade, section): readable only by the student and the teacher ---------- */
 export const GRADES = ['أول ثانوي', 'ثاني ثانوي', 'ثالث ثانوي'];
 export const EXTERNAL = 'من خارج المدرسة';
+export const HOME_REGION = 'الباحة';
+export const REGIONS = ['الباحة', 'الرياض', 'مكة المكرمة', 'المدينة المنورة', 'القصيم', 'المنطقة الشرقية', 'عسير', 'تبوك', 'حائل', 'الحدود الشمالية', 'جازان', 'نجران', 'الجوف', 'خارج المملكة'];
 export function cleanText(s, max) { return String(s || '').replace(/\s+/g, ' ').trim().slice(0, max); }
 
 /** My private record, or null. */
@@ -106,22 +108,30 @@ export async function allPrivate() {
 }
 
 /** Join (or change nickname). A new or changed nickname waits for the teacher's approval. */
-export async function join(nick) {
+export async function join(nick, region) {
   const { fs, D } = await load();
   const uid = await studentUid();
   const { score, parts } = computeScore();
   nick = cleanNick(nick);
+  const reg = region ? { region: cleanText(region, 30) } : {};
   const ref = fs.doc(D, 'players', uid);
   const snap = await fs.getDoc(ref);
   if (snap.exists()) {
     const same = snap.data().nick === nick;
-    await fs.updateDoc(ref, same ? { score, parts, updatedAt: fs.serverTimestamp() }
-                                 : { nick, approved: false, score, parts, updatedAt: fs.serverTimestamp() });
+    await fs.updateDoc(ref, same ? { score, parts, ...reg, updatedAt: fs.serverTimestamp() }
+                                 : { nick, approved: false, score, parts, ...reg, updatedAt: fs.serverTimestamp() });
   } else {
-    await fs.setDoc(ref, { nick, approved: false, score, parts, updatedAt: fs.serverTimestamp() });
+    await fs.setDoc(ref, { nick, approved: false, score, parts, ...reg, updatedAt: fs.serverTimestamp() });
   }
   try { localStorage.setItem('club-player', '1'); localStorage.setItem('club-sync', JSON.stringify({ t: Date.now(), s: score })); } catch (e) {}
   return { id: uid, nick, score, parts };
+}
+
+/** Sets my region shown on the board. */
+export async function setRegion(region) {
+  const { fs, D } = await load();
+  const uid = await studentUid();
+  await fs.updateDoc(fs.doc(D, 'players', uid), { region: cleanText(region, 30) });
 }
 
 /** Pushes my latest points if I have joined. Quiet; throttled unless forced. */
