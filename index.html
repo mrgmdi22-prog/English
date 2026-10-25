@@ -300,7 +300,7 @@ footer b{color:var(--ink)}
 <script src="assets/club.js"></script>
 <script type="module">
 // Top three on the honor board (only once Firebase is configured)
-import('./assets/honor.js').then(async H => {
+import('./assets/honor.js?v=20261026a').then(async H => {
   const s = H.computeScore().score;
   if (s > 0) document.getElementById('hSub').textContent = 'نقاطك الآن: ' + s.toLocaleString('en-US') + ' نقطة — انضم وتنافس مع زملائك.';
   if (!H.ready) return;
