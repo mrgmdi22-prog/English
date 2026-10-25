@@ -10,6 +10,8 @@ export const RULES = [
   { key: 'wq',   label: 'إجابة صحيحة في Word Quest', icon: '🗺️', per: 5, max: 500 },
   { key: 'lab',  label: 'إجابة صحيحة في مختبر المحادثة', icon: '💬', per: 10, max: 100 },
   { key: 'mg',   label: 'كلمة أتقنتها في ميدان المفردات', icon: '🏟️', per: 3, max: 600 },
+  { key: 'ng',   label: 'إجابة صحيحة في الكلمات العامة', icon: '🌍', per: 5, max: 500 },
+  { key: 'aw',   label: 'إجابة صحيحة في الكلمات الأكاديمية', icon: '🎓', per: 5, max: 290 },
   { key: 'bf',   label: 'إجابة صحيحة في Breakfast Challenge', icon: '🍳', per: 10, max: 10 }
 ];
 const CAPS = ['space', 'flavor', 'life', 'adventure', 'emotion', 'career', 'nature', 'health'];
@@ -25,8 +27,11 @@ export function computeScore() {
   let lab = 0; for (let w = 1; w <= 20; w++) lab += Math.max(0, Math.min(5, N('cl-q-' + w)));
   const mg = Math.min(300, (J('mg1-known') || []).length) + Math.min(300, (J('mg2-known') || []).length);
   const bf = Math.max(0, Math.min(10, N('bf-best')));
-  const parts = { caps, wq, lab, mg, bf };
-  const score = RULES.reduce((t, r) => t + Math.min(parts[r.key], r.max) * r.per, 0);
+  let ng = 0; for (let n = 1; n <= 50; n++) ng += Math.max(0, Math.min(10, N('ng-best-' + n)));
+  let aw = 0; for (let n = 1; n <= 29; n++) aw += Math.max(0, Math.min(10, N('aw-best-' + n)));
+  const parts = { caps, wq, lab, mg, bf, ng, aw };
+  // The board's database accepts at most 10,000 points per student.
+  const score = Math.min(10000, RULES.reduce((t, r) => t + Math.min(parts[r.key], r.max) * r.per, 0));
   return { score, parts };
 }
 
