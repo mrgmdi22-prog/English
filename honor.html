@@ -246,7 +246,7 @@ function idFields(p) {
     <div class="row2"><div><label for="gr">الصف</label><select id="gr"><option value="">اختر</option>${g}</select></div>
     <div id="scBox"><label for="sc">الشعبة</label><select id="sc"><option value="">اختر</option>${sec}</select></div></div>
     <div id="exBox" hidden style="margin-top:10px"><label for="ex">اسم مدرستك أو جهتك ومدينتك</label><input id="ex" type="text" maxlength="60" placeholder="مثل: ثانوية الملك فهد · الباحة" value="${esc(p.school||'')}">
-      <label for="rg" style="margin-top:10px">منطقتك (تظهر للجميع بجانب اسمك المستعار)</label><select id="rg"><option value="">اختر</option>${regionOpts('')}</select></div></div>`;
+      <label for="rg" style="margin-top:10px">مدينتك أو منطقتك (تظهر للجميع بجانب اسمك المستعار)</label><select id="rg"><option value="">اختر</option>${regionOpts('')}</select></div></div>`;
 }
 function wireId() {
   const gr = $('gr'), box = $('scBox'); if (!gr || !box) return;
@@ -307,7 +307,7 @@ function renderMe(msg) {
         <span class="status ${ME.approved?'ok':'wait'}">${ME.approved?'✓ ظاهر في اللوحة · المركز '+rk:'⏳ بانتظار موافقة المعلم'}</span></div>
       <div class="pts"><b>${fmt(local.score)}</b><span>نقطة</span></div></div>
     <div class="chips">${H.RULES.map(r=>`<span>${r.icon} ${fmt(p[r.key])} × ${r.per}</span>`).join('')}</div>
-    ${ME.region ? `<p class="lock" style="margin-top:12px">📍 منطقتك في اللوحة: <b>${esc(ME.region)}</b></p>` : (!(PRIV && PRIV.grade === H.EXTERNAL) ? '' : `<form id="rf" class="need"><b>📍 اختر منطقتك لتظهر بجانب اسمك</b><select id="rg2"><option value="">اختر</option>${regionOpts('')}</select><button class="btn" style="margin-top:10px">حفظ</button></form>`)}
+    ${ME.region ? `<p class="lock" style="margin-top:12px">📍 منطقتك في اللوحة: <b>${esc(ME.region)}</b></p>` : (!(PRIV && PRIV.grade === H.EXTERNAL) ? '' : `<form id="rf" class="need"><b>📍 اختر مدينتك أو منطقتك لتظهر بجانب اسمك</b><select id="rg2"><option value="">اختر</option>${regionOpts('')}</select><button class="btn" style="margin-top:10px">حفظ</button></form>`)}
     ${PRIV ? `<p class="lock" style="margin-top:12px">🔒 بيانات التكريم: <b>${esc(PRIV.name)}</b> · ${PRIV.grade === H.EXTERNAL ? 'مشارك من خارج المدرسة' + (PRIV.school ? ' (' + esc(PRIV.school) + ')' : '') : esc(PRIV.grade) + ' · الشعبة ' + esc(PRIV.section)}. لا يراها إلا المعلم.</p>`
            : `<form id="pf" class="need"><b>⚠️ أكمل بياناتك ليُحسب لك التكريم في نهاية العام</b>${idFields(null)}<button class="btn" id="pb" style="margin-top:12px">حفظ بياناتي</button></form>`}
     <div class="actions"><button class="btn soft" id="ub">🔄 حدّث نقاطي</button><button class="btn link" id="cn">تغيير الاسم المستعار</button></div>

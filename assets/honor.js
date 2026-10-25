@@ -79,8 +79,8 @@ export async function myEntry() {
 /* ---------- private identity (real name, grade, section): readable only by the student and the teacher ---------- */
 export const GRADES = ['أول ثانوي', 'ثاني ثانوي', 'ثالث ثانوي'];
 export const EXTERNAL = 'من خارج المدرسة';
-export const HOME_REGION = 'الباحة';
-export const REGIONS = ['الباحة', 'الرياض', 'مكة المكرمة', 'المدينة المنورة', 'القصيم', 'المنطقة الشرقية', 'عسير', 'تبوك', 'حائل', 'الحدود الشمالية', 'جازان', 'نجران', 'الجوف', 'خارج المملكة'];
+export const HOME_REGION = 'العقيق';
+export const REGIONS = ['العقيق', 'الباحة', 'بلجرشي', 'المخواة', 'المندق', 'القرى', 'مكة المكرمة', 'جدة', 'الطائف', 'الرياض', 'المدينة المنورة', 'القصيم', 'المنطقة الشرقية', 'عسير', 'تبوك', 'حائل', 'الحدود الشمالية', 'جازان', 'نجران', 'الجوف', 'خارج المملكة'];
 export function cleanText(s, max) { return String(s || '').replace(/\s+/g, ' ').trim().slice(0, max); }
 
 /** My private record, or null. */
