@@ -70,7 +70,7 @@ async function load() {
   rows.sort((a,b) => (b.score||0) - (a.score||0));
   let priv = {}; try { priv = await H.allPrivate(); } catch (e) { console.warn(e); }
   const pend = rows.filter(r => !r.approved), ok = rows.filter(r => r.approved);
-  const item = (r, pending) => `<div class="item" data-id="${r.id}"><span class="nm">${esc(r.nick)}${priv[r.id] ? `<small class="real">👤 ${esc(priv[r.id].name)} · ${priv[r.id].grade === H.EXTERNAL ? '🌐 مشارك من خارج المدرسة' : esc(priv[r.id].grade) + ' · الشعبة ' + esc(priv[r.id].section)}</small>` : '<small class="real miss">⚠️ لم يكتب بياناته الحقيقية بعد</small>'}</span><span class="sc">${fmt(r.score)}</span><span class="acts">
+  const item = (r, pending) => `<div class="item" data-id="${r.id}"><span class="nm">${esc(r.nick)}${priv[r.id] ? `<small class="real">👤 ${esc(priv[r.id].name)} · ${priv[r.id].grade === H.EXTERNAL ? '🌐 من خارج المدرسة: ' + esc(priv[r.id].school || 'لم يذكر الجهة') : esc(priv[r.id].grade) + ' · الشعبة ' + esc(priv[r.id].section)}</small>` : '<small class="real miss">⚠️ لم يكتب بياناته الحقيقية بعد</small>'}</span><span class="sc">${fmt(r.score)}</span><span class="acts">
     ${pending ? '<button class="btn ok" data-a="ok">✓ موافقة</button>' : '<button class="btn soft" data-a="hide">إخفاء</button>'}
     <button class="btn soft" data-a="ren">تعديل الاسم</button><button class="btn bad" data-a="del">حذف</button></span></div>`;
   $('main').innerHTML = `
@@ -79,8 +79,8 @@ async function load() {
     <div class="panel"><h2>ظاهرون في اللوحة <span class="count" style="background:var(--ok-soft);color:var(--ok)">${ok.length}</span></h2>${ok.map(r => item(r, false)).join('') || '<div class="empty">لا أحد بعد.</div>'}</div>`;
   $('csv').onclick = () => {
     const q = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
-    const lines = [['الترتيب','الاسم الحقيقي','الصف','الشعبة','الاسم المستعار','النقاط','الحالة'].map(q).join(',')];
-    rows.forEach((r, i) => { const p = priv[r.id] || {}; lines.push([i + 1, p.name || '—', p.grade === H.EXTERNAL ? 'من خارج المدرسة' : (p.grade || ''), p.grade === H.EXTERNAL ? '' : (p.section || ''), r.nick, r.score || 0, r.approved ? 'ظاهر في اللوحة' : 'بانتظار الموافقة'].map(q).join(',')); });
+    const lines = [['الترتيب','الاسم الحقيقي','الصف','الشعبة','المدرسة / الجهة (للمشارك الخارجي)','الاسم المستعار','النقاط','الحالة'].map(q).join(',')];
+    rows.forEach((r, i) => { const p = priv[r.id] || {}; lines.push([i + 1, p.name || '—', p.grade === H.EXTERNAL ? 'من خارج المدرسة' : (p.grade || ''), p.grade === H.EXTERNAL ? '' : (p.section || ''), p.school || '', r.nick, r.score || 0, r.approved ? 'ظاهر في اللوحة' : 'بانتظار الموافقة'].map(q).join(',')); });
     const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'قائمة-التكريم-لوحة-الشرف.csv'; document.body.appendChild(a); a.click(); a.remove();
   };

@@ -39,7 +39,8 @@ service cloud.firestore {
       allow read: if isTeacher() || (request.auth != null && request.auth.uid == uid);
       allow create, update: if isTeacher() || (
         request.auth != null && request.auth.uid == uid
-        && request.resource.data.keys().hasOnly(['name', 'grade', 'section', 'updatedAt'])
+        && request.resource.data.keys().hasOnly(['name', 'grade', 'section', 'school', 'updatedAt'])
+        && (!('school' in request.resource.data) || (request.resource.data.school is string && request.resource.data.school.size() <= 60))
         && request.resource.data.name is string && request.resource.data.name.size() >= 5 && request.resource.data.name.size() <= 60
         && request.resource.data.grade is string && request.resource.data.grade.size() >= 2 && request.resource.data.grade.size() <= 20
         && request.resource.data.section is string && request.resource.data.section.size() >= 1 && request.resource.data.section.size() <= 10

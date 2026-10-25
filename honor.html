@@ -240,11 +240,13 @@ function idFields(p) {
   return `<div class="idbox"><p class="lock">🔒 هذه البيانات لا يراها إلا المعلم، وتُستخدم للتكريم في نهاية العام فقط.</p>
     <label for="rn">اسمك الثلاثي</label><input id="rn" type="text" maxlength="60" placeholder="مثل: فهد محمد الغامدي" autocomplete="name" value="${esc(p.name||'')}">
     <div class="row2"><div><label for="gr">الصف</label><select id="gr"><option value="">اختر</option>${g}</select></div>
-    <div id="scBox"><label for="sc">الشعبة</label><select id="sc"><option value="">اختر</option>${sec}</select></div></div></div>`;
+    <div id="scBox"><label for="sc">الشعبة</label><select id="sc"><option value="">اختر</option>${sec}</select></div></div>
+    <div id="exBox" hidden style="margin-top:10px"><label for="ex">اسم مدرستك أو جهتك ومدينتك</label><input id="ex" type="text" maxlength="60" placeholder="مثل: ثانوية الملك فهد · الباحة" value="${esc(p.school||'')}"></div></div>`;
 }
 function wireId() {
   const gr = $('gr'), box = $('scBox'); if (!gr || !box) return;
-  const f = () => { box.style.visibility = gr.value === H.EXTERNAL ? 'hidden' : 'visible'; };
+  const ex = $('exBox');
+  const f = () => { const e = gr.value === H.EXTERNAL; box.style.visibility = e ? 'hidden' : 'visible'; if (ex) ex.hidden = !e; };
   gr.onchange = f; f();
 }
 function readId() {
@@ -252,7 +254,9 @@ function readId() {
   if (name.split(' ').filter(Boolean).length < 3) return { err: 'اكتب اسمك الثلاثي كاملاً.' };
   if (!grade) return { err: 'اختر صفك.' };
   if (!section) return { err: 'اختر شعبتك.' };
-  return { name, grade, section };
+  const school = ext ? H.cleanText($('ex').value, 60) : '';
+  if (ext && school.length < 3) return { err: 'اكتب اسم مدرستك أو جهتك ومدينتك.' };
+  return ext ? { name, grade, section, school } : { name, grade, section };
 }
 
 function renderMe(msg) {
@@ -287,7 +291,7 @@ function renderMe(msg) {
         <span class="status ${ME.approved?'ok':'wait'}">${ME.approved?'✓ ظاهر في اللوحة · المركز '+rk:'⏳ بانتظار موافقة المعلم'}</span></div>
       <div class="pts"><b>${fmt(local.score)}</b><span>نقطة</span></div></div>
     <div class="chips">${H.RULES.map(r=>`<span>${r.icon} ${fmt(p[r.key])} × ${r.per}</span>`).join('')}</div>
-    ${PRIV ? `<p class="lock" style="margin-top:12px">🔒 بيانات التكريم: <b>${esc(PRIV.name)}</b> · ${PRIV.grade === H.EXTERNAL ? 'مشارك من خارج المدرسة' : esc(PRIV.grade) + ' · الشعبة ' + esc(PRIV.section)}. لا يراها إلا المعلم.</p>`
+    ${PRIV ? `<p class="lock" style="margin-top:12px">🔒 بيانات التكريم: <b>${esc(PRIV.name)}</b> · ${PRIV.grade === H.EXTERNAL ? 'مشارك من خارج المدرسة' + (PRIV.school ? ' (' + esc(PRIV.school) + ')' : '') : esc(PRIV.grade) + ' · الشعبة ' + esc(PRIV.section)}. لا يراها إلا المعلم.</p>`
            : `<form id="pf" class="need"><b>⚠️ أكمل بياناتك ليُحسب لك التكريم في نهاية العام</b>${idFields(null)}<button class="btn" id="pb" style="margin-top:12px">حفظ بياناتي</button></form>`}
     <div class="actions"><button class="btn soft" id="ub">🔄 حدّث نقاطي</button><button class="btn link" id="cn">تغيير الاسم المستعار</button></div>
     <div class="msg ${msg&&msg.err?'err':'ok'}">${msg?esc(msg.t):''}</div>`;

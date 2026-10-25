@@ -92,7 +92,8 @@ export async function savePrivate(p) {
   const { fs, D } = await load();
   const uid = await studentUid();
   await fs.setDoc(fs.doc(D, 'private', uid), {
-    name: cleanText(p.name, 60), grade: cleanText(p.grade, 20), section: cleanText(p.section, 10), updatedAt: fs.serverTimestamp()
+    name: cleanText(p.name, 60), grade: cleanText(p.grade, 20), section: cleanText(p.section, 10),
+    ...(p.school ? { school: cleanText(p.school, 60) } : {}), updatedAt: fs.serverTimestamp()
   });
 }
 
