@@ -33,5 +33,19 @@ service cloud.firestore {
 
       allow delete: if isTeacher();
     }
+
+    // الاسم الحقيقي والصف والشعبة: لا يقرؤها إلا الطالب نفسه والمعلم
+    match /private/{uid} {
+      allow read: if isTeacher() || (request.auth != null && request.auth.uid == uid);
+      allow create, update: if isTeacher() || (
+        request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['name', 'grade', 'section', 'updatedAt'])
+        && request.resource.data.name is string && request.resource.data.name.size() >= 5 && request.resource.data.name.size() <= 60
+        && request.resource.data.grade is string && request.resource.data.grade.size() >= 2 && request.resource.data.grade.size() <= 20
+        && request.resource.data.section is string && request.resource.data.section.size() >= 1 && request.resource.data.section.size() <= 10
+        && (resource == null || !exists(/databases/$(database)/documents/players/$(uid))
+            || get(/databases/$(database)/documents/players/$(uid)).data.approved == false));
+      allow delete: if isTeacher();
+    }
   }
 }

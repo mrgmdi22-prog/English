@@ -95,6 +95,14 @@ input[type=text]:focus{border-color:var(--gold)}
 .duel .goal{background:#f1fbf5;border-color:#bfe6cf}
 .duel b{font-weight:800}
 .tip2{margin:12px 0 0;color:var(--muted);font-size:.98rem}
+.idbox{background:#faf7ef;border:1.5px dashed #e6d9b4;border-radius:18px;padding:14px}
+.lock{margin:0 0 10px;color:var(--muted);font-size:.95rem}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+select{width:100%;font:inherit;font-size:1.05rem;padding:11px 12px;border:2px solid var(--line);border-radius:14px;background:#fffdf8;color:var(--ink)}
+select:focus{border-color:var(--gold);outline:none}
+.idbox input[type=text]{width:100%}
+.need{margin-top:14px;background:#fff6ec;border:1.5px solid #f3d3a8;border-radius:18px;padding:14px}
+.need > b{display:block;margin-bottom:10px;color:#a35a00}
 .rules{width:100%;border-collapse:collapse;font-size:1.02rem}
 .rules td{padding:9px 6px;border-bottom:1px solid var(--line)}
 .rules tr:last-child td{border-bottom:0}
@@ -140,9 +148,9 @@ let H;
 if (demo) {
   const m = await import('./assets/honor.js').catch(() => null);
   const fake = ['نسر الصحراء','Falcon7','نجم الشمال','Lion King','القمر المضيء','Speedy','بطل العقيق','Eagle Eye','الشهاب','Rocket'].map((n,i)=>({id:'d'+i,nick:n,score:3200-i*270-(i%3)*35,approved:true}));
-  let me = null;
+  let me = null, priv = null;
   H = { ready:true, RULES:m.RULES, computeScore:m.computeScore, cleanNick:m.cleanNick,
-    myEntry: async()=>me, join: async(n)=>(me={id:'me',nick:m.cleanNick(n),approved:false,...m.computeScore()}),
+    GRADES:m.GRADES, cleanText:m.cleanText, myPrivate: async()=>priv, savePrivate: async(p)=>{priv=p}, myEntry: async()=>me, join: async(n)=>(me={id:'me',nick:m.cleanNick(n),approved:false,...m.computeScore()}),
     sync: async()=>null, board: async()=>fake };
 } else {
   H = await import('./assets/honor.js');
@@ -154,7 +162,7 @@ const fmt = n => Number(n||0).toLocaleString('en-US');
 
 $('rules').innerHTML = H.RULES.map(r => `<tr><td>${r.icon} ${r.label}</td><td>${r.per} نقاط</td></tr>`).join('');
 
-let ME = null, ROWS = [];
+let ME = null, ROWS = [], PRIV = null;
 
 function renderBoard() {
   const top = ROWS.slice(0, 3), rest = ROWS.slice(3, 50);
@@ -222,13 +230,33 @@ function renderRace(myScore) {
   R.hidden = false;
 }
 
+
+function showMsg(t, ok) { const m = document.querySelector('#mePanel .msg'); if (m) { m.className = 'msg ' + (ok ? 'ok' : 'err'); m.textContent = t; } }
+
+function idFields(p) {
+  p = p || {};
+  const g = H.GRADES.map(x => `<option${p.grade===x?' selected':''}>${x}</option>`).join('');
+  const sec = Array.from({length:10}, (_, i) => String(i+1)).map(x => `<option${p.section===x?' selected':''}>${x}</option>`).join('');
+  return `<div class="idbox"><p class="lock">🔒 هذه البيانات لا يراها إلا المعلم، وتُستخدم للتكريم في نهاية العام فقط.</p>
+    <label for="rn">اسمك الثلاثي</label><input id="rn" type="text" maxlength="60" placeholder="مثل: فهد محمد الغامدي" autocomplete="name" value="${esc(p.name||'')}">
+    <div class="row2"><div><label for="gr">الصف</label><select id="gr"><option value="">اختر</option>${g}</select></div>
+    <div><label for="sc">الشعبة</label><select id="sc"><option value="">اختر</option>${sec}</select></div></div></div>`;
+}
+function readId() {
+  const name = H.cleanText($('rn').value, 60), grade = $('gr').value, section = $('sc').value;
+  if (name.split(' ').filter(Boolean).length < 3) return { err: 'اكتب اسمك الثلاثي كاملاً.' };
+  if (!grade) return { err: 'اختر صفك.' };
+  if (!section) return { err: 'اختر شعبتك.' };
+  return { name, grade, section };
+}
+
 function renderMe(msg) {
   const P = $('mePanel');
   const local = H.computeScore();
   if (!ME) {
     P.innerHTML = `<h2>انضم إلى لوحة الشرف</h2>
       <p class="note">نقاطك الآن على هذا الجهاز: <b style="color:var(--gold)">${fmt(local.score)}</b> نقطة. اختر اسماً مستعاراً يظهر في اللوحة، ولا تكتب اسمك الحقيقي.</p>
-      <form id="jf" style="margin-top:14px"><label for="nk">اسمك المستعار</label>
+      <form id="jf" style="margin-top:14px">${idFields(PRIV)}<label for="nk" style="margin-top:14px">اسمك المستعار (يظهر للجميع)</label>
       <div class="row"><input id="nk" type="text" maxlength="20" minlength="2" placeholder="مثل: نسر العقيق" autocomplete="off" required>
       <button class="btn" id="jb">انضم 🚀</button></div>
       <p class="note" style="margin-top:8px;font-size:.95rem">يظهر اسمك بعد أن يوافق عليه المعلم.</p></form>
@@ -236,9 +264,12 @@ function renderMe(msg) {
     $('jf').onsubmit = async e => {
       e.preventDefault();
       const n = H.cleanNick($('nk').value);
-      if (n.length < 2) { renderMe({err:1,t:'اكتب اسماً من حرفين على الأقل.'}); return; }
+      const id = readId();
+      if (id.err) { showMsg(id.err); return; }
+      if (n.length < 2) { showMsg('اكتب اسماً مستعاراً من حرفين على الأقل.'); return; }
+      if (n.replace(/\s/g,'') === id.name.replace(/\s/g,'') || id.name.split(' ').some(w => w.length > 2 && n.includes(w))) { showMsg('اختر اسماً مستعاراً لا يحتوي على اسمك الحقيقي.'); return; }
       $('jb').disabled = true; $('jb').textContent = 'جارٍ الحفظ…';
-      try { ME = await H.join(n); renderMe({t:'تم! سيظهر اسمك بعد موافقة المعلم.'}); }
+      try { await H.savePrivate(id); PRIV = id; ME = await H.join(n); renderMe({t:'تم! سيظهر اسمك بعد موافقة المعلم.'}); }
       catch (err) { console.error(err); renderMe({err:1,t:'تعذّر الحفظ، تأكد من الاتصال بالإنترنت ثم حاول مرة أخرى.'}); }
     };
     return;
@@ -250,9 +281,18 @@ function renderMe(msg) {
         <span class="status ${ME.approved?'ok':'wait'}">${ME.approved?'✓ ظاهر في اللوحة · المركز '+rk:'⏳ بانتظار موافقة المعلم'}</span></div>
       <div class="pts"><b>${fmt(local.score)}</b><span>نقطة</span></div></div>
     <div class="chips">${H.RULES.map(r=>`<span>${r.icon} ${fmt(p[r.key])} × ${r.per}</span>`).join('')}</div>
+    ${PRIV ? `<p class="lock" style="margin-top:12px">🔒 بيانات التكريم: <b>${esc(PRIV.name)}</b> · ${esc(PRIV.grade)} · الشعبة ${esc(PRIV.section)}. لا يراها إلا المعلم.</p>`
+           : `<form id="pf" class="need"><b>⚠️ أكمل بياناتك ليُحسب لك التكريم في نهاية العام</b>${idFields(null)}<button class="btn" id="pb" style="margin-top:12px">حفظ بياناتي</button></form>`}
     <div class="actions"><button class="btn soft" id="ub">🔄 حدّث نقاطي</button><button class="btn link" id="cn">تغيير الاسم المستعار</button></div>
     <div class="msg ${msg&&msg.err?'err':'ok'}">${msg?esc(msg.t):''}</div>`;
   renderRace(local.score);
+  if ($('pf')) $('pf').onsubmit = async e => {
+    e.preventDefault();
+    const id = readId(); if (id.err) { showMsg(id.err); return; }
+    $('pb').disabled = true;
+    try { await H.savePrivate(id); PRIV = id; renderMe({t:'تم حفظ بياناتك. شكراً!'}); }
+    catch (err) { console.error(err); showMsg('تعذّر الحفظ، حاول مرة أخرى.'); $('pb').disabled = false; }
+  };
   $('ub').onclick = async () => {
     $('ub').disabled = true;
     try { await H.sync(true); ME = await H.myEntry(); ROWS = await H.board(); renderBoard(); renderMe({t:'تم تحديث نقاطك.'}); }
@@ -274,6 +314,7 @@ if (!H.ready) {
   try {
     await H.sync(false).catch(() => {});
     [ME, ROWS] = await Promise.all([H.myEntry(), H.board()]);
+    if (ME) PRIV = await H.myPrivate().catch(() => null);
     renderMe(); renderBoard();
   } catch (err) {
     console.error(err);

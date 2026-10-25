@@ -27,6 +27,8 @@ h1{font-size:2rem;margin:0 0 4px;font-weight:800}
 .item{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid var(--line)}
 .item:last-child{border-bottom:0}
 .item .nm{flex:1;min-width:140px;font-weight:800;font-size:1.15rem;overflow-wrap:anywhere}
+.real{display:block;font-weight:500;font-size:.95rem;color:var(--muted)}
+.real.miss{color:#a35a00}
 .item .sc{color:var(--gold);font-weight:800;min-width:80px;font-variant-numeric:tabular-nums}
 .item .acts{display:flex;gap:6px;flex-wrap:wrap}
 .empty{color:var(--muted);padding:8px 0}
@@ -66,13 +68,22 @@ async function load() {
   try { rows = await H.allPlayers(); }
   catch (e) { $('main').innerHTML = '<div class="panel"><h2>لا توجد صلاحية</h2><p class="note">هذا الحساب ليس حساب المعلم المسجّل في إعدادات اللوحة.</p></div>'; return; }
   rows.sort((a,b) => (b.score||0) - (a.score||0));
+  let priv = {}; try { priv = await H.allPrivate(); } catch (e) { console.warn(e); }
   const pend = rows.filter(r => !r.approved), ok = rows.filter(r => r.approved);
-  const item = (r, pending) => `<div class="item" data-id="${r.id}"><span class="nm">${esc(r.nick)}</span><span class="sc">${fmt(r.score)}</span><span class="acts">
+  const item = (r, pending) => `<div class="item" data-id="${r.id}"><span class="nm">${esc(r.nick)}${priv[r.id] ? `<small class="real">👤 ${esc(priv[r.id].name)} · ${esc(priv[r.id].grade)} · الشعبة ${esc(priv[r.id].section)}</small>` : '<small class="real miss">⚠️ لم يكتب بياناته الحقيقية بعد</small>'}</span><span class="sc">${fmt(r.score)}</span><span class="acts">
     ${pending ? '<button class="btn ok" data-a="ok">✓ موافقة</button>' : '<button class="btn soft" data-a="hide">إخفاء</button>'}
     <button class="btn soft" data-a="ren">تعديل الاسم</button><button class="btn bad" data-a="del">حذف</button></span></div>`;
   $('main').innerHTML = `
+    <div class="panel"><h2>قائمة التكريم</h2><p class="note">ملف فيه الترتيب والاسم الحقيقي والصف والشعبة والاسم المستعار والنقاط، يُفتح في Excel.</p><p style="margin-top:12px"><button class="btn ok" id="csv">⬇️ تنزيل قائمة التكريم</button></p></div>
     <div class="panel"><h2>بانتظار الموافقة <span class="count">${pend.length}</span></h2>${pend.map(r => item(r, true)).join('') || '<div class="empty">لا توجد أسماء جديدة.</div>'}</div>
     <div class="panel"><h2>ظاهرون في اللوحة <span class="count" style="background:var(--ok-soft);color:var(--ok)">${ok.length}</span></h2>${ok.map(r => item(r, false)).join('') || '<div class="empty">لا أحد بعد.</div>'}</div>`;
+  $('csv').onclick = () => {
+    const q = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+    const lines = [['الترتيب','الاسم الحقيقي','الصف','الشعبة','الاسم المستعار','النقاط','الحالة'].map(q).join(',')];
+    rows.forEach((r, i) => { const p = priv[r.id] || {}; lines.push([i + 1, p.name || '—', p.grade || '', p.section || '', r.nick, r.score || 0, r.approved ? 'ظاهر في اللوحة' : 'بانتظار الموافقة'].map(q).join(',')); });
+    const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'قائمة-التكريم-لوحة-الشرف.csv'; document.body.appendChild(a); a.click(); a.remove();
+  };
   $('main').querySelectorAll('button[data-a]').forEach(b => b.onclick = async () => {
     const id = b.closest('.item').dataset.id, a = b.dataset.a, r = rows.find(x => x.id === id);
     b.disabled = true;

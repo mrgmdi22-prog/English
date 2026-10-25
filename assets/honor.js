@@ -73,6 +73,36 @@ export async function myEntry() {
   return snap.exists() ? { id: uid, ...snap.data() } : null;
 }
 
+
+/* ---------- private identity (real name, grade, section): readable only by the student and the teacher ---------- */
+export const GRADES = ['أول ثانوي', 'ثاني ثانوي', 'ثالث ثانوي'];
+export function cleanText(s, max) { return String(s || '').replace(/\s+/g, ' ').trim().slice(0, max); }
+
+/** My private record, or null. */
+export async function myPrivate() {
+  const { fs, D } = await load();
+  const uid = await studentUid();
+  const snap = await fs.getDoc(fs.doc(D, 'private', uid));
+  return snap.exists() ? snap.data() : null;
+}
+
+/** Saves my real name, grade and section (allowed until the teacher approves me). */
+export async function savePrivate(p) {
+  const { fs, D } = await load();
+  const uid = await studentUid();
+  await fs.setDoc(fs.doc(D, 'private', uid), {
+    name: cleanText(p.name, 60), grade: cleanText(p.grade, 20), section: cleanText(p.section, 10), updatedAt: fs.serverTimestamp()
+  });
+}
+
+/** Teacher: every private record, keyed by uid. */
+export async function allPrivate() {
+  const { fs, D } = await load();
+  const snap = await fs.getDocs(fs.collection(D, 'private'));
+  const out = {}; snap.forEach(d => { out[d.id] = d.data(); });
+  return out;
+}
+
 /** Join (or change nickname). A new or changed nickname waits for the teacher's approval. */
 export async function join(nick) {
   const { fs, D } = await load();
@@ -140,4 +170,4 @@ export async function allPlayers() {
 }
 export async function setApproved(id, v) { const { fs, D } = await load(); await fs.updateDoc(fs.doc(D, 'players', id), { approved: !!v }); }
 export async function rename(id, nick) { const { fs, D } = await load(); await fs.updateDoc(fs.doc(D, 'players', id), { nick: cleanNick(nick) }); }
-export async function remove(id) { const { fs, D } = await load(); await fs.deleteDoc(fs.doc(D, 'players', id)); }
+export async function remove(id) { const { fs, D } = await load(); await fs.deleteDoc(fs.doc(D, 'players', id)); try { await fs.deleteDoc(fs.doc(D, 'private', id)); } catch (e) {} }
