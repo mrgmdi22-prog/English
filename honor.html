@@ -75,6 +75,26 @@ input[type=text]:focus{border-color:var(--gold)}
 .list .sc{font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap}
 .empty-board{text-align:center;color:var(--muted);padding:24px 10px}
 
+
+/* race: where you stand among the others */
+.race h2{display:flex;align-items:center;gap:8px}
+.race .big{font-size:1.25rem;font-weight:800;line-height:1.5;margin:0}
+.race .big b{color:var(--gold)}
+.track{position:relative;height:64px;margin:22px 6px 6px}
+.track .rail{position:absolute;left:0;right:0;top:30px;height:10px;border-radius:99px;background:linear-gradient(90deg,#f3eee0,#ffe7a6)}
+.track .dot{position:absolute;top:31px;width:8px;height:8px;margin-left:-4px;border-radius:50%;background:#c9bfa6}
+.track .you{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;transition:left 1s var(--ease)}
+.track .you span{background:var(--gold);color:#fff;font-weight:800;font-size:.85rem;border-radius:999px;padding:1px 10px;white-space:nowrap}
+.track .you i{width:18px;height:18px;border-radius:50%;background:var(--gold);border:3px solid #fff;box-shadow:0 0 0 2px var(--gold);margin-top:5px;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 7px rgba(178,122,0,.18)}}
+.track .ends{position:absolute;left:0;right:0;top:46px;display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);font-weight:700}
+.duel{display:grid;gap:10px;margin-top:14px}
+.duel div{border-radius:18px;padding:12px 16px;font-size:1.05rem;line-height:1.6;border:1.5px solid}
+.duel .up{background:#fff1ec;border-color:#f6c7b6}
+.duel .down{background:#eef5ff;border-color:#c9dcf7}
+.duel .goal{background:#f1fbf5;border-color:#bfe6cf}
+.duel b{font-weight:800}
+.tip2{margin:12px 0 0;color:var(--muted);font-size:.98rem}
 .rules{width:100%;border-collapse:collapse;font-size:1.02rem}
 .rules td{padding:9px 6px;border-bottom:1px solid var(--line)}
 .rules tr:last-child td{border-bottom:0}
@@ -96,6 +116,8 @@ footer a{color:var(--muted)}
   </header>
 
   <section class="panel" id="mePanel"><div class="skeleton">جارٍ التحميل…</div></section>
+
+  <section class="panel race" id="race" hidden aria-live="polite"></section>
 
   <section aria-labelledby="topH">
     <h2 id="topH" style="text-align:center;margin:34px 0 0;font-size:1.5rem">الأوائل</h2>
@@ -152,6 +174,54 @@ function rankOf(id, score) {
   return ROWS.filter(r => (r.score||0) > score).length + 1;
 }
 
+
+function renderRace(myScore) {
+  const R = $('race');
+  if (!ME) { R.hidden = true; return; }
+  const others = ROWS.filter(r => r.id !== ME.id);
+  if (!others.length) { R.hidden = true; return; }
+  const all = others.map(r => ({ id: r.id, nick: r.nick, score: r.score || 0 })).concat([{ id: ME.id, nick: ME.nick, score: myScore, me: true }]);
+  all.sort((a, b) => b.score - a.score || (a.me ? -1 : 0));
+  const i = all.findIndex(x => x.me), rank = i + 1, n = all.length;
+  const beat = all.filter(x => !x.me && x.score < myScore).length;
+  const pct = Math.round(beat / (n - 1) * 100);
+  const above = i > 0 ? all[i - 1] : null, below = i < n - 1 ? all[i + 1] : null;
+  const max = Math.max(1, all[0].score);
+  const pos = s => (6 + (s / max) * 88).toFixed(1) + '%';
+  const tests = d => Math.max(1, Math.ceil((d + 1) / 50));
+  const pick = a => a[Math.floor(Math.random() * a.length)];
+  let up = '', down = '', goal = '';
+  if (above) {
+    const d = above.score - myScore;
+    up = d === 0 ? `🤝 أنت متعادل مع <b>«${esc(above.nick)}»</b>! نقطة واحدة تكفي لتتقدّم عليه.` : pick([
+      `⚔️ أمامك <b>«${esc(above.nick)}»</b> بفارق <b>${fmt(d)}</b> نقطة فقط. ${tests(d)===1?'اختبار وحدة واحد':tests(d)+' اختبارات وحدات'} بدرجة كاملة ويصبح خلفك!`,
+      `🎯 هدفك القادم: <b>«${esc(above.nick)}»</b>. يحتاج منك <b>${fmt(d + 1)}</b> نقطة لتتجاوزه… هل تقبل التحدي؟`,
+      `🏃 <b>«${esc(above.nick)}»</b> يسبقك بـ <b>${fmt(d)}</b> نقطة. هو يتدرّب الآن… وأنت؟`
+    ]);
+  } else {
+    up = '👑 <b>أنت في القمة!</b> كل الأنظار عليك الآن.';
+  }
+  if (below) {
+    const d = myScore - below.score;
+    down = d <= 60
+      ? `👀 احذر! <b>«${esc(below.nick)}»</b> خلفك بـ <b>${fmt(d)}</b> نقطة فقط، وقد يتجاوزك اليوم.`
+      : `🛡️ أقرب مطارد لك <b>«${esc(below.nick)}»</b> خلفك بـ <b>${fmt(d)}</b> نقطة. حافظ على الفارق.`;
+  }
+  const at = k => all[k - 1] ? all[k - 1].score - myScore + 1 : 0;
+  if (rank > 10 && n >= 10) goal = `🔟 تحتاج <b>${fmt(at(10))}</b> نقطة لتدخل <b>العشرة الأوائل</b>.`;
+  else if (rank > 3 && n >= 3) goal = `🥉 تحتاج <b>${fmt(at(3))}</b> نقطة لتصعد إلى <b>منصة التتويج</b>.`;
+  else if (rank > 1) goal = `🥇 تحتاج <b>${fmt(at(1))}</b> نقطة لتصبح <b>الأول</b>.`;
+  const dots = all.filter(x => !x.me).map(x => `<span class="dot" style="left:${pos(x.score)}" title="${esc(x.nick)}"></span>`).join('');
+  R.innerHTML = `<h2>🔥 سباقك</h2>
+    <p class="big">أنت في المركز <b>${rank}</b> من <b>${n}</b>${n > 2 ? ` · أفضل من <b>${pct}%</b> من زملائك` : ''}${ME.approved ? '' : ' <span class="status wait" style="font-size:.85rem">ترتيب تقديري حتى يوافق المعلم</span>'}</p>
+    <div class="track" dir="ltr" aria-hidden="true"><div class="rail"></div>${dots}
+      <div class="you" style="left:${pos(myScore)}"><span>أنت</span><i></i></div>
+      <div class="ends"><span>البداية</span><span>👑 ${fmt(all[0].score)}</span></div></div>
+    <div class="duel">${up ? `<div class="up">${up}</div>` : ''}${down ? `<div class="down">${down}</div>` : ''}${goal ? `<div class="goal">${goal}</div>` : ''}</div>
+    <p class="tip2">💡 أسرع طريق للنقاط: اختبار وحدة في Word Quest أو قوائم الكلمات يمنحك حتى 50 نقطة، وكل نجمة في الكبسولات 10 نقاط.</p>`;
+  R.hidden = false;
+}
+
 function renderMe(msg) {
   const P = $('mePanel');
   const local = H.computeScore();
@@ -182,6 +252,7 @@ function renderMe(msg) {
     <div class="chips">${H.RULES.map(r=>`<span>${r.icon} ${fmt(p[r.key])} × ${r.per}</span>`).join('')}</div>
     <div class="actions"><button class="btn soft" id="ub">🔄 حدّث نقاطي</button><button class="btn link" id="cn">تغيير الاسم المستعار</button></div>
     <div class="msg ${msg&&msg.err?'err':'ok'}">${msg?esc(msg.t):''}</div>`;
+  renderRace(local.score);
   $('ub').onclick = async () => {
     $('ub').disabled = true;
     try { await H.sync(true); ME = await H.myEntry(); ROWS = await H.board(); renderBoard(); renderMe({t:'تم تحديث نقاطك.'}); }
