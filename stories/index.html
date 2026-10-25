@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Story Corner · ركن القصص</title>
+<meta name="theme-color" content="#f4f1ff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Literata:opsz,wght@7..72,400;7..72,600&family=Tajawal:wght@400;500;700;800&display=swap">
+<link rel="stylesheet" href="../assets/club.css">
+<style>
+/* Story Corner: a library wall of illustrated book covers; a book opens into a paper reader with page turns,
+   read-aloud, tap-to-translate words, a moral card and a short quiz. Light, warm, large type. */
+:root{color-scheme:light;--paper:#fffdf8;--wall:#f4f1ff;--ink:#2a2740;--muted:#625e7a;--line:#e7e2f3;--accent:#6a4bd8;--accent-soft:#efeaff;
+  --good:#1d8a5c;--bad:#c2410c;--ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--title:"Fraunces",Georgia,serif;--read:"Literata",Georgia,serif;--ease:cubic-bezier(.2,.7,.2,1)}
+*{box-sizing:border-box}
+html{background:var(--wall)}
+body{margin:0;background:radial-gradient(1000px 420px at 50% -140px,#e6deff,transparent 70%),var(--wall);color:var(--ink);font-family:var(--ar);font-size:19px;line-height:1.7;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+button{font:inherit;cursor:pointer;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1080px;margin:0 auto;padding:64px 16px 64px}
+header{text-align:center}
+.kicker{display:inline-block;background:#fff;color:var(--accent);font-weight:800;font-size:.95rem;border-radius:999px;padding:5px 18px;border:1px solid #ddd3ff}
+h1{margin:12px 0 2px;font-family:var(--title);font-weight:800;font-size:clamp(2.4rem,8vw,3.6rem);line-height:1.1;letter-spacing:-.5px;direction:ltr}
+h1 + .ar{font-size:1.5rem;font-weight:800;color:var(--accent);margin:0}
+header p.sub{color:var(--muted);margin:8px auto 0;max-width:34em;text-wrap:balance}
+.stats{display:flex;justify-content:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+.stats span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 14px;font-weight:700;font-size:.98rem}
+.filters{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:24px 0 20px}
+.filters button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:7px 16px;font-weight:700;font-size:1rem}
+.filters button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* bookshelf */
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:22px 18px}
+.book{position:relative;border:0;padding:0;background:none;text-align:right;display:flex;flex-direction:column;gap:8px;transition:transform .3s var(--ease)}
+.book:hover{transform:translateY(-6px) rotate(-1deg)}
+.cover{position:relative;aspect-ratio:3/4;border-radius:6px 16px 16px 6px;background:linear-gradient(160deg,var(--c1),var(--c2));overflow:hidden;
+  box-shadow:inset 10px 0 0 rgba(0,0,0,.07),inset 12px 0 0 rgba(255,255,255,.35),0 18px 28px -18px rgba(60,40,120,.55);display:flex;flex-direction:column;justify-content:space-between;padding:14px 14px 14px 22px;direction:ltr;text-align:left}
+.cover::after{content:"";position:absolute;inset:0;background:radial-gradient(120px 80px at 75% 22%,rgba(255,255,255,.55),transparent 70%);pointer-events:none}
+.cover .ic{font-size:3.6rem;line-height:1;align-self:center;margin-top:10px;filter:drop-shadow(0 6px 6px rgba(0,0,0,.12));transition:transform .4s var(--ease)}
+.book:hover .ic{transform:scale(1.12) rotate(-6deg)}
+.cover .t{font-family:var(--title);font-weight:800;font-size:1.12rem;line-height:1.15;color:#2a2740;position:relative;z-index:1}
+.cover .src{font-size:.78rem;font-weight:700;color:rgba(42,39,64,.7);letter-spacing:.5px;text-transform:uppercase}
+.meta{display:flex;justify-content:space-between;align-items:center;font-size:.92rem;color:var(--muted);padding:0 4px}
+.lv{color:#e0a100;letter-spacing:1px;direction:ltr}
+.done{position:absolute;top:10px;right:-6px;background:var(--good);color:#fff;font-size:.8rem;font-weight:800;padding:2px 10px 2px 8px;border-radius:999px 0 0 999px;z-index:2;box-shadow:0 4px 10px -4px rgba(0,0,0,.4)}
+
+/* reader */
+.reader{position:fixed;inset:0;z-index:50;background:radial-gradient(900px 400px at 50% -100px,#e6deff,transparent 70%),#f4f1ff;display:flex;flex-direction:column;padding:calc(10px + env(safe-area-inset-top,0px)) 12px calc(12px + env(safe-area-inset-bottom,0px));animation:fadeIn .3s ease}
+.reader[hidden]{display:none}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.rbar{max-width:860px;width:100%;margin:0 auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rbar .ttl{flex:1;min-width:150px;font-family:var(--title);font-weight:800;font-size:1.2rem;direction:ltr;text-align:left;line-height:1.2}
+.chipbtn{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font-weight:700;font-size:.95rem;min-height:40px}
+.chipbtn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.close{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--line);background:#fff;font-size:1.2rem;font-weight:800}
+.stage{flex:1;display:flex;align-items:center;justify-content:center;perspective:1600px;padding:12px 0;min-height:0}
+.page{position:relative;width:min(860px,100%);height:100%;max-height:720px;background:var(--paper);border-radius:10px 18px 18px 10px;
+  box-shadow:inset 14px 0 18px -14px rgba(80,60,40,.35),0 30px 50px -30px rgba(50,30,100,.55);border:1px solid #efe6d6;overflow:auto;padding:30px 34px 26px;direction:ltr;text-align:left;transform-origin:left center}
+.page.turn-next{animation:turnNext .5s var(--ease)}
+.page.turn-prev{animation:turnPrev .5s var(--ease)}
+@keyframes turnNext{0%{transform:rotateY(0)}45%{transform:rotateY(-80deg);opacity:.4}55%{transform:rotateY(80deg);opacity:.4}100%{transform:rotateY(0)}}
+@keyframes turnPrev{0%{transform:rotateY(0)}45%{transform:rotateY(80deg);opacity:.4}55%{transform:rotateY(-80deg);opacity:.4}100%{transform:rotateY(0)}}
+.page .art{font-size:4.2rem;text-align:center;line-height:1;margin:2px 0 10px}
+.page .pn{margin-top:18px;text-align:center;font-family:var(--read);color:#b1a58f;font-size:.9rem}
+.story p{font-family:var(--read);font-size:var(--fs,1.32rem);line-height:1.75;margin:0 0 .9em;color:#2f2a24}
+.story p:first-of-type::first-letter{font-family:var(--title);font-weight:800;font-size:3.1em;float:left;line-height:.85;margin:6px 8px 0 0;color:var(--accent)}
+.s{border-radius:6px;transition:background .25s}
+.s.on{background:#fff0b8;box-shadow:0 0 0 3px #fff0b8}
+.g{border-bottom:2.5px dotted var(--accent);cursor:pointer;color:inherit}
+.g:hover{background:var(--accent-soft)}
+.pop{position:fixed;z-index:60;background:#fff;border:1.5px solid #d8cdfa;border-radius:16px;padding:10px 14px;box-shadow:0 18px 34px -16px rgba(50,30,100,.5);
+  display:flex;align-items:center;gap:10px;max-width:280px;animation:fadeIn .2s ease}
+.pop b{font-family:var(--read);font-size:1.15rem;direction:ltr}
+.pop span{font-size:1.1rem;font-weight:700;color:var(--accent)}
+.pop button{border:0;background:var(--accent-soft);border-radius:50%;width:36px;height:36px}
+.nav{max-width:860px;width:100%;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.nav .arrow{min-width:110px;border:0;background:var(--accent);color:#fff;border-radius:999px;padding:10px 18px;font-weight:800;font-size:1.05rem}
+.nav .arrow:disabled{opacity:.35;cursor:default}
+.dots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.dots i{width:9px;height:9px;border-radius:50%;background:#d6cfee;transition:all .3s}
+.dots i.on{background:var(--accent);width:22px;border-radius:99px}
+
+/* moral + quiz */
+.moral{margin:6px auto 18px;max-width:560px;text-align:center;border-radius:20px;padding:18px 18px 16px;background:linear-gradient(135deg,#fff4cf,#ffe2ef);border:2px solid #f3d38b;position:relative}
+.moral .lbl{display:inline-block;background:#fff;border-radius:999px;padding:2px 14px;font-family:var(--title);font-weight:800;color:#b07800;font-size:.95rem}
+.moral .en{font-family:var(--title);font-weight:800;font-size:1.45rem;line-height:1.3;margin:8px 0 6px}
+.moral .arm{font-family:var(--ar);direction:rtl;font-size:1.15rem;font-weight:700;color:#7a5a00}
+.quiz{max-width:560px;margin:0 auto}
+.quiz h3{font-family:var(--title);font-size:1.25rem;margin:0 0 10px}
+.qq{margin-bottom:14px}
+.qq p{font-family:var(--read);font-size:1.15rem;font-weight:600;margin:0 0 6px}
+.opts{display:grid;gap:8px}
+.opts button{text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:14px;padding:10px 14px;font-family:var(--read);font-size:1.08rem}
+.opts button.ok{border-color:var(--good);background:#e6f6ee;color:var(--good);font-weight:700}
+.opts button.no{border-color:var(--bad);background:#fff0e8;color:var(--bad)}
+.result{text-align:center;font-family:var(--ar);direction:rtl;font-weight:800;font-size:1.2rem;margin-top:8px}
+.result .st{font-size:2rem;letter-spacing:4px;direction:ltr;display:block;color:#e0a100}
+body.reading .club-home{display:none}
+footer{margin-top:44px;text-align:center;color:var(--muted);font-size:.98rem;line-height:1.9}
+@media (max-width:560px){.page{padding:22px 18px 30px}.shelf{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 12px}.cover .ic{font-size:3rem}.nav .arrow{min-width:84px;padding:10px 12px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<a class="club-home" href="../index.html">🏠 الرئيسية</a>
+<div class="wrap">
+  <header>
+    <span class="kicker">نادي اللغة الإنجليزية</span>
+    <h1>Story Corner</h1>
+    <p class="ar">ركن القصص</p>
+    <p class="sub">حكايات إيسوب وقصص عالمية بإنجليزية مبسّطة: اقرأ، واستمع، واضغط على الكلمات المسطّرة لترى معناها، ثم أجب عن الأسئلة.</p>
+    <div class="stats"><span id="sRead">📖 0 قصة قرأتها</span><span id="sStars">⭐ 0 نجمة</span></div>
+  </header>
+  <div class="filters" role="group" aria-label="تصفية">
+    <button data-f="all" aria-pressed="true">كل القصص</button>
+    <button data-f="aesop" aria-pressed="false">🦊 حكايات إيسوب</button>
+    <button data-f="world" aria-pressed="false">🌍 قصص عالمية</button>
+    <button data-f="1" aria-pressed="false">⭐ سهلة</button>
+    <button data-f="2" aria-pressed="false">⭐⭐ متوسطة</button>
+    <button data-f="3" aria-pressed="false">⭐⭐⭐ أصعب</button>
+  </div>
+  <main class="shelf" id="shelf"></main>
+  <footer>القصص معاد كتابتها بإنجليزية مبسّطة لأغراض تعليمية، عن حكايات إيسوب وقصص شعبية وعالمية في الملك العام.<br>إعداد: أ. أحمد آل سالم — نادي اللغة الإنجليزية، ثانوية الأمير فيصل بالعقيق</footer>
+</div>
+
+<div class="reader" id="reader" hidden role="dialog" aria-modal="true" aria-labelledby="rTitle">
+  <div class="rbar">
+    <button class="close" id="rClose" aria-label="إغلاق">✕</button>
+    <div class="ttl" id="rTitle"></div>
+    <button class="chipbtn" id="rListen">🔊 استمع</button>
+    <button class="chipbtn" data-acc="us" aria-pressed="true">🇺🇸 US</button>
+    <button class="chipbtn" data-acc="uk" aria-pressed="false">🇬🇧 UK</button>
+    <button class="chipbtn" id="rSmaller" aria-label="تصغير الخط">A−</button>
+    <button class="chipbtn" id="rBigger" aria-label="تكبير الخط">A+</button>
+  </div>
+  <div class="stage"><article class="page" id="rPage"></article></div>
+  <div class="nav">
+    <button class="arrow" id="rPrev">→ السابق</button>
+    <div class="dots" id="rDots"></div>
+    <button class="arrow" id="rNext">التالي ←</button>
+  </div>
+</div>
+
+<script src="../assets/club.js"></script>
+<script>
+const STORIES = [{"id": "lion-mouse", "title": "The Lion and the Mouse", "src": "Aesop", "lvl": 1, "ic": "🦁", "c1": "#ffe3b3", "c2": "#ffc76b", "pages": [["A big lion was sleeping under a tree. A little mouse ran across his nose by mistake.", "The lion woke up. He caught the mouse with his huge paw. “I will eat you!” he roared."], ["“Please let me go,” said the mouse. “One day I will help you.”", "The lion laughed. “How can a tiny mouse help a king like me?” But he opened his paw, and the mouse ran away."], ["A few days later, hunters caught the lion in a strong net. He roared and pulled, but he could not escape.", "The little mouse heard him. She ran to the net and started to bite the ropes with her sharp teeth."], ["Soon there was a big hole in the net, and the lion was free.", "“You laughed at me,” said the mouse, “but now you see that a little friend can be a great friend.”"]], "gloss": {"paw": "مخلب / كفّ الحيوان", "roared": "زأر", "tiny": "صغير جداً", "hunters": "صيّادون", "net": "شبكة", "escape": "يهرب", "bite": "يقضم / يعض"}, "moral": ["Kindness is never wasted, and small friends can be a big help.", "المعروف لا يضيع، والصديق الصغير قد يكون عوناً كبيراً."], "q": [["What did the lion want to do with the mouse at first?", ["Eat it", "Play with it", "Ask it for help"], 0], ["How did the mouse save the lion?", ["She called other animals", "She bit the ropes of the net", "She scared the hunters"], 1], ["Why did the lion laugh?", ["The mouse told a joke", "He did not believe a tiny mouse could help him", "He was happy to be free"], 1]]}, {"id": "tortoise-hare", "title": "The Tortoise and the Hare", "src": "Aesop", "lvl": 1, "ic": "🐢", "c1": "#d9f2d0", "c2": "#9edb87", "pages": [["A hare always laughed at a tortoise. “You are so slow!” he said. “You walk like a stone.”", "The tortoise smiled. “Let’s have a race,” he said. “We will see who wins.”"], ["All the animals came to watch. The race began, and the hare ran very fast. Soon the tortoise was far behind.", "The hare looked back. “I have lots of time,” he thought. “I will sleep for a while under this tree.”"], ["The tortoise did not stop. Step by step, slowly and steadily, he walked past the sleeping hare.", "When the hare woke up, the sun was going down. He ran as fast as he could, but it was too late."], ["The tortoise was already at the finish line. All the animals cheered for him.", "The hare learned an important lesson that day."]], "gloss": {"race": "سباق", "behind": "خلف", "steadily": "بثبات", "finish line": "خط النهاية", "cheered": "هتفوا / شجّعوا", "lesson": "درس"}, "moral": ["Slow and steady wins the race.", "الثبات والمثابرة يغلبان السرعة والغرور."], "q": [["Why did the hare stop during the race?", ["He was hurt", "He wanted to sleep", "He lost his way"], 1], ["How did the tortoise walk?", ["Fast and carelessly", "Slowly and steadily", "He did not walk"], 1], ["Who won the race?", ["The hare", "Nobody", "The tortoise"], 2]]}, {"id": "boy-wolf", "title": "The Boy Who Cried Wolf", "src": "Aesop", "lvl": 1, "ic": "🐺", "c1": "#dfe6f7", "c2": "#a9bcea", "pages": [["A young shepherd watched his sheep on a hill near the village. Every day was quiet, and he was bored.", "One day he had an idea. He shouted, “Wolf! Wolf! A wolf is eating the sheep!”"], ["The villagers ran up the hill to help him. But there was no wolf. The boy laughed and laughed.", "A few days later, he did the same thing again. Again the villagers came, and again there was no wolf."], ["Then one evening, a real wolf came out of the forest. It ran toward the sheep.", "The boy was very frightened. “Wolf! Wolf!” he cried. “Please help me!”"], ["But this time nobody came. “He is lying again,” the villagers said.", "The wolf scattered the sheep, and the boy learned a hard lesson."]], "gloss": {"shepherd": "راعٍ", "bored": "يشعر بالملل", "villagers": "أهل القرية", "real": "حقيقي", "frightened": "خائف", "lying": "يكذب", "scattered": "فرّق / بعثر"}, "moral": ["Nobody believes a liar, even when he tells the truth.", "الكاذب لا يُصدَّق حتى لو قال الصدق."], "q": [["Why did the boy shout “Wolf!” the first time?", ["He saw a wolf", "He was bored and wanted fun", "His sheep were lost"], 1], ["What happened when a real wolf came?", ["The villagers ran to help", "Nobody came to help", "The boy caught the wolf"], 1], ["Why didn’t the villagers come at the end?", ["They were asleep", "They thought he was lying again", "They were afraid of the wolf"], 1]]}, {"id": "fox-grapes", "title": "The Fox and the Grapes", "src": "Aesop", "lvl": 1, "ic": "🦊", "c1": "#efe0ff", "c2": "#c9a6f2", "pages": [["On a hot day, a hungry fox walked into a garden. He saw some sweet purple grapes hanging high on a vine.", "“Those grapes look delicious,” he said. “They are just what I need.”"], ["He jumped up, but he could not reach them. He stepped back, ran, and jumped again. He missed again.", "He tried again and again until he was tired and hot."], ["At last he sat down and looked at the grapes.", "“I don’t really want them,” he said as he walked away. “I am sure they are sour.”"]], "gloss": {"hungry": "جائع", "vine": "كرمة / عريشة العنب", "delicious": "لذيذ", "reach": "يصل إلى", "missed": "أخطأ / لم يصب", "sour": "حامض"}, "moral": ["It is easy to dislike what you cannot have.", "من السهل أن تذمّ ما لا تستطيع الحصول عليه."], "q": [["Where were the grapes?", ["On the ground", "High on a vine", "In a basket"], 1], ["Did the fox reach the grapes?", ["Yes, at last", "No, never", "Yes, with help"], 1], ["What did the fox say about the grapes at the end?", ["They are sweet", "They are sour", "They are too big"], 1]]}, {"id": "ant-grasshopper", "title": "The Ant and the Grasshopper", "src": "Aesop", "lvl": 1, "ic": "🐜", "c1": "#fff1c7", "c2": "#f7d36b", "pages": [["All summer, a little ant worked hard. She carried seeds and food to her home, one by one.", "A grasshopper watched her and laughed. “Why are you working so hard? Come and sing and play with me!”"], ["“I am saving food for the winter,” said the ant. “You should do the same.”", "“Winter is far away,” said the grasshopper. “We have plenty of food now.” And he kept on singing."], ["Then winter came. The ground was cold, and there was no food anywhere.", "The grasshopper was weak and hungry. He knocked on the ant’s door and asked for some food."], ["The ant shared a little food with him, but she said, “Next summer, work today for tomorrow.”", "The grasshopper never forgot those words."]], "gloss": {"seeds": "بذور", "saving": "يدّخر", "plenty": "وفرة / كثير", "weak": "ضعيف", "knocked": "طرق", "shared": "شارك / تقاسم"}, "moral": ["Work today and prepare for tomorrow.", "اعمل اليوم واستعدّ للغد."], "q": [["What did the ant do in summer?", ["She sang and played", "She saved food for winter", "She slept all day"], 1], ["What did the grasshopper do in summer?", ["He sang and played", "He built a house", "He collected seeds"], 0], ["What did the ant tell the grasshopper at the end?", ["Go away", "Work today for tomorrow", "Sing more songs"], 1]]}, {"id": "crow-pitcher", "title": "The Crow and the Pitcher", "src": "Aesop", "lvl": 1, "ic": "🐦", "c1": "#d8f1f4", "c2": "#93d6de", "pages": [["It was a very hot summer. There was no rain, and a thirsty crow flew everywhere looking for water.", "At last she found a tall pitcher. There was a little water at the bottom, but her beak could not reach it."], ["She tried to push the pitcher over, but it was too heavy. She almost gave up.", "Then she had a clever idea. She picked up a small stone and dropped it into the pitcher."], ["She dropped another stone, and another. Slowly, the water rose higher and higher.", "At last the water reached the top, and the crow drank until she was happy."]], "gloss": {"thirsty": "عطشان", "pitcher": "إبريق / جرّة", "beak": "منقار", "gave up": "استسلم", "clever": "ذكي", "dropped": "أسقط", "rose": "ارتفع"}, "moral": ["When you need something, think of a clever way.", "الحاجة أمّ الاختراع؛ فكّر بذكاء تجد الحل."], "q": [["What was the crow looking for?", ["Food", "Water", "Her nest"], 1], ["Why couldn’t she drink at first?", ["The water was too hot", "Her beak couldn’t reach the water", "The pitcher was closed"], 1], ["How did she solve the problem?", ["She broke the pitcher", "She dropped stones into it", "She asked for help"], 1]]}, {"id": "golden-eggs", "title": "The Goose That Laid the Golden Eggs", "src": "Aesop", "lvl": 2, "ic": "🥚", "c1": "#fff4c2", "c2": "#f5d76e", "pages": [["A poor farmer and his wife had a special goose. Every morning, she laid one egg made of shining gold.", "The farmer sold the eggs at the market, and soon he became rich."], ["But the richer he became, the greedier he became. “One egg a day is too slow,” he said.", "“The goose must have lots of gold inside her. If I open her, I can take it all at once!”"], ["So he killed the goose and looked inside. But there was no gold at all. She was just like any other goose.", "Now the farmer had no goose and no more golden eggs. He sat down and cried."]], "gloss": {"goose": "إوزّة", "laid": "باضت", "shining": "لامع", "greedier": "أكثر طمعاً", "at once": "دفعة واحدة", "market": "سوق"}, "moral": ["Greed can make you lose everything.", "الطمع يضيّع ما جمع."], "q": [["What was special about the goose?", ["It could talk", "It laid golden eggs", "It was very big"], 1], ["Why did the farmer kill the goose?", ["He was hungry", "He wanted all the gold at once", "The goose was ill"], 1], ["What did he find inside the goose?", ["A lot of gold", "One golden egg", "No gold at all"], 2]]}, {"id": "wind-sun", "title": "The North Wind and the Sun", "src": "Aesop", "lvl": 2, "ic": "☀️", "c1": "#ffe9cf", "c2": "#ffbf75", "pages": [["The North Wind and the Sun had an argument. “I am stronger than you,” said the Wind. “No, I am stronger,” said the Sun.", "Just then, they saw a traveler walking on the road. He was wearing a warm coat."], ["“Let’s have a contest,” said the Sun. “Whoever can make that man take off his coat is the stronger one.”", "The Wind went first. He blew hard and cold. But the harder he blew, the tighter the man held his coat."], ["Then it was the Sun’s turn. The Sun came out and shone gently and warmly.", "Soon the traveler felt hot. He smiled, took off his coat, and sat down in the shade of a tree."], ["The Wind had to agree: the Sun had won the contest."]], "gloss": {"argument": "جدال", "traveler": "مسافر", "contest": "مسابقة", "blew": "هبّ / نفخ", "tighter": "بإحكام أكثر", "gently": "بلطف", "shade": "ظلّ"}, "moral": ["Kindness and gentleness work better than force.", "اللين والرفق أقوى من القسوة والعنف."], "q": [["What did the Wind and the Sun argue about?", ["Who was older", "Who was stronger", "Who was faster"], 1], ["What happened when the Wind blew hard?", ["The man took off his coat", "The man held his coat tighter", "The man ran home"], 1], ["How did the Sun win?", ["By shining gently and warmly", "By hiding behind clouds", "By blowing cold air"], 0]]}, {"id": "dog-reflection", "title": "The Dog and His Reflection", "src": "Aesop", "lvl": 1, "ic": "🐕", "c1": "#e3efff", "c2": "#a4c6f5", "pages": [["A dog found a big piece of meat. He held it in his mouth and ran home happily.", "On the way, he crossed a bridge over a calm river. He looked down into the water."], ["In the water he saw another dog with another piece of meat. It looked even bigger than his!", "“I want that meat too,” he thought. He opened his mouth to bark and grab it."], ["Splash! His own meat fell into the river and disappeared.", "The other dog was only his reflection. Now he had nothing at all."]], "gloss": {"meat": "لحم", "bridge": "جسر", "calm": "هادئ", "bark": "ينبح", "grab": "ينتزع / يخطف", "disappeared": "اختفى", "reflection": "انعكاس / خيال في الماء"}, "moral": ["If you want more than you need, you may lose what you have.", "من طلب الزيادة بطمع قد يخسر ما في يده."], "q": [["What did the dog have in his mouth?", ["A bone", "A piece of meat", "A ball"], 1], ["What did he see in the river?", ["A real dog", "His own reflection", "A fish"], 1], ["What happened when he opened his mouth?", ["He caught more meat", "His meat fell into the river", "He started to swim"], 1]]}, {"id": "fox-crow", "title": "The Fox and the Crow", "src": "Aesop", "lvl": 2, "ic": "🧀", "c1": "#fff0d6", "c2": "#ffcf80", "pages": [["A crow found a piece of cheese and flew up to a high branch to eat it.", "A fox saw her. He wanted the cheese, so he sat under the tree and began to speak sweetly."], ["“Good morning, beautiful bird!” he said. “Your feathers are so shiny and your eyes are so bright.”", "“I am sure your voice is the most beautiful in the forest. Please sing one song for me!”"], ["The crow was very pleased. She opened her beak to sing — and the cheese fell to the ground.", "The fox caught it at once. “Thank you,” he said. “Next time, don’t trust people who praise you too much.”"]], "gloss": {"branch": "غصن", "sweetly": "بلطف / بكلام معسول", "feathers": "ريش", "shiny": "لامع", "pleased": "مسرور", "praise": "يمدح"}, "moral": ["Be careful of people who flatter you to get something.", "احذر ممن يمدحك ليأخذ ما عندك."], "q": [["What did the crow have?", ["A piece of cheese", "A piece of bread", "An apple"], 0], ["Why did the fox praise the crow?", ["He loved her songs", "He wanted her cheese", "He wanted to be her friend"], 1], ["What happened when the crow sang?", ["The fox clapped", "The cheese fell down", "She flew away"], 1]]}, {"id": "town-country-mouse", "title": "The Town Mouse and the Country Mouse", "src": "Aesop", "lvl": 2, "ic": "🐭", "c1": "#e9f6e4", "c2": "#b5e0a2", "pages": [["A country mouse invited her cousin from the town to visit. She served simple food: seeds, corn and fresh water.", "The town mouse was not impressed. “How can you live like this?” she said. “Come to the town with me. I will show you real food!”"], ["In the town, they went into a big house. On the table there were cakes, cheese and fruit.", "But just as they started to eat, the door opened. A cook came in, and the two mice ran and hid."], ["When it was quiet, they came out again. Then a big cat jumped onto the table! They ran for their lives.", "“Goodbye, cousin,” said the country mouse. “You can keep your cakes. I prefer my simple food and my peaceful home.”"]], "gloss": {"cousin": "ابن العم / الخال", "served": "قدّم (الطعام)", "impressed": "معجب", "hid": "اختبأ", "for their lives": "هرباً بحياتهم", "prefer": "يفضّل", "peaceful": "هادئ / آمن"}, "moral": ["A simple life in peace is better than a rich life in fear.", "العيش البسيط في أمان خير من الغنى مع الخوف."], "q": [["What food did the country mouse serve?", ["Cakes and cheese", "Seeds, corn and water", "Meat and rice"], 1], ["What happened in the town house?", ["They ate in peace", "A cook and a cat scared them", "They met many friends"], 1], ["What did the country mouse decide?", ["To stay in the town", "To go back to her peaceful home", "To buy cakes"], 1]]}, {"id": "bundle-sticks", "title": "The Bundle of Sticks", "src": "Aesop", "lvl": 2, "ic": "🪵", "c1": "#f2e6d9", "c2": "#d9b38c", "pages": [["An old father had several sons. They were always arguing and fighting with each other.", "One day he called them together. He gave them a bundle of sticks tied with a rope. “Try to break it,” he said."], ["Each son tried with all his strength, but nobody could break the bundle.", "Then the father untied the rope and gave each son one stick. “Now break these,” he said. They broke them easily."], ["“My sons,” said the father, “if you stand together, nobody can break you.", "But if you are divided, anyone can break you, one by one.” From that day, the brothers stopped fighting."]], "gloss": {"arguing": "يتجادلون", "bundle": "حزمة", "tied": "مربوط", "strength": "قوة", "untied": "فكّ", "divided": "متفرّقون / منقسمون"}, "moral": ["Unity is strength.", "في الاتحاد قوة."], "q": [["What was the problem with the sons?", ["They were lazy", "They were always fighting", "They were ill"], 1], ["Could the sons break the bundle?", ["Yes, easily", "No", "Only the oldest son"], 1], ["What lesson did the father teach?", ["Sticks are useful", "Together we are strong", "Fighting is fun"], 1]]}, {"id": "emperor-clothes", "title": "The Emperor’s New Clothes", "src": "Hans Christian Andersen", "lvl": 3, "ic": "👑", "c1": "#f6e2ff", "c2": "#d7a6f0", "pages": [["Long ago, there was an emperor who loved new clothes more than anything else.", "One day, two clever tricksters came to the palace. “We can make the most beautiful cloth in the world,” they said. “But it is magic: foolish people cannot see it.”"], ["The emperor gave them gold, and they pretended to weave all day on empty machines.", "He sent his ministers to look. They saw nothing, but they were afraid to look foolish, so they said, “It is wonderful!”"], ["At last the emperor went to see the clothes himself. He saw nothing at all! But he also said, “Magnificent!”", "The tricksters pretended to dress him, and the emperor walked through the city in a great parade."], ["Everyone praised the clothes, because nobody wanted to look foolish.", "Then a little child shouted, “But he isn’t wearing anything new at all!” Soon the whole crowd was saying it. The emperor felt ashamed, but he kept walking proudly to the end."]], "gloss": {"emperor": "إمبراطور", "tricksters": "محتالون", "foolish": "أحمق / غبي", "pretended": "تظاهر", "weave": "ينسج", "magnificent": "رائع / فخم", "parade": "موكب", "ashamed": "خجلان"}, "moral": ["Have the courage to tell the truth, even when others are afraid.", "كن شجاعاً في قول الحق ولو خاف الآخرون."], "q": [["What did the tricksters say about their cloth?", ["It was very cheap", "Foolish people cannot see it", "It was made of gold"], 1], ["Why did the ministers say the clothes were wonderful?", ["They really saw them", "They did not want to look foolish", "The emperor paid them"], 1], ["Who told the truth at the parade?", ["A minister", "A little child", "The tricksters"], 1]]}, {"id": "elves-shoemaker", "title": "The Elves and the Shoemaker", "src": "Brothers Grimm", "lvl": 2, "ic": "👞", "c1": "#e5ecf8", "c2": "#aabde3", "pages": [["There was once a good shoemaker who became very poor. He had only enough leather for one last pair of shoes.", "In the evening, he cut the leather and left it on his table. Then he went to bed."], ["In the morning, he found a beautiful pair of shoes on the table, perfectly made! A customer bought them for a high price.", "With the money, he bought leather for two pairs. The next morning, both pairs were ready too."], ["This happened night after night, and the shoemaker became rich. One night, he and his wife hid and watched.", "At midnight, two tiny elves came in. They worked quickly and happily until all the shoes were finished."], ["“They have helped us so much,” said his wife. “Let’s thank them.” So they made tiny warm clothes for the elves.", "The elves were delighted. They put on their new clothes, danced, and left. The shoemaker never forgot their kindness."]], "gloss": {"shoemaker": "إسكافي / صانع أحذية", "leather": "جلد", "customer": "زبون", "elves": "أقزام (مخلوقات خيالية)", "delighted": "مسرور جداً", "kindness": "لطف / معروف"}, "moral": ["Good deeds deserve thanks; always repay kindness.", "الإحسان يُقابَل بالشكر، فردّ المعروف بمثله."], "q": [["What did the shoemaker find in the morning?", ["A bag of gold", "A finished pair of shoes", "A letter"], 1], ["Who was making the shoes?", ["His wife", "Two tiny elves", "A customer"], 1], ["How did the shoemaker and his wife thank the elves?", ["They gave them money", "They made them tiny clothes", "They gave them shoes"], 1]]}, {"id": "stone-soup", "title": "Stone Soup", "src": "Folk tale", "lvl": 2, "ic": "🍲", "c1": "#ffe6dc", "c2": "#ffb398", "pages": [["A tired traveler arrived in a small village. He was hungry, but the villagers said, “We have no food to share.”", "So he put a big pot of water on a fire in the square. Then he dropped a smooth stone into it."], ["“What are you cooking?” asked a curious boy. “Stone soup,” said the traveler. “It is delicious, but a carrot would make it even better.”", "The boy ran home and came back with a carrot."], ["Soon a woman brought an onion. A farmer brought some potatoes. Another man brought salt and a little meat.", "Little by little, the pot was filled with good things, and it smelled wonderful."], ["That evening, the whole village sat together and enjoyed a delicious soup.", "“Amazing!” they said. “Soup from a stone!” The traveler smiled. He knew the real secret was sharing."]], "gloss": {"traveler": "مسافر", "pot": "قِدر", "square": "ساحة", "smooth": "أملس", "curious": "فضولي", "little by little": "شيئاً فشيئاً", "sharing": "المشاركة"}, "moral": ["When everyone shares a little, there is enough for all.", "إذا شارك كلّ واحد بالقليل كفى الجميع."], "q": [["What did the traveler put in the pot first?", ["A carrot", "A stone", "Some meat"], 1], ["Who brought the carrot?", ["A curious boy", "The farmer", "The traveler"], 0], ["What was the real secret of the soup?", ["The magic stone", "Sharing", "A special pot"], 1]]}, {"id": "king-midas", "title": "King Midas and the Golden Touch", "src": "Greek myth", "lvl": 3, "ic": "✨", "c1": "#fff6cf", "c2": "#f0d25c", "pages": [["King Midas was very rich, but he always wanted more gold. One day a visitor offered him one wish.", "“I wish that everything I touch turns into gold!” said the king. “Your wish is granted,” said the visitor."], ["The king was excited. He touched a chair, and it became gold. He touched a flower, and it became gold too!", "Then he sat down to eat. But when he picked up some bread, it turned into hard gold. He could not eat or drink anything."], ["Just then his little daughter ran to hug him. As soon as he touched her, she turned into a golden statue!", "The king cried. “Please take this wish away! I don’t want gold. I want my daughter back!”"], ["The visitor told him to wash his hands in the river. The king ran there and washed. Then he poured water on his daughter, and she came back to life.", "From that day, King Midas understood that the most precious things in life are not made of gold."]], "gloss": {"wish": "أمنية", "granted": "مُجاب / مُحقَّق", "touch": "يلمس", "statue": "تمثال", "poured": "سكب", "precious": "ثمين"}, "moral": ["Love and family are worth more than all the gold in the world.", "المحبة والأهل أثمن من كل ذهب الدنيا."], "q": [["What was the king’s wish?", ["To be very strong", "That everything he touched would become gold", "To live forever"], 1], ["Why couldn’t the king eat?", ["His food turned into gold", "He was not hungry", "There was no food"], 0], ["What did the king learn?", ["Gold is the most important thing", "The most precious things are not gold", "Wishes are always good"], 1]]}, {"id": "juha-donkey", "title": "Juha, His Son and the Donkey", "src": "Middle Eastern folk tale", "lvl": 2, "ic": "🐴", "c1": "#e8f4ec", "c2": "#a8d8b8", "pages": [["One day, Juha and his son went to the market with their donkey. Juha rode the donkey, and his son walked beside him.", "Some people said, “Look at that man! He rides comfortably while the poor boy walks.” So Juha got down, and his son rode."], ["Soon other people said, “What a rude boy! He rides while his old father walks.”", "So they both rode the donkey. Then people shouted, “Poor donkey! Two people on one small animal!”"], ["So they both got down and walked next to the donkey. Now people laughed. “How silly! They have a donkey, and nobody rides it!”", "Juha turned to his son and smiled. “You see, my son? Whatever we do, someone will complain.”"], ["“Do what is right and wise,” said Juha, “and don’t worry too much about what everyone says.”"]], "gloss": {"beside": "بجانب", "comfortably": "براحة", "rude": "قليل الأدب", "silly": "سخيف", "complain": "يشتكي / ينتقد", "wise": "حكيم"}, "moral": ["You cannot please everyone, so do what is right.", "رضا الناس غاية لا تُدرك؛ فافعل الصواب."], "q": [["Where were Juha and his son going?", ["To the market", "To school", "To the mosque"], 0], ["What did people say when both of them rode the donkey?", ["What a strong donkey", "Poor donkey!", "Well done!"], 1], ["What did Juha learn?", ["Donkeys are lazy", "You cannot please everyone", "Walking is bad"], 1]]}, {"id": "juha-nail", "title": "Juha’s Nail", "src": "Middle Eastern folk tale", "lvl": 2, "ic": "🔨", "c1": "#eef0f5", "c2": "#b9c1d6", "pages": [["Juha needed money, so he decided to sell his house. A rich man wanted to buy it, but he offered a very low price.", "Juha agreed, but he had one condition. “There is a nail in the wall of the living room,” he said. “The nail will still belong to me.”"], ["The buyer laughed. “Just one old nail? No problem!” And he signed the agreement.", "A few days later, Juha knocked on the door. “I have come to visit my nail,” he said, and he hung his coat on it."], ["The next day he came again and hung a heavy bag on the nail. The next week, he came at lunchtime and sat beside his nail for hours.", "Every day Juha found a new reason to visit his nail, and he never left early."], ["At last the rich man could not stand it anymore. He gave the house back to Juha and left.", "Juha smiled. A small nail had won the whole house."]], "gloss": {"offered": "عرض", "condition": "شرط", "nail": "مسمار", "belong": "يعود ملكه لـ", "signed": "وقّع", "hung": "علّق", "stand": "يتحمّل"}, "moral": ["Read every condition carefully before you agree.", "اقرأ الشروط جيداً قبل أن توافق."], "q": [["What did Juha keep when he sold his house?", ["The door", "A nail in the wall", "The garden"], 1], ["Why did Juha visit the house every day?", ["To clean it", "To visit his nail", "To pay rent"], 1], ["What happened at the end?", ["The rich man gave the house back", "Juha bought a new house", "The nail broke"], 0]]}];
+(function(){
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const store = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} } };
+
+  /* ---------- speech ---------- */
+  const canSpeak = 'speechSynthesis' in window;
+  let ACC = store.get('st-accent') === 'uk' ? 'uk' : 'us', voice = null;
+  function pickVoice(){ if(!canSpeak) return; const vs = speechSynthesis.getVoices(), re = ACC==='uk'?/en[-_]GB/i:/en[-_]US/i;
+    voice = vs.find(v=>re.test(v.lang)&&/google|natural|enhanced|premium/i.test(v.name)) || vs.find(v=>re.test(v.lang)) || vs.find(v=>/^en/i.test(v.lang)) || null; }
+  if (canSpeak) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+  function utter(t, onend){ const u = new SpeechSynthesisUtterance(t); u.lang = ACC==='uk'?'en-GB':'en-US'; if(voice) u.voice = voice; u.rate = .85; if(onend){ u.onend = onend; u.onerror = onend; } return u; }
+  function sayWord(t){ if(!canSpeak) return; speechSynthesis.cancel(); speechSynthesis.speak(utter(t)); }
+  function setAcc(a){ ACC = a; store.set('st-accent', a); pickVoice(); document.querySelectorAll('[data-acc]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.acc===a))); }
+  document.querySelectorAll('[data-acc]').forEach(b => b.onclick = () => { stopReading(); setAcc(b.dataset.acc); sayWord(ACC==='uk'?'British accent':'American accent'); });
+  setAcc(ACC);
+
+  /* ---------- shelf ---------- */
+  const isAesop = s => s.src === 'Aesop';
+  let filter = 'all';
+  function stars(n){ return '★'.repeat(n) + '☆'.repeat(3-n); }
+  function renderShelf(){
+    const list = STORIES.filter(s => filter==='all' || (filter==='aesop'&&isAesop(s)) || (filter==='world'&&!isAesop(s)) || String(s.lvl)===filter);
+    $('#shelf').innerHTML = list.map(s => { const best = +(store.get('st-best-'+s.id)||0), read = store.get('st-read-'+s.id);
+      return `<button class="book" data-id="${s.id}" aria-label="${esc(s.title)}">
+        <div class="cover" style="--c1:${s.c1};--c2:${s.c2}">${read?'<span class="done">✓ قرأتها</span>':''}
+          <span class="src">${esc(s.src)}</span><span class="ic" aria-hidden="true">${s.ic}</span><span class="t">${esc(s.title)}</span></div>
+        <div class="meta"><span class="lv" title="المستوى">${'★'.repeat(s.lvl)}</span><span>${read ? stars(best) : s.pages.length+' صفحات'}</span></div></button>`; }).join('');
+    document.querySelectorAll('.book').forEach(b => b.onclick = () => openStory(b.dataset.id));
+    let r = 0, st = 0; STORIES.forEach(s => { if (store.get('st-read-'+s.id)) r++; st += +(store.get('st-best-'+s.id)||0); });
+    $('#sRead').textContent = `📖 ${r} من ${STORIES.length} قصة قرأتها`; $('#sStars').textContent = `⭐ ${st} نجمة`;
+  }
+  document.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { filter = b.dataset.f; document.querySelectorAll('[data-f]').forEach(x => x.setAttribute('aria-pressed', String(x===b))); renderShelf(); });
+
+  /* ---------- reader ---------- */
+  let S = null, pg = 0, fs = +(store.get('st-fs')||1.32);
+  const page = $('#rPage');
+  function glossify(text, gloss){
+    const keys = Object.keys(gloss).sort((a,b)=>b.length-a.length);
+    let html = esc(text);
+    if (!keys.length) return html;
+    const re = new RegExp('\\b(' + keys.map(k=>k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|') + ')\\b', 'gi');
+    return html.replace(re, m => `<span class="g" role="button" tabindex="0" data-k="${esc(keys.find(k=>k.toLowerCase()===m.toLowerCase()))}">${m}</span>`);
+  }
+  function sentences(p){ return p.match(/[^.!?]+[.!?]+[”"’]?\s*|[^.!?]+$/g) || [p]; }
+  function total(){ return S.pages.length + 1; }
+  function renderPage(dir){
+    stopReading(); closePop();
+    const last = pg === S.pages.length;
+    if (!last) {
+      page.innerHTML = `${pg===0?`<div class="art" aria-hidden="true">${S.ic}</div>`:''}<div class="story">${S.pages[pg].map(p => '<p>' + sentences(p).map(s => `<span class="s">${glossify(s, S.gloss)}</span>`).join('') + '</p>').join('')}</div><div class="pn">${pg+1} / ${total()}</div>`;
+    } else {
+      const best = +(store.get('st-best-'+S.id)||0);
+      page.innerHTML = `<div class="moral"><span class="lbl">The Moral</span><div class="en">${esc(S.moral[0])}</div><div class="arm">${esc(S.moral[1])}</div></div>
+        <div class="quiz"><h3>Check your understanding</h3>${S.q.map((q,i)=>`<div class="qq" data-i="${i}"><p>${i+1}. ${esc(q[0])}</p><div class="opts">${q[1].map((o,j)=>`<button data-j="${j}">${esc(o)}</button>`).join('')}</div></div>`).join('')}
+        <div class="result" id="qRes">${best?`أفضل نتيجة لك: <span class="st">${stars(best)}</span>`:''}</div></div><div class="pn">${total()} / ${total()}</div>`;
+      store.set('st-read-'+S.id, '1');
+      let answered = 0, right = 0;
+      page.querySelectorAll('.qq').forEach(qq => { const q = S.q[+qq.dataset.i];
+        qq.querySelectorAll('button').forEach(b => b.onclick = () => {
+          if (qq.dataset.done) return; qq.dataset.done = 1; answered++;
+          const j = +b.dataset.j; if (j === q[2]) { right++; b.classList.add('ok'); } else { b.classList.add('no'); qq.querySelector(`[data-j="${q[2]}"]`).classList.add('ok'); }
+          if (answered === S.q.length) {
+            const prev = +(store.get('st-best-'+S.id)||0); if (right > prev) store.set('st-best-'+S.id, String(right));
+            $('#qRes').innerHTML = `<span class="st">${stars(right)}</span>${right===3?'ممتاز! فهمت القصة كاملة 🎉':right===2?'أحسنت! راجع الصفحة التي أخطأت فيها.':'اقرأ القصة مرة أخرى وحاول من جديد 💪'}`;
+          }
+        });
+      });
+    }
+    page.style.setProperty('--fs', fs + 'rem');
+    page.scrollTop = 0;
+    if (dir) { page.classList.remove('turn-next','turn-prev'); void page.offsetWidth; page.classList.add(dir>0?'turn-next':'turn-prev'); }
+    $('#rDots').innerHTML = Array.from({length: total()}, (_, i) => `<i class="${i===pg?'on':''}"></i>`).join('');
+    $('#rPrev').disabled = pg === 0; $('#rNext').textContent = last ? 'إنهاء ✓' : (pg === S.pages.length-1 ? 'الحكمة والأسئلة ←' : 'التالي ←');
+    $('#rListen').hidden = last;
+    page.querySelectorAll('.g').forEach(g => { g.onclick = e => { e.stopPropagation(); showPop(g); }; g.onkeydown = e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); showPop(g); } }; });
+  }
+  function openStory(id){
+    S = STORIES.find(s => s.id === id); if (!S) return; pg = 0;
+    $('#rTitle').textContent = S.title; $('#reader').hidden = false; document.body.style.overflow = 'hidden'; document.body.classList.add('reading');
+    renderPage(0); $('#rClose').focus();
+  }
+  function closeStory(){ stopReading(); closePop(); $('#reader').hidden = true; document.body.style.overflow = ''; document.body.classList.remove('reading'); renderShelf(); }
+  $('#rClose').onclick = closeStory;
+  $('#rPrev').onclick = () => { if (pg > 0) { pg--; renderPage(-1); } };
+  $('#rNext').onclick = () => { if (pg < S.pages.length) { pg++; renderPage(1); } else closeStory(); };
+  $('#rSmaller').onclick = () => { fs = Math.max(1.05, +(fs - .12).toFixed(2)); store.set('st-fs', fs); page.style.setProperty('--fs', fs + 'rem'); };
+  $('#rBigger').onclick = () => { fs = Math.min(1.9, +(fs + .12).toFixed(2)); store.set('st-fs', fs); page.style.setProperty('--fs', fs + 'rem'); };
+  document.addEventListener('keydown', e => { if ($('#reader').hidden) return; if (e.key === 'Escape') closeStory(); if (e.key === 'ArrowLeft') $('#rNext').click(); if (e.key === 'ArrowRight') $('#rPrev').click(); });
+  let tx = null; page.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+  page.addEventListener('touchend', e => { if (tx === null) return; const dx = e.changedTouches[0].clientX - tx; tx = null; if (Math.abs(dx) > 70) (dx < 0 ? $('#rNext') : $('#rPrev')).click(); });
+
+  /* read aloud, sentence by sentence with highlight */
+  let reading = false;
+  function stopReading(){ reading = false; if (canSpeak) speechSynthesis.cancel(); document.querySelectorAll('.s.on').forEach(s => s.classList.remove('on')); $('#rListen').textContent = '🔊 استمع'; }
+  $('#rListen').onclick = () => {
+    if (!canSpeak) { alert('النطق غير متاح على هذا الجهاز'); return; }
+    if (reading) { stopReading(); return; }
+    const ss = [...page.querySelectorAll('.s')]; if (!ss.length) return;
+    reading = true; $('#rListen').textContent = '⏸ إيقاف'; speechSynthesis.cancel();
+    let i = 0;
+    const next = () => { document.querySelectorAll('.s.on').forEach(s => s.classList.remove('on'));
+      if (!reading || i >= ss.length) { stopReading(); return; }
+      const el = ss[i++]; el.classList.add('on'); el.scrollIntoView({block:'nearest', behavior:'smooth'});
+      speechSynthesis.speak(utter(el.textContent, next)); };
+    next();
+  };
+
+  /* glossary popover */
+  let pop = null;
+  function closePop(){ if (pop) { pop.remove(); pop = null; } }
+  function showPop(g){
+    closePop(); const k = g.dataset.k; const r = g.getBoundingClientRect();
+    pop = document.createElement('div'); pop.className = 'pop'; pop.setAttribute('role','status');
+    pop.innerHTML = `<button aria-label="استمع">🔊</button><div><b>${esc(k)}</b><br><span dir="rtl">${esc(S.gloss[k])}</span></div>`;
+    document.body.appendChild(pop);
+    const w = pop.offsetWidth, h = pop.offsetHeight;
+    pop.style.left = Math.max(8, Math.min(innerWidth - w - 8, r.left + r.width/2 - w/2)) + 'px';
+    pop.style.top = (r.top - h - 10 > 8 ? r.top - h - 10 : r.bottom + 10) + 'px';
+    pop.querySelector('button').onclick = e => { e.stopPropagation(); sayWord(k); };
+    sayWord(k);
+  }
+  document.addEventListener('click', e => { if (pop && !pop.contains(e.target)) closePop(); });
+  page.addEventListener('scroll', closePop);
+
+  renderShelf();
+  const h = location.hash.slice(1); if (h && STORIES.some(s => s.id === h)) openStory(h);
+})();
+</script>
+</body>
+</html>
