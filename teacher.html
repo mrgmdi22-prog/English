@@ -72,7 +72,7 @@ async function load() {
   const pend = rows.filter(r => !r.approved), ok = rows.filter(r => r.approved);
   const item = (r, pending) => `<div class="item" data-id="${r.id}"><span class="nm">${esc(r.nick)}${priv[r.id] ? `<small class="real">👤 ${esc(priv[r.id].name)} · ${priv[r.id].grade === H.EXTERNAL ? '🌐 من خارج المدرسة: ' + esc(priv[r.id].school || 'لم يذكر الجهة') : esc(priv[r.id].grade) + ' · الشعبة ' + esc(priv[r.id].section)}</small>` : '<small class="real miss">⚠️ لم يكتب بياناته الحقيقية بعد</small>'}</span><span class="sc">${fmt(r.score)}</span><span class="acts">
     ${pending ? '<button class="btn ok" data-a="ok">✓ موافقة</button>' : '<button class="btn soft" data-a="hide">إخفاء</button>'}
-    <button class="btn soft" data-a="ren">تعديل الاسم</button><button class="btn bad" data-a="del">حذف</button></span></div>`;
+    <button class="btn soft" data-a="ren">تعديل الاسم</button><button class="btn soft" data-a="reg">📍 ${r.region ? esc(r.region) : "المنطقة"}</button><button class="btn bad" data-a="del">حذف</button></span></div>`;
   $('main').innerHTML = `
     <div class="panel"><h2>قائمة التكريم</h2><p class="note">ملف فيه الترتيب والاسم الحقيقي والصف والشعبة والاسم المستعار والنقاط، يُفتح في Excel.</p><p style="margin-top:12px"><button class="btn ok" id="csv">⬇️ تنزيل قائمة التكريم</button></p></div>
     <div class="panel"><h2>بانتظار الموافقة <span class="count">${pend.length}</span></h2>${pend.map(r => item(r, true)).join('') || '<div class="empty">لا توجد أسماء جديدة.</div>'}</div>
@@ -90,6 +90,13 @@ async function load() {
     try {
       if (a === 'ok') await H.setApproved(id, true);
       if (a === 'hide') await H.setApproved(id, false);
+      if (a === 'reg') {
+        const list = H.REGIONS.map((x, i) => (i + 1) + '. ' + x).join('\n');
+        const v = prompt('اكتب رقم المنطقة لـ «' + r.nick + '»:\n\n' + list, '');
+        const k = parseInt(v, 10);
+        if (k >= 1 && k <= H.REGIONS.length) await H.setRegionFor(id, H.REGIONS[k - 1]);
+        else if (v) alert('رقم غير صحيح.');
+      }
       if (a === 'ren') { const n = prompt('الاسم المستعار:', r.nick); if (n && H.cleanNick(n).length >= 2) await H.rename(id, n); }
       if (a === 'del' && confirm('حذف «' + r.nick + '» من اللوحة؟')) await H.remove(id);
     } catch (e) { alert('تعذّر التنفيذ: ' + (e.code || e.message)); }

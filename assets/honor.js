@@ -181,5 +181,6 @@ export async function allPlayers() {
   return rows;
 }
 export async function setApproved(id, v) { const { fs, D } = await load(); await fs.updateDoc(fs.doc(D, 'players', id), { approved: !!v }); }
+export async function setRegionFor(id, region) { const { fs, D } = await load(); await fs.updateDoc(fs.doc(D, 'players', id), { region: cleanText(region, 30) }); }
 export async function rename(id, nick) { const { fs, D } = await load(); await fs.updateDoc(fs.doc(D, 'players', id), { nick: cleanNick(nick) }); }
 export async function remove(id) { const { fs, D } = await load(); await fs.deleteDoc(fs.doc(D, 'players', id)); try { await fs.deleteDoc(fs.doc(D, 'private', id)); } catch (e) {} }
