@@ -279,8 +279,16 @@ function renderMe(msg) {
       if (n.length < 2) { showMsg('اكتب اسماً مستعاراً من حرفين على الأقل.'); return; }
       if (n.replace(/\s/g,'') === id.name.replace(/\s/g,'') || id.name.split(' ').some(w => w.length > 2 && n.includes(w))) { showMsg('اختر اسماً مستعاراً لا يحتوي على اسمك الحقيقي.'); return; }
       $('jb').disabled = true; $('jb').textContent = 'جارٍ الحفظ…';
-      try { await H.savePrivate(id); PRIV = id; ME = await H.join(n); renderMe({t:'تم! سيظهر اسمك بعد موافقة المعلم.'}); }
-      catch (err) { console.error(err); renderMe({err:1,t:'تعذّر الحفظ، تأكد من الاتصال بالإنترنت ثم حاول مرة أخرى.'}); }
+      let step = 'private';
+      try { await H.savePrivate(id); PRIV = id; step = 'player'; ME = await H.join(n); renderMe({t:'تم! سيظهر اسمك بعد موافقة المعلم.'}); }
+      catch (err) {
+        console.error(err);
+        const code = (err && (err.code || err.message) || '').toString();
+        const denied = /permission/i.test(code);
+        showMsg(denied ? 'تعذّر الحفظ: قواعد اللوحة لا تسمح بعد بحفظ بيانات التكريم. أخبر معلمك. (' + step + ' · ' + code + ')'
+                       : 'تعذّر الحفظ، تأكد من الاتصال بالإنترنت ثم حاول مرة أخرى. (' + step + ' · ' + code + ')');
+        $('jb').disabled = false; $('jb').textContent = 'انضم 🚀';
+      }
     };
     return;
   }
