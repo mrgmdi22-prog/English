@@ -76,6 +76,7 @@ export async function myEntry() {
 
 /* ---------- private identity (real name, grade, section): readable only by the student and the teacher ---------- */
 export const GRADES = ['أول ثانوي', 'ثاني ثانوي', 'ثالث ثانوي'];
+export const EXTERNAL = 'من خارج المدرسة';
 export function cleanText(s, max) { return String(s || '').replace(/\s+/g, ' ').trim().slice(0, max); }
 
 /** My private record, or null. */

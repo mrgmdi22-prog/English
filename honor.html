@@ -150,7 +150,7 @@ if (demo) {
   const fake = ['نسر الصحراء','Falcon7','نجم الشمال','Lion King','القمر المضيء','Speedy','بطل العقيق','Eagle Eye','الشهاب','Rocket'].map((n,i)=>({id:'d'+i,nick:n,score:3200-i*270-(i%3)*35,approved:true}));
   let me = null, priv = null;
   H = { ready:true, RULES:m.RULES, computeScore:m.computeScore, cleanNick:m.cleanNick,
-    GRADES:m.GRADES, cleanText:m.cleanText, myPrivate: async()=>priv, savePrivate: async(p)=>{priv=p}, myEntry: async()=>me, join: async(n)=>(me={id:'me',nick:m.cleanNick(n),approved:false,...m.computeScore()}),
+    GRADES:m.GRADES, EXTERNAL:m.EXTERNAL, cleanText:m.cleanText, myPrivate: async()=>priv, savePrivate: async(p)=>{priv=p}, myEntry: async()=>me, join: async(n)=>(me={id:'me',nick:m.cleanNick(n),approved:false,...m.computeScore()}),
     sync: async()=>null, board: async()=>fake };
 } else {
   H = await import('./assets/honor.js');
@@ -235,15 +235,20 @@ function showMsg(t, ok) { const m = document.querySelector('#mePanel .msg'); if 
 
 function idFields(p) {
   p = p || {};
-  const g = H.GRADES.map(x => `<option${p.grade===x?' selected':''}>${x}</option>`).join('');
-  const sec = Array.from({length:10}, (_, i) => String(i+1)).map(x => `<option${p.section===x?' selected':''}>${x}</option>`).join('');
+  const g = H.GRADES.concat([H.EXTERNAL]).map(x => `<option value="${x}"${p.grade===x?' selected':''}>${x === H.EXTERNAL ? 'مشارك من خارج المدرسة' : x}</option>`).join('');
+  const sec = Array.from({length:5}, (_, i) => String(i+1)).map(x => `<option${p.section===x?' selected':''}>${x}</option>`).join('');
   return `<div class="idbox"><p class="lock">🔒 هذه البيانات لا يراها إلا المعلم، وتُستخدم للتكريم في نهاية العام فقط.</p>
     <label for="rn">اسمك الثلاثي</label><input id="rn" type="text" maxlength="60" placeholder="مثل: فهد محمد الغامدي" autocomplete="name" value="${esc(p.name||'')}">
     <div class="row2"><div><label for="gr">الصف</label><select id="gr"><option value="">اختر</option>${g}</select></div>
-    <div><label for="sc">الشعبة</label><select id="sc"><option value="">اختر</option>${sec}</select></div></div></div>`;
+    <div id="scBox"><label for="sc">الشعبة</label><select id="sc"><option value="">اختر</option>${sec}</select></div></div></div>`;
+}
+function wireId() {
+  const gr = $('gr'), box = $('scBox'); if (!gr || !box) return;
+  const f = () => { box.style.visibility = gr.value === H.EXTERNAL ? 'hidden' : 'visible'; };
+  gr.onchange = f; f();
 }
 function readId() {
-  const name = H.cleanText($('rn').value, 60), grade = $('gr').value, section = $('sc').value;
+  const name = H.cleanText($('rn').value, 60), grade = $('gr').value, ext = grade === H.EXTERNAL, section = ext ? '—' : $('sc').value;
   if (name.split(' ').filter(Boolean).length < 3) return { err: 'اكتب اسمك الثلاثي كاملاً.' };
   if (!grade) return { err: 'اختر صفك.' };
   if (!section) return { err: 'اختر شعبتك.' };
@@ -261,6 +266,7 @@ function renderMe(msg) {
       <button class="btn" id="jb">انضم 🚀</button></div>
       <p class="note" style="margin-top:8px;font-size:.95rem">يظهر اسمك بعد أن يوافق عليه المعلم.</p></form>
       <div class="msg ${msg&&msg.err?'err':'ok'}">${msg?esc(msg.t):''}</div>`;
+    wireId();
     $('jf').onsubmit = async e => {
       e.preventDefault();
       const n = H.cleanNick($('nk').value);
@@ -281,11 +287,12 @@ function renderMe(msg) {
         <span class="status ${ME.approved?'ok':'wait'}">${ME.approved?'✓ ظاهر في اللوحة · المركز '+rk:'⏳ بانتظار موافقة المعلم'}</span></div>
       <div class="pts"><b>${fmt(local.score)}</b><span>نقطة</span></div></div>
     <div class="chips">${H.RULES.map(r=>`<span>${r.icon} ${fmt(p[r.key])} × ${r.per}</span>`).join('')}</div>
-    ${PRIV ? `<p class="lock" style="margin-top:12px">🔒 بيانات التكريم: <b>${esc(PRIV.name)}</b> · ${esc(PRIV.grade)} · الشعبة ${esc(PRIV.section)}. لا يراها إلا المعلم.</p>`
+    ${PRIV ? `<p class="lock" style="margin-top:12px">🔒 بيانات التكريم: <b>${esc(PRIV.name)}</b> · ${PRIV.grade === H.EXTERNAL ? 'مشارك من خارج المدرسة' : esc(PRIV.grade) + ' · الشعبة ' + esc(PRIV.section)}. لا يراها إلا المعلم.</p>`
            : `<form id="pf" class="need"><b>⚠️ أكمل بياناتك ليُحسب لك التكريم في نهاية العام</b>${idFields(null)}<button class="btn" id="pb" style="margin-top:12px">حفظ بياناتي</button></form>`}
     <div class="actions"><button class="btn soft" id="ub">🔄 حدّث نقاطي</button><button class="btn link" id="cn">تغيير الاسم المستعار</button></div>
     <div class="msg ${msg&&msg.err?'err':'ok'}">${msg?esc(msg.t):''}</div>`;
   renderRace(local.score);
+  wireId();
   if ($('pf')) $('pf').onsubmit = async e => {
     e.preventDefault();
     const id = readId(); if (id.err) { showMsg(id.err); return; }
