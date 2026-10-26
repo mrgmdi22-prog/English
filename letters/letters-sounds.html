@@ -570,11 +570,16 @@ const trace=(()=>{
     active=false;mistakes++;tone(false);msg(t,'no');drawLive(css('--bad'));
     setTimeout(()=>{if(!active&&!demoing)clearInk();},450);
   }
+  /* Progress is measured as distance along the stroke. For each finger point we look only a short way ahead
+     and take the NEAREST stroke point there, so a stroke that doubles back on itself (the stems of n, m, h, b, r, p,
+     the middle of B, the peaks of M, V, W) cannot be skipped, and cutting a sharp corner a little is still accepted. */
   function advance(q){
-    const s=strokes[si],lim=Math.min(s.cp.length,cpi+4);let nc=cpi;
-    for(let j=cpi;j<lim;j++)if(d2(q,s.px[s.cp[j]])<R)nc=j+1;
-    if(nc>cpi){cpi=nc;noProg=0;}
+    const s=strokes[si],ahead=Math.max(R*1.3,u*.5);
+    let i=idxAt(s,cpi),best=-1,bd=1e9;
+    for(;i<s.px.length&&s.cum[i]<=cpi+ahead;i++){const d=d2(q,s.px[i]);if(d<bd-.5){bd=d;best=i;}}
+    if(best>=0&&bd<R&&s.cum[best]>cpi){cpi=s.cum[best];noProg=0;}
   }
+  const finished=(slack)=>{const s=strokes[si];return cpi>=s.len-R*slack;};
   function pos(e){const r=ic.getBoundingClientRect();return[(e.clientX-r.left)*W/r.width,(e.clientY-r.top)*H/r.height];}
   ic.addEventListener('pointerdown',e=>{
     e.preventDefault();if(demoing||si>=strokes.length)return;
@@ -582,7 +587,7 @@ const trace=(()=>{
     if(d2(p,s.px[0])>R){mistakes++;tone(false);msg(`ابدأ من النقطة الخضراء رقم ${si+1}`,'no');return;}
     if(s.dot){complete();return;}
     try{ic.setPointerCapture(e.pointerId);}catch(_){}
-    active=true;cpi=1;live=[p];lastP=p;noProg=0;msg('','');advance(p);drawLive();
+    active=true;cpi=0;live=[p];lastP=p;noProg=0;msg('','');advance(p);drawLive();
   });
   ic.addEventListener('pointermove',e=>{
     if(!active)return;const p=pos(e),s=strokes[si];
@@ -590,14 +595,14 @@ const trace=(()=>{
     const steps=Math.max(1,Math.ceil(d2(p,lastP)/6));
     for(let j=1;j<=steps;j++)advance([lastP[0]+(p[0]-lastP[0])*j/steps,lastP[1]+(p[1]-lastP[1])*j/steps]);
     lastP=p;live.push(p);drawLive();
-    if(cpi>=s.cp.length){active=false;complete();return;}
+    if(finished(.35)&&d2(p,s.px[s.px.length-1])<R){active=false;complete();return;}
     let dmin=1e9;for(const q of s.px){const d=d2(p,q);if(d<dmin)dmin=d;}
-    if(dmin>R*1.6)return fail('ابتعدت عن مسار الحرف، أعد هذا الخط من النقطة الخضراء');
+    if(dmin>R*1.8)return fail('ابتعدت عن مسار الحرف، أعد هذا الخط من النقطة الخضراء');
     if(noProg>Math.max(R*3,u*1.1))return fail('اتجاه الحركة غير صحيح، اتبع الأسهم');
   });
   ['pointerup','pointercancel'].forEach(t=>ic.addEventListener(t,()=>{
     if(!active)return;active=false;const s=strokes[si];
-    if(cpi>=s.cp.length-1&&d2(lastP,s.px[s.px.length-1])<R*1.3)complete();
+    if(finished(1.2)&&d2(lastP,s.px[s.px.length-1])<R*1.4)complete();
     else fail('أكمل الخط حتى نهايته قبل أن ترفع إصبعك');
   }));
 
