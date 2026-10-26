@@ -29,7 +29,7 @@ h1{font-size:2rem;margin:0 0 4px;font-weight:800}
 .item .nm{flex:1;min-width:140px;font-weight:800;font-size:1.15rem;overflow-wrap:anywhere}
 .real{display:block;font-weight:500;font-size:.95rem;color:var(--muted)}
 .real.miss{color:#a35a00}
-.item .sc{color:var(--gold);font-weight:800;min-width:80px;font-variant-numeric:tabular-nums}
+.item .sc{color:var(--gold);font-weight:800;min-width:110px;font-variant-numeric:tabular-nums}
 .item .acts{display:flex;gap:6px;flex-wrap:wrap}
 .empty{color:var(--muted);padding:8px 0}
 .top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
@@ -43,10 +43,13 @@ h1{font-size:2rem;margin:0 0 4px;font-weight:800}
   <div id="main"></div>
 </div>
 <script type="module">
-import * as H from './assets/honor.js?v=20261026b';
+import * as H from './assets/honor.js?v=20261027a';
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = n => Number(n||0).toLocaleString('en-US');
+// When this student's points last reached the board — helps tell whether a device is still sending them.
+const ago = t => { const ms = t && t.toMillis ? Date.now() - t.toMillis() : NaN; if (!(ms >= 0)) return '';
+  const m = Math.round(ms / 60000); return 'آخر تحديث: ' + (m < 1 ? 'الآن' : m < 60 ? 'قبل ' + m + ' د' : m < 1440 ? 'قبل ' + Math.round(m / 60) + ' س' : 'قبل ' + Math.round(m / 1440) + ' يوم'); };
 
 async function start() {
   if (!H.ready) { $('main').innerHTML = '<div class="panel"><h2>لم يُربط Firebase بعد</h2><p class="note">أضف إعدادات المشروع في الملف assets/firebase-config.js.</p></div>'; return; }
@@ -71,7 +74,7 @@ async function load() {
   rows.sort((a,b) => (b.score||0) - (a.score||0));
   let priv = {}; try { priv = await H.allPrivate(); } catch (e) { console.warn(e); }
   const pend = rows.filter(r => !r.approved), ok = rows.filter(r => r.approved);
-  const item = (r, pending) => `<div class="item" data-id="${r.id}"><span class="nm">${esc(r.nick)}${priv[r.id] ? `<small class="real">👤 ${esc(priv[r.id].name)} · ${priv[r.id].grade === H.EXTERNAL ? '🌐 من خارج المدرسة: ' + esc(priv[r.id].school || 'لم يذكر الجهة') : esc(priv[r.id].grade) + ' · الشعبة ' + esc(priv[r.id].section)}</small>` : '<small class="real miss">⚠️ لم يكتب بياناته الحقيقية بعد</small>'}</span><span class="sc">${fmt(r.score)}</span><span class="acts">
+  const item = (r, pending) => `<div class="item" data-id="${r.id}"><span class="nm">${esc(r.nick)}${priv[r.id] ? `<small class="real">👤 ${esc(priv[r.id].name)} · ${priv[r.id].grade === H.EXTERNAL ? '🌐 من خارج المدرسة: ' + esc(priv[r.id].school || 'لم يذكر الجهة') : esc(priv[r.id].grade) + ' · الشعبة ' + esc(priv[r.id].section)}</small>` : '<small class="real miss">⚠️ لم يكتب بياناته الحقيقية بعد</small>'}</span><span class="sc">${fmt(r.score)}<small class="real">${ago(r.updatedAt)}</small></span><span class="acts">
     ${pending ? '<button class="btn ok" data-a="ok">✓ موافقة</button>' : '<button class="btn soft" data-a="hide">إخفاء</button>'}
     <button class="btn soft" data-a="ren">تعديل الاسم</button><button class="btn soft" data-a="reg">📍 ${r.region ? esc(r.region) : "المنطقة"}</button><button class="btn bad" data-a="del">حذف</button></span></div>`;
   $('main').innerHTML = `

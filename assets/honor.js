@@ -47,8 +47,11 @@ async function load() {
   const [app, auth, fs] = await Promise.all([
     import(BASE + 'firebase-app.js'), import(BASE + 'firebase-auth.js'), import(BASE + 'firebase-firestore.js')
   ]);
+  // Two separate sign-ins in the same browser: the student's anonymous account and the teacher's Google account.
+  // Keeping them apart means the teacher signing in on a phone never replaces (and loses) a student's account there.
   const a = app.initializeApp(CONFIG);
-  fb = { auth, fs, A: auth.getAuth(a), D: fs.getFirestore(a) };
+  const t = app.initializeApp(CONFIG, 'teacher');
+  fb = { auth, fs, A: auth.getAuth(a), D: fs.getFirestore(a), TA: auth.getAuth(t), TD: fs.getFirestore(t) };
   return fb;
 }
 
@@ -61,6 +64,8 @@ function currentUser(A) {
 export async function studentUid() {
   const { auth, A } = await load();
   let u = await currentUser(A);
+  // Older versions signed the teacher in here too; a Google account is never used as a student.
+  if (u && !u.isAnonymous) { await auth.signOut(A); u = null; }
   if (!u) u = (await auth.signInAnonymously(A)).user;
   return u.uid;
 }
@@ -103,7 +108,7 @@ export async function savePrivate(p) {
 
 /** Teacher: every private record, keyed by uid. */
 export async function allPrivate() {
-  const { fs, D } = await load();
+  const { fs, TD: D } = await load();
   const snap = await fs.getDocs(fs.collection(D, 'private'));
   const out = {}; snap.forEach(d => { out[d.id] = d.data(); });
   return out;
@@ -177,23 +182,23 @@ export async function watchBoard(cb, limit) {
 
 /* ---------- teacher ---------- */
 export async function teacherSignIn() {
-  const { auth, A } = await load();
+  const { auth, TA: A } = await load();
   const r = await auth.signInWithPopup(A, new auth.GoogleAuthProvider());
   return r.user;
 }
 export async function teacherUser() {
-  const { A } = await load();
+  const { TA: A } = await load();
   const u = await currentUser(A);
   return u && !u.isAnonymous ? u : null;
 }
-export async function teacherSignOut() { const { auth, A } = await load(); await auth.signOut(A); }
+export async function teacherSignOut() { const { auth, TA: A } = await load(); await auth.signOut(A); }
 export async function allPlayers() {
-  const { fs, D } = await load();
+  const { fs, TD: D } = await load();
   const snap = await fs.getDocs(fs.collection(D, 'players'));
   const rows = []; snap.forEach(d => rows.push({ id: d.id, ...d.data() }));
   return rows;
 }
-export async function setApproved(id, v) { const { fs, D } = await load(); await fs.updateDoc(fs.doc(D, 'players', id), { approved: !!v }); }
-export async function setRegionFor(id, region) { const { fs, D } = await load(); await fs.updateDoc(fs.doc(D, 'players', id), { region: cleanText(region, 30) }); }
-export async function rename(id, nick) { const { fs, D } = await load(); await fs.updateDoc(fs.doc(D, 'players', id), { nick: cleanNick(nick) }); }
-export async function remove(id) { const { fs, D } = await load(); await fs.deleteDoc(fs.doc(D, 'players', id)); try { await fs.deleteDoc(fs.doc(D, 'private', id)); } catch (e) {} }
+export async function setApproved(id, v) { const { fs, TD: D } = await load(); await fs.updateDoc(fs.doc(D, 'players', id), { approved: !!v }); }
+export async function setRegionFor(id, region) { const { fs, TD: D } = await load(); await fs.updateDoc(fs.doc(D, 'players', id), { region: cleanText(region, 30) }); }
+export async function rename(id, nick) { const { fs, TD: D } = await load(); await fs.updateDoc(fs.doc(D, 'players', id), { nick: cleanNick(nick) }); }
+export async function remove(id) { const { fs, TD: D } = await load(); await fs.deleteDoc(fs.doc(D, 'players', id)); try { await fs.deleteDoc(fs.doc(D, 'private', id)); } catch (e) {} }
