@@ -131,6 +131,7 @@ footer a{color:var(--muted)}
 
   <section aria-labelledby="topH">
     <h2 id="topH" style="text-align:center;margin:34px 0 0;font-size:1.5rem">الأوائل</h2>
+    <div style="text-align:center;margin-top:10px"><button class="btn soft" id="rb" type="button">🔄 حدّث الترتيب</button><div class="note" id="rbNote" style="margin-top:6px;font-size:.95rem" aria-live="polite"></div></div>
     <div class="podium" id="podium"></div>
     <ol class="list" id="list"></ol>
   </section>
@@ -153,7 +154,7 @@ if (demo) {
   let me = null, priv = null;
   H = { ready:true, RULES:m.RULES, computeScore:m.computeScore, cleanNick:m.cleanNick,
     GRADES:m.GRADES, EXTERNAL:m.EXTERNAL, REGIONS:m.REGIONS, HOME_REGION:m.HOME_REGION, setRegion: async(r)=>{me.region=r}, cleanText:m.cleanText, myPrivate: async()=>priv, savePrivate: async(p)=>{priv=p}, myEntry: async()=>me, join: async(n,r)=>(me={id:'me',nick:m.cleanNick(n),region:r,approved:false,...m.computeScore()}),
-    sync: async()=>null, board: async()=>fake };
+    sync: async()=>null, board: async()=>fake, watchBoard: async(cb)=>{cb(fake);return ()=>{};} };
 } else {
   H = await import('./assets/honor.js?v=20261026b');
 }
@@ -356,6 +357,19 @@ function renderMe(msg) {
       .catch(() => renderMe({err:1,t:'تعذّر الحفظ.'}));
   };
 }
+
+$('rb').onclick = async () => {
+  const b = $('rb'), n = $('rbNote');
+  if (!H.ready) return;
+  b.disabled = true; b.textContent = '⏳ جارٍ التحديث…'; n.textContent = '';
+  try {
+    if (ME) { await H.sync(true).catch(() => {}); ME = await H.myEntry() || ME; }
+    ROWS = await H.board(); renderBoard();
+    if (ME) renderRace(H.computeScore().score);
+    n.textContent = '✓ تم التحديث الساعة ' + new Date().toLocaleTimeString('ar-SA-u-nu-latn', { hour: 'numeric', minute: '2-digit' });
+  } catch (err) { console.error(err); n.textContent = 'تعذّر التحديث، تأكد من الاتصال بالإنترنت.'; }
+  b.disabled = false; b.textContent = '🔄 حدّث الترتيب';
+};
 
 if (!H.ready) {
   $('mePanel').innerHTML = `<h2>لوحة الشرف قيد الإعداد ⏳</h2><p class="note">ستفتح اللوحة قريباً. واصل جمع النقاط الآن، فكل ما تجمعه محفوظ وسيُحسب لك. نقاطك الحالية: <b style="color:var(--gold)">${fmt(H.computeScore().score)}</b></p>`;
