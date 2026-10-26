@@ -12,6 +12,11 @@
     if(me && localStorage.getItem('club-player') && !/\/(honor|teacher)\.html$/.test(location.pathname)){
       var go = function(){ import(new URL('honor.js?v=20261026a', me).href).then(function(m){ return m.sync(false); }).catch(function(){}); };
       if(document.readyState === 'complete') setTimeout(go, 800); else addEventListener('load', function(){ setTimeout(go, 800); });
+      // Also send new points while the student keeps playing on the same page, and when they leave it.
+      // sync(false) does nothing unless the points changed, so this costs nothing when idle.
+      setInterval(function(){ if(document.visibilityState === 'visible') go(); }, 30000);
+      addEventListener('visibilitychange', function(){ if(document.visibilityState === 'hidden') go(); });
+      addEventListener('pagehide', go);
     }
   }catch(e){}
 })();
