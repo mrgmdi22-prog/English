@@ -164,6 +164,17 @@ export async function board(limit) {
   return limit ? rows.slice(0, limit) : rows;
 }
 
+/** Live board: calls cb(rows) now and again whenever any approved player's points change. Returns a stop function. */
+export async function watchBoard(cb, limit) {
+  const { fs, D } = await load();
+  const q = fs.query(fs.collection(D, 'players'), fs.where('approved', '==', true));
+  return fs.onSnapshot(q, snap => {
+    const rows = []; snap.forEach(d => rows.push({ id: d.id, ...d.data() }));
+    rows.sort((a, b) => (b.score || 0) - (a.score || 0));
+    cb(limit ? rows.slice(0, limit) : rows);
+  }, err => console.warn(err));
+}
+
 /* ---------- teacher ---------- */
 export async function teacherSignIn() {
   const { auth, A } = await load();

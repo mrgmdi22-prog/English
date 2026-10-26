@@ -143,19 +143,19 @@ footer a{color:var(--muted)}
 
   <footer>إعداد: أ. أحمد آل سالم — نادي اللغة الإنجليزية، ثانوية الأمير فيصل بالعقيق<br><a href="teacher.html">دخول المعلم</a></footer>
 </div>
-<script src="assets/club.js?v=2"></script>
+<script src="assets/club.js?v=3"></script>
 <script type="module">
 const demo = /[?&]demo\b/.test(location.search);
 let H;
 if (demo) {
-  const m = await import('./assets/honor.js?v=20261026a').catch(() => null);
+  const m = await import('./assets/honor.js?v=20261026b').catch(() => null);
   const fake = ['نسر الصحراء','Falcon7','نجم الشمال','Lion King','القمر المضيء','Speedy','بطل العقيق','Eagle Eye','الشهاب','Rocket'].map((n,i)=>({id:'d'+i,nick:n,score:3200-i*270-(i%3)*35,approved:true}));
   let me = null, priv = null;
   H = { ready:true, RULES:m.RULES, computeScore:m.computeScore, cleanNick:m.cleanNick,
     GRADES:m.GRADES, EXTERNAL:m.EXTERNAL, REGIONS:m.REGIONS, HOME_REGION:m.HOME_REGION, setRegion: async(r)=>{me.region=r}, cleanText:m.cleanText, myPrivate: async()=>priv, savePrivate: async(p)=>{priv=p}, myEntry: async()=>me, join: async(n,r)=>(me={id:'me',nick:m.cleanNick(n),region:r,approved:false,...m.computeScore()}),
     sync: async()=>null, board: async()=>fake };
 } else {
-  H = await import('./assets/honor.js?v=20261026a');
+  H = await import('./assets/honor.js?v=20261026b');
 }
 
 const $ = id => document.getElementById(id);
@@ -366,6 +366,13 @@ if (!H.ready) {
     [ME, ROWS] = await Promise.all([H.myEntry(), H.board()]);
     if (ME) { PRIV = await H.myPrivate().catch(() => null); if (!isReg()) { markReg(); gateHeader(); if (NEXT) { location.replace(NEXT); } } }
     renderMe(); renderBoard();
+    // Keep the ranking live: any student's new points appear without reloading the page.
+    H.watchBoard(rows => {
+      ROWS = rows; renderBoard();
+      if (ME) { const mine = rows.find(r => r.id === ME.id); if (mine) ME.score = mine.score; renderRace(H.computeScore().score); }
+    }).catch(err => console.warn(err));
+    // And send my own new points every 30 seconds while this page is open.
+    setInterval(() => { if (document.visibilityState === 'visible' && ME) H.sync(false).catch(() => {}); }, 30000);
   } catch (err) {
     console.error(err);
     $('mePanel').innerHTML = `<h2>تعذّر الاتصال</h2><p class="note">تأكد من اتصالك بالإنترنت ثم أعد تحميل الصفحة.</p>`;
