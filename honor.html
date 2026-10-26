@@ -117,12 +117,12 @@ footer a{color:var(--muted)}
 </style>
 </head>
 <body>
-<a class="club-home" href="index.html">🏠 الرئيسية</a>
+<a class="club-home" id="homeLink" href="index.html">🏠 الرئيسية</a>
 <div class="wrap">
   <header>
     <span class="trophy" aria-hidden="true">🏆</span>
-    <h1>لوحة الشرف</h1>
-    <p>كل نجمة وكل إجابة صحيحة في أدوات النادي تمنحك نقاطاً. تدرّب، واصعد إلى القمة!</p>
+    <h1 id="hTitle">لوحة الشرف</h1>
+    <p id="hSub">كل نجمة وكل إجابة صحيحة في أدوات النادي تمنحك نقاطاً. تدرّب، واصعد إلى القمة!</p>
   </header>
 
   <section class="panel" id="mePanel"><div class="skeleton">جارٍ التحميل…</div></section>
@@ -159,6 +159,19 @@ if (demo) {
 }
 
 const $ = id => document.getElementById(id);
+// Registration gate: new visitors land here from any page (assets/gate.js) and go back after registering.
+const REG_KEY = 'club-reg';
+const isReg = () => { try { return !!(localStorage.getItem(REG_KEY) || localStorage.getItem('club-player')); } catch (e) { return true; } };
+const markReg = () => { try { localStorage.setItem(REG_KEY, '1'); } catch (e) {} };
+const NEXT = (() => { const n = new URLSearchParams(location.search).get('next') || ''; return /^\/(?!\/)/.test(n) ? n : ''; })();
+const HEAD0 = [$('hTitle').textContent, $('hSub').textContent];
+function gateHeader() {
+  const g = !demo && !isReg();
+  $('homeLink').style.display = g ? 'none' : '';
+  $('hTitle').textContent = g ? 'أهلاً بك في نادي اللغة الإنجليزية 👋' : HEAD0[0];
+  $('hSub').textContent = g ? 'سجّل مرة واحدة فقط لتفتح جميع أدوات النادي وتدخل سباق لوحة الشرف.' : HEAD0[1];
+}
+gateHeader();
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = n => Number(n||0).toLocaleString('en-US');
 
@@ -270,12 +283,12 @@ function renderMe(msg) {
   const P = $('mePanel');
   const local = H.computeScore();
   if (!ME) {
-    P.innerHTML = `<h2>انضم إلى لوحة الشرف</h2>
+    P.innerHTML = `<h2>${isReg() ? 'انضم إلى لوحة الشرف' : '📝 سجّل لتبدأ'}</h2>
       <p class="note">نقاطك الآن على هذا الجهاز: <b style="color:var(--gold)">${fmt(local.score)}</b> نقطة. اختر اسماً مستعاراً يظهر في اللوحة، ولا تكتب اسمك الحقيقي.</p>
       <form id="jf" style="margin-top:14px">${idFields(PRIV)}<label for="nk" style="margin-top:14px">اسمك المستعار (يظهر للجميع)</label>
       <div class="row"><input id="nk" type="text" maxlength="20" minlength="2" placeholder="مثل: نسر العقيق" autocomplete="off" required>
       <button class="btn" id="jb">انضم 🚀</button></div>
-      <p class="note" style="margin-top:8px;font-size:.95rem">يظهر اسمك بعد أن يوافق عليه المعلم.</p></form>
+      <p class="note" style="margin-top:8px;font-size:.95rem">تُفتح لك الأدوات فوراً، ويظهر اسمك المستعار في اللوحة بعد موافقة المعلم.</p></form>
       <div class="msg ${msg&&msg.err?'err':'ok'}">${msg?esc(msg.t):''}</div>`;
     wireId();
     $('jf').onsubmit = async e => {
@@ -288,7 +301,10 @@ function renderMe(msg) {
       $('jb').disabled = true; $('jb').textContent = 'جارٍ الحفظ…';
       let step = 'private';
       const region = id.region; delete id.region;
-      try { await H.savePrivate(id); PRIV = id; step = 'player'; ME = await H.join(n, region); renderMe({t:'تم! سيظهر اسمك بعد موافقة المعلم.'}); }
+      try { await H.savePrivate(id); PRIV = id; step = 'player'; ME = await H.join(n, region); markReg(); gateHeader();
+        renderMe({t: NEXT ? 'تم التسجيل! جارٍ فتح الصفحة التي طلبتها…' : 'تم التسجيل! فُتحت لك جميع الأدوات، وسيظهر اسمك في اللوحة بعد موافقة المعلم.'});
+        if (NEXT) setTimeout(() => location.replace(NEXT), 1400);
+        else { const a = document.createElement('a'); a.href = 'index.html'; a.className = 'btn'; a.style.cssText = 'display:inline-block;margin-top:12px;text-decoration:none'; a.textContent = 'ابدأ الآن ← الصفحة الرئيسية'; $('mePanel').appendChild(a); } }
       catch (err) {
         console.error(err);
         const code = (err && (err.code || err.message) || '').toString();
@@ -348,7 +364,7 @@ if (!H.ready) {
   try {
     await H.sync(false).catch(() => {});
     [ME, ROWS] = await Promise.all([H.myEntry(), H.board()]);
-    if (ME) PRIV = await H.myPrivate().catch(() => null);
+    if (ME) { PRIV = await H.myPrivate().catch(() => null); if (!isReg()) { markReg(); gateHeader(); if (NEXT) { location.replace(NEXT); } } }
     renderMe(); renderBoard();
   } catch (err) {
     console.error(err);

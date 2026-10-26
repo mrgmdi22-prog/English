@@ -58,6 +58,7 @@ async function start() {
     return;
   }
   $('who').textContent = 'مسجّل باسم: ' + (u.email || '');
+  try { localStorage.setItem('club-reg', 'teacher'); } catch (e) {}
   $('authBox').innerHTML = '<button class="btn soft" id="so">خروج</button>';
   $('so').onclick = async () => { await H.teacherSignOut(); start(); };
   await load();
