@@ -86,6 +86,10 @@ export const GRADES = ['أول ثانوي', 'ثاني ثانوي', 'ثالث ث�
 export const EXTERNAL = 'من خارج المدرسة';
 export const HOME_REGION = 'العقيق';
 export const REGIONS = ['العقيق', 'الباحة', 'بلجرشي', 'المخواة', 'المندق', 'القرى', 'مكة المكرمة', 'جدة', 'الطائف', 'أبها', 'النماص', 'عسير', 'الرياض', 'المدينة المنورة', 'القصيم', 'المنطقة الشرقية', 'تبوك', 'حائل', 'الحدود الشمالية', 'جازان', 'نجران', 'الجوف', 'خارج المملكة'];
+/** Ready-made nicknames. One of these is shown on the board at once, without the teacher's approval
+ *  (firestore.rules holds the same list, so keep the two identical). */
+export const SUGGESTED = ["نسر العقيق", "صقر الباحة", "ذئب الجبال", "فهد الصحراء", "شبح الليل", "برق الشمال", "إعصار الجنوب", "ملك الكلمات", "سيد المفردات", "قناص النقاط", "صياد النجوم", "محارب الحروف", "فارس اللغة", "عاصفة رملية", "نجم الثانوية", "الرقم الصعب", "بطل التحدي", "الأسطورة", "الظل الصامت", "الذئب الأبيض", "النمر الأسود", "الصقر الذهبي", "الشهاب", "المذنّب", "الكوكب الأزرق", "نيزك", "بركان", "زلزال", "إعصار", "الرعد", "سهم النار", "درع الفولاذ", "القائد", "الجنرال", "الكابتن", "المحترف", "الخبير", "العبقري", "المخطط", "الداهية", "المستكشف", "الرحّالة", "البحّار", "الطيار", "رائد الفضاء", "حارس المجرة", "سيد الوقت", "صانع الأرقام", "الماسة", "الياقوتة السوداء", "الجوكر الذكي", "اللاعب رقم 1", "الهداف", "صانع الألعاب", "حارس المرمى", "الجناح الطائر", "المهاجم", "الفريق الأخضر", "السرعة القصوى", "التوربو", "النيترو", "محرك V8", "الدرفت", "سيد الطريق", "المستوى الأخير", "البوس النهائي", "ضربة قاضية", "كومبو", "الفوز الكبير", "أبو النقاط", "جبل السودة", "غيمة الباحة", "ضباب الجبال", "شلال العقيق", "نخلة الوادي", "ورد الطائف", "سدر الوادي", "عرعر الجبل", "قمة الشفا", "ريح الشمال", "ليل البادية", "سهيل", "الثريا", "الجوزاء", "نجم القطب", "القمر المكتمل", "شمس الظهيرة", "موج البحر", "المرجان", "اللؤلؤ", "الحوت الأزرق", "القرش", "الأخطبوط", "العنقاء", "التنين", "الغريفين", "الأسد الجبلي", "الوشق", "الصقر الحر", "الشاهين", "العقاب", "البومة الحكيمة", "الغراب الذكي", "الثعلب الماكر", "الحصان الأصيل", "الخيل العربية", "الجمل الصبور", "Sky Hunter", "Night Falcon", "Desert Wolf", "Storm Rider", "Ghost Ninja", "Shadow Fox", "Iron Eagle", "Thunder Bolt", "Fire Hawk", "Ice Tiger", "Star Chaser", "Word Master", "Vocab King", "Grammar Boss", "Brain Storm", "Smart Shark", "Speedy Falcon", "Turbo Ace", "Nitro Boost", "Pixel Hero", "Code Breaker", "Level Up", "Final Boss", "Combo King", "Pro Player", "Top Scorer", "MVP Player", "Golden Boot", "Rocket Boy", "Space Ranger", "Galaxy Rider", "Moon Walker", "Comet Blaze", "Meteor Strike", "Solar Flare", "Night Rider", "Silver Arrow", "Red Dragon", "Blue Phoenix", "Green Viper", "Black Jaguar", "White Wolf", "Alpha Leader", "Captain Alpha", "Mr Genius", "The Legend", "The Champion", "Victory Ace", "Quiz Ninja", "Lucky Star", "Big Brain", "Quick Mind", "Sharp Eye", "Iron Will", "Steel Heart", "Brave Lion", "Wild Falcon", "Mountain Eagle", "Baha Falcon", "Aqiq Eagle", "Desert Storm", "Sand Tiger", "Palm Warrior", "Oasis King", "Falcon Pro", "Hawk Eye", "Eagle One", "Wolf Pack", "Lion Heart", "Bear Power", "Shark Bite", "Cobra Strike", "Scorpion Strike", "Fox Spirit", "Owl Mind", "Raven Shadow", "Night Owl", "Early Bird", "Sun Rise", "Star Light", "Snow Storm", "Rain Maker", "Wind Runner", "Wave Rider", "Fast Track", "High Score", "Max Power", "Super Nova", "Mega Mind", "Ultra Brain", "Zero Gravity", "Light Speed"];
+const isSuggested = n => SUGGESTED.includes(n);
 export function cleanText(s, max) { return String(s || '').replace(/\s+/g, ' ').trim().slice(0, max); }
 
 /** My private record, or null. */
@@ -123,15 +127,21 @@ export async function join(nick, region) {
   const reg = region ? { region: cleanText(region, 30) } : {};
   const ref = fs.doc(D, 'players', uid);
   const snap = await fs.getDoc(ref);
-  if (snap.exists()) {
-    const same = snap.data().nick === nick;
-    await fs.updateDoc(ref, same ? { score, parts, ...reg, updatedAt: fs.serverTimestamp() }
-                                 : { nick, approved: false, score, parts, ...reg, updatedAt: fs.serverTimestamp() });
-  } else {
-    await fs.setDoc(ref, { nick, approved: false, score, parts, ...reg, updatedAt: fs.serverTimestamp() });
-  }
+  const write = async ok => {
+    if (snap.exists()) {
+      const same = snap.data().nick === nick;
+      await fs.updateDoc(ref, same ? { score, parts, ...reg, updatedAt: fs.serverTimestamp() }
+                                   : { nick, approved: ok, score, parts, ...reg, updatedAt: fs.serverTimestamp() });
+    } else {
+      await fs.setDoc(ref, { nick, approved: ok, score, parts, ...reg, updatedAt: fs.serverTimestamp() });
+    }
+  };
+  let auto = isSuggested(nick);
+  // If the board's rules do not allow instant approval yet, fall back to waiting for the teacher.
+  try { await write(auto); } catch (e) { if (!auto || !/permission/i.test(e && (e.code || e.message) || '')) throw e; auto = false; await write(false); }
   try { localStorage.setItem('club-player', '1'); localStorage.setItem('club-sync', JSON.stringify({ t: Date.now(), s: score })); } catch (e) {}
-  return { id: uid, nick, score, parts };
+  const approved = snap.exists() && snap.data().nick === nick ? snap.data().approved : auto;
+  return { id: uid, nick, score, parts, approved };
 }
 
 /** Sets my region shown on the board. */

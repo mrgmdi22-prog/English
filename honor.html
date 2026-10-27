@@ -104,6 +104,14 @@ select:focus{border-color:var(--gold);outline:none}
 .idbox input[type=text]{width:100%}
 .need{margin-top:14px;background:#fff6ec;border:1.5px solid #f3d3a8;border-radius:18px;padding:14px}
 .need > b{display:block;margin-bottom:10px;color:#a35a00}
+.sugg{margin-top:12px;background:#fffaf0;border:1.5px solid var(--line);border-radius:18px;padding:12px}
+.sugg-h{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-weight:800;font-size:1rem;margin-bottom:10px}
+.sugg-h .btn{padding:6px 14px;font-size:.95rem}
+.sugg-list{display:flex;flex-wrap:wrap;gap:8px}
+.sugg-list button{font:inherit;font-weight:700;font-size:1rem;border:1.5px solid #ead9a8;background:#fff;color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer;transition:transform .15s,background .15s}
+.sugg-list button:hover{transform:translateY(-1px);background:var(--gold-soft)}
+.sugg-list button.on{background:var(--gold);border-color:var(--gold);color:#fff}
+.sugg-list button[lang=en]{font-family:var(--en);font-size:.95rem}
 .reg{display:block;font-size:.85rem;font-weight:700;color:var(--muted);line-height:1.4}
 .pl .reg{margin-top:2px}
 .rules{width:100%;border-collapse:collapse;font-size:1.02rem}
@@ -150,14 +158,14 @@ footer a{color:var(--muted)}
 const demo = /[?&]demo\b/.test(location.search);
 let H;
 if (demo) {
-  const m = await import('./assets/honor.js?v=20261027a').catch(() => null);
+  const m = await import('./assets/honor.js?v=20261027b').catch(() => null);
   const fake = ['نسر الصحراء','Falcon7','نجم الشمال','Lion King','القمر المضيء','Speedy','بطل العقيق','Eagle Eye','الشهاب','Rocket'].map((n,i)=>({id:'d'+i,nick:n,score:3200-i*270-(i%3)*35,approved:true}));
   let me = null, priv = null;
   H = { ready:true, RULES:m.RULES, computeScore:m.computeScore, cleanNick:m.cleanNick,
-    GRADES:m.GRADES, EXTERNAL:m.EXTERNAL, REGIONS:m.REGIONS, HOME_REGION:m.HOME_REGION, setRegion: async(r)=>{me.region=r}, cleanText:m.cleanText, myPrivate: async()=>priv, savePrivate: async(p)=>{priv=p}, myEntry: async()=>me, join: async(n,r)=>(me={id:'me',nick:m.cleanNick(n),region:r,approved:false,...m.computeScore()}),
+    GRADES:m.GRADES, SUGGESTED:m.SUGGESTED, EXTERNAL:m.EXTERNAL, REGIONS:m.REGIONS, HOME_REGION:m.HOME_REGION, setRegion: async(r)=>{me.region=r}, cleanText:m.cleanText, myPrivate: async()=>priv, savePrivate: async(p)=>{priv=p}, myEntry: async()=>me, join: async(n,r)=>(me={id:'me',nick:m.cleanNick(n),region:r,approved:false,...m.computeScore()}),
     sync: async()=>null, board: async()=>fake, watchBoard: async(cb)=>{cb(fake);return ()=>{};} };
 } else {
-  H = await import('./assets/honor.js?v=20261027a');
+  H = await import('./assets/honor.js?v=20261027b');
 }
 
 const $ = id => document.getElementById(id);
@@ -281,6 +289,32 @@ function readId() {
   return ext ? { name, grade, section, school, region } : { name, grade, section, region };
 }
 
+/* Suggested nicknames: a big pool, 16 shown at a time; names already on the board are hidden. */
+const NICKS = H.SUGGESTED || [];
+const nkey = s => H.cleanNick(s).toLowerCase().replace(/\s+/g, '');
+const isTaken = n => ROWS.some(r => r.id !== (ME && ME.id) && nkey(r.nick) === nkey(n));
+let sgShown = [];
+function drawSugg(fresh) {
+  const box = $('sgList'); if (!box) return;
+  const free = NICKS.filter(n => !isTaken(n));
+  if (fresh || !sgShown.length) {
+    const pool = free.filter(n => !sgShown.includes(n)), pick = [];
+    while (pick.length < 16 && pool.length) pick.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
+    sgShown = pick.length ? pick : free.slice(0, 16);
+  }
+  sgShown = sgShown.filter(n => !isTaken(n));
+  const cur = $('nk') ? nkey($('nk').value) : '';
+  box.innerHTML = sgShown.map(n => `<button type="button" ${/[a-z]/i.test(n) ? 'lang="en" dir="ltr"' : ''} class="${nkey(n) === cur ? 'on' : ''}">${esc(n)}</button>`).join('')
+    || '<span class="note">اكتب اسمك المستعار بنفسك.</span>';
+  box.querySelectorAll('button').forEach(b => b.onclick = () => { $('nk').value = b.textContent; drawSugg(false); $('nk').focus(); });
+}
+function wireSugg() {
+  if (!$('sgList')) return;
+  $('sgMore').onclick = () => drawSugg(true);
+  $('nk').addEventListener('input', () => drawSugg(false));
+  drawSugg(true);
+}
+
 function renderMe(msg) {
   const P = $('mePanel');
   const local = H.computeScore();
@@ -290,21 +324,23 @@ function renderMe(msg) {
       <form id="jf" style="margin-top:14px">${idFields(PRIV)}<label for="nk" style="margin-top:14px">اسمك المستعار (يظهر للجميع)</label>
       <div class="row"><input id="nk" type="text" maxlength="20" minlength="2" placeholder="مثل: نسر العقيق" autocomplete="off" required>
       <button class="btn" id="jb">انضم 🚀</button></div>
-      <p class="note" style="margin-top:8px;font-size:.95rem">تُفتح لك الأدوات فوراً، ويظهر اسمك المستعار في اللوحة بعد موافقة المعلم.</p></form>
+      <div class="sugg"><div class="sugg-h"><span>💡 اختر اسماً جاهزاً وادخل اللوحة فوراً ⚡</span><button class="btn soft" type="button" id="sgMore">🎲 أسماء أخرى</button></div><div class="sugg-list" id="sgList"></div></div>
+      <p class="note" style="margin-top:8px;font-size:.95rem">تُفتح لك الأدوات فوراً. الاسم المختار من الاقتراحات يظهر في اللوحة مباشرة، والاسم الذي تكتبه بنفسك يظهر بعد موافقة المعلم.</p></form>
       <div class="msg ${msg&&msg.err?'err':'ok'}">${msg?esc(msg.t):''}</div>`;
-    wireId();
+    wireId(); wireSugg();
     $('jf').onsubmit = async e => {
       e.preventDefault();
       const n = H.cleanNick($('nk').value);
       const id = readId();
       if (id.err) { showMsg(id.err); return; }
       if (n.length < 2) { showMsg('اكتب اسماً مستعاراً من حرفين على الأقل.'); return; }
+      if (isTaken(n)) { showMsg('هذا الاسم المستعار يستخدمه طالب آخر، اختر اسماً غيره.'); return; }
       if (n.replace(/\s/g,'') === id.name.replace(/\s/g,'') || id.name.split(' ').some(w => w.length > 2 && n.includes(w))) { showMsg('اختر اسماً مستعاراً لا يحتوي على اسمك الحقيقي.'); return; }
       $('jb').disabled = true; $('jb').textContent = 'جارٍ الحفظ…';
       let step = 'private';
       const region = id.region; delete id.region;
       try { await H.savePrivate(id); PRIV = id; step = 'player'; ME = await H.join(n, region); markReg(); gateHeader();
-        renderMe({t: NEXT ? 'تم التسجيل! جارٍ فتح الصفحة التي طلبتها…' : 'تم التسجيل! فُتحت لك جميع الأدوات، وسيظهر اسمك في اللوحة بعد موافقة المعلم.'});
+        renderMe({t: NEXT ? 'تم التسجيل! جارٍ فتح الصفحة التي طلبتها…' : (ME.approved ? 'تم التسجيل! فُتحت لك جميع الأدوات، واسمك ظاهر الآن في لوحة الشرف 🎉' : 'تم التسجيل! فُتحت لك جميع الأدوات، وسيظهر اسمك في اللوحة بعد موافقة المعلم.')});
         if (NEXT) setTimeout(() => location.replace(NEXT), 1400);
         else { const a = document.createElement('a'); a.href = 'index.html'; a.className = 'btn'; a.style.cssText = 'display:inline-block;margin-top:12px;text-decoration:none'; a.textContent = 'ابدأ الآن ← الصفحة الرئيسية'; $('mePanel').appendChild(a); } }
       catch (err) {
@@ -351,10 +387,10 @@ function renderMe(msg) {
     catch (err) { console.error(err); renderMe({err:1,t:'تعذّر التحديث، حاول لاحقاً.'}); }
   };
   $('cn').onclick = () => {
-    const n = prompt('اكتب الاسم المستعار الجديد (سيحتاج موافقة المعلم من جديد):', ME.nick);
+    const n = prompt('اكتب الاسم المستعار الجديد (الأسماء المقترحة تظهر فوراً، وغيرها يحتاج موافقة المعلم):', ME.nick);
     if (n == null) return;
     const c = H.cleanNick(n); if (c.length < 2 || c === ME.nick) return;
-    H.join(c).then(async r => { ME = await H.myEntry() || r; ROWS = await H.board(); renderBoard(); renderMe({t:'تم تغيير الاسم، وهو بانتظار موافقة المعلم.'}); })
+    H.join(c).then(async r => { ME = await H.myEntry() || r; ROWS = await H.board(); renderBoard(); renderMe({t: ME.approved ? 'تم تغيير الاسم، وهو ظاهر الآن في اللوحة.' : 'تم تغيير الاسم، وهو بانتظار موافقة المعلم.'}); })
       .catch(() => renderMe({err:1,t:'تعذّر الحفظ.'}));
   };
 }
@@ -383,7 +419,7 @@ if (!H.ready) {
     renderMe(); renderBoard();
     // Keep the ranking live: any student's new points appear without reloading the page.
     H.watchBoard(rows => {
-      ROWS = rows; renderBoard();
+      ROWS = rows; renderBoard(); drawSugg(false);
       if (ME) { const mine = rows.find(r => r.id === ME.id); if (mine) ME.score = mine.score; renderRace(H.computeScore().score); }
     }).catch(err => console.warn(err));
     // And send my own new points every 30 seconds while this page is open.
