@@ -43,7 +43,7 @@ h1{font-size:2rem;margin:0 0 4px;font-weight:800}
   <div id="main"></div>
 </div>
 <script type="module">
-import * as H from './assets/honor.js?v=20261027c';
+import * as H from './assets/honor.js?v=20261027d';
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = n => Number(n||0).toLocaleString('en-US');
@@ -64,6 +64,7 @@ async function start() {
   try { localStorage.setItem('club-reg', 'teacher'); } catch (e) {}
   $('authBox').innerHTML = '<button class="btn soft" id="so">خروج</button>';
   $('so').onclick = async () => { await H.teacherSignOut(); start(); };
+  try { await H.syncSuggested(); } catch (e) { console.warn('suggested nicknames not saved', e); }
   await load();
 }
 

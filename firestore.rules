@@ -7,9 +7,11 @@ service cloud.firestore {
       return request.auth != null && request.auth.token.email_verified == true
         && request.auth.token.email in ['mr.gmdi22@gmail.com'];
     }
-    // الأسماء المستعارة المقترحة: تظهر في اللوحة فوراً دون موافقة المعلم
+    // الأسماء المستعارة المقترحة: تظهر في اللوحة فوراً دون موافقة المعلم.
+    // قائمتها محفوظة في config/nicks، وتحدّثها صفحة المعلم تلقائياً.
     function suggested(n) {
-      return n in ["نسر العقيق", "صقر الباحة", "ذئب الجبال", "فهد الصحراء", "شبح الليل", "برق الشمال", "إعصار الجنوب", "ملك الكلمات", "سيد المفردات", "قناص النقاط", "صياد النجوم", "محارب الحروف", "فارس اللغة", "عاصفة رملية", "نجم الثانوية", "الرقم الصعب", "بطل التحدي", "الأسطورة", "الظل الصامت", "الذئب الأبيض", "النمر الأسود", "الصقر الذهبي", "الشهاب", "المذنّب", "الكوكب الأزرق", "نيزك", "بركان", "زلزال", "إعصار", "الرعد", "سهم النار", "درع الفولاذ", "القائد", "الجنرال", "الكابتن", "المحترف", "الخبير", "العبقري", "المخطط", "الداهية", "المستكشف", "الرحّالة", "البحّار", "الطيار", "رائد الفضاء", "حارس المجرة", "سيد الوقت", "صانع الأرقام", "الماسة", "الياقوتة السوداء", "الورقة الرابحة", "اللاعب رقم 1", "الهداف", "صانع الألعاب", "حارس المرمى", "الجناح الطائر", "المهاجم", "الفريق الأخضر", "السرعة القصوى", "التوربو", "النيترو", "محرك V8", "صقر الشفا", "سيد الطريق", "المستوى الأخير", "الزعيم الأخير", "ضربة قاضية", "كومبو", "الفوز الكبير", "أبو النقاط", "جبل السودة", "غيمة الباحة", "ضباب الجبال", "شلال العقيق", "نخلة الوادي", "ورد الطائف", "سدر الوادي", "عرعر الجبل", "قمة الشفا", "ريح الشمال", "ليل البادية", "سهيل", "الثريا", "الجوزاء", "نجم القطب", "القمر المكتمل", "شمس الظهيرة", "موج البحر", "المرجان", "اللؤلؤ", "الحوت الأزرق", "القرش", "الأخطبوط", "العنقاء", "التنين", "الغريفين", "الأسد الجبلي", "الوشق", "الصقر الحر", "الشاهين", "العقاب", "البومة الحكيمة", "الغراب الذكي", "الثعلب الماكر", "الحصان الأصيل", "الخيل العربية", "الجمل الصبور", "Sky Hunter", "Night Falcon", "Desert Wolf", "Storm Rider", "Ghost Ninja", "Shadow Fox", "Iron Eagle", "Thunder Bolt", "Fire Hawk", "Ice Tiger", "Star Chaser", "Word Master", "Vocab King", "Grammar Boss", "Brain Storm", "Smart Shark", "Speedy Falcon", "Turbo Ace", "Nitro Boost", "Pixel Hero", "Code Breaker", "Level Up", "Final Boss", "Combo King", "Pro Player", "Top Scorer", "MVP Player", "Golden Boot", "Rocket Boy", "Space Ranger", "Galaxy Rider", "Moon Walker", "Comet Blaze", "Meteor Strike", "Solar Flare", "Night Rider", "Silver Arrow", "Red Dragon", "Blue Phoenix", "Green Viper", "Black Jaguar", "White Wolf", "Alpha Leader", "Captain Alpha", "Mr Genius", "The Legend", "The Champion", "Victory Ace", "Quiz Ninja", "Lucky Star", "Big Brain", "Quick Mind", "Sharp Eye", "Iron Will", "Steel Heart", "Brave Lion", "Wild Falcon", "Mountain Eagle", "Baha Falcon", "Aqiq Eagle", "Desert Storm", "Sand Tiger", "Palm Warrior", "Oasis King", "Falcon Pro", "Hawk Eye", "Eagle One", "Wolf Pack", "Lion Heart", "Bear Power", "Shark Bite", "Cobra Strike", "Scorpion Strike", "Fox Spirit", "Owl Mind", "Raven Shadow", "Night Owl", "Early Bird", "Sun Rise", "Star Light", "Snow Storm", "Rain Maker", "Wind Runner", "Wave Rider", "Fast Track", "High Score", "Max Power", "Super Nova", "Mega Mind", "Ultra Brain", "Zero Gravity", "Light Speed"];
+      return exists(/databases/$(database)/documents/config/nicks)
+        && n in get(/databases/$(database)/documents/config/nicks).data.list;
     }
     function validStudentData(d) {
       return d.keys().hasOnly(['nick', 'approved', 'score', 'parts', 'region', 'updatedAt'])
@@ -38,6 +40,12 @@ service cloud.firestore {
             || (request.resource.data.approved == true && suggested(request.resource.data.nick))));
 
       allow delete: if isTeacher();
+    }
+
+    // إعدادات اللوحة (مثل قائمة الأسماء المقترحة): يقرؤها الجميع، ولا يكتبها إلا المعلم
+    match /config/{doc} {
+      allow read: if true;
+      allow write: if isTeacher();
     }
 
     // الاسم الحقيقي والصف والشعبة: لا يقرؤها إلا الطالب نفسه والمعلم
