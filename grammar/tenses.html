@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<script src="../assets/gate.js?v=3"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>خريطة الأزمنة · English Tenses Map</title>
+<meta name="description" content="The 12 English tenses: formulas, timelines, examples, a conjugation chart and a quiz.">
+<meta name="theme-color" content="#F7F8FC">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/club.css">
+<style>
+/* Tenses map: a 3×4 grid (time × aspect) of tense cards; tapping one opens its full card (formula, timeline,
+   uses, signal words). Below: a conjugation chart for any verb, and a quick quiz. Light colours, large type. */
+:root{color-scheme:light;
+  --bg:#F7F8FC;--card:#FFFFFF;--ink:#1F2840;--muted:#5B6580;--line:#E3E7F1;
+  --pr:#1F9D6B;--pr-s:#E3F6EE;--pa:#D9622B;--pa-s:#FDEDE4;--fu:#3268D6;--fu-s:#E6EEFC;
+  --a1:#F08A24;--a2:#16A085;--a3:#2D8CE0;--a4:#8E5BE8;
+  --ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif;--ease:cubic-bezier(.2,.7,.2,1)}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg)}
+body{color:var(--ink);font-family:var(--ar);font-size:19px;line-height:1.7;padding-bottom:env(safe-area-inset-bottom,0px)}
+[hidden]{display:none!important}
+.wrap{max-width:1180px;margin:0 auto;padding:70px 16px 70px}
+.en{font-family:var(--en);direction:ltr;unicode-bidi:isolate}
+header.top{text-align:center;margin-bottom:22px}
+header.top .kick{display:inline-block;font-family:var(--en);font-weight:700;font-size:.9rem;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+h1{margin:6px 0 4px;font-size:clamp(2rem,6.5vw,3.1rem);line-height:1.2;font-weight:800}
+h1 .en{color:#5B47D6}
+header.top p{margin:0 auto;color:var(--muted);max-width:36em;font-size:1.1rem}
+.tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:22px 0 18px}
+.tabs button{font:inherit;font-weight:800;font-size:1.05rem;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:9px 20px;cursor:pointer;transition:all .18s}
+.tabs button[aria-selected=true]{background:#5B47D6;border-color:#5B47D6;color:#fff}
+.bar{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:16px;color:var(--muted);font-size:1rem}
+.bar select,.bar .seg button{font:inherit;font-size:1rem;font-weight:700;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:6px 12px;cursor:pointer}
+.seg{display:inline-flex;gap:4px}.seg button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn{font:inherit;font-weight:800;font-size:1rem;border:0;border-radius:999px;padding:10px 20px;cursor:pointer;background:#5B47D6;color:#fff}
+.btn.soft{background:#EEEBFD;color:#4A37C2}
+
+/* ---- the map ---- */
+.map{display:grid;grid-template-columns:110px repeat(4,minmax(0,1fr));gap:10px;direction:ltr}
+.map .colh,.conj .colh{border-radius:16px;padding:10px 8px;text-align:center;color:#fff;font-family:var(--en);font-weight:700;font-size:1.02rem;line-height:1.25;display:grid;place-items:center}
+.map .colh small,.conj .colh small{display:block;font-family:var(--ar);font-weight:700;font-size:.92rem;opacity:.95}
+.map .rowh,.conj .rowh{border-radius:16px;color:#fff;display:grid;place-items:center;text-align:center;font-family:var(--en);font-weight:700;font-size:1.1rem;line-height:1.3;padding:8px}
+.map .rowh small,.conj .rowh small{display:block;font-family:var(--ar);font-size:1rem}
+.cell{all:unset;box-sizing:border-box;cursor:pointer;border-radius:18px;background:var(--card);border:2px solid var(--line);padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;
+  direction:ltr;text-align:left;transition:transform .18s var(--ease),box-shadow .18s,border-color .18s;position:relative;min-height:170px}
+.cell:hover{transform:translateY(-3px);box-shadow:0 14px 28px -20px rgba(30,40,90,.45)}
+.cell:focus-visible{outline:3px solid #5B47D6;outline-offset:2px}
+.cell .nm{font-family:var(--en);font-weight:700;font-size:1.06rem;line-height:1.25}
+.cell .nmar{font-family:var(--ar);direction:rtl;text-align:right;font-weight:700;font-size:.98rem;color:var(--muted);line-height:1.3}
+.cell .fm{font-family:var(--en);font-size:.9rem;color:var(--muted);line-height:1.35;background:var(--bg);border-radius:10px;padding:6px 8px}
+.cell .ex{font-family:var(--en);font-size:1.02rem;line-height:1.45}
+.cell .ex b,.ex b,.uses b,.conj b{color:var(--tc,#5B47D6)}
+.cell svg{width:100%;height:auto;margin-top:auto}
+.t-pr{--tc:var(--pr);--ts:var(--pr-s)}.t-pa{--tc:var(--pa);--ts:var(--pa-s)}.t-fu{--tc:var(--fu);--ts:var(--fu-s)}
+.cell{border-top:6px solid var(--tc)}
+.extra{margin-top:14px;background:var(--fu-s);border:2px dashed #b7cbf2;border-radius:18px;padding:12px 16px;display:grid;gap:8px}
+.extra .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.extra .en{font-size:1.05rem}
+
+/* ---- tense sheet (opens over the page) ---- */
+.sheet-bg{position:fixed;inset:0;z-index:1000;background:rgba(28,34,60,.42);display:flex;align-items:flex-end;justify-content:center;padding:0;animation:fade .2s}
+@keyframes fade{from{opacity:0}}
+.sheet{background:var(--card);width:min(860px,100%);max-height:94vh;overflow:auto;border-radius:26px 26px 0 0;padding:20px 18px 26px;animation:rise .32s var(--ease);border-top:8px solid var(--tc)}
+@keyframes rise{from{transform:translateY(40px);opacity:.4}}
+@media (min-width:760px){.sheet-bg{align-items:center;padding:20px}.sheet{border-radius:26px}}
+.sh-top{display:flex;align-items:flex-start;gap:10px}
+.sh-top .tt{flex:1}
+.sh-top h2{margin:0;font-family:var(--en);direction:ltr;text-align:left;font-size:1.7rem;line-height:1.2;color:var(--tc)}
+.sh-top .ar{font-weight:800;font-size:1.25rem}
+.x{all:unset;cursor:pointer;width:44px;height:44px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-size:1.3rem;flex:none}
+.sh-tl{background:var(--ts);border-radius:18px;padding:8px 10px;margin:14px 0}
+.sh-tl svg{display:block;width:100%;height:auto;max-height:150px}
+.forms{display:grid;gap:8px;direction:ltr}
+.forms div{display:flex;gap:10px;align-items:baseline;border-radius:14px;padding:9px 12px;background:var(--bg);font-family:var(--en);font-size:1.05rem;line-height:1.45;flex-wrap:wrap}
+.forms .sg{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;align-self:center}
+.forms .f{flex:1;min-width:200px}
+.forms .f small{display:block;color:var(--muted);font-size:.9rem}
+.sg.p{background:#1F9D6B}.sg.n{background:#D23F4A}.sg.q{background:#3268D6}
+.sec-h{font-weight:800;font-size:1.15rem;margin:18px 0 8px;display:flex;gap:8px;align-items:center}
+.uses{display:grid;gap:10px}
+.use{border:2px solid var(--line);border-radius:16px;padding:10px 14px;display:grid;gap:4px}
+.use .why{font-weight:800;color:var(--tc)}
+.use .ex{display:flex;gap:8px;align-items:center;direction:ltr;font-family:var(--en);font-size:1.08rem;line-height:1.5}
+.say{all:unset;cursor:pointer;flex:none;width:36px;height:36px;border-radius:50%;background:var(--ts,#EEEBFD);display:grid;place-items:center;font-size:1.05rem}
+.say:focus-visible{outline:3px solid #5B47D6}
+.sig{display:flex;flex-wrap:wrap;gap:8px;direction:ltr}
+.sig span{font-family:var(--en);background:var(--ts);color:var(--ink);border-radius:999px;padding:4px 14px;font-weight:600;font-size:1rem}
+.note{background:#FFF7E0;border:1.5px solid #F2DDA0;border-radius:14px;padding:10px 14px;font-size:1.02rem;margin-top:12px}
+.sh-nav{display:flex;justify-content:space-between;gap:10px;margin-top:20px}
+
+/* ---- conjugation chart ---- */
+.conj{display:grid;grid-template-columns:110px repeat(4,minmax(0,1fr));gap:10px;direction:ltr}
+.conj .cc{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:10px 12px;direction:ltr;font-family:var(--en);font-size:.98rem;line-height:1.55}
+.conj .cc .fm{color:var(--muted);font-size:.86rem;line-height:1.35;margin-bottom:6px;font-weight:600}
+.conj .cc ul{list-style:none;margin:0;padding:0}
+.conj .cc li.n,.conj .cc li.q{margin-top:6px}
+.conj .cc li.n::before{content:"− ";color:#D23F4A;font-weight:700}
+.conj .cc li.q::before{content:"? ";color:#3268D6;font-weight:700}
+.conj .cc li.a::before{content:"+ ";color:#1F9D6B;font-weight:700}
+.conj .cc{background:linear-gradient(var(--ts),var(--ts)) top/100% 5px no-repeat,var(--card)}
+
+/* ---- quiz ---- */
+.quiz{max-width:720px;margin:0 auto;background:var(--card);border:2px solid var(--line);border-radius:24px;padding:20px}
+.qtop{display:flex;justify-content:space-between;align-items:center;gap:10px;color:var(--muted);font-weight:700}
+.qbar{height:10px;border-radius:99px;background:var(--bg);overflow:hidden;margin:10px 0 16px}
+.qbar i{display:block;height:100%;background:#5B47D6;transition:width .3s}
+.qsent{direction:ltr;text-align:center;font-family:var(--en);font-size:clamp(1.3rem,4.8vw,1.7rem);line-height:1.5;margin:6px 0 4px}
+.qsent b{color:#5B47D6;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:5px}
+.qask{text-align:center;color:var(--muted);margin-bottom:14px}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.opts button{font:inherit;cursor:pointer;border:2px solid var(--line);background:var(--card);border-radius:16px;padding:10px 12px;text-align:center;line-height:1.35;transition:all .15s}
+.opts button .en{display:block;font-weight:700;font-size:1rem}
+.opts button .a{display:block;font-size:.95rem;color:var(--muted)}
+.opts button:hover:not(:disabled){border-color:#5B47D6}
+.opts button.right{background:#E3F6EE;border-color:#1F9D6B}
+.opts button.wrong{background:#FDECEC;border-color:#D23F4A}
+.qfb{min-height:2.2em;text-align:center;font-weight:800;margin-top:12px}
+.qfb.ok{color:#1F9D6B}.qfb.no{color:#D23F4A}
+.qend{text-align:center}
+.qend .big{font-size:3rem;font-weight:800;color:#5B47D6;line-height:1.2}
+footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
+
+@media (max-width:860px){
+  .map,.conj{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .map .colh,.conj .colh,.map .corner,.conj .corner{display:none}
+  .map .rowh,.conj .rowh{grid-column:1/-1;min-height:0;padding:8px}
+  .cell{min-height:0}
+}
+@media (max-width:480px){.map,.conj{grid-template-columns:1fr}.opts{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{
+  @page{size:A4 landscape;margin:10mm}
+  body{font-size:12px;background:#fff}.wrap{padding:0;max-width:none}
+  .tabs,.bar,.club-home,#clubSfxBtn,footer,.extra .say,.say,.noprint{display:none!important}
+  .map,.conj{grid-template-columns:70px repeat(4,1fr);gap:5px}
+  .map .colh,.map .corner,.conj .colh,.conj .corner{display:grid!important}
+  .map .rowh,.conj .rowh{grid-column:auto}
+  .cell{min-height:0;padding:6px 8px;border-radius:10px;break-inside:avoid}
+  .cell .ex{font-size:11px}.cell .fm{font-size:9.5px}
+  .conj .cc{font-size:10px;padding:5px 7px}
+  section[hidden]{display:none!important}
+  header.top{margin-bottom:6px}header.top p,header.top .kick,#p-map>p{display:none}h1{font-size:22px;margin:0}
+  .cell svg{max-height:26px}.cell{gap:3px}.map .colh,.map .rowh{padding:4px;font-size:11px;border-radius:8px}
+  .extra{margin-top:6px;padding:6px 10px;gap:2px;font-size:11px;border-radius:10px;break-inside:avoid}
+  html,body{background:#fff!important}
+}
+</style>
+</head>
+<body>
+<a class="club-home" href="../index.html">🏠 الرئيسية</a>
+<div class="wrap">
+  <header class="top">
+    <span class="kick">English Club · Grammar</span>
+    <h1>خريطة الأزمنة <span class="en">Tenses Map</span></h1>
+    <p>الأزمنة الاثنا عشر في الإنجليزية: القاعدة، والخط الزمني، ومتى نستخدم كل زمن، مع جدول تصريف لأي فعل واختبار سريع.</p>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="map" aria-selected="true">🗺️ الخريطة</button>
+    <button role="tab" data-tab="conj" aria-selected="false">📋 جدول التصريف</button>
+    <button role="tab" data-tab="quiz" aria-selected="false">🎯 اختبر نفسك</button>
+  </nav>
+
+  <div class="bar noprint">
+    <span>النطق:</span><span class="seg" id="acc"><button data-a="en-US" aria-pressed="true">US</button><button data-a="en-GB" aria-pressed="false">UK</button></span>
+    <button class="btn soft" id="printBtn" type="button">🖨️ طباعة</button>
+  </div>
+
+  <section id="p-map">
+    <p style="text-align:center;color:var(--muted);margin:0 0 14px">اضغط على أي زمن لتفتح بطاقته الكاملة.</p>
+    <div class="map" id="map"></div>
+    <div class="extra t-fu" id="goingTo"></div>
+  </section>
+
+  <section id="p-conj" hidden>
+    <div class="bar" style="margin-top:-4px">
+      <label for="verb">اختر الفعل:</label>
+      <select id="verb"></select>
+      <span id="verbAr"></span>
+    </div>
+    <div class="conj" id="conj"></div>
+  </section>
+
+  <section id="p-quiz" hidden>
+    <div class="quiz" id="quiz"></div>
+  </section>
+
+  <footer>إعداد: أ. أحمد آل سالم — نادي اللغة الإنجليزية، ثانوية الأمير فيصل بالعقيق</footer>
+</div>
+
+<div class="sheet-bg" id="sheetBg" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="shTitle"></div></div>
+
+<script>
+/* ---------------- data ---------------- */
+const TIMES={pr:['Present','المضارع'],pa:['Past','الماضي'],fu:['Future','المستقبل']};
+const ASPECTS={s:['Simple','البسيط','--a1'],c:['Continuous','المستمر','--a2'],p:['Perfect','التام','--a3'],pc:['Perfect Continuous','التام المستمر','--a4']};
+// Timeline marks, on a 0–1 axis where past≈.2, now=.5, future≈.8
+// p: point, r: ongoing range, b: bar ending at a point, k: arrow from a to b, d: deadline flag, rep: repeated dots
+const T=[
+{id:'prs',t:'pr',a:'s',ar:'المضارع البسيط',
+ f:{a:'Subject + V1 (+s / es with he, she, it)',n:'Subject + do / does + not + V1',q:'Do / Does + subject + V1 ?'},
+ fx:{a:'She **plays** football.',n:'She **doesn\'t play** football.',q:'**Does** she **play** football?'},
+ uses:[['عادات وأفعال تتكرر','I **play** football every Friday.'],['حقائق عامة لا تتغير','Water **boils** at 100 degrees.'],['جداول ومواعيد ثابتة','The bus **leaves** at seven in the morning.']],
+ sig:['always','usually','often','sometimes','never','every day','on Fridays'],tl:[['rep']]},
+{id:'prc',t:'pr',a:'c',ar:'المضارع المستمر',
+ f:{a:'Subject + am / is / are + V-ing',n:'Subject + am / is / are + not + V-ing',q:'Am / Is / Are + subject + V-ing ?'},
+ fx:{a:'They **are studying** now.',n:'They **aren\'t studying** now.',q:'**Are** they **studying** now?'},
+ uses:[['حدث يجري الآن في لحظة الكلام','She **is reading** a story now.'],['وضع مؤقت هذه الأيام','I **am studying** hard this week.'],['خطة مرتّبة في المستقبل القريب','We **are visiting** Abha tomorrow.']],
+ sig:['now','right now','at the moment','today','this week','Look!','Listen!'],tl:[['r',.42,.58]]},
+{id:'prp',t:'pr',a:'p',ar:'المضارع التام',
+ f:{a:'Subject + have / has + V3',n:'Subject + have / has + not + V3',q:'Have / Has + subject + V3 ?'},
+ fx:{a:'He **has finished** his homework.',n:'He **hasn\'t finished** his homework.',q:'**Has** he **finished** his homework?'},
+ uses:[['تجربة في الحياة دون ذكر وقتها','I **have visited** Jeddah twice.'],['حدث ماضٍ أثره ظاهر الآن','He **has lost** his keys, so he can\'t open the door.'],['بدأ في الماضي وما زال مستمراً','They **have lived** in Al-Aqiq since 2015.']],
+ sig:['just','already','yet','ever','never','since','for','so far'],tl:[['p',.24],['k',.24,.5]]},
+{id:'prpc',t:'pr',a:'pc',ar:'المضارع التام المستمر',
+ f:{a:'Subject + have / has + been + V-ing',n:'Subject + have / has + not + been + V-ing',q:'Have / Has + subject + been + V-ing ?'},
+ fx:{a:'I **have been waiting** for an hour.',n:'I **haven\'t been waiting** long.',q:'**Have** you **been waiting** long?'},
+ uses:[['نشاط بدأ في الماضي ومستمر حتى الآن، مع التركيز على المدة','I **have been waiting** for an hour.'],['نشاط حديث ما زال أثره ظاهراً','She is tired because she **has been running**.']],
+ sig:['for','since','all day','how long','lately','recently'],tl:[['b',.2,.5]]},
+
+{id:'pas',t:'pa',a:'s',ar:'الماضي البسيط',
+ f:{a:'Subject + V2',n:'Subject + did + not + V1',q:'Did + subject + V1 ?'},
+ fx:{a:'We **visited** AlUla.',n:'We **didn\'t visit** AlUla.',q:'**Did** you **visit** AlUla?'},
+ uses:[['حدث انتهى في وقت محدد من الماضي','We **visited** AlUla last summer.'],['أحداث متتابعة في قصة','He **opened** the door and **smiled**.'],['عادة كانت في الماضي','My grandfather **walked** to school every day.']],
+ sig:['yesterday','last week','ago','in 2020','when I was a child'],tl:[['p',.24]]},
+{id:'pac',t:'pa',a:'c',ar:'الماضي المستمر',
+ f:{a:'Subject + was / were + V-ing',n:'Subject + was / were + not + V-ing',q:'Was / Were + subject + V-ing ?'},
+ fx:{a:'I **was sleeping** at ten.',n:'I **wasn\'t sleeping** at ten.',q:'**Were** you **sleeping** at ten?'},
+ uses:[['حدث كان جارياً في لحظة من الماضي','At eight o\'clock I **was doing** my homework.'],['حدث طويل قطعه حدث قصير','I **was sleeping** when the phone rang.'],['حدثان كانا يجريان معاً','While Dad **was cooking**, we **were setting** the table.']],
+ sig:['while','when','at that moment','at 8 last night','all evening'],tl:[['r',.13,.35],['p',.26]]},
+{id:'pap',t:'pa',a:'p',ar:'الماضي التام',
+ f:{a:'Subject + had + V3',n:'Subject + had + not + V3',q:'Had + subject + V3 ?'},
+ fx:{a:'The train **had left**.',n:'The train **hadn\'t left**.',q:'**Had** the train **left**?'},
+ uses:[['حدث وقع قبل حدث آخر في الماضي','The train **had left** when we arrived.'],['سبب لحالة في الماضي','She was happy because she **had passed** the test.']],
+ sig:['before','after','already','by the time','when'],tl:[['p',.14],['k',.14,.32],['d',.32]]},
+{id:'papc',t:'pa',a:'pc',ar:'الماضي التام المستمر',
+ f:{a:'Subject + had + been + V-ing',n:'Subject + had + not + been + V-ing',q:'Had + subject + been + V-ing ?'},
+ fx:{a:'It **had been raining**.',n:'It **hadn\'t been raining**.',q:'**Had** it **been raining**?'},
+ uses:[['نشاط استمر مدة قبل حدث في الماضي','We **had been playing** for two hours when it started to rain.'],['سبب لحالة في الماضي','The ground was wet because it **had been raining**.']],
+ sig:['for','since','how long','before','until'],tl:[['b',.08,.32],['d',.32]]},
+
+{id:'fus',t:'fu',a:'s',ar:'المستقبل البسيط',
+ f:{a:'Subject + will + V1',n:'Subject + will not (won\'t) + V1',q:'Will + subject + V1 ?'},
+ fx:{a:'I **will help** you.',n:'I **won\'t forget**.',q:'**Will** you **help** me?'},
+ uses:[['قرار تتخذه لحظة الكلام','It\'s cold. I **will close** the window.'],['توقّع أو رأي','I think our team **will win**.'],['وعد أو عرض للمساعدة','I **will help** you with your project.']],
+ sig:['tomorrow','next week','soon','I think','probably','in 2030'],tl:[['p',.78]]},
+{id:'fuc',t:'fu',a:'c',ar:'المستقبل المستمر',
+ f:{a:'Subject + will + be + V-ing',n:'Subject + won\'t + be + V-ing',q:'Will + subject + be + V-ing ?'},
+ fx:{a:'I **will be flying** to Riyadh.',n:'I **won\'t be working** tomorrow.',q:'**Will** you **be using** the car?'},
+ uses:[['حدث سيكون جارياً في لحظة من المستقبل','This time tomorrow I **will be flying** to Riyadh.'],['حدث متوقّع ضمن سير الأمور المعتاد','Don\'t call at nine; I **will be sleeping**.']],
+ sig:['this time tomorrow','at 10 tomorrow','all day tomorrow'],tl:[['r',.66,.88],['p',.76]]},
+{id:'fup',t:'fu',a:'p',ar:'المستقبل التام',
+ f:{a:'Subject + will + have + V3',n:'Subject + won\'t + have + V3',q:'Will + subject + have + V3 ?'},
+ fx:{a:'I **will have finished** by Friday.',n:'I **won\'t have finished** by Friday.',q:'**Will** you **have finished** by Friday?'},
+ uses:[['حدث سينتهي قبل وقت محدد في المستقبل','I **will have finished** the book by Friday.'],['إنجاز سيكتمل قبل موعد قادم','By 2030, they **will have built** the new stadium.']],
+ sig:['by','by the time','before','by then','by the end of'],tl:[['p',.7],['k',.7,.86],['d',.86]]},
+{id:'fupc',t:'fu',a:'pc',ar:'المستقبل التام المستمر',
+ f:{a:'Subject + will + have + been + V-ing',n:'Subject + won\'t + have + been + V-ing',q:'Will + subject + have + been + V-ing ?'},
+ fx:{a:'She **will have been working** for eight hours.',n:'She **won\'t have been working** long.',q:'**Will** she **have been working** long?'},
+ uses:[['مدة نشاط مستمر حتى نقطة في المستقبل','By June, I **will have been studying** English for six years.'],['التركيز على طول المدة حتى موعد قادم','At five o\'clock she **will have been working** for eight hours.']],
+ sig:['for','by','by the time','by then'],tl:[['b',.56,.86],['d',.86]]}
+];
+const GOING={ar:'المستقبل بـ going to',f:'Subject + am / is / are + going to + V1',uses:[['خطة قررتها من قبل','I **am going to study** medicine.'],['توقّع له دليل واضح الآن','Look at the clouds! It **is going to rain**.']]};
+
+/* verbs for the conjugation chart: base, 3rd person, past, past participle, -ing, Arabic */
+const VERBS=[['play','plays','played','played','playing','يلعب'],['walk','walks','walked','walked','walking','يمشي'],['study','studies','studied','studied','studying','يدرس'],
+ ['write','writes','wrote','written','writing','يكتب'],['read','reads','read','read','reading','يقرأ'],['go','goes','went','gone','going','يذهب'],['eat','eats','ate','eaten','eating','يأكل'],
+ ['drink','drinks','drank','drunk','drinking','يشرب'],['swim','swims','swam','swum','swimming','يسبح'],['run','runs','ran','run','running','يجري'],['speak','speaks','spoke','spoken','speaking','يتحدث'],
+ ['travel','travels','traveled','traveled','traveling','يسافر'],['work','works','worked','worked','working','يعمل'],['make','makes','made','made','making','يصنع']];
+const PRON=['I','You','He','She','We','They'];
+
+/* ---------------- helpers ---------------- */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const md=s=>esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+const plain=s=>s.replace(/\*\*/g,'');
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const nb=t=>t.replace(/V-ing/g,'V\u2011ing');
+const tname=x=>`${TIMES[x.t][0]} ${ASPECTS[x.a][0]}`;
+
+/* speech */
+let ACC=store.get('tn-accent')||'en-US',voices=[];
+function loadVoices(){try{voices=speechSynthesis.getVoices()||[]}catch(e){}}
+if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices;}
+function say(t){if(!('speechSynthesis' in window))return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang=ACC;u.rate=.9;
+  const v=voices.find(v=>v.lang===ACC)||voices.find(v=>v.lang&&v.lang.replace('_','-').startsWith(ACC));if(v)u.voice=v;speechSynthesis.speak(u);}catch(e){}}
+document.querySelectorAll('#acc button').forEach(b=>{b.setAttribute('aria-pressed',b.dataset.a===ACC);b.onclick=()=>{ACC=b.dataset.a;store.set('tn-accent',ACC);document.querySelectorAll('#acc button').forEach(x=>x.setAttribute('aria-pressed',x===b));say('Hello');};});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-say]');if(b){e.stopPropagation();say(b.dataset.say);}});
+const sayBtn=t=>`<button class="say" type="button" data-say="${esc(plain(t))}" aria-label="استمع">🔊</button>`;
+
+/* timeline SVG */
+function timeline(x,big){
+  const W=300,H=big?86:50,y=big?44:28,X=v=>16+v*(W-32),col=`var(--tc)`;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="الخط الزمني"><defs><marker id="ah${x.id}${big?1:0}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="${big?'#1F2840':'#8A93AB'}"/></marker>
+   <marker id="ak${x.id}${big?1:0}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>`;
+  s+=`<line x1="8" y1="${y}" x2="${W-6}" y2="${y}" stroke="${big?'#1F2840':'#B5BCCD'}" stroke-width="${big?2.5:2}" marker-end="url(#ah${x.id}${big?1:0})"/>`;
+  s+=`<line x1="${X(.5)}" y1="${y-8}" x2="${X(.5)}" y2="${y+8}" stroke="#8A93AB" stroke-width="2" stroke-dasharray="3 3"/>`;
+  if(big)[['.18','past','الماضي'],['.5','now','الآن'],['.82','future','المستقبل']].forEach(([v,e,a])=>{s+=`<text x="${X(+v)}" y="${y+28}" text-anchor="middle" font-family="Lexend,system-ui" font-size="11" fill="#5B6580">${e} · ${a}</text>`;});
+  x.tl.forEach(m=>{
+    if(m[0]==='rep')for(let i=0;i<7;i++)s+=`<circle cx="${X(.08+i*.14)}" cy="${y}" r="${big?6:4.5}" fill="${col}" opacity="${i===3?1:.75}"/>`;
+    if(m[0]==='p')s+=`<circle cx="${X(m[1])}" cy="${y}" r="${big?9:8}" fill="${col}" stroke="#fff" stroke-width="2"/>`;
+    if(m[0]==='r'){const a=X(m[1]),b=X(m[2]),amp=big?6:4;let d=`M${a} ${y}`;for(let px=a;px<b;px+=8)d+=` Q${px+2} ${y-amp} ${px+4} ${y} T${Math.min(px+8,b)} ${y}`;s+=`<path d="${d}" fill="none" stroke="${col}" stroke-width="${big?4:3.5}" stroke-linecap="round"/>`;}
+    if(m[0]==='b'){const a=X(m[1]),b=X(m[2]),h=big?14:13;s+=`<path d="M${a} ${y} L${b} ${y-h} L${b} ${y} Z" fill="${col}" opacity=".85"/>`;}
+    if(m[0]==='k'){const a=X(m[1])+8,b=X(m[2])-4,h=big?22:15;s+=`<path d="M${a} ${y-4} Q${(a+b)/2} ${y-h-8} ${b} ${y-6}" fill="none" stroke="${col}" stroke-width="2.4" style="color:${col}" marker-end="url(#ak${x.id}${big?1:0})"/>`;}
+    if(m[0]==='d'){const a=X(m[1]),h=big?24:16;s+=`<line x1="${a}" y1="${y}" x2="${a}" y2="${y-h}" stroke="#1F2840" stroke-width="2"/><path d="M${a} ${y-h} l12 4 l-12 4z" fill="#1F2840"/>`;}
+  });
+  return s+'</svg>';
+}
+
+/* ---------------- tabs ---------------- */
+let tab='map';
+function setTab(t){tab=t;document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===t));
+  ['map','conj','quiz'].forEach(k=>$('p-'+k).hidden=k!==t);if(t==='quiz'&&!Q)newQuiz();}
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+$('printBtn').onclick=()=>window.print();
+
+/* ---------------- map ---------------- */
+function headRow(){return `<div class="corner"></div>`+Object.values(ASPECTS).map(a=>`<div class="colh" style="background:var(${a[2]})">${a[0]}<small>${a[1]}</small></div>`).join('');}
+function rowHead(t){const c={pr:'var(--pr)',pa:'var(--pa)',fu:'var(--fu)'}[t];return `<div class="rowh" style="background:${c}">${TIMES[t][0]}<small>${TIMES[t][1]}</small></div>`;}
+function drawMap(){
+  let h=headRow();
+  ['pr','pa','fu'].forEach(t=>{h+=rowHead(t);T.filter(x=>x.t===t).forEach(x=>{
+    h+=`<button class="cell t-${x.t}" data-id="${x.id}" aria-label="${tname(x)} — ${x.ar}"><span class="nm">${tname(x)}</span><span class="nmar">${x.ar}</span><span class="fm">${esc(nb(x.f.a))}</span><span class="ex">${md(x.uses[0][1])}</span>${timeline(x,false)}</button>`;});});
+  $('map').innerHTML=h;
+  $('map').querySelectorAll('.cell').forEach(c=>c.onclick=()=>openSheet(c.dataset.id));
+  $('goingTo').innerHTML=`<div class="row"><b>➕ ${GOING.ar}</b> <span class="en" style="background:#fff;border-radius:10px;padding:2px 10px">${esc(nb(GOING.f))}</span></div>`+GOING.uses.map(u=>`<div class="row">${sayBtn(u[1])}<span>${u[0]}:</span> <span class="en">${md(u[1])}</span></div>`).join('');
+}
+
+/* ---------------- sheet ---------------- */
+let cur=-1,lastFocus=null;
+function openSheet(id){
+  cur=T.findIndex(x=>x.id===id);const x=T[cur];lastFocus=lastFocus||document.activeElement;
+  const S=$('sheet');S.className='sheet t-'+x.t;
+  S.innerHTML=`<div class="sh-top"><div class="tt"><h2 id="shTitle">${tname(x)}</h2><div class="ar">${x.ar}</div></div><button class="x" id="shX" aria-label="إغلاق">✕</button></div>
+    <div class="sh-tl">${timeline(x,true)}</div>
+    <div class="sec-h">🧩 القاعدة</div>
+    <div class="forms">
+      <div><span class="sg p">+</span><span class="f">${esc(nb(x.f.a))}<small>${md(x.fx.a)}</small></span>${sayBtn(x.fx.a)}</div>
+      <div><span class="sg n">−</span><span class="f">${esc(nb(x.f.n))}<small>${md(x.fx.n)}</small></span>${sayBtn(x.fx.n)}</div>
+      <div><span class="sg q">?</span><span class="f">${esc(nb(x.f.q))}<small>${md(x.fx.q)}</small></span>${sayBtn(x.fx.q)}</div>
+    </div>
+    <div class="sec-h">💡 متى نستخدمه؟</div>
+    <div class="uses">${x.uses.map(u=>`<div class="use"><span class="why">${u[0]}</span><span class="ex">${sayBtn(u[1])}<span>${md(u[1])}</span></span></div>`).join('')}</div>
+    <div class="sec-h">🔑 كلمات دالّة</div>
+    <div class="sig">${x.sig.map(s=>`<span>${esc(s)}</span>`).join('')}</div>
+    ${x.id==='fus'?`<div class="note"><b>${GOING.ar}:</b> <span class="en">${esc(nb(GOING.f))}</span><br>${GOING.uses.map(u=>`${u[0]}: <span class="en">${md(u[1])}</span>`).join('<br>')}</div>`:''}
+    <div class="sh-nav"><button class="btn soft" id="shPrev">→ السابق</button><button class="btn soft" id="shNext">التالي ←</button></div>`;
+  $('sheetBg').hidden=false;document.body.style.overflow='hidden';
+  $('shX').onclick=closeSheet;$('shPrev').onclick=()=>openSheet(T[(cur+T.length-1)%T.length].id);$('shNext').onclick=()=>openSheet(T[(cur+1)%T.length].id);
+  S.scrollTop=0;$('shX').focus();
+}
+function closeSheet(){$('sheetBg').hidden=true;document.body.style.overflow='';if(lastFocus&&lastFocus.focus)lastFocus.focus();lastFocus=null;}
+$('sheetBg').addEventListener('click',e=>{if(e.target===$('sheetBg'))closeSheet();});
+document.addEventListener('keydown',e=>{if($('sheetBg').hidden)return;if(e.key==='Escape')closeSheet();});
+
+/* ---------------- conjugation ---------------- */
+const third=p=>p==='He'||p==='She';
+function forms(x,v,p){
+  const [b,s3,v2,v3,ing]=v,L=p==='I'?'I':p,be=p==='I'?'am':third(p)?'is':'are',was=(p==='I'||third(p))?'was':'were',hv=third(p)?'has':'have',dd=third(p)?'does':'do';
+  const neg={am:'am not',is:"isn't",are:"aren't",was:"wasn't",were:"weren't",have:"haven't",has:"hasn't",do:"don't",does:"doesn't"};
+  const k=x.t+x.a,qp=p==='I'?'I':p.toLowerCase();
+  const M={prs:[`${L} **${third(p)?s3:b}**`,`${L} **${neg[dd]} ${b}**`,`**${dd[0].toUpperCase()+dd.slice(1)}** ${qp} **${b}**?`],
+    prc:[`${L} **${be} ${ing}**`,`${L} **${neg[be]} ${ing}**`,`**${be[0].toUpperCase()+be.slice(1)}** ${qp} **${ing}**?`],
+    prp:[`${L} **${hv} ${v3}**`,`${L} **${neg[hv]} ${v3}**`,`**${hv[0].toUpperCase()+hv.slice(1)}** ${qp} **${v3}**?`],
+    prpc:[`${L} **${hv} been ${ing}**`,`${L} **${neg[hv]} been ${ing}**`,`**${hv[0].toUpperCase()+hv.slice(1)}** ${qp} **been ${ing}**?`],
+    pas:[`${L} **${v2}**`,`${L} **didn't ${b}**`,`**Did** ${qp} **${b}**?`],
+    pac:[`${L} **${was} ${ing}**`,`${L} **${neg[was]} ${ing}**`,`**${was[0].toUpperCase()+was.slice(1)}** ${qp} **${ing}**?`],
+    pap:[`${L} **had ${v3}**`,`${L} **hadn't ${v3}**`,`**Had** ${qp} **${v3}**?`],
+    papc:[`${L} **had been ${ing}**`,`${L} **hadn't been ${ing}**`,`**Had** ${qp} **been ${ing}**?`],
+    fus:[`${L} **will ${b}**`,`${L} **won't ${b}**`,`**Will** ${qp} **${b}**?`],
+    fuc:[`${L} **will be ${ing}**`,`${L} **won't be ${ing}**`,`**Will** ${qp} **be ${ing}**?`],
+    fup:[`${L} **will have ${v3}**`,`${L} **won't have ${v3}**`,`**Will** ${qp} **have ${v3}**?`],
+    fupc:[`${L} **will have been ${ing}**`,`${L} **won't have been ${ing}**`,`**Will** ${qp} **have been ${ing}**?`]};
+  return M[x.id];
+}
+function drawConj(){
+  const v=VERBS[+$('verb').value||0];$('verbAr').innerHTML=`<b class="en">${v[0]}</b> = ${v[5]} · <span class="en" style="color:var(--muted)">${v[2]} · ${v[3]} · ${v[4]}</span>`;
+  let h=headRow();
+  ['pr','pa','fu'].forEach(t=>{h+=rowHead(t);T.filter(x=>x.t===t).forEach(x=>{
+    const aff=PRON.map(p=>`<li class="a">${md(forms(x,v,p)[0])}.</li>`).join('');
+    const ex=forms(x,v,'He'),ex2=forms(x,v,'You');
+    h+=`<div class="cc t-${x.t}"><div class="fm">${tname(x)} · <span style="font-family:var(--ar)">${x.ar}</span><br>${esc(nb(x.f.a))}</div><ul>${aff}<li class="n">${md(forms(x,v,'I')[1])}. / ${md(ex[1])}.</li><li class="q">${md(ex2[2])} / ${md(ex[2])}</li></ul></div>`;});});
+  $('conj').innerHTML=h;
+}
+$('verb').innerHTML=VERBS.map((v,i)=>`<option value="${i}">${v[0]} — ${v[5]}</option>`).join('');
+$('verb').onchange=()=>{store.set('tn-verb',$('verb').value);drawConj();};
+$('verb').value=store.get('tn-verb')||'0';
+
+/* ---------------- quiz ---------------- */
+let Q=null;
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+function newQuiz(){
+  const pool=[];T.forEach(x=>{x.uses.forEach(u=>pool.push([u[1],x]));pool.push([x.fx.a,x]);});
+  Q={qs:shuffle(pool).slice(0,10),i:0,right:0};drawQ();
+}
+function drawQ(){
+  const Z=$('quiz');
+  if(Q.i>=Q.qs.length){
+    const best=Math.max(+(store.get('tn-best')||0),Q.right);store.set('tn-best',String(best));
+    const msg=Q.right>=9?'ممتاز! أنت سيّد الأزمنة 🏆':Q.right>=7?'جيد جداً، استمر 👏':Q.right>=5?'جيد، راجع الخريطة وحاول مرة أخرى':'راجع بطاقات الأزمنة ثم أعد المحاولة 💪';
+    Z.innerHTML=`<div class="qend"><div class="big" dir="ltr">${Q.right} / ${Q.qs.length}</div><p style="font-size:1.25rem;font-weight:800;margin:6px 0">${msg}</p><p style="color:var(--muted)">أفضل نتيجة لك: ${best} / 10 · كل إجابة صحيحة في أفضل نتيجة تمنحك 10 نقاط في لوحة الشرف.</p><button class="btn" id="again">🔁 اختبار جديد</button></div>`;
+    $('again').onclick=newQuiz;return;
+  }
+  const [sent,x]=Q.qs[Q.i];
+  const others=shuffle(T.filter(y=>y!==x&&(y.t===x.t||y.a===x.a))).slice(0,3);
+  const opts=shuffle([x,...others]);
+  Z.innerHTML=`<div class="qtop"><span>السؤال ${Q.i+1} من ${Q.qs.length}</span><span>✅ ${Q.right}</span></div><div class="qbar"><i style="width:${Q.i/Q.qs.length*100}%"></i></div>
+    <div class="qsent">${md(sent)}</div><div class="qask">ما زمن الفعل الملوّن؟ ${sayBtn(sent)}</div>
+    <div class="opts">${opts.map(o=>`<button type="button" data-id="${o.id}"><span class="en">${tname(o)}</span><span class="a">${o.ar}</span></button>`).join('')}</div>
+    <div class="qfb" id="qfb" aria-live="polite"></div>`;
+  Z.querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{
+    const ok=b.dataset.id===x.id;Z.querySelectorAll('.opts button').forEach(c=>{c.disabled=true;if(c.dataset.id===x.id)c.classList.add('right');});
+    if(!ok)b.classList.add('wrong');else Q.right++;
+    const f=$('qfb');f.className='qfb '+(ok?'ok':'no');f.innerHTML=ok?'أحسنت! ✔':`الإجابة: ${tname(x)} — ${x.ar}`;
+    setTimeout(()=>{Q.i++;drawQ();},ok?1100:2200);
+  });
+}
+
+drawMap();drawConj();
+if(/[?&]tab=(conj|quiz)/.test(location.search))setTab(location.search.match(/tab=(\w+)/)[1]);
+</script>
+<script src="../assets/club.js?v=3"></script>
+</body>
+</html>
