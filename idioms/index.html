@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <script src="../assets/gate.js?v=4"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>ركن التعابير · Idioms Corner</title>
+<title>ركن التعبيرات (العبارات الاصطلاحية) · Idioms Corner</title>
 <meta name="description" content="Common English idioms explained with cartoons: the funny literal picture, the real meaning, an Arabic equivalent and a quiz.">
 <meta name="theme-color" content="#FFF9F0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -98,11 +98,12 @@ footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
 <div class="wrap">
   <header class="top">
     <span class="kick">English Club · Idioms</span>
-    <h1>ركن التعابير <span class="en">Idioms Corner</span></h1>
-    <p>تعابير إنجليزية شائعة لا تُفهم من كلماتها! الرسمة تُظهر المعنى الحرفي المضحك، واضغطها لتعرف المعنى الحقيقي وما يقابله بالعربية.</p>
+    <h1>ركن التعبيرات <span class="en">Idioms Corner</span></h1>
+    <p style="font-weight:800;color:var(--ink);font-size:1.25rem;margin-bottom:6px">العبارات الاصطلاحية</p>
+    <p>عبارات إنجليزية شائعة لا يُفهم معناها من كلماتها! الرسمة تُظهر المعنى الحرفي المضحك، واضغطها لتعرف المعنى الحقيقي وما يقابله بالعربية.</p>
   </header>
   <nav class="tabs" role="tablist">
-    <button role="tab" data-tab="wall" aria-selected="true">🖼️ التعابير</button>
+    <button role="tab" data-tab="wall" aria-selected="true">🖼️ التعبيرات</button>
     <button role="tab" data-tab="quiz" aria-selected="false">🎯 اختبر نفسك</button>
   </nav>
   <div class="bar">
@@ -210,7 +211,7 @@ function drawQ(){
   const Z=$('quiz');
   if(Q.i>=Q.qs.length){
     const best=Math.max(+(store.get('im-best')||0),Q.right);store.set('im-best',String(best));
-    const msg=Q.right>=9?'رائع! أنت خبير التعابير 🏆':Q.right>=7?'جيد جداً 👏':Q.right>=5?'جيد، راجع البطاقات وحاول مرة أخرى':'تصفّح بطاقات التعابير ثم أعد المحاولة 💪';
+    const msg=Q.right>=9?'رائع! أنت خبير التعبيرات 🏆':Q.right>=7?'جيد جداً 👏':Q.right>=5?'جيد، راجع البطاقات وحاول مرة أخرى':'تصفّح بطاقات التعبيرات ثم أعد المحاولة 💪';
     Z.innerHTML=`<div class="qend"><div class="big" dir="ltr">${Q.right} / ${Q.qs.length}</div><p style="font-size:1.25rem;font-weight:800;margin:6px 0">${msg}</p><p style="color:var(--muted)">أفضل نتيجة لك: ${best} / 10 · كل إجابة صحيحة في أفضل نتيجة تمنحك 10 نقاط في لوحة الشرف.</p><button class="btn" id="again">🔁 اختبار جديد</button></div>`;
     $('again').onclick=newQuiz;return;
   }

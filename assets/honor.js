@@ -14,8 +14,8 @@ export const RULES = [
   { key: 'aw',   label: 'إجابة صحيحة في الكلمات الأكاديمية', icon: '🎓', per: 5, max: 290 },
   { key: 'st',   label: 'إجابة صحيحة في ركن القصص', icon: '📖', per: 10, max: 54 },
   { key: 'bf',   label: 'إجابة صحيحة في Breakfast Challenge', icon: '🍳', per: 10, max: 10 },
-  { key: 'tn',   label: 'إجابة صحيحة في خريطة الأزمنة', icon: '⏳', per: 10, max: 10 },
-  { key: 'im',   label: 'إجابة صحيحة في ركن التعابير', icon: '🎨', per: 10, max: 10 }
+  { key: 'tn',   label: 'إجابة صحيحة في خارطة الأزمنة', icon: '⏳', per: 10, max: 10 },
+  { key: 'im',   label: 'إجابة صحيحة في ركن التعبيرات', icon: '🎨', per: 10, max: 10 }
 ];
 const CAPS = ['space', 'flavor', 'life', 'adventure', 'emotion', 'career', 'nature', 'health'];
 

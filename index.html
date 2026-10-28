@@ -174,7 +174,7 @@ footer b{color:var(--ink)}
     <a href="#s5" style="color:#3A5BD0">🌳 القواعد</a>
     <a href="#s6" style="color:#2B78C2">🔤 ميدان الحروف والأصوات</a>
     <a href="#s9" style="color:#6a4bd8">📖 ركن القصص</a>
-    <a href="#s10" style="color:#E2573B">🎨 ركن التعابير</a>
+    <a href="#s10" style="color:#E2573B">🎨 ركن التعبيرات</a>
     <a href="#s8" style="color:#b8336a">📚 قوائم الكلمات</a>
     <a href="#s7" style="color:#2563c9">🌐 مواقع إثرائية</a>
   </nav>
@@ -241,7 +241,7 @@ footer b{color:var(--ink)}
     </div>
     <div class="grid">
       <a class="card reveal" href="grammar/syntax-tree-lab.html" style="--c:#3A5BD0;--t:#ECEFFC"><span class="arrow">←</span><span class="ic" aria-hidden="true">🌳</span><b>Syntax Tree Lab</b><span class="en">See how a sentence is built</span><p>شجرة تُظهر أجزاء الجملة الإنجليزية ونوع كل كلمة، مع شرح لكل جزء.</p></a>
-      <a class="card reveal" href="grammar/tenses.html" style="--c:#5B47D6;--t:#EEEBFD"><span class="arrow">←</span><span class="ic" aria-hidden="true">⏳</span><b>خريطة الأزمنة</b><span class="en">The 12 English tenses</span><p>الأزمنة الاثنا عشر: القاعدة والخط الزمني وأمثلة لكل زمن، وجدول تصريف لأي فعل، واختبار سريع.</p></a>
+      <a class="card reveal" href="grammar/tenses.html" style="--c:#5B47D6;--t:#EEEBFD"><span class="arrow">←</span><span class="ic" aria-hidden="true">⏳</span><b>خارطة الأزمنة</b><span class="en">The 12 English tenses</span><p>الأزمنة الاثنا عشر: القاعدة والخط الزمني وأمثلة لكل زمن، وجدول تصريف لأي فعل، واختبار سريع.</p></a>
     </div>
   </section>
 
@@ -275,12 +275,12 @@ footer b{color:var(--ink)}
   <section class="shelf" id="s10" aria-labelledby="h10s">
     <div class="shelf-head reveal">
       <span class="badge" style="background:#FDECE6" aria-hidden="true">🎨</span>
-      <div><h2 id="h10s" style="color:#E2573B">ركن التعابير</h2><p>Idioms Corner · تعابير شائعة برسومات كرتونية</p></div>
+      <div><h2 id="h10s" style="color:#E2573B">ركن التعبيرات (العبارات الاصطلاحية)</h2><p>Idioms Corner · عبارات اصطلاحية شائعة برسومات كرتونية</p></div>
     </div>
     <div class="grid">
       <a class="card portal reveal" href="idioms/index.html" style="--c:#E2573B;--t:#FDECE6;background:linear-gradient(120deg,#FDECE6,#FFF6DC 75%)">
         <span class="ic" aria-hidden="true">🐱🐶</span>
-        <span class="txt"><b>26 تعبيراً مرسوماً</b><p>It's raining cats and dogs! رسمة تُظهر المعنى الحرفي المضحك، ثم المعنى الحقيقي وما يقابله بالعربية، مع اختبار سريع.</p></span>
+        <span class="txt"><b>26 عبارة اصطلاحية مرسومة</b><p>It's raining cats and dogs! رسمة تُظهر المعنى الحرفي المضحك، ثم المعنى الحقيقي وما يقابله بالعربية، مع اختبار سريع.</p></span>
         <span class="go" style="background:#E2573B">افتح الركن ←</span>
       </a>
     </div>
@@ -317,7 +317,7 @@ footer b{color:var(--ink)}
 <script src="assets/club.js?v=3"></script>
 <script type="module">
 // Top three on the honor board (only once Firebase is configured)
-import('./assets/honor.js?v=20261028b').then(async H => {
+import('./assets/honor.js?v=20261028c').then(async H => {
   const s = H.computeScore().score;
   if (s > 0) document.getElementById('hSub').textContent = 'نقاطك الآن: ' + s.toLocaleString('en-US') + ' نقطة — انضم وتنافس مع زملائك.';
   if (!H.ready) return;
@@ -354,7 +354,7 @@ import('./assets/honor.js?v=20261028b').then(async H => {
     'journey/word-quest.html':['English Word Quest','🗺️'], 'journey/dictionary.html':['قاموس الألف كلمة','📖'], 'journey/conversation-lab.html':['مختبر المحادثة','💬'],
     'vocab/mega-goal-1.html':['ميدان المفردات 1','🏟️'], 'vocab/mega-goal-2.html':['ميدان المفردات 2','🏆'],
     'everyday/breakfast.html':['Breakfast Challenge','🍳'],
-    'grammar/syntax-tree-lab.html':['Syntax Tree Lab','🌳'], 'grammar/tenses.html':['خريطة الأزمنة','⏳'], 'idioms/index.html':['ركن التعابير','🎨'],
+    'grammar/syntax-tree-lab.html':['Syntax Tree Lab','🌳'], 'grammar/tenses.html':['خارطة الأزمنة','⏳'], 'idioms/index.html':['ركن التعبيرات','🎨'],
     'letters/letters-sounds.html':['ميدان الحروف والأصوات','🔤']
   };
   var last = get('club-last');

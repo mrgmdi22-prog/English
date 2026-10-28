@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <script src="../assets/gate.js?v=4"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>خريطة الأزمنة · English Tenses Map</title>
+<title>خارطة الأزمنة · English Tenses Map</title>
 <meta name="description" content="The 12 English tenses: formulas, timelines, examples, a conjugation chart and a quiz.">
 <meta name="theme-color" content="#F7F8FC">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -155,12 +155,12 @@ footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
 <div class="wrap">
   <header class="top">
     <span class="kick">English Club · Grammar</span>
-    <h1>خريطة الأزمنة <span class="en">Tenses Map</span></h1>
+    <h1>خارطة الأزمنة <span class="en">Tenses Map</span></h1>
     <p>الأزمنة الاثنا عشر في الإنجليزية: القاعدة، والخط الزمني، ومتى نستخدم كل زمن، مع جدول تصريف لأي فعل واختبار سريع.</p>
   </header>
 
   <nav class="tabs" role="tablist">
-    <button role="tab" data-tab="map" aria-selected="true">🗺️ الخريطة</button>
+    <button role="tab" data-tab="map" aria-selected="true">🗺️ الخارطة</button>
     <button role="tab" data-tab="conj" aria-selected="false">📋 جدول التصريف</button>
     <button role="tab" data-tab="quiz" aria-selected="false">🎯 اختبر نفسك</button>
   </nav>
@@ -197,7 +197,7 @@ footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
 <script>
 /* ---------------- data ---------------- */
 const TIMES={pr:['Present','المضارع'],pa:['Past','الماضي'],fu:['Future','المستقبل']};
-const ASPECTS={s:['Simple','البسيط','--a1'],c:['Continuous','المستمر','--a2'],p:['Perfect','التام','--a3'],pc:['Perfect Continuous','التام المستمر','--a4']};
+const ASPECTS={s:['Simple','البسيط','--a1'],c:['Progressive','المستمر','--a2'],p:['Perfect','التام','--a3'],pc:['Perfect Progressive','التام المستمر','--a4']};
 // Timeline marks, on a 0–1 axis where past≈.2, now=.5, future≈.8
 // p: point, r: ongoing range, b: bar ending at a point, k: arrow from a to b, d: deadline flag, rep: repeated dots
 const T=[
@@ -401,7 +401,7 @@ function drawQ(){
   const Z=$('quiz');
   if(Q.i>=Q.qs.length){
     const best=Math.max(+(store.get('tn-best')||0),Q.right);store.set('tn-best',String(best));
-    const msg=Q.right>=9?'ممتاز! أنت سيّد الأزمنة 🏆':Q.right>=7?'جيد جداً، استمر 👏':Q.right>=5?'جيد، راجع الخريطة وحاول مرة أخرى':'راجع بطاقات الأزمنة ثم أعد المحاولة 💪';
+    const msg=Q.right>=9?'ممتاز! أنت سيّد الأزمنة 🏆':Q.right>=7?'جيد جداً، استمر 👏':Q.right>=5?'جيد، راجع الخارطة وحاول مرة أخرى':'راجع بطاقات الأزمنة ثم أعد المحاولة 💪';
     Z.innerHTML=`<div class="qend"><div class="big" dir="ltr">${Q.right} / ${Q.qs.length}</div><p style="font-size:1.25rem;font-weight:800;margin:6px 0">${msg}</p><p style="color:var(--muted)">أفضل نتيجة لك: ${best} / 10 · كل إجابة صحيحة في أفضل نتيجة تمنحك 10 نقاط في لوحة الشرف.</p><button class="btn" id="again">🔁 اختبار جديد</button></div>`;
     $('again').onclick=newQuiz;return;
   }
