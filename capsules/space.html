@@ -469,6 +469,7 @@
   .tile.in{border-color:var(--accent)}
   .tile:disabled{opacity:.25;cursor:default}
   .order-actions{display:flex;gap:8px;justify-content:center}
+  .mini-btn:disabled{opacity:.5;cursor:default}
   .mini-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;font-weight:600;cursor:pointer}
   .ov-stars{font-size:2.8rem;letter-spacing:4px;direction:ltr;line-height:1.1}
   .ghost-btn{display:block;width:100%;margin-top:8px;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:10px;font:inherit;font-weight:700;cursor:pointer}
@@ -946,8 +947,8 @@
 
   /* ---------- play ---------- */
   var run = null;
-  function startStage(k){ var list = shuffle(stageScenes(k)); run = {mode:'stage', stage:k, qs: list.map(function(s,i){ return {s:s, t:pickType(i,s,'stage')}; }), i:0, miss:0, right:0, combo:0}; showPlay(); }
-  function startReview(){ var list = shuffle(dueList()).slice(0, 10); run = {mode:'review', qs: list.map(function(s,i){ return {s:s, t:pickType(i,s,'review')}; }), i:0, miss:0, right:0, combo:0}; showPlay(); }
+  function startStage(k){ var list = shuffle(stageScenes(k)); run = {mode:'stage', stage:k, qs: list.map(function(s,i){ return {s:s, t:pickType(i,s,'stage')}; }), i:0, miss:0, right:0, combo:0, hints:3}; showPlay(); }
+  function startReview(){ var list = shuffle(dueList()).slice(0, 10); run = {mode:'review', qs: list.map(function(s,i){ return {s:s, t:pickType(i,s,'review')}; }), i:0, miss:0, right:0, combo:0, hints:3}; showPlay(); }
   function showPlay(){ $('mapView').hidden = true; $('playView').hidden = false; window.scrollTo(0,0); renderQ(); }
 
   var TYPE_LABEL = { meaning:'ما معنى هذه الجملة؟', listen:'🎧 استمع جيدًا، ثم اختر معناها', reverse:'اختر الجملة الإنجليزية الصحيحة', order:'رتّب الكلمات لتكوّن الجملة', gap:'أكمل الفراغ بالكلمة الصحيحة' };
@@ -1010,7 +1011,7 @@
     else if (q.t === 'order'){
       var target = words(s.en), placed = [];
       ch.className = 'order-box';
-      ch.innerHTML = '<div class="built" id="built" dir="ltr"></div><div class="pool" id="pool" dir="ltr"></div><div class="order-actions"><button type="button" class="mini-btn" id="undoBtn">⌫ تراجع</button><button type="button" class="mini-btn" id="hintBtn">💡 تلميح</button></div>';
+      ch.innerHTML = '<div class="built" id="built" dir="ltr"></div><div class="pool" id="pool" dir="ltr"></div><div class="order-actions"><button type="button" class="mini-btn" id="undoBtn">⌫ تراجع</button><button type="button" class="mini-btn" id="hintBtn"></button></div>';
       var pool = $('pool'), built = $('built');
       var tiles = shuffle(target.map(function(w,i){ return {w:w, i:i}; }));
       if (tiles.map(function(t){ return t.i; }).join() === target.map(function(w,i){ return i; }).join()) tiles.reverse();
@@ -1024,7 +1025,10 @@
           pool.appendChild(b); });
       }
       $('undoBtn').onclick = function(){ if (answered || !placed.length) return; placed.pop(); draw(); };
-      $('hintBtn').onclick = function(){ if (answered) return; var k = 0; while (k < placed.length && placed[k].w.toLowerCase() === target[k].toLowerCase()) k++; placed = placed.slice(0, k); var nxt = tiles.filter(function(t){ return placed.indexOf(t) < 0 && t.w.toLowerCase() === target[k].toLowerCase(); })[0]; if (nxt){ placed.push(nxt); draw(); } toast('تلميح: ' + target[k]); };
+      // Only three hints for the whole stage.
+      function hintLabel(){ var h = $('hintBtn'), n = run.hints; h.textContent = n > 0 ? '💡 تلميح (' + n + ')' : '💡 انتهت التلميحات'; h.disabled = n <= 0; }
+      hintLabel();
+      $('hintBtn').onclick = function(){ if (answered || run.hints <= 0) return; run.hints -= 1; hintLabel(); var k = 0; while (k < placed.length && placed[k].w.toLowerCase() === target[k].toLowerCase()) k++; placed = placed.slice(0, k); var nxt = tiles.filter(function(t){ return placed.indexOf(t) < 0 && t.w.toLowerCase() === target[k].toLowerCase(); })[0]; if (nxt){ placed.push(nxt); draw(); } toast('تلميح: ' + target[k]); };
       draw();
     }
   }
