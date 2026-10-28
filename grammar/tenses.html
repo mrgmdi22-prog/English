@@ -80,6 +80,13 @@ header.top p{margin:0 auto;color:var(--muted);max-width:36em;font-size:1.1rem}
 .forms .f{flex:1;min-width:200px}
 .forms .f small{display:block;color:var(--muted);font-size:.9rem}
 .sg.p{background:#1F9D6B}.sg.n{background:#D23F4A}.sg.q{background:#3268D6}
+.key{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;background:#fff;border:2px solid var(--line);border-radius:16px;padding:10px 14px;margin:0 auto 16px;max-width:860px;font-size:1.02rem}
+.key>b{font-weight:800;margin-inline-end:4px}
+.key span{display:inline-flex;align-items:center;gap:8px}
+.key .sg{width:28px;height:28px;border-radius:50%;display:inline-grid;place-items:center;color:#fff;font-family:var(--en);font-weight:700;font-size:1.05rem}
+.key small{font-family:var(--en);color:var(--muted)}
+.sheet .key{margin:0 0 10px;max-width:none}
+@media print{.key{padding:4px 8px;margin-bottom:6px;font-size:11px;border-radius:8px}.key .sg{width:18px;height:18px;font-size:12px}}
 .sec-h{font-weight:800;font-size:1.15rem;margin:18px 0 8px;display:flex;gap:8px;align-items:center}
 .uses{display:grid;gap:10px}
 .use{border:2px solid var(--line);border-radius:16px;padding:10px 14px;display:grid;gap:4px}
@@ -98,9 +105,11 @@ header.top p{margin:0 auto;color:var(--muted);max-width:36em;font-size:1.1rem}
 .conj .cc .fm{color:var(--muted);font-size:.86rem;line-height:1.35;margin-bottom:6px;font-weight:600}
 .conj .cc ul{list-style:none;margin:0;padding:0}
 .conj .cc li.n,.conj .cc li.q{margin-top:6px}
-.conj .cc li.n::before{content:"− ";color:#D23F4A;font-weight:700}
-.conj .cc li.q::before{content:"? ";color:#3268D6;font-weight:700}
-.conj .cc li.a::before{content:"+ ";color:#1F9D6B;font-weight:700}
+.conj .cc li{position:relative;padding-left:22px}
+.conj .cc li::before{position:absolute;left:0;top:.28em;width:16px;height:16px;border-radius:50%;color:#fff;font-size:12px;font-weight:700;line-height:16px;text-align:center}
+.conj .cc li.a::before{content:"+";background:#1F9D6B}
+.conj .cc li.n::before{content:"−";background:#D23F4A}
+.conj .cc li.q::before{content:"?";background:#3268D6}
 .conj .cc{background:linear-gradient(var(--ts),var(--ts)) top/100% 5px no-repeat,var(--card)}
 
 /* ---- quiz ---- */
@@ -182,6 +191,7 @@ footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
       <select id="verb"></select>
       <span id="verbAr"></span>
     </div>
+    <div class="key" role="note"><b>🔑 مفتاح الرموز:</b><span><i class="sg p">+</i>جملة مُثبتة <small>Affirmative</small></span><span><i class="sg n">−</i>جملة منفية <small>Negative</small></span><span><i class="sg q">?</i>جملة استفهامية <small>Question</small></span></div>
     <div class="conj" id="conj"></div>
   </section>
 
@@ -280,6 +290,7 @@ const md=s=>esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
 const plain=s=>s.replace(/\*\*/g,'');
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 const nb=t=>t.replace(/V-ing/g,'V\u2011ing');
+const KEY=`<div class="key" role="note"><b>🔑 مفتاح الرموز:</b><span><i class="sg p">+</i>جملة مُثبتة <small>Affirmative</small></span><span><i class="sg n">−</i>جملة منفية <small>Negative</small></span><span><i class="sg q">?</i>جملة استفهامية <small>Question</small></span></div>`;
 const tname=x=>`${TIMES[x.t][0]} ${ASPECTS[x.a][0]}`;
 
 /* speech */
@@ -338,6 +349,7 @@ function openSheet(id){
   S.innerHTML=`<div class="sh-top"><div class="tt"><h2 id="shTitle">${tname(x)}</h2><div class="ar">${x.ar}</div></div><button class="x" id="shX" aria-label="إغلاق">✕</button></div>
     <div class="sh-tl">${timeline(x,true)}</div>
     <div class="sec-h">🧩 القاعدة</div>
+    ${KEY}
     <div class="forms">
       <div><span class="sg p">+</span><span class="f">${esc(nb(x.f.a))}<small>${md(x.fx.a)}</small></span>${sayBtn(x.fx.a)}</div>
       <div><span class="sg n">−</span><span class="f">${esc(nb(x.f.n))}<small>${md(x.fx.n)}</small></span>${sayBtn(x.fx.n)}</div>
