@@ -56,6 +56,12 @@ h1 .en{display:block;font-family:var(--en);font-weight:600;font-size:.38em;lette
 .hcaps-h small{color:var(--muted);font-size:.92rem}
 .hcaps-h .all{margin-inline-start:auto;background:var(--violet);color:#fff;font-weight:800;font-size:.9rem;border-radius:999px;padding:4px 14px}
 .hcaps .capchips{margin:0}
+.lcard{display:flex;flex-direction:column;gap:10px}
+.lcard .lmain{text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:2px}
+.lmodes{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.lmodes a small{font-weight:600;opacity:.8}
+.lmodes a{line-height:1.35;text-decoration:none;color:var(--c);background:var(--t);border-radius:12px;padding:6px 8px;font-weight:800;font-size:.92rem;text-align:center}
+.lmodes a:hover{outline:1.5px solid var(--c)}
 .paths{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:26px auto 0;max-width:860px}
 .path{text-decoration:none;color:var(--ink);background:rgba(255,255,255,.92);border:1.5px solid var(--line);border-radius:22px;padding:14px 10px 12px;display:flex;flex-direction:column;align-items:center;gap:2px;
   transition:transform .2s var(--ease),border-color .2s,box-shadow .2s}
@@ -169,11 +175,11 @@ footer b{color:var(--ink)}
     <div class="paths">
       <a class="path" href="#f1" style="--pc:#2B78C2;--pb:#E3EFFA"><span class="pi" aria-hidden="true">🌱</span><b>التأسيس</b><small>الحروف وعبارات الحياة</small></a>
       <a class="path" href="#f2" style="--pc:#b8336a;--pb:#fdeef3"><span class="pi" aria-hidden="true">📚</span><b>المفردات</b><small>أكثر من 3000 كلمة</small></a>
-      <a class="path" href="#f3" style="--pc:#6046e8;--pb:#efebff"><span class="pi" aria-hidden="true">🧩</span><b>القواعد والجمل</b><small>12 زمناً و10 كبسولات</small></a>
+      <a class="path" href="#f3" style="--pc:#6046e8;--pb:#efebff"><span class="pi" aria-hidden="true">🧩</span><b>القواعد</b><small>12 زمناً وتركيب الجملة</small></a>
       <a class="path" href="#f4" style="--pc:#c4532f;--pb:#fdece5"><span class="pi" aria-hidden="true">💬</span><b>القراءة والمحادثة</b><small>18 قصة و20 محادثة</small></a>
     </div>
     <div class="hcaps">
-      <a class="hcaps-h" href="capsules/index.html"><span aria-hidden="true">🌟</span><b>الكبسولات</b><small>رتّب الجمل وافهم معانيها</small><span class="all">كل الكبسولات ←</span></a>
+      <a class="hcaps-h" href="capsules/index.html"><span aria-hidden="true">🌟</span><b>الكبسولات</b><small id="capProg">رتّب الجمل وافهم معانيها</small><span class="all">كل الكبسولات ←</span></a>
       <div class="capchips">
         <a class="capchip" href="capsules/space.html" style="--c:#6046e8;--t:#efebff"><span aria-hidden="true">🚀</span>الفضاء</a>
         <a class="capchip" href="capsules/flavor.html" style="--c:#c25a20;--t:#fff0e4"><span aria-hidden="true">🍊</span>النكهة</a>
@@ -210,10 +216,8 @@ footer b{color:var(--ink)}
       <div><h2 id="hf1" style="color:#2B78C2">التأسيس</h2><p>Foundations · الحروف والأصوات وعبارات الحياة اليومية وأول ألف كلمة</p></div>
     </div>
     <div class="grid">
-      <a class="card reveal" href="letters/letters-sounds.html#trace" style="--c:#2B78C2;--t:#E3EFFA"><span class="arrow">←</span><span class="ic" aria-hidden="true">✍️</span><b>تتبّع الحروف</b><span class="en">Letter tracing</span><p>اكتب الحرف بإصبعك من نقطة البداية الصحيحة وباتجاه الأسهم.</p></a>
-      <a class="card reveal" href="letters/letters-sounds.html#phonics" style="--c:#7A4FC4;--t:#F1EAFD"><span class="arrow">←</span><span class="ic" aria-hidden="true">🔊</span><b>أصوات الحروف</b><span class="en">Phonics</span><p>اسمع صوت كل حرف وكلمته، مع نصائح لنطق الأصوات الصعبة.</p></a>
-      <a class="card reveal" href="letters/letters-sounds.html#flower" style="--c:#C2457A;--t:#FCE8F0"><span class="arrow">←</span><span class="ic" aria-hidden="true">🌸</span><b>زهرة الكلمات</b><span class="en">Word Flower</span><p>خمّن حروف الكلمة قبل أن تتساقط بتلات الزهرة.</p></a>
-      <a class="card reveal" href="letters/letters-sounds.html#builder" style="--c:#1D7A50;--t:#E4F5EC"><span class="arrow">←</span><span class="ic" aria-hidden="true">🧩</span><b>كوّن الكلمات</b><span class="en">Word Builder</span><p>كوّن أكبر عدد من الكلمات من حروف محدودة.</p></a>
+      <div class="card reveal lcard" style="--c:#2B78C2;--t:#E3EFFA"><a class="lmain" href="letters/letters-sounds.html"><span class="ic" aria-hidden="true">🔤</span><b>ميدان الحروف والأصوات</b><span class="en">Letters &amp; Sounds</span><p>اكتب الحروف بإصبعك، واسمع أصواتها، وكوّن منها الكلمات.</p></a>
+        <div class="lmodes"><a href="letters/letters-sounds.html#trace">✍️ تتبّع الحروف</a><a href="letters/letters-sounds.html#phonics">🔊 أصوات الحروف</a><a href="letters/letters-sounds.html#flower">🌸 زهرة الكلمات</a><a href="letters/letters-sounds.html#builder">🧩 كوّن الكلمات</a></div></div>
       <a class="card reveal" href="everyday/basics.html" style="--c:#2B78C2;--t:#E3EFFA"><span class="arrow">←</span><span class="ic" aria-hidden="true">🗣️</span><b>محادثات التأسيس</b><span class="en">Everyday Talk</span><p>التحية والوداع والطلب والقبول والرفض والاعتذار والشكر والدعوات والاجتماعات: عبارات وردودها ومحادثات مسموعة.</p></a>
       <a class="card reveal" href="journey/dictionary.html" style="--c:#11826a;--t:#e3f6ef"><span class="arrow">←</span><span class="ic" aria-hidden="true">📖</span><b>قاموس الألف كلمة</b><p>المعنى والنوع والنطق وأمثلة لكل كلمة، مرتّبة بالأسبوع واليوم.</p></a>
     </div>
@@ -226,10 +230,10 @@ footer b{color:var(--ink)}
     </div>
     <div class="grid">
       <a class="card reveal" href="journey/word-quest.html" style="--c:#2f6fd6;--t:#e8f0fd"><span class="arrow">←</span><span class="ic" aria-hidden="true">🗺️</span><b>English Word Quest</b><p>50 وحدة: تعرّف على الكلمات، وتدرّب، واقرأ القصة، واختبر نفسك.</p></a>
-      <a class="card reveal" href="words/ngsl.html" style="--c:#b8336a;--t:#fdeef3"><span class="arrow">←</span><span class="ic" aria-hidden="true">🌍</span><b>الكلمات العامة</b><span class="en">General Words · NGSL</span><p>1000 كلمة من أكثر الكلمات شيوعاً في 50 وحدة: بطاقات وجمل وقصة واختبار.</p></a>
-      <a class="card reveal" href="words/awl.html" style="--c:#5a3fc0;--t:#efebff"><span class="arrow">←</span><span class="ic" aria-hidden="true">🎓</span><b>الكلمات الأكاديمية</b><span class="en">Academic Words · AWL</span><p>كلمات الجامعة واختبارات IELTS في 10 مجموعات و29 وحدة.</p></a>
-      <a class="card reveal" href="vocab/mega-goal-1.html" style="--c:#a26f00;--t:#fff4d6"><span class="arrow">←</span><span class="ic" aria-hidden="true">🏟️</span><b>ميدان المفردات 1</b><span class="en">Mega Goal 1.1</span><p>مفردات الكتاب الأول في تحديات سريعة.</p></a>
-      <a class="card reveal" href="vocab/mega-goal-2.html" style="--c:#b0560c;--t:#ffeedd"><span class="arrow">←</span><span class="ic" aria-hidden="true">🏆</span><b>ميدان المفردات 2</b><span class="en">Mega Goal 2.1</span><p>مفردات الكتاب الثاني في تحديات سريعة.</p></a>
+      <div class="card reveal lcard" style="--c:#b8336a;--t:#fdeef3"><div class="lmain"><span class="ic" aria-hidden="true">📚</span><b>قوائم الكلمات</b><span class="en">Word Lists · NGSL &amp; AWL</span><p>بطاقات وجمل وقصص واختبارات لأهم الكلمات العامة والأكاديمية.</p></div>
+        <div class="lmodes"><a href="words/ngsl.html">🌍 الكلمات العامة<br><small>1000 كلمة</small></a><a href="words/awl.html">🎓 الكلمات الأكاديمية<br><small>569 كلمة</small></a></div></div>
+      <div class="card reveal lcard" style="--c:#a26f00;--t:#fff4d6"><div class="lmain"><span class="ic" aria-hidden="true">🏟️</span><b>ميدان المفردات</b><span class="en">Mega Goal</span><p>مفردات كتب المنهج في تحديات سريعة.</p></div>
+        <div class="lmodes"><a href="vocab/mega-goal-1.html">🏟️ Mega Goal 1.1</a><a href="vocab/mega-goal-2.html">🏆 Mega Goal 2.1</a></div></div>
       <a class="card reveal" href="idioms/index.html" style="--c:#E2573B;--t:#FDECE6"><span class="arrow">←</span><span class="ic" aria-hidden="true">🎨</span><b>ركن التعبيرات</b><span class="en">Idioms · العبارات الاصطلاحية</span><p>26 عبارة اصطلاحية برسومات كرتونية: المعنى الحرفي المضحك، والمعنى الحقيقي، وما يقابله بالعربية.</p></a>
     </div>
   </section>
@@ -237,26 +241,9 @@ footer b{color:var(--ink)}
   <section class="shelf" id="f3" aria-labelledby="hf3">
     <div class="shelf-head reveal">
       <span class="badge" style="background:var(--violet-soft)" aria-hidden="true">🧩</span>
-      <div><h2 id="hf3" style="color:var(--violet)">القواعد وبناء الجمل</h2><p>Grammar &amp; Sentences · رتّب الجمل وافهم الأزمنة وتركيب الجملة</p></div>
+      <div><h2 id="hf3" style="color:var(--violet)">القواعد</h2><p>Grammar · افهم الأزمنة وتركيب الجملة</p></div>
     </div>
     <div class="grid">
-      <a class="card portal reveal" href="capsules/index.html" style="--c:var(--violet)">
-        <span class="ic" aria-hidden="true">🌟</span>
-        <span class="txt"><b>بوابة الكبسولات</b><p>10 كبسولات (الفضاء، النكهة، الحياة، المغامرة، المشاعر، المسيرة، الطبيعة، التعافي، الرياضة، التقنية): رتّب الجمل وافهم معانيها عبر مراحل ونجوم ومراجعة ذكية.</p><div class="bar" style="margin-top:8px"><i id="capBar"></i></div><span class="prog" id="capProg" style="display:block"></span></span>
-        <span class="go">ادخل البوابة ←</span>
-      </a>
-      <div class="capchips" aria-label="ادخل كبسولة مباشرة">
-        <a class="capchip" href="capsules/space.html" style="--c:#6046e8;--t:#efebff"><span aria-hidden="true">🚀</span>الفضاء</a>
-        <a class="capchip" href="capsules/flavor.html" style="--c:#c25a20;--t:#fff0e4"><span aria-hidden="true">🍊</span>النكهة</a>
-        <a class="capchip" href="capsules/life.html" style="--c:#7d47c4;--t:#f3ebff"><span aria-hidden="true">🦋</span>الحياة</a>
-        <a class="capchip" href="capsules/adventure.html" style="--c:#2477b5;--t:#e6f3fc"><span aria-hidden="true">🎈</span>المغامرة</a>
-        <a class="capchip" href="capsules/emotion.html" style="--c:#9a6a00;--t:#fff6d8"><span aria-hidden="true">💛</span>المشاعر</a>
-        <a class="capchip" href="capsules/career.html" style="--c:#2f5fa8;--t:#e8effb"><span aria-hidden="true">🎓</span>المسيرة</a>
-        <a class="capchip" href="capsules/nature.html" style="--c:#1d7a50;--t:#e4f5ec"><span aria-hidden="true">🌍</span>الطبيعة</a>
-        <a class="capchip" href="capsules/health.html" style="--c:#13807f;--t:#e2f5f4"><span aria-hidden="true">🩺</span>التعافي</a>
-        <a class="capchip" href="capsules/sports.html" style="--c:#1f8a4c;--t:#e4f6ea"><span aria-hidden="true">🏆</span>الرياضة</a>
-        <a class="capchip" href="capsules/tech.html" style="--c:#3f51c9;--t:#e9ecfd"><span aria-hidden="true">💻</span>التقنية</a>
-      </div>
       <a class="card reveal" href="grammar/tenses.html" style="--c:#5B47D6;--t:#EEEBFD"><span class="arrow">←</span><span class="ic" aria-hidden="true">⏳</span><b>خارطة الأزمنة</b><span class="en">The 12 English tenses</span><p>الأزمنة الاثنا عشر: القاعدة والخط الزمني وأمثلة لكل زمن، وجدول تصريف لأي فعل، واختبار سريع.</p></a>
       <a class="card reveal" href="grammar/syntax-tree-lab.html" style="--c:#3A5BD0;--t:#ECEFFC"><span class="arrow">←</span><span class="ic" aria-hidden="true">🌳</span><b>Syntax Tree Lab</b><span class="en">See how a sentence is built</span><p>شجرة تُظهر أجزاء الجملة الإنجليزية ونوع كل كلمة، مع شرح لكل جزء.</p></a>
     </div>
@@ -321,8 +308,7 @@ import('./assets/honor.js?v=20261028f').then(async H => {
   });
   var cp = document.getElementById('capProg');
   if (cp) {
-    cp.textContent = doneAll ? ('أنجزت ' + doneAll + ' من ' + stagesAll + ' مرحلة · ⭐ ' + total) : (stagesAll + ' مرحلة في 10 كبسولات');
-    requestAnimationFrame(function(){ document.getElementById('capBar').style.width = Math.min(100, Math.round(doneAll / stagesAll * 100)) + '%'; });
+    cp.textContent = doneAll ? ('أنجزت ' + doneAll + ' من ' + stagesAll + ' مرحلة · ⭐ ' + total) : ('رتّب الجمل وافهم معانيها · ' + stagesAll + ' مرحلة');
   }
   document.getElementById('myStars').textContent = total;
 
