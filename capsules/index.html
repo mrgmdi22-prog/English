@@ -149,6 +149,15 @@ footer{text-align:center;color:var(--muted);font-size:1rem;margin-top:40px;line-
         <span class="cta">ادخل الملعب ←</span>
       </div>
     </a>
+    <a class="capsule reveal" href="tech.html" data-cap="tech" data-stages="16" style="--c:#3f51c9;--t:#e9ecfd;--g1:#5d79d8;--g2:#2c3a8c">
+      <div class="scene"><canvas id="techCanvas"></canvas><span class="done-badge" hidden>✓ مكتملة</span></div>
+      <div class="body">
+        <div class="top"><h2 class="name">كبسولة التقنية <span aria-hidden="true">💻</span></h2><span class="en">Tech</span></div>
+        <p class="tagline">جمل عن الحاسوب والجوالات والتطبيقات والبرمجة والذكاء الاصطناعي والأمن السيبراني: برمج مستقبلك بأمان.</p>
+        <div class="prog"><div class="bar"><i></i></div><span class="ptxt">16 مرحلة</span></div>
+        <span class="cta">شغّل الكبسولة ←</span>
+      </div>
+    </a>
   </div>
   <footer>إعداد: أ. أحمد آل سالم — معلم اللغة الإنجليزية، ثانوية الأمير فيصل بالعقيق</footer>
 </div>
@@ -510,6 +519,25 @@ footer{text-align:center;color:var(--muted);font-size:1rem;margin-top:40px;line-
     ctx.fillStyle = '#1a1a1a'; ctx.beginPath(); for (var k = 0; k < 5; k++){ var a = -Math.PI/2+k*2*Math.PI/5, px = bx+Math.cos(a)*br*.4, py = by+Math.sin(a)*br*.4; k ? ctx.lineTo(px,py) : ctx.moveTo(px,py); } ctx.closePath(); ctx.fill();
   }
 
+  function drawTech(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h, S = Math.min(w,h);
+    var rand = mulberry32(31);
+    ctx.lineWidth = 1.4;
+    for (var i = 0; i < 8; i++){ var x = rand()*w, y = rand()*h*.9, l = S*(.2+rand()*.25);
+      ctx.strokeStyle = 'rgba(255,255,255,.25)'; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+l,y); ctx.lineTo(x+l*1.3,y+l*.3); ctx.stroke();
+      ctx.fillStyle = 'rgba(160,255,230,.85)'; ctx.beginPath(); ctx.arc(x,y,2.4,0,Math.PI*2); ctx.fill(); }
+    var lx = w*.42, ly = h*.86, lw = S*.7, lh = S*.42;
+    ctx.fillStyle = '#20264f'; ctx.fillRect(lx-lw/2, ly-lh, lw, lh);
+    ctx.fillStyle = '#0f1430'; ctx.fillRect(lx-lw/2+6, ly-lh+6, lw-12, lh-12);
+    var cc = ['#ff7ab6','#7fd1ff','#ffd56b','#8ef0b3'];
+    for (var k = 0; k < 5; k++){ ctx.fillStyle = cc[k%4]; ctx.fillRect(lx-lw/2+16+(k===2||k===3?12:0), ly-lh+16+k*((lh-36)/5), (lw-50)*(.3+rand()*.5), 4); }
+    ctx.fillStyle = '#c9cfee'; ctx.fillRect(lx-lw*.6, ly, lw*1.2, S*.04);
+    var sx = w*.84, sy = h*.3, ss = S*.14;
+    ctx.fillStyle = '#2fbf8f'; ctx.beginPath(); ctx.moveTo(sx,sy-ss); ctx.lineTo(sx+ss*.85,sy-ss*.6); ctx.quadraticCurveTo(sx+ss*.8,sy+ss*.6,sx,sy+ss); ctx.quadraticCurveTo(sx-ss*.8,sy+ss*.6,sx-ss*.85,sy-ss*.6); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.fillRect(sx-ss*.3, sy-ss*.05, ss*.6, ss*.45); ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(sx, sy-ss*.05, ss*.2, Math.PI, 0); ctx.stroke();
+  }
+
   function drawAll(){
     drawSpace(document.getElementById('spaceCanvas'));
     drawFlavor(document.getElementById('flavorCanvas'));
@@ -520,6 +548,7 @@ footer{text-align:center;color:var(--muted);font-size:1rem;margin-top:40px;line-
     drawNature(document.getElementById('natureCanvas'));
     drawHealth(document.getElementById('healthCanvas'));
     drawSports(document.getElementById('sportsCanvas'));
+    drawTech(document.getElementById('techCanvas'));
   }
   drawAll();
   window.addEventListener('resize', drawAll);

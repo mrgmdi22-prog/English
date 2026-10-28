@@ -6,7 +6,7 @@ const V = '10.12.2';
 const BASE = `https://www.gstatic.com/firebasejs/${V}/`;
 
 export const RULES = [
-  { key: 'caps', label: 'نجمة في الكبسولات', icon: '🌟', per: 10, max: 459 },
+  { key: 'caps', label: 'نجمة في الكبسولات', icon: '🌟', per: 10, max: 507 },
   { key: 'wq',   label: 'إجابة صحيحة في Word Quest', icon: '🗺️', per: 5, max: 500 },
   { key: 'lab',  label: 'إجابة صحيحة في مختبر المحادثة', icon: '💬', per: 10, max: 100 },
   { key: 'mg',   label: 'كلمة أتقنتها في ميدان المفردات', icon: '🏟️', per: 3, max: 600 },
@@ -17,7 +17,7 @@ export const RULES = [
   { key: 'tn',   label: 'إجابة صحيحة في خارطة الأزمنة', icon: '⏳', per: 10, max: 10 },
   { key: 'im',   label: 'إجابة صحيحة في ركن التعبيرات', icon: '🎨', per: 10, max: 10 }
 ];
-const CAPS = ['space', 'flavor', 'life', 'adventure', 'emotion', 'career', 'nature', 'health', 'sports'];
+const CAPS = ['space', 'flavor', 'life', 'adventure', 'emotion', 'career', 'nature', 'health', 'sports', 'tech'];
 
 function J(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
 function N(k) { try { return +(localStorage.getItem(k) || 0) || 0; } catch (e) { return 0; } }
