@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<script src="../assets/gate.js?v=4"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ركن التعابير · Idioms Corner</title>
+<meta name="description" content="Common English idioms explained with cartoons: the funny literal picture, the real meaning, an Arabic equivalent and a quiz.">
+<meta name="theme-color" content="#FFF9F0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="../assets/club.css">
+<style>
+/* Idioms corner: a wall of cartoon cards. Each cartoon shows the idiom's literal picture; the card opens to the real
+   meaning, an Arabic equivalent and an example. A quiz shows a cartoon and asks which idiom / meaning it is. */
+:root{color-scheme:light;--bg:#FFF9F0;--card:#fff;--ink:#22263A;--muted:#5E6480;--line:#EFE6D6;--acc:#E2573B;--acc-s:#FDECE6;--vio:#6A4FD8;--ok:#1F9D6B;--bad:#D23F4A;
+  --ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif;--ease:cubic-bezier(.2,.7,.2,1)}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg)}
+body{color:var(--ink);font-family:var(--ar);font-size:19px;line-height:1.7;padding-bottom:env(safe-area-inset-bottom,0px)}
+[hidden]{display:none!important}
+.en{font-family:var(--en);direction:ltr;unicode-bidi:isolate}
+.wrap{max-width:1120px;margin:0 auto;padding:70px 16px 70px}
+header.top{text-align:center}
+.kick{font-family:var(--en);font-weight:700;letter-spacing:.14em;font-size:.9rem;color:var(--muted)}
+h1{margin:4px 0;font-size:clamp(2.1rem,7vw,3.2rem);line-height:1.2;font-weight:800}
+h1 .en{color:var(--acc)}
+header.top p{margin:0 auto;max-width:34em;color:var(--muted);font-size:1.1rem}
+.tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:22px 0 10px}
+.tabs button{font:inherit;font-weight:800;font-size:1.05rem;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:9px 20px;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--acc);border-color:var(--acc);color:#fff}
+.bar{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:1rem;margin-bottom:18px}
+.seg{display:inline-flex;gap:4px}.seg button{font:inherit;font-weight:700;font-size:1rem;border:2px solid var(--line);background:var(--card);border-radius:12px;padding:5px 12px;cursor:pointer;color:var(--ink)}
+.seg button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.search{font:inherit;font-size:1rem;border:2px solid var(--line);border-radius:999px;padding:7px 16px;min-width:220px;background:#fff;color:var(--ink)}
+.prog{font-weight:700}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.card{all:unset;box-sizing:border-box;cursor:pointer;background:var(--card);border:2px solid var(--line);border-radius:22px;padding:10px 10px 14px;display:flex;flex-direction:column;gap:8px;
+  transition:transform .2s var(--ease),box-shadow .2s;position:relative}
+.card:hover{transform:translateY(-4px) rotate(-.4deg);box-shadow:0 18px 30px -22px rgba(80,50,20,.5)}
+.card:focus-visible{outline:3px solid var(--vio);outline-offset:3px}
+.card svg{display:block;width:100%;height:auto;border-radius:16px}
+.card .id{font-family:var(--en);direction:ltr;text-align:center;font-weight:800;font-size:1.18rem;line-height:1.3;padding:0 4px}
+.card .hint{text-align:center;color:var(--muted);font-size:.98rem;line-height:1.4}
+.card .seen{position:absolute;top:16px;left:16px;background:var(--ok);color:#fff;border-radius:999px;font-size:.8rem;font-weight:800;padding:2px 10px}
+
+/* sheet */
+.sheet-bg{position:fixed;inset:0;z-index:1000;background:rgba(34,38,58,.45);display:flex;align-items:flex-end;justify-content:center;animation:fade .2s}
+@keyframes fade{from{opacity:0}}
+.sheet{background:var(--card);width:min(760px,100%);max-height:95vh;overflow:auto;border-radius:26px 26px 0 0;padding:16px 16px 24px;animation:rise .32s var(--ease)}
+@keyframes rise{from{transform:translateY(40px);opacity:.4}}
+@media (min-width:760px){.sheet-bg{align-items:center;padding:20px}.sheet{border-radius:26px}}
+.sh-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+.x{all:unset;cursor:pointer;width:44px;height:44px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-size:1.3rem}
+.sh-art svg{display:block;width:100%;height:auto;border-radius:20px}
+.sh-id{display:flex;justify-content:center;align-items:center;gap:10px;margin:14px 0 4px;direction:ltr}
+.sh-id h2{margin:0;font-family:var(--en);font-size:clamp(1.5rem,5.5vw,2rem);line-height:1.2;text-align:center}
+.say{all:unset;cursor:pointer;flex:none;width:42px;height:42px;border-radius:50%;background:var(--acc-s);display:grid;place-items:center;font-size:1.15rem}
+.say:focus-visible{outline:3px solid var(--vio)}
+.lit{text-align:center;color:var(--muted);margin:0 0 12px}
+.box{border-radius:18px;padding:12px 16px;margin-top:10px}
+.box .lb{display:block;font-weight:800;font-size:.95rem;margin-bottom:2px}
+.real{background:#EAF7F0;border:2px solid #BFE6CF}.real .lb{color:var(--ok)}
+.real .m{font-size:1.25rem;font-weight:800;line-height:1.5}
+.real .men{display:block;font-family:var(--en);direction:ltr;text-align:left;color:var(--muted);font-size:1.02rem}
+.eq{background:#FFF6DC;border:2px solid #F2DDA0}.eq .lb{color:#9A6B00}.eq .m{font-size:1.2rem;font-weight:800}
+.exb{background:#EEF2FF;border:2px solid #CDD6FA}.exb .lb{color:var(--vio)}
+.exb .s{display:flex;gap:10px;align-items:center;direction:ltr;font-family:var(--en);font-size:1.15rem;line-height:1.5}
+.exb .s b{color:var(--vio)}
+.exb .t{color:var(--muted);font-size:1rem;margin-top:4px}
+.sh-nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+.btn{font:inherit;font-weight:800;font-size:1rem;border:0;border-radius:999px;padding:10px 20px;cursor:pointer;background:var(--acc);color:#fff}
+.btn.soft{background:var(--acc-s);color:#B23F27}
+
+/* quiz */
+.quiz{max-width:640px;margin:0 auto;background:var(--card);border:2px solid var(--line);border-radius:24px;padding:18px}
+.qtop{display:flex;justify-content:space-between;color:var(--muted);font-weight:700}
+.qbar{height:10px;border-radius:99px;background:var(--bg);overflow:hidden;margin:10px 0 14px}.qbar i{display:block;height:100%;background:var(--acc);transition:width .3s}
+.qart svg{display:block;width:100%;height:auto;border-radius:18px}
+.qq{text-align:center;font-weight:800;font-size:1.15rem;margin:12px 0}
+.qq .en{display:block;font-size:1.35rem;color:var(--acc)}
+.opts{display:grid;gap:10px}
+.opts button{font:inherit;cursor:pointer;border:2px solid var(--line);background:#fff;border-radius:16px;padding:10px 14px;line-height:1.4;font-size:1.08rem;font-weight:700;color:var(--ink);transition:all .15s}
+.opts button.lat{font-family:var(--en);direction:ltr}
+.opts button:hover:not(:disabled){border-color:var(--acc)}
+.opts button.right{background:#E3F6EE;border-color:var(--ok)}.opts button.wrong{background:#FDECEC;border-color:var(--bad)}
+.qfb{min-height:2em;text-align:center;font-weight:800;margin-top:10px}.qfb.ok{color:var(--ok)}.qfb.no{color:var(--bad)}
+.qend{text-align:center}.qend .big{font-size:3rem;font-weight:800;color:var(--acc);line-height:1.2}
+footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
+@media (max-width:520px){.grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}.card .id{font-size:1rem}.card .hint{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<a class="club-home" href="../index.html">🏠 الرئيسية</a>
+<div class="wrap">
+  <header class="top">
+    <span class="kick">English Club · Idioms</span>
+    <h1>ركن التعابير <span class="en">Idioms Corner</span></h1>
+    <p>تعابير إنجليزية شائعة لا تُفهم من كلماتها! الرسمة تُظهر المعنى الحرفي المضحك، واضغطها لتعرف المعنى الحقيقي وما يقابله بالعربية.</p>
+  </header>
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="wall" aria-selected="true">🖼️ التعابير</button>
+    <button role="tab" data-tab="quiz" aria-selected="false">🎯 اختبر نفسك</button>
+  </nav>
+  <div class="bar">
+    <input class="search" id="q" type="search" placeholder="ابحث: rain, cake, سر…" aria-label="بحث">
+    <span>النطق:</span><span class="seg" id="acc"><button data-a="en-US" aria-pressed="true">US</button><button data-a="en-GB" aria-pressed="false">UK</button></span>
+    <span class="prog" id="prog"></span>
+  </div>
+  <section id="p-wall"><div class="grid" id="grid"></div></section>
+  <section id="p-quiz" hidden><div class="quiz" id="quiz"></div></section>
+  <footer>إعداد: أ. أحمد آل سالم — نادي اللغة الإنجليزية، ثانوية الأمير فيصل بالعقيق · الرسومات أصلية لهذا الركن</footer>
+</div>
+<div class="sheet-bg" id="sheetBg" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="shTitle"></div></div>
+
+<script src="art.js?v=2"></script>
+<script>
+/* [art id, idiom, literal Arabic, real meaning (Arabic), real meaning (simple English), Arabic equivalent, example (**idiom**), example in Arabic] */
+const ID=[
+['rain',"It's raining cats and dogs",'إنها تمطر قططاً وكلاباً','تمطر بغزارة شديدة','It is raining very heavily.','مطرٌ كأفواه القِرَب','Take an umbrella. **It\'s raining cats and dogs!**','خذ مظلة، إنها تمطر بغزارة!'],
+['cake','A piece of cake','قطعة من الكعك','شيء سهل جداً','Something very easy.','أسهل من شربة ماء','The English test was **a piece of cake**.','كان اختبار الإنجليزي سهلاً جداً.'],
+['ice','Break the ice','يكسر الجليد','يبدأ الحديث ليزيل الحرج بين أشخاص لا يعرف بعضهم بعضاً','To start a friendly talk with new people.','يكسر الحاجز / يكسر الجليد','On the first day, the teacher told a joke to **break the ice**.','في اليوم الأول ألقى المعلم طرفة ليزيل الحرج.'],
+['books','Hit the books','يضرب الكتب','يذاكر بجدّ واجتهاد','To study hard.','ينكبّ على المذاكرة','Exams are next week, so I need to **hit the books**.','الاختبارات الأسبوع القادم، فعليّ أن أذاكر بجد.'],
+['weather','Under the weather','تحت الطقس','متوعّك قليلاً','Feeling a little sick.','متوعّك / ليس على ما يرام','I stayed home because I was **under the weather**.','بقيت في البيت لأنني كنت متوعكاً.'],
+['beans','Spill the beans','يسكب الفاصوليا','يكشف سراً','To tell a secret.','أفشى السرّ','Who **spilled the beans** about the surprise party?','من الذي كشف سر الحفلة المفاجئة؟'],
+['moon','Once in a blue moon','مرة في القمر الأزرق','نادراً جداً','Very rarely.','في النادر / مرة في العمر','My cousin visits us **once in a blue moon**.','ابن عمي يزورنا نادراً جداً.'],
+['pricey','Cost an arm and a leg','يكلّف ذراعاً وساقاً','غالي الثمن جداً','To be very expensive.','بثمن باهظ / كلّفني ثروة','This new phone **costs an arm and a leg**.','هذا الجوال الجديد غالٍ جداً.'],
+['court','The ball is in your court','الكرة في ملعبك','القرار الآن بيدك وعليك أن تتصرّف','It is your turn to decide or act.','الكرة في ملعبك','I gave you my offer. Now **the ball is in your court**.','قدّمت لك عرضي، والقرار الآن بيدك.'],
+['bite','Bite off more than you can chew','يقضم أكثر مما يستطيع مضغه','يحمّل نفسه أعمالاً أكثر من طاقته','To try to do more than you can.','حمّل نفسه فوق طاقته','I joined five clubs. I think I **bit off more than I could chew**.','اشتركت في خمسة أندية، وأظنني حمّلت نفسي فوق طاقتي.'],
+['nail','Hit the nail on the head','يضرب المسمار على رأسه','يصيب الحقيقة تماماً','To say exactly the right thing.','أصاب كبد الحقيقة','You **hit the nail on the head**. That is the real problem.','أصبت تماماً، هذه هي المشكلة الحقيقية.'],
+['blue','Feel blue','يشعر بالأزرق','يشعر بالحزن','To feel sad.','مهموم / حزين','He **feels blue** because his best friend moved away.','هو حزين لأن صديقه المقرّب انتقل بعيداً.'],
+['coldfeet','Get cold feet','تبرد قدماه','يتردد ويخاف في اللحظة الأخيرة','To become too nervous to do something.','تراجع في اللحظة الأخيرة','He wanted to sing on stage, but he **got cold feet**.','أراد أن يغني على المسرح لكنه تراجع خوفاً.'],
+['gift','A blessing in disguise','نعمة متنكّرة','أمر يبدو سيئاً لكنه ينفعك في النهاية','Something that seems bad but turns out good.','رُبّ ضارّةٍ نافعة','Missing the bus was **a blessing in disguise**; I met an old friend.','فاتتني الحافلة فكان خيراً، إذ قابلت صديقاً قديماً.'],
+['actions','Actions speak louder than words','الأفعال تتكلم بصوت أعلى من الكلمات','ما تفعله أهم مما تقوله','What you do matters more than what you say.','الأفعال أبلغ من الأقوال','Don\'t just promise to help. **Actions speak louder than words.**','لا تكتفِ بالوعد بالمساعدة، فالأفعال أبلغ من الأقوال.'],
+['tree','Bark up the wrong tree','ينبح على الشجرة الخطأ','يتّهم الشخص الخطأ أو يبحث في المكان الخطأ','To blame the wrong person or look in the wrong place.','يطرق الباب الخطأ','If you think I took your pen, you\'re **barking up the wrong tree**.','إن ظننت أنني أخذت قلمك فأنت تتهم الشخص الخطأ.'],
+['couch','A couch potato','بطاطس الأريكة','شخص كسول يقضي وقته جالساً أمام الشاشة','A lazy person who watches a lot of TV.','كسول ملازم للأريكة','Don\'t be **a couch potato**. Go outside and play!','لا تكن كسولاً أمام الشاشة، اخرج والعب!'],
+['butterflies','Have butterflies in your stomach','في معدتك فراشات','يشعر بتوتّر وقلق قبل أمر مهم','To feel nervous before something important.','قلبي يرفرف من التوتر','I always **have butterflies in my stomach** before a presentation.','أشعر دائماً بالتوتر قبل أن أقدّم عرضاً.'],
+['hotwater','In hot water','في ماء ساخن','في ورطة أو مشكلة','In trouble.','في ورطة','He forgot his homework again, and now he\'s **in hot water**.','نسي واجبه مرة أخرى وهو الآن في ورطة.'],
+['eye','Keep an eye on','يُبقي عيناً على','يراقب شيئاً ويحرسه','To watch or take care of something.','يرعى / يضع عينه على','Can you **keep an eye on** my bag for a minute?','هل تراقب حقيبتي لدقيقة؟'],
+['pig','When pigs fly','عندما تطير الخنازير','مستحيل أن يحدث','Something that will never happen.','حين يشيب الغراب','He will clean his room **when pigs fly**!','لن يرتّب غرفته أبداً!'],
+['clock','Time flies','الوقت يطير','الوقت يمرّ بسرعة','Time passes very quickly.','الوقت كالسيف / ما أسرع الأيام','**Time flies** when you are having fun.','يمر الوقت سريعاً حين تستمتع.'],
+['overmoon','Over the moon','فوق القمر','سعيد جداً','Very happy.','طار من الفرح','She was **over the moon** when she won the prize.','طارت من الفرح حين فازت بالجائزة.'],
+['breakleg','Break a leg!','اكسر ساقاً!','بالتوفيق! (تُقال قبل عرض أو أداء)','Good luck! (before a show)','بالتوفيق! / الله يوفقك','You\'re on stage next. **Break a leg!**','دورك على المسرح الآن، بالتوفيق!'],
+['clouds','Have your head in the clouds','رأسه في الغيوم','سارح في الخيال ولا ينتبه لما حوله','To daydream and not pay attention.','سارح / في عالم آخر','Pay attention in class. Don\'t **have your head in the clouds**.','انتبه في الحصة ولا تسرح في الخيال.'],
+['said','Easier said than done','القول أسهل من الفعل','الكلام سهل لكن التنفيذ صعب','It is easy to say but hard to do.','ما كل ما يُقال يُفعل / الكلام سهل','Getting up at 5 a.m. every day is **easier said than done**.','الاستيقاظ الخامسة كل يوم أسهل قولاً منه فعلاً.']
+].map(a=>({id:a[0],en:a[1],lit:a[2],ar:a[3],men:a[4],eq:a[5],ex:a[6],exAr:a[7]}));
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const md=s=>esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+const plain=s=>s.replace(/\*\*/g,'');
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const art=x=>(window.IDIOM_ART[x.id]||(()=>''))();
+let seen=new Set();try{seen=new Set(JSON.parse(store.get('im-seen')||'[]'))}catch(e){}
+
+/* speech */
+let ACC=store.get('im-accent')||'en-US',voices=[];
+const loadV=()=>{try{voices=speechSynthesis.getVoices()||[]}catch(e){}};
+if('speechSynthesis' in window){loadV();speechSynthesis.onvoiceschanged=loadV;}
+function say(t){if(!('speechSynthesis' in window))return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang=ACC;u.rate=.88;const v=voices.find(v=>v.lang===ACC)||voices.find(v=>(v.lang||'').replace('_','-').startsWith(ACC));if(v)u.voice=v;speechSynthesis.speak(u);}catch(e){}}
+document.querySelectorAll('#acc button').forEach(b=>{b.setAttribute('aria-pressed',b.dataset.a===ACC);b.onclick=()=>{ACC=b.dataset.a;store.set('im-accent',ACC);document.querySelectorAll('#acc button').forEach(x=>x.setAttribute('aria-pressed',x===b));};});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-say]');if(b){e.stopPropagation();say(b.dataset.say);}});
+const sayBtn=t=>`<button class="say" type="button" data-say="${esc(plain(t))}" aria-label="استمع">🔊</button>`;
+
+/* wall */
+function drawWall(){
+  const q=($('q').value||'').trim().toLowerCase();
+  const list=ID.filter(x=>!q||(x.en+' '+x.ar+' '+x.lit+' '+x.eq).toLowerCase().includes(q));
+  $('grid').innerHTML=list.map(x=>`<button class="card" data-id="${x.id}" aria-label="${esc(x.en)}">${seen.has(x.id)?'<span class="seen">✓</span>':''}${art(x)}<span class="id">${esc(x.en)}</span><span class="hint">حرفياً: ${esc(x.lit)} 🤔</span></button>`).join('')
+    ||'<p style="grid-column:1/-1;text-align:center;color:var(--muted)">لا توجد نتائج.</p>';
+  $('grid').querySelectorAll('.card').forEach(c=>c.onclick=()=>openSheet(c.dataset.id));
+  $('prog').textContent=`تعرّفت على ${seen.size} من ${ID.length}`;
+}
+$('q').addEventListener('input',drawWall);
+
+/* sheet */
+let cur=-1,back=null;
+function openSheet(id){
+  cur=ID.findIndex(x=>x.id===id);const x=ID[cur];back=back||document.activeElement;
+  seen.add(x.id);store.set('im-seen',JSON.stringify([...seen]));
+  $('sheet').innerHTML=`<div class="sh-top"><span style="color:var(--muted);font-weight:700">${cur+1} / ${ID.length}</span><button class="x" id="shX" aria-label="إغلاق">✕</button></div>
+    <div class="sh-art">${art(x)}</div>
+    <div class="sh-id"><h2 id="shTitle">${esc(x.en)}</h2>${sayBtn(x.en)}</div>
+    <p class="lit">حرفياً: «${esc(x.lit)}» 😄 … لكن هذا ليس المقصود!</p>
+    <div class="box real"><span class="lb">✅ المعنى الحقيقي</span><span class="m">${esc(x.ar)}</span><span class="men">${esc(x.men)}</span></div>
+    <div class="box eq"><span class="lb">🔁 يقابله بالعربية</span><span class="m">${esc(x.eq)}</span></div>
+    <div class="box exb"><span class="lb">💬 مثال</span><div class="s">${sayBtn(x.ex)}<span>${md(x.ex)}</span></div><div class="t">${esc(x.exAr)}</div></div>
+    <div class="sh-nav"><button class="btn soft" id="shPrev">→ السابق</button><button class="btn soft" id="shNext">التالي ←</button></div>`;
+  $('sheetBg').hidden=false;document.body.style.overflow='hidden';
+  $('shX').onclick=closeSheet;$('shPrev').onclick=()=>openSheet(ID[(cur+ID.length-1)%ID.length].id);$('shNext').onclick=()=>openSheet(ID[(cur+1)%ID.length].id);
+  $('sheet').scrollTop=0;$('shX').focus();
+}
+function closeSheet(){$('sheetBg').hidden=true;document.body.style.overflow='';drawWall();if(back&&back.focus)try{back.focus()}catch(e){};back=null;}
+$('sheetBg').addEventListener('click',e=>{if(e.target===$('sheetBg'))closeSheet();});
+document.addEventListener('keydown',e=>{if($('sheetBg').hidden)return;if(e.key==='Escape')closeSheet();if(e.key==='ArrowLeft')$('shNext').click();if(e.key==='ArrowRight')$('shPrev').click();});
+
+/* tabs */
+let Q=null;
+function setTab(t){document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===t));$('p-wall').hidden=t!=='wall';$('p-quiz').hidden=t!=='quiz';
+  document.querySelector('.bar .search').hidden=t!=='wall';$('prog').hidden=t!=='wall';if(t==='quiz')newQuiz();}
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+
+/* quiz: half the questions ask for the idiom from its cartoon, half for its real meaning */
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+function newQuiz(){Q={qs:shuffle(ID).slice(0,10).map((x,i)=>({x,k:i%2?'mean':'name'})),i:0,right:0};drawQ();}
+function drawQ(){
+  const Z=$('quiz');
+  if(Q.i>=Q.qs.length){
+    const best=Math.max(+(store.get('im-best')||0),Q.right);store.set('im-best',String(best));
+    const msg=Q.right>=9?'رائع! أنت خبير التعابير 🏆':Q.right>=7?'جيد جداً 👏':Q.right>=5?'جيد، راجع البطاقات وحاول مرة أخرى':'تصفّح بطاقات التعابير ثم أعد المحاولة 💪';
+    Z.innerHTML=`<div class="qend"><div class="big" dir="ltr">${Q.right} / ${Q.qs.length}</div><p style="font-size:1.25rem;font-weight:800;margin:6px 0">${msg}</p><p style="color:var(--muted)">أفضل نتيجة لك: ${best} / 10 · كل إجابة صحيحة في أفضل نتيجة تمنحك 10 نقاط في لوحة الشرف.</p><button class="btn" id="again">🔁 اختبار جديد</button></div>`;
+    $('again').onclick=newQuiz;return;
+  }
+  const {x,k}=Q.qs[Q.i],others=shuffle(ID.filter(y=>y!==x)).slice(0,3),opts=shuffle([x,...others]);
+  Z.innerHTML=`<div class="qtop"><span>السؤال ${Q.i+1} من ${Q.qs.length}</span><span>✅ ${Q.right}</span></div><div class="qbar"><i style="width:${Q.i/Q.qs.length*100}%"></i></div>
+    ${k==='name'?`<div class="qart">${art(x)}</div><div class="qq">أي تعبير تصوّره هذه الرسمة؟</div>`:`<div class="qq"><span class="en">${esc(x.en)}</span>ما معناه الحقيقي؟ ${sayBtn(x.en)}</div>`}
+    <div class="opts">${opts.map(o=>`<button type="button" data-id="${o.id}" class="${k==='name'?'lat':''}">${esc(k==='name'?o.en:o.ar)}</button>`).join('')}</div>
+    <div class="qfb" id="qfb" aria-live="polite"></div>`;
+  Z.querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{
+    const ok=b.dataset.id===x.id;Z.querySelectorAll('.opts button').forEach(c=>{c.disabled=true;if(c.dataset.id===x.id)c.classList.add('right');});
+    if(!ok)b.classList.add('wrong');else Q.right++;
+    const f=$('qfb');f.className='qfb '+(ok?'ok':'no');f.innerHTML=ok?'أحسنت! ✔':`الصحيح: <span class="en">${esc(x.en)}</span> = ${esc(x.ar)}`;
+    if(k==='name'&&ok)say(x.en);
+    setTimeout(()=>{Q.i++;drawQ();},ok?1200:2600);
+  });
+}
+drawWall();
+</script>
+<script src="../assets/club.js?v=3"></script>
+</body>
+</html>

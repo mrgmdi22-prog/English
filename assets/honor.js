@@ -14,7 +14,8 @@ export const RULES = [
   { key: 'aw',   label: 'إجابة صحيحة في الكلمات الأكاديمية', icon: '🎓', per: 5, max: 290 },
   { key: 'st',   label: 'إجابة صحيحة في ركن القصص', icon: '📖', per: 10, max: 54 },
   { key: 'bf',   label: 'إجابة صحيحة في Breakfast Challenge', icon: '🍳', per: 10, max: 10 },
-  { key: 'tn',   label: 'إجابة صحيحة في خريطة الأزمنة', icon: '⏳', per: 10, max: 10 }
+  { key: 'tn',   label: 'إجابة صحيحة في خريطة الأزمنة', icon: '⏳', per: 10, max: 10 },
+  { key: 'im',   label: 'إجابة صحيحة في ركن التعابير', icon: '🎨', per: 10, max: 10 }
 ];
 const CAPS = ['space', 'flavor', 'life', 'adventure', 'emotion', 'career', 'nature', 'health'];
 
@@ -33,7 +34,8 @@ export function computeScore() {
   let aw = 0; for (let n = 1; n <= 29; n++) aw += Math.max(0, Math.min(10, N('aw-best-' + n)));
   let st = 0; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.indexOf('st-best-') === 0) st += Math.max(0, Math.min(3, N(k))); } } catch (e) {}
   const tn = Math.max(0, Math.min(10, N('tn-best')));
-  const parts = { caps, wq, lab, mg, bf, ng, aw, st, tn };
+  const im = Math.max(0, Math.min(10, N('im-best')));
+  const parts = { caps, wq, lab, mg, bf, ng, aw, st, tn, im };
   // The board's database accepts at most 10,000 points per student.
   const score = Math.min(10000, RULES.reduce((t, r) => t + Math.min(parts[r.key], r.max) * r.per, 0));
   return { score, parts };

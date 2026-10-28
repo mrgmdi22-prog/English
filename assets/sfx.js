@@ -57,7 +57,7 @@
   // Right / wrong answers on pages that had no sounds of their own, recognised by the class each page adds.
   var P = location.pathname, MARK = null;
   if (/\/stories\//.test(P)) MARK = { good: ['ok'], bad: ['no'] };
-  else if (/\/(breakfast|conversation-lab|dictionary|syntax-tree-lab|tenses)\.html$/.test(P)) MARK = { good: ['right', 'correct'], bad: ['wrong', 'incorrect'] };
+  else if (/\/(breakfast|conversation-lab|dictionary|syntax-tree-lab|tenses)\.html$/.test(P) || /\/idioms\//.test(P)) MARK = { good: ['right', 'correct'], bad: ['wrong', 'incorrect'] };
   function watch(){
     if (!MARK || !document.body) return;
     new MutationObserver(function(ms){
