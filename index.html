@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" data-theme="light">
 <head>
 <meta charset="utf-8">
-<script src="assets/gate.js?v=4"></script>
+<script src="assets/gate.js?v=5"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>نادي اللغة الإنجليزية · ثانوية الأمير فيصل</title>
 <meta name="description" content="ألعاب ومنصات تعلّم ذاتي للغة الإنجليزية: بوابة الكبسولات، ورحلة التعلّم الذاتي، وميدان المفردات.">
@@ -167,7 +167,7 @@ footer b{color:var(--ink)}
     <h1>نادي اللغة الإنجليزية<span class="en">ENGLISH CLUB</span></h1>
     <p class="sub">منصتك لتتعلّم الإنجليزية بنفسك: من الحروف والأصوات، إلى المفردات والقواعد، إلى القصص والمحادثة. العب، وتعلّم، واصعد في لوحة الشرف.</p>
     <div class="paths">
-      <a class="path" href="#f1" style="--pc:#2B78C2;--pb:#E3EFFA"><span class="pi" aria-hidden="true">🌱</span><b>التأسيس</b><small>الحروف والأصوات</small></a>
+      <a class="path" href="#f1" style="--pc:#2B78C2;--pb:#E3EFFA"><span class="pi" aria-hidden="true">🌱</span><b>التأسيس</b><small>الحروف وعبارات الحياة</small></a>
       <a class="path" href="#f2" style="--pc:#b8336a;--pb:#fdeef3"><span class="pi" aria-hidden="true">📚</span><b>المفردات</b><small>أكثر من 3000 كلمة</small></a>
       <a class="path" href="#f3" style="--pc:#6046e8;--pb:#efebff"><span class="pi" aria-hidden="true">🧩</span><b>القواعد والجمل</b><small>12 زمناً و10 كبسولات</small></a>
       <a class="path" href="#f4" style="--pc:#c4532f;--pb:#fdece5"><span class="pi" aria-hidden="true">💬</span><b>القراءة والمحادثة</b><small>18 قصة و20 محادثة</small></a>
@@ -207,13 +207,14 @@ footer b{color:var(--ink)}
   <section class="shelf" id="f1" aria-labelledby="hf1">
     <div class="shelf-head reveal">
       <span class="badge" style="background:#DCEBF8" aria-hidden="true">🌱</span>
-      <div><h2 id="hf1" style="color:#2B78C2">التأسيس</h2><p>Foundations · الحروف والأصوات وأول ألف كلمة</p></div>
+      <div><h2 id="hf1" style="color:#2B78C2">التأسيس</h2><p>Foundations · الحروف والأصوات وعبارات الحياة اليومية وأول ألف كلمة</p></div>
     </div>
     <div class="grid">
       <a class="card reveal" href="letters/letters-sounds.html#trace" style="--c:#2B78C2;--t:#E3EFFA"><span class="arrow">←</span><span class="ic" aria-hidden="true">✍️</span><b>تتبّع الحروف</b><span class="en">Letter tracing</span><p>اكتب الحرف بإصبعك من نقطة البداية الصحيحة وباتجاه الأسهم.</p></a>
       <a class="card reveal" href="letters/letters-sounds.html#phonics" style="--c:#7A4FC4;--t:#F1EAFD"><span class="arrow">←</span><span class="ic" aria-hidden="true">🔊</span><b>أصوات الحروف</b><span class="en">Phonics</span><p>اسمع صوت كل حرف وكلمته، مع نصائح لنطق الأصوات الصعبة.</p></a>
       <a class="card reveal" href="letters/letters-sounds.html#flower" style="--c:#C2457A;--t:#FCE8F0"><span class="arrow">←</span><span class="ic" aria-hidden="true">🌸</span><b>زهرة الكلمات</b><span class="en">Word Flower</span><p>خمّن حروف الكلمة قبل أن تتساقط بتلات الزهرة.</p></a>
       <a class="card reveal" href="letters/letters-sounds.html#builder" style="--c:#1D7A50;--t:#E4F5EC"><span class="arrow">←</span><span class="ic" aria-hidden="true">🧩</span><b>كوّن الكلمات</b><span class="en">Word Builder</span><p>كوّن أكبر عدد من الكلمات من حروف محدودة.</p></a>
+      <a class="card reveal" href="everyday/basics.html" style="--c:#2B78C2;--t:#E3EFFA"><span class="arrow">←</span><span class="ic" aria-hidden="true">🗣️</span><b>محادثات التأسيس</b><span class="en">Everyday Talk</span><p>التحية والوداع والطلب والقبول والرفض والاعتذار والشكر والدعوات والاجتماعات: عبارات وردودها ومحادثات مسموعة.</p></a>
       <a class="card reveal" href="journey/dictionary.html" style="--c:#11826a;--t:#e3f6ef"><span class="arrow">←</span><span class="ic" aria-hidden="true">📖</span><b>قاموس الألف كلمة</b><p>المعنى والنوع والنطق وأمثلة لكل كلمة، مرتّبة بالأسبوع واليوم.</p></a>
     </div>
   </section>
@@ -293,7 +294,7 @@ footer b{color:var(--ink)}
 <script src="assets/club.js?v=3"></script>
 <script type="module">
 // Top three on the honor board (only once Firebase is configured)
-import('./assets/honor.js?v=20261028e').then(async H => {
+import('./assets/honor.js?v=20261028f').then(async H => {
   const s = H.computeScore().score;
   const mp = document.getElementById('myPts'); if (mp) mp.textContent = s.toLocaleString('en-US');
   if (s > 0) document.getElementById('hSub').textContent = 'نقاطك الآن: ' + s.toLocaleString('en-US') + ' نقطة — انضم وتنافس مع زملائك.';
@@ -333,7 +334,7 @@ import('./assets/honor.js?v=20261028e').then(async H => {
     'journey/word-quest.html':['English Word Quest','🗺️'], 'journey/dictionary.html':['قاموس الألف كلمة','📖'], 'journey/conversation-lab.html':['مختبر المحادثة','💬'],
     'vocab/mega-goal-1.html':['ميدان المفردات 1','🏟️'], 'vocab/mega-goal-2.html':['ميدان المفردات 2','🏆'],
     'everyday/breakfast.html':['Breakfast Challenge','🍳'],
-    'grammar/syntax-tree-lab.html':['Syntax Tree Lab','🌳'], 'grammar/tenses.html':['خارطة الأزمنة','⏳'], 'idioms/index.html':['ركن التعبيرات','🎨'],
+    'grammar/syntax-tree-lab.html':['Syntax Tree Lab','🌳'], 'grammar/tenses.html':['خارطة الأزمنة','⏳'], 'everyday/basics.html':['محادثات التأسيس','🗣️'], 'idioms/index.html':['ركن التعبيرات','🎨'],
     'letters/letters-sounds.html':['ميدان الحروف والأصوات','🔤']
   };
   var last = get('club-last');

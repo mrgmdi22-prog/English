@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<script src="../assets/gate.js?v=5"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>محادثات التأسيس · Everyday Talk</title>
+<meta name="description" content="Basic everyday English for greetings, goodbyes, requests, accepting and refusing, apologizing, thanking, invitations and meetings.">
+<meta name="theme-color" content="#F3F8FF">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/club.css">
+<style>
+/* Everyday talk basics: eight short units of ready-made phrases. Each unit has three tabs —
+   phrases (with the usual reply), a spoken model dialogue, and situation practice. */
+:root{color-scheme:light;--bg:#F3F8FF;--card:#fff;--ink:#1E2945;--muted:#5A6580;--line:#E1E8F4;--ok:#1F9D6B;--bad:#D23F4A;
+  --ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif;--ease:cubic-bezier(.2,.7,.2,1)}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg)}
+body{color:var(--ink);font-family:var(--ar);font-size:19px;line-height:1.7;padding-bottom:env(safe-area-inset-bottom,0px)}
+[hidden]{display:none!important}
+.en{font-family:var(--en);direction:ltr;unicode-bidi:isolate}
+.wrap{max-width:980px;margin:0 auto;padding:70px 16px 70px}
+header.top{text-align:center;margin-bottom:20px}
+.kick{font-family:var(--en);font-weight:700;letter-spacing:.14em;font-size:.9rem;color:var(--muted)}
+h1{margin:4px 0;font-size:clamp(2rem,7vw,3rem);line-height:1.2;font-weight:800}
+h1 .en{color:#2B78C2}
+header.top p{margin:0 auto;max-width:34em;color:var(--muted);font-size:1.1rem}
+.bar{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:1rem;margin:14px 0 18px}
+.seg{display:inline-flex;gap:4px}.seg button{font:inherit;font-weight:700;font-size:1rem;border:2px solid var(--line);background:var(--card);border-radius:12px;padding:5px 12px;cursor:pointer;color:var(--ink)}
+.seg button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.units{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.unit{all:unset;box-sizing:border-box;cursor:pointer;background:var(--card);border:2px solid var(--line);border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:4px;position:relative;transition:transform .2s var(--ease),border-color .2s}
+.unit:hover{transform:translateY(-3px);border-color:var(--c)}
+.unit:focus-visible{outline:3px solid var(--c);outline-offset:3px}
+.unit .ic{width:58px;height:58px;border-radius:18px;background:var(--t);display:grid;place-items:center;font-size:1.9rem;margin-bottom:4px}
+.unit b{font-size:1.18rem;color:var(--c);line-height:1.3}
+.unit .en{font-size:.95rem;color:var(--muted)}
+.unit .st{font-size:.9rem;color:var(--muted);margin-top:4px}
+.unit .badge{position:absolute;top:14px;left:14px;background:var(--ok);color:#fff;border-radius:999px;font-size:.8rem;font-weight:800;padding:2px 10px}
+.uhead{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.back{font:inherit;font-weight:800;border:2px solid var(--line);background:#fff;border-radius:999px;padding:6px 16px;cursor:pointer;color:var(--ink)}
+.uhead .ic{width:52px;height:52px;border-radius:16px;background:var(--t);display:grid;place-items:center;font-size:1.7rem}
+.uhead h2{margin:0;font-size:1.5rem;color:var(--c);line-height:1.2}
+.uhead .en{display:block;font-size:1rem;color:var(--muted)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tabs button{font:inherit;font-weight:800;font-size:1.02rem;border:2px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:8px 18px;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--c);border-color:var(--c);color:#fff}
+.panel{background:var(--card);border:2px solid var(--line);border-radius:24px;padding:16px}
+.say{all:unset;cursor:pointer;flex:none;width:40px;height:40px;border-radius:50%;background:var(--t);display:grid;place-items:center;font-size:1.05rem}
+.say:focus-visible{outline:3px solid var(--c)}
+.ph{display:grid;gap:10px}
+.p{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--line);border-radius:18px;padding:10px 14px}
+.p .tx{flex:1;min-width:0}
+.p .e{display:block;font-family:var(--en);direction:ltr;text-align:left;font-weight:600;font-size:1.18rem;line-height:1.45}
+.p .a{display:block;color:var(--muted);font-size:1.05rem}
+.p .rep{display:inline-flex;max-width:100%;gap:8px;align-items:center;margin-top:6px;background:var(--bg);border-radius:12px;padding:4px 10px;direction:ltr}
+.p .rep .say{width:32px;height:32px;font-size:.9rem}
+.p .rep .en{font-size:1rem}
+.p .rep small{font-family:var(--ar);color:var(--muted);direction:rtl}
+.reg{flex:none;font-size:.8rem;font-weight:800;border-radius:999px;padding:2px 10px;margin-top:6px}
+.reg.f{background:#EEF2FF;color:#3949AB}.reg.i{background:#FFF1E6;color:#B4521C}.reg.n{background:#EEF7F1;color:#2E7D4F}
+.legend{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:.95rem;color:var(--muted);margin-bottom:12px}
+.dlg-tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.btn{font:inherit;font-weight:800;font-size:1rem;border:0;border-radius:999px;padding:9px 18px;cursor:pointer;background:var(--c);color:#fff}
+.btn.soft{background:var(--t);color:var(--c)}
+.chat{display:flex;flex-direction:column;gap:10px;direction:ltr}
+.msg{max-width:84%;display:flex;flex-direction:column;gap:2px;cursor:pointer}
+.msg .who{font-family:var(--en);font-size:.85rem;font-weight:700;color:var(--muted);padding:0 10px}
+.msg .bub{border-radius:20px;padding:10px 14px;font-family:var(--en);font-size:1.12rem;line-height:1.5;transition:box-shadow .2s,transform .2s}
+.msg .tr{font-family:var(--ar);direction:rtl;text-align:right;color:var(--muted);font-size:1rem;padding:0 10px}
+.msg.a{align-self:flex-start}.msg.a .bub{background:var(--t);border-bottom-left-radius:6px}
+.msg.b{align-self:flex-end;text-align:right}.msg.b .bub{background:#F1F3F8;border-bottom-right-radius:6px}
+.msg.now .bub{box-shadow:0 0 0 3px var(--c);transform:scale(1.02)}
+.hideTr .msg .tr{visibility:hidden}
+.quiz .qtop{display:flex;justify-content:space-between;color:var(--muted);font-weight:700}
+.qbar{height:10px;border-radius:99px;background:var(--bg);overflow:hidden;margin:10px 0 14px}.qbar i{display:block;height:100%;background:var(--c);transition:width .3s}
+.sit{font-size:1.25rem;font-weight:800;line-height:1.6;margin:4px 0 14px;text-align:center}
+.opts{display:grid;gap:10px}
+.opts button{font:inherit;font-family:var(--en);direction:ltr;cursor:pointer;border:2px solid var(--line);background:#fff;border-radius:16px;padding:10px 14px;font-size:1.1rem;font-weight:600;color:var(--ink);text-align:left;transition:all .15s}
+.opts button:hover:not(:disabled){border-color:var(--c)}
+.opts button.right{background:#E3F6EE;border-color:var(--ok)}.opts button.wrong{background:#FDECEC;border-color:var(--bad)}
+.qfb{min-height:2em;text-align:center;font-weight:800;margin-top:10px}.qfb.ok{color:var(--ok)}.qfb.no{color:var(--bad)}
+.qend{text-align:center}.qend .big{font-size:3rem;font-weight:800;color:var(--c);line-height:1.2}
+footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<a class="club-home" href="../index.html">🏠 الرئيسية</a>
+<div class="wrap">
+  <header class="top">
+    <span class="kick">English Club · Everyday Talk</span>
+    <h1>محادثات التأسيس <span class="en">Everyday Talk</span></h1>
+    <p>عبارات جاهزة لأهم مواقف الحياة: التحية، والوداع، والطلب، والقبول والرفض، والاعتذار، والشكر، والدعوات، والاجتماعات. تعلّم العبارة وردّها، واستمع إلى المحادثة، ثم تدرّب.</p>
+  </header>
+  <div class="bar"><span>النطق:</span><span class="seg" id="acc"><button data-a="en-US" aria-pressed="true">US</button><button data-a="en-GB" aria-pressed="false">UK</button></span></div>
+  <section id="home"><div class="units" id="units"></div></section>
+  <section id="unit" hidden></section>
+  <footer>إعداد: أ. أحمد آل سالم — نادي اللغة الإنجليزية، ثانوية الأمير فيصل بالعقيق</footer>
+</div>
+<script>
+const U=[{"id": "greet", "ic": "👋", "ar": "التحية والتعارف", "en": "Greetings & Introductions", "c": "#2B78C2", "t": "#E3EFFA", "ph": [["Hello! / Hi!", "مرحباً", "n", "Hi! / Hello!"], ["Good morning.", "صباح الخير", "f", "Good morning."], ["How are you?", "كيف حالك؟", "n", "I'm fine, thanks. And you?"], ["How's it going?", "كيف الأحوال؟", "i", "Great, thanks!"], ["My name is Faisal.", "اسمي فيصل.", "n", "Nice to meet you, Faisal."], ["Nice to meet you.", "تشرفت بمعرفتك.", "n", "Nice to meet you too."], ["Where are you from?", "من أين أنت؟", "n", "I'm from Al-Baha."], ["This is my friend Omar.", "هذا صديقي عمر.", "n", "Hi, Omar! Nice to meet you."], ["Welcome to our school!", "أهلاً بك في مدرستنا!", "n", "Thank you!"]], "dlg": [["Faisal", "Hi! I'm Faisal. Are you new here?", "مرحباً، أنا فيصل. هل أنت جديد هنا؟"], ["Omar", "Yes, I am. My name is Omar.", "نعم، اسمي عمر."], ["Faisal", "Nice to meet you, Omar. Welcome to our class!", "تشرفت بمعرفتك يا عمر. أهلاً بك في فصلنا!"], ["Omar", "Nice to meet you too. Thank you!", "وأنا كذلك تشرفت بمعرفتك. شكراً!"], ["Faisal", "Where are you from?", "من أين أنت؟"], ["Omar", "I'm from Taif. We moved here last month.", "أنا من الطائف. انتقلنا إلى هنا الشهر الماضي."], ["Faisal", "Great! Come, I'll show you the library.", "رائع! تعال، سأريك المكتبة."]], "q": [["قابلت معلمك صباحاً. ماذا تقول؟", "Good morning, sir.", "Good night, sir.", "Goodbye, sir.", "Sorry, sir."], ["سألك زميلك: How are you? بماذا ترد؟", "I'm fine, thanks. And you?", "I'm Faisal.", "Yes, please.", "You're welcome."], ["عرّفك صديقك على شخص جديد. ماذا تقول له؟", "Nice to meet you.", "See you later.", "Excuse me.", "No, thank you."], ["تريد أن تعرّف صديقك سعد على أخيك. ماذا تقول؟", "This is my brother.", "I am your brother.", "Where is my brother?", "My brother is fine."], ["سألك أحدهم: Where are you from? بماذا ترد؟", "I'm from Al-Aqiq.", "I'm fifteen.", "I'm a student.", "I'm fine."]]}, {"id": "bye", "ic": "🤝", "ar": "الوداع وإنهاء اللقاء", "en": "Saying Goodbye", "c": "#7A4FC4", "t": "#F1EAFD", "ph": [["Goodbye.", "مع السلامة", "n", "Goodbye."], ["See you later.", "أراك لاحقاً", "i", "See you!"], ["See you tomorrow.", "أراك غداً", "n", "See you tomorrow."], ["Have a nice day!", "أتمنى لك يوماً سعيداً!", "n", "Thanks, you too!"], ["Take care.", "اعتنِ بنفسك", "i", "You too."], ["It was nice talking to you.", "سعدت بالحديث معك.", "f", "Same here."], ["I have to go now.", "يجب أن أذهب الآن.", "n", "OK, see you soon."], ["Good night.", "تصبح على خير", "n", "Good night."]], "dlg": [["Saad", "Oh, it's four o'clock. I have to go now.", "أوه، إنها الساعة الرابعة. يجب أن أذهب الآن."], ["Ali", "OK. It was nice talking to you.", "حسناً. سعدت بالحديث معك."], ["Saad", "Same here. See you tomorrow at school.", "وأنا كذلك. أراك غداً في المدرسة."], ["Ali", "See you! Have a nice evening.", "أراك! أتمنى لك مساءً سعيداً."], ["Saad", "Thanks, you too. Take care!", "شكراً، ولك كذلك. اعتنِ بنفسك!"]], "q": [["انتهى اليوم الدراسي وستقابل صديقك غداً. ماذا تقول؟", "See you tomorrow.", "Good morning.", "Nice to meet you.", "How are you?"], ["تريد أن تنهي الحديث لأن عندك موعداً. ماذا تقول؟", "Sorry, I have to go now.", "I'm from Jeddah.", "Can I help you?", "Welcome!"], ["تودّع أخاك قبل النوم. ماذا تقول؟", "Good night.", "Good afternoon.", "Hello!", "Excuse me."], ["قال لك أحدهم: Have a nice day! بماذا ترد؟", "Thanks, you too!", "Yes, I do.", "No, I'm not.", "Nice to meet you."], ["تودّع ضيفاً مهماً بعد اجتماع. أي عبارة أنسب؟", "It was nice talking to you.", "See ya!", "Bye-bye, buddy!", "Go now."]]}, {"id": "ask", "ic": "🙏", "ar": "الطلب بأدب", "en": "Making Requests", "c": "#1D7A50", "t": "#E4F5EC", "ph": [["Can I borrow your pen, please?", "هل أستطيع استعارة قلمك من فضلك؟", "n", "Sure, here you are."], ["Could you help me, please?", "هل يمكنك مساعدتي من فضلك؟", "f", "Of course!"], ["Could you say that again, please?", "هل يمكنك إعادة ذلك من فضلك؟", "f", "Sure. I said..."], ["Can you open the window?", "هل تفتح النافذة؟", "i", "OK!"], ["Would you mind closing the door?", "هل تمانع أن تغلق الباب؟", "f", "Not at all."], ["May I come in?", "هل أدخل؟ / أتأذن لي بالدخول؟", "f", "Yes, come in."], ["May I ask a question?", "هل لي أن أسأل سؤالاً؟", "f", "Yes, go ahead."], ["Excuse me, where is the library?", "عفواً، أين المكتبة؟", "n", "It's on the second floor."], ["I'd like a glass of water, please.", "أريد كوب ماء من فضلك.", "f", "Here you are."]], "dlg": [["Student", "Excuse me, Mr. Ahmed. May I come in?", "عفواً أستاذ أحمد، هل أدخل؟"], ["Teacher", "Yes, come in, Khalid.", "نعم، ادخل يا خالد."], ["Student", "Could you explain the homework again, please?", "هل يمكنك شرح الواجب مرة أخرى من فضلك؟"], ["Teacher", "Of course. Read page twenty and answer the questions.", "بالتأكيد. اقرأ الصفحة العشرين وأجب عن الأسئلة."], ["Student", "Can I send it by email?", "هل أستطيع إرساله بالبريد الإلكتروني؟"], ["Teacher", "Sure, no problem.", "بالتأكيد، لا مشكلة."], ["Student", "Thank you very much, sir.", "شكراً جزيلاً يا أستاذ."]], "q": [["تريد أن تدخل الفصل وقد بدأت الحصة. ماذا تقول؟", "May I come in?", "Come in!", "I'm coming in now.", "Open the door!"], ["لم تسمع كلام المعلم جيداً. ماذا تقول؟", "Could you say that again, please?", "Say it!", "I don't like it.", "What's your name?"], ["تحتاج قلماً من زميلك. ماذا تقول؟", "Can I borrow your pen, please?", "Give me your pen.", "This is my pen.", "I have a pen."], ["تريد أن تسأل عن مكان المكتبة. كيف تبدأ؟", "Excuse me, where is the library?", "Hey! Library!", "I'm the library.", "Go to the library."], ["قال لك أحدهم: Would you mind closing the door? وأنت موافق. بماذا ترد؟", "Not at all.", "Yes, I mind.", "No, thank you.", "I'm sorry."]]}, {"id": "yesno", "ic": "✅", "ar": "القبول والرفض", "en": "Accepting & Refusing", "c": "#C2457A", "t": "#FCE8F0", "ph": [["Yes, please.", "نعم، من فضلك.", "n", "Here you are."], ["Sure! / Of course!", "بالتأكيد!", "n", ""], ["That sounds great!", "تبدو فكرة رائعة!", "i", ""], ["I'd love to.", "يسعدني ذلك.", "f", ""], ["No, thank you.", "لا، شكراً.", "n", "OK."], ["Sorry, I can't.", "آسف، لا أستطيع.", "n", "That's OK."], ["I'm afraid I'm busy.", "أخشى أنني مشغول.", "f", "Maybe next time."], ["Maybe next time.", "ربما في المرة القادمة.", "n", ""], ["Let me think about it.", "دعني أفكر في الأمر.", "n", "Sure, take your time."]], "dlg": [["Majed", "We're playing football after school. Do you want to join us?", "سنلعب كرة القدم بعد المدرسة. هل تريد أن تنضم إلينا؟"], ["Turki", "That sounds great! What time?", "تبدو فكرة رائعة! في أي ساعة؟"], ["Majed", "At four. Would you like some juice now?", "الساعة الرابعة. هل تريد بعض العصير الآن؟"], ["Turki", "No, thank you. I'm not thirsty.", "لا، شكراً. لست عطشاناً."], ["Majed", "And can you come to my house on Friday?", "وهل تستطيع أن تأتي إلى بيتي يوم الجمعة؟"], ["Turki", "Sorry, I can't. I'm visiting my grandfather. Maybe next time.", "آسف، لا أستطيع. سأزور جدي. ربما في المرة القادمة."], ["Majed", "That's OK. See you at four!", "لا بأس. أراك الساعة الرابعة!"]], "q": [["عرض عليك صديقك فنجان قهوة وأنت لا تريده. ماذا تقول؟", "No, thank you.", "No!", "I don't want your coffee.", "Yes, please."], ["دعاك زميلك لرحلة وأنت متحمس. ماذا تقول؟", "That sounds great!", "I'm afraid I'm busy.", "No, thank you.", "Sorry, I can't."], ["دعاك أحدهم وأنت مشغول. أي رد أكثر أدباً؟", "Sorry, I can't. Maybe next time.", "No. I'm busy.", "I don't want to.", "Never!"], ["سألك المعلم: Would you like to read? وتريد ذلك. ماذا تقول؟", "I'd love to.", "I'm afraid not.", "No, thank you.", "Let me go."], ["لم تقرر بعد إن كنت ستشارك في المسابقة. ماذا تقول؟", "Let me think about it.", "That sounds great!", "Of course!", "No way!"]]}, {"id": "sorry", "ic": "😔", "ar": "الاعتذار والرد عليه", "en": "Apologizing", "c": "#c2452a", "t": "#ffece4", "ph": [["Sorry!", "آسف!", "i", "That's OK."], ["I'm really sorry.", "أنا آسف جداً.", "n", "Don't worry about it."], ["I apologize for being late.", "أعتذر عن التأخير.", "f", "No problem. Please sit down."], ["Sorry, it was my mistake.", "آسف، كان خطئي.", "n", "It's OK. It happens."], ["Excuse me. (to pass)", "عفواً (لتمرّ)", "n", "Sure."], ["Pardon? / Sorry? (didn't hear)", "عفواً؟ (لم أسمع)", "n", ""], ["That's OK. / No problem.", "لا بأس / لا مشكلة", "n", ""], ["Don't worry about it.", "لا تقلق بشأن ذلك.", "n", ""], ["Never mind.", "لا عليك.", "i", ""]], "dlg": [["Nawaf", "Sorry I'm late, Mr. Ahmed. The bus was late.", "آسف على التأخير يا أستاذ أحمد. تأخرت الحافلة."], ["Teacher", "That's OK, Nawaf. Please sit down.", "لا بأس يا نواف. تفضل بالجلوس."], ["Nawaf", "Oh! Sorry, Salem. I stepped on your bag.", "أوه! آسف يا سالم. دست على حقيبتك."], ["Salem", "Don't worry about it.", "لا تقلق بشأن ذلك."], ["Nawaf", "Excuse me, can I sit here?", "عفواً، هل أستطيع الجلوس هنا؟"], ["Salem", "Sure, go ahead.", "بالتأكيد، تفضل."]], "q": [["وصلت متأخراً إلى الحصة. ماذا تقول للمعلم؟", "Sorry I'm late.", "Late is OK.", "Good night.", "I'm not late."], ["اصطدمت بشخص في الممر بالخطأ. ماذا تقول؟", "Oh, I'm sorry!", "Thank you!", "See you!", "Excuse me, who are you?"], ["اعتذر لك صديقك عن خطأ بسيط. بماذا ترد؟", "Don't worry about it.", "Yes, you are wrong.", "I'm sorry too.", "Goodbye."], ["تريد أن تمرّ بين شخصين يتحدثان. ماذا تقول؟", "Excuse me.", "Sorry, I can't.", "Move!", "Hello!"], ["تريد أن تعتذر رسمياً في رسالة لمدير المدرسة. أي عبارة أنسب؟", "I apologize for missing the meeting.", "Sorry, man!", "Oops!", "My bad."]]}, {"id": "thanks", "ic": "💐", "ar": "الشكر والرد عليه", "en": "Thanking", "c": "#9a6a00", "t": "#fff6d8", "ph": [["Thank you.", "شكراً لك.", "n", "You're welcome."], ["Thanks a lot!", "شكراً جزيلاً!", "i", "No problem!"], ["Thank you very much for your help.", "شكراً جزيلاً على مساعدتك.", "f", "It was my pleasure."], ["I really appreciate it.", "أقدّر ذلك كثيراً.", "f", "Anytime."], ["That's very kind of you.", "هذا لطف منك.", "f", "Not at all."], ["You're welcome.", "على الرحب والسعة / العفو", "n", ""], ["My pleasure.", "بكل سرور.", "f", ""], ["Anytime!", "في أي وقت!", "i", ""]], "dlg": [["Rakan", "Here's your book. You left it in the lab.", "هذا كتابك. تركته في المختبر."], ["Hamad", "Oh, thank you so much! I was looking for it.", "أوه، شكراً جزيلاً! كنت أبحث عنه."], ["Rakan", "You're welcome.", "العفو."], ["Hamad", "And thank you for helping me with the project. I really appreciate it.", "وشكراً على مساعدتك في المشروع. أقدّر ذلك كثيراً."], ["Rakan", "It was my pleasure. Anytime!", "كان ذلك من دواعي سروري. في أي وقت!"]], "q": [["قال لك أحدهم: Thank you! بماذا ترد؟", "You're welcome.", "Thank you.", "Sorry.", "See you."], ["ساعدك المعلم في مسألة صعبة. أي عبارة أنسب؟", "Thank you very much for your help.", "Thanks, bro!", "OK.", "Good job, teacher."], ["قدّم لك جارك هدية. ماذا تقول؟", "That's very kind of you.", "How much is it?", "I don't need it.", "Excuse me."], ["شكرك زميلك على مساعدتك وأنت سعيد بذلك. بماذا ترد؟", "My pleasure.", "Not my problem.", "Yes, thank me.", "I'm sorry."], ["تريد أن تشكر صديقك بطريقة ودية. ماذا تقول؟", "Thanks a lot!", "I appreciate your assistance, sir.", "Goodbye.", "Pardon?"]]}, {"id": "invite", "ic": "📅", "ar": "الدعوات والمواعيد", "en": "Invitations & Plans", "c": "#2477b5", "t": "#e6f3fc", "ph": [["Would you like to come to my house?", "هل تود أن تأتي إلى بيتي؟", "f", "I'd love to!"], ["Do you want to play football with us?", "هل تريد أن تلعب الكرة معنا؟", "i", "Sure!"], ["Are you free on Thursday?", "هل أنت متفرغ يوم الخميس؟", "n", "Yes, I am."], ["Let's meet at the library.", "لنلتقِ في المكتبة.", "n", "OK, good idea."], ["What time shall we meet?", "متى نلتقي؟", "n", "How about five o'clock?"], ["How about five o'clock?", "ما رأيك بالساعة الخامسة؟", "n", "Perfect!"], ["See you there!", "أراك هناك!", "i", ""], ["Can we meet another day?", "هل يمكن أن نلتقي يوماً آخر؟", "n", "Sure. What about Saturday?"]], "dlg": [["Yazeed", "Are you free on Thursday evening?", "هل أنت متفرغ مساء الخميس؟"], ["Bandar", "Yes, I am. Why?", "نعم. لماذا؟"], ["Yazeed", "Would you like to come to my birthday party?", "هل تود أن تحضر حفلة عيد ميلادي؟"], ["Bandar", "I'd love to! What time?", "يسعدني ذلك! في أي ساعة؟"], ["Yazeed", "How about seven o'clock?", "ما رأيك بالساعة السابعة؟"], ["Bandar", "Perfect. Where shall we meet?", "ممتاز. أين نلتقي؟"], ["Yazeed", "At my house, near the park.", "في بيتي قرب الحديقة."], ["Bandar", "Great. See you there!", "رائع. أراك هناك!"]], "q": [["تريد أن تدعو صديقك إلى بيتك بطريقة مهذبة. ماذا تقول؟", "Would you like to come to my house?", "Come to my house now.", "My house is big.", "Where is your house?"], ["تريد أن تقترح وقتاً للقاء. ماذا تقول؟", "How about five o'clock?", "It's five o'clock.", "Five o'clock is late.", "Are you five?"], ["تريد أن تعرف هل صديقك متفرغ يوم الخميس. ماذا تسأل؟", "Are you free on Thursday?", "Is Thursday free?", "Do you like Thursday?", "Thursday is free."], ["الموعد لا يناسبك وتريد يوماً آخر. ماذا تقول؟", "Can we meet another day?", "I don't want to meet you.", "See you there!", "That sounds great!"], ["اتفقتما على المكان والزمان. كيف تنهي الحديث؟", "Great. See you there!", "Nice to meet you.", "Sorry, I can't.", "How are you?"]]}, {"id": "meet", "ic": "💼", "ar": "الاجتماعات والنقاش", "en": "In Meetings & Class", "c": "#2f5fa8", "t": "#e8effb", "ph": [["Let's start the meeting.", "لنبدأ الاجتماع.", "f", ""], ["Can I say something?", "هل لي أن أقول شيئاً؟", "n", "Yes, go ahead."], ["I think that's a good idea.", "أظن أنها فكرة جيدة.", "n", ""], ["I agree with you.", "أتفق معك.", "n", ""], ["I'm not sure I agree.", "لست متأكداً أنني أوافق.", "f", "Why not?"], ["What do you think?", "ما رأيك؟", "n", "In my opinion, ..."], ["In my opinion, we should start early.", "في رأيي، يجب أن نبدأ مبكراً.", "f", ""], ["Sorry, could you repeat that?", "عفواً، هل يمكنك أن تكرر ذلك؟", "f", "Sure."], ["Any questions?", "هل من أسئلة؟", "n", ""], ["Thank you for your time.", "شكراً لكم على وقتكم.", "f", "Thank you."]], "dlg": [["Leader", "Good morning, everyone. Let's start the meeting.", "صباح الخير جميعاً. لنبدأ الاجتماع."], ["Leader", "We need ideas for the school's English Day. What do you think?", "نحتاج أفكاراً ليوم اللغة الإنجليزية في المدرسة. ما رأيكم؟"], ["Ziad", "In my opinion, we should have a spelling competition.", "في رأيي، يجب أن نقيم مسابقة إملاء."], ["Fahad", "I agree with you. And we can show short plays too.", "أتفق معك. ويمكننا أن نعرض مسرحيات قصيرة أيضاً."], ["Ziad", "Can I say something? I think the plays should be short.", "هل لي أن أقول شيئاً؟ أظن أن المسرحيات يجب أن تكون قصيرة."], ["Leader", "Good point. Any questions?", "نقطة جيدة. هل من أسئلة؟"], ["Fahad", "No. Thank you.", "لا. شكراً."], ["Leader", "Great. Thank you all for your time.", "رائع. شكراً لكم جميعاً على وقتكم."]], "q": [["تريد أن تشارك برأيك في الاجتماع بأدب. ماذا تقول؟", "Can I say something?", "Stop talking!", "Listen to me now!", "I'm leaving."], ["توافق زميلك على فكرته. ماذا تقول؟", "I agree with you.", "I'm not sure.", "You're wrong.", "Pardon?"], ["لا توافق تماماً وتريد أن تقول ذلك بلطف. أي عبارة أنسب؟", "I'm not sure I agree.", "That's a stupid idea.", "No, no, no!", "I agree with you."], ["تريد أن تطلب رأي زميلك. ماذا تسأل؟", "What do you think?", "What are you doing?", "Where are you?", "Who are you?"], ["انتهى الاجتماع وتريد شكر الحاضرين. ماذا تقول؟", "Thank you for your time.", "Let's start the meeting.", "Any questions?", "Go home."]]}];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const REG={f:'رسمي',i:'ودّي',n:'عام'};
+
+/* speech: the two speakers in a dialogue get slightly different voices */
+let ACC=store.get('tb-accent')||'en-US',voices=[];
+const loadV=()=>{try{voices=speechSynthesis.getVoices()||[]}catch(e){}};
+if('speechSynthesis' in window){loadV();speechSynthesis.onvoiceschanged=loadV;}
+function utter(t,who){const u=new SpeechSynthesisUtterance(t.replace(/\s*\(.*?\)\s*/g,' ').replace(/\s\/\s/g,', '));u.lang=ACC;u.rate=.9;
+  const vs=voices.filter(v=>(v.lang||'').replace('_','-').startsWith(ACC));if(vs.length)u.voice=vs[who&&vs.length>1?1:0];u.pitch=who?0.85:1.05;return u;}
+function say(t,who){if(!('speechSynthesis' in window))return;try{speechSynthesis.cancel();speechSynthesis.speak(utter(t,who));}catch(e){}}
+document.querySelectorAll('#acc button').forEach(b=>{b.setAttribute('aria-pressed',b.dataset.a===ACC);b.onclick=()=>{ACC=b.dataset.a;store.set('tb-accent',ACC);document.querySelectorAll('#acc button').forEach(x=>x.setAttribute('aria-pressed',x===b));};});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-say]');if(b){e.stopPropagation();say(b.dataset.say);}});
+const sayBtn=t=>`<button class="say" type="button" data-say="${esc(t)}" aria-label="استمع">🔊</button>`;
+
+/* home */
+function best(u){return +(store.get('tb-best-'+u.id)||0);}
+function drawHome(){
+  $('units').innerHTML=U.map((u,i)=>{const b=best(u);return `<button class="unit" data-i="${i}" style="--c:${u.c};--t:${u.t}">${b>=4?'<span class="badge">✓</span>':''}<span class="ic" aria-hidden="true">${u.ic}</span><b>${i+1}. ${u.ar}</b><span class="en">${u.en}</span><span class="st">${u.ph.length} عبارة · محادثة · ${b?`أفضل نتيجة ${b}/5`:'تدريب 5 مواقف'}</span></button>`;}).join('');
+  $('units').querySelectorAll('.unit').forEach(b=>b.onclick=()=>openUnit(+b.dataset.i));
+}
+
+/* unit */
+let cur=null,tab='ph',playing=false;
+function openUnit(i){cur=U[i];tab='ph';$('home').hidden=true;document.querySelector('header.top').hidden=true;$('unit').hidden=false;draw();window.scrollTo(0,0);}
+function draw(){
+  const u=cur,Z=$('unit');Z.style.setProperty('--c',u.c);Z.style.setProperty('--t',u.t);
+  Z.innerHTML=`<div class="uhead"><button class="back" id="back">→ الوحدات</button><span class="ic" aria-hidden="true">${u.ic}</span><div><h2>${u.ar}</h2><span class="en">${u.en}</span></div></div>
+    <div class="tabs" role="tablist">${[['ph','💬 العبارات'],['dlg','🎭 المحادثة'],['q','🎯 تدرّب']].map(([k,l])=>`<button role="tab" data-t="${k}" aria-selected="${tab===k}">${l}</button>`).join('')}</div>
+    <div class="panel" id="pn"></div>`;
+  $('back').onclick=()=>{stop();$('unit').hidden=true;$('home').hidden=false;document.querySelector('header.top').hidden=false;drawHome();window.scrollTo(0,0);};
+  Z.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{stop();tab=b.dataset.t;draw();});
+  ({ph:drawPh,dlg:drawDlg,q:newQuiz})[tab]();
+}
+function drawPh(){
+  $('pn').innerHTML=`<div class="legend">نوع العبارة: <span class="reg f">رسمي</span> مع المعلم والكبار والغرباء · <span class="reg i">ودّي</span> مع الأصدقاء والأسرة · <span class="reg n">عام</span> يناسب الجميع</div><div class="ph">`+
+    cur.ph.map(p=>`<div class="p">${sayBtn(p[0])}<div class="tx"><span class="e">${esc(p[0])}</span><span class="a">${esc(p[1])}</span>${p[3]?`<div class="rep">${sayBtn(p[3])}<span class="en">${esc(p[3])}</span><small>↩ الرد</small></div>`:''}</div><span class="reg ${p[2]}">${REG[p[2]]}</span></div>`).join('')+'</div>';
+}
+function drawDlg(){
+  const names=[...new Set(cur.dlg.map(d=>d[0]))];
+  $('pn').innerHTML=`<div class="dlg-tools"><button class="btn" id="play">▶️ استمع إلى المحادثة</button><button class="btn soft" id="trBtn">🙈 أخفِ الترجمة</button></div><div class="chat" id="chat">`+
+    cur.dlg.map((d,i)=>{const s=names.indexOf(d[0]);return `<div class="msg ${s?'b':'a'}" data-i="${i}"><span class="who">${esc(d[0])}</span><span class="bub">${esc(d[1])}</span><span class="tr">${esc(d[2])}</span></div>`;}).join('')+'</div>';
+  $('chat').querySelectorAll('.msg').forEach(m=>m.onclick=()=>{const d=cur.dlg[+m.dataset.i];stop();mark(+m.dataset.i);say(d[1],names.indexOf(d[0]));});
+  $('trBtn').onclick=()=>{const h=$('chat').classList.toggle('hideTr');$('trBtn').textContent=h?'👁️ أظهر الترجمة':'🙈 أخفِ الترجمة';};
+  $('play').onclick=()=>{if(playing){stop();return;}playAll(names);};
+}
+function mark(i){document.querySelectorAll('#chat .msg').forEach(m=>m.classList.toggle('now',+m.dataset.i===i));}
+function stop(){playing=false;try{speechSynthesis.cancel()}catch(e){}if($('play'))$('play').textContent='▶️ استمع إلى المحادثة';mark(-1);}
+function playAll(names){
+  if(!('speechSynthesis' in window))return;speechSynthesis.cancel();playing=true;$('play').textContent='⏹️ أوقف';
+  let i=0;const next=()=>{if(!playing)return;if(i>=cur.dlg.length){stop();return;}const d=cur.dlg[i];mark(i);
+    const el=document.querySelector(`#chat .msg[data-i="${i}"]`);if(el)el.scrollIntoView({block:'nearest',behavior:'smooth'});
+    const u=utter(d[1],names.indexOf(d[0]));u.onend=()=>{i++;setTimeout(next,350);};u.onerror=()=>stop();speechSynthesis.speak(u);};
+  next();
+}
+/* practice */
+let Q=null;
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+function newQuiz(){Q={qs:shuffle(cur.q),i:0,right:0};drawQ();}
+function drawQ(){
+  const Z=$('pn');Z.classList.add('quiz');
+  if(Q.i>=Q.qs.length){const b=Math.max(best(cur),Q.right);store.set('tb-best-'+cur.id,String(b));
+    const m=Q.right===5?'ممتاز! أتقنت هذه المواقف 🏆':Q.right>=3?'جيد جداً 👏 راجع العبارات وحاول مرة أخرى':'راجع العبارات والمحادثة ثم أعد المحاولة 💪';
+    const nx=U.indexOf(cur)+1<U.length;
+    Z.innerHTML=`<div class="qend"><div class="big" dir="ltr">${Q.right} / 5</div><p style="font-weight:800;font-size:1.2rem;margin:6px 0">${m}</p><p style="color:var(--muted)">أفضل نتيجة لك في هذه الوحدة: ${b}/5 · كل إجابة صحيحة تمنحك 5 نقاط في لوحة الشرف.</p><button class="btn" id="again">🔁 مرة أخرى</button> ${nx?'<button class="btn soft" id="nextU">الوحدة التالية ←</button>':''}</div>`;
+    $('again').onclick=newQuiz;if(nx)$('nextU').onclick=()=>openUnit(U.indexOf(cur)+1);return;}
+  const q=Q.qs[Q.i],opts=shuffle(q.slice(1));
+  Z.innerHTML=`<div class="qtop"><span>الموقف ${Q.i+1} من 5</span><span>✅ ${Q.right}</span></div><div class="qbar"><i style="width:${Q.i/5*100}%"></i></div>
+    <div class="sit">${esc(q[0])}</div><div class="opts">${opts.map(o=>`<button type="button">${esc(o)}</button>`).join('')}</div><div class="qfb" id="qfb" aria-live="polite"></div>`;
+  Z.querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{const ok=b.textContent===q[1];
+    Z.querySelectorAll('.opts button').forEach(c=>{c.disabled=true;if(c.textContent===q[1])c.classList.add('right');});
+    if(!ok)b.classList.add('wrong');else Q.right++;say(q[1]);
+    const f=$('qfb');f.className='qfb '+(ok?'ok':'no');f.innerHTML=ok?'أحسنت! ✔':'الأنسب: <span class="en">'+esc(q[1])+'</span>';
+    setTimeout(()=>{Q.i++;drawQ();},ok?1300:2600);});
+}
+drawHome();
+</script>
+<script src="../assets/club.js?v=3"></script>
+</body>
+</html>
