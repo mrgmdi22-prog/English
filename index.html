@@ -233,7 +233,7 @@ footer b{color:var(--ink)}
       <div class="card reveal lcard" style="--c:#b8336a;--t:#fdeef3"><div class="lmain"><span class="ic" aria-hidden="true">📚</span><b>قوائم الكلمات</b><span class="en">Word Lists · NGSL &amp; AWL</span><p>بطاقات وجمل وقصص واختبارات لأهم الكلمات العامة والأكاديمية.</p></div>
         <div class="lmodes"><a href="words/ngsl.html">🌍 الكلمات العامة<br><small>1000 كلمة</small></a><a href="words/awl.html">🎓 الكلمات الأكاديمية<br><small>569 كلمة</small></a></div></div>
       <div class="card reveal lcard" style="--c:#a26f00;--t:#fff4d6"><div class="lmain"><span class="ic" aria-hidden="true">🏟️</span><b>ميدان المفردات</b><span class="en">Mega Goal</span><p>مفردات كتب المنهج في تحديات سريعة.</p></div>
-        <div class="lmodes"><a href="vocab/mega-goal-1.html">🏟️ Mega Goal 1.1</a><a href="vocab/mega-goal-2.html">🏆 Mega Goal 2.1</a></div></div>
+        <div class="lmodes"><a href="vocab/mega-goal-1.html">🏟️ Mega Goal 1.1</a><a href="vocab/mega-goal-2.html">🏆 Mega Goal 2.1</a><a href="vocab/mega-goal-3.html" style="grid-column:1/-1">🥇 Mega Goal 3.1</a></div></div>
       <a class="card reveal" href="idioms/index.html" style="--c:#E2573B;--t:#FDECE6"><span class="arrow">←</span><span class="ic" aria-hidden="true">🎨</span><b>ركن التعبيرات</b><span class="en">Idioms · العبارات الاصطلاحية</span><p>26 عبارة اصطلاحية برسومات كرتونية: المعنى الحرفي المضحك، والمعنى الحقيقي، وما يقابله بالعربية.</p></a>
     </div>
   </section>
@@ -295,7 +295,7 @@ footer b{color:var(--ink)}
 <script src="assets/club.js?v=3"></script>
 <script type="module">
 // Top three on the honor board (only once Firebase is configured)
-import('./assets/honor.js?v=20261028h').then(async H => {
+import('./assets/honor.js?v=20261028i').then(async H => {
   const s = H.computeScore().score;
   const mp = document.getElementById('myPts'); if (mp) mp.textContent = s.toLocaleString('en-US');
   if (s > 0) document.getElementById('hSub').textContent = 'نقاطك الآن: ' + s.toLocaleString('en-US') + ' نقطة — انضم وتنافس مع زملائك.';
@@ -332,7 +332,7 @@ import('./assets/honor.js?v=20261028h').then(async H => {
     'capsules/adventure.html':['كبسولة المغامرة','🎈'], 'capsules/emotion.html':['كبسولة المشاعر','💛'], 'capsules/career.html':['كبسولة المسيرة','🎓'],
     'capsules/nature.html':['كبسولة الطبيعة','🌍'], 'capsules/health.html':['كبسولة التعافي','🩺'], 'capsules/sports.html':['كبسولة الرياضة','🏆'], 'capsules/tech.html':['كبسولة التقنية','💻'],
     'journey/word-quest.html':['English Word Quest','🗺️'], 'journey/dictionary.html':['قاموس الألف كلمة','📖'], 'journey/conversation-lab.html':['مختبر المحادثة','💬'],
-    'vocab/mega-goal-1.html':['ميدان المفردات 1','🏟️'], 'vocab/mega-goal-2.html':['ميدان المفردات 2','🏆'],
+    'vocab/mega-goal-1.html':['ميدان المفردات 1','🏟️'], 'vocab/mega-goal-2.html':['ميدان المفردات 2','🏆'], 'vocab/mega-goal-3.html':['ميدان المفردات 3','🥇'],
     'everyday/breakfast.html':['Breakfast Challenge','🍳'],
     'grammar/syntax-tree-lab.html':['Syntax Tree Lab','🌳'], 'grammar/tenses.html':['خارطة الأزمنة','⏳'], 'everyday/basics.html':['محادثات التأسيس','🗣️'], 'idioms/index.html':['ركن التعبيرات','🎨'],
     'letters/letters-sounds.html':['ميدان الحروف والأصوات','🔤']
