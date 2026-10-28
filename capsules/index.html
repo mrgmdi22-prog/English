@@ -140,6 +140,15 @@ footer{text-align:center;color:var(--muted);font-size:1rem;margin-top:40px;line-
         <span class="cta">اعتنِ بصحتك ←</span>
       </div>
     </a>
+    <a class="capsule reveal" href="sports.html" data-cap="sports" data-stages="16" style="--c:#1f8a4c;--t:#e4f6ea;--g1:#2fae5f;--g2:#9fd8ff">
+      <div class="scene"><canvas id="sportsCanvas"></canvas><span class="done-badge" hidden>✓ مكتملة</span></div>
+      <div class="body">
+        <div class="top"><h2 class="name">كبسولة الرياضة <span aria-hidden="true">🏆</span></h2><span class="en">Sports</span></div>
+        <p class="tagline">جمل عن المباريات والملاعب والمنافسة والبطولات وكأس العالم: انزل إلى الملعب وسجّل أهدافك.</p>
+        <div class="prog"><div class="bar"><i></i></div><span class="ptxt">16 مرحلة</span></div>
+        <span class="cta">ادخل الملعب ←</span>
+      </div>
+    </a>
   </div>
   <footer>إعداد: أ. أحمد آل سالم — معلم اللغة الإنجليزية، ثانوية الأمير فيصل بالعقيق</footer>
 </div>
@@ -477,6 +486,30 @@ footer{text-align:center;color:var(--muted);font-size:1rem;margin-top:40px;line-
     ctx.globalAlpha = 1;
   }
 
+  function drawSports(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h;
+    var rand = mulberry32(77), standTop = h*0.28, pitchTop = h*0.56;
+    [[w*0.1,h*0.1],[w*0.9,h*0.1]].forEach(function(p){
+      var g = ctx.createRadialGradient(p[0],p[1],2,p[0],p[1],Math.min(w,h)*0.4);
+      g.addColorStop(0,'rgba(255,250,220,.8)'); g.addColorStop(1,'rgba(255,250,220,0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p[0],p[1],Math.min(w,h)*0.4,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#fffbe6'; ctx.fillRect(p[0]-10,p[1]-5,20,8);
+    });
+    ctx.fillStyle = 'rgba(30,50,80,.55)'; ctx.fillRect(0,standTop,w,pitchTop-standTop);
+    var cols = ['#ffffff','#2fb45a','#ffd23f','#ff6b6b','#7fc8f8'];
+    for (var y = standTop+4; y < pitchTop-2; y += 6) for (var x = 3+(Math.round(y)%2)*3; x < w; x += 6){
+      ctx.fillStyle = cols[Math.floor(rand()*cols.length)]; ctx.globalAlpha = .5+rand()*.5; ctx.beginPath(); ctx.arc(x,y,1.8,0,Math.PI*2); ctx.fill(); }
+    ctx.globalAlpha = 1;
+    for (var i = 0; i < 8; i++){ ctx.fillStyle = i%2 ? '#3fae5c' : '#36a052'; ctx.fillRect(i*w/8, pitchTop, w/8+1, h-pitchTop); }
+    ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(w*.5,pitchTop); ctx.lineTo(w*.5,h); ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(w*.5,pitchTop+(h-pitchTop)*.55,w*.09,(h-pitchTop)*.28,0,0,Math.PI*2); ctx.stroke();
+    var bx = w*.62, by = pitchTop+(h-pitchTop)*.5, br = Math.min(w,h)*.06;
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(bx,by,br,0,Math.PI*2); ctx.fill(); ctx.strokeStyle = '#1a1a1a'; ctx.lineWidth = 1.4; ctx.stroke();
+    ctx.fillStyle = '#1a1a1a'; ctx.beginPath(); for (var k = 0; k < 5; k++){ var a = -Math.PI/2+k*2*Math.PI/5, px = bx+Math.cos(a)*br*.4, py = by+Math.sin(a)*br*.4; k ? ctx.lineTo(px,py) : ctx.moveTo(px,py); } ctx.closePath(); ctx.fill();
+  }
+
   function drawAll(){
     drawSpace(document.getElementById('spaceCanvas'));
     drawFlavor(document.getElementById('flavorCanvas'));
@@ -486,6 +519,7 @@ footer{text-align:center;color:var(--muted);font-size:1rem;margin-top:40px;line-
     drawCareer(document.getElementById('careerCanvas'));
     drawNature(document.getElementById('natureCanvas'));
     drawHealth(document.getElementById('healthCanvas'));
+    drawSports(document.getElementById('sportsCanvas'));
   }
   drawAll();
   window.addEventListener('resize', drawAll);

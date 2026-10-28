@@ -45,11 +45,11 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--violet);outline-off
 h1{font-size:clamp(2.2rem,8vw,3.6rem);font-weight:800;line-height:1.15;margin:14px 0 8px;letter-spacing:-.5px;text-wrap:balance}
 h1 .en{display:block;font-family:var(--en);font-weight:600;font-size:.38em;letter-spacing:2px;color:var(--violet);margin-top:8px;direction:ltr}
 .sub{margin:0 auto;color:var(--muted);font-size:1.15rem;max-width:32em;text-wrap:balance}
-.capchips{grid-column:1/-1;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;margin-top:-4px}
+.capchips{grid-column:1/-1;display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:8px;margin-top:-4px}
 .capchip{text-decoration:none;color:var(--c);background:var(--t);border:1.5px solid transparent;border-radius:16px;padding:10px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;font-weight:800;font-size:.98rem;transition:transform .18s,border-color .18s}
 .capchip span{font-size:1.6rem;line-height:1.2}
 .capchip:hover{transform:translateY(-2px);border-color:var(--c)}
-@media (max-width:760px){.capchips{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:760px){.capchips{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .hcaps{max-width:860px;margin:12px auto 0;background:rgba(255,255,255,.92);border:1.5px solid #ddd5ff;border-radius:22px;padding:12px;text-align:right}
 .hcaps-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap;text-decoration:none;color:var(--violet);margin:0 4px 10px}
 .hcaps-h b{font-size:1.12rem;font-weight:800}
@@ -169,7 +169,7 @@ footer b{color:var(--ink)}
     <div class="paths">
       <a class="path" href="#f1" style="--pc:#2B78C2;--pb:#E3EFFA"><span class="pi" aria-hidden="true">🌱</span><b>التأسيس</b><small>الحروف والأصوات</small></a>
       <a class="path" href="#f2" style="--pc:#b8336a;--pb:#fdeef3"><span class="pi" aria-hidden="true">📚</span><b>المفردات</b><small>أكثر من 3000 كلمة</small></a>
-      <a class="path" href="#f3" style="--pc:#6046e8;--pb:#efebff"><span class="pi" aria-hidden="true">🧩</span><b>القواعد والجمل</b><small>12 زمناً و8 كبسولات</small></a>
+      <a class="path" href="#f3" style="--pc:#6046e8;--pb:#efebff"><span class="pi" aria-hidden="true">🧩</span><b>القواعد والجمل</b><small>12 زمناً و9 كبسولات</small></a>
       <a class="path" href="#f4" style="--pc:#c4532f;--pb:#fdece5"><span class="pi" aria-hidden="true">💬</span><b>القراءة والمحادثة</b><small>18 قصة و20 محادثة</small></a>
     </div>
     <div class="hcaps">
@@ -183,6 +183,7 @@ footer b{color:var(--ink)}
         <a class="capchip" href="capsules/career.html" style="--c:#2f5fa8;--t:#e8effb"><span aria-hidden="true">🎓</span>المسيرة</a>
         <a class="capchip" href="capsules/nature.html" style="--c:#1d7a50;--t:#e4f5ec"><span aria-hidden="true">🌍</span>الطبيعة</a>
         <a class="capchip" href="capsules/health.html" style="--c:#13807f;--t:#e2f5f4"><span aria-hidden="true">🩺</span>التعافي</a>
+        <a class="capchip" href="capsules/sports.html" style="--c:#1f8a4c;--t:#e4f6ea"><span aria-hidden="true">🏆</span>الرياضة</a>
       </div>
     </div>
     <div class="me-strip"><span>⭐ <b id="myStars">0</b> نجمة</span><span>🏅 <b id="myPts">0</b> نقطة</span><span>🎯 <b>4</b> مسارات و<b>20+</b> أداة</span></div>
@@ -239,7 +240,7 @@ footer b{color:var(--ink)}
     <div class="grid">
       <a class="card portal reveal" href="capsules/index.html" style="--c:var(--violet)">
         <span class="ic" aria-hidden="true">🌟</span>
-        <span class="txt"><b>بوابة الكبسولات</b><p>8 كبسولات (الفضاء، النكهة، الحياة، المغامرة، المشاعر، المسيرة، الطبيعة، التعافي): رتّب الجمل وافهم معانيها عبر مراحل ونجوم ومراجعة ذكية.</p><div class="bar" style="margin-top:8px"><i id="capBar"></i></div><span class="prog" id="capProg" style="display:block"></span></span>
+        <span class="txt"><b>بوابة الكبسولات</b><p>9 كبسولات (الفضاء، النكهة، الحياة، المغامرة، المشاعر، المسيرة، الطبيعة، التعافي، الرياضة): رتّب الجمل وافهم معانيها عبر مراحل ونجوم ومراجعة ذكية.</p><div class="bar" style="margin-top:8px"><i id="capBar"></i></div><span class="prog" id="capProg" style="display:block"></span></span>
         <span class="go">ادخل البوابة ←</span>
       </a>
       <div class="capchips" aria-label="ادخل كبسولة مباشرة">
@@ -251,6 +252,7 @@ footer b{color:var(--ink)}
         <a class="capchip" href="capsules/career.html" style="--c:#2f5fa8;--t:#e8effb"><span aria-hidden="true">🎓</span>المسيرة</a>
         <a class="capchip" href="capsules/nature.html" style="--c:#1d7a50;--t:#e4f5ec"><span aria-hidden="true">🌍</span>الطبيعة</a>
         <a class="capchip" href="capsules/health.html" style="--c:#13807f;--t:#e2f5f4"><span aria-hidden="true">🩺</span>التعافي</a>
+        <a class="capchip" href="capsules/sports.html" style="--c:#1f8a4c;--t:#e4f6ea"><span aria-hidden="true">🏆</span>الرياضة</a>
       </div>
       <a class="card reveal" href="grammar/tenses.html" style="--c:#5B47D6;--t:#EEEBFD"><span class="arrow">←</span><span class="ic" aria-hidden="true">⏳</span><b>خارطة الأزمنة</b><span class="en">The 12 English tenses</span><p>الأزمنة الاثنا عشر: القاعدة والخط الزمني وأمثلة لكل زمن، وجدول تصريف لأي فعل، واختبار سريع.</p></a>
       <a class="card reveal" href="grammar/syntax-tree-lab.html" style="--c:#3A5BD0;--t:#ECEFFC"><span class="arrow">←</span><span class="ic" aria-hidden="true">🌳</span><b>Syntax Tree Lab</b><span class="en">See how a sentence is built</span><p>شجرة تُظهر أجزاء الجملة الإنجليزية ونوع كل كلمة، مع شرح لكل جزء.</p></a>
@@ -289,7 +291,7 @@ footer b{color:var(--ink)}
 <script src="assets/club.js?v=3"></script>
 <script type="module">
 // Top three on the honor board (only once Firebase is configured)
-import('./assets/honor.js?v=20261028c').then(async H => {
+import('./assets/honor.js?v=20261028d').then(async H => {
   const s = H.computeScore().score;
   const mp = document.getElementById('myPts'); if (mp) mp.textContent = s.toLocaleString('en-US');
   if (s > 0) document.getElementById('hSub').textContent = 'نقاطك الآن: ' + s.toLocaleString('en-US') + ' نقطة — انضم وتنافس مع زملائك.';
@@ -307,7 +309,7 @@ import('./assets/honor.js?v=20261028c').then(async H => {
   function get(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } }
 
   // Progress over all eight capsules (each saves cap2-<name>-stars = {stage: 1..3})
-  var CAPS = {space:16, flavor:23, life:16, adventure:16, emotion:17, career:17, nature:16, health:16};
+  var CAPS = {space:16, flavor:23, life:16, adventure:16, emotion:17, career:17, nature:16, health:16, sports:16};
   var total = 0, doneAll = 0, stagesAll = 0;
   Object.keys(CAPS).forEach(function(c){
     var st = get('cap2-' + c + '-stars') || {};
@@ -316,7 +318,7 @@ import('./assets/honor.js?v=20261028c').then(async H => {
   });
   var cp = document.getElementById('capProg');
   if (cp) {
-    cp.textContent = doneAll ? ('أنجزت ' + doneAll + ' من ' + stagesAll + ' مرحلة · ⭐ ' + total) : (stagesAll + ' مرحلة في 8 كبسولات');
+    cp.textContent = doneAll ? ('أنجزت ' + doneAll + ' من ' + stagesAll + ' مرحلة · ⭐ ' + total) : (stagesAll + ' مرحلة في 9 كبسولات');
     requestAnimationFrame(function(){ document.getElementById('capBar').style.width = Math.min(100, Math.round(doneAll / stagesAll * 100)) + '%'; });
   }
   document.getElementById('myStars').textContent = total;
@@ -325,7 +327,7 @@ import('./assets/honor.js?v=20261028c').then(async H => {
   var names = {
     'capsules/space.html':['كبسولة الفضاء','🚀'], 'capsules/flavor.html':['كبسولة النكهة','🍊'], 'capsules/life.html':['كبسولة الحياة','🦋'],
     'capsules/adventure.html':['كبسولة المغامرة','🎈'], 'capsules/emotion.html':['كبسولة المشاعر','💛'], 'capsules/career.html':['كبسولة المسيرة','🎓'],
-    'capsules/nature.html':['كبسولة الطبيعة','🌍'], 'capsules/health.html':['كبسولة التعافي','🩺'],
+    'capsules/nature.html':['كبسولة الطبيعة','🌍'], 'capsules/health.html':['كبسولة التعافي','🩺'], 'capsules/sports.html':['كبسولة الرياضة','🏆'],
     'journey/word-quest.html':['English Word Quest','🗺️'], 'journey/dictionary.html':['قاموس الألف كلمة','📖'], 'journey/conversation-lab.html':['مختبر المحادثة','💬'],
     'vocab/mega-goal-1.html':['ميدان المفردات 1','🏟️'], 'vocab/mega-goal-2.html':['ميدان المفردات 2','🏆'],
     'everyday/breakfast.html':['Breakfast Challenge','🍳'],

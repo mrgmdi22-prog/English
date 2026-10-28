@@ -1,0 +1,1028 @@
+<!doctype html><html data-theme="light"><head><meta charset=utf8><script src="../assets/gate.js?v=4"></script><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>كبسولة الرياضة</title>
+<meta name="theme-color" content="#1f8a4c">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sports Capsule">
+<style>
+  :root{
+    --bg:#eef6fb;
+    --panel:#ffffff;
+    --ink:#152a3a;
+    --ink-soft:#4f6b80;
+    --line:#d8ecf5;
+    --accent:#e2572b;
+    --accent-ink:#ffffff;
+    --teal:#2f9e8f;
+    --amber:#f0a83c;
+    --good:#2f8f5b;
+    --good-bg:#e3f5ea;
+    --bad:#c14a45;
+    --bad-bg:#fbe4e2;
+    --scene-a:#8ed1f0;
+    --scene-b:#2f7fb0;
+    --scene-c:#1c5680;
+    --subtitle-bg:rgba(21,42,58,.72);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0f1b26;
+      --panel:#16283a;
+      --ink:#eaf4fb;
+      --ink-soft:#9fc0d6;
+      --line:#213b4e;
+      --accent:#ff7a52;
+      --accent-ink:#1c1008;
+      --teal:#5fd1c0;
+      --amber:#f0c168;
+      --good:#7fd7a3;
+      --good-bg:#1c3327;
+      --bad:#ff9086;
+      --bad-bg:#3a1e1c;
+      --scene-a:#16324a;
+      --scene-b:#0c1c2c;
+      --scene-c:#081420;
+      --subtitle-bg:rgba(8,16,24,.78);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0f1b26;
+    --panel:#16283a;
+    --ink:#eaf4fb;
+    --ink-soft:#9fc0d6;
+    --line:#213b4e;
+    --accent:#ff7a52;
+    --accent-ink:#1c1008;
+    --teal:#5fd1c0;
+    --amber:#f0c168;
+    --good:#7fd7a3;
+    --good-bg:#1c3327;
+    --bad:#ff9086;
+    --bad-bg:#3a1e1c;
+    --scene-a:#16324a;
+    --scene-b:#0c1c2c;
+    --scene-c:#081420;
+    --subtitle-bg:rgba(8,16,24,.78);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Nunito","Tajawal",system-ui,sans-serif;
+    padding-inline:16px;
+    padding-block:28px 40px;
+    direction:rtl;
+  }
+  .wrap{max-width:640px;margin:0 auto;}
+
+  h1{
+    font-family:"Baloo Bhaijaan 2","Nunito",sans-serif;
+    font-size:clamp(1.5rem,5vw,2rem);
+    margin:0 0 4px;
+    text-wrap:balance;
+  }
+  .lede{
+    color:var(--ink-soft);
+    font-size:.95rem;
+    margin:0 0 20px;
+    line-height:1.6;
+  }
+
+  .topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:16px;
+    flex-wrap:wrap;
+  }
+  .streak{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:6px 14px;
+    font-size:.85rem;
+    font-variant-numeric:tabular-nums;
+  }
+  .streak b{color:var(--accent);font-size:1rem;}
+  .scene-count{color:var(--ink-soft);font-size:.85rem;}
+
+  .stage-progress{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:10px 14px;
+    margin-bottom:16px;
+    flex-wrap:wrap;
+  }
+  .stage-progress .stage-label{font-size:.85rem;color:var(--ink-soft);}
+  .stage-progress .stage-label b{color:var(--accent);}
+  .stage-dots{display:flex;gap:6px;}
+  .stage-dots span{
+    width:10px;height:10px;border-radius:50%;
+    background:var(--line);
+    display:inline-block;
+  }
+  .stage-dots span.filled{background:var(--accent);}
+  .trophy-total{
+    font-size:.85rem;
+    color:var(--ink-soft);
+    font-variant-numeric:tabular-nums;
+  }
+  .trophy-total b{color:var(--amber);}
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 30px -18px rgba(20,50,70,.35);
+  }
+
+  .scene{
+    position:relative;
+    aspect-ratio:16/9;
+    width:100%;
+    background:
+      radial-gradient(140px 140px at 78% 20%, rgba(255,255,255,.25), transparent 60%),
+      linear-gradient(155deg,var(--scene-a),var(--scene-b) 60%,var(--scene-c));
+    overflow:hidden;
+  }
+  .scene canvas{position:absolute;inset:0;width:100%;height:100%;display:block;}
+
+  .level-tag{
+    position:absolute;
+    top:10px;
+    inset-inline-start:10px;
+    display:flex;
+    gap:6px;
+  }
+  .badge{
+    font-size:.68rem;
+    font-weight:800;
+    padding:4px 10px;
+    border-radius:999px;
+    letter-spacing:.02em;
+    color:#fff;
+    background:rgba(0,0,0,.32);
+    backdrop-filter:blur(2px);
+  }
+  .badge.lvl-A1{background:rgba(76,140,91,.85);}
+  .badge.lvl-A2{background:rgba(192,122,28,.85);}
+  .badge.lvl-B1{background:rgba(181,67,47,.85);}
+  .badge.grammar-tag{
+    background:rgba(0,0,0,.38);
+  }
+
+  .caption-block{
+    padding:18px 20px 4px;
+    text-align:center;
+  }
+  .caption-block .line{
+    margin:0;
+    font-family:"Baloo Bhaijaan 2","Nunito",sans-serif;
+    font-size:clamp(1.1rem,4.2vw,1.4rem);
+    font-weight:700;
+    color:var(--ink);
+    direction:ltr;
+  }
+  .caption-block .subtitle{
+    margin:6px 0 0;
+    font-size:.85rem;
+    font-style:italic;
+    color:var(--ink-soft);
+    direction:ltr;
+  }
+
+  .listen-row{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    padding:14px 16px 4px;
+  }
+  .listen-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--teal);
+    color:#fff;
+    border:none;
+    border-radius:999px;
+    padding:9px 18px;
+    font-size:.88rem;
+    font-weight:700;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .listen-btn:active{transform:scale(.97);}
+
+  .quiz{padding:18px 20px 22px;}
+  .quiz h2{
+    font-size:1.02rem;
+    margin:0 0 14px;
+    color:var(--ink);
+    font-family:"Baloo Bhaijaan 2","Nunito",sans-serif;
+  }
+  .choices{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  @media (max-width:420px){
+    .choices{grid-template-columns:1fr;}
+  }
+  .choice{
+    border:1.5px solid var(--line);
+    background:var(--bg);
+    color:var(--ink);
+    border-radius:14px;
+    padding:14px 12px;
+    font-size:.95rem;
+    font-family:"Tajawal","Nunito",sans-serif;
+    cursor:pointer;
+    line-height:1.5;
+    transition:border-color .15s, background .15s;
+  }
+  .choice:hover{border-color:var(--accent);}
+  .choice.correct{background:var(--good-bg);border-color:var(--good);color:var(--good);font-weight:700;}
+  .choice.wrong{background:var(--bad-bg);border-color:var(--bad);color:var(--bad);font-weight:700;}
+  .choice[disabled]{cursor:default;}
+
+  .feedback{
+    margin-top:14px;
+    font-size:.9rem;
+    min-height:1.4em;
+    color:var(--ink-soft);
+  }
+  .feedback.good{color:var(--good);font-weight:700;}
+  .feedback.bad{color:var(--bad);font-weight:700;}
+
+  .actions{
+    display:flex;
+    justify-content:flex-end;
+    margin-top:16px;
+  }
+  .next-btn{
+    background:var(--accent);
+    color:var(--accent-ink);
+    border:none;
+    border-radius:999px;
+    padding:11px 22px;
+    font-size:.92rem;
+    font-weight:700;
+    cursor:pointer;
+    font-family:inherit;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .next-btn:disabled{opacity:.45;cursor:default;}
+
+  footer{
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:.78rem;
+    margin-top:22px;
+    line-height:1.7;
+  }
+
+  .stage-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(10,20,30,.62);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:60;
+  }
+  .stage-overlay[hidden]{display:none;}
+  .stage-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:26px;
+    padding:38px 28px 30px;
+    max-width:340px;
+    width:100%;
+    text-align:center;
+    box-shadow:0 30px 70px -20px rgba(0,0,0,.55);
+  }
+  .stage-card .trophy-emoji{
+    font-size:66px;
+    line-height:1;
+    margin-bottom:14px;
+    display:inline-block;
+    animation:trophyPop .55s cubic-bezier(.2,1.4,.4,1);
+  }
+  @keyframes trophyPop{
+    0%{transform:scale(.3) rotate(-10deg);opacity:0;}
+    65%{transform:scale(1.18) rotate(5deg);opacity:1;}
+    100%{transform:scale(1) rotate(0);}
+  }
+  .stage-card h3{
+    font-family:"Baloo Bhaijaan 2","Nunito",sans-serif;
+    font-size:1.3rem;
+    margin:0 0 10px;
+    color:var(--ink);
+  }
+  .stage-card p{
+    color:var(--ink-soft);
+    font-size:.9rem;
+    line-height:1.7;
+    margin:0 0 18px;
+  }
+  .stage-stats{
+    display:flex;
+    gap:12px;
+    margin-bottom:22px;
+  }
+  .stage-stat{
+    flex:1;
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:10px 8px;
+  }
+  .stage-stat b{
+    display:block;
+    font-size:1.3rem;
+    color:var(--accent);
+    font-family:"Baloo Bhaijaan 2","Nunito",sans-serif;
+  }
+  .stage-stat span{
+    font-size:.72rem;
+    color:var(--ink-soft);
+  }
+  .stage-continue-btn{
+    width:100%;
+    background:var(--accent);
+    color:var(--accent-ink);
+    border:none;
+    border-radius:999px;
+    padding:13px 22px;
+    font-size:.95rem;
+    font-weight:700;
+    cursor:pointer;
+    font-family:inherit;
+  }
+</style>
+
+<style>
+  /* ===== Capsule engine v2 additions ===== */
+  .stats3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:6px 0 14px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:12px 8px;text-align:center;display:flex;flex-direction:column;gap:2px}
+  .stat b{font-size:1.9rem;line-height:1.1;color:var(--accent);font-variant-numeric:tabular-nums}
+  .stat span{font-size:.92rem;color:var(--ink-soft);font-weight:600}
+  .map-actions{display:grid;gap:10px;margin-bottom:18px}
+  .map-actions .next-btn{width:100%;font-size:1.15rem;padding:14px}
+  .review-btn{width:100%;border-radius:999px;padding:13px;font:inherit;font-weight:700;font-size:1.05rem;cursor:pointer;border:2px solid var(--amber);background:var(--panel);color:var(--ink)}
+  .review-btn b{color:var(--bad)}
+  .review-btn:disabled{opacity:.6;cursor:default;border-color:var(--line)}
+  .map-title{font-size:1.25rem;margin:4px 0 2px}
+  .map-hint{color:var(--ink-soft);font-size:.95rem;line-height:1.7;margin:0 0 12px}
+  .stage-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:10px;margin-bottom:10px}
+  .node{border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:20px;padding:10px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;font:inherit}
+  .node .num{font-size:1.45rem;font-weight:800;line-height:1.2}
+  .node .st{font-size:1rem;letter-spacing:1px;direction:ltr}
+  .node .st i,.ov-stars i{font-style:normal;color:var(--line)}
+  .node .st i.on,.ov-stars i.on{color:#f5b82e}
+  .node.done{border-color:var(--good)}
+  .node.current{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
+  .node.locked{opacity:.5;cursor:default}
+  .back-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;font-weight:700;cursor:pointer}
+  .play-title{font-weight:800;font-size:1.05rem}
+  .choices.one-col{grid-template-columns:1fr}
+  .choice.en-choice{direction:ltr;text-align:left;font-family:"Nunito",system-ui,sans-serif}
+  .caption-block .line.ar-line{direction:rtl;font-family:"Tajawal",system-ui,sans-serif}
+  .caption-block .subtitle.ar-sub{direction:rtl}
+  .badge.type-tag{background:var(--accent);color:var(--accent-ink)}
+  .order-box{display:grid;gap:12px}
+  .built{min-height:58px;border:2px dashed var(--line);border-radius:16px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .built .ph{color:var(--ink-soft);font-size:.95rem;direction:rtl;width:100%;text-align:center}
+  .built.ok{border-color:var(--good);background:var(--good-bg)}
+  .built.no{border-color:var(--bad);background:var(--bad-bg)}
+  .pool{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .tile{border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:12px;padding:8px 14px;font:inherit;font-family:"Nunito",system-ui,sans-serif;font-weight:700;font-size:1.1rem;cursor:pointer}
+  .tile.in{border-color:var(--accent)}
+  .tile:disabled{opacity:.25;cursor:default}
+  .order-actions{display:flex;gap:8px;justify-content:center}
+  .mini-btn:disabled{opacity:.5;cursor:default}
+  .mini-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;font-weight:600;cursor:pointer}
+  .ov-stars{font-size:2.8rem;letter-spacing:4px;direction:ltr;line-height:1.1}
+  .ghost-btn{display:block;width:100%;margin-top:8px;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:10px;font:inherit;font-weight:700;cursor:pointer}
+  .fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:80}
+  .cap-toast{position:fixed;left:16px;right:16px;bottom:calc(18px + env(safe-area-inset-bottom,0px));max-width:480px;margin:0 auto;background:var(--panel);color:var(--ink);border:2px solid var(--amber);border-radius:16px;padding:10px 16px;text-align:center;font-weight:700;z-index:90;box-shadow:0 10px 30px -12px rgba(0,0,0,.35)}
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;700;800&family=Nunito:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap">
+
+<div class="wrap">
+  <h1>كبسولة الرياضة 🏆</h1>
+  <p class="lede">مراحل قصيرة بأنشطة متنوعة، ونجوم تجمعها، ومراجعة ذكية للجمل التي تخطئ فيها. العب قليلاً كل يوم لتحافظ على سلسلتك 🔥</p>
+
+  <section id="mapView">
+    <div class="stats3">
+      <div class="stat"><b id="statDays">0</b><span>🔥 أيام متتالية</span></div>
+      <div class="stat"><b id="statStars">0</b><span>⭐ نجومي</span></div>
+      <div class="stat"><b id="statMastered">0</b><span>✅ جمل أتقنتها</span></div>
+    </div>
+    <div class="map-actions">
+      <button class="next-btn" id="contBtn" type="button">▶ تابع</button>
+      <button class="review-btn" id="reviewBtn" type="button"></button>
+    </div>
+    <h2 class="map-title">خريطة المراحل</h2>
+    <p class="map-hint">كل مرحلة 7 جمل بأنشطة متنوعة: المعنى، والاستماع، والترتيب، والفراغ. أنهِها بلا أخطاء لتحصل على ★★★، والجمل التي تخطئ فيها تعود إليك في «مراجعة أخطائي».</p>
+    <div class="stage-grid" id="stageGrid"></div>
+  </section>
+
+  <section id="playView" hidden>
+  <div class="topbar">
+    <button class="back-btn" id="backMap" type="button">→ الخريطة</button>
+    <div class="play-title" id="playTitle"></div>
+    <div class="streak">🔥 <b id="comboNum">0</b></div>
+  </div>
+  <div class="stage-progress">
+    <div class="stage-dots" id="stageDots"></div>
+    <span class="scene-count" id="sceneCount"></span>
+  </div>
+
+  <div class="card">
+    <div class="scene" id="sceneArea">
+      <canvas id="sceneCanvas"></canvas>
+      <div class="level-tag" id="levelTag"></div>
+    </div>
+    <div class="caption-block">
+      <p class="line" id="sentenceText">Loading…</p>
+      <p class="subtitle" id="subtitleText">“Loading…”</p>
+    </div>
+    <div class="listen-row" id="listenRow">
+      <button class="listen-btn" id="listenBtn">🔊 استمع للجملة</button>
+    </div>
+
+    <div class="quiz">
+      <h2 id="questionText">ما معنى هذه الجملة؟</h2>
+      <div class="choices" id="choices"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="actions">
+        <button class="next-btn" id="nextBtn">المشهد التالي ▶</button>
+      </div>
+    </div>
+  </div>
+  </section>
+
+  <footer class="teacher-credit">إعداد: أحمد السالم — معلم اللغة الإنجليزية، ثانوية الأمير فيصل، العقيق</footer>
+</div>
+
+<div class="stage-overlay" id="stageOverlay" hidden>
+  <div class="stage-card">
+    <div class="ov-stars" id="ovStars"></div>
+    <h3 id="ovTitle"></h3>
+    <p id="ovBody"></p>
+    <div class="stage-stats">
+      <div class="stage-stat"><b id="ovRight">0</b><span>إجابات صحيحة</span></div>
+      <div class="stage-stat"><b id="ovDays">0</b><span>🔥 أيام متتالية</span></div>
+    </div>
+    <button class="stage-continue-btn" id="stageContinueBtn" type="button">المرحلة التالية ▶</button>
+    <button class="ghost-btn" id="ovAgain" type="button">↻ أعد المرحلة للحصول على ★★★</button>
+    <button class="ghost-btn" id="ovMap" type="button">العودة إلى الخريطة</button>
+  </div>
+</div>
+<canvas id="fxCanvas" class="fx" aria-hidden="true"></canvas>
+<div class="cap-toast" id="capToast" role="status" hidden></div>
+
+<script>
+(function(){
+  var SCENES = [
+    {en:"I play football with my friends every Friday.", ar:"ألعب كرة القدم مع أصدقائي كل جمعة.", level:"A1", tag:"Present Simple"},
+    {en:"My favorite sport is basketball.", ar:"رياضتي المفضلة هي كرة السلة.", level:"A1", tag:"Present Simple"},
+    {en:"The match starts at eight o'clock.", ar:"تبدأ المباراة الساعة الثامنة.", level:"A1", tag:"Present Simple"},
+    {en:"Our team is winning the game.", ar:"فريقنا يفوز في المباراة.", level:"A1", tag:"Present Continuous"},
+    {en:"He kicked the ball into the goal.", ar:"ركل الكرة إلى داخل المرمى.", level:"A1", tag:"Past Simple"},
+    {en:"The goalkeeper caught the ball.", ar:"أمسك حارس المرمى الكرة.", level:"A1", tag:"Past Simple"},
+    {en:"We watched the final on TV last night.", ar:"شاهدنا المباراة النهائية على التلفاز ليلة أمس.", level:"A1", tag:"Past Simple"},
+    {en:"The stadium was full of happy fans.", ar:"كان الملعب ممتلئاً بالمشجعين السعداء.", level:"A2", tag:"Past Simple"},
+    {en:"The referee blew the whistle.", ar:"أطلق الحكم صافرته.", level:"A1", tag:"Past Simple"},
+    {en:"She runs five kilometers every morning.", ar:"تجري خمسة كيلومترات كل صباح.", level:"A1", tag:"Present Simple"},
+    {en:"Swimming is good for your heart.", ar:"السباحة مفيدة لقلبك.", level:"A2", tag:"Gerund"},
+    {en:"They are training hard for the tournament.", ar:"إنهم يتدربون بجدّ استعداداً للبطولة.", level:"A2", tag:"Present Continuous"},
+    {en:"The coach gives the players clear instructions.", ar:"يعطي المدرب اللاعبين تعليمات واضحة.", level:"A2", tag:"Present Simple"},
+    {en:"Our school won the volleyball cup.", ar:"فازت مدرستنا بكأس الكرة الطائرة.", level:"A1", tag:"Past Simple"},
+    {en:"The two teams shook hands before the match.", ar:"تصافح الفريقان قبل المباراة.", level:"A2", tag:"Past Simple"},
+    {en:"He scored a goal in the last minute.", ar:"سجّل هدفاً في الدقيقة الأخيرة.", level:"A2", tag:"Past Simple"},
+    {en:"The fans cheered loudly for their team.", ar:"هتف المشجعون بصوت عالٍ لفريقهم.", level:"A2", tag:"Past Simple"},
+    {en:"Will you come to the match tomorrow?", ar:"هل ستأتي إلى المباراة غداً؟", level:"A1", tag:"Future (will)"},
+    {en:"I think our team will win the league.", ar:"أظن أن فريقنا سيفوز بالدوري.", level:"A2", tag:"Future (will)"},
+    {en:"You should warm up before you exercise.", ar:"يجب أن تُحمّي جسمك قبل أن تتمرن.", level:"A2", tag:"Modal (should)"},
+    {en:"Drink water during the game.", ar:"اشرب الماء أثناء المباراة.", level:"A1", tag:"Imperative"},
+    {en:"The player was injured in the first half.", ar:"أُصيب اللاعب في الشوط الأول.", level:"B1", tag:"Passive (Past)"},
+    {en:"The match ended in a draw.", ar:"انتهت المباراة بالتعادل.", level:"A2", tag:"Past Simple"},
+    {en:"We lost the game, but we played well.", ar:"خسرنا المباراة، لكننا لعبنا جيداً.", level:"A2", tag:"Past Simple"},
+    {en:"Winning is not everything in sport.", ar:"الفوز ليس كل شيء في الرياضة.", level:"B1", tag:"Gerund"},
+    {en:"A good player respects the referee.", ar:"اللاعب الجيد يحترم الحكم.", level:"A2", tag:"Present Simple"},
+    {en:"The captain lifted the trophy.", ar:"رفع القائد الكأس.", level:"A2", tag:"Past Simple"},
+    {en:"The crowd stood up and clapped.", ar:"وقف الجمهور وصفّق.", level:"A2", tag:"Past Simple"},
+    {en:"Saudi Arabia will host the World Cup in 2034.", ar:"ستستضيف المملكة العربية السعودية كأس العالم عام 2034.", level:"B1", tag:"Future (will)"},
+    {en:"Millions of people watch the World Cup.", ar:"يشاهد ملايين الناس كأس العالم.", level:"A2", tag:"Present Simple"},
+    {en:"The final whistle has just blown.", ar:"انطلقت صافرة النهاية للتو.", level:"B1", tag:"Present Perfect"},
+    {en:"Our team has won three matches in a row.", ar:"فاز فريقنا بثلاث مباريات متتالية.", level:"B1", tag:"Present Perfect"},
+    {en:"I have never played tennis before.", ar:"لم ألعب التنس من قبل.", level:"A2", tag:"Present Perfect"},
+    {en:"Have you ever been to a big stadium?", ar:"هل سبق أن ذهبت إلى ملعب كبير؟", level:"A2", tag:"Present Perfect"},
+    {en:"He is the fastest runner in our class.", ar:"إنه أسرع عدّاء في فصلنا.", level:"A2", tag:"Superlative"},
+    {en:"This match is more exciting than the last one.", ar:"هذه المباراة أكثر إثارة من السابقة.", level:"A2", tag:"Comparative"},
+    {en:"The best team does not always win.", ar:"الفريق الأفضل لا يفوز دائماً.", level:"B1", tag:"Superlative"},
+    {en:"She can swim very fast.", ar:"تستطيع أن تسبح بسرعة كبيرة.", level:"A1", tag:"Modal (can)"},
+    {en:"You must not touch the ball with your hands.", ar:"يجب ألا تلمس الكرة بيديك.", level:"A2", tag:"Modal (must)"},
+    {en:"Players must wear the team uniform.", ar:"يجب على اللاعبين ارتداء زي الفريق.", level:"A2", tag:"Modal (must)"},
+    {en:"If we practice every day, we will improve.", ar:"إذا تدربنا كل يوم فسنتحسن.", level:"B1", tag:"Conditional (1st)"},
+    {en:"If it rains, the match will be delayed.", ar:"إذا أمطرت فستتأجل المباراة.", level:"B1", tag:"Conditional (1st)"},
+    {en:"I enjoy playing football after school.", ar:"أستمتع بلعب كرة القدم بعد المدرسة.", level:"A2", tag:"Gerund"},
+    {en:"My brother wants to be a professional player.", ar:"يريد أخي أن يصبح لاعباً محترفاً.", level:"A2", tag:"Infinitive"},
+    {en:"We went to the stadium to support our team.", ar:"ذهبنا إلى الملعب لنشجع فريقنا.", level:"A2", tag:"Infinitive"},
+    {en:"The tickets were sold in one hour.", ar:"بيعت التذاكر في ساعة واحدة.", level:"B1", tag:"Passive (Past)"},
+    {en:"The stadium is cleaned after every match.", ar:"يُنظّف الملعب بعد كل مباراة.", level:"B1", tag:"Passive (Present)"},
+    {en:"The winners will be announced tonight.", ar:"سيُعلن عن الفائزين الليلة.", level:"B1", tag:"Passive (Future)"},
+    {en:"Football is played all over the world.", ar:"تُلعب كرة القدم في جميع أنحاء العالم.", level:"B1", tag:"Passive (Present)"},
+    {en:"The player who scored the goal is only eighteen.", ar:"اللاعب الذي سجّل الهدف عمره ثمانية عشر عاماً فقط.", level:"B1", tag:"Relative Clause"},
+    {en:"This is the stadium where the final was played.", ar:"هذا هو الملعب الذي أُقيمت فيه المباراة النهائية.", level:"B1", tag:"Relative Clause"},
+    {en:"Although it was raining, the fans stayed.", ar:"مع أن المطر كان يهطل، بقي المشجعون.", level:"B1", tag:"Concession"},
+    {en:"Even though we lost, we were proud of our team.", ar:"مع أننا خسرنا، كنا فخورين بفريقنا.", level:"B1", tag:"Concession"},
+    {en:"When the referee whistled, the game began.", ar:"عندما أطلق الحكم صافرته، بدأت المباراة.", level:"A2", tag:"When-clause"},
+    {en:"He was running when he fell.", ar:"كان يجري عندما سقط.", level:"A2", tag:"Past Continuous"},
+    {en:"We were watching the match when the lights went out.", ar:"كنا نشاهد المباراة عندما انقطعت الكهرباء.", level:"B1", tag:"Past Continuous"},
+    {en:"I used to play handball in primary school.", ar:"كنت ألعب كرة اليد في المرحلة الابتدائية.", level:"B1", tag:"Used to"},
+    {en:"The coach said that we played well.", ar:"قال المدرب إننا لعبنا جيداً.", level:"B1", tag:"Reported Speech"},
+    {en:"He told us to keep the ball on the ground.", ar:"طلب منا أن نُبقي الكرة على الأرض.", level:"B1", tag:"Reported Speech"},
+    {en:"I wish our team had won the cup.", ar:"ليت فريقنا فاز بالكأس.", level:"B1", tag:"Wish"},
+    {en:"Let's join the school running club.", ar:"لننضم إلى نادي الجري في المدرسة.", level:"A2", tag:"Suggestion"},
+    {en:"Why don't we play a friendly match?", ar:"لماذا لا نلعب مباراة ودية؟", level:"A2", tag:"Suggestion"},
+    {en:"Fair play makes the game beautiful.", ar:"اللعب النظيف يجعل اللعبة جميلة.", level:"B1", tag:"Present Simple"},
+    {en:"Our team trains three times a week.", ar:"يتدرب فريقنا ثلاث مرات في الأسبوع.", level:"A1", tag:"Present Simple"},
+    {en:"The race starts at the red line.", ar:"يبدأ السباق عند الخط الأحمر.", level:"A1", tag:"Present Simple"},
+    {en:"She won a gold medal in the race.", ar:"فازت بميدالية ذهبية في السباق.", level:"A2", tag:"Past Simple"},
+    {en:"He finished second and got a silver medal.", ar:"أنهى السباق في المركز الثاني وحصل على ميدالية فضية.", level:"A2", tag:"Past Simple"},
+    {en:"The athletes are waiting for the signal.", ar:"ينتظر الرياضيون إشارة الانطلاق.", level:"A2", tag:"Present Continuous"},
+    {en:"The cyclists rode through the city.", ar:"مرّ الدراجون عبر المدينة.", level:"A2", tag:"Past Simple"},
+    {en:"Horse racing is popular in Saudi Arabia.", ar:"سباقات الخيل مشهورة في المملكة العربية السعودية.", level:"A2", tag:"Present Simple"},
+    {en:"Camel racing is a traditional sport.", ar:"سباق الهجن رياضة تراثية.", level:"A2", tag:"Present Simple"},
+    {en:"We climbed the mountain on Saturday.", ar:"تسلقنا الجبل يوم السبت.", level:"A1", tag:"Past Simple"},
+    {en:"Walking is the easiest exercise.", ar:"المشي أسهل التمارين.", level:"A2", tag:"Superlative"},
+    {en:"He goes to the gym after work.", ar:"يذهب إلى النادي الرياضي بعد العمل.", level:"A1", tag:"Present Simple"},
+    {en:"Stretch your legs before you run.", ar:"مُدّ ساقيك قبل أن تجري.", level:"A1", tag:"Imperative"},
+    {en:"Don't give up, keep trying!", ar:"لا تستسلم، واصل المحاولة!", level:"A1", tag:"Imperative"},
+    {en:"A healthy body needs exercise and sleep.", ar:"الجسم السليم يحتاج إلى الرياضة والنوم.", level:"A2", tag:"Present Simple"},
+    {en:"The fans waved green flags.", ar:"لوّح المشجعون بالأعلام الخضراء.", level:"A2", tag:"Past Simple"},
+    {en:"The national team played in front of sixty thousand fans.", ar:"لعب المنتخب أمام ستين ألف مشجع.", level:"B1", tag:"Past Simple"},
+    {en:"The match was shown on many channels.", ar:"عُرضت المباراة على قنوات كثيرة.", level:"B1", tag:"Passive (Past)"},
+    {en:"The commentator was shouting with excitement.", ar:"كان المعلق يصرخ من الحماس.", level:"B1", tag:"Past Continuous"},
+    {en:"The penalty decided the match.", ar:"حسمت ركلةُ الجزاء المباراة.", level:"B1", tag:"Past Simple"},
+    {en:"He missed the penalty, and the crowd went quiet.", ar:"أضاع ركلة الجزاء فساد الصمت بين الجمهور.", level:"B1", tag:"Past Simple"},
+    {en:"The goalkeeper saved two penalties.", ar:"تصدّى حارس المرمى لركلتي جزاء.", level:"B1", tag:"Past Simple"},
+    {en:"Our team reached the semi-final.", ar:"وصل فريقنا إلى الدور نصف النهائي.", level:"A2", tag:"Past Simple"},
+    {en:"The winner of this match will play in the final.", ar:"الفائز في هذه المباراة سيلعب في النهائي.", level:"B1", tag:"Future (will)"},
+    {en:"The tournament lasts for one month.", ar:"تستمر البطولة شهراً واحداً.", level:"A2", tag:"Present Simple"},
+    {en:"Thirty-two teams take part in the World Cup.", ar:"يشارك اثنان وثلاثون منتخباً في كأس العالم.", level:"B1", tag:"Present Simple"},
+    {en:"Next season, the league will have new teams.", ar:"في الموسم القادم سيضم الدوري فرقاً جديدة.", level:"B1", tag:"Future (will)"},
+    {en:"The club signed a new player this summer.", ar:"تعاقد النادي مع لاعب جديد هذا الصيف.", level:"B1", tag:"Past Simple"},
+    {en:"The team has trained in Abha for a week.", ar:"يتدرب الفريق في أبها منذ أسبوع.", level:"B1", tag:"Present Perfect"},
+    {en:"Teamwork is more important than one star player.", ar:"العمل الجماعي أهم من نجم واحد.", level:"B1", tag:"Comparative"},
+    {en:"Good players pass the ball quickly.", ar:"اللاعبون الجيدون يمررون الكرة بسرعة.", level:"A2", tag:"Present Simple"},
+    {en:"The defender stopped the attack.", ar:"أوقف المدافع الهجمة.", level:"A2", tag:"Past Simple"},
+    {en:"The striker ran past three players.", ar:"تجاوز المهاجم ثلاثة لاعبين.", level:"B1", tag:"Past Simple"},
+    {en:"The team celebrated after the final whistle.", ar:"احتفل الفريق بعد صافرة النهاية.", level:"A2", tag:"Past Simple"},
+    {en:"We will never forget that great victory.", ar:"لن ننسى ذلك الفوز العظيم أبداً.", level:"A2", tag:"Future (will)"},
+    {en:"Losing a match teaches you to work harder.", ar:"خسارة مباراة تعلّمك أن تعمل بجد أكبر.", level:"B1", tag:"Gerund"},
+    {en:"By the end of the season, he will have scored twenty goals.", ar:"بنهاية الموسم سيكون قد سجّل عشرين هدفاً.", level:"B1", tag:"Future Perfect"},
+    {en:"The match had started before we arrived.", ar:"كانت المباراة قد بدأت قبل أن نصل.", level:"B1", tag:"Past Perfect"},
+    {en:"If he had passed the ball, we would have scored.", ar:"لو مرّر الكرة لسجّلنا.", level:"B1", tag:"Conditional (3rd)"},
+    {en:"Because the pitch was wet, the players slipped.", ar:"لأن أرض الملعب كانت مبللة، انزلق اللاعبون.", level:"B1", tag:"Because-clause"},
+    {en:"The young players learn from the older ones.", ar:"يتعلم اللاعبون الصغار من الكبار.", level:"A2", tag:"Present Simple"},
+    {en:"Shake hands with the other team after the game.", ar:"صافح الفريق الآخر بعد المباراة.", level:"A2", tag:"Imperative"},
+    {en:"Sport brings people together.", ar:"الرياضة تجمع الناس.", level:"A2", tag:"Present Simple"},
+    {en:"I'm going to join the school team next year.", ar:"سأنضم إلى فريق المدرسة العام القادم.", level:"A2", tag:"Going to"},
+    {en:"Our P.E. teacher chose me as captain.", ar:"اختارني معلم التربية البدنية قائداً للفريق.", level:"A2", tag:"Past Simple"},
+    {en:"We practice passing and shooting every day.", ar:"نتدرب على التمرير والتسديد كل يوم.", level:"A2", tag:"Present Simple"},
+    {en:"The school sports day is next Thursday.", ar:"اليوم الرياضي في المدرسة يوم الخميس القادم.", level:"A1", tag:"Present Simple"},
+    {en:"Every student took part in the competition.", ar:"شارك كل طالب في المسابقة.", level:"A2", tag:"Past Simple"},
+    {en:"The best class will get a prize.", ar:"سيحصل أفضل فصل على جائزة.", level:"A2", tag:"Future (will)"},
+    {en:"Champions are made by hard work.", ar:"الأبطال يصنعهم العمل الجاد.", level:"B1", tag:"Passive (Present)"}
+  ];
+
+  // ---- scene canvas: a stadium at dusk — floodlights, a crowd in the stands, a striped pitch, a goal and a ball ----
+  function drawScene(seed){
+    var canvas = document.getElementById('sceneCanvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var w = canvas.clientWidth, h = canvas.clientHeight;
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = w*dpr; canvas.height = h*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.clearRect(0,0,w,h);
+    var rand = mulberry32(seed);
+    var standTop = h*0.30, pitchTop = h*0.55;
+
+    // floodlights with soft glow
+    [[w*0.1, h*0.08],[w*0.9, h*0.08]].forEach(function(p){
+      var g = ctx.createRadialGradient(p[0],p[1],2,p[0],p[1],Math.min(w,h)*0.35);
+      g.addColorStop(0,'rgba(255,250,220,.75)'); g.addColorStop(1,'rgba(255,250,220,0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p[0],p[1],Math.min(w,h)*0.35,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#e8eef5'; ctx.fillRect(p[0]-1.5, p[1], 3, standTop - p[1]);
+      ctx.fillStyle = '#fffbe6'; ctx.fillRect(p[0]-12, p[1]-6, 24, 10);
+    });
+
+    // stands with a crowd of colourful dots
+    ctx.fillStyle = '#2b3f5c'; ctx.fillRect(0, standTop, w, pitchTop - standTop);
+    var cols = ['#ffffff','#2fb45a','#ffd23f','#ff6b6b','#7fc8f8','#ffffff','#2fb45a'];
+    for (var y = standTop + 5; y < pitchTop - 3; y += 7){
+      for (var x = 3 + (Math.round(y)%2)*3; x < w; x += 7){
+        ctx.fillStyle = cols[Math.floor(rand()*cols.length)];
+        ctx.globalAlpha = 0.55 + rand()*0.45;
+        ctx.beginPath(); ctx.arc(x, y, 2.1, 0, Math.PI*2); ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+    // a few waving flags
+    for (var f = 0; f < 3; f++){
+      var fx = w*(0.2 + f*0.3 + rand()*0.08), fy = standTop + 4;
+      ctx.strokeStyle = '#e8eef5'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(fx, fy + 16); ctx.lineTo(fx, fy - 10); ctx.stroke();
+      ctx.fillStyle = '#1f8a4c'; ctx.beginPath(); ctx.moveTo(fx, fy - 10); ctx.quadraticCurveTo(fx + 10, fy - 14, fx + 20, fy - 8); ctx.lineTo(fx + 20, fy + 2); ctx.quadraticCurveTo(fx + 10, fy - 4, fx, fy); ctx.fill();
+    }
+
+    // striped pitch
+    var stripes = 8;
+    for (var i = 0; i < stripes; i++){
+      ctx.fillStyle = i % 2 ? '#3fae5c' : '#36a052';
+      ctx.fillRect(i * w / stripes, pitchTop, w / stripes + 1, h - pitchTop);
+    }
+    ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.lineWidth = 2.2;
+    ctx.strokeRect(w*0.04, pitchTop + h*0.04, w*0.92, h - pitchTop - h*0.07);
+    ctx.beginPath(); ctx.moveTo(w*0.5, pitchTop + h*0.04); ctx.lineTo(w*0.5, h - h*0.03); ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(w*0.5, pitchTop + (h - pitchTop)*0.5, w*0.08, (h - pitchTop)*0.22, 0, 0, Math.PI*2); ctx.stroke();
+
+    // goal on the right
+    var gx = w*0.84, gy = pitchTop + (h - pitchTop)*0.18, gw = w*0.1, gh = (h - pitchTop)*0.52;
+    ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.lineWidth = 1;
+    for (var n = 1; n < 6; n++){ ctx.beginPath(); ctx.moveTo(gx + gw*n/6, gy); ctx.lineTo(gx + gw*n/6, gy + gh); ctx.stroke(); }
+    for (var m = 1; m < 5; m++){ ctx.beginPath(); ctx.moveTo(gx, gy + gh*m/5); ctx.lineTo(gx + gw, gy + gh*m/5); ctx.stroke(); }
+    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 3.5; ctx.strokeRect(gx, gy, gw, gh);
+
+    // ball with a little motion trail
+    var bx = w*(0.42 + rand()*0.25), by = pitchTop + (h - pitchTop)*(0.35 + rand()*0.3), br = Math.min(w,h)*0.045;
+    for (var t = 1; t <= 3; t++){ ctx.fillStyle = 'rgba(255,255,255,' + (0.18/t) + ')'; ctx.beginPath(); ctx.arc(bx - br*1.5*t, by + br*0.4*t, br*(1 - t*0.12), 0, Math.PI*2); ctx.fill(); }
+    ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(bx, by, br, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = '#1a1a1a'; ctx.lineWidth = 1.4; ctx.stroke();
+    ctx.fillStyle = '#1a1a1a';
+    ctx.beginPath();
+    for (var k = 0; k < 5; k++){ var an = -Math.PI/2 + k*2*Math.PI/5, px = bx + Math.cos(an)*br*0.38, py = by + Math.sin(an)*br*0.38; k ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }
+    ctx.closePath(); ctx.fill();
+  }
+  function mulberry32(a){
+    return function(){
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    }
+  }
+
+  // ---- tiny synthesized sound effects (no audio files, just Web Audio beeps) ----
+  var sfxCtx = null;
+  function getSfxCtx(){
+    if (!sfxCtx){
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return null;
+      sfxCtx = new Ctx();
+    }
+    if (sfxCtx.state === 'suspended') sfxCtx.resume();
+    return sfxCtx;
+  }
+  function playTone(ctx, freq, startTime, duration, peakGain){
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, startTime);
+    gain.gain.setValueAtTime(0.0001, startTime);
+    gain.gain.exponentialRampToValueAtTime(peakGain, startTime + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(startTime);
+    osc.stop(startTime + duration + 0.02);
+  }
+  function playCorrectChime(){
+    try{
+      var ctx = getSfxCtx();
+      if (!ctx) return;
+      var t = ctx.currentTime;
+      playTone(ctx, 659.25, t, 0.11, 0.10);
+      playTone(ctx, 880.00, t + 0.09, 0.16, 0.10);
+    }catch(e){}
+  }
+  function playWrongBlip(){
+    try{
+      var ctx = getSfxCtx();
+      if (!ctx) return;
+      var t = ctx.currentTime;
+      playTone(ctx, 311.13, t, 0.09, 0.08);
+      playTone(ctx, 233.08, t + 0.07, 0.13, 0.08);
+    }catch(e){}
+  }
+
+  var voicesReady = false;
+  var pendingVoiceLoad = null;
+  function primeVoices(){
+    if (!('speechSynthesis' in window)) return;
+    if (window.speechSynthesis.getVoices().length) { voicesReady = true; return; }
+    if (pendingVoiceLoad) return;
+    pendingVoiceLoad = function(){
+      voicesReady = true;
+      window.speechSynthesis.removeEventListener('voiceschanged', pendingVoiceLoad);
+    };
+    window.speechSynthesis.addEventListener('voiceschanged', pendingVoiceLoad);
+  }
+
+  function voiceScore(v){
+    var name = (v.name || '').toLowerCase();
+    var score = 0;
+    if (v.lang && v.lang.toLowerCase().indexOf('en') === 0) score += 10;
+    if (v.lang && v.lang.toLowerCase() === 'en-us') score += 2;
+    ['neural','natural','online','premium','enhanced','google','wavenet'].forEach(function(kw){
+      if (name.indexOf(kw) !== -1) score += 8;
+    });
+    ['zira','david','microsoft','compact','espeak','robot'].forEach(function(kw){
+      if (name.indexOf(kw) !== -1) score -= 4;
+    });
+    if (!v.localService) score += 3;
+    return score;
+  }
+
+  function pickEnglishVoice(){
+    var voices = window.speechSynthesis.getVoices() || [];
+    if (!voices.length) return null;
+    var ranked = voices.slice().sort(function(a,b){ return voiceScore(b) - voiceScore(a); });
+    return ranked[0] || null;
+  }
+
+  function speak(text){
+    var listenBtn = document.getElementById('listenBtn');
+    var originalLabel = '🔊 استمع للجملة';
+    if (!('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined'){
+      if (listenBtn) listenBtn.textContent = '⚠️ النطق غير مدعوم في هذا المتصفح';
+      return;
+    }
+    try{
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = 'en-US';
+      u.rate = 0.8;
+      u.pitch = 1.0;
+      var voice = pickEnglishVoice();
+      if (voice) { u.voice = voice; u.lang = voice.lang || u.lang; }
+      u.onerror = function(){
+        if (listenBtn) listenBtn.textContent = '⚠️ تعذّر تشغيل الصوت، حاول مجدداً';
+      };
+      u.onstart = function(){
+        if (listenBtn) listenBtn.textContent = '🔊 يتم النطق…';
+      };
+      u.onend = function(){
+        if (listenBtn) listenBtn.textContent = originalLabel;
+      };
+      if (!voicesReady) primeVoices();
+      window.speechSynthesis.speak(u);
+    }catch(e){
+      if (listenBtn) listenBtn.textContent = '⚠️ تعذّر تشغيل الصوت في هذه الصفحة';
+    }
+  }
+
+  function renderMedia(sceneIndex){
+    var area = document.getElementById('sceneArea');
+    var canvas = document.getElementById('sceneCanvas');
+    if (!canvas){
+      canvas = document.createElement('canvas');
+      canvas.id = 'sceneCanvas';
+      area.insertBefore(canvas, area.firstChild);
+    }
+    drawScene(sceneIndex*97 + 13);
+  }
+
+  /* ===== Capsule engine v2: stage map with stars, mixed activities, spaced review of mistakes, daily streak ===== */
+  var LEVEL_LABEL = { A1:'مبتدئ A1', A2:'متوسط A2', B1:'متقدم B1' };
+  var STAGE_SIZE = 7;
+  var NSTAGE = Math.ceil(SCENES.length / STAGE_SIZE);
+  var KEY = 'cap2-sports-';
+  function $(id){ return document.getElementById(id); }
+  function load(k, d){ try{ var v = localStorage.getItem(KEY + k); return v ? JSON.parse(v) : d; }catch(e){ return d; } }
+  function save(k, v){ try{ localStorage.setItem(KEY + k, JSON.stringify(v)); }catch(e){} }
+  function today(){ var d = new Date(); return Math.floor((d.getTime() - d.getTimezoneOffset()*60000) / 86400000); }
+  function shuffle(a){ a = a.slice(); for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+  var stars = load('stars', {});        // stage index -> best stars (1..3)
+  var review = load('review', {});      // scene index -> {box, due}
+  var daily = load('daily', {last: -9, count: 0, freezeWeek: -1});
+  var mastered = load('mastered', 0);
+
+  function totalStars(){ var t = 0; for (var k in stars) t += stars[k]; return t; }
+  function dueList(){ var d = today(), out = []; for (var k in review){ if (review[k].due <= d) out.push(+k); } return out; }
+  function unlocked(k){ return k === 0 || (stars[k-1] || 0) >= 1; }
+  function stageScenes(k){ var out = []; for (var i=0;i<STAGE_SIZE;i++) out.push((k*STAGE_SIZE + i) % SCENES.length); return out; }
+
+  function touchDaily(){
+    var d = today(), note = '';
+    if (daily.last === d) return;
+    if (daily.last === d - 1) daily.count += 1;
+    else if (daily.last === d - 2 && daily.freezeWeek !== Math.floor(d/7)){ daily.count += 1; daily.freezeWeek = Math.floor(d/7); note = 'استخدمنا «يوم السماح» لهذا الأسبوع، فبقيت سلسلتك محفوظة 🛟'; }
+    else daily.count = 1;
+    daily.last = d; save('daily', daily);
+    if (note) toast(note);
+  }
+  function liveDays(){ var d = today(); return (daily.last === d || daily.last === d - 1 || (daily.last === d - 2 && daily.freezeWeek !== Math.floor(d/7))) ? daily.count : 0; }
+
+  /* ---------- sounds & confetti ---------- */
+  function playWin(){ try{ var ctx = getSfxCtx(); if (!ctx) return; var t = ctx.currentTime; [523.25,659.25,783.99,1046.5].forEach(function(f,i){ playTone(ctx, f, t + i*0.1, 0.22, 0.10); }); }catch(e){} }
+  function confetti(){
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; if (reduce) return;
+    var c = $('fxCanvas'); var ctx = c.getContext('2d'); var w = c.width = window.innerWidth, h = c.height = window.innerHeight;
+    var cols = ['#f5b82e','#6d4aff','#1c8a5a','#e2572b','#2f9e9e','#e05a8a'], ps = [];
+    for (var i=0;i<120;i++) ps.push({x: w/2 + (Math.random()-.5)*w*.3, y: h*.35, vx: (Math.random()-.5)*12, vy: -Math.random()*12-4, r: Math.random()*6+4, c: cols[i%cols.length], a: Math.random()*6});
+    var t0 = performance.now();
+    (function frame(t){ var k = (t - t0)/1000; ctx.clearRect(0,0,w,h); ps.forEach(function(p){ p.x += p.vx; p.y += p.vy; p.vy += .35; p.a += .2; ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.a); ctx.fillStyle = p.c; ctx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2); ctx.restore(); }); if (k < 1.8) requestAnimationFrame(frame); else ctx.clearRect(0,0,w,h); })(t0);
+  }
+  function toast(msg){ var t = $('capToast'); t.textContent = msg; t.hidden = false; clearTimeout(toast.h); toast.h = setTimeout(function(){ t.hidden = true; }, 2600); }
+
+  /* ---------- map ---------- */
+  function renderMap(){
+    $('mapView').hidden = false; $('playView').hidden = true;
+    var due = dueList().length, cur = 0;
+    for (var k=0;k<NSTAGE;k++){ if (!stars[k]) { cur = k; break; } cur = k; }
+    $('statDays').textContent = liveDays();
+    $('statStars').textContent = totalStars();
+    $('statMastered').textContent = mastered;
+    $('contBtn').textContent = '▶ تابع: المرحلة ' + (cur+1);
+    $('contBtn').onclick = function(){ startStage(cur); };
+    var rb = $('reviewBtn');
+    rb.disabled = due === 0;
+    rb.innerHTML = due ? '🔁 مراجعة أخطائي <b>(' + due + ')</b>' : '✅ لا مراجعة اليوم';
+    rb.onclick = function(){ if (due) startReview(); };
+    var g = $('stageGrid'); g.innerHTML = '';
+    for (var s=0;s<NSTAGE;s++){
+      (function(s){
+        var b = document.createElement('button'); var st = stars[s] || 0, open = unlocked(s);
+        b.type = 'button'; b.className = 'node' + (st ? ' done' : '') + (open ? '' : ' locked') + (s === cur ? ' current' : '');
+        b.disabled = !open;
+        b.innerHTML = '<span class="num">' + (open ? (s+1) : '🔒') + '</span><span class="st">' + (open ? ('<i class="' + (st>=1?'on':'') + '">★</i><i class="' + (st>=2?'on':'') + '">★</i><i class="' + (st>=3?'on':'') + '">★</i>') : '&nbsp;') + '</span>';
+        b.setAttribute('aria-label', 'المرحلة ' + (s+1) + (open ? (' — ' + st + ' نجوم') : ' — مقفلة'));
+        b.onclick = function(){ startStage(s); };
+        g.appendChild(b);
+      })(s);
+    }
+    var curNode = g.querySelector('.current'); if (curNode && curNode.scrollIntoView) setTimeout(function(){ try{ curNode.scrollIntoView({block:'nearest'}); }catch(e){} }, 50);
+  }
+
+  /* ---------- building questions ---------- */
+  function words(en){ return en.replace(/[.,!?;:“”"]/g, '').split(/\s+/).filter(Boolean); }
+  function pickType(i, sIdx, mode){
+    var en = SCENES[sIdx].en, n = words(en).length;
+    var cycle = mode === 'review' ? ['meaning','reverse','order','gap','listen'] : ['meaning','listen','order','reverse','gap','meaning','order'];
+    var t = mode === 'review' ? cycle[Math.floor(Math.random()*cycle.length)] : cycle[i % cycle.length];
+    if (t === 'order' && (n < 3 || n > 9)) t = 'reverse';
+    if (t === 'gap' && !gapWord(en)) t = 'meaning';
+    return t;
+  }
+  function gapWord(en){ var ws = words(en).filter(function(w){ return w.length >= 4 && !/^(the|that|this|with|from|have|they|them|there|their|about|into|your|when|what|which|will|would|been)$/i.test(w); }); return ws.length ? ws[Math.floor(Math.random()*ws.length)] : null; }
+  function distractAr(sIdx, n){ var pool = shuffle(SCENES.map(function(x,i){ return i; }).filter(function(i){ return SCENES[i].ar !== SCENES[sIdx].ar; })); return pool.slice(0, n).map(function(i){ return SCENES[i].ar; }); }
+  function distractEn(sIdx, n){ var pool = shuffle(SCENES.map(function(x,i){ return i; }).filter(function(i){ return SCENES[i].en !== SCENES[sIdx].en; })); return pool.slice(0, n).map(function(i){ return SCENES[i].en; }); }
+  function distractWords(word, n){ var all = []; SCENES.forEach(function(s){ words(s.en).forEach(function(w){ if (w.length >= 4 && w.toLowerCase() !== word.toLowerCase() && all.indexOf(w) < 0) all.push(w); }); }); all = shuffle(all).sort(function(a,b){ return Math.abs(a.length-word.length) - Math.abs(b.length-word.length); }); return shuffle(all.slice(0, 12)).slice(0, n); }
+
+  /* ---------- play ---------- */
+  var run = null;
+  function startStage(k){ var list = shuffle(stageScenes(k)); run = {mode:'stage', stage:k, qs: list.map(function(s,i){ return {s:s, t:pickType(i,s,'stage')}; }), i:0, miss:0, right:0, combo:0, hints:3}; showPlay(); }
+  function startReview(){ var list = shuffle(dueList()).slice(0, 10); run = {mode:'review', qs: list.map(function(s,i){ return {s:s, t:pickType(i,s,'review')}; }), i:0, miss:0, right:0, combo:0, hints:3}; showPlay(); }
+  function showPlay(){ $('mapView').hidden = true; $('playView').hidden = false; window.scrollTo(0,0); renderQ(); }
+
+  var TYPE_LABEL = { meaning:'ما معنى هذه الجملة؟', listen:'🎧 استمع جيداً، ثم اختر معناها', reverse:'اختر الجملة الإنجليزية الصحيحة', order:'رتّب الكلمات لتكوّن الجملة', gap:'أكمل الفراغ بالكلمة الصحيحة' };
+  var TYPE_CHIP = { meaning:'المعنى', listen:'استماع', reverse:'عكسي', order:'ترتيب', gap:'فراغ' };
+
+  function renderQ(){
+    var q = run.qs[run.i], s = SCENES[q.s], answered = false;
+    $('playTitle').textContent = run.mode === 'review' ? '🔁 مراجعة أخطائي' : ('المرحلة ' + (run.stage+1));
+    $('sceneCount').textContent = 'سؤال ' + (run.i+1) + ' من ' + run.qs.length;
+    var dots = $('stageDots'); dots.innerHTML = '';
+    for (var i=0;i<run.qs.length;i++){ var d = document.createElement('span'); if (i < run.i) d.className = 'filled'; dots.appendChild(d); }
+    $('comboNum').textContent = run.combo;
+    $('feedback').textContent = ''; $('feedback').className = 'feedback';
+    $('nextBtn').disabled = true; $('nextBtn').textContent = run.i < run.qs.length-1 ? 'التالي ▶' : 'النتيجة ▶';
+    renderMedia(q.s);
+    $('levelTag').innerHTML = '<span class="badge lvl-' + (s.level||'') + '">' + (LEVEL_LABEL[s.level] || s.level || '') + '</span>' + (s.tag ? '<span class="badge grammar-tag">' + esc(s.tag) + '</span>' : '') + '<span class="badge type-tag">' + TYPE_CHIP[q.t] + '</span>';
+    $('questionText').textContent = TYPE_LABEL[q.t];
+    var line = $('sentenceText'), sub = $('subtitleText'), lb = $('listenBtn'), ch = $('choices');
+    ch.innerHTML = ''; ch.className = 'choices'; line.className = 'line'; sub.hidden = false;
+    lb.textContent = '🔊 استمع للجملة'; lb.onclick = function(){ speak(s.en); };
+    $('listenRow').hidden = false;
+    var gap = null;
+    if (q.t === 'meaning'){ line.textContent = s.en; sub.textContent = '“' + s.en + '”'; }
+    else if (q.t === 'listen'){ line.textContent = '🎧 • • •'; sub.textContent = 'النص مخفي — اضغط زر الاستماع'; setTimeout(function(){ speak(s.en); }, 350); }
+    else if (q.t === 'reverse'){ line.textContent = s.ar; line.className = 'line ar-line'; sub.hidden = true; $('listenRow').hidden = true; }
+    else if (q.t === 'order'){ line.textContent = s.ar; line.className = 'line ar-line'; sub.hidden = true; }
+    else if (q.t === 'gap'){ gap = gapWord(s.en); var re = new RegExp('\\b' + gap.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '\\b'); line.textContent = s.en.replace(re, '_____'); sub.textContent = s.ar; sub.className = 'subtitle ar-sub'; $('listenRow').hidden = true; }
+    if (q.t !== 'gap') sub.className = 'subtitle';
+
+    function finish(ok, correctText){
+      if (answered) return; answered = true;
+      if (ok){ run.right++; run.combo++; playCorrectChime();
+        var praise = run.combo >= 10 ? 'Unstoppable! 🔥 ' : run.combo >= 5 ? 'Amazing! ⚡ ' : run.combo >= 3 ? 'Great job! ' : '';
+        $('feedback').textContent = praise + 'أحسنت! إجابة صحيحة 🎉'; $('feedback').className = 'feedback good';
+        if (run.combo === 3 || run.combo === 5 || run.combo === 10){ confetti(); toast('سلسلة ' + run.combo + ' إجابات صحيحة! 🔥'); }
+        if (run.mode === 'review'){ var r = review[q.s] || {box:0}; r.box += 1; if (r.box >= 3){ delete review[q.s]; mastered += 1; save('mastered', mastered); } else { r.due = today() + [1,3,7][r.box]; review[q.s] = r; } save('review', review); }
+      } else { run.miss++; run.combo = 0; playWrongBlip();
+        $('feedback').innerHTML = 'الإجابة الصحيحة:<br><b dir="auto" style="display:block">' + esc(correctText) + '</b><span style="font-weight:500">ستعود إليك هذه الجملة في «مراجعة أخطائي» 🔁</span>'; $('feedback').className = 'feedback bad';
+        review[q.s] = {box:0, due: today() + 1}; save('review', review);
+      }
+      $('comboNum').textContent = run.combo;
+      touchDaily();
+      line.textContent = s.en; line.className = 'line'; sub.hidden = false; sub.className = 'subtitle'; sub.textContent = s.ar; $('listenRow').hidden = false;
+      if (q.t !== 'listen') setTimeout(function(){ speak(s.en); }, 250);
+      $('nextBtn').disabled = false; try{ $('nextBtn').focus({preventScroll:true}); }catch(e){}
+    }
+    function mcq(opts, correct, cls){
+      ch.className = 'choices one-col';
+      shuffle(opts).forEach(function(o){
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'choice' + (cls ? ' ' + cls : ''); b.textContent = o;
+        b.onclick = function(){ if (answered) return; var ok = o === correct;
+          ch.querySelectorAll('.choice').forEach(function(x){ x.disabled = true; if (x.textContent === correct) x.classList.add('correct'); else if (x === b) x.classList.add('wrong'); });
+          finish(ok, correct); };
+        ch.appendChild(b);
+      });
+    }
+    if (q.t === 'meaning' || q.t === 'listen') mcq([s.ar].concat(distractAr(q.s, 2)), s.ar, 'ar-choice');
+    else if (q.t === 'reverse') mcq([s.en].concat(distractEn(q.s, 2)), s.en, 'en-choice');
+    else if (q.t === 'gap') mcq([gap].concat(distractWords(gap, 2)), gap, 'en-choice');
+    else if (q.t === 'order'){
+      var target = words(s.en), placed = [];
+      ch.className = 'order-box';
+      ch.innerHTML = '<div class="built" id="built" dir="ltr"></div><div class="pool" id="pool" dir="ltr"></div><div class="order-actions"><button type="button" class="mini-btn" id="undoBtn">⌫ تراجع</button><button type="button" class="mini-btn" id="hintBtn"></button></div>';
+      var pool = $('pool'), built = $('built');
+      var tiles = shuffle(target.map(function(w,i){ return {w:w, i:i}; }));
+      if (tiles.map(function(t){ return t.i; }).join() === target.map(function(w,i){ return i; }).join()) tiles.reverse();
+      function draw(){
+        built.innerHTML = placed.length ? '' : '<span class="ph">اضغط الكلمات بالترتيب…</span>';
+        placed.forEach(function(t){ var b = document.createElement('button'); b.type='button'; b.className = 'tile in'; b.textContent = t.w; b.onclick = function(){ if (answered) return; placed.splice(placed.indexOf(t),1); draw(); }; built.appendChild(b); });
+        pool.innerHTML = '';
+        tiles.forEach(function(t){ var b = document.createElement('button'); b.type='button'; b.className = 'tile'; b.textContent = t.w; b.disabled = placed.indexOf(t) >= 0 || answered; b.onclick = function(){ if (answered) return; placed.push(t); draw();
+            if (placed.length === target.length){ var got = placed.map(function(x){ return x.w.toLowerCase(); }).join(' '), want = target.map(function(x){ return x.toLowerCase(); }).join(' ');
+              built.className = 'built ' + (got === want ? 'ok' : 'no'); finish(got === want, s.en); } };
+          pool.appendChild(b); });
+      }
+      $('undoBtn').onclick = function(){ if (answered || !placed.length) return; placed.pop(); draw(); };
+      // Only three hints for the whole stage.
+      function hintLabel(){ var h = $('hintBtn'), n = run.hints; h.textContent = n > 0 ? '💡 تلميح (' + n + ')' : '💡 انتهت التلميحات'; h.disabled = n <= 0; }
+      hintLabel();
+      $('hintBtn').onclick = function(){ if (answered || run.hints <= 0) return; run.hints -= 1; hintLabel(); var k = 0; while (k < placed.length && placed[k].w.toLowerCase() === target[k].toLowerCase()) k++; placed = placed.slice(0, k); var nxt = tiles.filter(function(t){ return placed.indexOf(t) < 0 && t.w.toLowerCase() === target[k].toLowerCase(); })[0]; if (nxt){ placed.push(nxt); draw(); } toast('تلميح: ' + target[k]); };
+      draw();
+    }
+  }
+
+  $('nextBtn').addEventListener('click', function(){ run.i += 1; if (run.i >= run.qs.length) endRun(); else renderQ(); });
+
+  function endRun(){
+    var ov = $('stageOverlay'), title, body, st = 0;
+    if (run.mode === 'stage'){
+      st = run.miss === 0 ? 3 : run.miss <= 2 ? 2 : 1;
+      var prev = stars[run.stage] || 0; if (st > prev){ stars[run.stage] = st; save('stars', stars); }
+      title = 'أنهيت المرحلة ' + (run.stage+1) + '!';
+      body = st === 3 ? 'بلا أي خطأ! أنت نجم هذه الكبسولة 🌟' : st === 2 ? 'أداء رائع! أعد المرحلة بلا أخطاء لتحصل على النجمة الثالثة.' : 'أحسنت على الإكمال! الجمل التي أخطأت فيها تنتظرك في «مراجعة أخطائي».';
+    } else {
+      title = 'أنهيت المراجعة!';
+      body = 'كل جملة تجيبها صحيحاً في المراجعة تعود بعد مدة أطول، وبعد ثلاث مرات تصبح «متقنة» ✅';
+    }
+    $('ovTitle').textContent = title; $('ovBody').textContent = body;
+    $('ovStars').innerHTML = run.mode === 'stage' ? ('<i class="' + (st>=1?'on':'') + '">★</i><i class="' + (st>=2?'on':'') + '">★</i><i class="' + (st>=3?'on':'') + '">★</i>') : '🔁';
+    $('ovRight').textContent = run.right + ' من ' + run.qs.length;
+    $('ovDays').textContent = liveDays();
+    var nx = $('stageContinueBtn'), again = $('ovAgain');
+    if (run.mode === 'stage' && run.stage + 1 < NSTAGE){ nx.hidden = false; nx.textContent = 'المرحلة التالية ▶'; nx.onclick = function(){ ov.hidden = true; startStage(run.stage + 1); }; } else nx.hidden = true;
+    again.hidden = !(run.mode === 'stage' && st < 3); again.onclick = function(){ ov.hidden = true; startStage(run.stage); };
+    $('ovMap').onclick = function(){ ov.hidden = true; renderMap(); };
+    ov.hidden = false; playWin(); confetti();
+  }
+  $('backMap').addEventListener('click', function(){ try{ window.speechSynthesis.cancel(); }catch(e){} renderMap(); });
+  window.addEventListener('resize', function(){ if (run && !$('playView').hidden) drawScene(run.qs[run.i].s*97 + 13); });
+
+  primeVoices();
+  renderMap();
+})();
+</script>
+
+<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=3"></script>
+</body></html>
