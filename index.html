@@ -50,6 +50,12 @@ h1 .en{display:block;font-family:var(--en);font-weight:600;font-size:.38em;lette
 .capchip span{font-size:1.6rem;line-height:1.2}
 .capchip:hover{transform:translateY(-2px);border-color:var(--c)}
 @media (max-width:760px){.capchips{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.hcaps{max-width:860px;margin:12px auto 0;background:rgba(255,255,255,.92);border:1.5px solid #ddd5ff;border-radius:22px;padding:12px;text-align:right}
+.hcaps-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap;text-decoration:none;color:var(--violet);margin:0 4px 10px}
+.hcaps-h b{font-size:1.12rem;font-weight:800}
+.hcaps-h small{color:var(--muted);font-size:.92rem}
+.hcaps-h .all{margin-inline-start:auto;background:var(--violet);color:#fff;font-weight:800;font-size:.9rem;border-radius:999px;padding:4px 14px}
+.hcaps .capchips{margin:0}
 .paths{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:26px auto 0;max-width:860px}
 .path{text-decoration:none;color:var(--ink);background:rgba(255,255,255,.92);border:1.5px solid var(--line);border-radius:22px;padding:14px 10px 12px;display:flex;flex-direction:column;align-items:center;gap:2px;
   transition:transform .2s var(--ease),border-color .2s,box-shadow .2s}
@@ -165,6 +171,19 @@ footer b{color:var(--ink)}
       <a class="path" href="#f2" style="--pc:#b8336a;--pb:#fdeef3"><span class="pi" aria-hidden="true">📚</span><b>المفردات</b><small>أكثر من 3000 كلمة</small></a>
       <a class="path" href="#f3" style="--pc:#6046e8;--pb:#efebff"><span class="pi" aria-hidden="true">🧩</span><b>القواعد والجمل</b><small>12 زمناً و8 كبسولات</small></a>
       <a class="path" href="#f4" style="--pc:#c4532f;--pb:#fdece5"><span class="pi" aria-hidden="true">💬</span><b>القراءة والمحادثة</b><small>18 قصة و20 محادثة</small></a>
+    </div>
+    <div class="hcaps">
+      <a class="hcaps-h" href="capsules/index.html"><span aria-hidden="true">🌟</span><b>الكبسولات</b><small>رتّب الجمل وافهم معانيها</small><span class="all">كل الكبسولات ←</span></a>
+      <div class="capchips">
+        <a class="capchip" href="capsules/space.html" style="--c:#6046e8;--t:#efebff"><span aria-hidden="true">🚀</span>الفضاء</a>
+        <a class="capchip" href="capsules/flavor.html" style="--c:#c25a20;--t:#fff0e4"><span aria-hidden="true">🍊</span>النكهة</a>
+        <a class="capchip" href="capsules/life.html" style="--c:#7d47c4;--t:#f3ebff"><span aria-hidden="true">🦋</span>الحياة</a>
+        <a class="capchip" href="capsules/adventure.html" style="--c:#2477b5;--t:#e6f3fc"><span aria-hidden="true">🎈</span>المغامرة</a>
+        <a class="capchip" href="capsules/emotion.html" style="--c:#9a6a00;--t:#fff6d8"><span aria-hidden="true">💛</span>المشاعر</a>
+        <a class="capchip" href="capsules/career.html" style="--c:#2f5fa8;--t:#e8effb"><span aria-hidden="true">🎓</span>المسيرة</a>
+        <a class="capchip" href="capsules/nature.html" style="--c:#1d7a50;--t:#e4f5ec"><span aria-hidden="true">🌍</span>الطبيعة</a>
+        <a class="capchip" href="capsules/health.html" style="--c:#13807f;--t:#e2f5f4"><span aria-hidden="true">🩺</span>التعافي</a>
+      </div>
     </div>
     <div class="me-strip"><span>⭐ <b id="myStars">0</b> نجمة</span><span>🏅 <b id="myPts">0</b> نقطة</span><span>🎯 <b>4</b> مسارات و<b>20+</b> أداة</span></div>
   </section>
