@@ -82,7 +82,7 @@ async function load() {
   catch (e) { $('main').innerHTML = '<div class="panel"><h2>لا توجد صلاحية</h2><p class="note">هذا الحساب ليس حساب المعلم المسجّل في إعدادات اللوحة.</p></div>'; return; }
   rows.sort((a,b) => (b.score||0) - (a.score||0));
   let priv = {}; try { priv = await H.allPrivate(); } catch (e) { console.warn(e); }
-  let lv = {}, lvCfg = {}; try { [lv, lvCfg] = await Promise.all([H.allLevels(), H.teacherLevelsConfig()]); } catch (e) { console.warn('levels', e); }
+  let lv = {}, lvCfg = {}, lvErr = ''; try { [lv, lvCfg] = await Promise.all([H.allLevels(), H.teacherLevelsConfig()]); } catch (e) { console.warn('levels', e); lvErr = (e && (e.code || e.message) || 'error') + ''; }
   const pend = rows.filter(r => !r.approved), ok = rows.filter(r => r.approved);
   const item = (r, pending) => `<div class="item" data-id="${r.id}"><span class="nm">${esc(r.nick)}${priv[r.id] ? `<small class="real">👤 ${esc(priv[r.id].name)} · ${priv[r.id].grade === H.EXTERNAL ? '🌐 من خارج المدرسة: ' + esc(priv[r.id].school || 'لم يذكر الجهة') : esc(priv[r.id].grade) + ' · الشعبة ' + esc(priv[r.id].section)}</small>` : '<small class="real miss">⚠️ لم يكتب بياناته الحقيقية بعد</small>'}</span><span class="sc">${fmt(r.score)}<small class="real">${ago(r.updatedAt)}</small></span><span class="acts">
     ${pending ? '<button class="btn ok" data-a="ok">✓ موافقة</button>' : '<button class="btn soft" data-a="hide">إخفاء</button>'}
@@ -94,6 +94,7 @@ async function load() {
   const gain = id => pc(lv[id].post) - pc(lv[id].pre);
   const levelPanel = `<div class="panel"><h2>📈 قياس المستوى</h2>
     <p class="note">نتائج الاختبار القبلي والبعدي في <a href="level/index.html">صفحة قياس المستوى</a>. الاختبار البعدي مغلق حتى تفتحه أنت.</p>
+    ${lvErr ? `<p class="err">⚠️ ${/permission/i.test(lvErr) ? 'قواعد Firebase الجديدة لم تُنشر بعد، لذلك لا تصل نتائج الاختبار. انسخ ملف القواعد كاملاً في Firestore ← Rules ثم اضغط Publish. نتائج الطلاب محفوظة في أجهزتهم وستصل تلقائياً بعد ذلك.' : 'تعذّر تحميل النتائج: ' + esc(lvErr)}</p>` : ''}
     <p style="margin:10px 0"><button class="btn ${lvCfg.postOpen ? 'bad' : 'ok'}" id="postT">${lvCfg.postOpen ? '🔒 أغلق الاختبار البعدي' : '🔓 افتح الاختبار البعدي للطلاب'}</button> <span class="note">${lvCfg.postOpen ? 'البعدي مفتوح الآن.' : 'البعدي مغلق الآن.'}</span></p>
     <div class="lvsum"><div><small>أدّوا القبلي</small><b>${lvIds.filter(id => lv[id].pre).length}</b></div><div><small>أدّوا البعدي</small><b>${lvIds.filter(id => lv[id].post).length}</b></div>
       <div><small>متوسط القبلي</small><b>${avg(lvIds.filter(id => lv[id].pre).map(id => pc(lv[id].pre)))}${lvIds.some(id => lv[id].pre) ? '٪' : ''}</b></div>
@@ -105,9 +106,14 @@ async function load() {
           <td>${g === null ? '—' : `<span class="${g > 0 ? 'up' : g < 0 ? 'down' : ''}">${g > 0 ? '+' : ''}${g}٪</span>`}</td>
           <td><button class="btn soft sm" data-lr="${L.post ? 'post' : 'pre'}">↺ إعادة ${L.post ? 'البعدي' : 'القبلي'}</button></td></tr>`; }).join('')}</tbody></table></div>`
       : '<div class="empty">لم يؤدِّ أحد الاختبار بعد.</div>'}</div>`;
-  $('main').innerHTML = levelPanel + `
+  // newest registrations first: the real-name record is written at the moment a student registers
+  const ts = t => t && t.toMillis ? t.toMillis() : 0;
+  const newest = Object.keys(priv).sort((a, b) => ts(priv[b].updatedAt) - ts(priv[a].updatedAt)).slice(0, 15);
+  const newPanel = `<div class="panel"><h2>🆕 أحدث المسجلين <span class="count" style="background:#eef0f6;color:var(--ink)">${Object.keys(priv).length} طالباً</span></h2>
+    ${newest.map(id => { const p = priv[id], r = rows.find(x => x.id === id);
+      return `<div class="item"><span class="nm">${esc(p.name)}<small class="real">${p.grade === H.EXTERNAL ? '🌐 ' + esc(p.school || 'من خارج المدرسة') : esc(p.grade) + ' · الشعبة ' + esc(p.section)} · ${r ? '🏷️ ' + esc(r.nick) + (r.approved ? ' ✓' : ' (بانتظار الموافقة)') : '⚠️ لم يكمل اختيار الاسم المستعار'}${lv[id] && lv[id].pre ? ' · 📈 أدّى القبلي' : ''}</small></span><span class="note" style="font-size:.95rem">${ago(p.updatedAt).replace('آخر تحديث: ', '')}</span></div>`; }).join('') || '<div class="empty">لا يوجد مسجلون بعد.</div>'}</div>`;
+  $('main').innerHTML = `<div class="panel"><h2>بانتظار الموافقة <span class="count">${pend.length}</span></h2>${pend.map(r => item(r, true)).join('') || '<div class="empty">لا توجد أسماء جديدة.</div>'}</div>` + newPanel + levelPanel + `
     <div class="panel"><h2>قائمة التكريم</h2><p class="note">ملف فيه الترتيب والاسم الحقيقي والصف والشعبة والاسم المستعار والنقاط، يُفتح في Excel.</p><p style="margin-top:12px"><button class="btn ok" id="csv">⬇️ تنزيل قائمة التكريم</button></p></div>
-    <div class="panel"><h2>بانتظار الموافقة <span class="count">${pend.length}</span></h2>${pend.map(r => item(r, true)).join('') || '<div class="empty">لا توجد أسماء جديدة.</div>'}</div>
     <div class="panel"><h2>ظاهرون في اللوحة <span class="count" style="background:var(--ok-soft);color:var(--ok)">${ok.length}</span></h2>${ok.map(r => item(r, false)).join('') || '<div class="empty">لا أحد بعد.</div>'}</div>`;
   $('csv').onclick = () => {
     const q = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
