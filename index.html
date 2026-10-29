@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="ar" dir="rtl" data-theme="light">
 <head>
-<meta charset="utf-8">
-<script src="assets/gate.js?v=5"></script>
+<meta charset="utf-8"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="assets/icons/apple-180.png"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<script src="assets/gate.js?v=6"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>نادي اللغة الإنجليزية · ثانوية الأمير فيصل</title>
 <meta name="description" content="ألعاب ومنصات تعلّم ذاتي للغة الإنجليزية: بوابة الكبسولات، ورحلة التعلّم الذاتي، وميدان المفردات.">
@@ -62,6 +62,11 @@ h1 .en{display:block;font-family:var(--en);font-weight:600;font-size:.38em;lette
 .lmodes a small{font-weight:600;opacity:.8}
 .lmodes a{line-height:1.35;text-decoration:none;color:var(--c);background:var(--t);border-radius:12px;padding:6px 8px;font-weight:800;font-size:.92rem;text-align:center}
 .lmodes a:hover{outline:1.5px solid var(--c)}
+.install{display:flex;align-items:center;gap:14px;margin:14px 0 0;background:linear-gradient(120deg,#efebff,#fff 70%);border:1.5px solid #ddd5ff;border-radius:22px;padding:12px 16px}
+.install img{border-radius:14px;flex:none}
+.install .txt{flex:1;min-width:0}.install b{display:block;font-size:1.08rem;color:var(--violet)}.install small{color:var(--muted);font-size:.95rem;line-height:1.5;display:block}
+.install .go{font:inherit;font-weight:800;border:0;border-radius:999px;padding:10px 18px;background:var(--violet);color:#fff;cursor:pointer;white-space:nowrap}
+@media (max-width:520px){.install{flex-wrap:wrap}.install .go{width:100%}}
 .paths{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:26px auto 0;max-width:860px}
 .path{text-decoration:none;color:var(--ink);background:rgba(255,255,255,.92);border:1.5px solid var(--line);border-radius:22px;padding:14px 10px 12px;display:flex;flex-direction:column;align-items:center;gap:2px;
   transition:transform .2s var(--ease),border-color .2s,box-shadow .2s}
@@ -202,6 +207,12 @@ footer b{color:var(--ink)}
     <span class="go">أكمل ←</span>
   </a>
 
+  <div class="install" id="install" hidden>
+    <img src="assets/icons/icon-192.png" alt="" width="56" height="56">
+    <span class="txt"><b>ثبّت تطبيق النادي على جوالك 📲</b><small id="instHint">أيقونة على شاشتك، ويفتح بملء الشاشة، ويعمل دون إنترنت للصفحات التي فتحتها.</small></span>
+    <button class="go" id="instBtn" type="button">ثبّت التطبيق</button>
+  </div>
+
   <a class="honor reveal" href="honor.html">
     <span class="tro" aria-hidden="true">🏆</span>
     <span class="txt"><b>لوحة الشرف</b><small id="hSub">تنافس مع زملائك: كل نجمة وإجابة صحيحة تمنحك نقاطاً.</small>
@@ -292,6 +303,22 @@ footer b{color:var(--ink)}
   <footer>إعداد: <b>أ. أحمد آل سالم</b> — معلم اللغة الإنجليزية<br>ثانوية الأمير فيصل بالعقيق<br><a href="https://mrgmdi22-prog.github.io/Arabic/" style="color:#0f7f74;font-weight:800">🌐 مرافئ العربية: موقع تعليم اللغة العربية ←</a></footer>
 </div>
 
+<script>
+// "Install the app" card: Chrome/Android shows the real install prompt; iPhone gets the Share-menu steps.
+(function(){
+  var box = document.getElementById('install'), btn = document.getElementById('instBtn'), hint = document.getElementById('instHint'), ev = null;
+  var standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  if (standalone || !box) return;
+  var ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); ev = e; box.hidden = false; });
+  window.addEventListener('appinstalled', function(){ box.hidden = true; });
+  if (ios) { box.hidden = false; btn.textContent = 'كيف أثبّته؟'; }
+  btn.onclick = function(){
+    if (ev) { ev.prompt(); ev.userChoice.then(function(){ ev = null; box.hidden = true; }); return; }
+    if (ios) { hint.innerHTML = 'في Safari اضغط زر المشاركة <b>⬆️</b> أسفل الشاشة، ثم اختر <b>«إضافة إلى الشاشة الرئيسية»</b>، ثم <b>«إضافة»</b>.'; btn.hidden = true; }
+  };
+})();
+</script>
 <script src="assets/club.js?v=3"></script>
 <script type="module">
 // Top three on the honor board (only once Firebase is configured)

@@ -1,6 +1,15 @@
 // Soft sound effects for the whole site (synthesised with Web Audio, no files):
 // a light tap on every button or link, a bright chime for a right answer, a gentle low tone for a wrong one,
 // and one 🔊 switch (bottom-left) that turns all page sounds on or off. Spoken words are never muted.
+// Register the app's service worker (assets/../sw.js) so the site can be installed and opened offline.
+(function(){
+  try {
+    var me = document.currentScript && document.currentScript.src;
+    if (me && 'serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+      navigator.serviceWorker.register(new URL('../sw.js', me).href, { scope: new URL('../', me).pathname }).catch(function(){});
+    }
+  } catch (e) {}
+})();
 (function(){
   if (window.clubSfx) return;
   var KEY = 'club-sfx', on = true;
