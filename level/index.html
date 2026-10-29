@@ -77,7 +77,7 @@ h1 .en{display:block;font-size:.5em;color:var(--pri);letter-spacing:.06em;font-w
 <body>
 <a class="club-home" href="../index.html">🏠 الرئيسية</a>
 <div class="wrap" id="app"></div>
-<script src="../assets/club.js?v=3"></script>
+<script src="../assets/club.js?v=4"></script>
 <script type="module">
 /* ---------- the two forms: same skills, same difficulty, different questions ----------
    item: [skill, band, question, Arabic help, right answer, wrong, wrong, wrong]   skill v g r l · band 1=A1 2=A2 3=B1
@@ -189,7 +189,7 @@ let H = null, cloud = {}, postOpen = false, online = false;
 async function loadAll(){
   const local = store.get('lv-results') || {};
   try {
-    H = await import('../assets/honor.js?v=20261029a');
+    H = await import('../assets/honor.js?v=20261029b');
     if (H.ready) {
       const t = new Promise((_, no) => setTimeout(() => no(new Error('timeout')), 8000));
       const [mine, cfg] = await Promise.race([Promise.all([H.myLevels(), H.levelsConfig()]), t]);
@@ -199,12 +199,13 @@ async function loadAll(){
     }
   } catch(e) { console.warn('level check offline', e); }
   const res = { pre: cloud.pre || local.pre || null, post: cloud.post || local.post || null };
+  if (online) { const s = {}; ['pre', 'post'].forEach(k => { if (cloud[k]) s[k] = true; }); try { localStorage.setItem('lv-synced', JSON.stringify(s)); } catch(e){} }
   store.set('lv-results', res);
   return res;
 }
 async function save(kind, r){
   const res = store.get('lv-results') || {}; res[kind] = r; store.set('lv-results', res);
-  if (H && H.ready) { try { await H.saveLevel(kind, r); return true; } catch(e){ console.warn(e); } }
+  if (H && H.ready) { try { await H.saveLevel(kind, r); try { const s = JSON.parse(localStorage.getItem('lv-synced') || '{}'); s[kind] = true; localStorage.setItem('lv-synced', JSON.stringify(s)); } catch(e){} return true; } catch(e){ console.warn(e); } }
   return false;
 }
 

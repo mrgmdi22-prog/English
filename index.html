@@ -344,10 +344,10 @@ try { var lr = JSON.parse(localStorage.getItem('lv-results') || '{}'), s = docum
   if (lr.post) s.textContent = 'مستواك الآن: ' + lr.post.level + ' — ' + Math.round(lr.post.score / lr.post.max * 100) + '٪ في الاختبار البعدي.';
   else if (lr.pre) s.textContent = 'مستواك في الاختبار القبلي: ' + lr.pre.level + ' — ' + Math.round(lr.pre.score / lr.pre.max * 100) + '٪. الاختبار البعدي في نهاية الفترة.'; } catch (e) {}
 </script>
-<script src="assets/club.js?v=3"></script>
+<script src="assets/club.js?v=4"></script>
 <script type="module">
 // Top three on the honor board (only once Firebase is configured)
-import('./assets/honor.js?v=20261029a').then(async H => {
+import('./assets/honor.js?v=20261029b').then(async H => {
   const s = H.computeScore().score;
   const mp = document.getElementById('myPts'); if (mp) mp.textContent = s.toLocaleString('en-US');
   if (s > 0) document.getElementById('hSub').textContent = 'نقاطك الآن: ' + s.toLocaleString('en-US') + ' نقطة — انضم وتنافس مع زملائك.';

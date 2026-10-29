@@ -160,6 +160,7 @@ export async function setRegion(region) {
 /** Pushes my latest points if I have joined. Quiet; throttled unless forced. */
 export async function sync(force) {
   if (!ready) return null;
+  pushLevels().catch(() => {});
   let joined = false; try { joined = !!localStorage.getItem('club-player'); } catch (e) {}
   if (!joined) return null;
   const { score, parts } = computeScore();
@@ -267,4 +268,26 @@ export async function resetLevel(id, kind) {
   const ref = fs.doc(D, 'levels', id);
   if (kind === 'all') return fs.deleteDoc(ref);
   await fs.updateDoc(ref, kind === 'pre' ? { pre: fs.deleteField(), post: fs.deleteField() } : { post: fs.deleteField() });
+}
+
+/** Sends level-check results kept only on this device (taken while the database did not accept them yet). */
+let pushing = false;
+export async function pushLevels() {
+  if (!ready || pushing) return;
+  let res = {}, done = {};
+  try { res = JSON.parse(localStorage.getItem('lv-results') || '{}') || {}; done = JSON.parse(localStorage.getItem('lv-synced') || '{}') || {}; } catch (e) { return; }
+  const todo = ['pre', 'post'].filter(k => res[k] && !done[k]);
+  if (!todo.length) return;
+  pushing = true;
+  try {
+    const cloud = await myLevels();
+    for (const k of ['pre', 'post']) {
+      if (!res[k] || done[k]) continue;
+      if (!cloud[k]) { if (k === 'post' && !cloud.pre) break; await saveLevel(k, res[k]); cloud[k] = res[k]; }
+      done[k] = true;
+    }
+  } finally {
+    pushing = false;
+    try { localStorage.setItem('lv-synced', JSON.stringify(done)); } catch (e) {}
+  }
 }
