@@ -53,25 +53,49 @@
     };
   } catch (e) {}
 
-  var ctx = null, armed = false;
+  var ctx = null, armed = false, bus = null;
   function ac(){
-    if (!ctx) { var C = window.AudioContext || window.webkitAudioContext; if (!C) return null; try { ctx = new C(); } catch (e) { return null; } }
+    if (!ctx) { var C = window.AudioContext || window.webkitAudioContext; if (!C) return null; try { ctx = new C(); } catch (e) { return null; }
+      // one soft output for every effect: a gentle low-pass and a limiter, so nothing ever sounds sharp or loud
+      try { var lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 5200; lp.Q.value = .3;
+        var cp = ctx.createDynamicsCompressor(); cp.threshold.value = -18; cp.knee.value = 12; cp.ratio.value = 6; cp.attack.value = .003; cp.release.value = .2;
+        var mv = ctx.createGain(); mv.gain.value = .9; lp.connect(cp); cp.connect(mv); mv.connect(ctx.destination); bus = lp; } catch (e) { bus = null; } }
     if (ctx.state === 'suspended') ctx.resume();
     return ctx;
   }
-  function tone(f, t0, d, type, v, f2){
-    var c = ac(); if (!c) return;
-    var T = c.currentTime + t0, o = c.createOscillator(), g = c.createGain();
-    o.type = type || 'sine'; o.frequency.setValueAtTime(f, T); if (f2) o.frequency.exponentialRampToValueAtTime(f2, T + d);
-    g.gain.setValueAtTime(0.0001, T); g.gain.exponentialRampToValueAtTime(v, T + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, T + d);
-    o.connect(g); g.connect(c.destination); o.start(T); o.stop(T + d + 0.03);
+  function out(c){ return bus || c.destination; }
+  // a plucked "marimba / kalimba" note: a warm body plus a short bright tine that dies away quickly
+  function pluck(f, t0, v, d){
+    var c = ac(); if (!c) return; var T = c.currentTime + t0; d = d || .45;
+    [[1, 1, 'sine'], [4.01, .18, 'sine'], [2, .12, 'triangle']].forEach(function(p, i){
+      var o = c.createOscillator(), g = c.createGain(); o.type = p[2]; o.frequency.setValueAtTime(f * p[0], T);
+      var len = i ? d * .28 : d; g.gain.setValueAtTime(.0001, T); g.gain.exponentialRampToValueAtTime(v * p[1], T + .006); g.gain.exponentialRampToValueAtTime(.0001, T + len);
+      o.connect(g); g.connect(out(c)); o.start(T); o.stop(T + len + .03);
+    });
   }
+  // a short sweep: bubbles, pops and the soft "boop" for a wrong answer
+  function sweep(f1, f2, t0, d, v, type){
+    var c = ac(); if (!c) return; var T = c.currentTime + t0, o = c.createOscillator(), g = c.createGain();
+    o.type = type || 'sine'; o.frequency.setValueAtTime(f1, T); o.frequency.exponentialRampToValueAtTime(f2, T + d * .8);
+    g.gain.setValueAtTime(.0001, T); g.gain.exponentialRampToValueAtTime(v, T + .01); g.gain.exponentialRampToValueAtTime(.0001, T + d);
+    o.connect(g); g.connect(out(c)); o.start(T); o.stop(T + d + .03);
+  }
+  // tiny sparkle (high, very quiet) to decorate happy sounds
+  function sparkle(t0, n, v){ for (var i = 0; i < n; i++) pluck(2093 * Math.pow(2, [0, 4, 7, 12, 16][i % 5] / 12), t0 + i * .045, v, .18); }
+  var streak = 0, lastGood = 0;
+  var rnd = function(a){ return 1 + (Math.random() * 2 - 1) * a; };
   var S = {
-    tap:  function(){ tone(1046, 0, 0.06, 'sine', 0.05, 784); },
-    good: function(){ tone(784, 0, 0.13, 'sine', 0.12); tone(1175, 0.09, 0.28, 'sine', 0.11); tone(2349, 0.09, 0.2, 'sine', 0.02); },
-    bad:  function(){ tone(349, 0, 0.16, 'triangle', 0.09, 330); tone(262, 0.12, 0.26, 'triangle', 0.08, 247); },
-    win:  function(){ [523, 659, 784, 1047].forEach(function(f, i){ tone(f, i * 0.1, 0.26, 'sine', 0.11); }); },
-    on:   function(){ tone(660, 0, 0.1, 'sine', 0.09); tone(990, 0.08, 0.16, 'sine', 0.08); }
+    // a soft water-drop "blip", a little different each time
+    tap:  function(){ var f = 520 * rnd(.06); sweep(f, f * 1.9, 0, .07, .07); },
+    // a happy two-note kalimba "ding-ding"; answering right several times in a row climbs the scale
+    good: function(){ var now = Date.now(); streak = now - lastGood < 15000 ? Math.min(streak + 1, 5) : 0; lastGood = now;
+      var k = Math.pow(2, [0, 2, 4, 5, 7, 9][streak] / 12), b = 659 * k;
+      pluck(b, 0, .16, .5); pluck(b * 1.498, .085, .15, .6); if (streak >= 2) sparkle(.17, 3, .025); },
+    // a gentle, rounded "bwoop" going down: clear that it is wrong, never harsh
+    bad:  function(){ streak = 0; sweep(330, 196, 0, .22, .12, 'sine'); sweep(247, 147, .13, .28, .1, 'sine'); },
+    // a little kalimba fanfare with sparkles
+    win:  function(){ [523, 659, 784, 1047].forEach(function(f, i){ pluck(f, i * .09, .15, .55); }); pluck(1319, .38, .12, .9); sparkle(.42, 5, .03); },
+    on:   function(){ pluck(784, 0, .12, .35); pluck(1175, .07, .1, .45); }
   };
   // Several sounds in the same moment (a tap that is also a right answer) play only the most important one.
   var RANK = ['tap', 'on', 'good', 'bad', 'win'], pend = null;
