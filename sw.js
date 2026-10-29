@@ -1,7 +1,7 @@
 // English Club service worker: makes the site installable and lets pages you have opened work offline.
 // Pages: network first (so updates always show), falling back to the saved copy when offline.
 // Files (scripts, styles, images, fonts on this site): served from the saved copy, refreshed in the background.
-const CACHE = 'club-v1';
+const CACHE = 'club-v2';
 const CORE = ['./', './index.html', './assets/club.css', './assets/club.js', './assets/gate.js', './assets/sfx.js', './assets/icons/icon-192.png', './offline.html'];
 
 self.addEventListener('install', e => {
