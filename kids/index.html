@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ar" dir="rtl" data-theme="light">
 <head>
-<meta charset="utf-8"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/kids-apple-180.png?v=1"><link rel="icon" type="image/png" href="../assets/icons/kids-192.png?v=1"><meta name="apple-mobile-web-app-title" content="نادي البراعم"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta charset="utf-8"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/kids-apple-180.png?v=2"><link rel="icon" type="image/png" href="../assets/icons/kids-192.png?v=2"><meta name="apple-mobile-web-app-title" content="نادي البراعم"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>نادي البراعم · English Club Kids</title>
 <meta name="description" content="English for young learners: letters, numbers, colors, shapes, words with pictures and simple phrases — with sound and games.">
@@ -162,7 +162,7 @@ const SECTIONS=[
 ];
 function home(){
   $('topBtn').textContent='🏠 النادي';$('topBtn').href='../index.html';$('topBtn').onclick=null;
-  $('app').innerHTML=`<div class="hero"><span class="mascot" aria-hidden="true">🐣</span><h1>نادي البراعم<span class="en">English Club Kids</span></h1><p>اضغط، واسمع، والعب، واجمع النجوم ⭐</p></div>
+  $('app').innerHTML=`<div class="hero"><span class="mascot" aria-hidden="true">🦁</span><h1>نادي البراعم<span class="en">English Club Kids</span></h1><p>اضغط، واسمع، والعب، واجمع النجوم ⭐</p></div>
     <h2 class="sec">🌱 أبدأ من هنا</h2><div class="tiles">${SECTIONS.slice(0,5).map(tile).join('')}</div>
     <h2 class="sec">🖼️ كلمات بالصور</h2><div class="tiles">${SECTIONS.slice(5,5+TOPICS.length).map(tile).join('')}</div>
     <h2 class="sec">🎉 تكلّم والعب</h2><div class="tiles">${SECTIONS.slice(5+TOPICS.length).map(tile).join('')}</div>`;
