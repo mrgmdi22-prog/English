@@ -1,5 +1,6 @@
 /* Shared by every page of the English Club site: soft page transitions + the floating home button. */
-@view-transition{navigation:auto}
+/* Page-to-page fade only in the browser tab: in the installed app it could freeze the old page while the next one loads. */
+@media not all and (display-mode:standalone){@view-transition{navigation:auto}}
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.3s;animation-timing-function:ease}
 .club-home{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));left:10px;z-index:999;display:inline-flex;align-items:center;gap:6px;
   background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#2f3a55;
