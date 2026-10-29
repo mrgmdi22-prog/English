@@ -10,6 +10,32 @@
     }
   } catch (e) {}
 })();
+// On Android, voices and sounds work best in Google Chrome. In other Android browsers (Samsung Internet,
+// in-app browsers, etc.) offer a one-tap "open in Chrome" link; it does nothing on iPhone or in Chrome itself.
+(function(){
+  try {
+    var ua = navigator.userAgent;
+    if (!/Android/i.test(ua)) return;
+    var chrome = /Chrome\/\d+/.test(ua) && !/SamsungBrowser|; wv\)|EdgA|OPR|YaBrowser|MiuiBrowser|HuaweiBrowser|HeyTapBrowser|UCBrowser|FB_IAB|FBAN|FBAV|Instagram|Snapchat|Line\/|GSA\//.test(ua);
+    if (chrome) return;
+    try { if (sessionStorage.getItem('club-chrome-tip')) return; } catch (e) {}
+    var app = window.matchMedia && window.matchMedia('(display-mode: standalone)').matches;
+    var url = location.href.replace(/^https?:\/\//, '');
+    var intent = 'intent://' + url + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent('https://play.google.com/store/apps/details?id=com.android.chrome') + ';end';
+    var show = function(){
+      if (!document.body || document.getElementById('chromeTip')) return;
+      var d = document.createElement('div'); d.id = 'chromeTip'; d.setAttribute('role', 'note');
+      d.style.cssText = 'position:fixed;left:10px;right:10px;bottom:calc(68px + env(safe-area-inset-bottom,0px));z-index:1001;max-width:520px;margin:0 auto;background:#fff;color:#1E1B3A;border:2px solid #5B2EFF;border-radius:18px;padding:12px 14px;box-shadow:0 14px 30px -14px rgba(30,27,58,.55);font:600 16px/1.6 Tajawal,"Segoe UI",Tahoma,sans-serif;direction:rtl;text-align:right';
+      d.innerHTML = '<b style="display:block;font-size:17px">🔊 لتعمل الأصوات والنطق جيداً</b>' +
+        (app ? 'احذف هذا التطبيق، ثم ثبّته من جديد من متصفح <b>Google Chrome</b>.' : 'افتح الموقع في متصفح <b>Google Chrome</b>.') +
+        '<div style="display:flex;gap:8px;margin-top:8px"><a href="' + intent + '" style="flex:1;text-align:center;background:#5B2EFF;color:#fff;border-radius:999px;padding:8px 12px;font-weight:800;text-decoration:none">افتح في Chrome</a>' +
+        '<button type="button" style="font:inherit;font-weight:700;border:0;background:#eee;border-radius:999px;padding:8px 14px;cursor:pointer">لاحقاً</button></div>';
+      d.querySelector('button').onclick = function(){ d.remove(); try { sessionStorage.setItem('club-chrome-tip', '1'); } catch (e) {} };
+      document.body.appendChild(d);
+    };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', show); else show();
+  } catch (e) {}
+})();
 (function(){
   if (window.clubSfx) return;
   var KEY = 'club-sfx', on = true;
