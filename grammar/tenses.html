@@ -157,6 +157,50 @@ footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
   .extra{margin-top:6px;padding:6px 10px;gap:2px;font-size:11px;border-radius:10px;break-inside:avoid}
   html,body{background:#fff!important}
 }
+
+/* ---- printed conjugation chart: one A4 landscape sheet, built only when printing from the chart tab ---- */
+#conjPrint{display:none}
+@media print{
+  body.print-conj>*:not(#conjPrint){display:none!important}
+  body.print-conj #conjPrint{display:block}
+  body.print-conj{padding:0;margin:0}
+}
+.cp{font-family:var(--en);color:#1F2840;direction:ltr;-webkit-print-color-adjust:exact;print-color-adjust:exact;width:277mm;height:186mm;overflow:hidden;display:flex;flex-direction:column;gap:2mm;page-break-after:avoid;break-after:avoid}
+.cp-head{display:flex;align-items:stretch;gap:3mm}
+.cp-title{flex:1;border-radius:4mm;padding:2.2mm 4mm;background:linear-gradient(100deg,#EEEBFD,#F7F8FC 70%);border:.35mm solid #DCD6FA;display:flex;flex-direction:column;justify-content:center}
+.cp-title .k{font-size:7.5pt;letter-spacing:.18em;font-weight:700;color:#7A70C9;text-transform:uppercase}
+.cp-title h2{margin:0;font-size:15.5pt;line-height:1.15;color:#3F2FB8;font-weight:700}
+.cp-title .ar{font-family:var(--ar);font-size:11pt;font-weight:800;color:#5B6580;direction:rtl;text-align:left}
+.cp-verb{border-radius:4mm;padding:2mm 5mm;background:#FFF7E0;border:.35mm solid #F2DDA0;text-align:center;min-width:62mm;display:flex;flex-direction:column;justify-content:center}
+.cp-verb .lb{font-size:7.5pt;font-weight:700;letter-spacing:.14em;color:#A07A10;text-transform:uppercase}
+.cp-verb .v{font-size:22pt;font-weight:700;line-height:1.05;color:#1F2840}
+.cp-verb .v span{font-family:var(--ar);font-size:12pt;font-weight:800;color:#8A6A10;margin-left:2mm}
+.cp-verb .pp{font-size:8.5pt;color:#5B6580}
+.cp-verb .pp b{color:#1F2840}
+.cp-key{border-radius:4mm;padding:2mm 4mm;background:#fff;border:.35mm solid #E3E7F1;display:flex;flex-direction:column;justify-content:center;gap:1mm;font-size:8.5pt}
+.cp-key div{display:flex;align-items:center;gap:2mm}
+.cp-key .ar{font-family:var(--ar);font-weight:700;color:#5B6580;font-size:8.5pt}
+.cp i.s{display:inline-grid;place-items:center;width:4.2mm;height:4.2mm;border-radius:50%;color:#fff;font-style:normal;font-weight:700;font-size:8pt;line-height:1;flex:none}
+.cp i.s.a{background:#1F9D6B}.cp i.s.n{background:#D23F4A}.cp i.s.q{background:#3268D6}
+.cp-grid{flex:1;min-height:0;display:grid;grid-template-columns:22mm repeat(4,minmax(0,1fr));grid-template-rows:auto repeat(3,minmax(0,1fr));gap:1.8mm}
+.cp-ch{border-radius:3mm;color:#fff;text-align:center;padding:1.4mm 1mm;font-weight:700;font-size:10pt;line-height:1.15}
+.cp-ch small{display:block;font-family:var(--ar);font-size:8.5pt;font-weight:800;opacity:.95}
+.cp-rh{border-radius:3mm;color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;font-weight:700;font-size:11pt;line-height:1.2}
+.cp-rh small{font-family:var(--ar);font-size:9.5pt;font-weight:800}
+.cp-c{border-radius:3mm;border:.35mm solid #E3E7F1;border-top:1.6mm solid var(--tc);background:#fff;padding:1.6mm 2.4mm;display:flex;flex-direction:column;gap:.8mm;overflow:hidden;break-inside:avoid}
+.cp-c .nm{display:flex;justify-content:space-between;align-items:baseline;gap:2mm}
+.cp-c .nm b{font-size:9.6pt;color:var(--tc);white-space:nowrap}
+.cp-c .nm span{font-family:var(--ar);font-size:8.5pt;font-weight:800;color:#5B6580;direction:rtl}
+.cp-c .fm{background:var(--ts);border-radius:1.6mm;padding:.6mm 1.8mm;font-size:7.2pt;color:#3A4460;font-weight:600;line-height:1.3}
+.cp-c ul{list-style:none;margin:0;padding:0;font-size:8.6pt;line-height:1.34}
+.cp-c li{display:flex;gap:1.6mm;align-items:flex-start}
+.cp-c li i.s{margin-top:.5mm;width:3.6mm;height:3.6mm;font-size:7pt}
+.cp-c li.gap{margin-top:.6mm}
+.cp-c b.v{color:var(--tc)}
+.cp-c .pr{color:#8790A8;width:19mm;flex:none;display:inline-block}
+.cp-c li>span:not(.t){display:flex}
+.cp-foot{display:flex;justify-content:space-between;font-size:7.5pt;color:#8790A8}
+.cp-foot .ar{font-family:var(--ar);font-weight:700;direction:rtl}
 </style>
 </head>
 <body>
@@ -328,6 +372,32 @@ function setTab(t){tab=t;document.querySelectorAll('.tabs button').forEach(b=>b.
   ['map','conj','quiz'].forEach(k=>$('p-'+k).hidden=k!==t);if(t==='quiz'&&!Q)newQuiz();}
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
 $('printBtn').onclick=()=>window.print();
+/* the printed chart: pronoun lines for the affirmative, then the negative and the question */
+function conjSheet(){
+  const v=VERBS[+$('verb').value||0],C={pr:'#1F9D6B',pa:'#D9622B',fu:'#3268D6'},S={pr:'#E3F6EE',pa:'#FDEDE4',fu:'#E6EEFC'};
+  const A={s:'#F08A24',c:'#16A085',p:'#2D8CE0',pc:'#8E5BE8'};
+  const vb=s=>md(s).replace(/<b>/g,'<b class="v">');
+  const line=(p,s)=>{const m=s.match(/^(\S+(?: \/ \S+)*) (.*)$/);return `<li><i class="s a">+</i><span><span class="pr">${p}</span>${vb(m?m[2]:s)}</span></li>`;};
+  let g='<div></div>'+Object.entries(ASPECTS).map(([k,a])=>`<div class="cp-ch" style="background:${A[k]}">${a[0]}<small>${a[1]}</small></div>`).join('');
+  ['pr','pa','fu'].forEach(t=>{
+    g+=`<div class="cp-rh" style="background:${C[t]}">${TIMES[t][0]}<small>${TIMES[t][1]}</small></div>`;
+    T.filter(x=>x.t===t).forEach(x=>{
+      const aff=[['I','I'],['You','You'],['He / She / It','He'],['We','We'],['They','They']].map(([lbl,p])=>line(lbl,forms(x,v,p)[0])).join('');
+      g+=`<div class="cp-c" style="--tc:${C[t]};--ts:${S[t]}"><div class="nm"><b>${tname(x)}</b></div><div class="fm">${esc(nb(x.f.a))}</div>
+        <ul>${aff}<li class="gap"><i class="s n">−</i><span class="t">${vb(forms(x,v,'He')[1])}.</span></li><li><i class="s q">?</i><span class="t">${vb(forms(x,v,'You')[2])}</span></li></ul></div>`;
+    });
+  });
+  $('conjPrint').innerHTML=`<div class="cp">
+    <div class="cp-head">
+      <div class="cp-title"><span class="k">English Club · Grammar</span><h2>The 12 English Tenses · Conjugation Chart</h2><span class="ar">جدول تصريف الأزمنة الاثني عشر</span></div>
+      <div class="cp-verb"><span class="lb">Verb</span><span class="v">${esc(v[0])}<span>${esc(v[5])}</span></span><span class="pp">V2 <b>${esc(v[2])}</b> · V3 <b>${esc(v[3])}</b> · V-ing <b>${esc(v[4])}</b></span></div>
+      <div class="cp-key"><div><i class="s a">+</i>Affirmative <span class="ar">مُثبتة</span></div><div><i class="s n">−</i>Negative <span class="ar">منفية</span></div><div><i class="s q">?</i>Question <span class="ar">استفهامية</span></div></div>
+    </div>
+    <div class="cp-grid">${g}</div>
+    <div class="cp-foot"><span>mrgmdi22-prog.github.io/English</span><span class="ar">نادي اللغة الإنجليزية · ثانوية الأمير فيصل بالعقيق · إعداد أ. أحمد آل سالم</span></div></div>`;
+}
+window.addEventListener('beforeprint',()=>{const on=tab==='conj';document.body.classList.toggle('print-conj',on);if(on)conjSheet();});
+window.addEventListener('afterprint',()=>document.body.classList.remove('print-conj'));
 
 /* ---------------- map ---------------- */
 function headRow(){return `<div class="corner"></div>`+Object.values(ASPECTS).map(a=>`<div class="colh" style="background:var(${a[2]})">${a[0]}<small>${a[1]}</small></div>`).join('');}
@@ -436,5 +506,6 @@ drawMap();drawConj();
 if(/[?&]tab=(conj|quiz)/.test(location.search))setTab(location.search.match(/tab=(\w+)/)[1]);
 </script>
 <script src="../assets/club.js?v=3"></script>
+<div id="conjPrint"></div>
 </body>
 </html>
