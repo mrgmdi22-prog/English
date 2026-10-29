@@ -80,6 +80,15 @@
     g.gain.setValueAtTime(.0001, T); g.gain.exponentialRampToValueAtTime(v, T + .01); g.gain.exponentialRampToValueAtTime(.0001, T + d);
     o.connect(g); g.connect(out(c)); o.start(T); o.stop(T + d + .03);
   }
+  // a muffled low hum with a slight wobble, used only for wrong answers
+  function hum(f1, f2, t0, d, v){
+    var c = ac(); if (!c) return; var T = c.currentTime + t0, o = c.createOscillator(), g = c.createGain(), lp = c.createBiquadFilter(), lfo = c.createOscillator(), lg = c.createGain();
+    o.type = 'triangle'; o.frequency.setValueAtTime(f1, T); o.frequency.linearRampToValueAtTime(f2, T + d);
+    lfo.frequency.value = 9; lg.gain.value = f1 * .025; lfo.connect(lg); lg.connect(o.frequency);
+    lp.type = 'lowpass'; lp.frequency.value = 700; lp.Q.value = 1.2;
+    g.gain.setValueAtTime(.0001, T); g.gain.exponentialRampToValueAtTime(v, T + .02); g.gain.setValueAtTime(v, T + d * .55); g.gain.exponentialRampToValueAtTime(.0001, T + d);
+    o.connect(lp); lp.connect(g); g.connect(out(c)); o.start(T); lfo.start(T); o.stop(T + d + .03); lfo.stop(T + d + .03);
+  }
   // tiny sparkle (high, very quiet) to decorate happy sounds
   function sparkle(t0, n, v){ for (var i = 0; i < n; i++) pluck(2093 * Math.pow(2, [0, 4, 7, 12, 16][i % 5] / 12), t0 + i * .045, v, .18); }
   var streak = 0, lastGood = 0;
@@ -92,7 +101,8 @@
       var k = Math.pow(2, [0, 2, 4, 5, 7, 9][streak] / 12), b = 659 * k;
       pluck(b, 0, .16, .5); pluck(b * 1.498, .085, .15, .6); if (streak >= 2) sparkle(.17, 3, .025); },
     // a gentle, rounded "bwoop" going down: clear that it is wrong, never harsh
-    bad:  function(){ streak = 0; sweep(330, 196, 0, .22, .12, 'sine'); sweep(247, 147, .13, .28, .1, 'sine'); },
+    // a low, muffled "uh-oh" (two notes falling): clearly different from the bright right-answer chime, still soft
+    bad:  function(){ streak = 0; hum(233, 220, 0, .16, .2); hum(175, 150, .17, .34, .2); },
     // a little kalimba fanfare with sparkles
     win:  function(){ [523, 659, 784, 1047].forEach(function(f, i){ pluck(f, i * .09, .15, .55); }); pluck(1319, .38, .12, .9); sparkle(.42, 5, .03); },
     on:   function(){ pluck(784, 0, .12, .35); pluck(1175, .07, .1, .45); }
