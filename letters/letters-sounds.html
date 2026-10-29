@@ -84,7 +84,8 @@ h1{margin:0;font-size:1.6rem;line-height:1.25;font-weight:800;text-wrap:balance}
 .chip.done::after{content:"";position:absolute;top:3px;right:3px;width:9px;height:9px;border-radius:50%;background:var(--good)}
 
 .board{position:relative;border-radius:14px;overflow:hidden;background:var(--paper);border:2px solid var(--line);height:260px}
-.board canvas{position:absolute;inset:0;width:100%;height:100%}
+.actions[dir=ltr],.actions[dir=ltr] .btn{direction:ltr}
+.board canvas{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%}
 #ink{touch-action:none;cursor:crosshair}
 .say-btn{position:absolute;top:8px;left:30px;z-index:2;border:2px solid var(--line);background:var(--paper);border-radius:10px;
   width:44px;height:44px;display:grid;place-items:center;color:var(--accent)}
@@ -221,11 +222,11 @@ footer{text-align:center;color:var(--muted);font-size:.95rem}
         <button class="say-btn" id="tr-say" aria-label="انطق الحرف"></button>
       </div>
       <div class="fb" id="tr-msg" aria-live="polite"></div>
-      <div class="actions">
-        <button class="btn" id="tr-prev">السابق</button>
+      <div class="actions" dir="ltr">
+        <button class="btn" id="tr-prev"><bdi>←</bdi> <bdi>السابق</bdi></button>
         <button class="btn" id="tr-retry">أعد المحاولة</button>
         <button class="btn main" id="tr-demo">شاهد الطريقة</button>
-        <button class="btn" id="tr-next">التالي</button>
+        <button class="btn" id="tr-next"><bdi>التالي</bdi> <bdi>→</bdi></button>
       </div>
     </section>
 

@@ -50,7 +50,7 @@ h2.sec{font-size:1.4rem;margin:26px 4px 12px}
 @keyframes pop{40%{transform:scale(1.12) rotate(-3deg)}}
 .card .big{display:block;font-size:3.2rem;line-height:1.25}
 .card .w{display:block;font-family:var(--en);font-weight:800;font-size:1.35rem;direction:ltr;line-height:1.2}
-.card .a{display:block;color:var(--muted);font-size:1rem}
+.card .a{display:block;direction:rtl;color:var(--muted);font-size:1rem}
 .letter{font-family:var(--en);font-weight:800;font-size:3rem;line-height:1.1;direction:ltr;display:block}
 .blob{width:72px;height:72px;border-radius:50%;margin:4px auto;border:3px solid var(--ink);display:block}
 .shape svg{width:78px;height:78px;display:block;margin:2px auto}
@@ -80,6 +80,7 @@ h2.sec{font-size:1.4rem;margin:26px 4px 12px}
 .done h3{font-size:1.8rem;margin:6px 0}
 .burst{position:fixed;pointer-events:none;font-size:2rem;z-index:50;animation:fly 1s ease-out forwards}
 @keyframes fly{to{transform:translate(var(--dx),var(--dy)) scale(.6);opacity:0}}
+.pgnav,.pgnav button,.wbtns,.wbtns button{direction:ltr}
 .voicetip{background:#FFF1DC;color:#6b3d00;border-radius:16px;padding:10px 14px;font-size:1rem;margin-top:16px}
 .book{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:10px}
 .book span{background:#fff;border:3px dashed #E8D9B5;border-radius:18px;font-size:2.6rem;display:grid;place-items:center;aspect-ratio:1}
@@ -92,7 +93,7 @@ h2.sec{font-size:1.4rem;margin:26px 4px 12px}
 .wchip{flex:none;font-family:var(--en);font-weight:800;font-size:1.3rem;min-width:46px;height:46px;border:3px solid var(--line);background:#fff;border-radius:14px;cursor:pointer;color:var(--ink)}
 .wchip.ok{background:#E1F6EC;border-color:#9ED8B8}.wchip.on{border-color:var(--ink);background:#FFD23F}
 .wboard{position:relative;background:#fff;border:3px solid var(--ink);border-radius:26px;box-shadow:5px 5px 0 var(--ink);touch-action:none;overflow:hidden;max-width:560px;margin:0 auto}
-.wboard canvas{position:absolute;inset:0;width:100%;height:100%}
+.wboard canvas{position:absolute;top:0;right:0;bottom:0;left:0;width:100%;height:100%}
 .wpic{position:absolute;top:8px;right:10px;text-align:center;pointer-events:none;line-height:1.1}
 .wpic span{display:block;font-size:2.2rem}.wpic b{font-size:1rem;color:var(--muted)}
 .wmsg{text-align:center;font-weight:800;font-size:1.2rem;min-height:2em;margin:12px 0 6px}.wmsg.ok{color:var(--ok)}.wmsg.no{color:var(--bad)}
@@ -114,18 +115,18 @@ h2.sec{font-size:1.4rem;margin:26px 4px 12px}
 .lt.used{visibility:hidden}.lt.wrong{background:#FDE4E4;border-color:var(--bad);animation:shake .4s}
 .mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:460px;margin:0 auto}
 @media(min-width:560px){.mgrid{grid-template-columns:repeat(4,1fr)}}
-.mc{all:unset;box-sizing:border-box;cursor:pointer;aspect-ratio:1;border:3px solid var(--ink);border-radius:18px;display:grid;place-items:center;background:#0D9488;color:#fff;font-size:2rem;box-shadow:3px 3px 0 var(--ink);transition:transform .2s}
+.mc{all:unset;box-sizing:border-box;cursor:pointer;aspect-ratio:1;min-height:84px;border:3px solid var(--ink);border-radius:18px;display:grid;place-items:center;background:#0D9488;color:#fff;font-size:2rem;box-shadow:3px 3px 0 var(--ink);transition:transform .2s}
 .mc.open{background:#fff;color:var(--ink)}.mc.got{background:#DFF7E8;border-color:var(--ok);cursor:default}
 .mc .big{font-size:2.6rem}.mc .w{font-family:var(--en);font-weight:800;font-size:1.15rem;direction:ltr;line-height:1.1;padding:2px;text-align:center}
 .shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 .bookwrap{perspective:1800px;max-width:470px;margin:0 auto;padding:4px 10px 10px 4px}
-.sbook{position:relative;aspect-ratio:3/4;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab}
-.sbook::before,.sbook::after{content:"";position:absolute;inset:0;border:3px solid var(--ink);border-radius:6px 22px 22px 6px;background:#F6EEDB}
+.sbook{position:relative;height:0;padding-bottom:133%;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab}
+.sbook::before,.sbook::after{content:"";position:absolute;top:0;right:0;bottom:0;left:0;border:3px solid var(--ink);border-radius:6px 22px 22px 6px;background:#F6EEDB}
 .sbook::before{transform:translate(8px,8px)}.sbook::after{transform:translate(4px,4px);background:#FBF5E8}
-.leaf,.flip{position:absolute;inset:0;z-index:1}
+.leaf,.flip{position:absolute;top:0;right:0;bottom:0;left:0;z-index:1}
 .flip{z-index:3;transform-origin:left center;backface-visibility:hidden;-webkit-backface-visibility:hidden;will-change:transform}
-.flip .shade{position:absolute;inset:0;border-radius:6px 22px 22px 6px;background:linear-gradient(90deg,rgba(42,36,64,0),rgba(42,36,64,.35));opacity:var(--sh,0);pointer-events:none}
-.pg{position:absolute;inset:0;background:linear-gradient(90deg,#E9DCBF 0,#FFF9EC 7%,#FFFDF7 60%,#FFF8EA 100%);border:3px solid var(--ink);border-radius:6px 22px 22px 6px;
+.flip .shade{position:absolute;top:0;right:0;bottom:0;left:0;border-radius:6px 22px 22px 6px;background:linear-gradient(90deg,rgba(42,36,64,0),rgba(42,36,64,.35));opacity:var(--sh,0);pointer-events:none}
+.pg{position:absolute;top:0;right:0;bottom:0;left:0;background:linear-gradient(90deg,#E9DCBF 0,#FFF9EC 7%,#FFFDF7 60%,#FFF8EA 100%);border:3px solid var(--ink);border-radius:6px 22px 22px 6px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:20px 20px 40px 28px;text-align:center;overflow:hidden}
 .pg::before{content:"";position:absolute;left:0;top:0;bottom:0;width:16px;background:linear-gradient(90deg,rgba(42,36,64,.18),rgba(42,36,64,0))}
 .pg .pic{font-size:clamp(3.6rem,17vw,5.6rem);line-height:1.2;letter-spacing:4px;direction:ltr}
@@ -317,7 +318,7 @@ function draw(){
     $('pn').innerHTML=`<p class="sub">اضغط على الجملة لتسمعها، ثم قلها بصوت عالٍ 🗣️</p><div class="phr">${list.map((x,i)=>`<button class="ph" data-i="${i}">${x.big}<span class="w">${esc(x.w)}</span><span class="a">${esc(x.a)}</span></button>`).join('')}</div>`;
     $('pn').querySelectorAll('.ph').forEach(b=>b.onclick=()=>{say(list[+b.dataset.i].say,.8);pop(b);});return;
   }
-  $('pn').innerHTML=`<p class="sub">اضغط على البطاقة لتسمعها 🔊</p><div class="cards">${list.map((x,i)=>`<button class="card" data-i="${i}">${x.big}${s.id==='abc'?`<span class="w">${esc(x.w)}</span>`:s.id==='num'?`<span class="w">${esc(x.w)}</span>`:`<span class="w">${esc(x.w)}</span>`}<span class="a">${esc(x.a)}</span></button>`).join('')}</div>`;
+  $('pn').innerHTML=`<p class="sub">اضغط على البطاقة لتسمعها 🔊</p><div class="cards" dir="ltr">${list.map((x,i)=>`<button class="card" data-i="${i}">${x.big}${s.id==='abc'?`<span class="w">${esc(x.w)}</span>`:s.id==='num'?`<span class="w">${esc(x.w)}</span>`:`<span class="w">${esc(x.w)}</span>`}<span class="a">${esc(x.a)}</span></button>`).join('')}</div>`;
   $('pn').querySelectorAll('.card').forEach(b=>b.onclick=()=>{say(list[+b.dataset.i].say);pop(b);});
 }
 /* "listen and touch" game: 6 rounds, 4 choices; a star for each first-try answer */
@@ -330,13 +331,13 @@ function game(list,read){
     if(read){
       $('pn').innerHTML=`<div class="game"><div class="gtop"><div class="dots">${rounds.map((_,i)=>`<i class="${i<r?'on':''}"></i>`).join('')}</div><span>⭐ ${got}</span></div>
         <p class="ask">${isPh?'اقرأ واختر الجملة المناسبة للصورة 📖':'اقرأ واختر الكلمة المناسبة للصورة 📖'}</p><div class="rpic" dir="ltr">${x.pic||x.big}</div>
-        <div class="ropts">${opts.map(o=>`<button class="opt ropt" data-k="${esc(String(o.key))}">${esc(o.w)}</button>`).join('')}</div></div>`;
+        <div class="ropts" dir="ltr">${opts.map(o=>`<button class="opt ropt" data-k="${esc(String(o.key))}">${esc(o.w)}</button>`).join('')}</div></div>`;
     }else
 
     $('pn').innerHTML=`<div class="game"><div class="gtop"><div class="dots">${rounds.map((_,i)=>`<i class="${i<r?'on':''}"></i>`).join('')}</div><span>⭐ ${got}</span></div>
       ${numPic?`<p class="ask">كم عددها؟ اسمع واختر 👂</p><div class="count">${'🍎'.repeat(x.key)}</div>`:`<p class="ask">${SEC.id==='phr'?'اسمع الجملة واختر الصورة المناسبة 👂':SEC.id==='abc'?'اسمع الكلمة واختر الحرف الذي تبدأ به 👂':'اسمع واختر 👂'}</p>`}
       <button class="again" id="again">🔊 اسمع مرة أخرى</button>
-      <div class="opts">${opts.map(o=>`<button class="opt" data-k="${esc(String(o.key))}" aria-label="${esc(o.w)}">${o.opt}</button>`).join('')}</div></div>`;
+      <div class="opts" dir="ltr">${opts.map(o=>`<button class="opt" data-k="${esc(String(o.key))}" aria-label="${esc(o.w)}">${o.opt}</button>`).join('')}</div></div>`;
     const play=()=>say(SEC.id==='abc'?x.q:x.say);if(!read){setTimeout(play,350);$('again').onclick=play;}
     $('pn').querySelectorAll('.opt').forEach(b=>b.onclick=e=>{
       if(b.dataset.k===String(x.key)){b.classList.add('right');if(first)got++;const r0=b.getBoundingClientRect();burst(r0.left+r0.width/2,r0.top+r0.height/2);
@@ -394,7 +395,7 @@ function memory(){
   const pairs=[];for(const x of pool){if(pairs.length>=6)break;if(!pairs.some(p=>p[0]===x[0]||p[1]===x[1]))pairs.push(x);}
   const cards=shuffle(pairs.flatMap((x,k)=>[{k,face:`<span class="big">${x[0]}</span>`},{k,face:`<span class="w">${esc(x[1])}</span>`}]));
   let open=[],found=0,moves=0,lock=false;
-  $('pn').innerHTML=`<div class="game"><div class="gtop"><span>🔁 <b id="mv">0</b></span><span>✅ <b id="fd">0</b> / 6</span></div><div class="mgrid">${cards.map((c,i)=>`<button class="mc" data-i="${i}">❓</button>`).join('')}</div></div>`;
+  $('pn').innerHTML=`<div class="game"><div class="gtop"><span>🔁 <b id="mv">0</b></span><span>✅ <b id="fd">0</b> / 6</span></div><div class="mgrid" dir="ltr">${cards.map((c,i)=>`<button class="mc" data-i="${i}">❓</button>`).join('')}</div></div>`;
   $('pn').querySelectorAll('.mc').forEach(b=>b.onclick=()=>{
     const i=+b.dataset.i,c=cards[i];if(lock||b.classList.contains('open')||b.classList.contains('got'))return;
     b.classList.add('open');b.innerHTML=c.face;open.push(b);
@@ -417,13 +418,13 @@ function story(n){
   const words=s=>esc(s).split(' ').map(w=>`<span class="wd">${w}</span>`).join(' ');
   function pageHTML(i){
     const P=pages[i];
-    if(P.cover)return `<div class="pg cover"><div class="cv-ic">${st.ic}</div><h3 class="en">${esc(st.t)}</h3><p class="cv-ar">${esc(st.ar)}</p><span class="cv-hint">👈 اسحب الصفحة أو اضغط على طرفها</span></div>`;
+    if(P.cover)return `<div class="pg cover"><div class="cv-ic">${st.ic}</div><h3 class="en">${esc(st.t)}</h3><p class="cv-ar">${esc(st.ar)}</p><span class="cv-hint">👈 اسحب الصفحة أو اضغط على طرفها الأيمن</span></div>`;
     if(P.end)return `<div class="pg end"><div class="pic">🌟</div><h3 class="en">The End</h3><p class="cv-ar">النهاية</p><button class="again" data-quiz="1">✅ أجب عن الأسئلة</button><span class="no">${i}</span></div>`;
     const [pic,en,ar]=P.p;
     return `<div class="pg"><div class="pic" aria-hidden="true">${pic}</div><p class="s en">${words(en)}</p><p class="ta" dir="rtl">${esc(ar)}</p><button class="spk" data-say="1" aria-label="اسمع">🔊</button><span class="no">${i}</span></div>`;
   }
   $('pn').innerHTML=`<div class="bookwrap"><div class="sbook" id="book" dir="ltr"><div class="leaf" id="leaf"></div></div></div>
-    <div class="pgnav"><button id="pv">→ السابق</button><span style="font-weight:800" dir="ltr" id="pnum"></span><button id="nx">التالي ←</button></div>`;
+    <div class="pgnav" dir="ltr"><button id="pv"><bdi>←</bdi> <bdi>السابق</bdi></button><span style="font-weight:800" id="pnum"></span><button id="nx"><bdi>التالي</bdi> <bdi>→</bdi></button></div>`;
   const book=$('book'),leaf=$('leaf');
   function readPage(){const P=pages[pg];if(P.p)say(P.p[1],.75);}
   function show(){
@@ -460,6 +461,11 @@ function story(n){
     const fast=Math.abs(dx)>40&&Date.now()-d.t<300;finish(d.dir,fast||Math.abs(dx)>d.W*.28);
   };
   book.addEventListener('pointerup',up);book.addEventListener('pointercancel',up);
+  if(!window.PointerEvent){const T=e=>({clientX:e.changedTouches[0].clientX,clientY:e.changedTouches[0].clientY,target:e.target,pointerId:0});
+    book.addEventListener('touchstart',e=>{const t=T(e);if(t.target.closest('button,.wd'))return;drag={x:t.clientX,y:t.clientY,t:Date.now(),dir:0,W:book.clientWidth};},{passive:true});
+    book.addEventListener('touchmove',e=>{if(!drag)return;const t=T(e),dx=t.clientX-drag.x;if(!drag.dir){if(Math.abs(dx)<10)return;drag.dir=dx<0?1:-1;if(!begin(drag.dir)){drag=null;return;}}
+      setAngle(drag.dir>0?Math.max(-180,Math.min(0,dx/drag.W*180)):Math.max(-180,Math.min(0,-180+dx/drag.W*180)));},{passive:true});
+    book.addEventListener('touchend',e=>up(T(e)));}
   book.addEventListener('click',e=>{
     const w=e.target.closest('.wd');if(w){say(w.textContent.replace(/[^A-Za-z'\-]/g,''),.7);w.classList.remove('hl');void w.offsetWidth;w.classList.add('hl');return;}
     if(e.target.closest('[data-say]'))readPage();
@@ -472,7 +478,7 @@ function story(n){
       if(qi>=st.q.length){const N=st.q.length+1;got+=1;return endScreen(got,N,'sto'+n,()=>story(n));}
       const [qe,qa,right,...wrong]=st.q[qi],opts=shuffle([right,...wrong]);let first=true;
       $('pn').innerHTML=`<div class="game"><p class="ask"><span class="en" style="display:block;font-size:1.4rem">${esc(qe)}</span>${esc(qa)}</p><button class="again" id="ag">🔊 اسمع السؤال</button>
-        <div class="opts" style="grid-template-columns:repeat(3,1fr)">${opts.map(o=>`<button class="opt" data-o="${o}"><span class="big">${o}</span></button>`).join('')}</div></div>`;
+        <div class="opts" dir="ltr" style="grid-template-columns:repeat(3,1fr)">${opts.map(o=>`<button class="opt" data-o="${o}"><span class="big">${o}</span></button>`).join('')}</div></div>`;
       $('ag').onclick=()=>say(qe);setTimeout(()=>say(qe),300);
       $('pn').querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
         if(b.dataset.o===right){b.classList.add('right');if(first)got++;$('pn').querySelectorAll('.opt').forEach(c=>c.disabled=true);setTimeout(()=>{qi++;q();},1200);}
@@ -586,7 +592,7 @@ function writer(){
     <div class="wrow" id="wChips" dir="ltr"></div>
     <div class="wboard" id="wBoard"><canvas id="wG"></canvas><canvas id="wI"></canvas><div class="wpic" id="wPic"></div></div>
     <p class="wmsg" id="wMsg"></p>
-    <div class="wbtns"><button id="wPrev">→ السابق</button><button id="wDemo">👀 شاهد</button><button id="wSay">🔊 اسمع</button><button id="wRe">🔁 من جديد</button><button id="wNext">التالي ←</button></div></div>`;
+    <div class="wbtns" dir="ltr"><button id="wPrev"><bdi>←</bdi> <bdi>السابق</bdi></button><button id="wDemo">👀 شاهد</button><button id="wSay">🔊 اسمع</button><button id="wRe">🔁 من جديد</button><button id="wNext"><bdi>التالي</bdi> <bdi>→</bdi></button></div></div>`;
   const board=$('wBoard'),gc=$('wG'),ic=$('wI'),g=gc.getContext('2d'),k=ic.getContext('2d');
   let W=0,H=0,dpr=1,u=60,ty=0,penW=16,R=30,strokes=[],si=0,miss=0,active=false,cpi=0,live=[],lastP=null,noProg=0,demoing=false,raf=0;
   const cur=()=>sets[WSET][WIDX],d2=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
