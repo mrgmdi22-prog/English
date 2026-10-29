@@ -286,12 +286,11 @@ footer{text-align:center;color:var(--muted);font-size:.95rem}
         <span class="count" id="ls-count"></span>
       </div>
       <div class="seg" id="ls-mode" role="group" aria-label="ماذا تسمع">
-        <button data-m="name" aria-pressed="true">اسم الحرف</button>
-        <button data-m="sound" aria-pressed="false">أول صوت في الكلمة</button>
+        <button data-m="sound" aria-pressed="true">أول صوت في الكلمة</button>
       </div>
       <div class="progress"><i id="ls-bar"></i></div>
       <div id="ls-game" class="panel">
-        <p class="hint" id="ls-hint">استمع إلى اسم الحرف، ثم اختر الحرف الذي سمعته.</p>
+        <p class="hint" id="ls-hint">استمع إلى الكلمة، ثم اختر الحرف الذي تبدأ به.</p>
         <div class="qbox" id="ls-q"></div>
         <div class="opts" dir="ltr" id="ls-opts"></div>
         <div class="fb" id="ls-msg" aria-live="polite"></div>
@@ -386,7 +385,7 @@ function step(){const k=seq.shift();if(!k)return;player.src='data:audio/mpeg;bas
 player.addEventListener('ended',()=>{if(seq.length)seqT=setTimeout(step,380);});
 function playClips(keys){clearTimeout(seqT);try{player.pause();}catch(e){}seq=keys.filter(k=>AUD[k]);const ok=seq.length>0;step();return ok;}
 /* letter NAMES are spoken by the device voice in the chosen accent (e.g. Z = "zee" in US, "zed" in UK); recorded clips are only a fallback */
-function speakLetter(c){return say(/[0-9]/.test(c)?c:c.toUpperCase())||playClips(['n_'+c.toLowerCase()]);}
+function speakLetter(c){if(/[0-9]/.test(c))return say(c)||playClips(['n_'+c]);const l=c.toLowerCase();return say(c.toUpperCase()+' is for '+phWord(l))||playClips(['n_'+l]);}
 
 /* ---------- 1. Tracing (stroke order + direction) ---------- */
 /* Units: y 0 = top line, 1 = dashed midline, 2 = baseline, 3 = descender line. Angles in degrees, 0 = east, 90 = down. */
@@ -745,7 +744,7 @@ Quiz('ms',up=>{
     reveal(){blank.textContent=f(up,a);blank.className='cell ok';}};
 });
 
-let lsMode='name';
+let lsMode='sound';
 const listen=Quiz('ls',up=>{
   const snd=lsMode==='sound',pool=snd?UP.filter(c=>c!=='X'):UP,a=pool[Math.floor(Math.random()*pool.length)];
   const ex=snd?['X',...(SAME[a.toLowerCase()]||'').toUpperCase().split('')]:[];

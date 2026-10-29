@@ -161,7 +161,7 @@ function tile(s){const best=+(store.get('kd-best-'+s.id)||0);return `<button cla
 
 /* items per section: {big (html), word to say, label, ar, sub} */
 function items(id){
-  if(id==='abc')return LETTERS.map(l=>({key:l[0],big:`<span class="letter">${l[0]} ${l[0].toLowerCase()}</span><span class="big" style="font-size:2.2rem">${l[1]}</span>`,opt:`<span class="letter">${l[0]}</span>`,say:l[0]+'. '+l[2],q:l[0],w:l[2],a:l[3]}));
+  if(id==='abc')return LETTERS.map(l=>({key:l[0],big:`<span class="letter">${l[0]} ${l[0].toLowerCase()}</span><span class="big" style="font-size:2.2rem">${l[1]}</span>`,opt:`<span class="letter">${l[0]}</span>`,say:l[0]+' is for '+l[2],q:l[2],w:l[2],a:l[3]}));
   if(id==='num')return NUMBERS.map(n=>({key:n[0],big:`<span class="letter">${n[0]}</span>`,opt:`<span class="letter">${n[0]}</span>`,say:n[1],q:n[1],w:n[1],a:n[2]}));
   if(id==='col')return COLORS.map(c=>({key:c[0],big:`<span class="blob" style="background:${c[2]}"></span><span class="big" style="font-size:1.8rem">${c[3]}</span>`,opt:`<span class="blob" style="background:${c[2]};width:84px;height:84px"></span>`,say:c[0],q:c[0],w:c[0],a:c[1]}));
   if(id==='shp')return SHAPES.map((s,i)=>{const col=['#FF7A1A','#2D9CDB','#22C55E','#D94BA0','#FFD23F','#E53935','#8B5CF6','#14B8A6'][i];const svg=`<span class="shape" style="--sc:${col}"><svg viewBox="0 0 100 100">${s[2]}</svg></span>`;return {key:s[0],big:svg,opt:svg,say:s[0],q:s[0],w:s[0],a:s[1]};});
@@ -195,13 +195,13 @@ function game(list){
     const x=rounds[r],opts=shuffle([x,...shuffle(list.filter(y=>y!==x)).slice(0,3)]);first=true;
     const numPic=SEC.id==='num'&&x.key<=10;
     $('pn').innerHTML=`<div class="game"><div class="gtop"><div class="dots">${rounds.map((_,i)=>`<i class="${i<r?'on':''}"></i>`).join('')}</div><span>⭐ ${got}</span></div>
-      ${numPic?`<p class="ask">كم عددها؟ اسمع واختر 👂</p><div class="count">${'🍎'.repeat(x.key)}</div>`:`<p class="ask">${SEC.id==='phr'?'اسمع الجملة واختر الصورة المناسبة 👂':'اسمع واختر 👂'}</p>`}
+      ${numPic?`<p class="ask">كم عددها؟ اسمع واختر 👂</p><div class="count">${'🍎'.repeat(x.key)}</div>`:`<p class="ask">${SEC.id==='phr'?'اسمع الجملة واختر الصورة المناسبة 👂':SEC.id==='abc'?'اسمع الكلمة واختر الحرف الذي تبدأ به 👂':'اسمع واختر 👂'}</p>`}
       <button class="again" id="again">🔊 اسمع مرة أخرى</button>
       <div class="opts">${opts.map(o=>`<button class="opt" data-k="${esc(String(o.key))}" aria-label="${esc(o.w)}">${o.opt}</button>`).join('')}</div></div>`;
     const play=()=>say(SEC.id==='abc'?x.q:x.say);setTimeout(play,350);$('again').onclick=play;
     $('pn').querySelectorAll('.opt').forEach(b=>b.onclick=e=>{
       if(b.dataset.k===String(x.key)){b.classList.add('right');if(first)got++;const r0=b.getBoundingClientRect();burst(r0.left+r0.width/2,r0.top+r0.height/2);
-        $('pn').querySelectorAll('.opt').forEach(c=>c.disabled=true);setTimeout(()=>{say(SEC.id==='abc'?x.q+'. '+x.w:x.say);},150);setTimeout(()=>{r++;round();},1500);}
+        $('pn').querySelectorAll('.opt').forEach(c=>c.disabled=true);setTimeout(()=>{say(x.say);},150);setTimeout(()=>{r++;round();},1500);}
       else{first=false;b.classList.add('wrong');setTimeout(()=>b.classList.remove('wrong'),450);say(SEC.id==='abc'?x.q:x.say);}
     });
   }
