@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>إدارة لوحة الشرف</title>
+<title>إدارة لوحة الشرف وقياس المستوى</title>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,6 +34,14 @@ h1{font-size:2rem;margin:0 0 4px;font-weight:800}
 .empty{color:var(--muted);padding:8px 0}
 .top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 .err{color:var(--bad);font-weight:700;margin-top:10px}
+.lvsum{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:10px 0}
+.lvsum div{background:#f3f5fc;border-radius:16px;padding:8px 12px}.lvsum b{display:block;font-size:1.4rem;font-variant-numeric:tabular-nums}.lvsum small{color:var(--muted)}
+.lvt{width:100%;border-collapse:collapse;font-size:.95rem;margin-top:8px}
+.lvt th,.lvt td{border-bottom:1px solid var(--line);padding:7px 5px;text-align:center;vertical-align:middle}
+.lvt th:first-child,.lvt td:first-child{text-align:right}
+.lvwrap{overflow-x:auto}
+.up{color:var(--ok);font-weight:800}.down{color:var(--bad);font-weight:800}
+.btn.sm{font-size:.85rem;padding:5px 10px}
 </style>
 </head>
 <body>
@@ -43,7 +51,7 @@ h1{font-size:2rem;margin:0 0 4px;font-weight:800}
   <div id="main"></div>
 </div>
 <script type="module">
-import * as H from './assets/honor.js?v=20261028i';
+import * as H from './assets/honor.js?v=20261029a';
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = n => Number(n||0).toLocaleString('en-US');
@@ -74,11 +82,30 @@ async function load() {
   catch (e) { $('main').innerHTML = '<div class="panel"><h2>لا توجد صلاحية</h2><p class="note">هذا الحساب ليس حساب المعلم المسجّل في إعدادات اللوحة.</p></div>'; return; }
   rows.sort((a,b) => (b.score||0) - (a.score||0));
   let priv = {}; try { priv = await H.allPrivate(); } catch (e) { console.warn(e); }
+  let lv = {}, lvCfg = {}; try { [lv, lvCfg] = await Promise.all([H.allLevels(), H.teacherLevelsConfig()]); } catch (e) { console.warn('levels', e); }
   const pend = rows.filter(r => !r.approved), ok = rows.filter(r => r.approved);
   const item = (r, pending) => `<div class="item" data-id="${r.id}"><span class="nm">${esc(r.nick)}${priv[r.id] ? `<small class="real">👤 ${esc(priv[r.id].name)} · ${priv[r.id].grade === H.EXTERNAL ? '🌐 من خارج المدرسة: ' + esc(priv[r.id].school || 'لم يذكر الجهة') : esc(priv[r.id].grade) + ' · الشعبة ' + esc(priv[r.id].section)}</small>` : '<small class="real miss">⚠️ لم يكتب بياناته الحقيقية بعد</small>'}</span><span class="sc">${fmt(r.score)}<small class="real">${ago(r.updatedAt)}</small></span><span class="acts">
     ${pending ? '<button class="btn ok" data-a="ok">✓ موافقة</button>' : '<button class="btn soft" data-a="hide">إخفاء</button>'}
     <button class="btn soft" data-a="ren">تعديل الاسم</button><button class="btn soft" data-a="reg">📍 ${r.region ? esc(r.region) : "المنطقة"}</button><button class="btn bad" data-a="del">حذف</button></span></div>`;
-  $('main').innerHTML = `
+  const nickOf = id => (rows.find(r => r.id === id) || {}).nick || '';
+  const pc = r => r ? Math.round(r.score / r.max * 100) : null;
+  const lvIds = Object.keys(lv).filter(id => lv[id].pre || lv[id].post).sort((a, b) => ((priv[a] || {}).name || nickOf(a)).localeCompare((priv[b] || {}).name || nickOf(b), 'ar'));
+  const both = lvIds.filter(id => lv[id].pre && lv[id].post), avg = a => a.length ? Math.round(a.reduce((s, x) => s + x, 0) / a.length) : '—';
+  const gain = id => pc(lv[id].post) - pc(lv[id].pre);
+  const levelPanel = `<div class="panel"><h2>📈 قياس المستوى</h2>
+    <p class="note">نتائج الاختبار القبلي والبعدي في <a href="level/index.html">صفحة قياس المستوى</a>. الاختبار البعدي مغلق حتى تفتحه أنت.</p>
+    <p style="margin:10px 0"><button class="btn ${lvCfg.postOpen ? 'bad' : 'ok'}" id="postT">${lvCfg.postOpen ? '🔒 أغلق الاختبار البعدي' : '🔓 افتح الاختبار البعدي للطلاب'}</button> <span class="note">${lvCfg.postOpen ? 'البعدي مفتوح الآن.' : 'البعدي مغلق الآن.'}</span></p>
+    <div class="lvsum"><div><small>أدّوا القبلي</small><b>${lvIds.filter(id => lv[id].pre).length}</b></div><div><small>أدّوا البعدي</small><b>${lvIds.filter(id => lv[id].post).length}</b></div>
+      <div><small>متوسط القبلي</small><b>${avg(lvIds.filter(id => lv[id].pre).map(id => pc(lv[id].pre)))}${lvIds.some(id => lv[id].pre) ? '٪' : ''}</b></div>
+      <div><small>متوسط التحسّن (لمن أدّى الاثنين)</small><b>${both.length ? (avg(both.map(gain)) > 0 ? '+' : '') + avg(both.map(gain)) + '٪' : '—'}</b></div></div>
+    ${lvIds.length ? `<p><button class="btn ok" id="lvCsv">⬇️ تنزيل نتائج قياس المستوى</button></p><div class="lvwrap"><table class="lvt"><thead><tr><th>الطالب</th><th>القبلي</th><th>البعدي</th><th>التحسّن</th><th></th></tr></thead><tbody>
+      ${lvIds.map(id => { const L = lv[id], p = priv[id] || {}; const g = L.pre && L.post ? gain(id) : null;
+        return `<tr data-id="${id}"><td><b>${esc(p.name || nickOf(id) || 'طالب')}</b><small class="real">${p.grade ? esc(p.grade === H.EXTERNAL ? 'من خارج المدرسة' : p.grade + ' · ' + (p.section || '')) : esc(nickOf(id))}</small></td>
+          <td>${L.pre ? pc(L.pre) + '٪<br><small>' + esc(L.pre.level) + '</small>' : '—'}</td><td>${L.post ? pc(L.post) + '٪<br><small>' + esc(L.post.level) + '</small>' : '—'}</td>
+          <td>${g === null ? '—' : `<span class="${g > 0 ? 'up' : g < 0 ? 'down' : ''}">${g > 0 ? '+' : ''}${g}٪</span>`}</td>
+          <td><button class="btn soft sm" data-lr="${L.post ? 'post' : 'pre'}">↺ إعادة ${L.post ? 'البعدي' : 'القبلي'}</button></td></tr>`; }).join('')}</tbody></table></div>`
+      : '<div class="empty">لم يؤدِّ أحد الاختبار بعد.</div>'}</div>`;
+  $('main').innerHTML = levelPanel + `
     <div class="panel"><h2>قائمة التكريم</h2><p class="note">ملف فيه الترتيب والاسم الحقيقي والصف والشعبة والاسم المستعار والنقاط، يُفتح في Excel.</p><p style="margin-top:12px"><button class="btn ok" id="csv">⬇️ تنزيل قائمة التكريم</button></p></div>
     <div class="panel"><h2>بانتظار الموافقة <span class="count">${pend.length}</span></h2>${pend.map(r => item(r, true)).join('') || '<div class="empty">لا توجد أسماء جديدة.</div>'}</div>
     <div class="panel"><h2>ظاهرون في اللوحة <span class="count" style="background:var(--ok-soft);color:var(--ok)">${ok.length}</span></h2>${ok.map(r => item(r, false)).join('') || '<div class="empty">لا أحد بعد.</div>'}</div>`;
@@ -88,6 +115,20 @@ async function load() {
     rows.forEach((r, i) => { const p = priv[r.id] || {}; lines.push([i + 1, p.name || '—', p.grade === H.EXTERNAL ? 'من خارج المدرسة' : (p.grade || ''), p.grade === H.EXTERNAL ? '' : (p.section || ''), p.school || '', r.nick, r.score || 0, r.approved ? 'ظاهر في اللوحة' : 'بانتظار الموافقة'].map(q).join(',')); });
     const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'قائمة-التكريم-لوحة-الشرف.csv'; document.body.appendChild(a); a.click(); a.remove();
+  };
+  $('postT').onclick = async () => { try { await H.setPostOpen(!lvCfg.postOpen); } catch (e) { alert('تعذّر التنفيذ: ' + (e.code || e.message)); } load(); };
+  $('main').querySelectorAll('button[data-lr]').forEach(b => b.onclick = async () => {
+    const id = b.closest('tr').dataset.id, k = b.dataset.lr, nm = (priv[id] || {}).name || nickOf(id);
+    if (!confirm('السماح لـ «' + nm + '» بإعادة ' + (k === 'pre' ? 'الاختبار القبلي؟ (تُحذف نتيجته القبلية)' : 'الاختبار البعدي؟ (تُحذف نتيجته البعدية)'))) return;
+    try { await H.resetLevel(id, k); } catch (e) { alert('تعذّر التنفيذ: ' + (e.code || e.message)); } load();
+  });
+  if ($('lvCsv')) $('lvCsv').onclick = () => {
+    const q = v => '"' + String(v ?? '').replace(/"/g, '""') + '"', d = t => t ? new Date(t).toISOString().slice(0, 10) : '';
+    const lines = [['الاسم الحقيقي','الصف','الشعبة','الاسم المستعار','القبلي٪','مستوى القبلي','مفردات','قواعد','قراءة','استماع','تاريخ القبلي','البعدي٪','مستوى البعدي','مفردات','قواعد','قراءة','استماع','تاريخ البعدي','التحسّن٪'].map(q).join(',')];
+    lvIds.forEach(id => { const L = lv[id], p = priv[id] || {}, a = L.pre || {}, b = L.post || {};
+      lines.push([p.name || '', p.grade || '', p.section || '', nickOf(id), L.pre ? pc(a) : '', a.level || '', a.v ?? '', a.g ?? '', a.r ?? '', a.l ?? '', d(a.at), L.post ? pc(b) : '', b.level || '', b.v ?? '', b.g ?? '', b.r ?? '', b.l ?? '', d(b.at), L.pre && L.post ? gain(id) : ''].map(q).join(',')); });
+    const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'نتائج-قياس-المستوى.csv'; document.body.appendChild(a); a.click(); a.remove();
   };
   $('main').querySelectorAll('button[data-a]').forEach(b => b.onclick = async () => {
     const id = b.closest('.item').dataset.id, a = b.dataset.a, r = rows.find(x => x.id === id);

@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<script src="../assets/gate.js?v=7"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>قياس المستوى · Level Check</title>
+<meta name="description" content="English level check before and after: vocabulary, grammar, reading and listening, with a CEFR level estimate.">
+<meta name="theme-color" content="#F4F7FF">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="../assets/club.css">
+<style>
+/* Level check: a before test and an after test (parallel forms, same difficulty), one question at a time,
+   no feedback during the test, then the score, the skills and an estimated CEFR level; the after test shows the gain. */
+:root{color-scheme:light;--bg:#F4F7FF;--card:#fff;--ink:#1F2A44;--muted:#5B6685;--line:#E2E8F5;--pri:#3157D5;--pri-soft:#E8EEFF;--ok:#16825D;--ok-soft:#E3F6EE;--warn:#A35A00;--warn-soft:#FFF1DC;
+  --v:#C2416B;--g:#6046E8;--r:#0E7C86;--l:#C2621A;--ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg)}
+body{color:var(--ink);font-family:var(--ar);font-size:20px;line-height:1.7}
+.wrap{max-width:760px;margin:0 auto;padding:68px 16px 80px}
+.en{font-family:var(--en);direction:ltr;unicode-bidi:isolate}
+h1{font-size:clamp(1.9rem,6vw,2.5rem);margin:0;line-height:1.25}
+h1 .en{display:block;font-size:.5em;color:var(--pri);letter-spacing:.06em;font-weight:600}
+.lead{color:var(--muted);margin:8px 0 0}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:24px;padding:20px;margin-top:18px;box-shadow:0 10px 30px -24px rgba(30,40,90,.5)}
+.card h2{margin:0 0 6px;font-size:1.35rem}
+.muted{color:var(--muted)}
+.btn{font:inherit;font-weight:800;border:0;border-radius:999px;padding:12px 24px;cursor:pointer;background:var(--pri);color:#fff;font-size:1.1rem}
+.btn.soft{background:var(--pri-soft);color:var(--pri)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.part{border-radius:16px;padding:10px 12px;background:#F7F9FF;border:1.5px solid var(--line)}
+.part b{display:block;font-size:1.05rem}.part small{color:var(--muted);font-size:.95rem}
+.tests{display:grid;gap:14px;margin-top:18px}
+.test{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:var(--card);border:1.5px solid var(--line);border-radius:22px;padding:16px 18px}
+.test .ic{font-size:2.2rem;line-height:1}
+.test .tx{flex:1;min-width:200px}.test .tx b{font-size:1.2rem;display:block}.test .tx small{color:var(--muted);font-size:1rem;display:block}
+.tag{display:inline-block;border-radius:999px;padding:0 12px;font-size:.95rem;font-weight:800}
+.tag.ok{background:var(--ok-soft);color:var(--ok)}.tag.wait{background:var(--warn-soft);color:var(--warn)}
+/* test */
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden;margin:6px 0 14px}
+.bar i{display:block;height:100%;background:var(--pri);border-radius:999px;transition:width .3s}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:800;color:var(--muted);font-size:1rem}
+.sec{border-radius:999px;padding:2px 14px;color:#fff;font-size:.95rem}
+.passage{background:#F7F9FF;border:1.5px solid var(--line);border-radius:18px;padding:14px 16px;font-family:var(--en);direction:ltr;text-align:left;font-size:1.12rem;line-height:1.75;margin:10px 0 14px}
+.qtext{font-family:var(--en);direction:ltr;text-align:left;font-size:1.3rem;font-weight:600;margin:10px 0 4px;line-height:1.5}
+.qar{color:var(--muted);font-size:1rem;margin:0 0 12px}
+.opts{display:grid;gap:10px}
+.opt{font:inherit;font-family:var(--en);direction:ltr;text-align:left;font-size:1.15rem;font-weight:500;background:#fff;border:2px solid var(--line);border-radius:16px;padding:12px 16px;cursor:pointer;color:var(--ink);display:flex;gap:12px;align-items:center}
+.opt .k{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--pri-soft);color:var(--pri);font-weight:700;font-size:1rem}
+.opt[aria-pressed=true]{border-color:var(--pri);background:var(--pri-soft)}
+.opt[aria-pressed=true] .k{background:var(--pri);color:#fff}
+.listen{display:flex;align-items:center;gap:12px;margin:8px 0 14px;flex-wrap:wrap}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+/* result */
+.big{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.ring{--p:0;width:130px;height:130px;border-radius:50%;background:conic-gradient(var(--pri) calc(var(--p)*1%),var(--line) 0);display:grid;place-items:center;flex:none}
+.ring span{width:100px;height:100px;border-radius:50%;background:#fff;display:grid;place-items:center;font-family:var(--en);font-weight:700;font-size:1.7rem;direction:ltr}
+.lvl{font-family:var(--en);font-weight:700;font-size:2rem;color:var(--pri);direction:ltr;display:inline-block}
+.skill{margin:12px 0}
+.skill .row{display:flex;justify-content:space-between;font-weight:700;font-size:1rem}
+.skill .bar{margin:4px 0 0;height:14px}
+.cmp{width:100%;border-collapse:collapse;margin-top:10px;font-size:1rem}
+.cmp th,.cmp td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:center}
+.cmp th:first-child,.cmp td:first-child{text-align:right}
+.up{color:var(--ok);font-weight:800}.down{color:#B3261E;font-weight:800}
+.scale{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px;font-size:.95rem}
+.scale div{border-radius:12px;padding:6px;text-align:center;background:#F2F4FA;color:var(--muted)}
+.scale div.on{background:var(--pri);color:#fff;font-weight:800}
+.scale b{display:block;font-family:var(--en);direction:ltr}
+.note{background:var(--warn-soft);color:#6b3d00;border-radius:16px;padding:10px 14px;margin-top:14px;font-size:1rem}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<a class="club-home" href="../index.html">🏠 الرئيسية</a>
+<div class="wrap" id="app"></div>
+<script src="../assets/club.js?v=3"></script>
+<script type="module">
+/* ---------- the two forms: same skills, same difficulty, different questions ----------
+   item: [skill, band, question, Arabic help, right answer, wrong, wrong, wrong]   skill v g r l · band 1=A1 2=A2 3=B1
+   reading items point to a passage (p), listening items carry the sentence to hear (say). */
+const FORMS = {
+ pre: { passages: [
+  "My name is Fahad. I am fifteen years old. I live in Al-Baha with my family. I have two brothers and one sister. Every morning I walk to school with my brother Saad. After school, I play football in the park. My favourite subject is English.",
+  "Many people think that camels store water in their humps, but this is not true. The hump is full of fat. When there is no food, the camel's body uses this fat for energy. Camels can also drink more than 100 litres of water in just a few minutes, and they can live for many days without drinking again. This is why they are perfect animals for the desert."],
+  items: [
+  ['v',1,'I drink ___ every morning.','اختر الكلمة المناسبة','milk','chair','pencil','window'],
+  ['v',1,'The opposite of "big" is ___.','عكس الكلمة','small','tall','fast','old'],
+  ['v',1,'A ___ teaches students at school.','اختر الكلمة المناسبة','teacher','doctor','farmer','pilot'],
+  ['v',2,"I can't find my keys. I think I ___ them.",'اختر الكلمة المناسبة','lost','won','found','sold'],
+  ['v',2,'It is very ___ today. Take an umbrella!','اختر الكلمة المناسبة','rainy','sunny','dry','hot'],
+  ['v',2,'Which word means "very big"?','أي كلمة معناها «كبير جداً»؟','huge','tiny','narrow','quiet'],
+  ['v',2,'She ___ the bus to school every day.','اختر الكلمة المناسبة','takes','makes','does','puts'],
+  ['v',3,'The scientist did an ___ to test her idea.','اختر الكلمة المناسبة','experiment','argument','apartment','agreement'],
+  ['v',3,"He was ___ about the exam, so he couldn't sleep.",'اختر الكلمة المناسبة','anxious','generous','curious','famous'],
+  ['v',3,'"Improve" means ___.','معنى الكلمة','get better','get older','give up','go away'],
+  ['g',1,'She ___ a student.','اختر الصيغة الصحيحة','is','are','am','be'],
+  ['g',1,'There ___ two books on the table.','اختر الصيغة الصحيحة','are','is','am','be'],
+  ['g',1,'I ___ football every Friday.','اختر الصيغة الصحيحة','play','plays','playing','to play'],
+  ['g',2,'Yesterday we ___ to the park.','اختر الصيغة الصحيحة','went','go','goes','going'],
+  ['g',2,'This bag is ___ than that one.','اختر الصيغة الصحيحة','heavier','heavy','heaviest','more heavy'],
+  ['g',2,'Look! The children ___ in the garden.','اختر الصيغة الصحيحة','are playing','play','plays','played'],
+  ['g',2,'___ you ever been to Jeddah?','اختر الصيغة الصحيحة','Have','Did','Do','Are'],
+  ['g',3,'If it rains tomorrow, we ___ at home.','اختر الصيغة الصحيحة','will stay','stayed','would stayed','staying'],
+  ['g',3,'This mosque ___ in 1990.','اختر الصيغة الصحيحة','was built','built','is building','has build'],
+  ['g',3,'I have lived here ___ 2015.','اختر الصيغة الصحيحة','since','for','from','ago'],
+  ['r',1,'Where does Fahad live?','أين يسكن فهد؟','In Al-Baha','In Jeddah','In Riyadh','In Taif',{p:0}],
+  ['r',1,'How many sisters does Fahad have?','كم أختاً لفهد؟','One','Two','Three','None',{p:0}],
+  ['r',2,'How does Fahad go to school?','كيف يذهب فهد إلى المدرسة؟','He walks.','By bus.','By car.','By bike.',{p:0}],
+  ['r',2,"What is inside a camel's hump?",'ماذا يوجد في سنام الجمل؟','Fat','Water','Milk','Sand',{p:1}],
+  ['r',3,'Why does a camel need this fat?','لماذا يحتاج الجمل هذا الدهن؟','For energy when there is no food','To keep cool in the sun','To carry heavy things','To make water taste better',{p:1}],
+  ['r',3,'What is the main idea of the text?','ما الفكرة الرئيسة للنص؟','Camels are well suited to desert life.','Camels drink very little water.','A camel keeps water in its hump.','Camels cannot live in the desert.',{p:1}],
+  ['l',1,'Where is the cat?','استمع، ثم أجب: أين القطة؟','Under the table','On the chair','In the box','Behind the door',{say:'The cat is under the table.'}],
+  ['l',1,'How many apples are there?','استمع، ثم أجب: كم تفاحة؟','Three','Two','Four','Five',{say:'I have three red apples.'}],
+  ['l',2,'What time does the train leave?','استمع، ثم أجب: متى يغادر القطار؟','7:30','7:00','6:30','8:30',{say:'The train leaves at half past seven.'}],
+  ['l',2,"What is the speaker's sister's job?",'استمع، ثم أجب: ما عمل أخت المتحدث؟','Nurse','Teacher','Doctor','Pilot',{say:'My sister is a nurse. She works at the hospital.'}],
+  ['l',3,'Where did they go in the end?','استمع، ثم أجب: إلى أين ذهبوا في النهاية؟','To the museum','To the beach','To the park','They stayed at home',{say:'I wanted to go to the beach, but it was too windy, so we went to the museum instead.'}],
+  ['l',3,'What does the speaker want?','استمع، ثم أجب: ماذا يريد المتحدث؟','Less noise','More music','Help with homework','To go out',{say:"Could you turn down the music, please? I'm trying to study."}]
+ ]},
+ post: { passages: [
+  "My name is Turki. I am sixteen years old. I live in Taif with my parents. I have one brother and two sisters. I go to school by bus every day. In the evening, I read books and help my father in his shop. My favourite subject is science.",
+  "Bees are very important for people. When a bee flies from flower to flower to collect nectar, it carries pollen with it. This helps plants make fruit and seeds. Without bees, we would have much less fruit and fewer vegetables. Sadly, the number of bees is going down in many countries because of pesticides and the loss of wild flowers."],
+  items: [
+  ['v',1,'I eat ___ for breakfast.','اختر الكلمة المناسبة','eggs','shoes','doors','cars'],
+  ['v',1,'The opposite of "hot" is ___.','عكس الكلمة','cold','happy','long','new'],
+  ['v',1,'A ___ helps sick people in the hospital.','اختر الكلمة المناسبة','doctor','driver','cook','farmer'],
+  ['v',2,"I ___ my homework at home, so I can't give it to the teacher.",'اختر الكلمة المناسبة','forgot','remembered','finished','brought'],
+  ['v',2,"It's very ___ today. Wear a jacket!",'اختر الكلمة المناسبة','cold','sunny','warm','hot'],
+  ['v',2,'Which word means "very small"?','أي كلمة معناها «صغير جداً»؟','tiny','huge','wide','loud'],
+  ['v',2,'My father ___ breakfast for us on Fridays.','اختر الكلمة المناسبة','makes','takes','does','goes'],
+  ['v',3,'The doctor gave me some ___ for my cough.','اختر الكلمة المناسبة','medicine','furniture','equipment','scenery'],
+  ['v',3,'She is very ___; she always helps others and gives them gifts.','اختر الكلمة المناسبة','generous','anxious','lazy','selfish'],
+  ['v',3,'"Reduce" means ___.','معنى الكلمة','make smaller','make bigger','make faster','make cleaner'],
+  ['g',1,'They ___ my friends.','اختر الصيغة الصحيحة','are','is','am','be'],
+  ['g',1,'There ___ a book on the desk.','اختر الصيغة الصحيحة','is','are','am','be'],
+  ['g',1,'He ___ to school every day.','اختر الصيغة الصحيحة','goes','go','going','to go'],
+  ['g',2,'Last week I ___ my grandfather.','اختر الصيغة الصحيحة','visited','visit','visits','visiting'],
+  ['g',2,'Riyadh is ___ than Al-Baha.','اختر الصيغة الصحيحة','bigger','big','biggest','more big'],
+  ['g',2,'Be quiet! The baby ___.','اختر الصيغة الصحيحة','is sleeping','sleeps','sleep','slept'],
+  ['g',2,'I have ___ finished my homework.','اختر الصيغة الصحيحة','already','yet','ago','since'],
+  ['g',3,'If I ___ a lot of money, I would travel around the world.','اختر الصيغة الصحيحة','had','have','will have','having'],
+  ['g',3,'English ___ in many countries.','اختر الصيغة الصحيحة','is spoken','speaks','is speaking','spoke'],
+  ['g',3,'We have studied English ___ six years.','اختر الصيغة الصحيحة','for','since','from','ago'],
+  ['r',1,'Where does Turki live?','أين يسكن تركي؟','In Taif','In Jeddah','In Al-Baha','In Riyadh',{p:0}],
+  ['r',1,'How many brothers does Turki have?','كم أخاً لتركي؟','One','Two','Three','None',{p:0}],
+  ['r',2,'How does Turki go to school?','كيف يذهب تركي إلى المدرسة؟','By bus.','He walks.','By car.','By bike.',{p:0}],
+  ['r',2,'What do bees collect from flowers?','ماذا يجمع النحل من الأزهار؟','Nectar','Water','Leaves','Sand',{p:1}],
+  ['r',3,'Why are bees important for people?','لماذا النحل مهم للناس؟','They help plants make fruit and seeds.','They eat harmful insects.','They keep the water clean.','They make flowers grow taller.',{p:1}],
+  ['r',3,'Why is the number of bees going down?','لماذا يقل عدد النحل؟','Because of pesticides and fewer wild flowers','Because there is too much fruit','Because the weather is too cold','Because there are too many flowers',{p:1}],
+  ['l',1,'Where is the ball?','استمع، ثم أجب: أين الكرة؟','In the box','Under the bed','On the table','Behind the chair',{say:'The ball is in the box.'}],
+  ['l',1,'How many pens are there?','استمع، ثم أجب: كم قلماً؟','Four','Three','Five','Two',{say:'I have four blue pens.'}],
+  ['l',2,'What time does the class start?','استمع، ثم أجب: متى يبدأ الدرس؟','8:15','8:45','8:00','7:15',{say:'The class starts at quarter past eight.'}],
+  ['l',2,"What is the speaker's uncle's job?",'استمع، ثم أجب: ما عمل عمّ المتحدث؟','Pilot','Doctor','Farmer','Teacher',{say:'My uncle is a pilot. He flies to Cairo every week.'}],
+  ['l',3,'What did they do in the end?','استمع، ثم أجب: ماذا فعلوا في النهاية؟','They stayed at home.','They had a picnic.','They went to the beach.','They went shopping.',{say:'We planned to have a picnic, but it started to rain, so we stayed at home and watched a film.'}],
+  ['l',3,'What does the speaker want?','استمع، ثم أجب: ماذا يريد المتحدث؟','Some fresh air','A hot drink','To go to sleep','To turn on the heater',{say:"Could you open the window, please? It's really hot in here."}]
+ ]}
+};
+const SK = { v:['المفردات','Vocabulary','--v'], g:['القواعد','Grammar','--g'], r:['القراءة','Reading','--r'], l:['الاستماع','Listening','--l'] };
+const CNT = { v:10, g:10, r:6, l:6 };
+const LEVELS = [['Pre-A1','مبتدئ'],['A1','أساسي'],['A2','ما قبل المتوسط'],['B1','متوسط']];
+const NAME = { pre:'الاختبار القبلي', post:'الاختبار البعدي' };
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const store = { get(k){ try { return JSON.parse(localStorage.getItem(k)); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const fmtDate = t => { try { return new Date(t).toLocaleDateString('ar-SA-u-ca-gregory-nu-latn', { year:'numeric', month:'long', day:'numeric' }); } catch(e){ return ''; } };
+
+/* voice */
+let voices = []; const loadV = () => { try { voices = speechSynthesis.getVoices() || []; } catch(e){} };
+if ('speechSynthesis' in window) { loadV(); speechSynthesis.onvoiceschanged = loadV; }
+function say(t){ if (!('speechSynthesis' in window)) return false; try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = 'en-US'; u.rate = .88;
+  const v = voices.find(v => v.lang === 'en-US') || voices.find(v => (v.lang||'').replace('_','-').startsWith('en')); if (v) u.voice = v; speechSynthesis.speak(u); return true; } catch(e){ return false; } }
+
+/* scoring: per skill out of 8, per band, and the level */
+function score(kind, answers){
+  const items = FORMS[kind].items, sk = { v:0, g:0, r:0, l:0 }, band = { 1:[0,0], 2:[0,0], 3:[0,0] }; let total = 0;
+  items.forEach((it, i) => { const ok = answers[i] === it[4]; band[it[1]][1]++; if (ok) { total++; sk[it[0]]++; band[it[1]][0]++; } });
+  const pc = b => band[b][0] / band[b][1];
+  let lv = 0; if (pc(1) >= .6) lv = 1; if (lv === 1 && pc(1) >= .75 && pc(2) >= .6) lv = 2; if (lv === 2 && pc(2) >= .75 && pc(3) >= .6) lv = 3;
+  return { score: total, max: items.length, level: LEVELS[lv][0], v: sk.v, g: sk.g, r: sk.r, l: sk.l, at: Date.now() };
+}
+
+/* saved results: on this device always, and in the club database when the student is registered */
+let H = null, cloud = {}, postOpen = false, online = false;
+async function loadAll(){
+  const local = store.get('lv-results') || {};
+  try {
+    H = await import('../assets/honor.js?v=20261029a');
+    if (H.ready) {
+      const t = new Promise((_, no) => setTimeout(() => no(new Error('timeout')), 8000));
+      const [mine, cfg] = await Promise.race([Promise.all([H.myLevels(), H.levelsConfig()]), t]);
+      cloud = mine || {}; postOpen = !!(cfg && cfg.postOpen); online = true;
+      // a result saved only on this device (no connection at the time) is sent now
+      for (const k of ['pre', 'post']) if (local[k] && !cloud[k] && (k === 'pre' || cloud.pre)) { try { await H.saveLevel(k, local[k]); cloud[k] = local[k]; } catch(e){} }
+    }
+  } catch(e) { console.warn('level check offline', e); }
+  const res = { pre: cloud.pre || local.pre || null, post: cloud.post || local.post || null };
+  store.set('lv-results', res);
+  return res;
+}
+async function save(kind, r){
+  const res = store.get('lv-results') || {}; res[kind] = r; store.set('lv-results', res);
+  if (H && H.ready) { try { await H.saveLevel(kind, r); return true; } catch(e){ console.warn(e); } }
+  return false;
+}
+
+/* ---------- screens ---------- */
+let RES = { pre:null, post:null };
+async function home(){
+  $('app').innerHTML = `<h1>قياس المستوى<span class="en">LEVEL CHECK</span></h1><p class="lead">جاري التحميل…</p>`;
+  RES = await loadAll();
+  const daysSince = RES.pre ? (Date.now() - RES.pre.at) / 864e5 : 0;
+  const postReady = !!RES.pre && (online ? postOpen : daysSince >= 14);
+  const row = (k, ic, sub) => {
+    const r = RES[k];
+    const status = r ? `<span class="tag ok">✓ أنجزته: ${Math.round(r.score / r.max * 100)}٪ · <span class="en">${r.level}</span></span>`
+      : k === 'post' && !postReady ? `<span class="tag wait">🔒 يفتحه المعلم في نهاية الفترة</span>` : '';
+    const btn = r ? `<button class="btn soft" data-show="${k}">النتيجة</button>`
+      : `<button class="btn" data-go="${k}" ${k === 'post' && !postReady ? 'disabled' : ''}>${store.get('lv-draft-' + k) ? 'أكمل الاختبار' : 'ابدأ'}</button>`;
+    return `<div class="test"><span class="ic" aria-hidden="true">${ic}</span><span class="tx"><b>${NAME[k]}</b><small>${sub}</small>${status}</span>${btn}</div>`;
+  };
+  $('app').innerHTML = `<h1>قياس المستوى<span class="en">LEVEL CHECK</span></h1>
+    <p class="lead">اختبار قصير يقيس مستواك في الإنجليزية الآن، ثم اختبار مثله في نهاية الفترة لترى كم تحسّنت.</p>
+    <div class="card"><h2>عن الاختبار</h2>
+      <div class="parts">${Object.entries(SK).map(([k, s]) => `<div class="part" style="border-color:var(${s[2]})"><b style="color:var(${s[2]})">${s[0]}</b><small class="en">${s[1]} · ${CNT[k]} questions</small></div>`).join('')}</div>
+      <p class="muted" style="margin:0">32 سؤالاً في نحو 20 دقيقة. الأسئلة تبدأ سهلة وتصعب تدريجياً، فلا تقلق إن لم تعرف بعضها. أجب وحدك ودون مساعدة، لتكون النتيجة صادقة. يحتاج قسم الاستماع إلى الصوت 🔊.</p></div>
+    <div class="tests">
+      ${row('pre', '📝', 'في بداية الفترة: يحدد مستواك الآن.')}
+      ${row('post', '🏁', 'في نهاية الفترة: أسئلة جديدة بالصعوبة نفسها، لقياس تحسّنك.')}
+    </div>
+    ${RES.pre && RES.post ? `<div class="card" id="cmpBox"></div>` : ''}
+    ${!online && H && H.ready ? `<p class="note">لم يتصل الاختبار بقاعدة النادي الآن، فستُحفظ نتيجتك على هذا الجهاز وتُرسل للمعلم عند الاتصال.</p>` : ''}`;
+  $('app').querySelectorAll('[data-go]').forEach(b => b.onclick = () => start(b.dataset.go));
+  $('app').querySelectorAll('[data-show]').forEach(b => b.onclick = () => result(b.dataset.show));
+  if (RES.pre && RES.post) $('cmpBox').innerHTML = compare();
+  window.scrollTo(0, 0);
+}
+
+function start(kind){
+  const F = FORMS[kind], N = F.items.length;
+  // answer order is shuffled once per student and kept with the draft, so leaving and coming back changes nothing
+  let d = store.get('lv-draft-' + kind);
+  if (!d || !d.order || d.order.length !== N) d = { i: 0, ans: {}, order: F.items.map(it => shuffle(it.slice(4, 8))), plays: {} };
+  const keep = () => store.set('lv-draft-' + kind, d);
+  keep();
+  function q(){
+    const i = d.i, it = F.items[i], ex = it[8] || {}, s = SK[it[0]];
+    const firstOf = i === 0 || F.items[i - 1][0] !== it[0];
+    const plays = d.plays[i] || 0;
+    $('app').innerHTML = `<div class="card">
+      <div class="qhead"><span class="sec" style="background:var(${s[2]})">${s[0]} · <span class="en">${s[1]}</span></span><span class="en">${i + 1} / ${N}</span></div>
+      <div class="bar"><i style="width:${i / N * 100}%"></i></div>
+      ${firstOf && it[0] === 'l' ? `<p class="note" style="margin:0 0 8px">🎧 في هذا القسم تستمع إلى جملة، ثم تجيب. يمكنك الاستماع مرتين فقط لكل سؤال.</p>` : ''}
+      ${ex.p !== undefined ? `<div class="passage">${esc(F.passages[ex.p])}</div>` : ''}
+      ${ex.say ? `<div class="listen"><button class="btn" id="play" ${plays >= 2 ? 'disabled' : ''}>🔊 استمع</button><span class="muted" id="pl">${plays >= 2 ? 'انتهت مرات الاستماع' : plays === 1 ? 'باقي مرة واحدة' : 'تستطيع الاستماع مرتين'}</span></div>` : ''}
+      <p class="qtext">${esc(it[2])}</p><p class="qar">${esc(it[3])}</p>
+      <div class="opts">${d.order[i].map((o, k) => `<button class="opt" data-o="${esc(o)}" aria-pressed="${d.ans[i] === o}"><span class="k">${'ABCD'[k]}</span><span>${esc(o)}</span></button>`).join('')}</div>
+      <div class="nav"><button class="btn soft" id="back" ${i === 0 ? 'disabled' : ''}>→ السابق</button><button class="btn" id="next" ${d.ans[i] ? '' : 'disabled'}>${i === N - 1 ? 'إنهاء الاختبار ✓' : 'التالي ←'}</button></div></div>
+      <p class="muted" style="text-align:center;font-size:1rem">تُحفظ إجاباتك أولاً بأول، فإن خرجت تستطيع أن تكمل من حيث توقفت.</p>`;
+    if (ex.say) $('play').onclick = () => { if ((d.plays[i] || 0) >= 2) return; if (!say(ex.say)) { $('pl').textContent = 'الصوت غير متاح على هذا الجهاز'; return; } d.plays[i] = (d.plays[i] || 0) + 1; keep();
+      const left = 2 - d.plays[i]; $('pl').textContent = left ? 'باقي مرة واحدة' : 'انتهت مرات الاستماع'; if (!left) $('play').disabled = true; };
+    $('app').querySelectorAll('.opt').forEach(b => b.onclick = () => { d.ans[i] = b.dataset.o; keep();
+      $('app').querySelectorAll('.opt').forEach(x => x.setAttribute('aria-pressed', x === b)); $('next').disabled = false; });
+    $('back').onclick = () => { d.i--; keep(); q(); };
+    $('next').onclick = async () => {
+      if (i < N - 1) { d.i++; keep(); q(); window.scrollTo(0, 0); return; }
+      const missing = F.items.findIndex((_, k) => !d.ans[k]); if (missing >= 0) { d.i = missing; keep(); q(); return; }
+      if (!confirm('هل تريد إنهاء الاختبار وإرسال إجاباتك؟ لا يمكن إعادته بعد ذلك.')) return;
+      $('next').disabled = true; $('next').textContent = 'جاري الحفظ…';
+      const r = score(kind, F.items.map((_, k) => d.ans[k]));
+      const sent = await save(kind, r); store.del('lv-draft-' + kind);
+      RES[kind] = r; result(kind, true, sent);
+    };
+    window.scrollTo(0, 0);
+  }
+  q();
+}
+
+function levelScale(lv){ return `<div class="scale">${LEVELS.map(L => `<div class="${L[0] === lv ? 'on' : ''}"><b>${L[0]}</b>${L[1]}</div>`).join('')}</div>`; }
+function result(kind, fresh, sent){
+  const r = RES[kind], pc = Math.round(r.score / r.max * 100), L = LEVELS.find(x => x[0] === r.level) || LEVELS[0];
+  const tip = { 'Pre-A1':'ابدأ بقسم «التأسيس»: الحروف والأصوات ومحادثات التأسيس وقاموس الألف كلمة.', 'A1':'ركّز على «قوائم الكلمات» العامة و«خارطة الأزمنة» البسيطة، واقرأ قصة كل أسبوع.',
+    'A2':'تابع «English Word Quest» و«ركن القصص» و«مختبر المحادثة»، وتدرّب على الأزمنة التامة.', 'B1':'مستوى رائع! جرّب الكلمات الأكاديمية و«Syntax Tree Lab» و«المكتبة الإثرائية».' }[r.level];
+  $('app').innerHTML = `<h1>${fresh ? 'انتهى الاختبار 🎉' : 'نتيجتك'}<span class="en">${NAME[kind] === NAME.pre ? 'BEFORE TEST' : 'AFTER TEST'}</span></h1>
+    <p class="lead">${NAME[kind]} · ${fmtDate(r.at)}</p>
+    <div class="card"><div class="big"><div class="ring" style="--p:${pc}"><span>${pc}%</span></div>
+      <div><div class="muted">مستواك التقريبي</div><div class="lvl">${r.level}</div><div style="font-weight:800">${L[1]}</div><div class="muted en" style="font-size:1rem">${r.score} / ${r.max}</div></div></div>
+      ${levelScale(r.level)}</div>
+    <div class="card"><h2>المهارات</h2>${Object.entries(SK).map(([k, s]) => `<div class="skill"><div class="row"><span style="color:var(${s[2]})">${s[0]}</span><span class="en">${r[k]} / ${CNT[k]}</span></div><div class="bar"><i style="width:${r[k] / CNT[k] * 100}%;background:var(${s[2]})"></i></div></div>`).join('')}</div>
+    ${kind === 'post' && RES.pre ? `<div class="card">${compare()}</div>` : ''}
+    <div class="card"><h2>💡 خطوتك التالية</h2><p style="margin:0">${tip}</p></div>
+    ${fresh && sent === false && H && H.ready ? `<p class="note">حُفظت النتيجة على جهازك، وستصل للمعلم عندما تفتح هذه الصفحة وأنت متصل بالإنترنت.</p>` : ''}
+    <p style="text-align:center;margin-top:18px"><button class="btn soft" id="bk">→ العودة</button></p>`;
+  $('bk').onclick = home; window.scrollTo(0, 0);
+  if (fresh && window.clubSfx) clubSfx('win');
+}
+function compare(){
+  const a = RES.pre, b = RES.post, d = (x, y, u = '') => { const v = y - x; return v > 0 ? `<span class="up">+${v}${u} ▲</span>` : v < 0 ? `<span class="down">${v}${u} ▼</span>` : '<span class="muted">=</span>'; };
+  const pa = Math.round(a.score / a.max * 100), pb = Math.round(b.score / b.max * 100);
+  return `<h2>📈 تحسّنك</h2><table class="cmp"><thead><tr><th></th><th>القبلي</th><th>البعدي</th><th>التغيّر</th></tr></thead><tbody>
+    <tr><td><b>النتيجة</b></td><td class="en">${pa}%</td><td class="en">${pb}%</td><td>${d(pa, pb, '٪')}</td></tr>
+    <tr><td><b>المستوى</b></td><td class="en">${a.level}</td><td class="en">${b.level}</td><td>${a.level === b.level ? '<span class="muted">=</span>' : LEVELS.findIndex(x => x[0] === b.level) > LEVELS.findIndex(x => x[0] === a.level) ? '<span class="up">ارتفع ▲</span>' : '<span class="down">انخفض ▼</span>'}</td></tr>
+    ${Object.entries(SK).map(([k, s]) => `<tr><td>${s[0]}</td><td class="en">${a[k]}/${CNT[k]}</td><td class="en">${b[k]}/${CNT[k]}</td><td>${d(a[k], b[k])}</td></tr>`).join('')}</tbody></table>`;
+}
+home();
+</script>
+</body>
+</html>

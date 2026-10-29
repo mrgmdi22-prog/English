@@ -62,5 +62,28 @@ service cloud.firestore {
             || get(/databases/$(database)/documents/players/$(uid)).data.approved == false));
       allow delete: if isTeacher();
     }
+
+    // قياس المستوى: نتيجة الاختبار القبلي والبعدي، لا يقرؤها إلا الطالب نفسه والمعلم.
+    // يحفظ الطالب كل اختبار مرة واحدة، والبعدي لا يُحفظ إلا بعد أن يفتحه المعلم.
+    function validResult(x) {
+      return x is map && x.keys().hasOnly(['score', 'max', 'level', 'v', 'g', 'r', 'l', 'at'])
+        && x.score is int && x.max is int && x.score >= 0 && x.max <= 60 && x.score <= x.max
+        && x.level is string && x.level.size() <= 10;
+    }
+    function postOpen() {
+      return exists(/databases/$(database)/documents/config/levels)
+        && get(/databases/$(database)/documents/config/levels).data.get('postOpen', false) == true;
+    }
+    match /levels/{uid} {
+      allow read: if isTeacher() || (request.auth != null && request.auth.uid == uid);
+      allow create: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['pre', 'updatedAt'])
+        && validResult(request.resource.data.pre);
+      allow update: if isTeacher() || (request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['pre', 'post', 'updatedAt'])
+        && ('pre' in resource.data) && request.resource.data.pre == resource.data.pre
+        && !('post' in resource.data) && validResult(request.resource.data.post) && postOpen());
+      allow delete: if isTeacher();
+    }
   }
 }

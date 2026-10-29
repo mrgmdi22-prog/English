@@ -227,3 +227,44 @@ export async function setApproved(id, v) { const { fs, TD: D } = await load(); a
 export async function setRegionFor(id, region) { const { fs, TD: D } = await load(); await fs.updateDoc(fs.doc(D, 'players', id), { region: cleanText(region, 30) }); }
 export async function rename(id, nick) { const { fs, TD: D } = await load(); await fs.updateDoc(fs.doc(D, 'players', id), { nick: cleanNick(nick) }); }
 export async function remove(id) { const { fs, TD: D } = await load(); await fs.deleteDoc(fs.doc(D, 'players', id)); try { await fs.deleteDoc(fs.doc(D, 'private', id)); } catch (e) {} }
+
+/* ---------- level check (a before test and an after test): readable only by the student and the teacher ---------- */
+const cleanResult = r => ({ score: r.score | 0, max: r.max | 0, level: cleanText(r.level, 10), v: r.v | 0, g: r.g | 0, r: r.r | 0, l: r.l | 0, at: Math.round(+r.at || Date.now()) });
+export async function myLevels() {
+  const { fs, D } = await load();
+  const uid = await studentUid();
+  const snap = await fs.getDoc(fs.doc(D, 'levels', uid));
+  return snap.exists() ? snap.data() : {};
+}
+/** Saves the before ('pre') or after ('post') result. Each can be saved once; the teacher can reset it. */
+export async function saveLevel(kind, r) {
+  const { fs, D } = await load();
+  const uid = await studentUid();
+  await fs.setDoc(fs.doc(D, 'levels', uid), { [kind]: cleanResult(r), updatedAt: fs.serverTimestamp() }, { merge: true });
+}
+/** Whether the teacher has opened the after test. */
+export async function levelsConfig() {
+  const { fs, D } = await load();
+  const snap = await fs.getDoc(fs.doc(D, 'config', 'levels'));
+  return snap.exists() ? snap.data() : {};
+}
+export async function teacherLevelsConfig() {
+  const { fs, TD: D } = await load();
+  const snap = await fs.getDoc(fs.doc(D, 'config', 'levels'));
+  return snap.exists() ? snap.data() : {};
+}
+export async function setPostOpen(v) { const { fs, TD: D } = await load(); await fs.setDoc(fs.doc(D, 'config', 'levels'), { postOpen: !!v }, { merge: true }); }
+/** Teacher: every student's results, keyed by uid. */
+export async function allLevels() {
+  const { fs, TD: D } = await load();
+  const snap = await fs.getDocs(fs.collection(D, 'levels'));
+  const out = {}; snap.forEach(d => { out[d.id] = d.data(); });
+  return out;
+}
+/** Teacher: lets a student take a test again ('pre', 'post' or 'all'). */
+export async function resetLevel(id, kind) {
+  const { fs, TD: D } = await load();
+  const ref = fs.doc(D, 'levels', id);
+  if (kind === 'all') return fs.deleteDoc(ref);
+  await fs.updateDoc(ref, kind === 'pre' ? { pre: fs.deleteField(), post: fs.deleteField() } : { post: fs.deleteField() });
+}
