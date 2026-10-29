@@ -138,10 +138,10 @@ footer{margin-top:44px;text-align:center;color:var(--muted);font-size:.98rem;lin
     <button class="chipbtn" id="rBigger" aria-label="تكبير الخط">A+</button>
   </div>
   <div class="stage"><article class="page" id="rPage"></article></div>
-  <div class="nav">
-    <button class="arrow" id="rPrev">→ السابق</button>
+  <div class="nav" dir="ltr">
+    <button class="arrow" id="rPrev"><bdi>←</bdi> <bdi>السابق</bdi></button>
     <div class="dots" id="rDots"></div>
-    <button class="arrow" id="rNext">التالي ←</button>
+    <button class="arrow" id="rNext"><bdi>التالي</bdi> <bdi>→</bdi></button>
   </div>
 </div>
 
@@ -221,7 +221,7 @@ const STORIES = [{"id": "lion-mouse", "title": "The Lion and the Mouse", "src": 
     page.scrollTop = 0;
     if (dir) { page.classList.remove('turn-next','turn-prev'); void page.offsetWidth; page.classList.add(dir>0?'turn-next':'turn-prev'); }
     $('#rDots').innerHTML = Array.from({length: total()}, (_, i) => `<i class="${i===pg?'on':''}"></i>`).join('');
-    $('#rPrev').disabled = pg === 0; $('#rNext').textContent = last ? 'إنهاء ✓' : (pg === S.pages.length-1 ? 'الحكمة والأسئلة ←' : 'التالي ←');
+    $('#rPrev').disabled = pg === 0; $('#rNext').innerHTML = last ? '<bdi>إنهاء</bdi> ✓' : (pg === S.pages.length-1 ? '<bdi>الحكمة والأسئلة</bdi> <bdi>→</bdi>' : '<bdi>التالي</bdi> <bdi>→</bdi>');
     $('#rListen').hidden = last;
     page.querySelectorAll('.g').forEach(g => { g.onclick = e => { e.stopPropagation(); showPop(g); }; g.onkeydown = e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); showPop(g); } }; });
   }

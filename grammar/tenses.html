@@ -360,7 +360,7 @@ function openSheet(id){
     <div class="sec-h">🔑 كلمات دالّة</div>
     <div class="sig">${x.sig.map(s=>`<span>${esc(s)}</span>`).join('')}</div>
     ${x.id==='fus'?`<div class="note"><b>${GOING.ar}:</b> <span class="en">${esc(nb(GOING.f))}</span><br>${GOING.uses.map(u=>`${u[0]}: <span class="en">${md(u[1])}</span>`).join('<br>')}</div>`:''}
-    <div class="sh-nav"><button class="btn soft" id="shPrev">→ السابق</button><button class="btn soft" id="shNext">التالي ←</button></div>`;
+    <div class="sh-nav" dir="ltr"><button class="btn soft" id="shPrev"><bdi>←</bdi> <bdi>السابق</bdi></button><button class="btn soft" id="shNext"><bdi>التالي</bdi> <bdi>→</bdi></button></div>`;
   $('sheetBg').hidden=false;document.body.style.overflow='hidden';
   $('shX').onclick=closeSheet;$('shPrev').onclick=()=>openSheet(T[(cur+T.length-1)%T.length].id);$('shNext').onclick=()=>openSheet(T[(cur+1)%T.length].id);
   S.scrollTop=0;$('shX').focus();

@@ -277,7 +277,7 @@ function doInstall(){
   const bt=$('inst').querySelector('button');if(bt)bt.remove();$('instTx').innerHTML='<ol>'+steps.map(s=>'<li>'+s+'</li>').join('')+'</ol>';
 }
 function home(){
-  $('topBtn').textContent='🏠 النادي';$('topBtn').href='../index.html';$('topBtn').onclick=null;
+  $('topBtn').textContent='🏠 النادي';$('topBtn').dir='rtl';$('topBtn').href='../index.html';$('topBtn').onclick=null;
   $('app').innerHTML=`<div class="hero"><span class="mascot" aria-hidden="true">🦁</span><h1>نادي البراعم<span class="en">English Club Kids</span></h1><p>اضغط، واسمع، والعب، واجمع النجوم ⭐</p></div>${instCard()}
     <h2 class="sec">🌱 أبدأ من هنا</h2><div class="tiles">${SECTIONS.slice(0,5).map(tile).join('')}</div>
     <h2 class="sec">🖼️ كلمات بالصور</h2><div class="tiles">${SECTIONS.slice(5,5+TOPICS.length).map(tile).join('')}</div>
@@ -300,7 +300,7 @@ function items(id){
 }
 let SEC=null,MODE='learn';
 function open(id){SEC=SECTIONS.find(s=>s.id===id);MODE='learn';
-  $('topBtn').textContent='→ رجوع';$('topBtn').href='#';$('topBtn').onclick=e=>{e.preventDefault();speechSynthesis&&speechSynthesis.cancel();home();};
+  $('topBtn').innerHTML='<bdi>←</bdi> <bdi>رجوع</bdi>';$('topBtn').dir='ltr';$('topBtn').href='#';$('topBtn').onclick=e=>{e.preventDefault();speechSynthesis&&speechSynthesis.cancel();home();};
   if(id==='stk')return stickers();
   if(id==='sto')return storyShelf();
   if(id==='spl')return spell();

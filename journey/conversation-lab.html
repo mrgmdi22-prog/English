@@ -134,7 +134,7 @@ h1 .en{color:var(--blue);font-size:.55em;font-weight:600;margin-inline-start:8px
 
   <main id="lesson" hidden>
     <div class="lhead">
-      <button class="back" id="back">→ المحادثات</button>
+      <button class="back" id="back" dir="ltr"><bdi>←</bdi> <bdi>المحادثات</bdi></button>
       <div class="meta"><small id="lmeta"></small><h2 id="ltitle"></h2></div>
     </div>
     <nav class="steps" role="tablist" id="steps"></nav>
@@ -209,7 +209,7 @@ function setStep(s){stop();step=s;$("steps").querySelectorAll(".step").forEach(b
   ({pre:rPre,listen:rListen,quiz:rQuiz,script:rScript,role:rRole,talk:rTalk})[s]()}
 function nextStep(){const i=STEPS.findIndex(x=>x[0]===step);if(i<STEPS.length-1){setStep(STEPS[i+1][0]);$("steps").scrollIntoView({block:"nearest"})}}
 const task=t=>`<p class="task"><b>المطلوب: </b>${t}</p>`;
-const nextBtn=label=>`<div class="next"><button class="btn" id="nx">${label||"الخطوة التالية ←"}</button></div>`;
+const nextBtn=label=>`<div class="next"><button class="btn" id="nx" dir="ltr">${label||"<bdi>الخطوة التالية</bdi> <bdi>→</bdi>"}</button></div>`;
 const who=n=>C.speakers.indexOf(n);
 function hl(text){let t=esc(text);C.keywords.forEach(k=>{t=t.replace(new RegExp("\\b("+k+")\\b","i"),"<mark>$1</mark>")});return t}
 
@@ -217,7 +217,7 @@ function rPre(){const P=$("panel");
   P.innerHTML=task("اقرأ الموقف وفكّر في السؤالين، ثم تعرّف على كلمات المحادثة الثماني واسمع نطقها.")+
    `<p class="setting"><b>الموقف:</b> ${esc(C.setting_ar)}</p><ul class="pre">${C.pre.map(q=>`<li>${esc(q)}</li>`).join("")}</ul>
     <div class="h3">كلمات ستسمعها (من كلمات أسبوعك)</div>
-    <div class="kw">${C.keywords.map(k=>`<div class="kwi"><button class="say" data-k="${esc(k)}" aria-label="Listen: ${esc(k)}">${SPK}</button><span class="w">${esc(k)}</span><span class="a">${esc(AR[k]||"")}</span></div>`).join("")}</div>`+nextBtn("أنا جاهز للاستماع ←");
+    <div class="kw">${C.keywords.map(k=>`<div class="kwi"><button class="say" data-k="${esc(k)}" aria-label="Listen: ${esc(k)}">${SPK}</button><span class="w">${esc(k)}</span><span class="a">${esc(AR[k]||"")}</span></div>`).join("")}</div>`+nextBtn("<bdi>أنا جاهز للاستماع</bdi> <bdi>→</bdi>");
   P.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{stop();sayOne(b.dataset.k,0,.75)});$("nx").onclick=nextStep}
 
 function chatHTML(opts){return `<div class="chat" id="chat">${C.lines.map(([n,t],i)=>{const s=who(n)?"b":"a";
@@ -230,7 +230,7 @@ function mark(i){document.querySelectorAll(".bub").forEach(b=>b.classList.toggle
 function rListen(){const P=$("panel");
   P.innerHTML=task("استمع إلى المحادثة كاملة دون أن تقرأ. النص مخفي عمدًا، فركّز على الأصوات. استمع مرتين إن احتجت، ثم انتقل إلى الأسئلة.")+
    `<div class="player"><button class="btn" id="play">▶ تشغيل المحادثة</button><button class="btn alt" id="stopb" disabled>■ إيقاف</button>
-     <label class="toggle"><input type="checkbox" id="show"> أظهر النص</label></div>`+chatHTML({hide:true})+nextBtn("انتقل إلى الأسئلة ←");
+     <label class="toggle"><input type="checkbox" id="show"> أظهر النص</label></div>`+chatHTML({hide:true})+nextBtn("<bdi>انتقل إلى الأسئلة</bdi> <bdi>→</bdi>");
   $("play").onclick=async()=>{$("play").disabled=true;$("stopb").disabled=false;await playAll(0,mark);$("play").disabled=false;$("stopb").disabled=true;mark(-1);$("play").textContent="↻ استمع مرة أخرى"};
   $("stopb").onclick=()=>{stop();$("play").disabled=false;$("stopb").disabled=true;mark(-1)};
   $("show").onchange=e=>document.querySelectorAll(".bub").forEach(b=>b.classList.toggle("hidden",!e.target.checked));
@@ -239,7 +239,7 @@ function rListen(){const P=$("panel");
 function rQuiz(){const P=$("panel");let right=0,answered=0;
   P.innerHTML=task("اختر الإجابة الصحيحة لكل سؤال. يظهر التصحيح والسبب فورًا. إن أخطأت فارجع إلى «استمع» واسمع الجزء مرة أخرى.")+
    `<div class="qs">${C.quiz.map((q,qi)=>`<div class="q" data-q="${qi}"><p>${qi+1}. ${esc(q.q)}</p><div class="opts">${q.options.map((o,oi)=>`<button class="opt" data-o="${oi}">${esc(o)}</button>`).join("")}</div><div class="why" hidden></div></div>`).join("")}</div>
-    <div class="score" id="score" hidden></div>`+nextBtn("اقرأ النص ←");
+    <div class="score" id="score" hidden></div>`+nextBtn("<bdi>اقرأ النص</bdi> <bdi>→</bdi>");
   P.querySelectorAll(".q").forEach(qd=>{const q=C.quiz[+qd.dataset.q];let done=false;
     qd.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{if(done)return;done=true;answered++;const ok=+b.dataset.o===q.answer;if(ok)right++;
       b.classList.add(ok?"right":"wrong");if(!ok)qd.querySelector(`.opt[data-o="${q.answer}"]`).classList.add("right");
@@ -250,7 +250,7 @@ function rQuiz(){const P=$("panel");let right=0,answered=0;
 
 function rScript(){const P=$("panel");
   P.innerHTML=task("اقرأ النص واستمع معه. اضغط أي جملة لتسمعها وحدها، وردّدها بعد المتحدث بنفس النبرة. الكلمات المظلّلة من كلمات أسبوعك.")+
-   `<div class="player"><button class="btn" id="play">▶ استمع مع القراءة</button><button class="btn alt" id="stopb" disabled>■ إيقاف</button></div>`+chatHTML({mark:true,click:true})+nextBtn("مثّل الدور ←");
+   `<div class="player"><button class="btn" id="play">▶ استمع مع القراءة</button><button class="btn alt" id="stopb" disabled>■ إيقاف</button></div>`+chatHTML({mark:true,click:true})+nextBtn("<bdi>مثّل الدور</bdi> <bdi>→</bdi>");
   $("play").onclick=async()=>{$("play").disabled=true;$("stopb").disabled=false;await playAll(0,mark);$("play").disabled=false;$("stopb").disabled=true;mark(-1)};
   $("stopb").onclick=()=>{stop();$("play").disabled=false;$("stopb").disabled=true;mark(-1)};
   P.querySelectorAll("button.line").forEach(b=>b.onclick=()=>{stop();const i=+b.dataset.i;mark(i);sayOne(C.lines[i][1],who(C.lines[i][0]))});
@@ -267,7 +267,7 @@ async function runRole(me){const S=$("stage");const hide=$("hideme").checked;con
     if(who(C.lines[i][0])===me){if(hide)b.classList.add("hidden");$("said").hidden=false;$("said").focus({preventScroll:true});
       await new Promise(r=>{$("said").onclick=r});if(tok!==playToken)return;$("said").hidden=true;b.classList.remove("hidden")}
     else{const ok=await sayOne(C.lines[i][1],who(C.lines[i][0]));if(tok!==playToken)return;if(!ok)await new Promise(r=>setTimeout(r,1200))}}
-  mark(-1);S.insertAdjacentHTML("beforeend",`<p class="task" style="margin-top:16px"><b>أحسنت! </b>أكملت المحادثة. جرّب الآن الشخصية الأخرى، ثم انتقل إلى خطوة «تحدّث».</p>`+nextBtn("تحدّث ←"));$("nx").onclick=nextStep}
+  mark(-1);S.insertAdjacentHTML("beforeend",`<p class="task" style="margin-top:16px"><b>أحسنت! </b>أكملت المحادثة. جرّب الآن الشخصية الأخرى، ثم انتقل إلى خطوة «تحدّث».</p>`+nextBtn("<bdi>تحدّث</bdi> <bdi>→</bdi>"));$("nx").onclick=nextStep}
 
 function rTalk(){const P=$("panel");
   P.innerHTML=task("أجب عن الأسئلة الثلاثة بصوت عالٍ، بجملتين أو ثلاث لكل سؤال، واستخدم كلمات أسبوعك. سجّل إجاباتك في جوالك يوم الخميس، فهي مهمة المحادثة في الدليل.")+

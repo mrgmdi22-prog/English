@@ -189,7 +189,7 @@ function openSheet(id){
     <div class="box real"><span class="lb">✅ المعنى الحقيقي</span><span class="m">${esc(x.ar)}</span><span class="men">${esc(x.men)}</span></div>
     <div class="box eq"><span class="lb">🔁 يقابله بالعربية</span><span class="m">${esc(x.eq)}</span></div>
     <div class="box exb"><span class="lb">💬 مثال</span><div class="s">${sayBtn(x.ex)}<span>${md(x.ex)}</span></div><div class="t">${esc(x.exAr)}</div></div>
-    <div class="sh-nav"><button class="btn soft" id="shPrev">→ السابق</button><button class="btn soft" id="shNext">التالي ←</button></div>`;
+    <div class="sh-nav" dir="ltr"><button class="btn soft" id="shPrev"><bdi>←</bdi> <bdi>السابق</bdi></button><button class="btn soft" id="shNext"><bdi>التالي</bdi> <bdi>→</bdi></button></div>`;
   $('sheetBg').hidden=false;document.body.style.overflow='hidden';
   $('shX').onclick=closeSheet;$('shPrev').onclick=()=>openSheet(ID[(cur+ID.length-1)%ID.length].id);$('shNext').onclick=()=>openSheet(ID[(cur+1)%ID.length].id);
   $('sheet').scrollTop=0;$('shX').focus();

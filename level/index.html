@@ -53,7 +53,7 @@ h1 .en{display:block;font-size:.5em;color:var(--pri);letter-spacing:.06em;font-w
 .opt[aria-pressed=true]{border-color:var(--pri);background:var(--pri-soft)}
 .opt[aria-pressed=true] .k{background:var(--pri);color:#fff}
 .listen{display:flex;align-items:center;gap:12px;margin:8px 0 14px;flex-wrap:wrap}
-.nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+.nav{direction:ltr;display:flex;justify-content:space-between;gap:10px;margin-top:18px}
 /* result */
 .big{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
 .ring{--p:0;width:130px;height:130px;border-radius:50%;background:conic-gradient(var(--pri) calc(var(--p)*1%),var(--line) 0);display:grid;place-items:center;flex:none}
@@ -259,7 +259,7 @@ function start(kind){
       ${ex.say ? `<div class="listen"><button class="btn" id="play" ${plays >= 2 ? 'disabled' : ''}>🔊 استمع</button><span class="muted" id="pl">${plays >= 2 ? 'انتهت مرات الاستماع' : plays === 1 ? 'باقي مرة واحدة' : 'تستطيع الاستماع مرتين'}</span></div>` : ''}
       <p class="qtext">${esc(it[2])}</p><p class="qar">${esc(it[3])}</p>
       <div class="opts">${d.order[i].map((o, k) => `<button class="opt" data-o="${esc(o)}" aria-pressed="${d.ans[i] === o}"><span class="k">${'ABCD'[k]}</span><span>${esc(o)}</span></button>`).join('')}</div>
-      <div class="nav"><button class="btn soft" id="back" ${i === 0 ? 'disabled' : ''}>→ السابق</button><button class="btn" id="next" ${d.ans[i] ? '' : 'disabled'}>${i === N - 1 ? 'إنهاء الاختبار ✓' : 'التالي ←'}</button></div></div>
+      <div class="nav" dir="ltr"><button class="btn soft" id="back" ${i === 0 ? 'disabled' : ''}><bdi>←</bdi> <bdi>السابق</bdi></button><button class="btn" id="next" ${d.ans[i] ? '' : 'disabled'}>${i === N - 1 ? '<bdi>إنهاء الاختبار</bdi> ✓' : '<bdi>التالي</bdi> <bdi>→</bdi>'}</button></div></div>
       <p class="muted" style="text-align:center;font-size:1rem">تُحفظ إجاباتك أولاً بأول، فإن خرجت تستطيع أن تكمل من حيث توقفت.</p>`;
     if (ex.say) $('play').onclick = () => { if ((d.plays[i] || 0) >= 2) return; if (!say(ex.say)) { $('pl').textContent = 'الصوت غير متاح على هذا الجهاز'; return; } d.plays[i] = (d.plays[i] || 0) + 1; keep();
       const left = 2 - d.plays[i]; $('pl').textContent = left ? 'باقي مرة واحدة' : 'انتهت مرات الاستماع'; if (!left) $('play').disabled = true; };
@@ -294,7 +294,7 @@ function result(kind, fresh, sent){
     ${kind === 'post' && RES.pre ? `<div class="card">${compare()}</div>` : ''}
     <div class="card"><h2>💡 خطوتك التالية</h2><p style="margin:0">${tip}</p></div>
     ${fresh && sent === false && H && H.ready ? `<p class="note">حُفظت النتيجة على جهازك، وستصل للمعلم عندما تفتح هذه الصفحة وأنت متصل بالإنترنت.</p>` : ''}
-    <p style="text-align:center;margin-top:18px"><button class="btn soft" id="bk">→ العودة</button></p>`;
+    <p style="text-align:center;margin-top:18px"><button class="btn soft" id="bk" dir="ltr"><bdi>←</bdi> <bdi>العودة</bdi></button></p>`;
   $('bk').onclick = home; window.scrollTo(0, 0);
   if (fresh && window.clubSfx) clubSfx('win');
 }

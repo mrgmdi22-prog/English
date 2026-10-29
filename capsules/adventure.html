@@ -408,6 +408,7 @@
   .caption-block .subtitle.ar-sub{direction:rtl}
   .badge.type-tag{background:var(--accent);color:var(--accent-ink)}
   .order-box{display:grid;gap:12px}
+  .built,.pool{direction:ltr}
   .built{min-height:58px;border:2px dashed var(--line);border-radius:16px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
   .built .ph{color:var(--ink-soft);font-size:.95rem;direction:rtl;width:100%;text-align:center}
   .built.ok{border-color:var(--good);background:var(--good-bg)}
@@ -439,7 +440,7 @@
       <div class="stat"><b id="statMastered">0</b><span>✅ جمل أتقنتها</span></div>
     </div>
     <div class="map-actions">
-      <button class="next-btn" id="contBtn" type="button">▶ تابع</button>
+      <button class="next-btn" id="contBtn" type="button" dir="ltr"><bdi>تابع</bdi> ▶</button>
       <button class="review-btn" id="reviewBtn" type="button"></button>
     </div>
     <h2 class="map-title">خريطة المراحل</h2>
@@ -449,7 +450,7 @@
 
   <section id="playView" hidden>
   <div class="topbar">
-    <button class="back-btn" id="backMap" type="button">→ الخريطة</button>
+    <button class="back-btn" id="backMap" type="button" dir="ltr"><bdi>←</bdi> <bdi>الخريطة</bdi></button>
     <div class="play-title" id="playTitle"></div>
     <div class="streak">🔥 <b id="comboNum">0</b></div>
   </div>
@@ -476,7 +477,7 @@
       <div class="choices" id="choices"></div>
       <div class="feedback" id="feedback"></div>
       <div class="actions">
-        <button class="next-btn" id="nextBtn">المشهد التالي ▶</button>
+        <button class="next-btn" id="nextBtn" dir="ltr">المشهد التالي ▶</button>
       </div>
     </div>
   </div>
@@ -494,7 +495,7 @@
       <div class="stage-stat"><b id="ovRight">0</b><span>إجابات صحيحة</span></div>
       <div class="stage-stat"><b id="ovDays">0</b><span>🔥 أيام متتالية</span></div>
     </div>
-    <button class="stage-continue-btn" id="stageContinueBtn" type="button">المرحلة التالية ▶</button>
+    <button class="stage-continue-btn" id="stageContinueBtn" type="button" dir="ltr">المرحلة التالية ▶</button>
     <button class="ghost-btn" id="ovAgain" type="button">↻ أعد المرحلة للحصول على ★★★</button>
     <button class="ghost-btn" id="ovMap" type="button">العودة إلى الخريطة</button>
   </div>
@@ -879,7 +880,7 @@
     $('statDays').textContent = liveDays();
     $('statStars').textContent = totalStars();
     $('statMastered').textContent = mastered;
-    $('contBtn').textContent = '▶ تابع: المرحلة ' + (cur+1);
+    $('contBtn').innerHTML = '<bdi>تابع: المرحلة ' + (cur+1) + '</bdi> ▶';
     $('contBtn').onclick = function(){ startStage(cur); };
     var rb = $('reviewBtn');
     rb.disabled = due === 0;
