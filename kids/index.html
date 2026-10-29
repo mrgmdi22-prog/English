@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="ar" dir="rtl" data-theme="light">
 <head>
-<meta charset="utf-8"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta charset="utf-8"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/kids-apple-180.png?v=1"><link rel="icon" type="image/png" href="../assets/icons/kids-192.png?v=1"><meta name="apple-mobile-web-app-title" content="نادي البراعم"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>نادي البراعم · English Club Kids</title>
 <meta name="description" content="English for young learners: letters, numbers, colors, shapes, words with pictures and simple phrases — with sound and games.">
-<meta name="theme-color" content="#FFF6D9">
+<meta name="theme-color" content="#FFC93C">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Tajawal:wght@500;700;800&display=swap">
@@ -87,6 +87,17 @@ h2.sec{font-size:1.4rem;margin:26px 4px 12px}
 .acc{display:flex;justify-content:center;gap:6px;margin-top:20px;color:var(--muted);font-size:1rem;align-items:center}
 .acc button{font:inherit;font-weight:800;border:2px solid var(--ink);background:#fff;border-radius:12px;padding:3px 12px;cursor:pointer}
 .acc button[aria-pressed=true]{background:var(--ink);color:#fff}
+.wrow{display:flex;gap:6px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:thin}
+.wchip{flex:none;font-family:var(--en);font-weight:800;font-size:1.3rem;min-width:46px;height:46px;border:3px solid var(--line);background:#fff;border-radius:14px;cursor:pointer;color:var(--ink)}
+.wchip.ok{background:#E1F6EC;border-color:#9ED8B8}.wchip.on{border-color:var(--ink);background:#FFD23F}
+.wboard{position:relative;background:#fff;border:3px solid var(--ink);border-radius:26px;box-shadow:5px 5px 0 var(--ink);touch-action:none;overflow:hidden;max-width:560px;margin:0 auto}
+.wboard canvas{position:absolute;inset:0;width:100%;height:100%}
+.wpic{position:absolute;top:8px;right:10px;text-align:center;pointer-events:none;line-height:1.1}
+.wpic span{display:block;font-size:2.2rem}.wpic b{font-size:1rem;color:var(--muted)}
+.wmsg{text-align:center;font-weight:800;font-size:1.2rem;min-height:2em;margin:12px 0 6px}.wmsg.ok{color:var(--ok)}.wmsg.no{color:var(--bad)}
+.wbtns{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.wbtns button{font:inherit;font-weight:800;font-size:1.1rem;border:3px solid var(--ink);background:#fff;border-radius:999px;padding:8px 16px;cursor:pointer;color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
+.wbtns button:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
 footer{text-align:center;color:var(--muted);font-size:.95rem;margin-top:26px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -141,6 +152,7 @@ function burst(x,y){for(let i=0;i<10;i++){const s=document.createElement('span')
 /* ---------- sections ---------- */
 const SECTIONS=[
   {id:'abc',ic:'🔤',ar:'الحروف',en:'ABC',c:'#FF7A1A',t:'#FFEBD9'},
+  {id:'wr',ic:'✍️',ar:'اكتب الحرف',en:'Write it!',c:'#E0457B',t:'#FDE7EF'},
   {id:'num',ic:'🔢',ar:'الأرقام',en:'Numbers',c:'#2D9CDB',t:'#E3F2FC'},
   {id:'col',ic:'🎨',ar:'الألوان',en:'Colors',c:'#D94BA0',t:'#FCE6F2'},
   {id:'shp',ic:'🔷',ar:'الأشكال',en:'Shapes',c:'#5B5BD6',t:'#ECECFC'},
@@ -151,9 +163,9 @@ const SECTIONS=[
 function home(){
   $('topBtn').textContent='🏠 النادي';$('topBtn').href='../index.html';$('topBtn').onclick=null;
   $('app').innerHTML=`<div class="hero"><span class="mascot" aria-hidden="true">🐣</span><h1>نادي البراعم<span class="en">English Club Kids</span></h1><p>اضغط، واسمع، والعب، واجمع النجوم ⭐</p></div>
-    <h2 class="sec">🌱 أبدأ من هنا</h2><div class="tiles">${SECTIONS.slice(0,4).map(tile).join('')}</div>
-    <h2 class="sec">🖼️ كلمات بالصور</h2><div class="tiles">${SECTIONS.slice(4,4+TOPICS.length).map(tile).join('')}</div>
-    <h2 class="sec">🎉 تكلّم والعب</h2><div class="tiles">${SECTIONS.slice(4+TOPICS.length).map(tile).join('')}</div>`;
+    <h2 class="sec">🌱 أبدأ من هنا</h2><div class="tiles">${SECTIONS.slice(0,5).map(tile).join('')}</div>
+    <h2 class="sec">🖼️ كلمات بالصور</h2><div class="tiles">${SECTIONS.slice(5,5+TOPICS.length).map(tile).join('')}</div>
+    <h2 class="sec">🎉 تكلّم والعب</h2><div class="tiles">${SECTIONS.slice(5+TOPICS.length).map(tile).join('')}</div>`;
   document.querySelectorAll('.tile').forEach(b=>b.onclick=()=>open(b.dataset.id));
   window.scrollTo(0,0);
 }
@@ -173,6 +185,7 @@ let SEC=null,MODE='learn';
 function open(id){SEC=SECTIONS.find(s=>s.id===id);MODE='learn';
   $('topBtn').textContent='→ رجوع';$('topBtn').href='#';$('topBtn').onclick=e=>{e.preventDefault();speechSynthesis&&speechSynthesis.cancel();home();};
   if(id==='stk')return stickers();
+  if(id==='wr')return writer();
   draw();window.scrollTo(0,0);}
 function draw(){
   const s=SEC,list=items(s.id);
@@ -224,6 +237,192 @@ function stickers(){
     <p class="sub">كل 5 نجوم ⭐ = ملصق جديد! معك الآن ${have} من ${STICKERS.length}.</p>
     <div class="book">${STICKERS.map((s,i)=>`<span class="${i<have?'got':''}" aria-label="${i<have?'ملصق':'مقفل'}">${i<have?s:'❔'}</span>`).join('')}</div>
     ${have<STICKERS.length?`<p class="sub" style="margin-top:14px">باقي ${5-(STARS%5)} نجوم للملصق التالي 🎯</p>`:''}</div>`;
+  window.scrollTo(0,0);
+}
+/* ---------- write the letter: trace each stroke from the green dot, following the arrows ---------- */
+const KW=(()=>{
+const M=(x,y)=>['M',x,y],L=(x,y)=>['L',x,y],A=(cx,cy,rx,ry,a0,a1)=>['A',cx,cy,rx,ry,a0,a1],DOT=(x,y)=>[['D',x,y]];
+const SH={
+A:[[M(.6,0),L(0,2)],[M(.6,0),L(1.2,2)],[M(.24,1.3),L(.96,1.3)]],
+B:[[M(0,0),L(0,2)],[M(0,0),L(.55,0),A(.55,.5,.5,.5,-90,90),L(0,1),L(.6,1),A(.6,1.5,.5,.5,-90,90),L(0,2)]],
+C:[[A(.95,1,.95,1,-40,-320)]],
+D:[[M(0,0),L(0,2)],[M(0,0),L(.3,0),A(.3,1,.95,1,-90,90),L(0,2)]],
+E:[[M(0,0),L(0,2)],[M(0,0),L(1.1,0)],[M(0,1),L(.9,1)],[M(0,2),L(1.1,2)]],
+F:[[M(0,0),L(0,2)],[M(0,0),L(1.1,0)],[M(0,1),L(.9,1)]],
+G:[[A(.95,1,.95,1,-40,-360)],[M(1.9,1),L(1.1,1)]],
+H:[[M(0,0),L(0,2)],[M(1.2,0),L(1.2,2)],[M(0,1),L(1.2,1)]],
+I:[[M(.5,0),L(.5,2)],[M(0,0),L(1,0)],[M(0,2),L(1,2)]],
+J:[[M(1,0),L(1,1.45),A(.5,1.45,.5,.55,0,180)]],
+K:[[M(0,0),L(0,2)],[M(1.1,0),L(0,1.1),L(1.1,2)]],
+L:[[M(0,0),L(0,2),L(1,2)]],
+M:[[M(0,0),L(0,2)],[M(0,0),L(.75,2),L(1.5,0),L(1.5,2)]],
+N:[[M(0,0),L(0,2)],[M(0,0),L(1.2,2),L(1.2,0)]],
+O:[[A(.95,1,.95,1,-90,-450)]],
+P:[[M(0,0),L(0,2)],[M(0,0),L(.55,0),A(.55,.5,.5,.5,-90,90),L(0,1)]],
+Q:[[A(.95,1,.95,1,-90,-450)],[M(1.15,1.45),L(1.9,2.15)]],
+R:[[M(0,0),L(0,2)],[M(0,0),L(.55,0),A(.55,.5,.5,.5,-90,90),L(0,1)],[M(.45,1),L(1.15,2)]],
+S:[[A(.6,.5,.55,.5,-20,-270),A(.6,1.5,.6,.5,-90,160)]],
+T:[[M(.6,0),L(.6,2)],[M(0,0),L(1.2,0)]],
+U:[[M(0,0),L(0,1.4),A(.6,1.4,.6,.6,180,0),L(1.2,0)]],
+V:[[M(0,0),L(.6,2),L(1.2,0)]],
+W:[[M(0,0),L(.45,2),L(.9,0),L(1.35,2),L(1.8,0)]],
+X:[[M(0,0),L(1.2,2)],[M(1.2,0),L(0,2)]],
+Y:[[M(0,0),L(.6,1)],[M(1.2,0),L(.6,1),L(.6,2)]],
+Z:[[M(0,0),L(1.2,0),L(0,2),L(1.2,2)]],
+a:[[A(.5,1.5,.5,.5,-20,-380)],[M(1,1),L(1,2)]],
+b:[[M(0,0),L(0,2),L(0,1.5),A(.5,1.5,.5,.5,180,540)]],
+c:[[A(.5,1.5,.5,.5,-40,-320)]],
+d:[[A(.5,1.5,.5,.5,-20,-380)],[M(1,0),L(1,2)]],
+e:[[M(0,1.5),L(1,1.5),A(.5,1.5,.5,.5,0,-320)]],
+f:[[A(.75,.45,.35,.45,-20,-180),L(.4,2)],[M(0,1),L(.85,1)]],
+g:[[A(.5,1.5,.5,.5,-20,-380)],[M(1,1),L(1,2.55),A(.5,2.55,.5,.45,0,165)]],
+h:[[M(0,0),L(0,2),L(0,1.45),A(.5,1.45,.5,.45,180,360),L(1,2)]],
+i:[[M(.25,1),L(.25,2)],DOT(.25,.55)],
+j:[[M(.6,1),L(.6,2.55),A(.25,2.55,.35,.4,0,165)],DOT(.6,.55)],
+k:[[M(0,0),L(0,2)],[M(.9,1),L(0,1.55),L(.9,2)]],
+l:[[M(0,0),L(0,2)]],
+m:[[M(0,1),L(0,2),L(0,1.4),A(.4,1.4,.4,.4,180,360),L(.8,2),L(.8,1.4),A(1.2,1.4,.4,.4,180,360),L(1.6,2)]],
+n:[[M(0,1),L(0,2),L(0,1.45),A(.5,1.45,.5,.45,180,360),L(1,2)]],
+o:[[A(.5,1.5,.5,.5,-90,-450)]],
+p:[[M(0,1),L(0,3),L(0,1.5),A(.5,1.5,.5,.5,180,540)]],
+q:[[A(.5,1.5,.5,.5,-20,-380)],[M(1,1),L(1,3)]],
+r:[[M(0,1),L(0,2),L(0,1.5),A(.45,1.5,.45,.45,180,310)]],
+s:[[A(.5,1.25,.45,.25,-20,-270),A(.5,1.75,.5,.25,-90,160)]],
+t:[[M(.4,.35),L(.4,2)],[M(0,1),L(.85,1)]],
+u:[[M(0,1),L(0,1.55),A(.5,1.55,.5,.45,180,0),L(1,1),L(1,2)]],
+v:[[M(0,1),L(.5,2),L(1,1)]],
+w:[[M(0,1),L(.35,2),L(.7,1),L(1.05,2),L(1.4,1)]],
+x:[[M(0,1),L(1,2)],[M(1,1),L(0,2)]],
+y:[[M(0,1),L(.5,2)],[M(1,1),L(.15,3)]],
+z:[[M(0,1),L(1,1),L(0,2),L(1,2)]],
+'0':[[A(.6,1,.6,1,-90,-450)]],
+'1':[[M(.5,0),L(.5,2)]],
+'2':[[A(.55,.55,.55,.55,190,400),L(0,2),L(1.1,2)]],
+'3':[[A(.5,.5,.5,.5,200,450),A(.5,1.5,.5,.5,270,520)]],
+'4':[[M(.7,0),L(0,1.3),L(1.1,1.3)],[M(.8,0),L(.8,2)]],
+'5':[[M(.15,0),L(.1,.9),A(.5,1.4,.55,.6,229,500)],[M(.15,0),L(1,0)]],
+'6':[[A(.6,1,.55,1,-50,-200),A(.6,1.45,.52,.55,190,-170)]],
+'7':[[M(0,0),L(1.1,0),L(.35,2)]],
+'8':[[A(.55,.5,.45,.5,-30,-270),A(.55,1.5,.55,.5,270,630),A(.55,.5,.45,.5,90,-30)]],
+'9':[[A(.55,.55,.5,.55,-20,-380)],[M(1.05,.55),L(1.05,2)]]
+};
+function sample(cmds){
+  const pts=[];let cx=null,cy=null;
+  const push=(x,y)=>{pts.push([x,y]);cx=x;cy=y;};
+  const lineTo=(x,y)=>{if(cx===null){push(x,y);return;}const x0=cx,y0=cy,n=Math.max(1,Math.ceil(Math.hypot(x-x0,y-y0)/.04));for(let i=1;i<=n;i++)push(x0+(x-x0)*i/n,y0+(y-y0)*i/n);};
+  const rad=d=>d*Math.PI/180;
+  for(const c of cmds){
+    if(c[0]==='M'||c[0]==='D')push(c[1],c[2]);
+    else if(c[0]==='L')lineTo(c[1],c[2]);
+    else{const[,ax,ay,rx,ry,a0,a1]=c;lineTo(ax+rx*Math.cos(rad(a0)),ay+ry*Math.sin(rad(a0)));
+      const n=Math.max(8,Math.ceil(Math.abs(a1-a0)/4));for(let i=1;i<=n;i++){const a=rad(a0+(a1-a0)*i/n);push(ax+rx*Math.cos(a),ay+ry*Math.sin(a));}}
+  }
+  return pts;
+}
+
+
+return {SH,sample};
+})();
+let WSET='up',WIDX=0;
+function writer(){
+  const sets={up:LETTERS.map(l=>l[0]),lo:LETTERS.map(l=>l[0].toLowerCase()),dg:'0123456789'.split('')};
+  let done={up:[],lo:[],dg:[]};try{const s=JSON.parse(store.get('kd-write')||'null');if(s&&s.up)done=s;}catch(e){}
+  $('app').innerHTML=`<div class="panel"><h2>✍️ اكتب الحرف <span class="en" style="color:#E0457B">Write it!</span></h2>
+    <p class="sub">ابدأ من النقطة الخضراء 🟢 وامشِ بإصبعك مع الأسهم ➜</p>
+    <div class="modes" id="wSet" dir="ltr"><button data-s="up">A B C</button><button data-s="lo">a b c</button><button data-s="dg">1 2 3</button></div>
+    <div class="wrow" id="wChips" dir="ltr"></div>
+    <div class="wboard" id="wBoard"><canvas id="wG"></canvas><canvas id="wI"></canvas><div class="wpic" id="wPic"></div></div>
+    <p class="wmsg" id="wMsg"></p>
+    <div class="wbtns"><button id="wPrev">→ السابق</button><button id="wDemo">👀 شاهد</button><button id="wSay">🔊 اسمع</button><button id="wRe">🔁 من جديد</button><button id="wNext">التالي ←</button></div></div>`;
+  const board=$('wBoard'),gc=$('wG'),ic=$('wI'),g=gc.getContext('2d'),k=ic.getContext('2d');
+  let W=0,H=0,dpr=1,u=60,ty=0,penW=16,R=30,strokes=[],si=0,miss=0,active=false,cpi=0,live=[],lastP=null,noProg=0,demoing=false,raf=0;
+  const cur=()=>sets[WSET][WIDX],d2=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
+  const COL=['#FF7A1A','#2D9CDB','#D94BA0','#22A060','#8B5CF6'];
+  function word(){const c=cur();if(WSET==='dg')return null;return LETTERS.find(l=>l[0]===c.toUpperCase());}
+  function speak(){const c=cur();if(WSET==='dg'){const n=NUMBERS.find(n=>String(n[0])===c);return say(n?n[1]:'zero');}const l=word();say(c.toUpperCase()+' is for '+l[2]);}
+  function chips(){
+    $('wChips').innerHTML=sets[WSET].map((c,i)=>`<button class="wchip${i===WIDX?' on':''}${done[WSET].includes(c)?' ok':''}" data-i="${i}">${c}</button>`).join('');
+    $('wChips').querySelectorAll('button').forEach(b=>b.onclick=()=>go(+b.dataset.i));
+    const on=$('wChips').querySelector('.on');if(on)setTimeout(()=>{try{on.scrollIntoView({block:'nearest',inline:'center'});}catch(e){}},0);
+    $('wSet').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.s===WSET));
+    const l=word();$('wPic').innerHTML=l?`<span>${l[1]}</span><b class="en">${esc(l[2])}</b>`:'';
+  }
+  function build(){
+    const raw=KW.SH[cur()].map(cm=>({dot:cm[0][0]==='D',pts:KW.sample(cm)}));
+    let mn=1e9,mx=-1e9;raw.forEach(s=>s.pts.forEach(p=>{mn=Math.min(mn,p[0]);mx=Math.max(mx,p[0]);}));
+    const ox=W/2-(mn+mx)/2*u;
+    strokes=raw.map(s=>{const px=s.pts.map(p=>[ox+p[0]*u,ty+p[1]*u]),cum=[0];for(let i=1;i<px.length;i++)cum.push(cum[i-1]+d2(px[i],px[i-1]));return{dot:s.dot,px,cum,len:cum[cum.length-1]};});
+  }
+  function resize(){
+    const w=board.clientWidth;if(!w)return;W=w;H=Math.round(Math.min(430,Math.max(300,w*.9)));dpr=Math.min(window.devicePixelRatio||1,2);
+    board.style.height=H+'px';[gc,ic].forEach(c=>{c.width=Math.round(W*dpr);c.height=Math.round(H*dpr);});
+    u=Math.min((H-40)/3.2,(W-80)/1.95);ty=Math.round((H-3*u)/2)-4;penW=Math.max(16,u*.26);R=Math.max(28,u*.5);reset();
+  }
+  function poly(c,pts,col,w,n){if(!pts.length)return;c.strokeStyle=col;c.lineWidth=w;c.lineCap='round';c.lineJoin='round';c.beginPath();c.moveTo(pts[0][0],pts[0][1]);n=n==null?pts.length:n;for(let i=1;i<n;i++)c.lineTo(pts[i][0],pts[i][1]);if(n===1)c.lineTo(pts[0][0]+.1,pts[0][1]);c.stroke();}
+  function hline(y){g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke();}
+  function badge(p,n,fill,txt,r,border){g.fillStyle=fill;g.beginPath();g.arc(p[0],p[1],r,0,Math.PI*2);g.fill();if(border){g.strokeStyle=border;g.lineWidth=3;g.stroke();}
+    g.fillStyle=txt;g.font=`800 ${Math.round(r*1.2)}px "Baloo 2",Tahoma,sans-serif`;g.textAlign='center';g.textBaseline='middle';g.fillText(String(n),p[0],p[1]+1);}
+  const idxAt=(s,d)=>{let i=0;while(i<s.cum.length-1&&s.cum[i]<d)i++;return i;};
+  function arrows(s,col){const gap=Math.max(40,u*.7);g.strokeStyle=col;g.lineWidth=4;g.lineCap='round';g.lineJoin='round';
+    for(let d=gap*.8;d<s.len-gap*.25;d+=gap){const i=idxAt(s,d),a=s.px[Math.max(0,i-2)],b=s.px[Math.min(s.px.length-1,i+2)],p=s.px[i],ang=Math.atan2(b[1]-a[1],b[0]-a[0]),z=11;
+      g.beginPath();g.moveTo(p[0]-z*Math.cos(ang-.6),p[1]-z*Math.sin(ang-.6));g.lineTo(p[0],p[1]);g.lineTo(p[0]-z*Math.cos(ang+.6),p[1]-z*Math.sin(ang+.6));g.stroke();}}
+  function guide(){
+    g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);g.setLineDash([]);
+    g.strokeStyle='#F3C9D9';g.lineWidth=3;hline(ty);hline(ty+2*u);g.strokeStyle='#BFD9F2';g.setLineDash([12,10]);hline(ty+u);g.setLineDash([]);g.globalAlpha=.5;hline(ty+3*u);g.globalAlpha=1;
+    strokes.forEach((s,i)=>{const col=i<si?COL[i%COL.length]:'#EFE6D2';if(s.dot){g.fillStyle=col;g.beginPath();g.arc(s.px[0][0],s.px[0][1],penW*.6,0,Math.PI*2);g.fill();}else poly(g,s.px,col,penW*1.25);});
+    g.setLineDash([3,10]);strokes.forEach((s,i)=>{if(i>=si&&!s.dot)poly(g,s.px,'#B9AE95',3);});g.setLineDash([]);
+    for(let i=strokes.length-1;i>si;i--)badge(strokes[i].px[0],i+1,'#fff','#8A8070',13,'#B9AE95');
+    if(si<strokes.length){const s=strokes[si];if(!s.dot)arrows(s,'#E0457B');badge(s.px[0],si+1,'#22A060','#fff',18,'#2A2440');}
+  }
+  const clearInk=()=>{k.setTransform(dpr,0,0,dpr,0,0);k.clearRect(0,0,W,H);};
+  const drawLive=col=>{clearInk();poly(k,live,col||COL[si%COL.length],penW);};
+  const msg=(h,c)=>{const m=$('wMsg');m.innerHTML=h;m.className='wmsg '+(c||'');};
+  function reset(){demoing=false;cancelAnimationFrame(raf);active=false;si=0;miss=0;live=[];build();guide();clearInk();}
+  function complete(){
+    live=[];si++;clearInk();guide();
+    if(si<strokes.length){window.clubSfx&&clubSfx('good');msg(`👍 رائع! الآن الخط رقم ${si+1}`,'ok');return;}
+    const st=miss===0?3:miss<=2?2:1;
+    msg(`<span dir="ltr">${'⭐'.repeat(st)}</span> ${['أحسنت! جرّب مرة أخرى','جميل جداً!','ممتاز! 🏆'][st-1]}`,'ok');
+    window.clubSfx&&clubSfx('win');const b=board.getBoundingClientRect();burst(b.left+b.width/2,b.top+b.height/2);
+    setTimeout(speak,400);
+    if(!done[WSET].includes(cur())){done[WSET].push(cur());store.set('kd-write',JSON.stringify(done));addStars(1);}
+    chips();
+  }
+  function fail(t){active=false;miss++;window.clubSfx&&clubSfx('bad');msg(t,'no');drawLive('#E5484D');setTimeout(()=>{if(!active&&!demoing)clearInk();},450);}
+  function advance(q){const s=strokes[si],ahead=Math.max(R*1.3,u*.5);let i=idxAt(s,cpi),best=-1,bd=1e9;
+    for(;i<s.px.length&&s.cum[i]<=cpi+ahead;i++){const d=d2(q,s.px[i]);if(d<bd-.5){bd=d;best=i;}}
+    if(best>=0&&bd<R&&s.cum[best]>cpi){cpi=s.cum[best];noProg=0;}}
+  const finished=sl=>cpi>=strokes[si].len-R*sl;
+  function pos(e){const r=ic.getBoundingClientRect();return[(e.clientX-r.left)*W/r.width,(e.clientY-r.top)*H/r.height];}
+  ic.addEventListener('pointerdown',e=>{e.preventDefault();if(demoing||si>=strokes.length)return;const p=pos(e),s=strokes[si];
+    if(d2(p,s.px[0])>R*1.2){miss++;window.clubSfx&&clubSfx('bad');msg(`ابدأ من النقطة الخضراء 🟢 رقم ${si+1}`,'no');return;}
+    if(s.dot){complete();return;}try{ic.setPointerCapture(e.pointerId);}catch(_){}
+    active=true;cpi=0;live=[p];lastP=p;noProg=0;msg('','');advance(p);drawLive();});
+  ic.addEventListener('pointermove',e=>{if(!active)return;const p=pos(e),s=strokes[si];noProg+=d2(p,lastP);
+    const n=Math.max(1,Math.ceil(d2(p,lastP)/6));for(let j=1;j<=n;j++)advance([lastP[0]+(p[0]-lastP[0])*j/n,lastP[1]+(p[1]-lastP[1])*j/n]);
+    lastP=p;live.push(p);drawLive();
+    if(finished(.4)&&d2(p,s.px[s.px.length-1])<R){active=false;complete();return;}
+    let dm=1e9;for(const q of s.px){const d=d2(p,q);if(d<dm)dm=d;}
+    if(dm>R*2)return fail('خرجت عن الطريق 🙂 ابدأ هذا الخط من جديد');
+    if(noProg>Math.max(R*3,u*1.2))return fail('امشِ مع الأسهم ➜');});
+  ['pointerup','pointercancel'].forEach(t=>ic.addEventListener(t,()=>{if(!active)return;active=false;const s=strokes[si];
+    if(finished(1.3)&&d2(lastP,s.px[s.px.length-1])<R*1.5)complete();else fail('أكمل الخط حتى آخره قبل أن ترفع إصبعك ☝️');}));
+  function demo(){reset();demoing=true;msg('👀 شاهد كيف نكتبه…','');const sp=Math.max(150,u*2.1);let i=0,t=0,pause=.3,prev=performance.now();
+    function part(s,len,col){if(s.dot){k.fillStyle=col;k.beginPath();k.arc(s.px[0][0],s.px[0][1],penW*.6,0,Math.PI*2);k.fill();return s.px[0];}const n=Math.max(1,idxAt(s,len)+1);poly(k,s.px,col,penW,n);return s.px[n-1];}
+    function fr(now){if(!demoing)return;const dt=Math.min(.05,(now-prev)/1000);prev=now;
+      if(pause>0)pause-=dt;else if(i<strokes.length){t+=dt*sp;const s=strokes[i];if(s.dot||t>=s.len){i++;t=0;pause=.4;}}
+      clearInk();for(let j=0;j<Math.min(i,strokes.length);j++)part(strokes[j],strokes[j].len,COL[j%COL.length]);
+      if(i<strokes.length){const h=part(strokes[i],t,COL[i%COL.length]);k.font=`${Math.round(u*.45)}px sans-serif`;k.textAlign='center';k.textBaseline='middle';k.fillText('✏️',h[0]+u*.15,h[1]-u*.15);}
+      if(i>=strokes.length&&pause<=0){demoing=false;setTimeout(()=>{clearInk();guide();msg('دورك الآن! ابدأ من النقطة الخضراء 🟢','');},500);return;}
+      raf=requestAnimationFrame(fr);}
+    raf=requestAnimationFrame(fr);}
+  function go(i){const n=sets[WSET].length;WIDX=(i+n)%n;msg('','');chips();reset();}
+  $('wDemo').onclick=demo;$('wRe').onclick=()=>{reset();msg('','');};$('wSay').onclick=speak;
+  $('wNext').onclick=()=>go(WIDX+1);$('wPrev').onclick=()=>go(WIDX-1);
+  $('wSet').querySelectorAll('button').forEach(b=>b.onclick=()=>{WSET=b.dataset.s;WIDX=0;chips();reset();msg('','');});
+  chips();resize();
+  if(!window._kwRs){window._kwRs=1;let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if($('wBoard'))writer.resize&&writer.resize();},150);});}
+  writer.resize=resize;
   window.scrollTo(0,0);
 }
 home();
