@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>نادي البراعم · English Club Kids</title>
+<meta name="description" content="English for young learners: letters, numbers, colors, shapes, words with pictures and simple phrases — with sound and games.">
+<meta name="theme-color" content="#FFF6D9">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Tajawal:wght@500;700;800&display=swap">
+<script src="../assets/sfx.js?v=7"></script>
+<style>
+/* Kids club: big picture cards, sound on every tap, short "listen and touch" games with stars and stickers. */
+:root{color-scheme:light;--bg:#FFF9EC;--card:#fff;--ink:#2A2440;--muted:#6B6585;--line:#F1E6CC;--ok:#22A060;--bad:#E5484D;
+  --ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Baloo 2","Comic Sans MS","Segoe UI",system-ui,sans-serif;--ease:cubic-bezier(.2,.8,.2,1.2)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg)}
+body{color:var(--ink);font-family:var(--ar);font-size:20px;line-height:1.6;padding-bottom:env(safe-area-inset-bottom,0px);
+  background-image:radial-gradient(#FBE7B4 1.4px,transparent 1.4px);background-size:26px 26px}
+[hidden]{display:none!important}
+.en{font-family:var(--en);direction:ltr;unicode-bidi:isolate}
+.wrap{max-width:980px;margin:0 auto;padding:16px 14px 90px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+.homeBtn,.backBtn{font:inherit;font-weight:800;border:3px solid var(--ink);background:#fff;border-radius:999px;padding:6px 16px;cursor:pointer;color:var(--ink);text-decoration:none;box-shadow:3px 3px 0 var(--ink);font-size:1rem}
+.stars{font-family:var(--en);font-weight:800;font-size:1.3rem;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:2px 16px;box-shadow:3px 3px 0 var(--ink)}
+.hero{text-align:center;margin:8px 0 18px}
+.hero .mascot{font-size:4.2rem;line-height:1;display:inline-block;animation:bob 2.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-4deg)}}
+.hero h1{margin:6px 0 0;font-size:clamp(2.1rem,8vw,3rem);line-height:1.15}
+.hero h1 .en{display:block;font-size:.62em;color:#FF7A1A}
+.hero p{margin:6px 0 0;color:var(--muted)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.tile{all:unset;box-sizing:border-box;cursor:pointer;background:var(--t,#fff);border:3px solid var(--ink);border-radius:26px;padding:14px 8px 12px;text-align:center;box-shadow:5px 5px 0 var(--ink);transition:transform .15s var(--ease)}
+.tile:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
+.tile:focus-visible{outline:4px solid #FF7A1A;outline-offset:3px}
+.tile .i{display:block;font-size:3rem;line-height:1.2}
+.tile b{display:block;font-size:1.25rem;line-height:1.3}
+.tile .en{display:block;font-size:1.05rem;color:var(--c,#555);font-weight:800}
+h2.sec{font-size:1.4rem;margin:26px 4px 12px}
+.panel h2{margin:4px 0 4px;font-size:1.6rem;text-align:center}
+.panel .sub{text-align:center;color:var(--muted);margin:0 0 14px}
+.modes{display:flex;justify-content:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.modes button{font:inherit;font-weight:800;font-size:1.1rem;border:3px solid var(--ink);background:#fff;border-radius:999px;padding:8px 20px;cursor:pointer;color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
+.modes button[aria-pressed=true]{background:#FFD23F}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
+.card{all:unset;box-sizing:border-box;cursor:pointer;background:#fff;border:3px solid var(--line);border-radius:22px;padding:10px 6px;text-align:center;transition:transform .15s var(--ease),border-color .2s}
+.card:hover{border-color:var(--ink)}
+.card.pop{animation:pop .45s var(--ease)}
+@keyframes pop{40%{transform:scale(1.12) rotate(-3deg)}}
+.card .big{display:block;font-size:3.2rem;line-height:1.25}
+.card .w{display:block;font-family:var(--en);font-weight:800;font-size:1.35rem;direction:ltr;line-height:1.2}
+.card .a{display:block;color:var(--muted);font-size:1rem}
+.letter{font-family:var(--en);font-weight:800;font-size:3rem;line-height:1.1;direction:ltr;display:block}
+.blob{width:72px;height:72px;border-radius:50%;margin:4px auto;border:3px solid var(--ink);display:block}
+.shape svg{width:78px;height:78px;display:block;margin:2px auto}
+.shape svg *{fill:var(--sc,#FF7A1A);stroke:var(--ink);stroke-width:4;stroke-linejoin:round}
+.phr{display:grid;gap:10px}
+.ph{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:12px;background:#fff;border:3px solid var(--line);border-radius:20px;padding:10px 14px}
+.ph .big{font-size:2.4rem;flex:none}
+.ph .w{font-family:var(--en);font-weight:800;font-size:1.35rem;direction:ltr;text-align:left;flex:1}
+.ph .a{color:var(--muted);font-size:1rem;flex:none;max-width:42%}
+.ph.pop{animation:pop .45s var(--ease)}
+/* game */
+.game{text-align:center}
+.gtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:800}
+.dots{display:flex;gap:6px}.dots i{width:14px;height:14px;border-radius:50%;background:#EDE3C8;border:2px solid var(--ink)}.dots i.on{background:#FFD23F}
+.ask{font-size:1.25rem;font-weight:800;margin:6px 0 10px}
+.again{font:inherit;font-weight:800;font-size:1.2rem;border:3px solid var(--ink);background:#FF7A1A;color:#fff;border-radius:999px;padding:10px 26px;cursor:pointer;box-shadow:4px 4px 0 var(--ink);margin-bottom:16px}
+.count{font-size:2.6rem;line-height:1.3;letter-spacing:4px;margin:0 0 14px;direction:ltr}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:460px;margin:0 auto}
+.opt{all:unset;box-sizing:border-box;cursor:pointer;background:#fff;border:3px solid var(--ink);border-radius:24px;min-height:130px;display:grid;place-items:center;box-shadow:4px 4px 0 var(--ink);padding:8px}
+.opt .big{font-size:3.6rem;line-height:1}
+.opt .letter{font-size:3.6rem}
+.opt.right{background:#DFF7E8;border-color:var(--ok);animation:pop .45s var(--ease)}
+.opt.wrong{background:#FDE4E4;border-color:var(--bad);animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.done{text-align:center;padding:10px}
+.done .big{font-size:5rem;line-height:1.2}
+.done h3{font-size:1.8rem;margin:6px 0}
+.burst{position:fixed;pointer-events:none;font-size:2rem;z-index:50;animation:fly 1s ease-out forwards}
+@keyframes fly{to{transform:translate(var(--dx),var(--dy)) scale(.6);opacity:0}}
+.book{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:10px}
+.book span{background:#fff;border:3px dashed #E8D9B5;border-radius:18px;font-size:2.6rem;display:grid;place-items:center;aspect-ratio:1}
+.book span.got{border:3px solid var(--ink);background:#FFF3C4}
+.book span:not(.got){filter:grayscale(1);opacity:.35}
+.acc{display:flex;justify-content:center;gap:6px;margin-top:20px;color:var(--muted);font-size:1rem;align-items:center}
+.acc button{font:inherit;font-weight:800;border:2px solid var(--ink);background:#fff;border-radius:12px;padding:3px 12px;cursor:pointer}
+.acc button[aria-pressed=true]{background:var(--ink);color:#fff}
+footer{text-align:center;color:var(--muted);font-size:.95rem;margin-top:26px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a class="homeBtn" id="topBtn" href="../index.html">🏠 النادي</a><span class="stars" id="stars">⭐ 0</span></div>
+  <main id="app"></main>
+  <div class="acc">النطق: <button data-a="en-US">US</button><button data-a="en-GB">UK</button></div>
+  <footer>نادي البراعم · إعداد أ. أحمد آل سالم — نادي اللغة الإنجليزية، ثانوية الأمير فيصل بالعقيق</footer>
+</div>
+<script>
+const LETTERS=[['A','🍎','apple','تفاحة'],['B','⚽','ball','كرة'],['C','🐱','cat','قطة'],['D','🐶','dog','كلب'],['E','🥚','egg','بيضة'],['F','🐟','fish','سمكة'],['G','🍇','grapes','عنب'],['H','🏠','house','بيت'],['I','🍦','ice cream','آيس كريم'],['J','🧃','juice','عصير'],['K','🪁','kite','طائرة ورقية'],['L','🦁','lion','أسد'],['M','🌙','moon','قمر'],['N','👃','nose','أنف'],['O','🍊','orange','برتقالة'],['P','✏️','pencil','قلم رصاص'],['Q','👑','queen','ملكة'],['R','🌈','rainbow','قوس قزح'],['S','☀️','sun','شمس'],['T','🌳','tree','شجرة'],['U','☂️','umbrella','مظلة'],['V','🚐','van','شاحنة صغيرة'],['W','💧','water','ماء'],['X','🩻','x-ray','أشعة سينية'],['Y','🪀','yo-yo','يويو'],['Z','🦓','zebra','حمار وحشي']];
+const NUMBERS=[[1,'one','واحد'],[2,'two','اثنان'],[3,'three','ثلاثة'],[4,'four','أربعة'],[5,'five','خمسة'],[6,'six','ستة'],[7,'seven','سبعة'],[8,'eight','ثمانية'],[9,'nine','تسعة'],[10,'ten','عشرة'],[11,'eleven','أحد عشر'],[12,'twelve','اثنا عشر'],[13,'thirteen','ثلاثة عشر'],[14,'fourteen','أربعة عشر'],[15,'fifteen','خمسة عشر'],[16,'sixteen','ستة عشر'],[17,'seventeen','سبعة عشر'],[18,'eighteen','ثمانية عشر'],[19,'nineteen','تسعة عشر'],[20,'twenty','عشرون']];
+const COLORS=[['red','أحمر','#E53935','🍎'],['blue','أزرق','#1E88E5','🐳'],['green','أخضر','#43A047','🐸'],['yellow','أصفر','#FDD835','🍌'],['orange','برتقالي','#FB8C00','🍊'],['purple','بنفسجي','#8E24AA','🍇'],['pink','وردي','#EC407A','🌸'],['brown','بني','#795548','🐻'],['black','أسود','#212121','🎩'],['white','أبيض','#FFFFFF','☁️'],['gray','رمادي','#9E9E9E','🐘']];
+const SHAPES=[['circle','دائرة','<circle cx="50" cy="50" r="38"/>'],['square','مربع','<rect x="14" y="14" width="72" height="72" rx="4"/>'],['triangle','مثلث','<path d="M50 10 L90 86 H10 Z"/>'],['rectangle','مستطيل','<rect x="6" y="26" width="88" height="48" rx="4"/>'],['star','نجمة','<path d="M50 6 L61 38 H95 L67 58 L78 92 L50 71 L22 92 L33 58 L5 38 H39 Z"/>'],['heart','قلب','<path d="M50 88 C10 60 6 34 22 22 C34 13 46 20 50 30 C54 20 66 13 78 22 C94 34 90 60 50 88 Z"/>'],['oval','بيضاوي','<ellipse cx="50" cy="50" rx="44" ry="28"/>'],['diamond','معيّن','<path d="M50 6 L90 50 L50 94 L10 50 Z"/>']];
+const TOPICS=[
+ {id:'animals',ic:'🦁',ar:'الحيوانات',en:'Animals',c:'#F59E0B',t:'#FFF4DD',w:[['🐶','dog','كلب'],['🐱','cat','قطة'],['🐄','cow','بقرة'],['🐴','horse','حصان'],['🐪','camel','جمل'],['🦁','lion','أسد'],['🐘','elephant','فيل'],['🐒','monkey','قرد'],['🐦','bird','عصفور'],['🐟','fish','سمكة'],['🐰','rabbit','أرنب'],['🦆','duck','بطة']]},
+ {id:'family',ic:'👨‍👩‍👧‍👦',ar:'الأسرة',en:'Family',c:'#EC4899',t:'#FDECF4',w:[['👩','mother','أم'],['👨','father','أب'],['👧','sister','أخت'],['👦','brother','أخ'],['👶','baby','طفل رضيع'],['👵','grandmother','جدة'],['👴','grandfather','جد'],['👨‍👩‍👧‍👦','family','أسرة']]},
+ {id:'food',ic:'🍎',ar:'الطعام',en:'Food',c:'#EF4444',t:'#FDECEC',w:[['🍎','apple','تفاحة'],['🍌','banana','موزة'],['🍊','orange','برتقالة'],['🍇','grapes','عنب'],['🍞','bread','خبز'],['🥛','milk','حليب'],['🥚','egg','بيضة'],['🍚','rice','أرز'],['💧','water','ماء'],['🧃','juice','عصير'],['🍰','cake','كعكة'],['🥕','carrot','جزرة']]},
+ {id:'school',ic:'🎒',ar:'المدرسة',en:'School',c:'#3B82F6',t:'#E6F0FE',w:[['📖','book','كتاب'],['🖊️','pen','قلم'],['✏️','pencil','قلم رصاص'],['🎒','bag','حقيبة'],['📏','ruler','مسطرة'],['✂️','scissors','مقص'],['🪑','chair','كرسي'],['🕒','clock','ساعة'],['💻','computer','حاسوب'],['🧑‍🏫','teacher','معلم'],['🏫','school','مدرسة'],['🖍️','crayon','قلم تلوين']]},
+ {id:'body',ic:'✋',ar:'الجسم',en:'My Body',c:'#14B8A6',t:'#E2F7F4',w:[['👁️','eye','عين'],['👂','ear','أذن'],['👃','nose','أنف'],['👄','mouth','فم'],['✋','hand','يد'],['🦶','foot','قدم'],['🦵','leg','ساق'],['🦷','tooth','سن'],['💪','arm','ذراع'],['🙂','face','وجه']]},
+ {id:'clothes',ic:'👕',ar:'الملابس',en:'Clothes',c:'#8B5CF6',t:'#F0EBFE',w:[['👕','shirt','قميص'],['👖','trousers','بنطال'],['👗','dress','فستان'],['👟','shoes','حذاء'],['🧢','cap','قبعة'],['🧦','socks','جوارب'],['🧥','coat','معطف'],['🧣','scarf','وشاح'],['🧤','gloves','قفازات']]},
+ {id:'weather',ic:'🌦️',ar:'الطقس',en:'Weather',c:'#0EA5E9',t:'#E3F4FC',w:[['☀️','sunny','مشمس'],['🌧️','rainy','ممطر'],['☁️','cloudy','غائم'],['💨','windy','عاصف'],['❄️','snowy','مثلج'],['🥵','hot','حار'],['🥶','cold','بارد'],['🌈','rainbow','قوس قزح']]},
+ {id:'transport',ic:'🚌',ar:'المواصلات',en:'Transport',c:'#22C55E',t:'#E6F8EC',w:[['🚗','car','سيارة'],['🚌','bus','حافلة'],['✈️','plane','طائرة'],['🚲','bike','دراجة'],['⛵','boat','قارب'],['🚆','train','قطار'],['🚕','taxi','سيارة أجرة'],['🚑','ambulance','سيارة إسعاف']]}
+];
+const PHRASES=[['👋','Hello!','مرحباً!'],['🌅','Good morning!','صباح الخير!'],['🙋','What is your name?','ما اسمك؟'],['😊','My name is Ali.','اسمي علي.'],['🎂','How old are you?','كم عمرك؟'],['🔟','I am ten.','عمري عشر سنوات.'],['🤗','How are you?','كيف حالك؟'],['👍','I am fine, thank you.','أنا بخير، شكراً لك.'],['🙏','Thank you!','شكراً لك!'],['🎨','What color is it?','ما لونه؟'],['🔴','It is red.','إنه أحمر.'],['❤️','I like apples.','أحب التفاح.'],['👩','This is my mother.','هذه أمي.'],['🐱','I have a cat.','لدي قطة.'],['🚪','Can I go out, please?','هل أستطيع الخروج من فضلك؟'],['🌙','Good night!','تصبح على خير!'],['🚶','Goodbye!','مع السلامة!']];
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const STICKERS=['🦄','🚀','🐬','🦋','🍭','🏆','🌟','🎈','🐼','🦖','🍉','🎨','🐠','🌻','🧸','🎁','🐢','🦒','🍩','⚽'];
+
+/* stars & stickers (saved on this device only) */
+let STARS=+(store.get('kd-stars')||0);
+function addStars(n){STARS+=n;store.set('kd-stars',String(STARS));drawStars();}
+function drawStars(){$('stars').textContent='⭐ '+STARS;}
+drawStars();
+
+/* voice: a little slower for children */
+let ACC=store.get('kd-accent')||'en-US',voices=[];
+const loadV=()=>{try{voices=speechSynthesis.getVoices()||[]}catch(e){}};
+if('speechSynthesis' in window){loadV();speechSynthesis.onvoiceschanged=loadV;}
+function say(t,rate){if(!('speechSynthesis' in window))return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang=ACC;u.rate=rate||.78;u.pitch=1.1;
+  const v=voices.find(v=>v.lang===ACC)||voices.find(v=>(v.lang||'').replace('_','-').startsWith(ACC));if(v)u.voice=v;speechSynthesis.speak(u);}catch(e){}}
+document.querySelectorAll('.acc button').forEach(b=>{b.setAttribute('aria-pressed',b.dataset.a===ACC);b.onclick=()=>{ACC=b.dataset.a;store.set('kd-accent',ACC);document.querySelectorAll('.acc button').forEach(x=>x.setAttribute('aria-pressed',x===b));say('Hello!');};});
+function pop(el){el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop');}
+function burst(x,y){for(let i=0;i<10;i++){const s=document.createElement('span');s.className='burst';s.textContent=['⭐','✨','🎉','💛'][i%4];s.style.left=x+'px';s.style.top=y+'px';
+  s.style.setProperty('--dx',(Math.random()*240-120)+'px');s.style.setProperty('--dy',(Math.random()*-220-40)+'px');document.body.appendChild(s);setTimeout(()=>s.remove(),1000);}}
+
+/* ---------- sections ---------- */
+const SECTIONS=[
+  {id:'abc',ic:'🔤',ar:'الحروف',en:'ABC',c:'#FF7A1A',t:'#FFEBD9'},
+  {id:'num',ic:'🔢',ar:'الأرقام',en:'Numbers',c:'#2D9CDB',t:'#E3F2FC'},
+  {id:'col',ic:'🎨',ar:'الألوان',en:'Colors',c:'#D94BA0',t:'#FCE6F2'},
+  {id:'shp',ic:'🔷',ar:'الأشكال',en:'Shapes',c:'#5B5BD6',t:'#ECECFC'},
+  ...TOPICS.map(t=>({id:'t-'+t.id,ic:t.ic,ar:t.ar,en:t.en,c:t.c,t:t.t,topic:t})),
+  {id:'phr',ic:'💬',ar:'جمل وتحيات',en:'Say it!',c:'#12A36E',t:'#E1F6EC'},
+  {id:'stk',ic:'🧸',ar:'ملصقاتي',en:'Stickers',c:'#B7791F',t:'#FFF3C4'}
+];
+function home(){
+  $('topBtn').textContent='🏠 النادي';$('topBtn').href='../index.html';$('topBtn').onclick=null;
+  $('app').innerHTML=`<div class="hero"><span class="mascot" aria-hidden="true">🐣</span><h1>نادي البراعم<span class="en">English Club Kids</span></h1><p>اضغط، واسمع، والعب، واجمع النجوم ⭐</p></div>
+    <h2 class="sec">🌱 أبدأ من هنا</h2><div class="tiles">${SECTIONS.slice(0,4).map(tile).join('')}</div>
+    <h2 class="sec">🖼️ كلمات بالصور</h2><div class="tiles">${SECTIONS.slice(4,4+TOPICS.length).map(tile).join('')}</div>
+    <h2 class="sec">🎉 تكلّم والعب</h2><div class="tiles">${SECTIONS.slice(4+TOPICS.length).map(tile).join('')}</div>`;
+  document.querySelectorAll('.tile').forEach(b=>b.onclick=()=>open(b.dataset.id));
+  window.scrollTo(0,0);
+}
+function tile(s){const best=+(store.get('kd-best-'+s.id)||0);return `<button class="tile" data-id="${s.id}" style="--c:${s.c};--t:${s.t}"><span class="i" aria-hidden="true">${s.ic}</span><b>${s.ar}</b><span class="en">${s.en}</span>${best?`<span style="font-size:.9rem">${'⭐'.repeat(Math.min(3,Math.ceil(best/2)))}</span>`:''}</button>`;}
+
+/* items per section: {big (html), word to say, label, ar, sub} */
+function items(id){
+  if(id==='abc')return LETTERS.map(l=>({key:l[0],big:`<span class="letter">${l[0]} ${l[0].toLowerCase()}</span><span class="big" style="font-size:2.2rem">${l[1]}</span>`,opt:`<span class="letter">${l[0]}</span>`,say:l[0]+'. '+l[2],q:l[0],w:l[2],a:l[3]}));
+  if(id==='num')return NUMBERS.map(n=>({key:n[0],big:`<span class="letter">${n[0]}</span>`,opt:`<span class="letter">${n[0]}</span>`,say:n[1],q:n[1],w:n[1],a:n[2]}));
+  if(id==='col')return COLORS.map(c=>({key:c[0],big:`<span class="blob" style="background:${c[2]}"></span><span class="big" style="font-size:1.8rem">${c[3]}</span>`,opt:`<span class="blob" style="background:${c[2]};width:84px;height:84px"></span>`,say:c[0],q:c[0],w:c[0],a:c[1]}));
+  if(id==='shp')return SHAPES.map((s,i)=>{const col=['#FF7A1A','#2D9CDB','#22C55E','#D94BA0','#FFD23F','#E53935','#8B5CF6','#14B8A6'][i];const svg=`<span class="shape" style="--sc:${col}"><svg viewBox="0 0 100 100">${s[2]}</svg></span>`;return {key:s[0],big:svg,opt:svg,say:s[0],q:s[0],w:s[0],a:s[1]};});
+  if(id.startsWith('t-')){const t=TOPICS.find(x=>'t-'+x.id===id);return t.w.map(w=>({key:w[1],big:`<span class="big">${w[0]}</span>`,opt:`<span class="big">${w[0]}</span>`,say:w[1],q:w[1],w:w[1],a:w[2]}));}
+  if(id==='phr')return PHRASES.map((p,i)=>({key:i,big:`<span class="big">${p[0]}</span>`,opt:`<span class="big">${p[0]}</span>`,say:p[1],q:p[1],w:p[1],a:p[2]}));
+  return [];
+}
+let SEC=null,MODE='learn';
+function open(id){SEC=SECTIONS.find(s=>s.id===id);MODE='learn';
+  $('topBtn').textContent='→ رجوع';$('topBtn').href='#';$('topBtn').onclick=e=>{e.preventDefault();speechSynthesis&&speechSynthesis.cancel();home();};
+  if(id==='stk')return stickers();
+  draw();window.scrollTo(0,0);}
+function draw(){
+  const s=SEC,list=items(s.id);
+  $('app').innerHTML=`<div class="panel"><h2>${s.ic} ${s.ar} <span class="en" style="color:${s.c}">${s.en}</span></h2>
+    <div class="modes"><button data-m="learn" aria-pressed="${MODE==='learn'}">👀 تعلّم</button><button data-m="play" aria-pressed="${MODE==='play'}">🎮 العب</button></div><div id="pn"></div></div>`;
+  document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>{MODE=b.dataset.m;draw();});
+  if(MODE==='play')return game(list);
+  if(s.id==='phr'){
+    $('pn').innerHTML=`<p class="sub">اضغط على الجملة لتسمعها، ثم قلها بصوت عالٍ 🗣️</p><div class="phr">${list.map((x,i)=>`<button class="ph" data-i="${i}">${x.big}<span class="w">${esc(x.w)}</span><span class="a">${esc(x.a)}</span></button>`).join('')}</div>`;
+    $('pn').querySelectorAll('.ph').forEach(b=>b.onclick=()=>{say(list[+b.dataset.i].say,.8);pop(b);});return;
+  }
+  $('pn').innerHTML=`<p class="sub">اضغط على البطاقة لتسمعها 🔊</p><div class="cards">${list.map((x,i)=>`<button class="card" data-i="${i}">${x.big}${s.id==='abc'?`<span class="w">${esc(x.w)}</span>`:s.id==='num'?`<span class="w">${esc(x.w)}</span>`:`<span class="w">${esc(x.w)}</span>`}<span class="a">${esc(x.a)}</span></button>`).join('')}</div>`;
+  $('pn').querySelectorAll('.card').forEach(b=>b.onclick=()=>{say(list[+b.dataset.i].say);pop(b);});
+}
+/* "listen and touch" game: 6 rounds, 4 choices; a star for each first-try answer */
+function game(list){
+  const N=Math.min(6,list.length),rounds=shuffle(list).slice(0,N);let r=0,got=0,first=true;
+  function round(){
+    if(r>=N)return finish();
+    const x=rounds[r],opts=shuffle([x,...shuffle(list.filter(y=>y!==x)).slice(0,3)]);first=true;
+    const numPic=SEC.id==='num'&&x.key<=10;
+    $('pn').innerHTML=`<div class="game"><div class="gtop"><div class="dots">${rounds.map((_,i)=>`<i class="${i<r?'on':''}"></i>`).join('')}</div><span>⭐ ${got}</span></div>
+      ${numPic?`<p class="ask">كم عددها؟ اسمع واختر 👂</p><div class="count">${'🍎'.repeat(x.key)}</div>`:`<p class="ask">${SEC.id==='phr'?'اسمع الجملة واختر الصورة المناسبة 👂':'اسمع واختر 👂'}</p>`}
+      <button class="again" id="again">🔊 اسمع مرة أخرى</button>
+      <div class="opts">${opts.map(o=>`<button class="opt" data-k="${esc(String(o.key))}" aria-label="${esc(o.w)}">${o.opt}</button>`).join('')}</div></div>`;
+    const play=()=>say(SEC.id==='abc'?x.q:x.say);setTimeout(play,350);$('again').onclick=play;
+    $('pn').querySelectorAll('.opt').forEach(b=>b.onclick=e=>{
+      if(b.dataset.k===String(x.key)){b.classList.add('right');if(first)got++;const r0=b.getBoundingClientRect();burst(r0.left+r0.width/2,r0.top+r0.height/2);
+        $('pn').querySelectorAll('.opt').forEach(c=>c.disabled=true);setTimeout(()=>{say(SEC.id==='abc'?x.q+'. '+x.w:x.say);},150);setTimeout(()=>{r++;round();},1500);}
+      else{first=false;b.classList.add('wrong');setTimeout(()=>b.classList.remove('wrong'),450);say(SEC.id==='abc'?x.q:x.say);}
+    });
+  }
+  function finish(){
+    addStars(got);const key='kd-best-'+SEC.id;store.set(key,String(Math.max(got,+(store.get(key)||0))));
+    const msg=got===N?'ممتاز! 🏆':got>=N-2?'أحسنت! 👏':'جيد! حاول مرة أخرى 💪';
+    const newSt=Math.floor(STARS/5)>Math.floor((STARS-got)/5);
+    $('pn').innerHTML=`<div class="done"><div class="big">${got===N?'🏆':'🌟'}</div><h3>${msg}</h3><p style="font-size:1.6rem;margin:0" dir="ltr">${'⭐'.repeat(got)}${'☆'.repeat(N-got)}</p>
+      ${newSt?`<p style="font-weight:800;color:#B7791F">🎁 حصلت على ملصق جديد! افتحه في «ملصقاتي».</p>`:''}
+      <button class="again" id="more">🔁 العب مرة أخرى</button></div>`;
+    $('more').onclick=()=>game(list);
+    if(got>=N-1){const b=$('pn').querySelector('.big').getBoundingClientRect();burst(b.left+b.width/2,b.top+40);}
+  }
+  round();
+}
+/* sticker book: one sticker for every 5 stars */
+function stickers(){
+  const have=Math.min(STICKERS.length,Math.floor(STARS/5));
+  $('app').innerHTML=`<div class="panel"><h2>🧸 ملصقاتي <span class="en" style="color:#B7791F">Stickers</span></h2>
+    <p class="sub">كل 5 نجوم ⭐ = ملصق جديد! معك الآن ${have} من ${STICKERS.length}.</p>
+    <div class="book">${STICKERS.map((s,i)=>`<span class="${i<have?'got':''}" aria-label="${i<have?'ملصق':'مقفل'}">${i<have?s:'❔'}</span>`).join('')}</div>
+    ${have<STICKERS.length?`<p class="sub" style="margin-top:14px">باقي ${5-(STARS%5)} نجوم للملصق التالي 🎯</p>`:''}</div>`;
+  window.scrollTo(0,0);
+}
+home();
+</script>
+</body>
+</html>
