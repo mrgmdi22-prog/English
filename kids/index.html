@@ -118,6 +118,22 @@ h2.sec{font-size:1.4rem;margin:26px 4px 12px}
 .mc{all:unset;box-sizing:border-box;cursor:pointer;aspect-ratio:1;min-height:84px;border:3px solid var(--ink);border-radius:18px;display:grid;place-items:center;background:#0D9488;color:#fff;font-size:2rem;box-shadow:3px 3px 0 var(--ink);transition:transform .2s}
 .mc.open{background:#fff;color:var(--ink)}.mc.got{background:#DFF7E8;border-color:var(--ok);cursor:default}
 .mc .big{font-size:2.6rem}.mc .w{font-family:var(--en);font-weight:800;font-size:1.15rem;direction:ltr;line-height:1.1;padding:2px;text-align:center}
+.fb{min-height:1.7em;font-weight:800;font-size:1.25rem;text-align:center;margin:10px 0 4px}.fb.no{color:#C2410C}.fb.ok{color:var(--ok)}
+.hint{animation:glow 1s ease-in-out infinite;border-color:var(--ok)!important;background:#F0FDF4!important}
+@keyframes glow{50%{box-shadow:0 0 0 8px rgba(34,160,96,.28),3px 3px 0 var(--ink)}}
+.tag{display:inline-block;background:#FFF3C4;border:2px dashed #B7791F;color:#7A4B00;border-radius:14px;padding:4px 12px;font-weight:800;font-size:1.05rem;margin:0 0 8px}
+.gwrap{text-align:center}
+.revbox{background:#FFF8E1;border:3px solid var(--ink);border-radius:24px;padding:12px 14px;box-shadow:4px 4px 0 var(--ink);margin:8px 0 6px;text-align:center}
+.revbox b{font-size:1.3rem;display:block}.revbox small{display:block;color:var(--muted);font-size:1.05rem;margin:2px 0 8px}
+.revbtns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.revbtns button{font:inherit;font-weight:800;font-size:1.1rem;border:3px solid var(--ink);background:#fff;border-radius:999px;padding:6px 14px;cursor:pointer;color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
+.lvh{font-size:1.25rem;margin:18px 0 8px;font-weight:800}.lvh small{display:block;color:var(--muted);font-size:1rem;font-weight:700}
+.pg.long .s{font-size:clamp(1.15rem,5vw,1.5rem);line-height:1.4}.pg.long .pic{font-size:clamp(3rem,13vw,4.4rem)}.pg.long .ta{font-size:1.05rem}
+.pg.vocab{background:linear-gradient(160deg,#ECFDF5,#D1FAE5);gap:4px;padding-top:14px}.pg.vocab h3{font-size:1.6rem}.pg.vocab .cv-ar{font-size:1.05rem}
+.vlist{display:grid;gap:6px;width:100%;max-width:340px}
+.vw{all:unset;box-sizing:border-box;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fff;border:3px solid var(--ink);border-radius:14px;padding:3px 10px;box-shadow:2px 2px 0 var(--ink)}
+.vw b{font-family:var(--en);font-size:1.2rem;direction:ltr}.vw span{font-size:1.1rem;font-weight:700;color:var(--muted)}
+.qopts-t{display:grid;gap:10px;max-width:460px;margin:0 auto}
 .shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 .bookwrap{perspective:1800px;max-width:470px;margin:0 auto;padding:4px 10px 10px 4px}
 .sbook{position:relative;height:0;padding-bottom:133%;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab}
@@ -194,27 +210,61 @@ const SPELL=[['🐱','cat'],['🐶','dog'],['☀️','sun'],['🥚','egg'],['�
 /* short picture stories: [scene, English, Arabic] pages + two picture questions [English question, Arabic, right answer, wrong, wrong] */
 const STORIES=[
  {t:'Mimi the Cat',ar:'القطة ميمي',ic:'🐱',p:[['🐱','This is Mimi.','هذه ميمي.'],['🐱🍼','Mimi is a little cat.','ميمي قطة صغيرة.'],['🐱🥛','Mimi likes milk.','ميمي تحب الحليب.'],['🐱⚽','Mimi plays with a ball.','ميمي تلعب بالكرة.'],['🐱😴','Now Mimi is tired.','الآن ميمي متعبة.'],['🌙🐱💤','Good night, Mimi!','تصبحين على خير يا ميمي!']],
-  q:[['What does Mimi like?','ماذا تحب ميمي؟','🥛','🍌','🍞'],['Mimi plays with a …','ميمي تلعب بـ…','⚽','🪁','📖']]},
+  q:[['What does Mimi like?','ماذا تحب ميمي؟','🥛','🍌','🍞'],['Mimi plays with a …','ميمي تلعب بـ…','⚽','🪁','📖'],['Is Mimi a big cat?','هل ميمي قطة كبيرة؟','No','Yes']]},
  {t:'Ali\'s Day',ar:'يوم علي',ic:'👦',p:[['👦','This is Ali.','هذا علي.'],['☀️👦','Ali wakes up early.','يستيقظ علي مبكراً.'],['🍞🥚','He eats bread and eggs.','يأكل الخبز والبيض.'],['🚌🏫','He goes to school by bus.','يذهب إلى المدرسة بالحافلة.'],['👦📖','He reads a book.','يقرأ كتاباً.'],['⚽👦👦','He plays football with his friends.','يلعب كرة القدم مع أصدقائه.'],['😊','Ali is happy!','علي سعيد!']],
-  q:[['How does Ali go to school?','كيف يذهب علي إلى المدرسة؟','🚌','🚲','✈️'],['What does Ali read?','ماذا يقرأ علي؟','📖','🍎','🐶']]},
+  q:[['How does Ali go to school?','كيف يذهب علي إلى المدرسة؟','🚌','🚲','✈️'],['What does Ali read?','ماذا يقرأ علي؟','📖','🍎','🐶'],['How is Ali at the end?','كيف حال علي في النهاية؟','happy','sad','tired']]},
  {t:'The Red Balloon',ar:'البالون الأحمر',ic:'🎈',p:[['👧🎈','Sara has a red balloon.','لدى سارة بالون أحمر.'],['💨🎈','The wind blows.','تهب الريح.'],['🎈⬆️☁️','The balloon flies up, up, up!','يطير البالون إلى الأعلى!'],['👧😢','Sara is sad.','سارة حزينة.'],['👨🎈','Dad buys a new balloon.','يشتري أبي بالوناً جديداً.'],['💙🎈','It is blue!','إنه أزرق!'],['👧😊','Sara is happy again.','سارة سعيدة من جديد.']],
-  q:[['What color is the first balloon?','ما لون البالون الأول؟','🔴','🔵','🟢'],['Who buys a new balloon?','من يشتري بالوناً جديداً؟','👨','👵','👦']]},
+  q:[['What color is the first balloon?','ما لون البالون الأول؟','🔴','🔵','🟢'],['Who buys a new balloon?','من يشتري بالوناً جديداً؟','👨','👵','👦'],['What color is the new balloon?','ما لون البالون الجديد؟','blue','red','green']]},
  {t:'The Hungry Rabbit',ar:'الأرنب الجائع',ic:'🐰',p:[['🐰','Bunny is a rabbit.','بني أرنب.'],['🐰😋','Bunny is hungry.','بني جائع.'],['🐰👀','He looks for food.','يبحث عن طعام.'],['🐰🥕','He finds a carrot!','يجد جزرة!'],['🥕😋','Crunch, crunch!','قرش، قرش!'],['🐰😊','Now Bunny is happy.','الآن بني سعيد.']],
-  q:[['What does Bunny find?','ماذا يجد بني؟','🥕','🍎','🍞'],['Bunny is a …','بني…','🐰','🐱','🐶']]},
+  q:[['What does Bunny find?','ماذا يجد بني؟','🥕','🍎','🍞'],['Bunny is a …','بني…','🐰','🐱','🐶'],['How is Bunny at the start?','كيف كان بني في البداية؟','hungry','happy','sleepy']]},
  {t:'My Garden',ar:'حديقتي',ic:'🌻',p:[['🏡🌳','I am in my garden.','أنا في حديقتي.'],['☀️','The sun is yellow.','الشمس صفراء.'],['🌿','The grass is green.','العشب أخضر.'],['🌸','The flower is pink.','الزهرة وردية.'],['🌤️','The sky is blue.','السماء زرقاء.'],['❤️🌻','I love my garden!','أحب حديقتي!']],
-  q:[['The grass is …','العشب…','🟢','🔴','🟡'],['The sun is …','الشمس…','🟡','🔵','🟣']]},
+  q:[['The grass is …','العشب…','🟢','🔴','🟡'],['The sun is …','الشمس…','🟡','🔵','🟣'],['The flower is …','الزهرة…','pink','black','blue']]},
  {t:'My Family',ar:'أسرتي',ic:'👨‍👩‍👧‍👦',p:[['👨‍👩‍👧‍👦','This is my family.','هذه أسرتي.'],['👨','This is my father. He is tall.','هذا أبي. هو طويل.'],['👩','This is my mother. She is kind.','هذه أمي. هي طيبة.'],['👦🚗','My brother likes cars.','أخي يحب السيارات.'],['👧🐱','My sister likes cats.','أختي تحب القطط.'],['❤️','I love my family!','أحب أسرتي!']],
-  q:[['Who likes cats?','من يحب القطط؟','👧','👦','👨'],['My brother likes …','أخي يحب…','🚗','🐱','🍎']]},
+  q:[['Who likes cats?','من يحب القطط؟','👧','👦','👨'],['My brother likes …','أخي يحب…','🚗','🐱','🍎'],['My father is …','أبي…','tall','short','small']]},
  {t:'At the Beach',ar:'على الشاطئ',ic:'🏖️',p:[['🏖️','We go to the beach.','نذهب إلى الشاطئ.'],['🌊','The sea is big and blue.','البحر كبير وأزرق.'],['🦀','I see a crab.','أرى سلطعوناً.'],['🐟🐟','I see two fish.','أرى سمكتين.'],['🏰','I make a sandcastle.','أبني قلعة من الرمل.'],['🎉','What a fun day!','يا له من يوم ممتع!']],
-  q:[['What does he see first?','ماذا رأى أولاً؟','🦀','🦁','🐄'],['He makes a …','يبني…','🏰','🍰','🚗']]},
+  q:[['What does he see first?','ماذا رأى أولاً؟','🦀','🦁','🐄'],['He makes a …','يبني…','🏰','🍰','🚗'],['How many fish?','كم سمكة؟','two','three','one']]},
  {t:'Count with Me',ar:'عُدّ معي',ic:'🔢',p:[['☀️','One sun.','شمس واحدة.'],['🐱🐱','Two cats.','قطتان.'],['⚽⚽⚽','Three balls.','ثلاث كرات.'],['🐟🐟🐟🐟','Four fish.','أربع سمكات.'],['⭐⭐⭐⭐⭐','Five stars.','خمس نجوم.'],['👏','Well done! You can count!','أحسنت! تستطيع العد!']],
-  q:[['How many cats?','كم قطة؟','2️⃣','3️⃣','1️⃣'],['How many stars?','كم نجمة؟','5️⃣','4️⃣','3️⃣']]}
+  q:[['How many cats?','كم قطة؟','2️⃣','3️⃣','1️⃣'],['How many stars?','كم نجمة؟','5️⃣','4️⃣','3️⃣'],['How many balls?','كم كرة؟','three','two','five']]},
+ /* Level 2: stories with a problem and an ending, a little dialogue */
+ {lv:2,t:'The Lost Kitten',ar:'القطة الضائعة',ic:'🐈',v:[['rainy','ممطر'],['lost','ضائع'],['warm','دافئ'],['poster','ملصق'],['knock','يطرق']],p:[['🌧️👦','It is a rainy day. Omar is walking home.','إنه يوم ممطر. عمر يمشي إلى البيت.'],['🐱😿','He hears a small sound: "Meow, meow!"','يسمع صوتاً صغيراً: «مياو، مياو!»'],['👦🐱','"Hello, little kitten. Are you lost?"','«مرحباً أيتها القطة الصغيرة. هل أنتِ ضائعة؟»'],['🏠🧣🐱','Omar takes the kitten home. He gives it a warm blanket.','يأخذ عمر القطة إلى البيت. يعطيها بطانية دافئة.'],['📝🐱','Omar and his mother make a poster: "Lost kitten!"','يصنع عمر وأمه ملصقاً: «قطة ضائعة!»'],['🚪✊','The next day, a woman knocks on the door.','في اليوم التالي، تطرق امرأة الباب.'],['👩🐱❤️','"That is my kitten, Snowy! Thank you, Omar!"','«هذه قطتي سنوي! شكراً لك يا عمر!»'],['👦😊','Omar is happy. He helped a friend.','عمر سعيد. لقد ساعد صديقاً.']],
+  q:[['What is the weather?','كيف الجو؟','🌧️','☀️','❄️'],['What does Omar give the kitten?','ماذا يعطي عمر القطة؟','a blanket','a ball','an apple'],['What is the kitten\'s name?','ما اسم القطة؟','Snowy','Mimi','Bunny'],['Is Omar kind?','هل عمر لطيف؟','Yes','No']]},
+ {lv:2,t:'Sports Day',ar:'يوم الرياضة',ic:'🏃',v:[['race','سباق'],['fast','بسرعة'],['fall down','يسقط'],['together','معاً'],['clap','يصفق']],p:[['🏫🏃','Today is sports day at school.','اليوم هو يوم الرياضة في المدرسة.'],['👦👦','Fahd and Saad are in the race.','فهد وسعد في السباق.'],['🏁📣','"Ready, set, go!" says the teacher.','«استعد، انطلق!» يقول المعلم.'],['🏃💨🏃','Fahd runs fast. Saad runs fast, too.','يجري فهد بسرعة. ويجري سعد بسرعة أيضاً.'],['👦💥','Oh no! Saad falls down.','يا للأسف! يسقط سعد.'],['👦🤝👦','Fahd stops. "Are you OK? Take my hand."','يتوقف فهد. «هل أنت بخير؟ خذ يدي.»'],['🏁👬','They run to the finish line together.','يجريان معاً إلى خط النهاية.'],['👏🏅','Everyone claps. "You are good friends!"','يصفق الجميع. «أنتما صديقان رائعان!»']],
+  q:[['Who falls down?','من يسقط؟','Saad','Fahd','the teacher'],['What does Fahd say?','ماذا يقول فهد؟','Are you OK?','Go away!','Good night!'],['How do they finish?','كيف ينهيان السباق؟','👬','🏃','🚌'],['Fahd is a good …','فهد…','friend','cat','teacher']]},
+ {lv:2,t:'The Little Seed',ar:'البذرة الصغيرة',ic:'🌱',v:[['seed','بذرة'],['soil','تراب'],['water','يسقي / ماء'],['grow','ينمو'],['sunflower','دوّار الشمس']],p:[['👧🌰','Lina has a tiny seed.','لدى لينا بذرة صغيرة جداً.'],['🪴👧','She puts it in a pot with soil.','تضعها في أصيص فيه تراب.'],['💧🪴','Every day, she gives it water.','تسقيها كل يوم.'],['☀️🪴','The seed needs the sun, too.','البذرة تحتاج إلى الشمس أيضاً.'],['🌱😮','One morning, Lina sees a little green plant!','في صباح أحد الأيام، ترى لينا نبتة خضراء صغيرة!'],['🌿📏','The plant grows tall, taller and taller.','تنمو النبتة طويلة، وأطول، وأطول.'],['🌻','Now it is a big yellow sunflower!','الآن هي زهرة دوّار شمس صفراء كبيرة!'],['🌻👧👫','Lina gives new seeds to her friends.','تعطي لينا بذوراً جديدة لأصدقائها.']],
+  q:[['What does Lina put in the pot?','ماذا تضع لينا في الأصيص؟','🌰','🍎','⚽'],['What does the plant need?','ماذا تحتاج النبتة؟','💧','🍫','📺'],['What grows first?','ماذا ينمو أولاً؟','🌱','🌻','🌳'],['What color is the sunflower?','ما لون دوّار الشمس؟','yellow','blue','black']]},
+ {lv:2,t:'Grandpa\'s Farm',ar:'مزرعة جدي',ic:'👴',v:[['mountains','جبال'],['farm','مزرعة'],['goat','ماعز'],['hen','دجاجة'],['honey','عسل']],p:[['🚗⛰️','We drive to the mountains to see Grandpa.','نذهب بالسيارة إلى الجبال لزيارة جدي.'],['👴🏡','Grandpa has a farm. "Welcome!" he says.','لدى جدي مزرعة. «أهلاً وسهلاً!» يقول.'],['🐐🐐🐐','I see three goats. "Maa, maa!"','أرى ثلاث معزات. «ماع، ماع!»'],['🐓🥚🥚','The hen has two eggs.','لدى الدجاجة بيضتان.'],['🍇🧺','We pick sweet grapes.','نقطف عنباً حلواً.'],['🍯😋','Grandpa gives us honey. It is very sweet!','يعطينا جدي عسلاً. إنه حلو جداً!'],['🌙🫖👴','At night, we sit with Grandpa and drink tea.','في الليل نجلس مع جدي ونشرب الشاي.'],['❤️👴','I love Grandpa\'s farm!','أحب مزرعة جدي!']],
+  q:[['Where is the farm?','أين المزرعة؟','in the mountains','at the beach','in the city'],['How many goats?','كم معزة؟','3️⃣','2️⃣','5️⃣'],['What do they pick?','ماذا يقطفون؟','🍇','🍌','🥕'],['What does Grandpa give us?','ماذا يعطينا جدي؟','honey','milk','juice']]},
+ /* Level 3: longer stories told in the past, with a lesson */
+ {lv:3,t:'The Clever Crow',ar:'الغراب الذكي',ic:'🐦',v:[['thirsty','عطشان'],['jar','جرة'],['stone','حجر'],['idea','فكرة'],['give up','يستسلم']],p:[['🐦☀️','It was a very hot day. A crow was very thirsty.','كان يوماً حاراً جداً. وكان الغراب عطشان جداً.'],['🐦🔍','He flew and flew. He looked for water.','طار وطار، وبحث عن الماء.'],['🏺','At last, he saw a tall jar. There was a little water at the bottom.','أخيراً رأى جرة طويلة. كان في قاعها قليل من الماء.'],['🐦😟','He put his beak in the jar, but he could not reach the water.','وضع منقاره في الجرة، لكنه لم يستطع الوصول إلى الماء.'],['🐦💡','The crow stopped and thought. "I have an idea!"','توقف الغراب وفكّر. «لديّ فكرة!»'],['🪨🏺','He picked up a small stone and dropped it into the jar. Plop!','التقط حجراً صغيراً وأسقطه في الجرة. بلوب!'],['🪨🪨🪨','One stone, two stones, three stones… The water came up, up, up!','حجر، حجران، ثلاثة أحجار… وارتفع الماء إلى الأعلى!'],['🐦💧😊','Now the crow could drink. He was not thirsty anymore.','الآن استطاع الغراب أن يشرب. ولم يعد عطشان.'],['💡💪','Think hard, and do not give up!','فكّر جيداً، ولا تستسلم!']],
+  q:[['What was the problem?','ما المشكلة؟','He was thirsty.','He was hungry.','He was cold.'],['What did he put in the jar?','ماذا وضع في الجرة؟','🪨','🍎','🪶'],['What did the water do?','ماذا حدث للماء؟','It came up.','It went down.','It turned red.'],['What is the lesson?','ما الدرس؟','Think and do not give up.','Sleep all day.','Eat a lot.']]},
+ {lv:3,t:'Noura\'s First Day',ar:'أول يوم لنورة',ic:'🎒',v:[['first','أول'],['shy','خجول'],['smile','يبتسم'],['share','يشارك'],['break time','الفسحة']],p:[['👧🎒🏫','It was Noura\'s first day at a new school.','كان أول يوم لنورة في مدرسة جديدة.'],['👧😟','She felt shy. She did not know anyone.','شعرت بالخجل. لم تكن تعرف أحداً.'],['👩‍🏫😊','The teacher smiled. "Welcome, Noura! Please sit here."','ابتسمت المعلمة. «أهلاً يا نورة! اجلسي هنا من فضلك.»'],['👧🖍️👧','A girl sat next to her. "Hi! I am Reem. Do you want to share my colors?"','جلست بجانبها بنت. «مرحباً! أنا ريم. هل تريدين أن تشاركيني ألواني؟»'],['🎨🌈','They drew a big rainbow together.','رسمتا معاً قوس قزح كبيراً.'],['🥪🧃','At break time, they ate sandwiches and talked.','في وقت الفسحة، أكلتا الشطائر وتحدثتا.'],['👧🏃👩','After school, Noura ran to her mother. "I have a new friend!"','بعد المدرسة، ركضت نورة إلى أمها. «لديّ صديقة جديدة!»'],['😊💛','A smile can make a new friend.','الابتسامة تصنع صديقاً جديداً.']],
+  q:[['How did Noura feel at first?','كيف شعرت نورة في البداية؟','shy','angry','sleepy'],['Who is Reem?','من هي ريم؟','a new friend','the teacher','her sister'],['What did they draw?','ماذا رسمتا؟','🌈','🏠','🚗'],['What did Noura tell her mother?','ماذا قالت نورة لأمها؟','I have a new friend!','I am hungry!','Good night!']]},
+ {lv:3,t:'A Trip to the Moon',ar:'رحلة إلى القمر',ic:'🚀',v:[['sky','سماء'],['dream','حلم'],['rocket','صاروخ'],['space','الفضاء'],['astronaut','رائد فضاء']],p:[['👦🔭🌙','Yousef loved the night sky. Every night, he looked at the moon.','كان يوسف يحب سماء الليل. كل ليلة كان ينظر إلى القمر.'],['🚀😮','One night, he had a dream. He was in a big rocket!','في إحدى الليالي حلم حلماً. كان في صاروخ كبير!'],['🔟➡️1️⃣','"Ten, nine, eight… three, two, one… Go!"','«عشرة، تسعة، ثمانية… ثلاثة، اثنان، واحد… انطلق!»'],['🚀✨','The rocket flew up into space. It was dark and quiet.','طار الصاروخ إلى الفضاء. كان المكان مظلماً وهادئاً.'],['🌍','Yousef looked out of the window. The Earth was small, blue and beautiful.','نظر يوسف من النافذة. كانت الأرض صغيرة وزرقاء وجميلة.'],['🌕👣','He landed on the moon. He jumped high, high, high!','هبط على القمر، وقفز عالياً، عالياً، عالياً!'],['⏰🛏️','Then… ring, ring! It was morning. It was only a dream.','ثم… رن، رن! كان الصباح. كان ذلك مجرد حلم.'],['👦👨‍🚀','"When I grow up, I want to be an astronaut!" said Yousef.','قال يوسف: «عندما أكبر أريد أن أكون رائد فضاء!»']],
+  q:[['What did Yousef love?','ماذا كان يوسف يحب؟','🌙','⚽','🍕'],['What color was the Earth?','ما لون الأرض؟','blue','red','yellow'],['Was the trip real?','هل كانت الرحلة حقيقية؟','No, it was a dream.','Yes, it was real.'],['What does Yousef want to be?','ماذا يريد يوسف أن يكون؟','👨‍🚀','👨‍🍳','👨‍🚒']]},
+ {lv:3,t:'The Honest Boy',ar:'الصبي الأمين',ic:'👛',v:[['market','سوق'],['wallet','محفظة'],['worried','قلق'],['honest','أمين'],['proud','فخور']],p:[['👨👦🛒','Khalid went to the market with his father.','ذهب خالد إلى السوق مع أبيه.'],['👛👀','On the ground, he saw a brown wallet.','رأى على الأرض محفظة بنية.'],['👛💵','He opened it. There was a lot of money inside!','فتحها. كان فيها مال كثير!'],['👦🤔','"This is not mine," said Khalid. "Someone is looking for it."','قال خالد: «هذه ليست لي. هناك من يبحث عنها.»'],['👴😟','He saw an old man. The man looked at the ground. He looked worried.','رأى رجلاً كبيراً في السن ينظر إلى الأرض. كان يبدو قلقاً.'],['👦👛👴','"Excuse me, sir. Is this your wallet?"','«عفواً يا عم، هل هذه محفظتك؟»'],['👴😊','"Yes! Thank you, my son. You are an honest boy."','«نعم! شكراً لك يا بني. أنت صبي أمين.»'],['👨👦❤️','His father smiled. "I am proud of you, Khalid."','ابتسم أبوه: «أنا فخور بك يا خالد.»']],
+  q:[['Where did Khalid go?','إلى أين ذهب خالد؟','to the market','to the beach','to the zoo'],['What did he find?','ماذا وجد؟','👛','⚽','📱'],['How did the old man feel first?','كيف كان شعور الرجل أولاً؟','worried','happy','sleepy'],['Khalid is …','خالد…','honest','lazy','angry']]}
 ];
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
 const STICKERS=['🦄','🚀','🐬','🦋','🍭','🏆','🌟','🎈','🐼','🦖','🍉','🎨','🐠','🌻','🧸','🎁','🐢','🦒','🍩','⚽'];
+
+/* mistakes box (this device): a wrong answer comes back again in the same game,
+   then again after 10 minutes, 1 day and 3 days, until the child gets it right each time */
+const FIX_GAP=[10*60e3,864e5,3*864e5];
+let FIX={};try{FIX=JSON.parse(store.get('kd-fix')||'{}')||{};}catch(e){FIX={};}
+function fixSave(){store.set('kd-fix',JSON.stringify(FIX));}
+function fixMiss(sec,key){FIX[sec+'|'+key]={s:sec,k:String(key),lv:0,due:Date.now()+FIX_GAP[0]};fixSave();}
+function fixRight(sec,key){const id=sec+'|'+key,f=FIX[id];if(!f||f.due>Date.now())return;f.lv++;if(f.lv>=FIX_GAP.length)delete FIX[id];else f.due=Date.now()+FIX_GAP[f.lv];fixSave();}
+function fixDue(sec){const now=Date.now();return Object.values(FIX).filter(f=>f.s===sec&&f.due<=now).map(f=>f.k);}
+/* wrong try: first a gentle "try again", from the second try the right answer glows */
+function nudge(tries,hintEl,extra){const fb=$('fb');if(!fb)return;
+  if(tries>=2&&hintEl){hintEl.classList.add('hint');fb.textContent='👀 انظر إلى الإجابة المضيئة واضغطها';}
+  else fb.textContent='🙂 ليست هذه… حاول مرة أخرى!'+(extra||'');fb.className='fb no';}
+function praise(tries){const fb=$('fb');if(!fb)return;fb.textContent=tries?'👏 أحسنت! صحّحت خطأك':'🌟 ممتاز!';fb.className='fb ok';}
+function tagHTML(r){return r.again?'<span class="tag">🔁 تذكّر! أخطأت في هذا قبل قليل</span>':r.old?'<span class="tag">🔁 سؤال للمراجعة: أخطأت فيه من قبل</span>':'';}
+const FIXNOTE='<p style="font-weight:800;color:#0F766E;font-size:1.1rem">🔁 صحّحت أخطاءك! سنعيد عليك هذه الأسئلة لاحقاً حتى ترسخ في ذاكرتك 🧠</p>';
 
 /* stars & stickers (saved on this device only) */
 let STARS=+(store.get('kd-stars')||0);
@@ -278,13 +328,27 @@ function doInstall(){
 }
 function home(){
   $('topBtn').textContent='🏠 النادي';$('topBtn').dir='rtl';$('topBtn').href='../index.html';$('topBtn').onclick=null;
-  $('app').innerHTML=`<div class="hero"><span class="mascot" aria-hidden="true">🦁</span><h1>نادي البراعم<span class="en">English Club Kids</span></h1><p>اضغط، واسمع، والعب، واجمع النجوم ⭐</p></div>${instCard()}
+  $('app').innerHTML=`<div class="hero"><span class="mascot" aria-hidden="true">🦁</span><h1>نادي البراعم<span class="en">English Club Kids</span></h1><p>اضغط، واسمع، والعب، واجمع النجوم ⭐</p></div>${instCard()}${reviewBox()}
     <h2 class="sec">🌱 أبدأ من هنا</h2><div class="tiles">${SECTIONS.slice(0,5).map(tile).join('')}</div>
     <h2 class="sec">🖼️ كلمات بالصور</h2><div class="tiles">${SECTIONS.slice(5,5+TOPICS.length).map(tile).join('')}</div>
     <h2 class="sec">💬 جمل وقصص</h2><div class="tiles">${SECTIONS.filter(s=>s.g===3).map(tile).join('')}</div>
     <h2 class="sec">🎮 ألعاب</h2><div class="tiles">${SECTIONS.filter(s=>s.g===4).map(tile).join('')}</div>`;
   document.querySelectorAll('.tile').forEach(b=>b.onclick=()=>open(b.dataset.id));
+  document.querySelectorAll('[data-rv]').forEach(b=>b.onclick=()=>{const v=b.dataset.rv;
+    if(v==='spl')return open('spl');
+    if(v.startsWith('sto:')){const n=+v.slice(4);open('sto');return storyQuiz(n,fixDue('sto').filter(k=>k.split(':')[0]===String(n)).map(k=>+k.split(':')[1]),true);}
+    const rd=v.startsWith('r-'),id=rd?v.slice(2):v;open(id);MODE=rd?'read':'play';draw();});
   window.scrollTo(0,0);
+}
+/* "time to review" box: questions the child got wrong before, now due again */
+function reviewBox(){
+  const now=Date.now(),g={};
+  Object.values(FIX).forEach(f=>{if(f.due>now)return;let key=f.s;if(f.s==='sto')key='sto:'+f.k.split(':')[0];g[key]=(g[key]||0)+1;});
+  const ks=Object.keys(g).filter(k=>{if(k==='spl'||k.startsWith('sto:'))return k!=='sto:'||true;const id=k.replace(/^r-/,'');return SECTIONS.some(s=>s.id===id);});
+  if(!ks.length)return '';
+  const lab=k=>{if(k==='spl')return '🧩 كوّن الكلمة';if(k.startsWith('sto:')){const st=STORIES[+k.slice(4)];return st?st.ic+' '+st.ar:'📚 قصة';}
+    const rd=k.startsWith('r-'),s=SECTIONS.find(x=>x.id===k.replace(/^r-/,''));return s.ic+' '+s.ar+(rd?' (اقرأ)':' (اسمع)');};
+  return `<div class="revbox"><b>🔁 حان وقت المراجعة!</b><small>أسئلة أخطأت فيها من قبل… أجب عنها الآن لتتذكرها جيداً 🧠</small><div class="revbtns">${ks.map(k=>`<button data-rv="${esc(k)}">${lab(k)} <span class="en">(${g[k]})</span></button>`).join('')}</div></div>`;
 }
 function tile(s){const best=+(store.get('kd-best-'+s.id)||0);return `<button class="tile" data-id="${s.id}" style="--c:${s.c};--t:${s.t}"><span class="i" aria-hidden="true">${s.ic}</span><b>${s.ar}</b><span class="en">${s.en}</span>${best?`<span style="font-size:.9rem">${'⭐'.repeat(Math.min(3,Math.ceil(best/2)))}</span>`:''}</button>`;}
 
@@ -321,69 +385,76 @@ function draw(){
   $('pn').innerHTML=`<p class="sub">اضغط على البطاقة لتسمعها 🔊</p><div class="cards" dir="ltr">${list.map((x,i)=>`<button class="card" data-i="${i}">${x.big}${s.id==='abc'?`<span class="w">${esc(x.w)}</span>`:s.id==='num'?`<span class="w">${esc(x.w)}</span>`:`<span class="w">${esc(x.w)}</span>`}<span class="a">${esc(x.a)}</span></button>`).join('')}</div>`;
   $('pn').querySelectorAll('.card').forEach(b=>b.onclick=()=>{say(list[+b.dataset.i].say);pop(b);});
 }
-/* "listen and touch" game: 6 rounds, 4 choices; a star for each first-try answer */
+/* "listen and touch" game: 6 rounds, 4 choices; a star for each first-try answer.
+   A wrong answer: try again (the right one glows after two tries), and the question comes back 2 rounds later */
 function game(list,read){
-  const N=Math.min(6,list.length),rounds=shuffle(list).slice(0,N);let r=0,got=0,first=true;
+  const sec=(read?'r-':'')+SEC.id,N=Math.min(6,list.length),due=fixDue(sec),old=list.filter(x=>due.includes(String(x.key))).slice(0,3);
+  const R=shuffle([...old.map(x=>({x,old:1})),...shuffle(list.filter(x=>!old.includes(x))).slice(0,N-old.length).map(x=>({x}))]);
+  let r=0,got=0,fixed=0;
   function round(){
-    if(r>=N)return finish();
-    const x=rounds[r],opts=shuffle([x,...shuffle(list.filter(y=>y!==x)).slice(0,3)]);first=true;
+    if(r>=R.length)return endScreen(got,N,sec,()=>game(list,read),fixed?FIXNOTE:'');
+    const cur=R[r],x=cur.x,opts=shuffle([x,...shuffle(list.filter(y=>y!==x)).slice(0,3)]);let tries=0;
     const numPic=!read&&SEC.id==='num'&&x.key<=10,isPh=SEC.id==='phr'||SEC.id==='cls';
+    const top=`<div class="gtop"><div class="dots">${R.map((_,i)=>`<i class="${i<r?'on':''}"></i>`).join('')}</div><span>⭐ ${got}</span></div><div class="gwrap">${tagHTML(cur)}</div>`;
     if(read){
-      $('pn').innerHTML=`<div class="game"><div class="gtop"><div class="dots">${rounds.map((_,i)=>`<i class="${i<r?'on':''}"></i>`).join('')}</div><span>⭐ ${got}</span></div>
+      $('pn').innerHTML=`<div class="game">${top}
         <p class="ask">${isPh?'اقرأ واختر الجملة المناسبة للصورة 📖':'اقرأ واختر الكلمة المناسبة للصورة 📖'}</p><div class="rpic" dir="ltr">${x.pic||x.big}</div>
-        <div class="ropts" dir="ltr">${opts.map(o=>`<button class="opt ropt" data-k="${esc(String(o.key))}">${esc(o.w)}</button>`).join('')}</div></div>`;
+        <div class="ropts" dir="ltr">${opts.map(o=>`<button class="opt ropt" data-k="${esc(String(o.key))}">${esc(o.w)}</button>`).join('')}</div><p class="fb" id="fb"></p></div>`;
     }else
-
-    $('pn').innerHTML=`<div class="game"><div class="gtop"><div class="dots">${rounds.map((_,i)=>`<i class="${i<r?'on':''}"></i>`).join('')}</div><span>⭐ ${got}</span></div>
+    $('pn').innerHTML=`<div class="game">${top}
       ${numPic?`<p class="ask">كم عددها؟ اسمع واختر 👂</p><div class="count">${'🍎'.repeat(x.key)}</div>`:`<p class="ask">${SEC.id==='phr'?'اسمع الجملة واختر الصورة المناسبة 👂':SEC.id==='abc'?'اسمع الكلمة واختر الحرف الذي تبدأ به 👂':'اسمع واختر 👂'}</p>`}
       <button class="again" id="again">🔊 اسمع مرة أخرى</button>
-      <div class="opts" dir="ltr">${opts.map(o=>`<button class="opt" data-k="${esc(String(o.key))}" aria-label="${esc(o.w)}">${o.opt}</button>`).join('')}</div></div>`;
+      <div class="opts" dir="ltr">${opts.map(o=>`<button class="opt" data-k="${esc(String(o.key))}" aria-label="${esc(o.w)}">${o.opt}</button>`).join('')}</div><p class="fb" id="fb"></p></div>`;
     const play=()=>say(SEC.id==='abc'?x.q:x.say);if(!read){setTimeout(play,350);$('again').onclick=play;}
-    $('pn').querySelectorAll('.opt').forEach(b=>b.onclick=e=>{
-      if(b.dataset.k===String(x.key)){b.classList.add('right');if(first)got++;const r0=b.getBoundingClientRect();burst(r0.left+r0.width/2,r0.top+r0.height/2);
-        $('pn').querySelectorAll('.opt').forEach(c=>c.disabled=true);setTimeout(()=>{say(x.say);},150);setTimeout(()=>{r++;round();},1500);}
-      else{first=false;b.classList.add('wrong');setTimeout(()=>b.classList.remove('wrong'),450);if(!read)say(SEC.id==='abc'?x.q:x.say);}
+    const btns=[...$('pn').querySelectorAll('.opt')],good=btns.find(b=>b.dataset.k===String(x.key));
+    btns.forEach(b=>b.onclick=()=>{
+      if(b.disabled)return;
+      if(b===good){b.classList.remove('hint');b.classList.add('right');praise(tries);
+        if(!tries){if(!cur.again)got++;else fixed++;if(cur.old)fixRight(sec,x.key);}
+        const r0=b.getBoundingClientRect();burst(r0.left+r0.width/2,r0.top+r0.height/2);
+        btns.forEach(c=>c.disabled=true);setTimeout(()=>{say(x.say);},150);setTimeout(()=>{r++;round();},1700);}
+      else{
+        if(!tries&&!cur.again){fixMiss(sec,x.key);R.splice(Math.min(R.length,r+3),0,{x,again:1});}
+        tries++;b.disabled=true;b.classList.add('wrong');setTimeout(()=>b.classList.remove('wrong'),450);nudge(tries,good);
+        if(!read)say(SEC.id==='abc'?x.q:x.say);}
     });
-  }
-  function finish(){
-    addStars(got);const key='kd-best-'+(read?'r-':'')+SEC.id;store.set(key,String(Math.max(got,+(store.get(key)||0))));
-    const msg=got===N?'ممتاز! 🏆':got>=N-2?'أحسنت! 👏':'جيد! حاول مرة أخرى 💪';
-    const newSt=Math.floor(STARS/5)>Math.floor((STARS-got)/5);
-    $('pn').innerHTML=`<div class="done"><div class="big">${got===N?'🏆':'🌟'}</div><h3>${msg}</h3><p style="font-size:1.6rem;margin:0" dir="ltr">${'⭐'.repeat(got)}${'☆'.repeat(N-got)}</p>
-      ${newSt?`<p style="font-weight:800;color:#B7791F">🎁 حصلت على ملصق جديد! افتحه في «ملصقاتي».</p>`:''}
-      <button class="again" id="more">🔁 العب مرة أخرى</button></div>`;
-    $('more').onclick=()=>game(list,read);
-    if(got>=N-1){const b=$('pn').querySelector('.big').getBoundingClientRect();burst(b.left+b.width/2,b.top+40);}
   }
   round();
 }
-function endScreen(got,N,key,again){
+function endScreen(got,N,key,again,note){
   addStars(got);store.set('kd-best-'+key,String(Math.max(got,+(store.get('kd-best-'+key)||0))));
   const msg=got===N?'ممتاز! 🏆':got>=N-2?'أحسنت! 👏':'جيد! حاول مرة أخرى 💪',newSt=Math.floor(STARS/5)>Math.floor((STARS-got)/5);
   $('pn').innerHTML=`<div class="done"><div class="big">${got===N?'🏆':'🌟'}</div><h3>${msg}</h3><p style="font-size:1.6rem;margin:0" dir="ltr">${'⭐'.repeat(got)}${'☆'.repeat(Math.max(0,N-got))}</p>
-    ${newSt?`<p style="font-weight:800;color:#B7791F">🎁 حصلت على ملصق جديد! افتحه في «ملصقاتي».</p>`:''}<button class="again" id="more">🔁 العب مرة أخرى</button></div>`;
+    ${note||''}${newSt?`<p style="font-weight:800;color:#B7791F">🎁 حصلت على ملصق جديد! افتحه في «ملصقاتي».</p>`:''}<button class="again" id="more">🔁 العب مرة أخرى</button></div>`;
   $('more').onclick=again;window.clubSfx&&clubSfx('win');
   if(got>=N-1){const b=$('pn').querySelector('.big').getBoundingClientRect();burst(b.left+b.width/2,b.top+40);}
 }
 function panel(s,sub){$('app').innerHTML=`<div class="panel"><h2>${s.ic} ${s.ar} <span class="en" style="color:${s.c}">${s.en}</span></h2>${sub?`<p class="sub">${sub}</p>`:''}<div id="pn"></div></div>`;window.scrollTo(0,0);}
-/* spell it: see the picture, tap the letters in order */
+/* spell it: see the picture, tap the letters in order. A misspelled word comes back 2 words later */
 function spell(){
   const s=SEC;panel(s,'انظر إلى الصورة، واضغط الحروف بالترتيب لتكتب الكلمة ✏️');
-  const N=6,rounds=shuffle(SPELL).slice(0,N);let r=0,got=0;
+  const N=6,due=fixDue('spl'),old=SPELL.filter(x=>due.includes(x[1])).slice(0,3);
+  const R=shuffle([...old.map(x=>({x,old:1})),...shuffle(SPELL.filter(x=>!old.includes(x))).slice(0,N-old.length).map(x=>({x}))]);
+  let r=0,got=0,fixed=0;
   function round(){
-    if(r>=N)return endScreen(got,N,'spl',spell);
-    const [pic,w]=rounds[r];let i=0,miss=0;
+    if(r>=R.length)return endScreen(got,N,'spl',spell,fixed?FIXNOTE:'');
+    const cur=R[r],[pic,w]=cur.x;let i=0,miss=0,tries=0;
     const extra=shuffle('abcdefghijklmnopqrstuvwxyz'.split('').filter(c=>!w.includes(c))).slice(0,Math.max(1,6-w.length));
     const tiles=shuffle([...w.split(''),...extra]);
-    $('pn').innerHTML=`<div class="game"><div class="gtop"><div class="dots">${rounds.map((_,k)=>`<i class="${k<r?'on':''}"></i>`).join('')}</div><span>⭐ ${got}</span></div>
+    $('pn').innerHTML=`<div class="game"><div class="gtop"><div class="dots">${R.map((_,k)=>`<i class="${k<r?'on':''}"></i>`).join('')}</div><span>⭐ ${got}</span></div><div class="gwrap">${tagHTML(cur)}</div>
       <div class="rpic"><span class="big">${pic}</span></div><button class="again" id="again">🔊 اسمع الكلمة</button>
       <div class="slots">${w.split('').map(()=>'<span class="slot"></span>').join('')}</div>
-      <div class="ltiles">${tiles.map((c,k)=>`<button class="lt" data-c="${c}" data-k="${k}">${c}</button>`).join('')}</div></div>`;
+      <div class="ltiles">${tiles.map((c,k)=>`<button class="lt" data-c="${c}" data-k="${k}">${c}</button>`).join('')}</div><p class="fb" id="fb"></p></div>`;
     $('again').onclick=()=>say(w);
-    $('pn').querySelectorAll('.lt').forEach(b=>b.onclick=()=>{
-      if(b.dataset.c===w[i]){$('pn').querySelectorAll('.slot')[i].textContent=w[i];b.classList.add('used');i++;window.clubSfx&&clubSfx('tap');
-        if(i===w.length){if(miss===0)got++;window.clubSfx&&clubSfx('good');const r0=$('pn').querySelector('.slots').getBoundingClientRect();burst(r0.left+r0.width/2,r0.top+20);say(w);setTimeout(()=>{r++;round();},1600);}}
-      else{miss++;b.classList.add('wrong');window.clubSfx&&clubSfx('bad');setTimeout(()=>b.classList.remove('wrong'),450);}
+    const lts=[...$('pn').querySelectorAll('.lt')],next=()=>lts.find(t=>!t.classList.contains('used')&&t.dataset.c===w[i]);
+    lts.forEach(b=>b.onclick=()=>{
+      if(b.classList.contains('used'))return;
+      if(b.dataset.c===w[i]){lts.forEach(t=>t.classList.remove('hint'));tries=0;$('fb').textContent='';$('pn').querySelectorAll('.slot')[i].textContent=w[i];b.classList.add('used');i++;window.clubSfx&&clubSfx('tap');
+        if(i===w.length){if(miss===0){if(!cur.again)got++;else fixed++;if(cur.old)fixRight('spl',w);}praise(miss);
+          window.clubSfx&&clubSfx('good');const r0=$('pn').querySelector('.slots').getBoundingClientRect();burst(r0.left+r0.width/2,r0.top+20);say(w);setTimeout(()=>{r++;round();},1700);}}
+      else{if(!miss&&!cur.again){fixMiss('spl',w);R.splice(Math.min(R.length,r+3),0,{x:cur.x,again:1});}
+        miss++;tries++;b.classList.add('wrong');window.clubSfx&&clubSfx('bad');setTimeout(()=>b.classList.remove('wrong'),450);
+        nudge(tries,next(),' استمع للكلمة 🔊');if(tries===2)say(w);}
     });
   }
   round();
@@ -408,20 +479,47 @@ function memory(){
 }
 /* stories: a shelf, then page by page with sound, then two picture questions */
 function storyShelf(){
-  const s=SEC;panel(s,'اختر قصة، واستمع إليها صفحة صفحة 📚');
-  $('pn').innerHTML=`<div class="shelf">${STORIES.map((st,i)=>{const b=+(store.get('kd-best-sto'+i)||0);return `<button class="tile" data-i="${i}" style="--t:#fff;--c:#9333EA"><span class="i">${st.ic}</span><b>${st.ar}</b><span class="en">${esc(st.t)}</span>${b?`<span style="font-size:.9rem">${'⭐'.repeat(b)}</span>`:''}</button>`;}).join('')}</div>`;
+  const s=SEC;panel(s,'اختر قصة، واستمع إليها صفحة صفحة، ثم أجب عن الأسئلة 📚');
+  const LV=[[1,'⭐ المستوى الأول','جمل قصيرة وكلمات سهلة'],[2,'⭐⭐ المستوى الثاني','قصة فيها مشكلة وحل، وحوار قصير'],[3,'⭐⭐⭐ المستوى الثالث','قصص أطول بالزمن الماضي، وفيها درس']];
+  $('pn').innerHTML=LV.map(([lv,h,sub])=>`<h3 class="lvh">${h}<small>${sub}</small></h3><div class="shelf">${STORIES.map((st,i)=>[st,i]).filter(([st])=>(st.lv||1)===lv).map(([st,i])=>{const b=+(store.get('kd-best-sto'+i)||0),k=b?Math.max(1,Math.min(3,Math.round(b*3/(st.q.length+1)))):0;return `<button class="tile" data-i="${i}" style="--t:#fff;--c:#9333EA"><span class="i">${st.ic}</span><b>${st.ar}</b><span class="en">${esc(st.t)}</span>${k?`<span style="font-size:.9rem">${'⭐'.repeat(k)}</span>`:''}</button>`;}).join('')}</div>`).join('');
   $('pn').querySelectorAll('.tile').forEach(b=>b.onclick=()=>story(+b.dataset.i));
 }
+/* story questions: try again on a mistake; missed questions come back at the end, and again later */
+function storyQuiz(n,idxs,review){
+  const st=STORIES[n],sec='sto',Q=idxs.map(i=>({i,old:review?1:0}));let qi=0,got=0,fixed=0;const N=idxs.length;
+  function q(){
+    if(qi>=Q.length){
+      if(review){window.clubSfx&&clubSfx('win');addStars(got);$('pn').innerHTML=`<div class="done"><div class="big">🧠</div><h3>${got===N?'ممتاز! تذكّرت الإجابات 🏆':'أحسنت! 👏'}</h3>${fixed||got<N?FIXNOTE:''}<button class="again" id="more">📖 اقرأ القصة كاملة</button></div>`;$('more').onclick=()=>story(n);return;}
+      return endScreen(got+1,N+1,'sto'+n,()=>story(n),fixed?FIXNOTE:'');}
+    const cur=Q[qi],[qe,qa,right,...wrong]=st.q[cur.i],opts=shuffle([right,...wrong]),txt=opts.some(o=>/[A-Za-z]/.test(o));let tries=0;
+    $('pn').innerHTML=`<div class="game"><div class="gtop"><div class="dots">${Q.map((_,k)=>`<i class="${k<qi?'on':''}"></i>`).join('')}</div><span>⭐ ${got}</span></div><div class="gwrap">${cur.again?'<span class="tag">🔁 هذا السؤال أخطأت فيه، جرّبه مرة أخرى!</span>':review?`<span class="tag">🔁 مراجعة: ${esc(st.ar)}</span>`:''}</div>
+      <p class="ask"><span class="en" style="display:block;font-size:1.4rem">${esc(qe)}</span>${esc(qa)}</p><button class="again" id="ag">🔊 اسمع السؤال</button>
+      ${txt?`<div class="qopts-t" dir="ltr">${opts.map(o=>`<button class="opt ropt" data-o="${esc(o)}">${esc(o)}</button>`).join('')}</div>`
+      :`<div class="opts" dir="ltr" style="grid-template-columns:repeat(${opts.length},1fr)">${opts.map(o=>`<button class="opt" data-o="${esc(o)}"><span class="big">${o}</span></button>`).join('')}</div>`}<p class="fb" id="fb"></p></div>`;
+    $('ag').onclick=()=>say(qe);setTimeout(()=>say(qe),300);
+    const btns=[...$('pn').querySelectorAll('.opt')],good=btns.find(b=>b.dataset.o===right);
+    btns.forEach(b=>b.onclick=()=>{
+      if(b.disabled)return;
+      if(b===good){b.classList.remove('hint');b.classList.add('right');praise(tries);if(txt)say(right);
+        if(!tries){if(!cur.again)got++;else fixed++;if(cur.old)fixRight(sec,n+':'+cur.i);}
+        btns.forEach(c=>c.disabled=true);setTimeout(()=>{qi++;q();},1500);}
+      else{if(!tries&&!cur.again){fixMiss(sec,n+':'+cur.i);Q.push({i:cur.i,again:1});}
+        tries++;b.disabled=true;b.classList.add('wrong');setTimeout(()=>b.classList.remove('wrong'),450);nudge(tries,good);}
+    });
+  }
+  q();
+}
 function story(n){
-  const st=STORIES[n],pages=[{cover:1},...st.p.map(p=>({p})),{end:1}],L=pages.length;let pg=0,busy=false;
+  const st=STORIES[n],pages=[{cover:1},...(st.v?[{vocab:1}]:[]),...st.p.map(p=>({p})),{end:1}],L=pages.length;let pg=0,busy=false;
   $('topBtn').onclick=e=>{e.preventDefault();speechSynthesis&&speechSynthesis.cancel();open('sto');};
   const words=s=>esc(s).split(' ').map(w=>`<span class="wd">${w}</span>`).join(' ');
   function pageHTML(i){
     const P=pages[i];
     if(P.cover)return `<div class="pg cover"><div class="cv-ic">${st.ic}</div><h3 class="en">${esc(st.t)}</h3><p class="cv-ar">${esc(st.ar)}</p><span class="cv-hint">👈 اسحب الصفحة أو اضغط على طرفها الأيمن</span></div>`;
+    if(P.vocab)return `<div class="pg vocab"><h3 class="en" style="margin:0">New Words</h3><p class="cv-ar">✨ كلمات جديدة — اضغط لتسمع</p><div class="vlist" dir="ltr">${st.v.map(v=>`<button class="vw" data-w="${esc(v[0])}"><b>${esc(v[0])}</b><span dir="rtl">${esc(v[1])}</span></button>`).join('')}</div><span class="no">${i}</span></div>`;
     if(P.end)return `<div class="pg end"><div class="pic">🌟</div><h3 class="en">The End</h3><p class="cv-ar">النهاية</p><button class="again" data-quiz="1">✅ أجب عن الأسئلة</button><span class="no">${i}</span></div>`;
     const [pic,en,ar]=P.p;
-    return `<div class="pg"><div class="pic" aria-hidden="true">${pic}</div><p class="s en">${words(en)}</p><p class="ta" dir="rtl">${esc(ar)}</p><button class="spk" data-say="1" aria-label="اسمع">🔊</button><span class="no">${i}</span></div>`;
+    return `<div class="pg${en.length>48?' long':''}"><div class="pic" aria-hidden="true">${pic}</div><p class="s en">${words(en)}</p><p class="ta" dir="rtl">${esc(ar)}</p><button class="spk" data-say="1" aria-label="اسمع">🔊</button><span class="no">${i}</span></div>`;
   }
   $('pn').innerHTML=`<div class="bookwrap"><div class="sbook" id="book" dir="ltr"><div class="leaf" id="leaf"></div></div></div>
     <div class="pgnav" dir="ltr"><button id="pv"><bdi>←</bdi> <bdi>السابق</bdi></button><span style="font-weight:800" id="pnum"></span><button id="nx"><bdi>التالي</bdi> <bdi>→</bdi></button></div>`;
@@ -468,25 +566,12 @@ function story(n){
     book.addEventListener('touchend',e=>up(T(e)));}
   book.addEventListener('click',e=>{
     const w=e.target.closest('.wd');if(w){say(w.textContent.replace(/[^A-Za-z'\-]/g,''),.7);w.classList.remove('hl');void w.offsetWidth;w.classList.add('hl');return;}
+    const vw=e.target.closest('.vw');if(vw){say(vw.dataset.w,.7);pop(vw);return;}
     if(e.target.closest('[data-say]'))readPage();
     if(e.target.closest('[data-quiz]'))quiz();
   });
   $('pv').onclick=()=>turn(-1);$('nx').onclick=()=>turn(1);
-  function quiz(){
-    let qi=0,got=0;
-    function q(){
-      if(qi>=st.q.length){const N=st.q.length+1;got+=1;return endScreen(got,N,'sto'+n,()=>story(n));}
-      const [qe,qa,right,...wrong]=st.q[qi],opts=shuffle([right,...wrong]);let first=true;
-      $('pn').innerHTML=`<div class="game"><p class="ask"><span class="en" style="display:block;font-size:1.4rem">${esc(qe)}</span>${esc(qa)}</p><button class="again" id="ag">🔊 اسمع السؤال</button>
-        <div class="opts" dir="ltr" style="grid-template-columns:repeat(3,1fr)">${opts.map(o=>`<button class="opt" data-o="${o}"><span class="big">${o}</span></button>`).join('')}</div></div>`;
-      $('ag').onclick=()=>say(qe);setTimeout(()=>say(qe),300);
-      $('pn').querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
-        if(b.dataset.o===right){b.classList.add('right');if(first)got++;$('pn').querySelectorAll('.opt').forEach(c=>c.disabled=true);setTimeout(()=>{qi++;q();},1200);}
-        else{first=false;b.classList.add('wrong');setTimeout(()=>b.classList.remove('wrong'),450);}
-      });
-    }
-    q();
-  }
+  function quiz(){storyQuiz(n,st.q.map((_,i)=>i),false);}
   show();
 }
 /* sticker book: one sticker for every 5 stars */

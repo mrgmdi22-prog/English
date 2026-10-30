@@ -17,7 +17,7 @@ Live: https://mrgmdi22-prog.github.io/English/ · repo mrgmdi22-prog/English (Gi
 - `teacher.html` pending names, newest registrations, level-check results (+ open post test, CSV), Word Quest follow-up, honor list CSV.
 - `level/` before/after placement test (32 Q: vocab 10, grammar 10, reading 6, listening 6; CEFR estimate).
 - `journey/word-quest.html` 50 units (4000 Essential English Words 1 lists + theme units): hero dashboard, journey map, daily spaced review (`wq-srs`), daily goal/streak, record-and-compare pronunciation (no automatic speech scoring — removed as unreliable).
-- `kids/` Kids Club (primary school): letters/numbers/colours/shapes, letter writing (tracing), 16 picture topics, phrases, classroom phrases, page-turning storybook (8 stories), read/spell/memory games, stickers; own manifest + lion-cub icon.
+- `kids/` Kids Club (primary school): letters/numbers/colours/shapes, letter writing (tracing), 16 picture topics, phrases, classroom phrases, page-turning storybook (16 stories in 3 levels; L2/L3 have a "New Words" page and 4 questions with word options), read/spell/memory games, stickers; own manifest + lion-cub icon. Mistakes: wrong answer → try again (right answer glows after 2 tries), question re-asked 2 rounds later, and stored in `kd-fix` (Leitner: 10 min, 1 day, 3 days) → home "🔁 حان وقت المراجعة" box and due items mixed into the next game.
 - `letters/`, `words/` (NGSL/AWL decks), `vocab/` (Mega Goal 1.1–3.1), `capsules/` (10 sentence capsules), `grammar/` (tenses map with A4 print sheet, syntax tree), `idioms/`, `stories/`, `everyday/`.
 - PWA: `manifest.webmanifest`, `sw.js` (club-v3: pages network-first with 3.5 s fallback to cache), `install.html`, `offline.html`.
 - `sounds.html` sound preview page.
