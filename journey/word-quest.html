@@ -1649,19 +1649,16 @@ const how=t=>`<p class="how"><span class="lbl">المطلوب</span>${t}</p>`;
 /* ---------- LEARN ---------- */
 function renderLearn(){
   const P=$("panel");
-  P.innerHTML=how("اضغط على كل بطاقة لترى تعريف الكلمة"+(basic()?" ومعناها بالعربي":"")+" وجملة مثال."+(true?" عند فتح البطاقة تسمع نطق الكلمة، واضغط زر السماعة لتسمع الكلمة ثم الجملة. يمكنك اختيار اللهجة الأمريكية أو البريطانية من أعلى الصفحة. وزر Cambridge يفتح الكلمة في قاموس كامبريدج لتسمع نطقها بصوت بشري.":"")+(SR?" واضغط 🎤 لتنطق الكلمة بنفسك ويخبرك الموقع إن كان نطقك صحيحاً.":"")+(CAN_REC?" واضغط 🎙️ لتسجّل صوتك، فتسمع النطق الصحيح ثم صوتك لتقارن بينهما.":"")+" اقرأ الكلمات العشرين قبل الانتقال إلى التدريب.")+
+  P.innerHTML=how("اضغط على كل بطاقة لترى تعريف الكلمة"+(basic()?" ومعناها بالعربي":"")+" وجملة مثال."+(true?" عند فتح البطاقة تسمع نطق الكلمة، واضغط زر السماعة لتسمع الكلمة ثم الجملة. يمكنك اختيار اللهجة الأمريكية أو البريطانية من أعلى الصفحة. وزر Cambridge يفتح الكلمة في قاموس كامبريدج لتسمع نطقها بصوت بشري.":"")+(CAN_REC?" واضغط 🎙️ لتسجّل صوتك، فتسمع النطق الصحيح ثم صوتك لتقارن بينهما.":"")+" اقرأ الكلمات العشرين قبل الانتقال إلى التدريب.")+
    `<div class="tools"><button class="btn alt" id="openAll">Show all · اكشف الكل</button><button class="btn alt" id="closeAll">Hide all · أخفِ الكل</button><button class="btn" id="sayAll">Listen to all · استمع لكل الكلمات</button></div><div class="cards" id="cards"></div>`;
   const C=$("cards");
   U.words.map(W).forEach(x=>{const d=document.createElement("div");d.className="fc";
     d.innerHTML=`<button class="flip" aria-label="${esc(x.w)}"><span class="front-side"><span class="w">${esc(x.w)}</span><br><span class="pos">${POS[x.pos]}</span></span>
       <span class="back-side"><span class="w" style="font-size:1.5rem">${esc(x.w)}</span><span class="def">${esc(x.def)}</span>${basic()?`<span class="arm">${esc(x.ar)}</span>`:""}<span class="ex">${esc(x.ex).replace(new RegExp("\\b("+x.w+")\\b","i"),"<b>$1</b>")}</span></span></button>
-      ${sayBtn(x.w+"||"+x.ex,x.w,"we","card")}${camLink(x.w,"oncard")}${SR?`<button class="mic" aria-label="Say ${esc(x.w)}" title="انطق الكلمة ويقيّمها الموقع">🎤</button>`:""}${CAN_REC?`<button class="mic rc${SR?"":" solo"}" aria-label="Record yourself saying ${esc(x.w)}" title="سجّل صوتك واسمعه">🎙️</button>`:""}`;
+      ${sayBtn(x.w+"||"+x.ex,x.w,"we","card")}${camLink(x.w,"oncard")}${CAN_REC?`<button class="mic rc solo" aria-label="Record yourself saying ${esc(x.w)}" title="سجّل صوتك واسمعه">🎙️</button>`:""}`;
     d.querySelector(".flip").onclick=()=>{d.classList.toggle("open");if(d.classList.contains("open")){sayWord(x.w);seen(x.w)}};
     const rb=d.querySelector(".mic.rc");if(rb)rb.onclick=e=>{e.stopPropagation();d.querySelectorAll(".heard,.cmpbar").forEach(n=>n.remove());
       recordMe(rb,url=>{const bar=compareBar(x.w,url);d.appendChild(bar);setTimeout(()=>bar.remove(),15000)})};
-    const mb=d.querySelector(".mic:not(.rc)");if(mb)mb.onclick=e=>{e.stopPropagation();const old=d.querySelector(".heard");if(old)old.remove();mb.classList.remove("ok","no");
-      hear(x.w,mb,(ok,heard)=>{if(heard===null&&!ok)return;mb.classList.add(ok?"ok":"no");sfx(ok?"good":"bad");if(ok){mark(x.w,true);addDaily(1)}
-        const n=document.createElement("div");n.className="heard";n.innerHTML=ok?"✓ Great! نطق ممتاز":`I heard: <b>${esc(heard)}</b> · حاول مرة أخرى`;d.appendChild(n);setTimeout(()=>{n.remove();mb.classList.remove("ok","no")},3500)})};
     C.appendChild(d)});
   $("openAll").onclick=()=>C.querySelectorAll(".fc").forEach(c=>c.classList.add("open"));
   $("closeAll").onclick=()=>C.querySelectorAll(".fc").forEach(c=>c.classList.remove("open"));
@@ -1814,7 +1811,7 @@ function drawDash(){const D=$("dash");if(!D||$("home").hidden)return;
 function startReview(){
   let list=dueList();if(!list.length)list=Object.keys(SRS).filter(w=>INDEX[w]).sort((a,b)=>SRS[a][0]-SRS[b][0]);
   list=list.slice(0,12);if(!list.length)return;
-  const kinds=["meaning","listen","arabic","spell"];if(SR)kinds.push("say");
+  const kinds=["meaning","listen","arabic","spell"];if(CAN_REC)kinds.push("say");
   const Q=list.map((w,i)=>({w,k:kinds[i%kinds.length],again:false}));let i=0,right=0,total=0;
   $("home").hidden=true;$("unit").hidden=true;$("review").hidden=false;window.scrollTo(0,0);
   const P=$("rpanel");
@@ -1836,15 +1833,13 @@ function startReview(){
         else{fin=true;$("rsp").classList.add("wrong");$("rfb").textContent="The word is: "+x.w;$("rfb").className="fb bad";$("rex").innerHTML=explainHTML(x);done(false,x)}};
     }else if(it.k==="say"){
       P.innerHTML=head+`<div class="q"><span class="k">Say the word · انطق الكلمة</span><span style="font-size:2.2rem">${esc(x.w)}</span></div><p class="hint ar" style="text-align:center">${esc(x.ar)}</p>
-        <div class="row center"><button class="btn alt" id="rl">🔊 Listen first · استمع أولاً</button><button class="btn mic-big" id="rm">🎤 Speak · تكلّم</button>${CAN_REC?'<button class="btn alt" id="rrec">🎙️ سجّل واسمع صوتك</button>':""}<button class="btn alt" id="rskip">Skip · تخطَّ</button></div><div id="rcmp"></div>`+tail;
-      $("rl").onclick=()=>speak([[x.w,.7]]);let tries=0,fin=false;
-      $("rm").onclick=()=>{if(fin)return;hear(x.w,$("rm"),(ok,heard)=>{if(fin)return;tries++;
-        if(ok){fin=true;$("rm").classList.add("right");$("rfb").textContent="Great pronunciation! نطق ممتاز";$("rfb").className="fb good";$("rex").innerHTML=explainHTML(x);done(true,x)}
-        else if(heard===null){$("rfb").textContent="لم يصل صوتك. اضغط وتكلّم بوضوح قريباً من الجوال.";$("rfb").className="fb bad"}
-        else if(tries<3){{const el=$("rm");el.classList.add("shake");setTimeout(()=>el.classList.remove("shake"),450)}$("rfb").innerHTML=`I heard: <b>${esc(heard)}</b> · استمع للكلمة وحاول مرة أخرى`;$("rfb").className="fb bad"}
-        else{fin=true;$("rfb").innerHTML=`I heard: <b>${esc(heard)}</b> · تدرّب عليها أكثر، وسنعيدها لك.`;$("rfb").className="fb bad";$("rex").innerHTML=explainHTML(x);done(false,x)}})};
-      if($("rrec"))$("rrec").onclick=()=>recordMe($("rrec"),url=>{$("rcmp").innerHTML="";$("rcmp").appendChild(compareBar(x.w,url))});
-      $("rskip").onclick=()=>{if(fin)return;fin=true;$("rex").innerHTML=explainHTML(x);total++;addDaily(1);$("rnx").hidden=false};
+        <p class="ar" style="text-align:center;color:var(--muted)">استمع، ثم سجّل صوتك، وقارن بين النطقين.</p>
+        <div class="row center"><button class="btn alt" id="rl">🔊 Listen · استمع</button><button class="btn mic-big" id="rrec">🎙️ سجّل صوتك</button></div><div id="rcmp"></div>
+        <div class="row center" id="rself" hidden style="margin-top:12px"><button class="btn" id="rgood" style="background:var(--good)">✓ نطقتها مثله</button><button class="btn alt" id="rbad">↺ أحتاج تدريباً</button></div>`+tail;
+      $("rl").onclick=()=>speak([[x.w,.7]]);setTimeout(()=>speak([[x.w,.7]]),300);let fin=false;
+      $("rrec").onclick=()=>recordMe($("rrec"),url=>{$("rcmp").innerHTML="";$("rcmp").appendChild(compareBar(x.w,url));$("rself").hidden=false});
+      $("rgood").onclick=()=>{if(fin)return;fin=true;$("rself").hidden=true;$("rfb").textContent="Great! أحسنت";$("rfb").className="fb good";$("rex").innerHTML=explainHTML(x);done(true,x)};
+      $("rbad").onclick=()=>{if(fin)return;fin=true;$("rself").hidden=true;$("rfb").textContent="سنعيدها لك لتتدرّب عليها أكثر.";$("rfb").className="fb bad";$("rex").innerHTML=explainHTML(x);done(false,x)};
     }else{
       const qq=it.k==="meaning"?`<span class="k">Which word means · أي كلمة تعني</span>${esc(x.def)}`:it.k==="arabic"?`<span class="k">Which English word means</span><span class="ar" style="display:block;text-align:center">${esc(x.ar)}</span>`:`<span class="k">Listen and choose · استمع واختر</span><button class="btn alt" id="rl">🔊 Listen · استمع</button>`;
       P.innerHTML=head+`<div class="q">${qq}</div><div class="opts" id="ropts"></div>`+tail;
@@ -1870,9 +1865,9 @@ const CAN_REC=!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&wi
 let recNow=null;
 async function recordMe(btn,done){
   if(recNow){try{recNow.stop()}catch(e){}return}
-  let stream;try{stream=await navigator.mediaDevices.getUserMedia({audio:true})}
+  let stream;try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:true,autoGainControl:true,channelCount:1}})}
   catch(e){const t=$("toast");t.innerHTML="🎙️ اسمح للموقع باستخدام الميكروفون من إعدادات المتصفح، ثم حاول مرة أخرى.";t.hidden=false;setTimeout(()=>{t.hidden=true},7000);return}
-  try{speechSynthesis.cancel()}catch(e){}
+  stopAll();
   let mr;try{mr=new MediaRecorder(stream)}catch(e){stream.getTracks().forEach(t=>t.stop());return}
   const chunks=[];recNow=mr;btn.classList.add("rec");
   mr.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
@@ -1880,13 +1875,17 @@ async function recordMe(btn,done){
     if(chunks.length)done(URL.createObjectURL(new Blob(chunks,{type:mr.mimeType||"audio/webm"})))};
   mr.start();setTimeout(()=>{if(mr.state==="recording")mr.stop()},3000);
 }
-function playMine(url){try{const a=new Audio(url);a.play().catch(()=>{})}catch(e){}}
+let player=null;
+function stopAll(){try{speechSynthesis.cancel()}catch(e){}if(player){try{player.pause()}catch(e){}}}
+function playMine(url){stopAll();try{player=new Audio(url);player.play().catch(()=>{})}catch(e){}}
+function sayThen(word,after){stopAll();if(!canSpeak){after&&after();return}
+  try{const u=utter(word,.7);let ok=false;const go=()=>{if(ok)return;ok=true;after&&setTimeout(after,350)};u.onend=go;u.onerror=go;speechSynthesis.speak(u);setTimeout(go,4000)}catch(e){after&&after()}}
 function compareBar(word,url){
   const d=document.createElement("div");d.className="cmpbar";
   d.innerHTML=`<button type="button" class="cb1">🔊 النطق الصحيح</button><button type="button" class="cb2">▶ صوتي</button>`;
-  d.querySelector(".cb1").onclick=e=>{e.stopPropagation();speak([[word,.7]])};
+  d.querySelector(".cb1").onclick=e=>{e.stopPropagation();sayThen(word)};
   d.querySelector(".cb2").onclick=e=>{e.stopPropagation();playMine(url)};
-  speak([[word,.7]]);setTimeout(()=>playMine(url),1400);
+  sayThen(word,()=>playMine(url));
   return d}
 /* saying a word aloud: the browser's speech recognition (Chrome on Android and computers, Safari on iPhone) */
 const SR=window.SpeechRecognition||window.webkitSpeechRecognition||null;
