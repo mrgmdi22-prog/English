@@ -81,8 +81,24 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--sky);outline-of
 .cam{display:inline-flex;align-items:center;gap:5px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);border-radius:999px;padding:3px 11px;font-weight:700;font-size:.92rem;text-decoration:none;font-family:var(--body);line-height:1.4;white-space:nowrap}
 .cam svg{width:15px;height:15px}
 .cam:hover,.cam:focus-visible{background:var(--sun)}
-.cam.inl{vertical-align:middle;margin-inline-start:6px}
-.cam.oncard{position:absolute;bottom:10px;left:10px}
+.dicts{display:inline-flex;gap:6px;flex-wrap:wrap}
+.cam.col{background:#eef6ff}
+.dicts.inl{vertical-align:middle;margin-inline-start:6px}
+.dicts.oncard{position:absolute;bottom:10px;left:10px;right:56px}
+.mic{position:absolute;top:8px;right:8px;width:40px;height:40px;border-radius:50%;border:2px solid var(--ink);background:var(--surface);display:grid;place-items:center;padding:0;font-size:1.1rem;cursor:pointer;z-index:2}
+.mic:hover{background:var(--sun)}
+.mic.rec,.mic-big.rec{background:var(--coral)!important;color:#fff;animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.12)}}
+.mic.ok{background:var(--good);color:#fff}.mic.no{background:var(--bad);color:#fff}
+.heard{position:absolute;top:52px;right:8px;left:8px;background:var(--surface);border:2px solid var(--ink);border-radius:12px;padding:4px 8px;font-size:.85rem;z-index:3;text-align:center}
+.mic-big{background:var(--coral)}
+.mic.rc{top:54px}.mic.rc.solo{top:8px}
+.cmpbar{position:absolute;left:8px;right:8px;top:100px;z-index:3;display:flex;gap:6px;justify-content:center;background:var(--surface);border:2px solid var(--ink);border-radius:14px;padding:6px;font-family:var(--ar)}
+#rcmp .cmpbar{position:static;max-width:360px;margin:12px auto 0}
+.cmpbar button{border:2px solid var(--ink);border-radius:999px;padding:4px 12px;font-weight:800;font-size:.95rem;background:var(--sun)}
+.cmpbar .cb2{background:var(--mint);color:#fff}
+.dk-extra .mic{position:static}
+.dk-cmp .cmpbar{position:static;max-width:360px;margin:10px auto 0}
 @media (max-width:560px){.ctrls{justify-items:start}}
 .level{display:flex;border:3px solid var(--ink);border-radius:999px;overflow:hidden;background:var(--surface);box-shadow:3px 3px 0 var(--ink);font-family:var(--ar)}
 .level button{border:none;background:none;padding:8px 16px;font-weight:700}
@@ -303,7 +319,7 @@ const sayWordEx=(w,ex)=>speak([[w,.75],[ex,.88]]);
 const sayText=t=>speak((t.match(/[^.!?]+[.!?]+["”]?|[^.!?]+$/g)||[t]).map(x=>[x.trim(),.88]).filter(x=>x[0]));
 const SPK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
 const CAMI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>';
-const camLink=(w,cls)=>`<a class="cam ${cls||""}" href="https://dictionary.cambridge.org/dictionary/english/${encodeURIComponent(w.toLowerCase())}" target="_blank" rel="noopener" aria-label="Cambridge pronunciation of ${esc(w)}">Cambridge ${CAMI}</a>`;
+const camLink=(w,cls)=>{const q=encodeURIComponent(w.toLowerCase());return `<span class="dicts ${cls||""}"><a class="cam" href="https://dictionary.cambridge.org/dictionary/english/${q}" target="_blank" rel="noopener" aria-label="Cambridge pronunciation of ${esc(w)}">Cambridge ${CAMI}</a><a class="cam col" href="https://www.collinsdictionary.com/dictionary/english/${q}" target="_blank" rel="noopener" aria-label="Collins dictionary entry for ${esc(w)}">Collins ${CAMI}</a></span>`};
 const sayBtn=(text,label,mode,cls)=>true?`<button class="say ${cls||"inl"}" data-say="${esc(text)}" data-mode="${mode||"w"}" aria-label="Listen: ${esc(label||text)}">${SPK}</button>`:"";
 document.addEventListener("click",e=>{const b=e.target.closest("[data-say]");if(!b)return;e.stopPropagation();const m=b.dataset.mode,t=b.dataset.say;
   if(m==="w")sayWord(t);else if(m==="we"){const [w,ex]=t.split("||");sayWordEx(w,ex)}else sayText(t)},true);
@@ -377,7 +393,7 @@ let deckI=0,deckSeen=new Set(),deckUnit=null;
 function renderLearn(){
   const P=$("panel"),grid=store.get("ng-lview")==="grid";
   P.innerHTML=how(grid
-    ?"اضغط على كل بطاقة لترى تعريف الكلمة"+(basic()?" ومعناها بالعربي":"")+" وجملة مثال. عند فتح البطاقة تسمع نطق الكلمة، وزر Cambridge يفتح الكلمة في قاموس كامبريدج لتسمع نطقها بصوت بشري."
+    ?"اضغط على كل بطاقة لترى تعريف الكلمة"+(basic()?" ومعناها بالعربي":"")+" وجملة مثال. عند فتح البطاقة تسمع نطق الكلمة، وزرّا Cambridge وCollins يفتحان الكلمة في القاموسين لتسمع نطقها بصوت بشري وترى أمثلة إضافية. وزر 🎙️ يسجّل صوتك لتقارنه بالنطق الصحيح."
     :"اضغط على البطاقة لتقلبها، ثم انتقل إلى التالية.")+
    `<div class="tools"><div class="vsw" role="group" aria-label="طريقة العرض"><button class="btn" id="vDeck" aria-pressed="${!grid}">🃏 بطاقة بطاقة</button><button class="btn" id="vGrid" aria-pressed="${grid}">▦ عرض الكل</button></div></div><div id="lv"></div>`;
   $("vDeck").onclick=()=>{if(!grid)return;store.set("ng-lview","deck");renderLearn()};
@@ -390,8 +406,10 @@ function learnGrid(H){
   U.words.map(W).forEach(x=>{const d=document.createElement("div");d.className="fc";
     d.innerHTML=`<button class="flip" aria-label="${esc(x.w)}"><span class="front-side"><span class="w">${esc(x.w)}</span><br><span class="pos">${POS[x.pos]}</span></span>
       <span class="back-side"><span class="w" style="font-size:1.5rem">${esc(x.w)}</span><span class="def">${esc(x.def)}</span>${basic()?`<span class="arm">${esc(x.ar)}</span>`:""}<span class="ex">${exHTML(x)}</span></span></button>
-      ${sayBtn(x.w+"||"+x.ex,x.w,"we","card")}${camLink(x.w,"oncard")}`;
+      ${sayBtn(x.w+"||"+x.ex,x.w,"we","card")}${camLink(x.w,"oncard")}${CAN_REC?`<button class="mic rc solo" aria-label="Record yourself saying ${esc(x.w)}" title="سجّل صوتك واسمعه">🎙️</button>`:""}`;
     d.querySelector(".flip").onclick=()=>{d.classList.toggle("open");if(d.classList.contains("open"))sayWord(x.w)};
+    const rb=d.querySelector(".mic.rc");if(rb)rb.onclick=e=>{e.stopPropagation();d.querySelectorAll(".cmpbar").forEach(n=>n.remove());
+      recordMe(rb,url=>{const bar=compareBar(x.w,url);d.appendChild(bar);setTimeout(()=>bar.remove(),15000)})};
     C.appendChild(d)});
   $("openAll").onclick=()=>C.querySelectorAll(".fc").forEach(c=>c.classList.add("open"));
   $("closeAll").onclick=()=>C.querySelectorAll(".fc").forEach(c=>c.classList.remove("open"));
@@ -405,7 +423,7 @@ function learnDeck(H){
     <div class="dk-top"><span class="dk-count" id="dkCount"></span><div class="dk-bar" aria-hidden="true"><i id="dkBar"></i></div></div>
     <div class="dk-stage" id="dkStage"><button class="dk-card" id="dkCard"></button></div>
     <div class="dk-nav"><button class="btn alt" id="dkPrev" aria-label="البطاقة السابقة">← السابق</button><button class="btn" id="dkFlip">🔄 اقلب</button><button class="btn alt" id="dkNext">التالي →</button></div>
-    <div class="dk-extra" id="dkExtra"></div>
+    <div class="dk-extra" id="dkExtra"></div><div class="dk-cmp" id="dkCmp"></div>
     <div class="dk-dots" id="dkDots"></div></div>`;
   const card=$("dkCard");
   function show(dir){
@@ -419,7 +437,8 @@ function learnDeck(H){
     $("dkBar").style.width=Math.round(deckSeen.size/n*100)+"%";
     $("dkPrev").disabled=deckI===0;
     $("dkNext").textContent=deckI===n-1?"✓ إلى التدريب":"التالي →";
-    $("dkExtra").innerHTML=sayBtn(x.w+"||"+x.ex,x.w,"we","card")+camLink(x.w,"");
+    $("dkExtra").innerHTML=sayBtn(x.w+"||"+x.ex,x.w,"we","card")+camLink(x.w,"")+(CAN_REC?`<button class="mic" id="dkRec" aria-label="Record yourself saying ${esc(x.w)}" title="سجّل صوتك واسمعه">🎙️</button>`:"");
+    $("dkCmp").innerHTML="";if($("dkRec"))$("dkRec").onclick=()=>recordMe($("dkRec"),url=>{$("dkCmp").innerHTML="";$("dkCmp").appendChild(compareBar(x.w,url))});
     $("dkDots").innerHTML=list.map((_,i)=>`<button class="${i===deckI?"now":deckSeen.has(i)?"seen":""}" data-i="${i}" aria-label="Card ${i+1}"></button>`).join("");
     $("dkDots").querySelectorAll("button").forEach(b=>b.onclick=()=>go(+b.dataset.i));
   }
@@ -550,6 +569,35 @@ function renderTest(){
     $("again").onclick=renderTest}
   q();
 }
+
+/* record yourself and listen back: the correct pronunciation first, then your own voice */
+const CAN_REC=!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder);
+let recNow=null;
+async function recordMe(btn,done){
+  if(recNow){try{recNow.stop()}catch(e){}return}
+  let stream;try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:true,channelCount:1}})}
+  catch(e){const t=$("toast");t.innerHTML="🎙️ اسمح للموقع باستخدام الميكروفون من إعدادات المتصفح، ثم حاول مرة أخرى.";t.hidden=false;setTimeout(()=>{t.hidden=true},7000);return}
+  stopAll();
+  if(actx&&actx.state==="running"){try{actx.suspend()}catch(e){}}
+  let mr;try{mr=new MediaRecorder(stream,{audioBitsPerSecond:128000})}catch(e){try{mr=new MediaRecorder(stream)}catch(e2){stream.getTracks().forEach(t=>t.stop());return}}
+  const chunks=[];recNow=mr;btn.classList.add("rec");
+  mr.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
+  mr.onstop=()=>{recNow=null;btn.classList.remove("rec");stream.getTracks().forEach(t=>t.stop());
+    if(chunks.length)done(URL.createObjectURL(new Blob(chunks,{type:mr.mimeType||"audio/webm"})))};
+  mr.start();setTimeout(()=>{if(mr.state==="recording")mr.stop()},3000);
+}
+let player=null;
+function stopAll(){try{speechSynthesis.cancel()}catch(e){}if(player){try{player.pause()}catch(e){}}}
+function playMine(url){stopAll();try{player=new Audio(url);player.play().catch(()=>{})}catch(e){}}
+function sayThen(word,after){stopAll();if(!canSpeak){after&&after();return}
+  try{const u=utter(word,.7);let ok=false;const go=()=>{if(ok)return;ok=true;after&&setTimeout(after,350)};u.onend=go;u.onerror=go;speechSynthesis.speak(u);setTimeout(go,4000)}catch(e){after&&after()}}
+function compareBar(word,url){
+  const d=document.createElement("div");d.className="cmpbar";
+  d.innerHTML=`<button type="button" class="cb1">🔊 النطق الصحيح</button><button type="button" class="cb2">▶ صوتي</button>`;
+  d.querySelector(".cb1").onclick=e=>{e.stopPropagation();sayThen(word)};
+  d.querySelector(".cb2").onclick=e=>{e.stopPropagation();playMine(url)};
+  sayThen(word,()=>playMine(url));
+  return d}
 
 renderHome();
 })();
