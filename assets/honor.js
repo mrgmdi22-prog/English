@@ -23,6 +23,15 @@ const CAPS = ['space', 'flavor', 'life', 'adventure', 'emotion', 'career', 'natu
 function J(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
 function N(k) { try { return +(localStorage.getItem(k) || 0) || 0; } catch (e) { return 0; } }
 
+/** Word Quest progress the teacher sees: units with a badge, units tried, streak, words mastered and learnt, last active day. */
+function wqStats() {
+  const d = new Date(), today = Math.floor((d - d.getTimezoneOffset() * 60000) / 864e5);
+  let u = 0, t = 0; for (let n = 1; n <= 50; n++) { const b = N('wq-best-' + n); if (b >= 8) u++; if (b > 0) t++; }
+  const srs = J('wq-srs') || {}, ws = Object.keys(srs), m = ws.filter(w => (srs[w] || [])[0] >= 4).length;
+  const sk = J('wq-streak') || {}, s = sk.last >= today - 1 ? (sk.n || 0) : 0;
+  const day = J('wq-day') || {}, la = Math.max(+day.d || 0, +sk.last || 0);
+  return { d: la, g: day.d === today ? (day.n || 0) : 0, k: ws.length, m, s, t, u };
+}
 /** Points earned on this device, with the breakdown. */
 export function computeScore() {
   let caps = 0;
@@ -37,7 +46,7 @@ export function computeScore() {
   const tn = Math.max(0, Math.min(10, N('tn-best')));
   const im = Math.max(0, Math.min(10, N('im-best')));
   let tb = 0; ['greet','bye','ask','yesno','sorry','thanks','invite','meet'].forEach(u => { tb += Math.max(0, Math.min(5, N('tb-best-' + u))); });
-  const parts = { caps, wq, lab, mg, bf, ng, aw, st, tn, im, tb };
+  const parts = { caps, wq, lab, mg, bf, ng, aw, st, tn, im, tb, wqx: wqStats() };
   // The board's database accepts at most 10,000 points per student.
   const score = Math.min(10000, RULES.reduce((t, r) => t + Math.min(parts[r.key], r.max) * r.per, 0));
   return { score, parts };
@@ -165,14 +174,16 @@ export async function sync(force) {
   if (!joined) return null;
   const { score, parts } = computeScore();
   const last = J('club-sync') || {};
-  if (!force && last.s === score && Date.now() - (last.t || 0) < 6 * 3600e3) return null;
+  const sig = JSON.stringify(parts.wqx);
+  if (!force && last.s === score && last.w === sig && Date.now() - (last.t || 0) < 6 * 3600e3) return null;
   const { fs, D } = await load();
   const uid = await studentUid();
   const ref = fs.doc(D, 'players', uid);
   const snap = await fs.getDoc(ref);
   if (!snap.exists()) { try { localStorage.removeItem('club-player'); } catch (e) {} return null; }
-  if (snap.data().score !== score) await fs.updateDoc(ref, { score, parts, updatedAt: fs.serverTimestamp() });
-  try { localStorage.setItem('club-sync', JSON.stringify({ t: Date.now(), s: score })); } catch (e) {}
+  const was = snap.data();
+  if (was.score !== score || JSON.stringify((was.parts || {}).wqx || null) !== sig) await fs.updateDoc(ref, { score, parts, updatedAt: fs.serverTimestamp() });
+  try { localStorage.setItem('club-sync', JSON.stringify({ t: Date.now(), s: score, w: sig })); } catch (e) {}
   return score;
 }
 

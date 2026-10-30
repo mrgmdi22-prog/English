@@ -46,16 +46,70 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--sky);outline-of
 .level button{border:none;background:none;padding:8px 16px;font-weight:700}
 .level button[aria-pressed="true"]{background:var(--ink);color:#fff}
 
-.dash{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) 1.4fr;gap:10px;margin-bottom:18px;direction:rtl}
-.dcell{background:var(--surface);border:3px solid var(--ink);border-radius:20px;box-shadow:4px 4px 0 var(--ink);padding:10px 8px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-family:var(--ar)}
-.dcell b{font-family:var(--display);font-size:1.9rem;line-height:1}.dcell small{color:var(--muted);font-size:.95rem;font-weight:700;line-height:1.3}
+/* hero */
+.hero{position:relative;overflow:hidden;border:3px solid var(--ink);border-radius:28px;box-shadow:6px 6px 0 var(--ink);background:linear-gradient(180deg,#bfe3ff 0%,#e3f3ff 60%,#f4fbff 100%);margin-bottom:16px}
+.hills{position:absolute;left:0;right:0;bottom:0;width:100%;height:150px}
+.hcont{position:relative;padding:18px 18px 20px;display:grid;gap:12px}
+.hi{font-weight:800;font-size:1.1rem;color:#1d4f91}
+.htitle{font-size:clamp(1.8rem,6.5vw,2.6rem);color:var(--ink);line-height:1.1}
+.htitle .ar{display:block;font-size:1.05rem;font-weight:700;color:var(--muted);margin-top:4px}
+.dash{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;direction:rtl}
+.dcell{background:rgba(255,255,255,.92);border:3px solid var(--ink);border-radius:20px;box-shadow:3px 3px 0 var(--ink);padding:10px 6px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-family:var(--ar)}
+.dcell b{font-family:var(--display);font-size:1.8rem;line-height:1}.dcell small{color:var(--muted);font-size:.92rem;font-weight:700;line-height:1.3}
 .dic{font-size:1.6rem;line-height:1}
-.ring{--p:0;width:64px;height:64px;border-radius:50%;background:conic-gradient(var(--mint) calc(var(--p)*1%),var(--line) 0);display:grid;place-items:center}
-.ring span{width:48px;height:48px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:1rem;direction:ltr}
+.flame{filter:grayscale(1);opacity:.5}.flame.lit{filter:none;opacity:1;animation:flick 1.6s ease-in-out infinite}
+@keyframes flick{50%{transform:scale(1.15) rotate(-6deg)}}
+.ring{--p:0;width:60px;height:60px;border-radius:50%;background:conic-gradient(var(--mint) calc(var(--p)*1%),#dfe6f5 0);display:grid;place-items:center}
+.ring span{width:45px;height:45px;border-radius:50%;background:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:.95rem;direction:ltr}
 .goalbtn{border:0;background:none;font-size:.95rem;cursor:pointer;padding:0 2px;color:var(--sky)}
-.dgo{font-family:var(--ar);font-size:1.2rem;line-height:1.3;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--grape);border-radius:20px;padding:12px}
-.dgo small{display:block;font-size:.95rem;font-weight:700;opacity:.92}
-@media (max-width:640px){.dash{grid-template-columns:repeat(3,minmax(0,1fr))}.dgo{grid-column:1/-1}}
+.hctas{display:grid;grid-template-columns:1fr 1fr;gap:10px;direction:rtl}
+.cta{position:relative;display:flex;align-items:center;gap:12px;text-align:right;border:3px solid var(--ink);border-radius:20px;box-shadow:4px 4px 0 var(--ink);padding:12px 14px;font-family:var(--display);font-weight:800;font-size:1.15rem;line-height:1.2;color:#fff;transition:transform .15s}
+.cta:hover{transform:translate(-1px,-2px)}.cta:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+.cta small{display:block;font-family:var(--ar);font-size:.95rem;font-weight:700;opacity:.92}
+.cta .ci{flex:none;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.25);display:grid;place-items:center;font-size:1.3rem}
+.cta.go{background:var(--sky)}.cta.rev{background:var(--grape)}
+.cta.rev.due{animation:nudge 2.4s ease-in-out infinite}
+@keyframes nudge{0%,80%,100%{transform:none}85%{transform:rotate(-1.5deg)}90%{transform:rotate(1.5deg)}}
+.cta .bdg{position:absolute;top:-10px;left:-8px;background:var(--coral);border:2px solid var(--ink);border-radius:999px;min-width:30px;height:30px;display:grid;place-items:center;font-size:.95rem;padding:0 6px}
+@media (max-width:640px){.dash{grid-template-columns:repeat(2,minmax(0,1fr))}.hctas{grid-template-columns:1fr}}
+details.note summary{cursor:pointer;list-style:none}details.note summary::-webkit-details-marker{display:none}
+details.note:not([open]){padding:8px 14px}
+/* journey map */
+.land{position:relative;border:3px solid var(--ink);border-radius:28px;background:var(--lb);box-shadow:5px 5px 0 var(--ink);margin-bottom:22px;overflow:hidden;
+  background-image:radial-gradient(rgba(255,255,255,.7) 1.5px,transparent 1.6px);background-size:22px 22px}
+.lhead{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:3px solid var(--ink);background:#fff;direction:rtl;font-family:var(--ar)}
+.lic{font-size:2rem;line-height:1;width:52px;height:52px;border-radius:16px;background:var(--lb);border:2px solid var(--ink);display:grid;place-items:center;flex:none}
+.ltx{flex:1;min-width:0}.ltx b{display:block;font-size:1.3rem;color:var(--lc);filter:brightness(.8)}.ltx small{color:var(--muted);font-size:.95rem;font-weight:700}
+.lwon{font-weight:800;background:var(--lb);border:2px solid var(--ink);border-radius:999px;padding:2px 12px;white-space:nowrap}
+.trail{position:relative;padding:22px 0 26px}
+.path{position:absolute;left:0;top:0;pointer-events:none}
+.path .road{fill:none;stroke:#fff;stroke-width:22;stroke-linecap:round;opacity:.9}
+.path .dash{fill:none;stroke:var(--lc);stroke-width:4;stroke-dasharray:3 12;stroke-linecap:round;opacity:.7}
+.stop{position:relative;display:block;width:100%;height:104px;border:0;background:none;padding:0;text-align:left}
+.stop .dot{position:absolute;left:var(--x);top:12px;transform:translateX(-50%);width:76px;height:76px;border-radius:50%;border:3px solid var(--ink);box-shadow:0 5px 0 var(--ink);
+  background:conic-gradient(var(--lc) calc(var(--p)*1%),#fff 0);display:grid;place-items:center;transition:transform .15s}
+.stop .in{width:58px;height:58px;border-radius:50%;background:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:1.6rem;color:var(--ink)}
+.stop:hover .dot{transform:translateX(-50%) translateY(-3px)}
+.stop.new .dot{background:#fff;opacity:.95}.stop.new .in{color:#9aa4bf}
+.stop.done .dot{background:linear-gradient(145deg,#ffe27a,#ffb800)}.stop.done .in{background:#fff7d6;font-size:1.8rem}
+.stop.cur .dot{width:88px;height:88px;top:6px;animation:bob 1.8s ease-in-out infinite}.stop.cur .in{width:68px;height:68px;font-size:1.9rem;color:var(--lc)}
+@keyframes bob{50%{transform:translateX(-50%) translateY(-6px)}}
+.here{position:absolute;left:var(--x);top:-12px;transform:translateX(-50%);background:var(--coral);color:#fff;border:2px solid var(--ink);border-radius:999px;padding:0 10px;font-family:var(--ar);font-weight:800;font-size:.85rem;white-space:nowrap;z-index:2}
+.stop .lab{position:absolute;top:20px;max-width:calc(50% - 60px);display:grid;gap:0;background:rgba(255,255,255,.95);border:2px solid var(--ink);border-radius:14px;padding:5px 10px;line-height:1.2}
+.stop.l .lab{right:calc(100% - var(--x) + 52px);text-align:right}
+.stop.r .lab{left:calc(var(--x) + 52px)}
+.stop .lab small{font-family:var(--mono);font-size:.72rem;color:var(--muted);letter-spacing:.06em}
+.stop .lab b{font-family:var(--display);font-size:1.05rem}
+.stop .st{color:#f5b400;font-size:.95rem;letter-spacing:1px}.stop .st i{color:#d6dbe8;font-style:normal}
+.deco{position:absolute;left:var(--x);transform:translateX(-50%);font-size:1.8rem;opacity:.85;pointer-events:none}
+@media (max-width:480px){.stop .lab{max-width:calc(50% - 50px);padding:4px 8px}.stop .lab b{font-size:.95rem}}
+/* unit header */
+#unit .uhead{background:var(--ub,#fff);border:3px solid var(--ink);border-radius:22px;padding:12px 14px;box-shadow:4px 4px 0 var(--ink)}
+.uprog{display:flex;flex-wrap:wrap;gap:8px;margin:-4px 0 14px}
+.up{background:#fff;border:2px solid var(--ink);border-radius:999px;padding:3px 12px;font-weight:700;font-size:1rem}
+.up b{font-family:var(--display);direction:ltr;display:inline-block}
+.up.won{background:#ffe27a}
+.stage[aria-selected="true"]{box-shadow:3px 3px 0 var(--uc,var(--sky))}
 .mic{position:absolute;top:8px;right:8px;width:40px;height:40px;border-radius:50%;border:2px solid var(--ink);background:var(--surface);display:grid;place-items:center;padding:0;font-size:1.1rem;cursor:pointer;z-index:2}
 .mic:hover{background:var(--sun)}
 .mic.rec,.mic-big.rec{background:var(--coral)!important;color:#fff;animation:pulse 1s ease-in-out infinite}
@@ -215,8 +269,16 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--sky);outline-of
   </header>
 
   <main id="home">
-    <div class="note ar"><span class="lbl">كيف أستخدم المنصة؟</span>اختر وحدة، ثم سِر في مراحلها الأربع بالترتيب: <b>تعرّف</b> على الكلمات، ثم <b>تدرّب</b> عليها، ثم <b>اقرأ</b> القصة، ثم <b>اختبر نفسك</b>. كل إجابة تُصحَّح لك فورًا مع الشرح. المستوى <b>الأساسي</b> يعرض معاني الكلمات بالعربي، و<b>المتقدم</b> يعرض التعريفات الإنجليزية فقط.</div>
-    <div class="dash" id="dash"></div>
+    <section class="hero" id="hero">
+      <svg class="hills" viewBox="0 0 900 220" preserveAspectRatio="none" aria-hidden="true"><path d="M0 170 C150 110 260 200 420 150 C560 105 690 190 900 130 L900 220 L0 220Z" fill="#c9f0dd"/><path d="M0 195 C180 160 330 215 520 185 C680 160 780 205 900 180 L900 220 L0 220Z" fill="#9fe2c3"/><path d="M60 210 C220 150 360 200 470 160 S700 120 860 150" fill="none" stroke="#fff" stroke-width="7" stroke-dasharray="2 16" stroke-linecap="round"/><circle cx="790" cy="56" r="34" fill="#ffd24d"/><circle cx="790" cy="56" r="48" fill="#ffd24d" opacity=".25"/></svg>
+      <div class="hcont">
+        <span class="hi ar" id="hiTxt">مرحباً بك في رحلة الكلمات 👋</span>
+        <h2 class="htitle">Your word journey<span class="ar">٥٠ وحدة · ١٠٠٠ كلمة · خطوة كل يوم</span></h2>
+        <div class="dash" id="dash"></div>
+        <div class="hctas" id="hctas"></div>
+      </div>
+    </section>
+    <details class="note ar"><summary><span class="lbl">كيف أستخدم المنصة؟</span></summary>اختر وحدة، ثم سِر في مراحلها الأربع بالترتيب: <b>تعرّف</b> على الكلمات، ثم <b>تدرّب</b> عليها، ثم <b>اقرأ</b> القصة، ثم <b>اختبر نفسك</b>. كل إجابة تُصحَّح لك فورًا مع الشرح. المستوى <b>الأساسي</b> يعرض معاني الكلمات بالعربي، و<b>المتقدم</b> يعرض التعريفات الإنجليزية فقط. وكل يوم افتح <b>مراجعتي اليومية</b> لتعود إليك الكلمات قبل أن تنساها، وحافظ على سلسلة أيامك 🔥.</details>
     <div class="finder"><label for="q" class="ar">ابحث عن كلمة لتعرف وحدتها</label><input id="q" type="search" placeholder="Type a word… مثال: falcon" autocomplete="off" autocapitalize="off" spellcheck="false"><div class="fres" id="fres" aria-live="polite"></div></div>
     <div id="units"></div>
   </main>
@@ -226,6 +288,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--sky);outline-of
       <button class="back" id="back">← Units</button>
       <h2 id="uTitle"></h2>
     </div>
+    <div class="uprog ar" id="uProg"></div>
     <nav class="stages" role="tablist">
       <button class="stage" role="tab" data-s="learn">Learn<small>تعرّف</small></button>
       <button class="stage" role="tab" data-s="practice">Practice<small>تدرّب</small></button>
@@ -1527,28 +1590,52 @@ $("lvBasic").onclick=()=>setLevel("basic");$("lvAdv").onclick=()=>setLevel("adv"
 setLevel(level);
 
 /* home */
-const STG=[["المرحلة 1: البذرة","#fff7df","الأسابيع <bdi dir=\"ltr\">1–5</bdi>"],["المرحلة 2: البرعم","#e6f7f1","الأسابيع <bdi dir=\"ltr\">6–10</bdi>"],["المرحلة 3: الغصن","#eaf2ff","الأسابيع <bdi dir=\"ltr\">11–15</bdi>"],["المرحلة 4: الشجرة","#f1edff","الأسابيع <bdi dir=\"ltr\">16–20</bdi>"]];
+/* home: a hero with today's progress, then the journey map (units as stops along a winding trail) */
+const STG=[["البذرة","Seed","🌱","#FFF4D6","#F5B700"],["البرعم","Sprout","🌿","#E3F7EE","#12B28A"],["الغصن","Branch","🌳","#E6EFFF","#2F7CF6"],["الشجرة","Tree","🌲","#F0EBFF","#7B5CFF"]];
+const stOf=n=>Math.min(3,Math.floor((n-1)*20/250));
 const wkOf=i=>Math.floor(i/50)+1;
+const bestOf=n=>+(store.get("wq-best-"+n)||0);
+const seenIn=u=>u.words.filter(w=>SRS[w[0]]).length;
+const starsOf=b=>b>=8?3:b>=6?2:b>0?1:0;
+function nextUnit(){const last=+(store.get("wq-last")||0);if(last&&bestOf(last)<8)return last;
+  const u=UNITS.find(u=>bestOf(u.n)<8);return u?u.n:UNITS.length}
+const XS=[50,72,82,68,46,26,16,30];
 function renderHome(){
   $("home").hidden=false;$("unit").hidden=true;$("review").hidden=true;U=null;drawDash();
-  const H=$("units");H.innerHTML="";let grid=null,cur=-1;
-  UNITS.forEach(u=>{const f=(u.n-1)*20,st=Math.min(3,Math.floor(f/250));
-    if(st!==cur){cur=st;const h=document.createElement("div");h.className="sghead";h.style.background=STG[st][1];h.innerHTML=`<b>${STG[st][0]}</b><span>${STG[st][2]}</span>`;H.appendChild(h);grid=document.createElement("div");grid.className="units";H.appendChild(grid)}
-    const best=+(store.get("wq-best-"+u.n)||0),w1=wkOf(f),w2=wkOf(f+19);
-    const b=document.createElement("button");b.className="ucard";
-    b.innerHTML=`${best>=8?'<span class="badge">Badge</span>':''}<span class="num">${u.n}</span><h3>Unit ${u.n} · ${esc(u.title)}</h3>
-      <span class="wk">${w1===w2?"الأسبوع "+w1:"الأسبوعان "+w1+" و"+w2} · الكلمات <bdi dir="ltr">${f+1}–${f+20}</bdi></span>
-      <span class="prev">${u.words.slice(0,6).map(w=>esc(w[0])).join(" · ")} …</span>
-      <span class="meter"><i style="width:${best*10}%"></i></span>
-      <span class="best"><span>20 words</span><span>Best test: ${best}/10</span></span>`;
-    b.onclick=()=>{sfx("page");openUnit(u)};grid.appendChild(b)});
+  const H=$("units");H.innerHTML="";const cur=nextUnit();
+  for(let s=0;s<4;s++){
+    const us=UNITS.filter(u=>stOf(u.n)===s),S=STG[s],won=us.filter(u=>bestOf(u.n)>=8).length,f1=(us[0].n-1)*20,f2=us[us.length-1].n*20-1;
+    const sec=document.createElement("section");sec.className="land";sec.style.setProperty("--lb",S[3]);sec.style.setProperty("--lc",S[4]);
+    sec.innerHTML=`<div class="lhead"><span class="lic">${S[2]}</span><span class="ltx"><b>المرحلة ${s+1}: ${S[0]}</b><small>الأسابيع <bdi dir="ltr">${wkOf(f1)}–${wkOf(f2)}</bdi> · الوحدات <bdi dir="ltr">${us[0].n}–${us[us.length-1].n}</bdi></small></span><span class="lwon">🏅 ${won}/${us.length}</span></div><div class="trail"><svg class="path" aria-hidden="true"></svg></div>`;
+    const T=sec.querySelector(".trail");
+    us.forEach((u,i)=>{const b=bestOf(u.n),seen=seenIn(u),done=b>=8,pct=done?100:Math.round(Math.max(b*10,seen/20*50)),x=XS[(u.n-1)%XS.length];
+      const st=done?"done":u.n===cur?"cur":pct>0?"go":"new",side=x>50?"l":"r";
+      const n=document.createElement("button");n.className="stop "+st+" "+side;n.style.setProperty("--x",x+"%");n.style.setProperty("--p",pct);
+      n.setAttribute("aria-label",`Unit ${u.n}: ${u.title}`);
+      n.innerHTML=`<span class="dot"><span class="in">${done?"🏅":u.n}</span></span>${st==="cur"?'<span class="here">أنت هنا 🧭</span>':""}
+        <span class="lab"><small>Unit ${u.n}</small><b>${esc(u.title)}</b><span class="st">${"★".repeat(starsOf(b))}<i>${"★".repeat(3-starsOf(b))}</i></span></span>`;
+      n.onclick=()=>{sfx("page");openUnit(u)};T.appendChild(n);
+      if(i%4===2){const d=document.createElement("span");d.className="deco";d.textContent=[S[2],"✨","🪨",S[2],"🌼","⭐"][(u.n)%6];d.style.setProperty("--x",(x>50?14:86)+"%");d.style.top=(i*104+30)+"px";T.appendChild(d)}});
+    H.appendChild(sec)}
+  requestAnimationFrame(drawTrails);
+  const c=H.querySelector(".stop.cur");if(c&&!renderHome.scrolled){renderHome.scrolled=1}
 }
+function drawTrails(){document.querySelectorAll(".trail").forEach(T=>{const svg=T.querySelector(".path"),R=T.getBoundingClientRect();
+  const pts=[...T.querySelectorAll(".stop .dot")].map(d=>{const r=d.getBoundingClientRect();return[r.left-R.left+r.width/2,r.top-R.top+r.height/2]});
+  svg.setAttribute("viewBox",`0 0 ${R.width} ${R.height}`);svg.setAttribute("width",R.width);svg.setAttribute("height",R.height);
+  let d="";pts.forEach((p,i)=>{if(!i){d=`M${p[0]} ${p[1]}`;return}const q=pts[i-1],my=(q[1]+p[1])/2;d+=` C${q[0]} ${my} ${p[0]} ${my} ${p[0]} ${p[1]}`});
+  svg.innerHTML=`<path d="${d}" class="road"/><path d="${d}" class="dash"/>`})}
+let rsT;addEventListener("resize",()=>{clearTimeout(rsT);rsT=setTimeout(()=>{if(!$("home").hidden)drawTrails()},150)});
 $("q").oninput=()=>{const v=$("q").value.trim().toLowerCase(),R=$("fres");R.innerHTML="";if(!v)return;
   const hits=[];UNITS.forEach(u=>u.words.forEach(w=>{if(w[0].startsWith(v))hits.push([w[0],u])}));
   if(!hits.length){R.innerHTML='<span class="none">لم نجد هذه الكلمة في الوحدات.</span>';return}
   hits.slice(0,12).forEach(([w,u])=>{const b=document.createElement("button");b.textContent=`${w} → Unit ${u.n}`;b.onclick=()=>{sfx("page");$("q").value="";R.innerHTML="";openUnit(u)};R.appendChild(b)})};
 $("back").onclick=()=>{sfx("page");renderHome()};
-function openUnit(u){U=u;$("home").hidden=true;$("unit").hidden=false;$("uTitle").innerHTML=`<small>Unit ${u.n}</small>${esc(u.title)}`;setStage("learn");window.scrollTo(0,0)}
+function openUnit(u){U=u;store.set("wq-last",String(u.n));$("home").hidden=true;$("unit").hidden=false;drawUnitHead();setStage("learn");window.scrollTo(0,0)}
+function drawUnitHead(){const u=U;if(!u)return;const b=bestOf(u.n),seen=seenIn(u),S=STG[stOf(u.n)];
+  $("uTitle").innerHTML=`<small>Unit ${u.n} · ${S[2]} ${S[1]}</small>${esc(u.title)}`;
+  $("uProg").innerHTML=`<span class="up"><b>${seen}/20</b> كلمة اكتشفتها</span><span class="up"><b>${b}/10</b> أفضل اختبار</span><span class="up ${b>=8?"won":""}">${b>=8?"🏅 حصلت على الشارة":"🎯 8/10 للشارة"}</span>`;
+  $("unit").style.setProperty("--uc",S[4]);$("unit").style.setProperty("--ub",S[3])}
 document.querySelectorAll(".stage").forEach(b=>b.onclick=()=>{sfx("page");setStage(b.dataset.s)});
 function setStage(s){stage=s;document.querySelectorAll(".stage").forEach(b=>b.setAttribute("aria-selected",b.dataset.s===s));renderStage()}
 function renderStage(){({learn:renderLearn,practice:renderPractice,read:renderRead,test:renderTest})[stage]()}
@@ -1670,7 +1757,7 @@ function renderTest(){
     t.opts.forEach(o=>{const b=document.createElement("button");b.className="opt";b.textContent=o;
       b.onclick=()=>{t.pick=o;$("opts").querySelectorAll(".opt").forEach(c=>c.classList.toggle("pick",c===b));$("tn").disabled=false};$("opts").appendChild(b)});
     $("tn").onclick=()=>{i++;i<10?q():end()}}
-  function end(){const s=T.filter(t=>t.pick===t.ans).length;T.forEach(t=>mark(t.ans,t.pick===t.ans));addDaily(10);const prev=+(store.get("wq-best-"+U.n)||0);if(s>prev)store.set("wq-best-"+U.n,String(s));
+  function end(){const s=T.filter(t=>t.pick===t.ans).length;T.forEach(t=>mark(t.ans,t.pick===t.ans));addDaily(10);drawUnitHead();const prev=+(store.get("wq-best-"+U.n)||0);if(s>prev)store.set("wq-best-"+U.n,String(s));
     sfx(s>=8?"win":"soft");const msg=s===10?"ممتاز! درجة كاملة":s>=8?"رائع! حصلت على شارة الوحدة":s>=6?"جيد، راجع الكلمات التي أخطأت فيها وأعد المحاولة":"راجع مرحلتي تعرّف وتدرّب ثم أعد الاختبار";
     Z.innerHTML=`<div class="score"><span class="big" style="color:${s>=8?"var(--good)":s>=6?"#c98500":"var(--bad)"}">${s} / 10</span><span class="msg ar" style="text-align:center">${msg}</span>${s>=8?'<span class="badge" style="position:static;transform:rotate(-3deg)">Unit '+U.n+' Badge</span>':""}</div>
       <h3 style="margin-bottom:8px">Review · المراجعة</h3><div class="review" id="rv"></div><div class="row center" style="margin-top:16px"><button class="btn" id="again">Try again · أعد الاختبار</button></div>`;
@@ -1688,7 +1775,7 @@ const dayNo=()=>{const d=new Date();return Math.floor((d-d.getTimezoneOffset()*6
 const GAPS=[0,1,3,7,14,30,60];              // days until the next review for boxes 0..6
 let SRS={};try{SRS=JSON.parse(store.get("wq-srs")||"{}")||{}}catch(e){SRS={}}   // word -> [box, due day]
 const saveSRS=()=>store.set("wq-srs",JSON.stringify(SRS));
-function seen(w){if(INDEX[w]&&!SRS[w]){SRS[w]=[0,dayNo()+1];saveSRS()}}
+function seen(w){if(INDEX[w]&&!SRS[w]){SRS[w]=[0,dayNo()+1];saveSRS();if(U)drawUnitHead()}}
 function mark(w,ok){if(!INDEX[w])return;const s=SRS[w]||[0,dayNo()];
   if(ok){s[0]=Math.min(s[0]+1,GAPS.length-1);s[1]=dayNo()+GAPS[s[0]]}else{s[0]=0;s[1]=dayNo()}
   SRS[w]=s;saveSRS()}
@@ -1703,11 +1790,16 @@ function addDaily(k){const d=dayState(),was=d.n;d.n+=k||1;store.set("wq-day",JSO
     const t=$("toast");t.innerHTML=`🎯 <b>أنجزت هدفك اليوم!</b> 🔥 سلسلتك: ${streakN()} ${streakN()===1?"يوم":"أيام"} متتالية.`;t.hidden=false;clearTimeout(addDaily.h);addDaily.h=setTimeout(()=>{t.hidden=true},5000);sfx("win")}
   drawDash()}
 function drawDash(){const D=$("dash");if(!D||$("home").hidden)return;
-  const d=dayState(),due=dueList().length,st=streakN(),pct=Math.min(100,Math.round(d.n/GOAL*100)),known=Object.keys(SRS).length;
-  D.innerHTML=`<div class="dcell"><span class="dic">🔥</span><b>${st}</b><small>${st===1?"يوم متتالٍ":"أيام متتالية"}</small></div>
+  const d=dayState(),due=dueList().length,st=streakN(),pct=Math.min(100,Math.round(d.n/GOAL*100)),known=Object.keys(SRS).length,badges=UNITS.filter(u=>bestOf(u.n)>=8).length;
+  const hr=new Date().getHours();$("hiTxt").textContent=(hr<12?"صباح الخير":"مساء الخير")+(st?` · 🔥 ${st} ${st===1?"يوم":"أيام"} متتالية، لا تقطعها!`:" · ابدأ سلسلتك اليوم 🔥");
+  D.innerHTML=`<div class="dcell"><span class="dic flame${st?" lit":""}">🔥</span><b>${st}</b><small>${st===1?"يوم متتالٍ":"أيام متتالية"}</small></div>
     <div class="dcell"><span class="ring" style="--p:${pct}"><span>${Math.min(d.n,GOAL)}/${GOAL}</span></span><small>هدف اليوم <button class="goalbtn" id="goalBtn" aria-label="غيّر الهدف">✎</button></small></div>
-    <div class="dcell"><span class="dic">🧠</span><b>${masteredN()}</b><small>كلمة أتقنتها من ${known}</small></div>
-    <button class="btn dgo" id="revBtn">${due?`🔁 مراجعتي اليومية<small>${due} ${due===1?"كلمة تنتظرك":due<=10?"كلمات تنتظرك":"كلمة تنتظرك"}</small>`:known?`✓ أنهيت مراجعة اليوم<small>مراجعة إضافية لأصعب كلماتك</small>`:`🔁 مراجعتي اليومية<small>تعلّم كلمات وحدة لتظهر هنا</small>`}</button>`;
+    <div class="dcell"><span class="dic">🧠</span><b>${masteredN()}</b><small>كلمة أتقنتها</small></div>
+    <div class="dcell"><span class="dic">🏅</span><b>${badges}</b><small>شارة من 50</small></div>`;
+  const nu=UNITS.find(u=>u.n===nextUnit());
+  $("hctas").innerHTML=`<button class="cta go" id="contBtn"><span class="ci">▶</span><span><small>${store.get("wq-last")?"أكمل رحلتك":"ابدأ رحلتك"}</small>Unit ${nu.n} · ${esc(nu.title)}</span></button>
+    <button class="cta rev${due?" due":""}" id="revBtn"><span class="ci">🔁</span><span><small>مراجعتي اليومية</small>${due?`${due} ${due<=10&&due>2?"كلمات تنتظرك":"كلمة تنتظرك"}`:known?"✓ أنهيت مراجعة اليوم":"تبدأ بعد أول وحدة"}</span>${due?`<span class="bdg">${due}</span>`:""}</button>`;
+  $("contBtn").onclick=()=>{sfx("page");openUnit(nu)};
   $("revBtn").onclick=()=>{if(!known){const t=$("toast");t.innerHTML="افتح أي وحدة، واقلب بطاقات الكلمات في مرحلة <b>تعرّف</b>، فتظهر لك في المراجعة من الغد.";t.hidden=false;setTimeout(()=>{t.hidden=true},6000);return}sfx("page");startReview()};
   $("goalBtn").onclick=e=>{e.stopPropagation();const opts=[5,10,20,30],i=opts.indexOf(GOAL);GOAL=opts[(i+1)%opts.length];store.set("wq-goal",String(GOAL));drawDash()};
 }
@@ -1787,4 +1879,4 @@ renderHome();
 })();
 </script>
 
-<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=4"></script>
+<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=5"></script>
