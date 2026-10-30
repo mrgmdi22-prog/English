@@ -100,7 +100,7 @@ h2.sec{font-size:1.4rem;margin:26px 4px 12px}
 .wbtns{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
 .wbtns button{font:inherit;font-weight:800;font-size:1.1rem;border:3px solid var(--ink);background:#fff;border-radius:999px;padding:8px 16px;cursor:pointer;color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
 .wbtns button:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
-.inst{display:flex;align-items:center;gap:12px;background:#fff;border:3px solid var(--ink);border-radius:24px;padding:10px 14px;box-shadow:4px 4px 0 var(--ink);margin:0 0 6px;flex-wrap:wrap}
+.inst{display:flex;align-items:center;gap:12px;background:#FFFBEA;margin-top:12px!important;border:3px solid var(--ink);border-radius:24px;padding:10px 14px;box-shadow:4px 4px 0 var(--ink);margin:0 0 6px;flex-wrap:wrap}
 .inst img{width:58px;height:58px;border-radius:14px;flex:none}
 .inst .tx{flex:1;min-width:160px}.inst .tx>b{display:block;font-size:1.15rem}.inst ol b{color:var(--ink)}.inst small{display:block;color:var(--muted);font-size:1rem;line-height:1.6}
 .inst button{font:inherit;font-weight:800;font-size:1.1rem;border:3px solid var(--ink);background:#FFD23F;border-radius:999px;padding:8px 18px;cursor:pointer;color:var(--ink)}
@@ -133,7 +133,33 @@ h2.sec{font-size:1.4rem;margin:26px 4px 12px}
 .vlist{display:grid;gap:6px;width:100%;max-width:340px}
 .vw{all:unset;box-sizing:border-box;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fff;border:3px solid var(--ink);border-radius:14px;padding:3px 10px;box-shadow:2px 2px 0 var(--ink)}
 .vw b{font-family:var(--en);font-size:1.2rem;direction:ltr}.vw span{font-size:1.1rem;font-weight:700;color:var(--muted)}
+.vlist.two{grid-template-columns:1fr 1fr;max-width:380px}.vlist.two .vw{flex-direction:column;gap:0;padding:4px 6px;text-align:center}.vlist.two .vw b{font-size:1.15rem}.vlist.two .vw span{font-size:1rem}
 .qopts-t{display:grid;gap:10px;max-width:460px;margin:0 auto}
+.storyhub{background:linear-gradient(135deg,#F3E8FF,#FFF1F8 60%,#FFF7D6);border:3px solid var(--ink);border-radius:28px;box-shadow:5px 5px 0 var(--ink);padding:14px 14px 16px;margin:4px 0 8px}
+.storyhub .hd{display:flex;align-items:center;gap:12px}
+.storyhub .hd .bk{font-size:3.2rem;line-height:1;animation:bob 2.8s ease-in-out infinite}
+.storyhub h2{margin:0;font-size:1.55rem}.storyhub p{margin:2px 0 0;color:var(--muted);font-size:1.05rem}
+.today{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:12px;width:100%;background:#fff;border:3px solid var(--ink);border-radius:22px;padding:10px 12px;margin:12px 0 10px;box-shadow:3px 3px 0 var(--ink)}
+.today .ic{font-size:3rem;line-height:1;width:72px;height:72px;display:grid;place-items:center;border-radius:18px;flex:none}
+.today small{display:block;color:#9333EA;font-weight:800;font-size:1rem}.today b{display:block;font-size:1.3rem}.today .en{color:var(--muted);font-weight:800;font-size:1.05rem}
+.today .go{margin-inline-start:auto;font-size:1.6rem}
+.covers{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.cov{all:unset;box-sizing:border-box;cursor:pointer;flex:none;width:118px;scroll-snap-align:start;border:3px solid var(--ink);border-radius:8px 18px 18px 8px;padding:10px 6px;text-align:center;box-shadow:3px 3px 0 var(--ink);position:relative}
+.cov .ic{font-size:2.6rem;line-height:1.2;display:block}.cov b{display:block;font-size:1rem;line-height:1.25;margin-top:4px}
+.cov .lv{position:absolute;top:-10px;inset-inline-start:6px;background:#fff;border:2px solid var(--ink);border-radius:999px;font-size:.8rem;padding:0 6px}
+.allbtn{all:unset;box-sizing:border-box;cursor:pointer;display:block;width:100%;text-align:center;background:#9333EA;color:#fff;font-weight:800;font-size:1.2rem;border:3px solid var(--ink);border-radius:999px;padding:10px;box-shadow:3px 3px 0 var(--ink)}
+.advhub{background:linear-gradient(135deg,#E0F2FE,#EDE9FE);border:3px solid var(--ink);border-radius:28px;box-shadow:5px 5px 0 var(--ink);padding:14px;margin:4px 0 8px}
+.advhub>p{margin:0 0 12px;color:var(--muted);font-size:1.05rem;text-align:center}
+.blank{display:inline-block;min-width:70px;border-bottom:4px solid var(--ink);color:var(--ok)}
+.gsent{font-family:var(--en);font-weight:800;font-size:clamp(1.5rem,6.5vw,2rem);direction:ltr;margin:6px 0 2px;line-height:1.35}
+.gar{color:var(--muted);font-size:1.15rem;margin:0 0 12px}
+.opp{font-family:var(--en);font-weight:800;font-size:2.2rem;direction:ltr;margin:4px 0 12px}
+.oslots{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;direction:ltr;min-height:64px;border:3px dashed #CFC3A3;border-radius:18px;padding:10px;margin:8px 0 14px;background:#fff}
+.oslots .ow{background:#DFF7E8;border-color:var(--ok)}
+.owords{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;direction:ltr}
+.ow{all:unset;cursor:pointer;font-family:var(--en);font-weight:800;font-size:1.45rem;border:3px solid var(--ink);border-radius:14px;background:#FFF3C4;padding:6px 14px;box-shadow:3px 3px 0 var(--ink)}
+.ow.used{visibility:hidden}.ow.wrong{background:#FDE4E4;border-color:var(--bad);animation:shake .4s}
+.slots.sm .slot{width:34px;height:48px;font-size:1.8rem;border-bottom-width:4px}
 .shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
 .bookwrap{perspective:1800px;max-width:470px;margin:0 auto;padding:4px 10px 10px 4px}
 .sbook{position:relative;height:0;padding-bottom:133%;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab}
@@ -242,12 +268,26 @@ const STORIES=[
  {lv:3,t:'A Trip to the Moon',ar:'رحلة إلى القمر',ic:'🚀',v:[['sky','سماء'],['dream','حلم'],['rocket','صاروخ'],['space','الفضاء'],['astronaut','رائد فضاء']],p:[['👦🔭🌙','Yousef loved the night sky. Every night, he looked at the moon.','كان يوسف يحب سماء الليل. كل ليلة كان ينظر إلى القمر.'],['🚀😮','One night, he had a dream. He was in a big rocket!','في إحدى الليالي حلم حلماً. كان في صاروخ كبير!'],['🔟➡️1️⃣','"Ten, nine, eight… three, two, one… Go!"','«عشرة، تسعة، ثمانية… ثلاثة، اثنان، واحد… انطلق!»'],['🚀✨','The rocket flew up into space. It was dark and quiet.','طار الصاروخ إلى الفضاء. كان المكان مظلماً وهادئاً.'],['🌍','Yousef looked out of the window. The Earth was small, blue and beautiful.','نظر يوسف من النافذة. كانت الأرض صغيرة وزرقاء وجميلة.'],['🌕👣','He landed on the moon. He jumped high, high, high!','هبط على القمر، وقفز عالياً، عالياً، عالياً!'],['⏰🛏️','Then… ring, ring! It was morning. It was only a dream.','ثم… رن، رن! كان الصباح. كان ذلك مجرد حلم.'],['👦👨‍🚀','"When I grow up, I want to be an astronaut!" said Yousef.','قال يوسف: «عندما أكبر أريد أن أكون رائد فضاء!»']],
   q:[['What did Yousef love?','ماذا كان يوسف يحب؟','🌙','⚽','🍕'],['What color was the Earth?','ما لون الأرض؟','blue','red','yellow'],['Was the trip real?','هل كانت الرحلة حقيقية؟','No, it was a dream.','Yes, it was real.'],['What does Yousef want to be?','ماذا يريد يوسف أن يكون؟','👨‍🚀','👨‍🍳','👨‍🚒']]},
  {lv:3,t:'The Honest Boy',ar:'الصبي الأمين',ic:'👛',v:[['market','سوق'],['wallet','محفظة'],['worried','قلق'],['honest','أمين'],['proud','فخور']],p:[['👨👦🛒','Khalid went to the market with his father.','ذهب خالد إلى السوق مع أبيه.'],['👛👀','On the ground, he saw a brown wallet.','رأى على الأرض محفظة بنية.'],['👛💵','He opened it. There was a lot of money inside!','فتحها. كان فيها مال كثير!'],['👦🤔','"This is not mine," said Khalid. "Someone is looking for it."','قال خالد: «هذه ليست لي. هناك من يبحث عنها.»'],['👴😟','He saw an old man. The man looked at the ground. He looked worried.','رأى رجلاً كبيراً في السن ينظر إلى الأرض. كان يبدو قلقاً.'],['👦👛👴','"Excuse me, sir. Is this your wallet?"','«عفواً يا عم، هل هذه محفظتك؟»'],['👴😊','"Yes! Thank you, my son. You are an honest boy."','«نعم! شكراً لك يا بني. أنت صبي أمين.»'],['👨👦❤️','His father smiled. "I am proud of you, Khalid."','ابتسم أبوه: «أنا فخور بك يا خالد.»']],
-  q:[['Where did Khalid go?','إلى أين ذهب خالد؟','to the market','to the beach','to the zoo'],['What did he find?','ماذا وجد؟','👛','⚽','📱'],['How did the old man feel first?','كيف كان شعور الرجل أولاً؟','worried','happy','sleepy'],['Khalid is …','خالد…','honest','lazy','angry']]}
+  q:[['Where did Khalid go?','إلى أين ذهب خالد؟','to the market','to the beach','to the zoo'],['What did he find?','ماذا وجد؟','👛','⚽','📱'],['How did the old man feel first?','كيف كان شعور الرجل أولاً؟','worried','happy','sleepy'],['Khalid is …','خالد…','honest','lazy','angry']]},
+ /* Level 4: advanced — longer stories, dialogue, true/false questions */
+ {lv:4,t:'The Lion and the Mouse',ar:'الأسد والفأر',ic:'🦁',v:[['net','شبكة'],['roar','يزأر'],['caught','أمسك / وقع'],['rope','حبل'],['free','حرّ'],['bite','يقضم']],p:[['🦁😴','One hot afternoon, a big lion was sleeping under a tree.','في ظهيرة يوم حار، كان أسد كبير نائماً تحت شجرة.'],['🐭🏃','A little mouse ran over his nose by mistake.','ركض فأر صغير فوق أنفه بالخطأ.'],['🦁🐾🐭','The lion woke up and caught the mouse in his paw.','استيقظ الأسد وأمسك الفأر بمخلبه.'],['🐭🙏','"Please let me go!" cried the mouse. "One day I will help you."','صاح الفأر: «أرجوك اتركني! سأساعدك يوماً ما.»'],['🦁😂','The lion laughed. "How can a tiny mouse help a king?" But he let him go.','ضحك الأسد: «كيف يساعد فأر صغير ملكاً؟» لكنه تركه.'],['🪢🦁','A few days later, the lion was caught in a hunter\'s net.','بعد أيام قليلة، وقع الأسد في شبكة صياد.'],['🦁📢','He roared and roared, but he could not get out.','زأر وزأر، لكنه لم يستطع الخروج.'],['🐭🦷🪢','The mouse heard him. He ran to the net and bit the ropes.','سمعه الفأر، فركض إلى الشبكة وقضم الحبال.'],['🦁🎉🐭','Snap! The lion was free. "Thank you, my little friend!"','طق! تحرّر الأسد. «شكراً لك يا صديقي الصغير!»'],['💡','Small friends can be great friends.','الأصدقاء الصغار قد يكونون أصدقاء عظماء.']],
+  q:[['Where was the lion sleeping?','أين كان الأسد نائماً؟','under a tree','in a house','in the sea'],['Why did the lion laugh?','لماذا ضحك الأسد؟','The mouse was very small.','He saw a funny cat.','He was hungry.'],['How did the mouse help the lion?','كيف ساعد الفأر الأسد؟','He bit the ropes.','He called the hunter.','He gave him water.'],['True or false: The lion let the mouse go.','صح أم خطأ: ترك الأسد الفأر يذهب.','True','False'],['What is the lesson?','ما الدرس؟','Small friends can be great friends.','Lions are always angry.','Mice like cheese.']]},
+ {lv:4,t:'The Tortoise and the Hare',ar:'السلحفاة والأرنب',ic:'🐢',v:[['race','سباق'],['slow','بطيء'],['laugh','يضحك'],['rest','يرتاح'],['won','فاز'],['too late','فات الأوان']],p:[['🐇💨','Hare was very fast. He always said, "Nobody is faster than me!"','كان الأرنب سريعاً جداً. وكان يقول دائماً: «لا أحد أسرع مني!»'],['🐢','Tortoise was slow, but he never gave up.','كانت السلحفاة بطيئة، لكنها لم تستسلم أبداً.'],['🐢🗣️🐇','One day, Tortoise said, "Let\'s have a race."','في أحد الأيام قالت السلحفاة: «هيا نتسابق.»'],['🐇😂','Hare laughed. "You? A race with me? OK, let\'s go!"','ضحك الأرنب: «أنتِ؟ تتسابقين معي؟ حسناً، هيا!»'],['🏁🐇💨','The race started. Hare ran far away. Tortoise walked slowly.','بدأ السباق. ركض الأرنب بعيداً، ومشت السلحفاة ببطء.'],['🐇🌳😴','Hare looked back. "She is too slow. I can rest a little." He fell asleep.','نظر الأرنب خلفه: «إنها بطيئة جداً. أستطيع أن أرتاح قليلاً.» ثم نام.'],['🐢🚶','Tortoise walked and walked. She did not stop.','مشت السلحفاة ومشت، ولم تتوقف.'],['🐢🏁','When Hare woke up, Tortoise was near the finish line!','عندما استيقظ الأرنب، كانت السلحفاة قريبة من خط النهاية!'],['🐇💨😱','Hare ran very fast, but it was too late. Tortoise won!','ركض الأرنب بسرعة كبيرة، لكن فات الأوان. فازت السلحفاة!'],['💡','Slow and steady wins the race.','البطء مع المثابرة يفوز بالسباق.']],
+  q:[['Who was very fast?','من كان سريعاً جداً؟','🐇','🐢','🦊'],['What did Hare do in the race?','ماذا فعل الأرنب في السباق؟','He slept under a tree.','He ate carrots.','He helped Tortoise.'],['Who won the race?','من فاز بالسباق؟','🐢','🐇','🦊'],['True or false: Tortoise stopped to rest.','صح أم خطأ: توقفت السلحفاة لترتاح.','False','True'],['What is the lesson?','ما الدرس؟','Slow and steady wins the race.','Always sleep in a race.','Never run.']]},
+ {lv:4,t:'Stars over the Desert',ar:'نجوم الصحراء',ic:'🌌',v:[['desert','صحراء'],['tent','خيمة'],['sunset','غروب الشمس'],['bright','لامع'],['travelers','المسافرون'],['dates','تمر']],p:[['🚙🏜️','On Friday, Hamad and his family drove to the desert.','يوم الجمعة، ذهب حمد وأسرته بالسيارة إلى الصحراء.'],['⛺🔥','They put up a tent and made a small fire.','نصبوا خيمة وأشعلوا ناراً صغيرة.'],['🫖🌴','Mother made tea, and they ate dates.','أعدّت أمي الشاي، وأكلوا التمر.'],['🌅','At sunset, the sky turned orange, then pink, then dark blue.','عند الغروب، صارت السماء برتقالية، ثم وردية، ثم زرقاء داكنة.'],['🌌✨','Then the stars came out. There were hundreds of them!','ثم ظهرت النجوم. كانت بالمئات!'],['👨☝️⭐','Father pointed up. "Look, Hamad! That bright star is the North Star."','أشار أبي إلى الأعلى: «انظر يا حمد! ذلك النجم اللامع هو نجم الشمال.»'],['🧭🐪','"Long ago, travelers used it to find their way at night."','«قديماً كان المسافرون يهتدون به في الليل.»'],['🐪🌙','Hamad saw a camel walking slowly under the moon.','رأى حمد جملاً يمشي ببطء تحت القمر.'],['👦💭','"The desert is quiet, but the sky is full of stories," he thought.','فكّر حمد: «الصحراء هادئة، لكن السماء مليئة بالقصص.»'],['😴⛺⭐','Hamad fell asleep with a smile, dreaming of the stars.','نام حمد مبتسماً، يحلم بالنجوم.']],
+  q:[['Where did the family go?','إلى أين ذهبت الأسرة؟','to the desert','to the beach','to the city'],['What did they eat?','ماذا أكلوا؟','dates','pizza','fish'],['What color was the sky first at sunset?','ما أول لون للسماء عند الغروب؟','orange','green','white'],['Why did travelers use the North Star?','لماذا استخدم المسافرون نجم الشمال؟','to find their way','to cook food','to sleep'],['True or false: The desert was very noisy.','صح أم خطأ: كانت الصحراء صاخبة جداً.','False','True']]},
+ {lv:4,t:'Robo the Helper',ar:'روبو المساعد',ic:'🤖',v:[['present','هدية'],['robot','روبوت'],['tidy','يرتّب'],['shelf','رف'],['mistake','خطأ'],['perfect','ممتاز / مثالي']],p:[['👧🎁','Rana got a present for her birthday. It was a little robot!','حصلت رنا على هدية في عيد ميلادها. كانت روبوتاً صغيراً!'],['🤖👋','"Hello! My name is Robo. How can I help you?"','«مرحباً! اسمي روبو. كيف أستطيع مساعدتك؟»'],['👧🧸','"Can you tidy my room, please?" asked Rana.','سألت رنا: «هل تستطيع ترتيب غرفتي من فضلك؟»'],['🤖📚','Robo picked up the toys and put the books on the shelf.','جمع روبو الألعاب ووضع الكتب على الرف.'],['🤖🍳😬','Then Robo tried to make breakfast. Oh no! The eggs fell on the floor.','ثم حاول روبو أن يعدّ الفطور. يا للأسف! سقط البيض على الأرض.'],['🤖😟','"I am sorry," said Robo. "I made a mistake."','قال روبو: «أنا آسف، لقد أخطأت.»'],['👧😄','Rana smiled. "Don\'t worry, Robo. Everyone makes mistakes."','ابتسمت رنا: «لا تقلق يا روبو. الجميع يخطئ.»'],['👧🤖🍳','"Let\'s cook together. I will show you how."','«هيا نطبخ معاً، وسأريك كيف.»'],['🍳✅','This time, the eggs were perfect!','هذه المرة، كان البيض ممتازاً!'],['🤖💡','"Thank you, Rana. Now I know: we learn from our mistakes."','«شكراً يا رنا. الآن عرفت: نحن نتعلّم من أخطائنا.»']],
+  q:[['What did Rana get for her birthday?','ماذا حصلت رنا في عيد ميلادها؟','🤖','🚲','🐱'],['Where did Robo put the books?','أين وضع روبو الكتب؟','on the shelf','under the bed','in the box'],['What happened to the eggs first?','ماذا حدث للبيض أولاً؟','They fell on the floor.','They were perfect.','Robo ate them.'],['True or false: Rana was angry with Robo.','صح أم خطأ: غضبت رنا من روبو.','False','True'],['What is the lesson?','ما الدرس؟','We learn from our mistakes.','Robots can\'t cook.','Never make breakfast.']]}
 ];
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+/* advanced corner (for stronger children) */
+const SPELL2=[['🐰','rabbit'],['🍌','banana'],['🏫','school'],['🌸','flower'],['👩‍🏫','teacher'],['🐘','elephant'],['🐔','chicken'],['🦒','giraffe'],['🌈','rainbow'],['☂️','umbrella'],['🦋','butterfly'],['🪟','window'],['✏️','pencil'],['🐒','monkey'],['🐢','turtle'],['🐪','camel'],['🪐','planet'],['🧑‍🚀','astronaut'],['🎁','present'],['🚀','rocket'],['🏰','castle'],['🍪','cookie'],['🦷','tooth'],['🍉','melon'],['🧸','teddy'],['🦓','zebra'],['🐧','penguin'],['🍞','bread']];
+const GRAM=[['🐱🐱','There ___ two cats.','يوجد قطتان.','are','is'],['🐶','There ___ a dog in the garden.','يوجد كلب في الحديقة.','is','are'],['🙋‍♂️','I ___ a student.','أنا طالب.','am','is','are'],['👧','She ___ my sister.','هي أختي.','is','am','are'],['👨‍👩‍👧','They ___ happy.','هم سعداء.','are','is','am'],['🍎','This is ___ apple.','هذه تفاحة.','an','a'],['🍌','This is ___ banana.','هذه موزة.','a','an'],['🥚','I have ___ egg.','لديّ بيضة.','an','a'],['🐱📦','The cat is ___ the box.','القطة داخل الصندوق.','in','on','under'],['⚽🛏️','The ball is ___ the bed.','الكرة تحت السرير.','under','on','in'],['📖','The book is ___ the table.','الكتاب على الطاولة.','on','under','in'],['🐦🐦🐦','I can see three ___.','أستطيع أن أرى ثلاثة طيور.','birds','bird'],['⚽','He ___ football every day.','هو يلعب كرة القدم كل يوم.','plays','play'],['🐟','A fish can ___.','السمكة تستطيع أن تسبح.','swim','fly','walk'],['📅⚽','Yesterday, I ___ football.','أمس لعبتُ كرة القدم.','played','play','plays'],['📅🍕','Last night, we ___ pizza.','الليلة الماضية أكلنا البيتزا.','ate','eat','eats'],['📅🏫','Yesterday, she ___ to school.','أمس ذهبت إلى المدرسة.','went','go','goes'],['👦','___ is my brother.','هو أخي.','He','She'],['👩','___ is my mother.','هي أمي.','She','He'],['🐘🐭','The elephant is ___ than the mouse.','الفيل أكبر من الفأر.','bigger','smaller'],['🙋','___ is your name?','ما اسمك؟','What','Where','How'],['🏠','___ do you live?','أين تسكن؟','Where','What','Who'],['🎂','How ___ are you?','كم عمرك؟','old','many','much'],['📺','Look! He ___ watching TV.','انظر! إنه يشاهد التلفاز.','is','are','am'],['🍪🍪🍪','How ___ cookies are there?','كم كعكة يوجد؟','many','old','much'],['🎒','This is ___ bag. (my)','هذه حقيبتي.','my','I','me']];
+const OPP=[['🐘','big','كبير','small','tall','hot'],['🔥','hot','حار','cold','big','fast'],['🐇','fast','سريع','slow','happy','old'],['😊','happy','سعيد','sad','long','new'],['☀️','day','نهار','night','morning','sun'],['⬆️','up','فوق','down','in','left'],['👴','old','كبير في السن','young','tall','short'],['🚪','open','مفتوح','closed','full','dirty'],['🧼','clean','نظيف','dirty','empty','wet'],['🦒','tall','طويل','short','slow','hot'],['💡','light','مضيء','dark','heavy','cold'],['🥛','full','ممتلئ','empty','clean','late'],['💧','wet','مبتل','dry','hard','sad'],['🪨','hard','قاسٍ','soft','dry','fast'],['⬅️','left','يسار','right','down','back'],['🌅','early','مبكر','late','slow','dark'],['👍','yes','نعم','no','up','in'],['📢','loud','عالٍ','quiet','dark','tall'],['➕','first','الأول','last','next','big'],['🏋️','strong','قوي','weak','wet','early']];
+const ORD=[['🍎','I like apples.','أحب التفاح.'],['🐈‍⬛','The cat is black.','القطة سوداء.'],['📖','This is my book.','هذا كتابي.'],['🎒','She has a red bag.','لديها حقيبة حمراء.'],['🏫','We go to school.','نذهب إلى المدرسة.'],['☀️','The sun is hot.','الشمس حارة.'],['🚲','I can ride a bike.','أستطيع ركوب الدراجة.'],['👨‍⚕️','My father is a doctor.','أبي طبيب.'],['🐦🌳','The birds are in the tree.','الطيور على الشجرة.'],['⚽','He plays football every day.','هو يلعب كرة القدم كل يوم.'],['🖊️','Where is my pen?','أين قلمي؟'],['👦👦','I have two brothers.','لديّ أخوان.'],['🙏','Can you help me, please?','هل تستطيع مساعدتي من فضلك؟'],['🐘','The elephant is very big.','الفيل كبير جداً.'],['🥶','It is cold today.','الجو بارد اليوم.'],['👧📚','My sister likes to read.','أختي تحب القراءة.'],['🚪','Open the door, please.','افتح الباب من فضلك.'],['🐟💧','The fish is in the water.','السمكة في الماء.'],['👵','Yesterday I visited my grandma.','أمس زرتُ جدتي.'],['🌙','I go to bed at nine.','أنام الساعة التاسعة.']];
 const STICKERS=['🦄','🚀','🐬','🦋','🍭','🏆','🌟','🎈','🐼','🦖','🍉','🎨','🐠','🌻','🧸','🎁','🐢','🦒','🍩','⚽'];
 
 /* mistakes box (this device): a wrong answer comes back again in the same game,
@@ -311,7 +351,12 @@ const SECTIONS=[
   {id:'sto',ic:'📚',ar:'قصص قصيرة',en:'Stories',c:'#9333EA',t:'#F3E8FF',g:3},
   {id:'spl',ic:'🧩',ar:'كوّن الكلمة',en:'Spell it!',c:'#EA580C',t:'#FFEDD5',g:4},
   {id:'mem',ic:'🃏',ar:'لعبة الذاكرة',en:'Memory',c:'#0D9488',t:'#DDF5F1',g:4},
-  {id:'stk',ic:'🎁',ar:'ملصقاتي',en:'Stickers',c:'#B7791F',t:'#FFF3C4',g:4}
+  {id:'stk',ic:'🎁',ar:'ملصقاتي',en:'Stickers',c:'#B7791F',t:'#FFF3C4',g:4},
+  {id:'sto4',ic:'🦁',ar:'قصص الأبطال',en:'Hero Stories',c:'#4F46E5',t:'#EEF2FF',g:5},
+  {id:'ord',ic:'🧱',ar:'رتّب الجملة',en:'Build it!',c:'#0EA5E9',t:'#E0F2FE',g:5},
+  {id:'grm',ic:'🎯',ar:'اختر الصحيح',en:'Grammar',c:'#7C3AED',t:'#F3E8FF',g:5},
+  {id:'opp',ic:'🔄',ar:'الأضداد',en:'Opposites',c:'#DB2777',t:'#FCE7F3',g:5},
+  {id:'spl2',ic:'🏅',ar:'كلمات أطول',en:'Super Spell',c:'#D97706',t:'#FEF3C7',g:5}
 ];
 /* "Install Kids Club" card: the real install prompt where the browser offers one, otherwise the menu steps */
 let INST=null;const STANDALONE=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
@@ -323,19 +368,28 @@ function doInstall(){
   const ua=navigator.userAgent,ios=/iphone|ipad|ipod/i.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document),sam=/SamsungBrowser/.test(ua);
   const steps=ios?['افتح هذه الصفحة في متصفح <b>Safari</b>.','اضغط زر المشاركة <b>⬆️</b> أسفل الشاشة.','اختر <b>«إضافة إلى الشاشة الرئيسية»</b> ثم <b>«إضافة»</b>.']
     :sam?['اضغط زر القائمة <b>☰</b> أسفل الشاشة.','اختر <b>«إضافة صفحة إلى»</b> ثم <b>«الشاشة الرئيسية»</b>.','أو افتح الصفحة في <b>Google Chrome</b> لتثبيت أفضل.']
-    :['افتح هذه الصفحة في متصفح <b>Google Chrome</b>.','اضغط النقاط الثلاث <b>⋮</b> أعلى الشاشة.','اختر <b>«تثبيت التطبيق»</b> أو <b>«إضافة إلى الشاشة الرئيسية»</b> ثم <b>«تثبيت»</b>.'];
+    :['افتح هذه الصفحة في متصفح <b>Google Chrome</b>.','اضغط النقاط الثلاث <b>⋮</b> أعلى الشاشة.','اختر <b>«تثبيت التطبيق»</b> أو <b>«إضافة إلى الشاشة الرئيسية»</b> ثم <b>«تثبيت»</b>.','إذا كان تطبيق <b>English Club</b> مثبّتاً عندك: اضغط مطوّلاً على أيقونته، ثم اسحب <b>«نادي البراعم 🦁»</b> إلى الشاشة.'];
   const bt=$('inst').querySelector('button');if(bt)bt.remove();$('instTx').innerHTML='<ol>'+steps.map(s=>'<li>'+s+'</li>').join('')+'</ol>';
 }
 function home(){
   $('topBtn').textContent='🏠 النادي';$('topBtn').dir='rtl';$('topBtn').href='../index.html';$('topBtn').onclick=null;
-  $('app').innerHTML=`<div class="hero"><span class="mascot" aria-hidden="true">🦁</span><h1>نادي البراعم<span class="en">English Club Kids</span></h1><p>اضغط، واسمع، والعب، واجمع النجوم ⭐</p></div>${instCard()}${reviewBox()}
+  const LC=['','#EDE4FF','#D9F5EC','#FFE6CC','#DCE6FF'],LT=['','⭐','⭐⭐','⭐⭐⭐','🚀'];
+  const day=Math.floor(Date.now()/864e5),tn=day%STORIES.length,ts=STORIES[tn];
+  const cov=(st,i)=>`<button class="cov" data-st="${i}" style="background:${LC[st.lv||1]}"><span class="lv">${LT[st.lv||1]}</span><span class="ic">${st.ic}</span><b>${esc(st.ar)}</b></button>`;
+  $('app').innerHTML=`<div class="hero"><span class="mascot" aria-hidden="true">🦁</span><h1>نادي البراعم<span class="en">English Club Kids</span></h1><p>اقرأ، واسمع، والعب، واجمع النجوم ⭐</p></div>${reviewBox()}
+    <div class="storyhub"><div class="hd"><span class="bk" aria-hidden="true">📚</span><div><h2>ركن القصص</h2><p>${STORIES.length} قصة مصوّرة ناطقة في 4 مستويات</p></div></div>
+      <button class="today" data-st="${tn}"><span class="ic" style="background:${LC[ts.lv||1]}">${ts.ic}</span><span><small>✨ قصة اليوم</small><b>${esc(ts.ar)}</b><span class="en">${esc(ts.t)}</span></span><span class="go" aria-hidden="true">👈</span></button>
+      <div class="covers">${STORIES.map(cov).join('')}</div>
+      <button class="allbtn" data-id="sto">📖 كل القصص حسب المستوى</button></div>${instCard()}
     <h2 class="sec">🌱 أبدأ من هنا</h2><div class="tiles">${SECTIONS.slice(0,5).map(tile).join('')}</div>
     <h2 class="sec">🖼️ كلمات بالصور</h2><div class="tiles">${SECTIONS.slice(5,5+TOPICS.length).map(tile).join('')}</div>
-    <h2 class="sec">💬 جمل وقصص</h2><div class="tiles">${SECTIONS.filter(s=>s.g===3).map(tile).join('')}</div>
-    <h2 class="sec">🎮 ألعاب</h2><div class="tiles">${SECTIONS.filter(s=>s.g===4).map(tile).join('')}</div>`;
-  document.querySelectorAll('.tile').forEach(b=>b.onclick=()=>open(b.dataset.id));
+    <h2 class="sec">💬 جمل وتحيات</h2><div class="tiles">${SECTIONS.filter(s=>s.g===3&&s.id!=='sto').map(tile).join('')}</div>
+    <h2 class="sec">🎮 ألعاب وجوائز</h2><div class="tiles">${SECTIONS.filter(s=>s.g===4).map(tile).join('')}</div>
+    <h2 class="sec">🚀 ركن الأبطال المتقدمين</h2><div class="advhub"><p>هل أنهيت ما سبق؟ تحدَّ نفسك: قصص أطول، وترتيب جمل، وقواعد، وأضداد، وكلمات أطول 💪</p><div class="tiles">${SECTIONS.filter(s=>s.g===5).map(tile).join('')}</div></div>`;
+  document.querySelectorAll('.tile,.allbtn').forEach(b=>b.onclick=()=>open(b.dataset.id));
+  document.querySelectorAll('[data-st]').forEach(b=>b.onclick=()=>{open('sto');story(+b.dataset.st);});
   document.querySelectorAll('[data-rv]').forEach(b=>b.onclick=()=>{const v=b.dataset.rv;
-    if(v==='spl')return open('spl');
+    if(['spl','spl2','ord','grm','opp'].includes(v))return open(v);
     if(v.startsWith('sto:')){const n=+v.slice(4);open('sto');return storyQuiz(n,fixDue('sto').filter(k=>k.split(':')[0]===String(n)).map(k=>+k.split(':')[1]),true);}
     const rd=v.startsWith('r-'),id=rd?v.slice(2):v;open(id);MODE=rd?'read':'play';draw();});
   window.scrollTo(0,0);
@@ -346,7 +400,7 @@ function reviewBox(){
   Object.values(FIX).forEach(f=>{if(f.due>now)return;let key=f.s;if(f.s==='sto')key='sto:'+f.k.split(':')[0];g[key]=(g[key]||0)+1;});
   const ks=Object.keys(g).filter(k=>{if(k==='spl'||k.startsWith('sto:'))return k!=='sto:'||true;const id=k.replace(/^r-/,'');return SECTIONS.some(s=>s.id===id);});
   if(!ks.length)return '';
-  const lab=k=>{if(k==='spl')return '🧩 كوّن الكلمة';if(k.startsWith('sto:')){const st=STORIES[+k.slice(4)];return st?st.ic+' '+st.ar:'📚 قصة';}
+  const lab=k=>{if(k==='spl')return '🧩 كوّن الكلمة';if(SECTIONS.some(x=>x.id===k&&x.g===5))return (s=>s.ic+' '+s.ar)(SECTIONS.find(x=>x.id===k));if(k.startsWith('sto:')){const st=STORIES[+k.slice(4)];return st?st.ic+' '+st.ar:'📚 قصة';}
     const rd=k.startsWith('r-'),s=SECTIONS.find(x=>x.id===k.replace(/^r-/,''));return s.ic+' '+s.ar+(rd?' (اقرأ)':' (اسمع)');};
   return `<div class="revbox"><b>🔁 حان وقت المراجعة!</b><small>أسئلة أخطأت فيها من قبل… أجب عنها الآن لتتذكرها جيداً 🧠</small><div class="revbtns">${ks.map(k=>`<button data-rv="${esc(k)}">${lab(k)} <span class="en">(${g[k]})</span></button>`).join('')}</div></div>`;
 }
@@ -362,9 +416,19 @@ function items(id){
   if(id==='phr'||id==='cls')return (id==='phr'?PHRASES:CLASS).map((p,i)=>({key:i,big:`<span class="big">${p[0]}</span>`,opt:`<span class="big">${p[0]}</span>`,say:p[1],q:p[1],w:p[1],a:p[2]}));
   return [];
 }
-let SEC=null,MODE='learn';
-function open(id){SEC=SECTIONS.find(s=>s.id===id);MODE='learn';
-  $('topBtn').innerHTML='<bdi>←</bdi> <bdi>رجوع</bdi>';$('topBtn').dir='ltr';$('topBtn').href='#';$('topBtn').onclick=e=>{e.preventDefault();speechSynthesis&&speechSynthesis.cancel();home();};
+let SEC=null,MODE='learn',NAV=false;
+/* back button: every screen is a history step, so the phone's back goes back inside Kids Club */
+function push(st,h){if(NAV)return;try{if(JSON.stringify(history.state)===JSON.stringify(st))return;history.pushState(st,'','#'+h);}catch(e){}}
+function goBack(e){if(e)e.preventDefault();speechSynthesis&&speechSynthesis.cancel();const st=history.state;if(st&&st.v&&st.v!=='home')history.back();else home();}
+function render(st){NAV=true;try{speechSynthesis&&speechSynthesis.cancel();if(!st||!st.v||st.v==='home')home();else if(st.v==='sec'&&SECTIONS.some(x=>x.id===st.id))open(st.id);else if(st.v==='story'&&STORIES[st.n]){open('sto');story(st.n);}else home();}finally{NAV=false;}}
+addEventListener('popstate',e=>render(e.state));
+function open(id){SEC=SECTIONS.find(s=>s.id===id);MODE='learn';push({v:'sec',id},id);
+  $('topBtn').innerHTML='<bdi>←</bdi> <bdi>رجوع</bdi>';$('topBtn').dir='ltr';$('topBtn').href='#';$('topBtn').onclick=goBack;
+  if(id==='sto4')return storyShelf(4);
+  if(id==='spl2')return spell(SPELL2,'spl2');
+  if(id==='ord')return order();
+  if(id==='grm')return grammar();
+  if(id==='opp')return opposites();
   if(id==='stk')return stickers();
   if(id==='sto')return storyShelf();
   if(id==='spl')return spell();
@@ -431,28 +495,29 @@ function endScreen(got,N,key,again,note){
 }
 function panel(s,sub){$('app').innerHTML=`<div class="panel"><h2>${s.ic} ${s.ar} <span class="en" style="color:${s.c}">${s.en}</span></h2>${sub?`<p class="sub">${sub}</p>`:''}<div id="pn"></div></div>`;window.scrollTo(0,0);}
 /* spell it: see the picture, tap the letters in order. A misspelled word comes back 2 words later */
-function spell(){
-  const s=SEC;panel(s,'انظر إلى الصورة، واضغط الحروف بالترتيب لتكتب الكلمة ✏️');
-  const N=6,due=fixDue('spl'),old=SPELL.filter(x=>due.includes(x[1])).slice(0,3);
-  const R=shuffle([...old.map(x=>({x,old:1})),...shuffle(SPELL.filter(x=>!old.includes(x))).slice(0,N-old.length).map(x=>({x}))]);
+function spell(LIST,KEY){
+  LIST=LIST||SPELL;KEY=KEY||'spl';
+  const s=SEC;panel(s,KEY==='spl2'?'كلمات أطول للأبطال! اضغط الحروف بالترتيب ✏️':'انظر إلى الصورة، واضغط الحروف بالترتيب لتكتب الكلمة ✏️');
+  const N=6,due=fixDue(KEY),old=LIST.filter(x=>due.includes(x[1])).slice(0,3);
+  const R=shuffle([...old.map(x=>({x,old:1})),...shuffle(LIST.filter(x=>!old.includes(x))).slice(0,N-old.length).map(x=>({x}))]);
   let r=0,got=0,fixed=0;
   function round(){
-    if(r>=R.length)return endScreen(got,N,'spl',spell,fixed?FIXNOTE:'');
+    if(r>=R.length)return endScreen(got,N,KEY,()=>spell(LIST,KEY),fixed?FIXNOTE:'');
     const cur=R[r],[pic,w]=cur.x;let i=0,miss=0,tries=0;
     const extra=shuffle('abcdefghijklmnopqrstuvwxyz'.split('').filter(c=>!w.includes(c))).slice(0,Math.max(1,6-w.length));
     const tiles=shuffle([...w.split(''),...extra]);
     $('pn').innerHTML=`<div class="game"><div class="gtop"><div class="dots">${R.map((_,k)=>`<i class="${k<r?'on':''}"></i>`).join('')}</div><span>⭐ ${got}</span></div><div class="gwrap">${tagHTML(cur)}</div>
       <div class="rpic"><span class="big">${pic}</span></div><button class="again" id="again">🔊 اسمع الكلمة</button>
-      <div class="slots">${w.split('').map(()=>'<span class="slot"></span>').join('')}</div>
+      <div class="slots${w.length>6?' sm':''}">${w.split('').map(()=>'<span class="slot"></span>').join('')}</div>
       <div class="ltiles">${tiles.map((c,k)=>`<button class="lt" data-c="${c}" data-k="${k}">${c}</button>`).join('')}</div><p class="fb" id="fb"></p></div>`;
     $('again').onclick=()=>say(w);
     const lts=[...$('pn').querySelectorAll('.lt')],next=()=>lts.find(t=>!t.classList.contains('used')&&t.dataset.c===w[i]);
     lts.forEach(b=>b.onclick=()=>{
       if(b.classList.contains('used'))return;
       if(b.dataset.c===w[i]){lts.forEach(t=>t.classList.remove('hint'));tries=0;$('fb').textContent='';$('pn').querySelectorAll('.slot')[i].textContent=w[i];b.classList.add('used');i++;window.clubSfx&&clubSfx('tap');
-        if(i===w.length){if(miss===0){if(!cur.again)got++;else fixed++;if(cur.old)fixRight('spl',w);}praise(miss);
+        if(i===w.length){if(miss===0){if(!cur.again)got++;else fixed++;if(cur.old)fixRight(KEY,w);}praise(miss);
           window.clubSfx&&clubSfx('good');const r0=$('pn').querySelector('.slots').getBoundingClientRect();burst(r0.left+r0.width/2,r0.top+20);say(w);setTimeout(()=>{r++;round();},1700);}}
-      else{if(!miss&&!cur.again){fixMiss('spl',w);R.splice(Math.min(R.length,r+3),0,{x:cur.x,again:1});}
+      else{if(!miss&&!cur.again){fixMiss(KEY,w);R.splice(Math.min(R.length,r+3),0,{x:cur.x,again:1});}
         miss++;tries++;b.classList.add('wrong');window.clubSfx&&clubSfx('bad');setTimeout(()=>b.classList.remove('wrong'),450);
         nudge(tries,next(),' استمع للكلمة 🔊');if(tries===2)say(w);}
     });
@@ -478,9 +543,9 @@ function memory(){
   });
 }
 /* stories: a shelf, then page by page with sound, then two picture questions */
-function storyShelf(){
-  const s=SEC;panel(s,'اختر قصة، واستمع إليها صفحة صفحة، ثم أجب عن الأسئلة 📚');
-  const LV=[[1,'⭐ المستوى الأول','جمل قصيرة وكلمات سهلة'],[2,'⭐⭐ المستوى الثاني','قصة فيها مشكلة وحل، وحوار قصير'],[3,'⭐⭐⭐ المستوى الثالث','قصص أطول بالزمن الماضي، وفيها درس']];
+function storyShelf(only){
+  const s=SEC;panel(s,only?'قصص أطول فيها حوار ودرس، وأسئلة «صح أم خطأ» 🦁':'اختر قصة، واستمع إليها صفحة صفحة، ثم أجب عن الأسئلة 📚');
+  const LV=[[1,'⭐ المستوى الأول','جمل قصيرة وكلمات سهلة'],[2,'⭐⭐ المستوى الثاني','قصة فيها مشكلة وحل، وحوار قصير'],[3,'⭐⭐⭐ المستوى الثالث','قصص أطول بالزمن الماضي، وفيها درس'],[4,'🚀 المستوى الرابع: للأبطال المتقدمين','قصص عالمية وأصلية أطول، وحوار، وأسئلة صح أم خطأ']].filter(l=>!only||l[0]===only);
   $('pn').innerHTML=LV.map(([lv,h,sub])=>`<h3 class="lvh">${h}<small>${sub}</small></h3><div class="shelf">${STORIES.map((st,i)=>[st,i]).filter(([st])=>(st.lv||1)===lv).map(([st,i])=>{const b=+(store.get('kd-best-sto'+i)||0),k=b?Math.max(1,Math.min(3,Math.round(b*3/(st.q.length+1)))):0;return `<button class="tile" data-i="${i}" style="--t:#fff;--c:#9333EA"><span class="i">${st.ic}</span><b>${st.ar}</b><span class="en">${esc(st.t)}</span>${k?`<span style="font-size:.9rem">${'⭐'.repeat(k)}</span>`:''}</button>`;}).join('')}</div>`).join('');
   $('pn').querySelectorAll('.tile').forEach(b=>b.onclick=()=>story(+b.dataset.i));
 }
@@ -511,12 +576,12 @@ function storyQuiz(n,idxs,review){
 }
 function story(n){
   const st=STORIES[n],pages=[{cover:1},...(st.v?[{vocab:1}]:[]),...st.p.map(p=>({p})),{end:1}],L=pages.length;let pg=0,busy=false;
-  $('topBtn').onclick=e=>{e.preventDefault();speechSynthesis&&speechSynthesis.cancel();open('sto');};
+  push({v:'story',n},'story-'+n);$('topBtn').onclick=goBack;
   const words=s=>esc(s).split(' ').map(w=>`<span class="wd">${w}</span>`).join(' ');
   function pageHTML(i){
     const P=pages[i];
-    if(P.cover)return `<div class="pg cover"><div class="cv-ic">${st.ic}</div><h3 class="en">${esc(st.t)}</h3><p class="cv-ar">${esc(st.ar)}</p><span class="cv-hint">👈 اسحب الصفحة أو اضغط على طرفها الأيمن</span></div>`;
-    if(P.vocab)return `<div class="pg vocab"><h3 class="en" style="margin:0">New Words</h3><p class="cv-ar">✨ كلمات جديدة — اضغط لتسمع</p><div class="vlist" dir="ltr">${st.v.map(v=>`<button class="vw" data-w="${esc(v[0])}"><b>${esc(v[0])}</b><span dir="rtl">${esc(v[1])}</span></button>`).join('')}</div><span class="no">${i}</span></div>`;
+    if(P.cover)return `<div class="pg cover" style="${['','','background:linear-gradient(160deg,#5EEAD4,#0D9488)','background:linear-gradient(160deg,#FDBA74,#EA580C)','background:linear-gradient(160deg,#93C5FD,#4F46E5)'][st.lv||1]}"><div class="cv-ic">${st.ic}</div><h3 class="en">${esc(st.t)}</h3><p class="cv-ar">${esc(st.ar)}</p><span class="cv-hint">👈 اسحب الصفحة أو اضغط على طرفها الأيمن</span></div>`;
+    if(P.vocab)return `<div class="pg vocab"><h3 class="en" style="margin:0">New Words</h3><p class="cv-ar">✨ كلمات جديدة — اضغط لتسمع</p><div class="vlist${st.v.length>5?' two':''}" dir="ltr">${st.v.map(v=>`<button class="vw" data-w="${esc(v[0])}"><b>${esc(v[0])}</b><span dir="rtl">${esc(v[1])}</span></button>`).join('')}</div><span class="no">${i}</span></div>`;
     if(P.end)return `<div class="pg end"><div class="pic">🌟</div><h3 class="en">The End</h3><p class="cv-ar">النهاية</p><button class="again" data-quiz="1">✅ أجب عن الأسئلة</button><span class="no">${i}</span></div>`;
     const [pic,en,ar]=P.p;
     return `<div class="pg${en.length>48?' long':''}"><div class="pic" aria-hidden="true">${pic}</div><p class="s en">${words(en)}</p><p class="ta" dir="rtl">${esc(ar)}</p><button class="spk" data-say="1" aria-label="اسمع">🔊</button><span class="no">${i}</span></div>`;
@@ -573,6 +638,71 @@ function story(n){
   $('pv').onclick=()=>turn(-1);$('nx').onclick=()=>turn(1);
   function quiz(){storyQuiz(n,st.q.map((_,i)=>i),false);}
   show();
+}
+/* generic multiple-choice game with the same "correct your mistake + come back later" rules */
+function choiceGame(KEY,LIST,N,mk,again){
+  const due=fixDue(KEY),old=LIST.map((x,i)=>i).filter(i=>due.includes(String(i))).slice(0,3);
+  const R=shuffle([...old.map(i=>({i,old:1})),...shuffle(LIST.map((x,i)=>i).filter(i=>!old.includes(i))).slice(0,N-old.length).map(i=>({i}))]);
+  let r=0,got=0,fixed=0;
+  function round(){
+    if(r>=R.length)return endScreen(got,N,KEY,again,fixed?FIXNOTE:'');
+    const cur=R[r],m=mk(LIST[cur.i]),opts=shuffle(m.opts);let tries=0;
+    $('pn').innerHTML=`<div class="game"><div class="gtop"><div class="dots">${R.map((_,k)=>`<i class="${k<r?'on':''}"></i>`).join('')}</div><span>⭐ ${got}</span></div><div class="gwrap">${tagHTML(cur)}</div>
+      <div style="text-align:center">${m.html}</div>${m.sayQ?'<button class="again" id="ag">🔊 اسمع</button>':''}
+      <div class="qopts-t" dir="ltr">${opts.map(o=>`<button class="opt ropt" data-o="${esc(o)}">${esc(o)}</button>`).join('')}</div><p class="fb" id="fb"></p></div>`;
+    if(m.sayQ){$('ag').onclick=()=>say(m.sayQ,.8);setTimeout(()=>say(m.sayQ,.8),300);}
+    const btns=[...$('pn').querySelectorAll('.opt')],good=btns.find(b=>b.dataset.o===m.right);
+    btns.forEach(b=>b.onclick=()=>{
+      if(b.disabled)return;
+      if(b===good){b.classList.remove('hint');b.classList.add('right');praise(tries);if(m.done)m.done();say(m.sayA,.8);
+        if(!tries){if(!cur.again)got++;else fixed++;if(cur.old)fixRight(KEY,cur.i);}
+        const r0=b.getBoundingClientRect();burst(r0.left+r0.width/2,r0.top+r0.height/2);
+        btns.forEach(c=>c.disabled=true);setTimeout(()=>{r++;round();},2000);}
+      else{if(!tries&&!cur.again){fixMiss(KEY,cur.i);R.splice(Math.min(R.length,r+3),0,{i:cur.i,again:1});}
+        tries++;b.disabled=true;b.classList.add('wrong');window.clubSfx&&clubSfx('bad');setTimeout(()=>b.classList.remove('wrong'),450);nudge(tries,good);}
+    });
+  }
+  round();
+}
+function grammar(){
+  panel(SEC,'اقرأ الجملة، واختر الكلمة الصحيحة للفراغ 🎯');
+  choiceGame('grm',GRAM,8,g=>{const[pic,sen,ar,right,...wr]=g,clean=sen.replace(/\s*\(.*?\)/,'');
+    return {html:`<div class="rpic"><span class="big">${pic}</span></div><p class="gsent" id="gs">${esc(clean).replace('___','<span class="blank">&nbsp;?&nbsp;</span>')}</p><p class="gar">${esc(ar)}</p>`,
+      opts:[right,...wr],right,sayA:clean.replace('___',right),done:()=>{const b=document.querySelector('.blank');if(b)b.textContent=right;}};},grammar);
+}
+function opposites(){
+  panel(SEC,'ما عكس الكلمة؟ اختر الضد الصحيح 🔄');
+  choiceGame('opp',OPP,8,o=>{const[pic,w,ar,right,...wr]=o;
+    return {html:`<div class="rpic"><span class="big">${pic}</span></div><p class="opp">${esc(w)} ↔ <span class="blank">&nbsp;?&nbsp;</span></p><p class="gar">«${esc(ar)}» — ما عكسها؟</p>`,
+      opts:[right,...wr],right,sayQ:w,sayA:w+' and '+right,done:()=>{const b=document.querySelector('.blank');if(b)b.textContent=right;}};},opposites);
+}
+/* build the sentence: tap the words in the right order */
+function order(){
+  panel(SEC,'انظر إلى الصورة واقرأ المعنى، ثم اضغط الكلمات بالترتيب لتبني الجملة 🧱');
+  const KEY='ord',N=6,due=fixDue(KEY),old=ORD.map((x,i)=>i).filter(i=>due.includes(String(i))).slice(0,3);
+  const R=shuffle([...old.map(i=>({i,old:1})),...shuffle(ORD.map((x,i)=>i).filter(i=>!old.includes(i))).slice(0,N-old.length).map(i=>({i}))]);
+  let r=0,got=0,fixed=0;
+  function round(){
+    if(r>=R.length)return endScreen(got,N,KEY,order,fixed?FIXNOTE:'');
+    const cur=R[r],[pic,sen,ar]=ORD[cur.i],W=sen.replace(/[.?!,]/g,'').split(' '),end=sen.slice(-1);let k=0,miss=0,tries=0;
+    let tiles=shuffle(W.map((w,j)=>({w,j})));if(tiles.every((t,j)=>t.j===j))tiles=tiles.reverse();
+    $('pn').innerHTML=`<div class="game"><div class="gtop"><div class="dots">${R.map((_,q)=>`<i class="${q<r?'on':''}"></i>`).join('')}</div><span>⭐ ${got}</span></div><div class="gwrap">${tagHTML(cur)}</div>
+      <div class="rpic"><span class="big">${pic}</span></div><p class="gar" style="text-align:center;font-size:1.3rem;font-weight:800;color:var(--ink)">${esc(ar)}</p>
+      <div class="oslots" id="os"></div><div class="owords">${tiles.map(t=>`<button class="ow" data-w="${esc(t.w)}">${esc(t.w)}</button>`).join('')}</div>
+      <button class="again" id="ag" style="margin-top:14px">💡 اسمع الجملة</button><p class="fb" id="fb"></p></div>`;
+    $('ag').onclick=()=>say(sen,.8);
+    const ows=[...$('pn').querySelectorAll('.owords .ow')],next=()=>ows.find(t=>!t.classList.contains('used')&&t.dataset.w===W[k]);
+    ows.forEach(b=>b.onclick=()=>{
+      if(b.classList.contains('used'))return;
+      if(b.dataset.w===W[k]){ows.forEach(t=>t.classList.remove('hint'));tries=0;$('fb').textContent='';b.classList.add('used');
+        $('os').insertAdjacentHTML('beforeend',`<span class="ow">${esc(W[k])}${k===W.length-1?esc(end):''}</span>`);k++;window.clubSfx&&clubSfx('tap');say(b.dataset.w,.8);
+        if(k===W.length){if(!miss){if(!cur.again)got++;else fixed++;if(cur.old)fixRight(KEY,cur.i);}praise(miss);window.clubSfx&&clubSfx('good');
+          const r0=$('os').getBoundingClientRect();burst(r0.left+r0.width/2,r0.top+20);setTimeout(()=>say(sen,.8),500);setTimeout(()=>{r++;round();},2600);}}
+      else{if(!miss&&!cur.again){fixMiss(KEY,cur.i);R.splice(Math.min(R.length,r+3),0,{i:cur.i,again:1});}
+        miss++;tries++;b.classList.add('wrong');window.clubSfx&&clubSfx('bad');setTimeout(()=>b.classList.remove('wrong'),450);nudge(tries,next(),' اضغط 💡 لتسمع الجملة');}
+    });
+  }
+  round();
 }
 /* sticker book: one sticker for every 5 stars */
 function stickers(){
@@ -769,7 +899,7 @@ function writer(){
   writer.resize=resize;
   window.scrollTo(0,0);
 }
-home();
+try{if(history.state&&history.state.v)render(history.state);else{history.replaceState({v:'home'},'',location.pathname+location.search);home();}}catch(e){home();}
 </script>
 </body>
 </html>
