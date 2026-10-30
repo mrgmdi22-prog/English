@@ -46,6 +46,23 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--sky);outline-of
 .level button{border:none;background:none;padding:8px 16px;font-weight:700}
 .level button[aria-pressed="true"]{background:var(--ink);color:#fff}
 
+.dash{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) 1.4fr;gap:10px;margin-bottom:18px;direction:rtl}
+.dcell{background:var(--surface);border:3px solid var(--ink);border-radius:20px;box-shadow:4px 4px 0 var(--ink);padding:10px 8px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-family:var(--ar)}
+.dcell b{font-family:var(--display);font-size:1.9rem;line-height:1}.dcell small{color:var(--muted);font-size:.95rem;font-weight:700;line-height:1.3}
+.dic{font-size:1.6rem;line-height:1}
+.ring{--p:0;width:64px;height:64px;border-radius:50%;background:conic-gradient(var(--mint) calc(var(--p)*1%),var(--line) 0);display:grid;place-items:center}
+.ring span{width:48px;height:48px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:1rem;direction:ltr}
+.goalbtn{border:0;background:none;font-size:.95rem;cursor:pointer;padding:0 2px;color:var(--sky)}
+.dgo{font-family:var(--ar);font-size:1.2rem;line-height:1.3;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--grape);border-radius:20px;padding:12px}
+.dgo small{display:block;font-size:.95rem;font-weight:700;opacity:.92}
+@media (max-width:640px){.dash{grid-template-columns:repeat(3,minmax(0,1fr))}.dgo{grid-column:1/-1}}
+.mic{position:absolute;top:8px;right:8px;width:40px;height:40px;border-radius:50%;border:2px solid var(--ink);background:var(--surface);display:grid;place-items:center;padding:0;font-size:1.1rem;cursor:pointer;z-index:2}
+.mic:hover{background:var(--sun)}
+.mic.rec,.mic-big.rec{background:var(--coral)!important;color:#fff;animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.12)}}
+.mic.ok{background:var(--good);color:#fff}.mic.no{background:var(--bad);color:#fff}
+.heard{position:absolute;top:52px;right:8px;left:8px;background:var(--surface);border:2px solid var(--ink);border-radius:12px;padding:4px 8px;font-size:.85rem;z-index:3;text-align:center}
+.mic-big{background:var(--coral)}
 .note{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:14px 18px;margin-bottom:18px;font-size:1.12rem;line-height:1.9}
 .note b{font-family:var(--ar)}
 .lbl{display:inline-block;background:var(--mint);color:#fff;border-radius:999px;padding:0 10px;font-size:.92rem;font-weight:700;margin-inline-end:6px}
@@ -199,6 +216,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--sky);outline-of
 
   <main id="home">
     <div class="note ar"><span class="lbl">كيف أستخدم المنصة؟</span>اختر وحدة، ثم سِر في مراحلها الأربع بالترتيب: <b>تعرّف</b> على الكلمات، ثم <b>تدرّب</b> عليها، ثم <b>اقرأ</b> القصة، ثم <b>اختبر نفسك</b>. كل إجابة تُصحَّح لك فورًا مع الشرح. المستوى <b>الأساسي</b> يعرض معاني الكلمات بالعربي، و<b>المتقدم</b> يعرض التعريفات الإنجليزية فقط.</div>
+    <div class="dash" id="dash"></div>
     <div class="finder"><label for="q" class="ar">ابحث عن كلمة لتعرف وحدتها</label><input id="q" type="search" placeholder="Type a word… مثال: falcon" autocomplete="off" autocapitalize="off" spellcheck="false"><div class="fres" id="fres" aria-live="polite"></div></div>
     <div id="units"></div>
   </main>
@@ -215,6 +233,11 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--sky);outline-of
       <button class="stage" role="tab" data-s="test">Test<small>اختبر نفسك</small></button>
     </nav>
     <section class="panel" id="panel"></section>
+  </main>
+
+  <main id="review" hidden>
+    <div class="uhead"><button class="back" id="rback">← Units</button><h2><small>Daily review</small>مراجعتي اليومية</h2></div>
+    <section class="panel" id="rpanel"></section>
   </main>
 
   <div class="toast" id="toast" role="status" hidden></div>
@@ -1507,7 +1530,7 @@ setLevel(level);
 const STG=[["المرحلة 1: البذرة","#fff7df","الأسابيع <bdi dir=\"ltr\">1–5</bdi>"],["المرحلة 2: البرعم","#e6f7f1","الأسابيع <bdi dir=\"ltr\">6–10</bdi>"],["المرحلة 3: الغصن","#eaf2ff","الأسابيع <bdi dir=\"ltr\">11–15</bdi>"],["المرحلة 4: الشجرة","#f1edff","الأسابيع <bdi dir=\"ltr\">16–20</bdi>"]];
 const wkOf=i=>Math.floor(i/50)+1;
 function renderHome(){
-  $("home").hidden=false;$("unit").hidden=true;U=null;
+  $("home").hidden=false;$("unit").hidden=true;$("review").hidden=true;U=null;drawDash();
   const H=$("units");H.innerHTML="";let grid=null,cur=-1;
   UNITS.forEach(u=>{const f=(u.n-1)*20,st=Math.min(3,Math.floor(f/250));
     if(st!==cur){cur=st;const h=document.createElement("div");h.className="sghead";h.style.background=STG[st][1];h.innerHTML=`<b>${STG[st][0]}</b><span>${STG[st][2]}</span>`;H.appendChild(h);grid=document.createElement("div");grid.className="units";H.appendChild(grid)}
@@ -1534,14 +1557,17 @@ const how=t=>`<p class="how"><span class="lbl">المطلوب</span>${t}</p>`;
 /* ---------- LEARN ---------- */
 function renderLearn(){
   const P=$("panel");
-  P.innerHTML=how("اضغط على كل بطاقة لترى تعريف الكلمة"+(basic()?" ومعناها بالعربي":"")+" وجملة مثال."+(true?" عند فتح البطاقة تسمع نطق الكلمة، واضغط زر السماعة لتسمع الكلمة ثم الجملة. يمكنك اختيار اللهجة الأمريكية أو البريطانية من أعلى الصفحة. وزر Cambridge يفتح الكلمة في قاموس كامبريدج لتسمع نطقها بصوت بشري.":"")+" اقرأ الكلمات العشرين قبل الانتقال إلى التدريب.")+
+  P.innerHTML=how("اضغط على كل بطاقة لترى تعريف الكلمة"+(basic()?" ومعناها بالعربي":"")+" وجملة مثال."+(true?" عند فتح البطاقة تسمع نطق الكلمة، واضغط زر السماعة لتسمع الكلمة ثم الجملة. يمكنك اختيار اللهجة الأمريكية أو البريطانية من أعلى الصفحة. وزر Cambridge يفتح الكلمة في قاموس كامبريدج لتسمع نطقها بصوت بشري.":"")+(SR?" واضغط 🎤 لتنطق الكلمة بنفسك ويخبرك الموقع إن كان نطقك صحيحاً.":"")+" اقرأ الكلمات العشرين قبل الانتقال إلى التدريب.")+
    `<div class="tools"><button class="btn alt" id="openAll">Show all · اكشف الكل</button><button class="btn alt" id="closeAll">Hide all · أخفِ الكل</button><button class="btn" id="sayAll">Listen to all · استمع لكل الكلمات</button></div><div class="cards" id="cards"></div>`;
   const C=$("cards");
   U.words.map(W).forEach(x=>{const d=document.createElement("div");d.className="fc";
     d.innerHTML=`<button class="flip" aria-label="${esc(x.w)}"><span class="front-side"><span class="w">${esc(x.w)}</span><br><span class="pos">${POS[x.pos]}</span></span>
       <span class="back-side"><span class="w" style="font-size:1.5rem">${esc(x.w)}</span><span class="def">${esc(x.def)}</span>${basic()?`<span class="arm">${esc(x.ar)}</span>`:""}<span class="ex">${esc(x.ex).replace(new RegExp("\\b("+x.w+")\\b","i"),"<b>$1</b>")}</span></span></button>
-      ${sayBtn(x.w+"||"+x.ex,x.w,"we","card")}${camLink(x.w,"oncard")}`;
-    d.querySelector(".flip").onclick=()=>{d.classList.toggle("open");if(d.classList.contains("open"))sayWord(x.w)};
+      ${sayBtn(x.w+"||"+x.ex,x.w,"we","card")}${camLink(x.w,"oncard")}${SR?`<button class="mic" aria-label="Say ${esc(x.w)}" title="انطق الكلمة">🎤</button>`:""}`;
+    d.querySelector(".flip").onclick=()=>{d.classList.toggle("open");if(d.classList.contains("open")){sayWord(x.w);seen(x.w)}};
+    const mb=d.querySelector(".mic");if(mb)mb.onclick=e=>{e.stopPropagation();const old=d.querySelector(".heard");if(old)old.remove();mb.classList.remove("ok","no");
+      hear(x.w,mb,(ok,heard)=>{if(heard===null&&!ok)return;mb.classList.add(ok?"ok":"no");sfx(ok?"good":"bad");if(ok){mark(x.w,true);addDaily(1)}
+        const n=document.createElement("div");n.className="heard";n.innerHTML=ok?"✓ Great! نطق ممتاز":`I heard: <b>${esc(heard)}</b> · حاول مرة أخرى`;d.appendChild(n);setTimeout(()=>{n.remove();mb.classList.remove("ok","no")},3500)})};
     C.appendChild(d)});
   $("openAll").onclick=()=>C.querySelectorAll(".fc").forEach(c=>c.classList.add("open"));
   $("closeAll").onclick=()=>C.querySelectorAll(".fc").forEach(c=>c.classList.remove("open"));
@@ -1562,14 +1588,14 @@ function renderPractice(){
   showTally();({match:pMatch,meaning:pMeaning,gap:pGap,spell:pSpell})[pmode]();
 }
 function showTally(){const t=$("tally");if(t)t.textContent=`Correct ${tally.r} / ${tally.t}`}
-function count(ok){tally.t++;if(ok)tally.r++;showTally()}
+function count(ok){tally.t++;if(ok)tally.r++;showTally();addDaily(1)}
 function explainHTML(x){return `<div class="explain"><span><b>${esc(x.w)}</b>${sayBtn(x.w+"||"+x.ex,x.w,"we")}${camLink(x.w,"inl")} (${x.pos}): ${esc(x.def)}</span>${basic()?`<span class="arm">${esc(x.ar)}</span>`:""}<span style="color:#38425e;font-style:italic">${esc(x.ex)}</span></div>`}
 function nextBtn(fn){return Object.assign(document.createElement("div"),{className:"row center",style:"margin-top:14px",innerHTML:'<button class="btn">Next · التالي</button>'}).firstChild.onclick=fn,null}
 function choiceRound(qHTML,ans,pool,after){
   const Z=$("pz");Z.innerHTML=qHTML+`<div class="opts" id="opts"></div><div class="fb" id="fb"></div><div id="ex"></div><div class="row center" style="margin-top:14px"><button class="btn" id="nx" hidden>Next · التالي</button></div>`;
   const opts=shuffle([ans,...shuffle(pool.filter(w=>w!==ans)).slice(0,3)]);let done=false;
   opts.forEach(o=>{const b=document.createElement("button");b.className="opt";b.textContent=o;
-    b.onclick=()=>{if(done)return;done=true;const ok=o===ans;count(ok);
+    b.onclick=()=>{if(done)return;done=true;const ok=o===ans;count(ok);mark(ans,ok);
       if(ok){b.classList.add("right");sayWord(ans);$("fb").textContent="Correct! أحسنت";$("fb").className="fb good"}
       else{b.classList.add("wrong");[...$("opts").children].forEach(c=>{if(c.textContent===ans)c.classList.add("right")});$("fb").textContent="The right answer is: "+ans;$("fb").className="fb bad"}
       $("ex").innerHTML=after();$("nx").hidden=false;$("nx").focus()};$("opts").appendChild(b)});
@@ -1586,9 +1612,9 @@ function pSpell(){const ws=U.words.map(W),x=ws[Math.floor(Math.random()*ws.lengt
    <div class="fb" id="fb"></div><div id="ex"></div><div class="row center" style="margin-top:14px"><button class="btn" id="nx" hidden>Next · التالي</button></div>`;
   let tries=0,done=false;$("sp").focus();if($("lis"))$("lis").onclick=()=>speak([[x.w,.7]]);
   $("sf").onsubmit=e=>{e.preventDefault();if(done)return;const v=$("sp").value.trim().toLowerCase();if(!v)return;tries++;
-    if(v===x.w){done=true;count(true);sfx("good");sayWord(x.w);$("fb").textContent="Correct spelling! أحسنت";$("fb").className="fb good";$("ex").innerHTML=explainHTML(x);$("nx").hidden=false}
+    if(v===x.w){done=true;count(true);mark(x.w,true);sfx("good");sayWord(x.w);$("fb").textContent="Correct spelling! أحسنت";$("fb").className="fb good";$("ex").innerHTML=explainHTML(x);$("nx").hidden=false}
     else if(tries<2){sfx("bad");$("fb").textContent="Not quite. Check the letters and try once more · راجع الحروف وحاول مرة أخرى";$("fb").className="fb bad"}
-    else{done=true;count(false);sfx("bad");$("fb").textContent="The correct spelling is: "+x.w;$("fb").className="fb bad";$("ex").innerHTML=explainHTML(x);$("nx").hidden=false}};
+    else{done=true;count(false);mark(x.w,false);sfx("bad");$("fb").textContent="The correct spelling is: "+x.w;$("fb").className="fb bad";$("ex").innerHTML=explainHTML(x);$("nx").hidden=false}};
   $("nx").onclick=pSpell}
 function pMatch(){const ws=shuffle(U.words.map(W)).slice(0,5);const Z=$("pz");
   Z.innerHTML=`<div class="match"><div class="col" id="mL"></div><div class="col" id="mR"></div></div><div class="fb" id="fb"></div><div class="row center"><button class="btn" id="nx" hidden>New round · جولة جديدة</button></div>`;
@@ -1598,9 +1624,9 @@ function pMatch(){const ws=shuffle(U.words.map(W)).slice(0,5);const Z=$("pz");
   shuffle(ws).forEach(x=>{const b=document.createElement("button");b.className="tile"+(basic()?" artxt big":"");b.textContent=basic()?x.ar:x.def;b.dataset.k=x.w;
     b.onclick=()=>{if(b.classList.contains("done"))return;
       if(!sel){$("fb").textContent="Choose an English word first · اختر كلمة إنجليزية أولًا";$("fb").className="fb bad";return}
-      if(sel.dataset.k===b.dataset.k){sel.classList.remove("sel");sel.classList.add("done");b.classList.add("done");sel=null;left--;$("fb").textContent="Correct!";$("fb").className="fb good";
+      if(sel.dataset.k===b.dataset.k){mark(sel.dataset.k,!b.dataset.miss);addDaily(1);sel.classList.remove("sel");sel.classList.add("done");b.classList.add("done");sel=null;left--;$("fb").textContent="Correct!";$("fb").className="fb good";
         if(left===0){sfx("win");tally.t+=5+miss;tally.r+=5;showTally();$("fb").textContent=miss?`All matched with ${miss} mistake${miss>1?"s":""}.`:"Perfect round! جولة كاملة بدون أخطاء";$("nx").hidden=false}}
-      else{miss++;b.classList.add("oops");$("fb").textContent="Try again · حاول مرة أخرى";$("fb").className="fb bad";setTimeout(()=>b.classList.remove("oops"),500)}};
+      else{miss++;mark(sel.dataset.k,false);b.classList.add("oops");$("fb").textContent="Try again · حاول مرة أخرى";$("fb").className="fb bad";setTimeout(()=>b.classList.remove("oops"),500)}};
     $("mR").appendChild(b)});
   $("nx").onclick=pMatch}
 
@@ -1644,7 +1670,7 @@ function renderTest(){
     t.opts.forEach(o=>{const b=document.createElement("button");b.className="opt";b.textContent=o;
       b.onclick=()=>{t.pick=o;$("opts").querySelectorAll(".opt").forEach(c=>c.classList.toggle("pick",c===b));$("tn").disabled=false};$("opts").appendChild(b)});
     $("tn").onclick=()=>{i++;i<10?q():end()}}
-  function end(){const s=T.filter(t=>t.pick===t.ans).length;const prev=+(store.get("wq-best-"+U.n)||0);if(s>prev)store.set("wq-best-"+U.n,String(s));
+  function end(){const s=T.filter(t=>t.pick===t.ans).length;T.forEach(t=>mark(t.ans,t.pick===t.ans));addDaily(10);const prev=+(store.get("wq-best-"+U.n)||0);if(s>prev)store.set("wq-best-"+U.n,String(s));
     sfx(s>=8?"win":"soft");const msg=s===10?"ممتاز! درجة كاملة":s>=8?"رائع! حصلت على شارة الوحدة":s>=6?"جيد، راجع الكلمات التي أخطأت فيها وأعد المحاولة":"راجع مرحلتي تعرّف وتدرّب ثم أعد الاختبار";
     Z.innerHTML=`<div class="score"><span class="big" style="color:${s>=8?"var(--good)":s>=6?"#c98500":"var(--bad)"}">${s} / 10</span><span class="msg ar" style="text-align:center">${msg}</span>${s>=8?'<span class="badge" style="position:static;transform:rotate(-3deg)">Unit '+U.n+' Badge</span>':""}</div>
       <h3 style="margin-bottom:8px">Review · المراجعة</h3><div class="review" id="rv"></div><div class="row center" style="margin-top:16px"><button class="btn" id="again">Try again · أعد الاختبار</button></div>`;
@@ -1654,6 +1680,107 @@ function renderTest(){
       $("rv").appendChild(d)});
     $("again").onclick=renderTest}
   q();
+}
+
+/* ---------- daily review (spaced repetition), daily goal & streak, saying words aloud ---------- */
+const INDEX={};UNITS.forEach(u=>u.words.forEach(w=>{INDEX[w[0]]={u:u.n,x:W(w)}}));
+const dayNo=()=>{const d=new Date();return Math.floor((d-d.getTimezoneOffset()*60000)/864e5)};
+const GAPS=[0,1,3,7,14,30,60];              // days until the next review for boxes 0..6
+let SRS={};try{SRS=JSON.parse(store.get("wq-srs")||"{}")||{}}catch(e){SRS={}}   // word -> [box, due day]
+const saveSRS=()=>store.set("wq-srs",JSON.stringify(SRS));
+function seen(w){if(INDEX[w]&&!SRS[w]){SRS[w]=[0,dayNo()+1];saveSRS()}}
+function mark(w,ok){if(!INDEX[w])return;const s=SRS[w]||[0,dayNo()];
+  if(ok){s[0]=Math.min(s[0]+1,GAPS.length-1);s[1]=dayNo()+GAPS[s[0]]}else{s[0]=0;s[1]=dayNo()}
+  SRS[w]=s;saveSRS()}
+const dueList=()=>Object.keys(SRS).filter(w=>INDEX[w]&&SRS[w][1]<=dayNo()).sort((a,b)=>SRS[a][1]-SRS[b][1]||SRS[a][0]-SRS[b][0]);
+const masteredN=()=>Object.values(SRS).filter(s=>s[0]>=4).length;
+let GOAL=+(store.get("wq-goal")||10);
+function dayState(){let d={};try{d=JSON.parse(store.get("wq-day")||"{}")||{}}catch(e){}if(d.d!==dayNo())d={d:dayNo(),n:0};return d}
+function streakN(){let s={};try{s=JSON.parse(store.get("wq-streak")||"{}")||{}}catch(e){}return s.last>=dayNo()-1?(s.n||0):0}
+function addDaily(k){const d=dayState(),was=d.n;d.n+=k||1;store.set("wq-day",JSON.stringify(d));
+  if(was<GOAL&&d.n>=GOAL){let s={};try{s=JSON.parse(store.get("wq-streak")||"{}")||{}}catch(e){}
+    if(s.last!==dayNo()){s.n=s.last===dayNo()-1?(s.n||0)+1:1;s.last=dayNo();store.set("wq-streak",JSON.stringify(s))}
+    const t=$("toast");t.innerHTML=`🎯 <b>أنجزت هدفك اليوم!</b> 🔥 سلسلتك: ${streakN()} ${streakN()===1?"يوم":"أيام"} متتالية.`;t.hidden=false;clearTimeout(addDaily.h);addDaily.h=setTimeout(()=>{t.hidden=true},5000);sfx("win")}
+  drawDash()}
+function drawDash(){const D=$("dash");if(!D||$("home").hidden)return;
+  const d=dayState(),due=dueList().length,st=streakN(),pct=Math.min(100,Math.round(d.n/GOAL*100)),known=Object.keys(SRS).length;
+  D.innerHTML=`<div class="dcell"><span class="dic">🔥</span><b>${st}</b><small>${st===1?"يوم متتالٍ":"أيام متتالية"}</small></div>
+    <div class="dcell"><span class="ring" style="--p:${pct}"><span>${Math.min(d.n,GOAL)}/${GOAL}</span></span><small>هدف اليوم <button class="goalbtn" id="goalBtn" aria-label="غيّر الهدف">✎</button></small></div>
+    <div class="dcell"><span class="dic">🧠</span><b>${masteredN()}</b><small>كلمة أتقنتها من ${known}</small></div>
+    <button class="btn dgo" id="revBtn">${due?`🔁 مراجعتي اليومية<small>${due} ${due===1?"كلمة تنتظرك":due<=10?"كلمات تنتظرك":"كلمة تنتظرك"}</small>`:known?`✓ أنهيت مراجعة اليوم<small>مراجعة إضافية لأصعب كلماتك</small>`:`🔁 مراجعتي اليومية<small>تعلّم كلمات وحدة لتظهر هنا</small>`}</button>`;
+  $("revBtn").onclick=()=>{if(!known){const t=$("toast");t.innerHTML="افتح أي وحدة، واقلب بطاقات الكلمات في مرحلة <b>تعرّف</b>، فتظهر لك في المراجعة من الغد.";t.hidden=false;setTimeout(()=>{t.hidden=true},6000);return}sfx("page");startReview()};
+  $("goalBtn").onclick=e=>{e.stopPropagation();const opts=[5,10,20,30],i=opts.indexOf(GOAL);GOAL=opts[(i+1)%opts.length];store.set("wq-goal",String(GOAL));drawDash()};
+}
+/* the review session: up to 12 words, a different kind of question each time; a missed word comes back at the end */
+function startReview(){
+  let list=dueList();if(!list.length)list=Object.keys(SRS).filter(w=>INDEX[w]).sort((a,b)=>SRS[a][0]-SRS[b][0]);
+  list=list.slice(0,12);if(!list.length)return;
+  const kinds=["meaning","listen","arabic","spell"];if(SR)kinds.push("say");
+  const Q=list.map((w,i)=>({w,k:kinds[i%kinds.length],again:false}));let i=0,right=0,total=0;
+  $("home").hidden=true;$("unit").hidden=true;$("review").hidden=false;window.scrollTo(0,0);
+  const P=$("rpanel");
+  function opts(x){const pool=Object.keys(INDEX).filter(w=>w!==x.w&&INDEX[w].x.pos===x.pos);return shuffle([x.w,...shuffle(pool).slice(0,3)])}
+  function done(ok,x){total++;if(ok)right++;mark(x.w,ok);addDaily(1);if(!ok&&!Q[i].again)Q.push({w:x.w,k:"meaning",again:true});
+    $("rnx").hidden=false;$("rnx").focus()}
+  function q(){
+    if(i>=Q.length)return end();
+    const it=Q[i],x=INDEX[it.w].x;
+    const head=`<div class="tprog"><i style="width:${i/Q.length*100}%"></i></div><div class="row" style="justify-content:space-between"><span class="tally" style="margin:0">${i+1} / ${Q.length}</span><span class="tally" style="margin:0">Unit ${INDEX[it.w].u}</span></div>`;
+    const tail=`<div class="fb" id="rfb"></div><div id="rex"></div><div class="row center" style="margin-top:14px"><button class="btn" id="rnx" hidden>Next · التالي</button></div>`;
+    if(it.k==="spell"){
+      P.innerHTML=head+`<div class="q"><span class="k">Listen and write the word · استمع واكتب الكلمة</span></div><div class="row center"><button class="btn alt" id="rl">🔊 Listen · استمع</button></div>
+        <p class="hint ar" style="text-align:center">${esc(x.ar)}</p><form class="spell" id="rsf"><input id="rsp" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Type the word"><button class="btn">Check</button></form>`+tail;
+      $("rl").onclick=()=>speak([[x.w,.7]]);setTimeout(()=>speak([[x.w,.7]]),300);$("rsp").focus();let tries=0,fin=false;
+      $("rsf").onsubmit=e=>{e.preventDefault();if(fin)return;const v=$("rsp").value.trim().toLowerCase();if(!v)return;tries++;
+        if(v===x.w){fin=true;$("rsp").classList.add("right");$("rfb").textContent="Correct! أحسنت";$("rfb").className="fb good";$("rex").innerHTML=explainHTML(x);done(true,x)}
+        else if(tries<2){{const el=$("rsp");el.classList.add("shake");setTimeout(()=>el.classList.remove("shake"),450)}$("rfb").textContent="Try once more · حاول مرة أخرى";$("rfb").className="fb bad"}
+        else{fin=true;$("rsp").classList.add("wrong");$("rfb").textContent="The word is: "+x.w;$("rfb").className="fb bad";$("rex").innerHTML=explainHTML(x);done(false,x)}};
+    }else if(it.k==="say"){
+      P.innerHTML=head+`<div class="q"><span class="k">Say the word · انطق الكلمة</span><span style="font-size:2.2rem">${esc(x.w)}</span></div><p class="hint ar" style="text-align:center">${esc(x.ar)}</p>
+        <div class="row center"><button class="btn alt" id="rl">🔊 Listen first · استمع أولاً</button><button class="btn mic-big" id="rm">🎤 Speak · تكلّم</button><button class="btn alt" id="rskip">Skip · تخطَّ</button></div>`+tail;
+      $("rl").onclick=()=>speak([[x.w,.7]]);let tries=0,fin=false;
+      $("rm").onclick=()=>{if(fin)return;hear(x.w,$("rm"),(ok,heard)=>{if(fin)return;tries++;
+        if(ok){fin=true;$("rm").classList.add("right");$("rfb").textContent="Great pronunciation! نطق ممتاز";$("rfb").className="fb good";$("rex").innerHTML=explainHTML(x);done(true,x)}
+        else if(heard===null){$("rfb").textContent="لم يصل صوتك. اضغط وتكلّم بوضوح قريباً من الجوال.";$("rfb").className="fb bad"}
+        else if(tries<3){{const el=$("rm");el.classList.add("shake");setTimeout(()=>el.classList.remove("shake"),450)}$("rfb").innerHTML=`I heard: <b>${esc(heard)}</b> · استمع للكلمة وحاول مرة أخرى`;$("rfb").className="fb bad"}
+        else{fin=true;$("rfb").innerHTML=`I heard: <b>${esc(heard)}</b> · تدرّب عليها أكثر، وسنعيدها لك.`;$("rfb").className="fb bad";$("rex").innerHTML=explainHTML(x);done(false,x)}})};
+      $("rskip").onclick=()=>{if(fin)return;fin=true;$("rex").innerHTML=explainHTML(x);total++;addDaily(1);$("rnx").hidden=false};
+    }else{
+      const qq=it.k==="meaning"?`<span class="k">Which word means · أي كلمة تعني</span>${esc(x.def)}`:it.k==="arabic"?`<span class="k">Which English word means</span><span class="ar" style="display:block;text-align:center">${esc(x.ar)}</span>`:`<span class="k">Listen and choose · استمع واختر</span><button class="btn alt" id="rl">🔊 Listen · استمع</button>`;
+      P.innerHTML=head+`<div class="q">${qq}</div><div class="opts" id="ropts"></div>`+tail;
+      if(it.k==="listen"){$("rl").onclick=()=>speak([[x.w,.75]]);setTimeout(()=>speak([[x.w,.75]]),300)}
+      let fin=false;opts(x).forEach(o=>{const b=document.createElement("button");b.className="opt";b.textContent=o;
+        b.onclick=()=>{if(fin)return;fin=true;const ok=o===x.w;
+          if(ok){b.classList.add("right");sayWord(x.w);$("rfb").textContent="Correct! أحسنت";$("rfb").className="fb good"}
+          else{b.classList.add("wrong");[...$("ropts").children].forEach(c=>{if(c.textContent===x.w)c.classList.add("right")});$("rfb").textContent="The right answer is: "+x.w;$("rfb").className="fb bad"}
+          $("rex").innerHTML=explainHTML(x);done(ok,x)};$("ropts").appendChild(b)});
+    }
+    $("rnx").onclick=()=>{i++;q();window.scrollTo(0,0)};
+  }
+  function end(){sfx("win");const left=dueList().length;
+    P.innerHTML=`<div class="score"><span class="big" style="color:var(--good)">${right} / ${total}</span><span class="msg ar" style="text-align:center">${right===total?"مراجعة كاملة بلا أخطاء! 🌟":"أحسنت! الكلمات التي أخطأت فيها ستعود إليك غداً."}</span></div>
+      <p class="ar" style="text-align:center">🔥 سلسلتك: <b>${streakN()}</b> · هدف اليوم: <b>${Math.min(dayState().n,GOAL)}/${GOAL}</b> · كلمات أتقنتها: <b>${masteredN()}</b></p>
+      <div class="row center" style="margin-top:14px">${left?`<button class="btn" id="more">🔁 راجع ${Math.min(left,12)} كلمات أخرى</button>`:""}<button class="btn alt" id="home2">← Units · الوحدات</button></div>`;
+    if($("more"))$("more").onclick=startReview;$("home2").onclick=()=>{$("review").hidden=true;renderHome()}}
+  q();
+}
+$("rback").onclick=()=>{sfx("page");speechSynthesis&&speechSynthesis.cancel();$("review").hidden=true;renderHome()};
+/* saying a word aloud: the browser's speech recognition (Chrome on Android and computers, Safari on iPhone) */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition||null;
+const lev=(a,b)=>{const m=a.length,n=b.length,d=Array.from({length:m+1},(_,i)=>[i]);for(let j=1;j<=n;j++)d[0][j]=j;
+  for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n]};
+function hear(word,btn,cb){
+  if(!SR){cb(null,null);return}
+  let rec;try{rec=new SR()}catch(e){cb(null,null);return}
+  rec.lang=accent==="uk"?"en-GB":"en-US";rec.maxAlternatives=5;rec.interimResults=false;rec.continuous=false;
+  const target=word.toLowerCase();let got=false;
+  btn.classList.add("rec");try{speechSynthesis.cancel()}catch(e){}
+  rec.onresult=ev=>{got=true;const alts=[...ev.results[0]].map(a=>a.transcript.toLowerCase().replace(/[^a-z' -]/g,"").trim());
+    const ok=alts.some(t=>t.split(/\s+/).some(p=>p===target||(target.length>=5&&lev(p,target)<=1))||t.replace(/\s/g,"")===target.replace(/\s/g,""));
+    cb(ok,alts[0]||"")};
+  rec.onerror=ev=>{btn.classList.remove("rec");if(ev.error==="not-allowed"||ev.error==="service-not-allowed"){const t=$("toast");t.innerHTML="🎤 اسمح للموقع باستخدام الميكروفون من إعدادات المتصفح، ثم حاول مرة أخرى.";t.hidden=false;setTimeout(()=>{t.hidden=true},7000)}};
+  rec.onend=()=>{btn.classList.remove("rec");if(!got)cb(false,null)};
+  try{rec.start();setTimeout(()=>{if(!got){try{rec.stop()}catch(e){}setTimeout(()=>{if(btn.classList.contains("rec")){btn.classList.remove("rec");try{rec.abort()}catch(e){}}},1500)}},7000)}catch(e){btn.classList.remove("rec");cb(null,null)}
 }
 
 renderHome();
