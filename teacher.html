@@ -52,6 +52,7 @@ h1{font-size:2rem;margin:0 0 4px;font-weight:800}
 </div>
 <script type="module">
 import * as H from './assets/honor.js?v=20261101d';
+const LV_NEW_AT = 1793547780000; // the harder level test (version 2) went live
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = n => Number(n||0).toLocaleString('en-US');
@@ -93,17 +94,18 @@ async function load() {
   const lvIds = Object.keys(lv).filter(id => lv[id].pre || lv[id].post).sort((a, b) => ((priv[a] || {}).name || nickOf(a)).localeCompare((priv[b] || {}).name || nickOf(b), 'ar'));
   const both = lvIds.filter(id => lv[id].pre && lv[id].post), avg = a => a.length ? Math.round(a.reduce((s, x) => s + x, 0) / a.length) : '—';
   const gain = id => pc(lv[id].post) - pc(lv[id].pre);
+  const lvNew = r => !!r && +r.at >= LV_NEW_AT; // results before this date are from the old, easier test
   const levelPanel = `<div class="panel"><h2>📈 قياس المستوى</h2>
-    <p class="note">نتائج الاختبار القبلي والبعدي في <a href="level/index.html">صفحة قياس المستوى</a>. الاختبار البعدي مغلق حتى تفتحه أنت.</p>
+    <p class="note">نتائج الاختبار القبلي والبعدي في <a href="level/index.html">صفحة قياس المستوى</a>. الاختبار البعدي مغلق حتى تفتحه أنت. «نسخة قديمة» تعني أن الطالب أدّى الاختبار السهل القديم، وسيُطلب منه أداء النسخة الجديدة الأصعب.</p>
     ${lvErr ? `<p class="err">⚠️ ${/permission/i.test(lvErr) ? 'قواعد Firebase الجديدة لم تُنشر بعد، لذلك لا تصل نتائج الاختبار. انسخ ملف القواعد كاملاً في Firestore ← Rules ثم اضغط Publish. نتائج الطلاب محفوظة في أجهزتهم وستصل تلقائياً بعد ذلك.' : 'تعذّر تحميل النتائج: ' + esc(lvErr)}</p>` : ''}
     <p style="margin:10px 0"><button class="btn ${lvCfg.postOpen ? 'bad' : 'ok'}" id="postT">${lvCfg.postOpen ? '🔒 أغلق الاختبار البعدي' : '🔓 افتح الاختبار البعدي للطلاب'}</button> <span class="note">${lvCfg.postOpen ? 'البعدي مفتوح الآن.' : 'البعدي مغلق الآن.'}</span></p>
     <div class="lvsum"><div><small>أدّوا القبلي</small><b>${lvIds.filter(id => lv[id].pre).length}</b></div><div><small>أدّوا البعدي</small><b>${lvIds.filter(id => lv[id].post).length}</b></div>
-      <div><small>متوسط القبلي</small><b>${avg(lvIds.filter(id => lv[id].pre).map(id => pc(lv[id].pre)))}${lvIds.some(id => lv[id].pre) ? '٪' : ''}</b></div>
+      <div><small>متوسط القبلي (النسخة الجديدة)</small><b>${avg(lvIds.filter(id => lvNew(lv[id].pre)).map(id => pc(lv[id].pre)))}${lvIds.some(id => lvNew(lv[id].pre)) ? '٪' : ''}</b></div>
       <div><small>متوسط التحسّن (لمن أدّى الاثنين)</small><b>${both.length ? (avg(both.map(gain)) > 0 ? '+' : '') + avg(both.map(gain)) + '٪' : '—'}</b></div></div>
     ${lvIds.length ? `<p><button class="btn ok" id="lvCsv">⬇️ تنزيل نتائج قياس المستوى</button></p><div class="lvwrap"><table class="lvt"><thead><tr><th>الطالب</th><th>القبلي</th><th>البعدي</th><th>التحسّن</th><th></th></tr></thead><tbody>
       ${lvIds.map(id => { const L = lv[id], p = priv[id] || {}; const g = L.pre && L.post ? gain(id) : null;
         return `<tr data-id="${id}"><td><b>${esc(p.name || nickOf(id) || 'طالب')}</b><small class="real">${p.grade ? esc(p.grade === H.EXTERNAL ? 'من خارج المدرسة' : p.grade + ' · ' + (p.section || '')) : esc(nickOf(id))}</small></td>
-          <td>${L.pre ? pc(L.pre) + '٪<br><small>' + esc(L.pre.level) + '</small>' : '—'}</td><td>${L.post ? pc(L.post) + '٪<br><small>' + esc(L.post.level) + '</small>' : '—'}</td>
+          <td>${L.pre ? pc(L.pre) + '٪<br><small>' + esc(L.pre.level) + (lvNew(L.pre) ? '' : ' · نسخة قديمة') + '</small>' : '—'}</td><td>${L.post ? pc(L.post) + '٪<br><small>' + esc(L.post.level) + '</small>' : '—'}</td>
           <td>${g === null ? '—' : `<span class="${g > 0 ? 'up' : g < 0 ? 'down' : ''}">${g > 0 ? '+' : ''}${g}٪</span>`}</td>
           <td><button class="btn soft sm" data-lr="${L.post ? 'post' : 'pre'}">↺ إعادة ${L.post ? 'البعدي' : 'القبلي'}</button></td></tr>`; }).join('')}</tbody></table></div>`
       : '<div class="empty">لم يؤدِّ أحد الاختبار بعد.</div>'}</div>`;

@@ -38,7 +38,7 @@ h1 .en{display:block;font-size:.5em;color:var(--pri);letter-spacing:.06em;font-w
 .test .ic{font-size:2.2rem;line-height:1}
 .test .tx{flex:1;min-width:200px}.test .tx b{font-size:1.2rem;display:block}.test .tx small{color:var(--muted);font-size:1rem;display:block}
 .tag{display:inline-block;border-radius:999px;padding:0 12px;font-size:.95rem;font-weight:800}
-.tag.ok{background:var(--ok-soft);color:var(--ok)}.tag.wait{background:var(--warn-soft);color:var(--warn)}
+.tag.ok{background:var(--ok-soft);color:var(--ok)}.tag.new{background:var(--pri-soft);color:var(--pri);white-space:normal}.tag.wait{background:var(--warn-soft);color:var(--warn)}
 /* test */
 .bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden;margin:6px 0 14px}
 .bar i{display:block;height:100%;background:var(--pri);border-radius:999px;transition:width .3s}
@@ -66,7 +66,7 @@ h1 .en{display:block;font-size:.5em;color:var(--pri);letter-spacing:.06em;font-w
 .cmp th,.cmp td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:center}
 .cmp th:first-child,.cmp td:first-child{text-align:right}
 .up{color:var(--ok);font-weight:800}.down{color:#B3261E;font-weight:800}
-.scale{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px;font-size:.95rem}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:12px;font-size:.95rem}
 .scale div{border-radius:12px;padding:6px;text-align:center;background:#F2F4FA;color:var(--muted)}
 .scale div.on{background:var(--pri);color:#fff;font-weight:800}
 .scale b{display:block;font-family:var(--en);direction:ltr}
@@ -79,88 +79,95 @@ h1 .en{display:block;font-size:.5em;color:var(--pri);letter-spacing:.06em;font-w
 <div class="wrap" id="app"></div>
 <script src="../assets/club.js?v=10"></script>
 <script type="module">
-/* ---------- the two forms: same skills, same difficulty, different questions ----------
-   item: [skill, band, question, Arabic help, right answer, wrong, wrong, wrong]   skill v g r l · band 1=A1 2=A2 3=B1
+/* ---------- the two forms (version 2, harder): same skills, same difficulty, different questions ----------
+   item: [skill, band, question, Arabic help, right answer, wrong, wrong, wrong]   skill v g r l · band 1=A1 2=A2 3=B1 4=B2
+   Each form: A1 ×2, A2 ×10, B1 ×10, B2 ×10. Every pre item has a twin in the post form at the same place,
+   testing the same point at the same level, so the gain between them is fair.
    reading items point to a passage (p), listening items carry the sentence to hear (say). */
 const FORMS = {
  pre: { passages: [
-  "My name is Fahad. I am fifteen years old. I live in Al-Baha with my family. I have two brothers and one sister. Every morning I walk to school with my brother Saad. After school, I play football in the park. My favourite subject is English.",
-  "Many people think that camels store water in their humps, but this is not true. The hump is full of fat. When there is no food, the camel's body uses this fat for energy. Camels can also drink more than 100 litres of water in just a few minutes, and they can live for many days without drinking again. This is why they are perfect animals for the desert."],
+  "Last summer, Majed spent two weeks with his grandparents in a small village near Al-Baha. At first he was bored, because there was no internet and none of his friends were there. But soon his grandfather started taking him on long walks in the mountains early in the morning, before the heat. They watched baboons, picked wild figs and talked about the old days. By the end of the holiday, Majed didn't want to leave. \"I thought I would miss my phone,\" he said, \"but in the end I missed the mountains more.\"",
+  "For centuries, sailors crossed the oceans without any maps on a screen. Instead, they relied on the stars. In the northern half of the world, the Pole Star stays almost in the same place all night, so it always shows the direction of north. By measuring how high this star was above the horizon, a navigator could even work out how far north his ship was. Arab sailors became famous for this skill, and some of the instruments they improved, such as the astrolabe, were later adopted by European explorers. Today, satellites have largely replaced the stars, yet many navy schools still teach star navigation in case modern systems fail."],
   items: [
-  ['v',1,'I drink ___ every morning.','اختر الكلمة المناسبة','milk','chair','pencil','window'],
-  ['v',1,'The opposite of "big" is ___.','عكس الكلمة','small','tall','fast','old'],
-  ['v',1,'A ___ teaches students at school.','اختر الكلمة المناسبة','teacher','doctor','farmer','pilot'],
-  ['v',2,"I can't find my keys. I think I ___ them.",'اختر الكلمة المناسبة','lost','won','found','sold'],
-  ['v',2,'It is very ___ today. Take an umbrella!','اختر الكلمة المناسبة','rainy','sunny','dry','hot'],
-  ['v',2,'Which word means "very big"?','أي كلمة معناها «كبير جداً»؟','huge','tiny','narrow','quiet'],
-  ['v',2,'She ___ the bus to school every day.','اختر الكلمة المناسبة','takes','makes','does','puts'],
-  ['v',3,'The scientist did an ___ to test her idea.','اختر الكلمة المناسبة','experiment','argument','apartment','agreement'],
-  ['v',3,"He was ___ about the exam, so he couldn't sleep.",'اختر الكلمة المناسبة','anxious','generous','curious','famous'],
-  ['v',3,'"Improve" means ___.','معنى الكلمة','get better','get older','give up','go away'],
-  ['g',1,'She ___ a student.','اختر الصيغة الصحيحة','is','are','am','be'],
-  ['g',1,'There ___ two books on the table.','اختر الصيغة الصحيحة','are','is','am','be'],
-  ['g',1,'I ___ football every Friday.','اختر الصيغة الصحيحة','play','plays','playing','to play'],
-  ['g',2,'Yesterday we ___ to the park.','اختر الصيغة الصحيحة','went','go','goes','going'],
-  ['g',2,'This bag is ___ than that one.','اختر الصيغة الصحيحة','heavier','heavy','heaviest','more heavy'],
-  ['g',2,'Look! The children ___ in the garden.','اختر الصيغة الصحيحة','are playing','play','plays','played'],
-  ['g',2,'___ you ever been to Jeddah?','اختر الصيغة الصحيحة','Have','Did','Do','Are'],
-  ['g',3,'If it rains tomorrow, we ___ at home.','اختر الصيغة الصحيحة','will stay','stayed','would stayed','staying'],
-  ['g',3,'This mosque ___ in 1990.','اختر الصيغة الصحيحة','was built','built','is building','has build'],
-  ['g',3,'I have lived here ___ 2015.','اختر الصيغة الصحيحة','since','for','from','ago'],
-  ['r',1,'Where does Fahad live?','أين يسكن فهد؟','In Al-Baha','In Jeddah','In Riyadh','In Taif',{p:0}],
-  ['r',1,'How many sisters does Fahad have?','كم أختاً لفهد؟','One','Two','Three','None',{p:0}],
-  ['r',2,'How does Fahad go to school?','كيف يذهب فهد إلى المدرسة؟','He walks.','By bus.','By car.','By bike.',{p:0}],
-  ['r',2,"What is inside a camel's hump?",'ماذا يوجد في سنام الجمل؟','Fat','Water','Milk','Sand',{p:1}],
-  ['r',3,'Why does a camel need this fat?','لماذا يحتاج الجمل هذا الدهن؟','For energy when there is no food','To keep cool in the sun','To carry heavy things','To make water taste better',{p:1}],
-  ['r',3,'What is the main idea of the text?','ما الفكرة الرئيسة للنص؟','Camels are well suited to desert life.','Camels drink very little water.','A camel keeps water in its hump.','Camels cannot live in the desert.',{p:1}],
-  ['l',1,'Where is the cat?','استمع، ثم أجب: أين القطة؟','Under the table','On the chair','In the box','Behind the door',{say:'The cat is under the table.'}],
-  ['l',1,'How many apples are there?','استمع، ثم أجب: كم تفاحة؟','Three','Two','Four','Five',{say:'I have three red apples.'}],
-  ['l',2,'What time does the train leave?','استمع، ثم أجب: متى يغادر القطار؟','7:30','7:00','6:30','8:30',{say:'The train leaves at half past seven.'}],
-  ['l',2,"What is the speaker's sister's job?",'استمع، ثم أجب: ما عمل أخت المتحدث؟','Nurse','Teacher','Doctor','Pilot',{say:'My sister is a nurse. She works at the hospital.'}],
-  ['l',3,'Where did they go in the end?','استمع، ثم أجب: إلى أين ذهبوا في النهاية؟','To the museum','To the beach','To the park','They stayed at home',{say:'I wanted to go to the beach, but it was too windy, so we went to the museum instead.'}],
-  ['l',3,'What does the speaker want?','استمع، ثم أجب: ماذا يريد المتحدث؟','Less noise','More music','Help with homework','To go out',{say:"Could you turn down the music, please? I'm trying to study."}]
+  ['v',1,'My brother is ill, so he is in ___ today.','اختر الكلمة المناسبة','hospital','library','kitchen','garden'],
+  ['v',2,"The shop is ___ on Friday mornings, so we can't buy anything.",'اختر الكلمة المناسبة','closed','cheap','near','full'],
+  ['v',2,'Please ___ the light when you leave the room.','اختر الكلمة المناسبة','turn off','turn on','take off','put on'],
+  ['v',2,"I'm very ___ in history; I read about it every day.",'اختر الكلمة المناسبة','interested','tired','afraid','proud'],
+  ['v',3,"We need to ___ water; there isn't much left in the tank.",'اختر الكلمة المناسبة','save','spend','waste','pour'],
+  ['v',3,'The meeting was ___ because the manager was ill.','اختر الكلمة المناسبة','cancelled','celebrated','invented','repeated'],
+  ['v',3,'He apologised ___ being late.','اختر الكلمة المناسبة','for','about','of','to'],
+  ['v',4,'The new factory will have a huge ___ on the environment.','اختر الكلمة المناسبة','impact','access','income','origin'],
+  ['v',4,"It's ___ to drive without a licence; you could go to prison.",'اختر الكلمة المناسبة','illegal','illiterate','irregular','impatient'],
+  ['v',4,"I can't ___ this noise any longer!",'اختر الكلمة المناسبة','put up with','put off','put out','put on'],
+  ['g',1,'My sister and I ___ at home now.','اختر الصيغة الصحيحة','are','is','am','be'],
+  ['g',2,'While I ___ TV, the phone rang.','اختر الصيغة الصحيحة','was watching','am watching','have watched','watch'],
+  ['g',2,'She has lived in Riyadh ___ she was a child.','اختر الصيغة الصحيحة','since','for','ago','during'],
+  ['g',2,"You ___ wear a seatbelt in the car; it's the law.",'اختر الصيغة الصحيحة','must','mustn\'t','don\'t have to','needn\'t'],
+  ['g',3,'If I ___ you, I would study harder.','اختر الصيغة الصحيحة','were','am','will be','have been'],
+  ['g',3,'The museum, ___ was built in 1990, is very popular.','اختر الصيغة الصحيحة','which','who','where','what'],
+  ['g',3,'These cars ___ in Japan.','اختر الصيغة الصحيحة','are made','make','are making','have make'],
+  ['g',4,'If we had left earlier, we ___ the train.','اختر الصيغة الصحيحة','would have caught','would catch','will catch','had caught'],
+  ['g',4,'He asked me where ___.','اختر الصيغة الصحيحة','I lived','did I live','do I live','lived I'],
+  ['g',4,'By the time we arrived, the film ___.','اختر الصيغة الصحيحة','had already started','has already started','is already starting','already starts'],
+  ['r',2,'Why was Majed bored at first?','لماذا شعر ماجد بالملل في البداية؟','There was no internet and his friends were not there.','His grandparents were always busy.','The weather was too hot to go out.','He had too much homework.',{p:0}],
+  ['r',2,'When did Majed and his grandfather go walking?','متى كان ماجد وجده يمشيان؟','Early in the morning','In the evening','At midday','At night',{p:0}],
+  ['r',3,'What does Majed mean in the last sentence?','ماذا يقصد ماجد في الجملة الأخيرة؟','He enjoyed nature more than he expected.','He lost his phone in the mountains.','He wanted to go home early.','He still prefers his phone to walking.',{p:0}],
+  ['r',3,'Why was the Pole Star useful to sailors?','لماذا كان نجم القطب مفيداً للبحارة؟','It always shows the direction of north.','It is the brightest star in the sky.','It can only be seen in summer.','It moves to show the time.',{p:1}],
+  ['r',4,'In the text, the word "adopted" is closest in meaning to ___.','أقرب معنى لكلمة adopted في النص','started to use','sold','refused','broke',{p:1}],
+  ['r',4,'Why do some navy schools still teach star navigation?','لماذا ما زالت بعض المدارس البحرية تعلّم الملاحة بالنجوم؟','In case modern systems stop working','Because it is more exact than satellites','Because satellites are too expensive','Because only Arab sailors use it',{p:1}],
+  ['l',2,'When does the shop open on Fridays?','استمع، ثم أجب: متى يفتح المحل يوم الجمعة؟','4:00 pm','9:30 am','9:00 am','4:30 pm',{say:'The shop opens at half past nine, but on Fridays it opens at four in the afternoon.'}],
+  ['l',2,'How did the speaker go to school today?','استمع، ثم أجب: كيف ذهب المتحدث إلى المدرسة اليوم؟','By car','By bus','On foot','By bike',{say:'I usually go to school by bus, but today I missed it, so my father drove me.'}],
+  ['l',3,'How much does a ten-year-old child pay?','استمع، ثم أجب: كم يدفع طفل عمره عشر سنوات؟','25 riyals','50 riyals','12 riyals','15 riyals',{say:'Tickets cost fifty riyals for adults, but children under twelve pay half price.'}],
+  ['l',3,'Will the speaker go to the party?','استمع، ثم أجب: هل سيحضر المتحدث الحفلة؟','Probably not','Yes, definitely','Yes, after his exam','He was not invited',{say:"I'd love to come to your party, but I've got an important exam the next morning."}],
+  ['l',4,'What happened to the speaker?','استمع، ثم أجب: ماذا حدث للمتحدث؟','He took a closed road and now he is late.','He knew the road was closed.','He arrived early.','He took the other road.',{say:"If I'd known the road was closed, I'd have taken the other way, and I wouldn't be so late now."}],
+  ['l',4,'How does the speaker feel about the hotel?','استمع، ثم أجب: ما شعور المتحدث تجاه الفندق؟','Disappointed','Impressed','Excited','Thankful',{say:'Honestly, the hotel looked much better in the photos than it did in real life.'}]
  ]},
  post: { passages: [
-  "My name is Turki. I am sixteen years old. I live in Taif with my parents. I have one brother and two sisters. I go to school by bus every day. In the evening, I read books and help my father in his shop. My favourite subject is science.",
-  "Bees are very important for people. When a bee flies from flower to flower to collect nectar, it carries pollen with it. This helps plants make fruit and seeds. Without bees, we would have much less fruit and fewer vegetables. Sadly, the number of bees is going down in many countries because of pesticides and the loss of wild flowers."],
+  "Last winter, Rayan joined a volunteer team that cleans the beaches of Jeddah every Friday morning. At first he only went because his cousin asked him to, and he found the work tiring. But after a few weeks he started to notice how much plastic people left behind, and how it hurt sea turtles and birds. Now he is the one who calls his friends every Thursday night to remind them to come. \"I came for my cousin,\" he says, \"but in the end I stayed for the sea.\"",
+  "For thousands of years, people in dry lands have struggled to find enough fresh water. In the past, families in desert towns depended on wells, and on rain that might not come for months. Today, Saudi Arabia produces much of its drinking water by desalination: removing the salt from sea water. The most common method pushes sea water through very fine filters at high pressure, so that the salt stays behind. The process uses a great deal of energy, which is why engineers are now connecting new plants to solar power. Even so, experts warn that saving water at home remains just as important as producing more of it."],
   items: [
-  ['v',1,'I eat ___ for breakfast.','اختر الكلمة المناسبة','eggs','shoes','doors','cars'],
-  ['v',1,'The opposite of "hot" is ___.','عكس الكلمة','cold','happy','long','new'],
-  ['v',1,'A ___ helps sick people in the hospital.','اختر الكلمة المناسبة','doctor','driver','cook','farmer'],
-  ['v',2,"I ___ my homework at home, so I can't give it to the teacher.",'اختر الكلمة المناسبة','forgot','remembered','finished','brought'],
-  ['v',2,"It's very ___ today. Wear a jacket!",'اختر الكلمة المناسبة','cold','sunny','warm','hot'],
-  ['v',2,'Which word means "very small"?','أي كلمة معناها «صغير جداً»؟','tiny','huge','wide','loud'],
-  ['v',2,'My father ___ breakfast for us on Fridays.','اختر الكلمة المناسبة','makes','takes','does','goes'],
-  ['v',3,'The doctor gave me some ___ for my cough.','اختر الكلمة المناسبة','medicine','furniture','equipment','scenery'],
-  ['v',3,'She is very ___; she always helps others and gives them gifts.','اختر الكلمة المناسبة','generous','anxious','lazy','selfish'],
-  ['v',3,'"Reduce" means ___.','معنى الكلمة','make smaller','make bigger','make faster','make cleaner'],
-  ['g',1,'They ___ my friends.','اختر الصيغة الصحيحة','are','is','am','be'],
-  ['g',1,'There ___ a book on the desk.','اختر الصيغة الصحيحة','is','are','am','be'],
-  ['g',1,'He ___ to school every day.','اختر الصيغة الصحيحة','goes','go','going','to go'],
-  ['g',2,'Last week I ___ my grandfather.','اختر الصيغة الصحيحة','visited','visit','visits','visiting'],
-  ['g',2,'Riyadh is ___ than Al-Baha.','اختر الصيغة الصحيحة','bigger','big','biggest','more big'],
-  ['g',2,'Be quiet! The baby ___.','اختر الصيغة الصحيحة','is sleeping','sleeps','sleep','slept'],
-  ['g',2,'I have ___ finished my homework.','اختر الصيغة الصحيحة','already','yet','ago','since'],
-  ['g',3,'If I ___ a lot of money, I would travel around the world.','اختر الصيغة الصحيحة','had','have','will have','having'],
-  ['g',3,'English ___ in many countries.','اختر الصيغة الصحيحة','is spoken','speaks','is speaking','spoke'],
-  ['g',3,'We have studied English ___ six years.','اختر الصيغة الصحيحة','for','since','from','ago'],
-  ['r',1,'Where does Turki live?','أين يسكن تركي؟','In Taif','In Jeddah','In Al-Baha','In Riyadh',{p:0}],
-  ['r',1,'How many brothers does Turki have?','كم أخاً لتركي؟','One','Two','Three','None',{p:0}],
-  ['r',2,'How does Turki go to school?','كيف يذهب تركي إلى المدرسة؟','By bus.','He walks.','By car.','By bike.',{p:0}],
-  ['r',2,'What do bees collect from flowers?','ماذا يجمع النحل من الأزهار؟','Nectar','Water','Leaves','Sand',{p:1}],
-  ['r',3,'Why are bees important for people?','لماذا النحل مهم للناس؟','They help plants make fruit and seeds.','They eat harmful insects.','They keep the water clean.','They make flowers grow taller.',{p:1}],
-  ['r',3,'Why is the number of bees going down?','لماذا يقل عدد النحل؟','Because of pesticides and fewer wild flowers','Because there is too much fruit','Because the weather is too cold','Because there are too many flowers',{p:1}],
-  ['l',1,'Where is the ball?','استمع، ثم أجب: أين الكرة؟','In the box','Under the bed','On the table','Behind the chair',{say:'The ball is in the box.'}],
-  ['l',1,'How many pens are there?','استمع، ثم أجب: كم قلماً؟','Four','Three','Five','Two',{say:'I have four blue pens.'}],
-  ['l',2,'What time does the class start?','استمع، ثم أجب: متى يبدأ الدرس؟','8:15','8:45','8:00','7:15',{say:'The class starts at quarter past eight.'}],
-  ['l',2,"What is the speaker's uncle's job?",'استمع، ثم أجب: ما عمل عمّ المتحدث؟','Pilot','Doctor','Farmer','Teacher',{say:'My uncle is a pilot. He flies to Cairo every week.'}],
-  ['l',3,'What did they do in the end?','استمع، ثم أجب: ماذا فعلوا في النهاية؟','They stayed at home.','They had a picnic.','They went to the beach.','They went shopping.',{say:'We planned to have a picnic, but it started to rain, so we stayed at home and watched a film.'}],
-  ['l',3,'What does the speaker want?','استمع، ثم أجب: ماذا يريد المتحدث؟','Some fresh air','A hot drink','To go to sleep','To turn on the heater',{say:"Could you open the window, please? It's really hot in here."}]
+  ['v',1,'I am hungry. Can I have some ___?','اختر الكلمة المناسبة','bread','paper','soap','shoes'],
+  ['v',2,'The bus was ___, so I had to stand all the way.','اختر الكلمة المناسبة','crowded','empty','late','quiet'],
+  ['v',2,"Can you ___ the TV? I can't hear it.",'اختر الكلمة المناسبة','turn up','turn down','turn off','put out'],
+  ['v',2,'My little brother is ___ of the dark.','اختر الكلمة المناسبة','afraid','interested','worried','bored'],
+  ['v',3,"Turn off the tap while you brush your teeth, so you don't ___ water.",'اختر الكلمة المناسبة','waste','save','keep','collect'],
+  ['v',3,'The flight was ___ for three hours because of the storm.','اختر الكلمة المناسبة','delayed','landed','booked','arrived'],
+  ['v',3,'She succeeded ___ passing the exam.','اختر الكلمة المناسبة','in','on','at','for'],
+  ['v',4,'Regular exercise can ___ the risk of heart disease.','اختر الكلمة المناسبة','reduce','remain','refuse','reveal'],
+  ['v',4,'His excuse was so ___ that nobody believed it.','اختر الكلمة المناسبة','unconvincing','unemployed','uncomfortable','unconscious'],
+  ['v',4,'We had to ___ the trip until next week because of the rain.','اختر الكلمة المناسبة','put off','put up with','put out','put on'],
+  ['g',1,'___ your father a doctor?','اختر الصيغة الصحيحة','Is','Are','Do','Does'],
+  ['g',2,'The lights went out while we ___ dinner.','اختر الصيغة الصحيحة','were having','are having','have had','have'],
+  ['g',2,"I haven't seen him ___ three months.",'اختر الصيغة الصحيحة','for','since','ago','during'],
+  ['g',2,"You ___ talk on the phone in the library; it's not allowed.",'اختر الصيغة الصحيحة','mustn\'t','must','don\'t have to','needn\'t'],
+  ['g',3,'What would you do if you ___ a million riyals?','اختر الصيغة الصحيحة','won','win','will win','have won'],
+  ['g',3,'The teacher ___ taught me English now lives in Abha.','اختر الصيغة الصحيحة','who','which','where','whose'],
+  ['g',3,'The letters ___ every morning.','اختر الصيغة الصحيحة','are delivered','deliver','are delivering','have deliver'],
+  ['g',4,'If you had told me, I ___ you.','اختر الصيغة الصحيحة','would have helped','would help','will help','had helped'],
+  ['g',4,'Can you tell me what time ___?','اختر الصيغة الصحيحة','the museum opens','does the museum open','opens the museum','do the museum open'],
+  ['g',4,'When I got to the station, the train ___.','اختر الصيغة الصحيحة','had already left','has already left','is already leaving','already leaves'],
+  ['r',2,'Why did Rayan join the team at first?','لماذا انضم ريان إلى الفريق في البداية؟','His cousin asked him to.','He wanted to see sea turtles.','His school made him go.','He lives next to the beach.',{p:0}],
+  ['r',2,'When does the team clean the beaches?','متى ينظّف الفريق الشواطئ؟','On Friday mornings','On Thursday nights','Every evening','On Friday evenings',{p:0}],
+  ['r',3,'What does Rayan mean in the last sentence?','ماذا يقصد ريان في الجملة الأخيرة؟','He now cares about the sea itself.','He wants to live by the sea.','His cousin stopped coming.','He still goes only to please his cousin.',{p:0}],
+  ['r',3,'What is desalination?','ما المقصود بتحلية المياه في النص؟','Removing the salt from sea water','Collecting rain water in wells','Cleaning water with sunlight','Moving water from the mountains to towns',{p:1}],
+  ['r',4,'In the text, the word "struggled" is closest in meaning to ___.','أقرب معنى لكلمة struggled في النص','found it difficult','refused','found it easy','forgot',{p:1}],
+  ['r',4,'Why are engineers connecting new plants to solar power?','لماذا يربط المهندسون المحطات الجديدة بالطاقة الشمسية؟','Because desalination uses a lot of energy','Because solar power makes water cleaner','Because sea water is too salty','Because families asked them to',{p:1}],
+  ['l',2,'When does the library close during the exams?','استمع، ثم أجب: متى تُغلق المكتبة أيام الاختبارات؟','10:00 pm','8:00 pm','9:00 pm','10:30 pm',{say:'The library closes at eight, but during the exams it stays open until ten.'}],
+  ['l',2,'How did the speaker get to the gym?','استمع، ثم أجب: كيف وصل المتحدث إلى النادي الرياضي؟','By taxi','On foot','By bus','By bike',{say:'I normally walk to the gym, but it was raining, so I took a taxi.'}],
+  ['l',3,'How much do two large pizzas cost on Tuesday?','استمع، ثم أجب: كم سعر بيتزا كبيرتين يوم الثلاثاء؟','40 riyals','80 riyals','20 riyals','60 riyals',{say:'A large pizza costs forty riyals, but on Tuesdays you get two for the price of one.'}],
+  ['l',3,'What does the speaker do?','استمع، ثم أجب: ماذا يفعل المتحدث؟','He says no to the job.','He accepts the job.','He asks for more time.','He asks for more money.',{say:"Thanks for offering me the job, but I've already accepted another one."}],
+  ['l',4,'What do we learn about the speaker?','استمع، ثم أجب: ماذا نفهم عن المتحدث؟','His brother helped him finish on time.','He did not finish the project.','He helped his brother.','He finished the project late.',{say:"If my brother hadn't helped me, I would never have finished the project on time."}],
+  ['l',4,'How did the speaker feel about the film?','استمع، ثم أجب: ما شعور المتحدث تجاه الفيلم؟','Pleasantly surprised','Bored','Disappointed','Angry',{say:"I expected the film to be boring, but it turned out to be one of the best I've seen."}]
  ]}
 };
 const SK = { v:['المفردات','Vocabulary','--v'], g:['القواعد','Grammar','--g'], r:['القراءة','Reading','--r'], l:['الاستماع','Listening','--l'] };
 const CNT = { v:10, g:10, r:6, l:6 };
-const LEVELS = [['Pre-A1','مبتدئ'],['A1','أساسي'],['A2','ما قبل المتوسط'],['B1','متوسط']];
+const LEVELS = [['Pre-A1','مبتدئ'],['A1','أساسي'],['A2','ما قبل المتوسط'],['B1','متوسط'],['B2','فوق المتوسط']];
+/* results taken before this moment belong to the old, easier forms (version 1): the student takes the new before test again */
+const NEW_AT = 1793547780000;
+const isNew = r => !!r && +r.at >= NEW_AT;
+const DRAFT = k => 'lv2-draft-' + k;
+try { localStorage.removeItem('lv-draft-pre'); localStorage.removeItem('lv-draft-post'); } catch(e){}
 const NAME = { pre:'الاختبار القبلي', post:'الاختبار البعدي' };
 
 const $ = id => document.getElementById(id);
@@ -175,17 +182,17 @@ if ('speechSynthesis' in window) { loadV(); speechSynthesis.onvoiceschanged = lo
 function say(t){ if (!('speechSynthesis' in window)) return false; try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = 'en-US'; u.rate = .88;
   const v = voices.find(v => v.lang === 'en-US') || voices.find(v => (v.lang||'').replace('_','-').startsWith('en')); if (v) u.voice = v; speechSynthesis.speak(u); return true; } catch(e){ return false; } }
 
-/* scoring: per skill out of 8, per band, and the level */
+/* scoring: per skill, per band, and the level (bands 1+2 = basic, 3 = B1, 4 = B2) */
 function score(kind, answers){
-  const items = FORMS[kind].items, sk = { v:0, g:0, r:0, l:0 }, band = { 1:[0,0], 2:[0,0], 3:[0,0] }; let total = 0;
+  const items = FORMS[kind].items, sk = { v:0, g:0, r:0, l:0 }, band = { 1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0] }; let total = 0;
   items.forEach((it, i) => { const ok = answers[i] === it[4]; band[it[1]][1]++; if (ok) { total++; sk[it[0]]++; band[it[1]][0]++; } });
-  const pc = b => band[b][0] / band[b][1];
-  let lv = 0; if (pc(1) >= .6) lv = 1; if (lv === 1 && pc(1) >= .75 && pc(2) >= .6) lv = 2; if (lv === 2 && pc(2) >= .75 && pc(3) >= .6) lv = 3;
+  const pc = b => band[b][0] / band[b][1], basic = (band[1][0] + band[2][0]) / (band[1][1] + band[2][1]);
+  let lv = 0; if (basic >= .5) lv = 1; if (lv === 1 && basic >= .75) lv = 2; if (lv === 2 && pc(3) >= .6) lv = 3; if (lv === 3 && pc(3) >= .75 && pc(4) >= .6) lv = 4;
   return { score: total, max: items.length, level: LEVELS[lv][0], v: sk.v, g: sk.g, r: sk.r, l: sk.l, at: Date.now() };
 }
 
 /* saved results: on this device always, and in the club database when the student is registered */
-let H = null, cloud = {}, postOpen = false, online = false;
+let H = null, cloud = {}, postOpen = false, online = false, OLD = null;
 async function loadAll(){
   const local = store.get('lv-results') || {};
   try {
@@ -195,16 +202,20 @@ async function loadAll(){
       const [mine, cfg] = await Promise.race([Promise.all([H.myLevels(), H.levelsConfig()]), t]);
       cloud = mine || {}; postOpen = !!(cfg && cfg.postOpen); online = true;
       // a result saved only on this device (no connection at the time) is sent now
-      for (const k of ['pre', 'post']) if (local[k] && !cloud[k] && (k === 'pre' || cloud.pre)) { try { await H.saveLevel(k, local[k]); cloud[k] = local[k]; } catch(e){} }
+      for (const k of ['pre', 'post']) if (isNew(local[k]) && !isNew(cloud[k]) && (k === 'pre' || isNew(cloud.pre))) { try { await H.saveLevel(k, local[k]); cloud[k] = local[k]; } catch(e){} }
     }
   } catch(e) { console.warn('level check offline', e); }
-  const res = { pre: cloud.pre || local.pre || null, post: cloud.post || local.post || null };
-  if (online) { const s = {}; ['pre', 'post'].forEach(k => { if (cloud[k]) s[k] = true; }); try { localStorage.setItem('lv-synced', JSON.stringify(s)); } catch(e){} }
+  const pick = k => [cloud[k], local[k]].find(isNew) || null;
+  const res = { pre: pick('pre'), post: pick('post') };
+  OLD = [cloud.pre, local.pre, store.get('lv-old')].find(r => r && !isNew(r)) || null;
+  if (OLD) store.set('lv-old', OLD);
+  if (online) { const s = {}; ['pre', 'post'].forEach(k => { if (isNew(cloud[k])) s[k] = true; }); try { localStorage.setItem('lv-synced', JSON.stringify(s)); } catch(e){} }
   store.set('lv-results', res);
   return res;
 }
 async function save(kind, r){
-  const res = store.get('lv-results') || {}; res[kind] = r; store.set('lv-results', res);
+  const res = store.get('lv-results') || {}; res[kind] = r; if (kind === 'pre') delete res.post; store.set('lv-results', res);
+  try { const s = JSON.parse(localStorage.getItem('lv-synced') || '{}'); delete s[kind]; localStorage.setItem('lv-synced', JSON.stringify(s)); } catch(e){}
   if (H && H.ready) { try { await H.saveLevel(kind, r); try { const s = JSON.parse(localStorage.getItem('lv-synced') || '{}'); s[kind] = true; localStorage.setItem('lv-synced', JSON.stringify(s)); } catch(e){} return true; } catch(e){ console.warn(e); } }
   return false;
 }
@@ -219,16 +230,17 @@ async function home(){
   const row = (k, ic, sub) => {
     const r = RES[k];
     const status = r ? `<span class="tag ok">✓ أنجزته: ${Math.round(r.score / r.max * 100)}٪ · <span class="en">${r.level}</span></span>`
-      : k === 'post' && !postReady ? `<span class="tag wait">🔒 يفتحه المعلم في نهاية الفترة</span>` : '';
+      : k === 'post' && !postReady ? `<span class="tag wait">🔒 يفتحه المعلم في نهاية الفترة</span>`
+      : k === 'pre' && OLD ? `<span class="tag new">🆕 نسخة جديدة أقوى: أعد الاختبار ليُقاس مستواك بدقة</span>` : '';
     const btn = r ? `<button class="btn soft" data-show="${k}">النتيجة</button>`
-      : `<button class="btn" data-go="${k}" ${k === 'post' && !postReady ? 'disabled' : ''}>${store.get('lv-draft-' + k) ? 'أكمل الاختبار' : 'ابدأ'}</button>`;
+      : `<button class="btn" data-go="${k}" ${k === 'post' && !postReady ? 'disabled' : ''}>${store.get(DRAFT(k)) ? 'أكمل الاختبار' : 'ابدأ'}</button>`;
     return `<div class="test"><span class="ic" aria-hidden="true">${ic}</span><span class="tx"><b>${NAME[k]}</b><small>${sub}</small>${status}</span>${btn}</div>`;
   };
   $('app').innerHTML = `<h1>قياس المستوى<span class="en">LEVEL CHECK</span></h1>
     <p class="lead">اختبار قصير يقيس مستواك في الإنجليزية الآن، ثم اختبار مثله في نهاية الفترة لترى كم تحسّنت.</p>
     <div class="card"><h2>عن الاختبار</h2>
       <div class="parts">${Object.entries(SK).map(([k, s]) => `<div class="part" style="border-color:var(${s[2]})"><b style="color:var(${s[2]})">${s[0]}</b><small class="en">${s[1]} · ${CNT[k]} questions</small></div>`).join('')}</div>
-      <p class="muted" style="margin:0">32 سؤالاً في نحو 20 دقيقة. الأسئلة تبدأ سهلة وتصعب تدريجياً، فلا تقلق إن لم تعرف بعضها. أجب وحدك ودون مساعدة، لتكون النتيجة صادقة. يحتاج قسم الاستماع إلى الصوت 🔊.</p></div>
+      <p class="muted" style="margin:0">32 سؤالاً في نحو 25 دقيقة. الأسئلة تبدأ سهلة وتصعب تدريجياً حتى المستوى <span class="en">B2</span>، فلا تقلق إن لم تعرف بعضها. أجب وحدك ودون مساعدة، لتكون النتيجة صادقة. يحتاج قسم الاستماع إلى الصوت 🔊.</p></div>
     <div class="tests">
       ${row('pre', '📝', 'في بداية الفترة: يحدد مستواك الآن.')}
       ${row('post', '🏁', 'في نهاية الفترة: أسئلة جديدة بالصعوبة نفسها، لقياس تحسّنك.')}
@@ -244,9 +256,9 @@ async function home(){
 function start(kind){
   const F = FORMS[kind], N = F.items.length;
   // answer order is shuffled once per student and kept with the draft, so leaving and coming back changes nothing
-  let d = store.get('lv-draft-' + kind);
+  let d = store.get(DRAFT(kind));
   if (!d || !d.order || d.order.length !== N) d = { i: 0, ans: {}, order: F.items.map(it => shuffle(it.slice(4, 8))), plays: {} };
-  const keep = () => store.set('lv-draft-' + kind, d);
+  const keep = () => store.set(DRAFT(kind), d);
   keep();
   function q(){
     const i = d.i, it = F.items[i], ex = it[8] || {}, s = SK[it[0]];
@@ -273,7 +285,7 @@ function start(kind){
       if (!confirm('هل تريد إنهاء الاختبار وإرسال إجاباتك؟ لا يمكن إعادته بعد ذلك.')) return;
       $('next').disabled = true; $('next').textContent = 'جاري الحفظ…';
       const r = score(kind, F.items.map((_, k) => d.ans[k]));
-      const sent = await save(kind, r); store.del('lv-draft-' + kind);
+      const sent = await save(kind, r); store.del(DRAFT(kind));
       RES[kind] = r; result(kind, true, sent);
     };
     window.scrollTo(0, 0);
@@ -285,7 +297,8 @@ function levelScale(lv){ return `<div class="scale">${LEVELS.map(L => `<div clas
 function result(kind, fresh, sent){
   const r = RES[kind], pc = Math.round(r.score / r.max * 100), L = LEVELS.find(x => x[0] === r.level) || LEVELS[0];
   const tip = { 'Pre-A1':'ابدأ بقسم «التأسيس»: الحروف والأصوات ومحادثات التأسيس وقاموس الألف كلمة.', 'A1':'ركّز على «قوائم الكلمات» العامة و«خارطة الأزمنة» البسيطة، واقرأ قصة كل أسبوع.',
-    'A2':'تابع «English Word Quest» و«ركن القصص» و«مختبر المحادثة»، وتدرّب على الأزمنة التامة.', 'B1':'مستوى رائع! جرّب الكلمات الأكاديمية و«Syntax Tree Lab» و«المكتبة الإثرائية».' }[r.level];
+    'A2':'تابع «English Word Quest» و«ركن القصص» و«مختبر المحادثة»، وتدرّب على الأزمنة التامة.', 'B1':'مستوى رائع! جرّب الكلمات الأكاديمية و«Syntax Tree Lab» و«المكتبة الإثرائية».',
+    'B2':'مستوى متقدم! اقرأ نصوصاً حقيقية في «المكتبة الإثرائية»، وأتقن الكلمات الأكاديمية والتعبيرات، وساعد زملاءك.' }[r.level];
   $('app').innerHTML = `<h1>${fresh ? 'انتهى الاختبار 🎉' : 'نتيجتك'}<span class="en">${NAME[kind] === NAME.pre ? 'BEFORE TEST' : 'AFTER TEST'}</span></h1>
     <p class="lead">${NAME[kind]} · ${fmtDate(r.at)}</p>
     <div class="card"><div class="big"><div class="ring" style="--p:${pc}"><span>${pc}%</span></div>

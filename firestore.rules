@@ -104,7 +104,12 @@ service cloud.firestore {
       allow update: if isTeacher() || (request.auth != null && request.auth.uid == uid
         && request.resource.data.keys().hasOnly(['pre', 'post', 'updatedAt'])
         && ('pre' in resource.data) && request.resource.data.pre == resource.data.pre
-        && !('post' in resource.data) && validResult(request.resource.data.post) && postOpen());
+        && !('post' in resource.data) && validResult(request.resource.data.post) && postOpen())
+        // النسخة الجديدة الأصعب: من أدّى القبلي القديم (قبل موعد النسخة الجديدة) يستبدله مرة واحدة بنتيجة الجديد
+        || (request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['pre', 'updatedAt'])
+        && ('pre' in resource.data) && resource.data.pre.at < 1793547780000
+        && validResult(request.resource.data.pre) && request.resource.data.pre.at >= 1793547780000);
       allow delete: if isTeacher();
     }
   }
