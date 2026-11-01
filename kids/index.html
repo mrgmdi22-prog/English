@@ -195,6 +195,77 @@ h2.sec{font-size:1.4rem;margin:26px 4px 12px}
 .pgnav button{font:inherit;font-weight:800;font-size:1.1rem;border:3px solid var(--ink);background:#fff;border-radius:999px;padding:8px 16px;cursor:pointer;color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
 .pgnav button:disabled{opacity:.35;cursor:default}
 footer{text-align:center;color:var(--muted);font-size:.95rem;margin-top:26px}
+
+/* ---------- journey (مسيرة البطل) ---------- */
+.jhero{display:flex;align-items:center;gap:12px;justify-content:center;text-align:center;margin:6px 0 12px;flex-wrap:wrap}
+.jhero .mascot{font-size:3.8rem;line-height:1;animation:bob 2.6s ease-in-out infinite}
+.jhero h1{margin:0;font-size:clamp(2rem,8vw,2.7rem);line-height:1.15}.jhero h1 .en{display:block;font-size:.55em;color:#FF7A1A}
+.jhero p{margin:2px 0 0;color:var(--muted);font-size:1.05rem}
+.jprog{display:flex;align-items:center;gap:10px;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:6px 14px;box-shadow:3px 3px 0 var(--ink);margin:0 0 12px}
+.jprog .bar{flex:1;height:18px;background:#F3EAD3;border-radius:99px;overflow:hidden;border:2px solid var(--ink)}
+.jprog .bar i{display:block;height:100%;background:linear-gradient(90deg,#FFB21A,#FFD23F);border-radius:99px}
+.jprog b{font-size:1.1rem;white-space:nowrap}
+.jgo{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:12px;width:100%;background:#FFD23F;border:3px solid var(--ink);border-radius:24px;padding:12px 16px;box-shadow:0 6px 0 var(--ink);font-weight:800;font-size:1.45rem;margin-bottom:14px}
+.jgo small{display:block;font-size:1.05rem;font-weight:700}
+.jgo .ic{margin-inline-start:auto;font-size:2.6rem;line-height:1;background:#fff;border:3px solid var(--ink);border-radius:50%;width:64px;height:64px;display:grid;place-items:center;flex:none}
+.jgo:active,.door:active,.jn:active{transform:translateY(4px);box-shadow:0 2px 0 var(--ink)}
+.jlinks{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:4px 0 6px}
+.jlinks button{font:inherit;font-weight:800;font-size:1.1rem;border:3px solid var(--ink);background:#fff;border-radius:999px;padding:8px 18px;cursor:pointer;color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
+.land{position:relative;border:3px solid var(--ink);border-radius:30px;margin:20px 0;padding:12px 10px 4px;overflow:hidden;box-shadow:5px 5px 0 var(--ink)}
+.lhead{position:relative;z-index:2;display:flex;align-items:center;gap:10px;background:#fff;border:3px solid var(--ink);border-radius:20px;padding:8px 12px}
+.lhead .li{font-size:2.5rem;line-height:1}
+.lhead b{display:block;font-size:1.25rem;line-height:1.3}.lhead .en{display:block;color:var(--c);font-weight:800;font-size:1.05rem}
+.lhead .lp{margin-inline-start:auto;font-weight:800;background:#FFF8E1;border:2px solid var(--ink);border-radius:999px;padding:2px 12px;font-size:1.05rem;white-space:nowrap}
+.deco{position:absolute;inset:0;pointer-events:none;z-index:0}.deco span{position:absolute;font-size:2.6rem;opacity:.38}
+.jpath{position:relative;z-index:1;padding-top:8px}
+.jline{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.jrow{position:relative;height:170px}
+.jn{all:unset;box-sizing:border-box;cursor:pointer;position:absolute;top:16px;width:98px;height:98px;margin-left:-49px;border-radius:50%;background:var(--t);border:4px solid var(--ink);box-shadow:0 7px 0 var(--ink);display:grid;place-items:center;z-index:2}
+.jn .ic{font-size:2.9rem;line-height:1}
+.jn:focus-visible{outline:4px solid #FF7A1A;outline-offset:6px}
+.jn.lock{background:#EFEBE1;box-shadow:0 7px 0 #BDB49E;border-color:#BDB49E}.jn.lock .ic{filter:grayscale(1);opacity:.4}
+.jn .lk{position:absolute;bottom:-8px;right:-8px;font-size:1.3rem;background:#fff;border:3px solid #BDB49E;border-radius:50%;width:40px;height:40px;display:grid;place-items:center}
+.jn.full{background:#FFE27A}
+.jn.cur{animation:hop 1.6s ease-in-out infinite}
+.jn.cur::before{content:"";position:absolute;inset:-14px;border-radius:50%;border:5px solid #FF9F1A;animation:ring 1.5s ease-out infinite}
+@keyframes ring{0%{transform:scale(.85);opacity:1}100%{transform:scale(1.28);opacity:0}}
+@keyframes hop{50%{transform:translateY(-7px)}}
+.jlab{position:absolute;top:124px;width:136px;margin-left:-68px;text-align:center;z-index:2;line-height:1.2}
+.jlab b{display:inline-block;background:rgba(255,255,255,.94);border-radius:12px;padding:1px 8px;font-size:1.12rem}
+.jlab .js{display:block;font-size:1rem;letter-spacing:1px;direction:ltr}
+.jmas{position:absolute;top:54px;margin-left:-28px;font-size:2.9rem;line-height:1;z-index:3;animation:bob 2s ease-in-out infinite;pointer-events:none}
+.jmas i{position:absolute;top:-30px;left:50%;transform:translateX(-50%);font-style:normal;font-size:1rem;font-weight:800;background:#fff;border:2px solid var(--ink);border-radius:12px;padding:0 8px;white-space:nowrap;font-family:var(--ar)}
+.jn.chest{width:86px;height:86px;margin-left:-43px;top:22px;background:#fff;border-radius:24px}
+.jn.chest.ready{background:#FFE27A;animation:wig 1.3s ease-in-out infinite}
+@keyframes wig{25%{transform:rotate(-9deg)}75%{transform:rotate(9deg)}}
+.shead{text-align:center;background:var(--t);border:3px solid var(--ink);border-radius:28px;padding:14px;box-shadow:5px 5px 0 var(--ink)}
+.shead .lv{display:inline-block;font-weight:800;font-size:1.05rem;background:#fff;border:2px solid var(--ink);border-radius:999px;padding:1px 14px}
+.shead .bigic{font-size:4.6rem;line-height:1.2;display:block;margin-top:6px;animation:bob 2.6s ease-in-out infinite}
+.shead h2{margin:0;font-size:2rem;line-height:1.25}.shead .en{display:block;font-size:1.3rem;font-weight:800;color:var(--c)}
+.shead .js{font-size:1.7rem;direction:ltr;margin-top:2px}
+.jpick{text-align:center;font-weight:800;font-size:1.4rem;margin:18px 0 0}.jpick small{display:block;color:var(--muted);font-weight:700;font-size:1.05rem}
+.doors{display:grid;gap:16px;max-width:560px;margin:12px auto 0}
+.door{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:14px;background:var(--t);border:3px solid var(--ink);border-radius:24px;padding:12px 14px;box-shadow:0 6px 0 var(--ink)}
+.door .dic{font-size:2.7rem;width:74px;height:74px;display:grid;place-items:center;background:#fff;border:3px solid var(--ink);border-radius:20px;flex:none;line-height:1}
+.door b{display:block;font-size:1.35rem;line-height:1.3}.door .en{display:block;font-weight:800;color:var(--c);font-size:1.1rem}.door small{display:block;color:var(--muted);font-size:1rem;line-height:1.4}
+.door .en{text-align:right}
+.door .dgo{margin-inline-start:auto;font-size:1.9rem;flex:none}
+.door.ok{background:#E2F7EA}
+.jnav{display:flex;justify-content:space-between;gap:8px;max-width:560px;margin:20px auto 0;direction:ltr}
+.jnav button{font:inherit;font-weight:800;font-size:1.1rem;border:3px solid var(--ink);background:#fff;border-radius:999px;padding:8px 14px;cursor:pointer;color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
+.jnav button:disabled{opacity:.35;cursor:default}
+.jwin{background:#FFF3C4;border:3px dashed #D99A00;border-radius:22px;padding:10px 14px;text-align:center;font-weight:800;font-size:1.25rem;margin:14px auto 0;max-width:560px}
+.jwin button{font:inherit;font-weight:800;font-size:1.15rem;border:3px solid var(--ink);background:#FFD23F;border-radius:999px;padding:8px 18px;cursor:pointer;color:var(--ink);box-shadow:3px 3px 0 var(--ink);margin-top:8px}
+#jbar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#FFFBEA;border-top:3px solid var(--ink);padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px)) 88px;display:flex;align-items:center;gap:10px}
+#jbar .tx{flex:1;line-height:1.35;font-size:1rem;color:var(--muted)}#jbar .tx b{display:block;font-size:1.12rem;color:var(--ink)}
+#jbar button{font:inherit;font-weight:800;font-size:1.05rem;border:3px solid var(--ink);background:#fff;border-radius:999px;padding:6px 14px;cursor:pointer;color:var(--ink);box-shadow:2px 2px 0 var(--ink);white-space:nowrap}
+#jbar.ok{background:#DFF7E8}#jbar.ok button{background:#FFD23F;animation:hop 1s ease-in-out infinite}
+.jmodal{position:fixed;inset:0;z-index:60;background:rgba(42,36,64,.3);display:grid;place-items:center;padding:20px}
+.jmodal .box{background:#fff;border:4px solid var(--ink);border-radius:28px;box-shadow:6px 6px 0 var(--ink);padding:20px;max-width:380px;width:100%;text-align:center;animation:pop .45s var(--ease)}
+.jmodal .big{font-size:4.8rem;line-height:1.2}.jmodal h3{margin:6px 0;font-size:1.5rem}.jmodal p{margin:0 0 14px;color:var(--muted);font-size:1.1rem}
+.jmodal .bt{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.jmodal button{font:inherit;font-weight:800;font-size:1.15rem;border:3px solid var(--ink);background:#FFD23F;border-radius:999px;padding:8px 20px;cursor:pointer;color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
+.jmodal button.alt{background:#fff}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -202,6 +273,7 @@ footer{text-align:center;color:var(--muted);font-size:.95rem;margin-top:26px}
 <div class="wrap">
   <div class="top"><a class="homeBtn" id="topBtn" href="../index.html">🏠 النادي</a><span class="stars" id="stars">⭐ 0</span></div>
   <main id="app"></main>
+  <div id="jbar" hidden></div>
   <p class="voicetip" id="voiceTip" hidden>🔈 لا يوجد صوت إنجليزي في جهازك، فقد يُقرأ النطق بلكنة عربية. ثبّت الصوت الإنجليزي من: الإعدادات ← تحويل النص إلى كلام ← محرك Google ← تثبيت بيانات الصوت ← English.</p>
   <div class="acc">النطق: <button data-a="en-US">US</button><button data-a="en-GB">UK</button></div>
   <footer>نادي البراعم · إعداد أ. أحمد آل سالم — نادي اللغة الإنجليزية، ثانوية الأمير فيصل بالعقيق</footer>
@@ -371,16 +443,18 @@ function doInstall(){
     :['افتح هذه الصفحة في متصفح <b>Google Chrome</b>.','اضغط النقاط الثلاث <b>⋮</b> أعلى الشاشة.','اختر <b>«تثبيت التطبيق»</b> أو <b>«إضافة إلى الشاشة الرئيسية»</b> ثم <b>«تثبيت»</b>.','إذا كان تطبيق <b>English Club</b> مثبّتاً عندك: اضغط مطوّلاً على أيقونته، ثم اسحب <b>«نادي البراعم 🦁»</b> إلى الشاشة.'];
   const bt=$('inst').querySelector('button');if(bt)bt.remove();$('instTx').innerHTML='<ol>'+steps.map(s=>'<li>'+s+'</li>').join('')+'</ol>';
 }
-function home(){
-  $('topBtn').textContent='🏠 النادي';$('topBtn').dir='rtl';$('topBtn').href='../index.html';$('topBtn').onclick=null;
+function home(){journeyMap();}
+/* all sections, free browsing (the old home) */
+function allSections(){
+  JDOOR=null;jBar();push({v:'all'},'all');backBtn();
   const LC=['','#EDE4FF','#D9F5EC','#FFE6CC','#DCE6FF'],LT=['','⭐','⭐⭐','⭐⭐⭐','🚀'];
   const day=Math.floor(Date.now()/864e5),tn=day%STORIES.length,ts=STORIES[tn];
   const cov=(st,i)=>`<button class="cov" data-st="${i}" style="background:${LC[st.lv||1]}"><span class="lv">${LT[st.lv||1]}</span><span class="ic">${st.ic}</span><b>${esc(st.ar)}</b></button>`;
-  $('app').innerHTML=`<div class="hero"><span class="mascot" aria-hidden="true">🦁</span><h1>نادي البراعم<span class="en">English Club Kids</span></h1><p>اقرأ، واسمع، والعب، واجمع النجوم ⭐</p></div>${reviewBox()}
+  $('app').innerHTML=`<div class="hero"><span class="mascot" aria-hidden="true">🦁</span><h1>كل الأقسام<span class="en">All Sections</span></h1><p>تصفّح بحرية: اقرأ، واسمع، والعب، واجمع النجوم ⭐</p></div>${reviewBox()}
     <div class="storyhub"><div class="hd"><span class="bk" aria-hidden="true">📚</span><div><h2>ركن القصص</h2><p>${STORIES.length} قصة مصوّرة ناطقة في 4 مستويات</p></div></div>
       <button class="today" data-st="${tn}"><span class="ic" style="background:${LC[ts.lv||1]}">${ts.ic}</span><span><small>✨ قصة اليوم</small><b>${esc(ts.ar)}</b><span class="en">${esc(ts.t)}</span></span><span class="go" aria-hidden="true">👈</span></button>
       <div class="covers">${STORIES.map(cov).join('')}</div>
-      <button class="allbtn" data-id="sto">📖 كل القصص حسب المستوى</button></div>${instCard()}
+      <button class="allbtn" data-id="sto">📖 كل القصص حسب المستوى</button></div>
     <h2 class="sec">🌱 أبدأ من هنا</h2><div class="tiles">${SECTIONS.slice(0,5).map(tile).join('')}</div>
     <h2 class="sec">🖼️ كلمات بالصور</h2><div class="tiles">${SECTIONS.slice(5,5+TOPICS.length).map(tile).join('')}</div>
     <h2 class="sec">💬 جمل وتحيات</h2><div class="tiles">${SECTIONS.filter(s=>s.g===3&&s.id!=='sto').map(tile).join('')}</div>
@@ -418,12 +492,12 @@ function items(id){
 }
 let SEC=null,MODE='learn',NAV=false;
 /* back button: every screen is a history step, so the phone's back goes back inside Kids Club */
-function push(st,h){if(NAV)return;try{if(JSON.stringify(history.state)===JSON.stringify(st))return;history.pushState(st,'','#'+h);}catch(e){}}
+function push(st,h){if(NAV)return;try{if(JSON.stringify(history.state)===JSON.stringify(st))return;history.pushState(st,'','#'+h);if(JDOOR)JSTACK++;}catch(e){}}
 function goBack(e){if(e)e.preventDefault();speechSynthesis&&speechSynthesis.cancel();const st=history.state;if(st&&st.v&&st.v!=='home')history.back();else home();}
-function render(st){NAV=true;try{speechSynthesis&&speechSynthesis.cancel();if(!st||!st.v||st.v==='home')home();else if(st.v==='sec'&&SECTIONS.some(x=>x.id===st.id))open(st.id);else if(st.v==='story'&&STORIES[st.n]){open('sto');story(st.n);}else home();}finally{NAV=false;}}
-addEventListener('popstate',e=>render(e.state));
-function open(id){SEC=SECTIONS.find(s=>s.id===id);MODE='learn';push({v:'sec',id},id);
-  $('topBtn').innerHTML='<bdi>←</bdi> <bdi>رجوع</bdi>';$('topBtn').dir='ltr';$('topBtn').href='#';$('topBtn').onclick=goBack;
+function backBtn(){$('topBtn').innerHTML='<bdi>←</bdi> <bdi>رجوع</bdi>';$('topBtn').dir='ltr';$('topBtn').href='#';$('topBtn').onclick=goBack;}
+function render(st){NAV=true;try{speechSynthesis&&speechSynthesis.cancel();jClose();if(!st||!st.v||st.v==='home')home();else if(st.v==='all')allSections();else if(st.v==='st'&&ST[st.i])station(st.i);else if(st.v==='sec'&&SECTIONS.some(x=>x.id===st.id))open(st.id);else if(st.v==='story'&&STORIES[st.n]){open('sto');story(st.n);}else home();}finally{NAV=false;}}
+addEventListener('popstate',e=>{if(JSTACK>0)JSTACK--;render(e.state);});
+function open(id){SEC=SECTIONS.find(s=>s.id===id);MODE='learn';push({v:'sec',id},id);backBtn();
   if(id==='sto4')return storyShelf(4);
   if(id==='spl2')return spell(SPELL2,'spl2');
   if(id==='ord')return order();
@@ -444,10 +518,10 @@ function draw(){
   if(MODE==='read')return game(list,true);
   if(s.id==='phr'||s.id==='cls'){
     $('pn').innerHTML=`<p class="sub">اضغط على الجملة لتسمعها، ثم قلها بصوت عالٍ 🗣️</p><div class="phr">${list.map((x,i)=>`<button class="ph" data-i="${i}">${x.big}<span class="w">${esc(x.w)}</span><span class="a">${esc(x.a)}</span></button>`).join('')}</div>`;
-    $('pn').querySelectorAll('.ph').forEach(b=>b.onclick=()=>{say(list[+b.dataset.i].say,.8);pop(b);});return;
+    $('pn').querySelectorAll('.ph').forEach(b=>b.onclick=()=>{say(list[+b.dataset.i].say,.8);pop(b);jTap(+b.dataset.i,list.length);});return;
   }
   $('pn').innerHTML=`<p class="sub">اضغط على البطاقة لتسمعها 🔊</p><div class="cards" dir="ltr">${list.map((x,i)=>`<button class="card" data-i="${i}">${x.big}${s.id==='abc'?`<span class="w">${esc(x.w)}</span>`:s.id==='num'?`<span class="w">${esc(x.w)}</span>`:`<span class="w">${esc(x.w)}</span>`}<span class="a">${esc(x.a)}</span></button>`).join('')}</div>`;
-  $('pn').querySelectorAll('.card').forEach(b=>b.onclick=()=>{say(list[+b.dataset.i].say);pop(b);});
+  $('pn').querySelectorAll('.card').forEach(b=>b.onclick=()=>{say(list[+b.dataset.i].say);pop(b);jTap(+b.dataset.i,list.length);});
 }
 /* "listen and touch" game: 6 rounds, 4 choices; a star for each first-try answer.
    A wrong answer: try again (the right one glows after two tries), and the question comes back 2 rounds later */
@@ -492,6 +566,7 @@ function endScreen(got,N,key,again,note){
     ${note||''}${newSt?`<p style="font-weight:800;color:#B7791F">🎁 حصلت على ملصق جديد! افتحه في «ملصقاتي».</p>`:''}<button class="again" id="more">🔁 العب مرة أخرى</button></div>`;
   $('more').onclick=again;window.clubSfx&&clubSfx('win');
   if(got>=N-1){const b=$('pn').querySelector('.big').getBoundingClientRect();burst(b.left+b.width/2,b.top+40);}
+  if(JDOOR){jDone();$('more').insertAdjacentHTML('afterend','<br><button class="again" id="jback" style="background:#FFD23F;color:var(--ink)">🗺️ ارجع إلى المحطة</button>');$('jback').onclick=jBack;}
 }
 function panel(s,sub){$('app').innerHTML=`<div class="panel"><h2>${s.ic} ${s.ar} <span class="en" style="color:${s.c}">${s.en}</span></h2>${sub?`<p class="sub">${sub}</p>`:''}<div id="pn"></div></div>`;window.scrollTo(0,0);}
 /* spell it: see the picture, tap the letters in order. A misspelled word comes back 2 words later */
@@ -860,6 +935,7 @@ function writer(){
     window.clubSfx&&clubSfx('win');const b=board.getBoundingClientRect();burst(b.left+b.width/2,b.top+b.height/2);
     setTimeout(speak,400);
     if(!done[WSET].includes(cur())){done[WSET].push(cur());store.set('kd-write',JSON.stringify(done));addStars(1);}
+    jWrite();
     chips();
   }
   function fail(t){active=false;miss++;window.clubSfx&&clubSfx('bad');msg(t,'no');drawLive('#E5484D');setTimeout(()=>{if(!active&&!demoing)clearInk();},450);}
@@ -899,6 +975,169 @@ function writer(){
   writer.resize=resize;
   window.scrollTo(0,0);
 }
+/* ---------- مسيرة البطل: one path of stations in 6 lands. Each station offers 2-3 missions to choose from
+   (words, a story, a game). One finished mission opens the next station; all three = ⭐⭐⭐. A chest closes every land. ---------- */
+const SI=t=>STORIES.findIndex(s=>s.t===t);
+const LANDS=[
+ {ic:'🌱',ar:'بستان الحروف',en:'Letter Garden',c:'#3F9E2A',bg:'linear-gradient(180deg,#EEFBE3,#FFF9E6)',t:'#DFF5CF',deco:['🌼','🌿','🦋','🌷','🍃'],st:[
+   ['🔤','الحروف','ABC',[['learn','abc'],['play','abc'],['write']]],
+   ['🔢','الأرقام','Numbers',[['learn','num'],['play','num'],['story','Count with Me']]],
+   ['🎨','الألوان','Colors',[['learn','col'],['play','col'],['story','My Garden']]],
+   ['🔷','الأشكال','Shapes',[['learn','shp'],['play','shp'],['read','shp']]]]},
+ {ic:'🏡',ar:'قرية الأسرة',en:'Family Village',c:'#D9480F',bg:'linear-gradient(180deg,#FFF0E3,#FFF9EE)',t:'#FFE2CC',deco:['🌳','🏠','🐓','🌻','🧺'],st:[
+   ['👋','التحيات','Say Hello',[['learn','phr'],['play','phr'],['read','phr']]],
+   ['👨‍👩‍👧‍👦','الأسرة','Family',[['learn','t-family'],['play','t-family'],['story','My Family']]],
+   ['🐘','الحيوانات','Animals',[['learn','t-animals'],['play','t-animals'],['story','Mimi the Cat']]],
+   ['🍎','الطعام','Food',[['learn','t-food'],['play','t-food'],['story','The Hungry Rabbit']]],
+   ['🛋️','البيت','My Home',[['learn','t-home'],['play','t-home'],['read','t-home']]]]},
+ {ic:'🏫',ar:'مدينة المدرسة',en:'School Town',c:'#1D6FD6',bg:'linear-gradient(180deg,#E6F0FF,#F7FAFF)',t:'#D6E6FF',deco:['✏️','📐','📚','🖍️','🔔'],st:[
+   ['🎒','المدرسة','School',[['learn','t-school'],['play','t-school'],['story',"Ali's Day"]]],
+   ['🧑‍🏫','جمل الفصل','Classroom',[['learn','cls'],['play','cls'],['read','cls']]],
+   ['✋','الجسم','My Body',[['learn','t-body'],['play','t-body'],['spl']]],
+   ['🧸','الألعاب','Toys',[['learn','t-toys'],['play','t-toys'],['story','The Red Balloon']]],
+   ['👕','الملابس','Clothes',[['learn','t-clothes'],['read','t-clothes'],['mem']]]]},
+ {ic:'🏖️',ar:'شاطئ المغامرات',en:'Adventure Beach',c:'#0B8EA8',bg:'linear-gradient(180deg,#E0F7FA,#FFF8E6)',t:'#CDEFF5',deco:['🌴','🐚','🌊','⛱️','🦀'],st:[
+   ['🐠','حيوانات البحر','Sea Animals',[['learn','t-sea'],['play','t-sea'],['story','At the Beach']]],
+   ['🌦️','الطقس','Weather',[['learn','t-weather'],['read','t-weather'],['story','The Lost Kitten']]],
+   ['🏃','الأفعال','Actions',[['learn','t-actions'],['play','t-actions'],['story','Sports Day']]],
+   ['🍓','فواكه وخضار','Fruits & Veggies',[['learn','t-fruits'],['read','t-fruits'],['story','The Little Seed']]],
+   ['🏙️','الأماكن','Places',[['learn','t-places'],['play','t-places'],['story',"Grandpa's Farm"]]]]},
+ {ic:'🌙',ar:'سماء الأحلام',en:'Dream Sky',c:'#6D3FD1',bg:'linear-gradient(180deg,#F1EBFF,#FBF8FF)',t:'#E6DCFF',deco:['⭐','☁️','🌙','✨','🪐'],st:[
+   ['😊','المشاعر','Feelings',[['learn','t-feelings'],['read','t-feelings'],['story',"Noura's First Day"]]],
+   ['🧑‍🚒','المهن','Jobs',[['learn','t-jobs'],['read','t-jobs'],['story','The Honest Boy']]],
+   ['🚀','المواصلات','Transport',[['learn','t-transport'],['read','t-transport'],['story','A Trip to the Moon']]],
+   ['🐦','الغراب الذكي','The Clever Crow',[['story','The Clever Crow'],['ord'],['spl']]]]},
+ {ic:'🏔️',ar:'قمة الأبطال',en:'Heroes\' Peak',c:'#B45309',bg:'linear-gradient(180deg,#FFF4D6,#FFFBF0)',t:'#FFE7A8',deco:['⛰️','🦅','🚩','🌄','🏅'],st:[
+   ['🦁','الأسد والفأر','Lion & Mouse',[['story','The Lion and the Mouse'],['grm'],['ord']]],
+   ['🐢','السلحفاة والأرنب','Tortoise & Hare',[['story','The Tortoise and the Hare'],['opp'],['spl2']]],
+   ['🌌','نجوم الصحراء','Desert Stars',[['story','Stars over the Desert'],['grm'],['opp']]],
+   ['🤖','روبو المساعد','Robo the Helper',[['story','Robo the Helper'],['ord'],['spl2']]]]}
+];
+const ST=[];LANDS.forEach((L,li)=>L.st.forEach(x=>ST.push({i:ST.length,L:li,ic:x[0],ar:x[1],en:x[2],doors:x[3]})));
+const DOOR={learn:['🖼️','تعلّم الكلمات','Learn','اضغط البطاقات واسمع النطق',null,'#FFF1D6'],play:['👂','اسمع واختر','Listen','اسمع الكلمة واختر الصورة',null,'#E0F0FF'],
+  read:['📖','اقرأ واختر','Read','اقرأ الكلمة واختر الصحيحة',null,'#ECE6FF'],story:['📚','قصة','Story','اقرأ واسمع، ثم أجب عن الأسئلة',null,'#F8E6FF'],
+  write:['✍️','اكتب الحروف','Write it!','اكتب 3 حروف بإصبعك',null,'#FDE7EF'],spl:['🧩','كوّن الكلمة','Spell it!','رتّب الحروف لتكتب الكلمة',null,'#FFEDD5'],
+  spl2:['🏅','كلمات أطول','Super Spell','تهجئة للأبطال',null,'#FEF3C7'],mem:['🃏','لعبة الذاكرة','Memory','ابحث عن الصورة وكلمتها',null,'#DDF5F1'],
+  ord:['🧱','رتّب الجملة','Build it!','اضغط الكلمات بالترتيب',null,'#E0F2FE'],grm:['🎯','اختر الصحيح','Grammar','أكمل الجملة بالكلمة الصحيحة',null,'#F3E8FF'],
+  opp:['🔄','الأضداد','Opposites','ما عكس الكلمة؟',null,'#FCE7F3']};
+let JR={d:{},c:{}};try{const j=JSON.parse(store.get('kd-jr')||'null');if(j&&j.d)JR={d:j.d,c:j.c||{}};}catch(e){}
+const jSave=()=>store.set('kd-jr',JSON.stringify(JR));
+const jCount=i=>ST[i].doors.filter((_,k)=>JR.d[i+'.'+k]).length;
+const jOpen=i=>i===0||jCount(i-1)>0;
+const jCur=()=>{for(let i=0;i<ST.length;i++)if(!jCount(i))return i;return ST.length-1;};
+const landDone=L=>ST.filter(s=>s.L===L).every(s=>jCount(s.i)>0);
+const jStars=i=>'⭐'.repeat(jCount(i))+'☆'.repeat(ST[i].doors.length-jCount(i));
+let JDOOR=null,JSTACK=0,JUST=null;
+function doorInfo(d){const m=DOOR[d[0]];
+  if(d[0]==='story'){const n=SI(d[1]),st=STORIES[n],lv=st.lv||1;return {ic:st.ic,ar:'قصة: '+st.ar,en:st.t,sub:['','قصة قصيرة سهلة','قصة فيها مشكلة وحل','قصة أطول فيها درس','قصة للأبطال المتقدمين'][lv]+' ثم أسئلة',t:m[5]};}
+  if(d[0]==='learn'&&(d[1]==='phr'||d[1]==='cls'))return {ic:'💬',ar:'تعلّم الجمل',en:'Learn',sub:'اضغط الجملة واسمعها ثم قلها',t:m[5]};
+  if(d[0]==='learn'&&['abc','num','col','shp'].includes(d[1]))return {ic:m[0],ar:'تعلّم '+SECTIONS.find(x=>x.id===d[1]).ar,en:'Learn',sub:m[3],t:m[5]};
+  return {ic:m[0],ar:m[1],en:m[2],sub:m[3],t:m[5]};}
+function jx(r){return Math.round(50+27*Math.sin(r*1.2+.2));}
+function journeyMap(){
+  JDOOR=null;jBar();jClose();
+  $('topBtn').textContent='🏠 النادي';$('topBtn').dir='rtl';$('topBtn').href='../index.html';$('topBtn').onclick=null;
+  const cur=jCur(),done=ST.filter(s=>jCount(s.i)).length,c=ST[cur],allDone=done===ST.length;
+  let html=`<div class="jhero"><span class="mascot" aria-hidden="true">🦁</span><div><h1>مسيرة البطل<span class="en">Hero Journey</span></h1><p>محطة بعد محطة… وفي كل محطة تختار مهمتك!</p></div></div>
+    <div class="jprog"><div class="bar"><i style="width:${Math.round(done*100/ST.length)}%"></i></div><b>🚩 ${done} / ${ST.length}</b></div>
+    <button class="jgo" data-go="${cur}"><span>${allDone?'🏆 أنهيت المسيرة! اجمع ⭐⭐⭐':done?'▶️ تابع المسيرة':'▶️ ابدأ المسيرة'}<small>المحطة ${cur+1}: ${esc(c.ar)}</small></span><span class="ic">${c.ic}</span></button>
+    <div class="jlinks"><button data-x="stk">🎁 ملصقاتي</button><button data-x="all">🗂️ كل الأقسام</button></div>${reviewBox()}`;
+  LANDS.forEach((L,li)=>{
+    const sts=ST.filter(s=>s.L===li),lp=sts.filter(s=>jCount(s.i)).length;
+    const deco=L.deco.map((e,k)=>`<span style="top:${90+k*(sts.length*170)/L.deco.length}px;${k%2?'left':'right'}:${6+(k*7)%14}px">${e}</span>`).join('');
+    let rows=sts.map((s,r)=>{const x=jx(r),op=jOpen(s.i),n=jCount(s.i),isC=s.i===cur&&!allDone,mx=x<50?x+25:x-25;
+      return `<div class="jrow"><button class="jn${!op?' lock':n===s.doors.length?' full':''}${isC?' cur':''}" data-st="${s.i}" style="left:${x}%" aria-label="${esc(s.ar)}"><span class="ic">${s.ic}</span>${op?'':'<span class="lk">🔒</span>'}</button>
+        <div class="jlab" style="left:${x}%"><b>${s.i+1}. ${esc(s.ar)}</b>${op?`<span class="js">${jStars(s.i)}</span>`:''}</div>${isC?`<span class="jmas" style="left:${mx}%">🦁<i>${n?'تابع!':'هنا!'}</i></span>`:''}</div>`;}).join('');
+    const cx=jx(sts.length),ready=landDone(li)&&!JR.c[li];
+    rows+=`<div class="jrow" style="height:150px"><button class="jn chest${ready?' ready':''}${!landDone(li)?' lock':''}" data-ch="${li}" style="left:${cx}%" aria-label="كنز المرحلة"><span class="ic">${JR.c[li]?'🎉':li===LANDS.length-1?'🏆':'🎁'}</span></button>
+      <div class="jlab" style="left:${cx}%;top:118px"><b>${li===LANDS.length-1?'كأس الأبطال':'كنز المرحلة'}</b></div></div>`;
+    html+=`<section class="land" style="background:${L.bg}"><div class="deco" aria-hidden="true">${deco}</div>
+      <div class="lhead" style="--c:${L.c}"><span class="li">${L.ic}</span><div><b>المرحلة ${li+1}: ${L.ar}</b><span class="en">${L.en}</span></div><span class="lp">${lp} / ${sts.length}</span></div>
+      <div class="jpath" data-l="${li}"><svg class="jline" aria-hidden="true"></svg>${rows}</div></section>`;
+  });
+  html+=instCard()+`<div class="jlinks" style="margin-top:14px"><button data-x="all">🗂️ تصفّح كل الأقسام بحرية</button></div>`;
+  $('app').innerHTML=html;
+  LANDS.forEach((L,li)=>{document.querySelectorAll(`.jpath[data-l="${li}"] .jn`).forEach(b=>b.style.setProperty('--t',L.t));});
+  $('app').querySelectorAll('[data-st]').forEach(b=>b.onclick=()=>{const i=+b.dataset.st;if(jOpen(i))station(i);else jLocked(i);});
+  $('app').querySelectorAll('[data-ch]').forEach(b=>b.onclick=()=>chest(+b.dataset.ch));
+  $('app').querySelector('[data-go]').onclick=()=>station(cur);
+  $('app').querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>b.dataset.x==='all'?allSections():open('stk'));
+  $('app').querySelectorAll('[data-rv]').forEach(b=>b.onclick=()=>{const v=b.dataset.rv;
+    if(['spl','spl2','ord','grm','opp'].includes(v))return open(v);
+    if(v.startsWith('sto:')){const n=+v.slice(4);open('sto');return storyQuiz(n,fixDue('sto').filter(k=>k.split(':')[0]===String(n)).map(k=>+k.split(':')[1]),true);}
+    const rd=v.startsWith('r-'),id=rd?v.slice(2):v;open(id);MODE=rd?'read':'play';draw();});
+  jLines();
+  const y=+(sessionStorage.getItem('kd-jy')||-1);
+  if(y>=0)window.scrollTo(0,y);else{window.scrollTo(0,0);if(done){const n=$('app').querySelector('.jn.cur');if(n)setTimeout(()=>{try{n.scrollIntoView({block:'center',behavior:'smooth'});}catch(e){}},300);}}
+}
+/* the dotted road between stations; the walked part is coloured */
+function jLines(){
+  document.querySelectorAll('.jpath').forEach(P=>{
+    const svg=P.querySelector('.jline'),L=LANDS[+P.dataset.l],pr=P.getBoundingClientRect(),ns=[...P.querySelectorAll('.jn')];
+    const pts=ns.map(n=>{const r=n.getBoundingClientRect();return [r.left-pr.left+r.width/2,r.top-pr.top+r.height/2,n];});
+    const path=a=>a.map((p,k)=>k?`C${a[k-1][0]},${(a[k-1][1]+p[1])/2} ${p[0]},${(a[k-1][1]+p[1])/2} ${p[0]},${p[1]}`:`M${p[0]},${p[1]}`).join(' ');
+    let w=0;pts.forEach((p,k)=>{if(!p[2].classList.contains('lock'))w=k;});
+    svg.innerHTML=`<path d="${path(pts)}" fill="none" stroke="#fff" stroke-width="22" stroke-linecap="round" opacity=".8"/><path d="${path(pts)}" fill="none" stroke="#CDBF9C" stroke-width="7" stroke-dasharray="2 16" stroke-linecap="round"/>${w?`<path d="${path(pts.slice(0,w+1))}" fill="none" stroke="${L.c}" stroke-width="8" stroke-dasharray="2 16" stroke-linecap="round"/>`:''}`;
+  });
+}
+addEventListener('resize',()=>{if(document.querySelector('.jpath'))jLines();});
+addEventListener('scroll',()=>{if(document.querySelector('.jpath'))try{sessionStorage.setItem('kd-jy',String(Math.round(scrollY)));}catch(e){}},{passive:true});
+function jModal(big,h,p,btns){jClose();const d=document.createElement('div');d.className='jmodal';d.id='jmodal';
+  d.innerHTML=`<div class="box" role="dialog" aria-modal="true"><div class="big">${big}</div><h3>${h}</h3><p>${p}</p><div class="bt">${btns.map((b,k)=>`<button data-k="${k}" class="${b[2]||''}">${b[0]}</button>`).join('')}</div></div>`;
+  document.body.appendChild(d);d.onclick=e=>{if(e.target===d)jClose();};d.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{jClose();const f=btns[+b.dataset.k][1];if(f)f();});}
+function jClose(){const m=$('jmodal');if(m)m.remove();}
+function jLocked(i){const p=ST[i-1];window.clubSfx&&clubSfx('bad');
+  jModal('🔒','هذه المحطة مقفلة',`أنجز مهمة واحدة في المحطة ${i}: «${esc(p.ar)}» لتفتحها 🗝️`,[[`اذهب إلى «${esc(p.ar)}» ${p.ic}`,()=>station(jOpen(i-1)?i-1:jCur())],['حسناً',null,'alt']]);}
+function chest(li){
+  const L=LANDS[li],last=li===LANDS.length-1;
+  if(!landDone(li)){window.clubSfx&&clubSfx('bad');return jModal(last?'🏆':'🎁',last?'كأس الأبطال مقفل':'الكنز مقفل',`أكمل كل محطات «${L.ar}» لتفتح ${last?'الكأس':'الكنز'} 🗝️`,[['حسناً']]);}
+  if(JR.c[li])return jModal('🎉','فتحت هذا الكنز من قبل','اجمع ⭐⭐⭐ في كل محطة لتصبح بطلاً حقيقياً!',[['رائع!']]);
+  JR.c[li]=1;jSave();addStars(5);window.clubSfx&&clubSfx('win');burst(innerWidth/2,innerHeight/2);setTimeout(()=>burst(innerWidth/2,innerHeight/2-80),250);
+  jModal(last?'🏆':'💎',last?'أنت بطل المسيرة!':`فتحت كنز «${L.ar}»!`,`+5 نجوم ⭐ وملصق جديد في «ملصقاتي» 🎁${last?'':'<br>المرحلة التالية تنتظرك 🚀'}`,[['🎁 ملصقاتي',()=>open('stk')],['أكمل المسيرة',()=>journeyMap(),'alt']]);
+  const b=document.querySelector(`[data-ch="${li}"]`);if(b){b.classList.remove('ready');b.querySelector('.ic').textContent='🎉';}
+}
+function station(i){
+  const s=ST[i],L=LANDS[s.L];if(!jOpen(i))return jLocked(i);
+  JDOOR=null;jBar();jClose();push({v:'st',i},'st-'+(i+1));JSTACK=0;backBtn();
+  const n=jCount(i),nx=ST[i+1];let win='';
+  if(JUST&&JUST.i===i){win=JUST.next&&nx?`<div class="jwin">🎉 رائع! فتحت المحطة التالية: ${nx.ic} ${esc(nx.ar)}<br><button data-j="next">انطلق إليها 🚀</button></div>`
+    :n===s.doors.length?'<div class="jwin">🏆 ممتاز! جمعت ⭐⭐⭐ في هذه المحطة</div>':'<div class="jwin">⭐ أحسنت! أنجزت مهمة جديدة</div>';JUST=null;}
+  $('app').innerHTML=`<div class="shead" style="--t:${L.bg};--c:${L.c};background:${L.bg}"><span class="lv">${L.ic} المرحلة ${s.L+1} · المحطة ${i+1} من ${ST.length}</span><span class="bigic" aria-hidden="true">${s.ic}</span><h2>${esc(s.ar)}<span class="en">${esc(s.en)}</span></h2><div class="js">${jStars(i)}</div></div>${win}
+    <p class="jpick">اختر مهمتك 👇<small>${n?'أنجز المهام الباقية لتجمع ⭐⭐⭐':'أنجز مهمة واحدة لتفتح المحطة التالية'}</small></p>
+    <div class="doors">${s.doors.map((d,k)=>{const D=doorInfo(d),ok=JR.d[i+'.'+k];return `<button class="door${ok?' ok':''}" data-k="${k}" style="--t:${D.t};--c:${L.c}"><span class="dic">${D.ic}</span><span><b>${esc(D.ar)}</b><span class="en">${esc(D.en)}</span><small>${esc(D.sub)}</small></span><span class="dgo">${ok?'✅':'▶️'}</span></button>`;}).join('')}</div>
+    <div class="jnav"><button data-j="prev" ${i?'':'disabled'}><bdi>←</bdi> <bdi>السابقة</bdi></button><button data-j="map">🗺️ الخريطة</button><button data-j="next" ${nx&&jOpen(i+1)?'':'disabled'}><bdi>التالية</bdi> <bdi>→</bdi></button></div>`;
+  $('app').querySelectorAll('.door').forEach(b=>b.onclick=()=>jLaunch(i,+b.dataset.k));
+  $('app').querySelectorAll('[data-j]').forEach(b=>b.onclick=()=>{const j=b.dataset.j;if(j==='map')return goBack();if(j==='prev')return station(i-1);if(nx&&jOpen(i+1))station(i+1);});
+  window.scrollTo(0,0);
+}
+function jLaunch(i,k){
+  const d=ST[i].doors[k];JDOOR={i,k,t:d[0],taps:new Set(),w:0,ok:0};
+  if(d[0]==='story'){NAV=true;try{open('sto');}finally{NAV=false;}story(SI(d[1]));}
+  else if(d[0]==='learn'||d[0]==='play'||d[0]==='read'){open(d[1]);if(d[0]!=='learn'){MODE=d[0];draw();}}
+  else open(d[0]==='write'?'wr':d[0]);
+  jBar();
+}
+function jBack(){const n=JSTACK;JSTACK=0;const i=JDOOR?JDOOR.i:jCur();if(n>0){try{history.go(-n);return;}catch(e){}}station(i);}
+function jBar(){
+  const b=$('jbar');if(!b)return;if(!JDOOR){b.hidden=true;b.className='';return;}
+  const s=ST[JDOOR.i],D=doorInfo(s.doors[JDOOR.k]);let hint;
+  if(JDOOR.t==='learn'){const need=Math.min(6,items(s.doors[JDOOR.k][1]).length);hint=`اضغط ${need} بطاقات واسمعها (${Math.min(JDOOR.taps.size,need)} / ${need}) 🔊`;}
+  else if(JDOOR.t==='write')hint=`اكتب 3 حروف (${JDOOR.w} / 3) ✍️`;
+  else if(JDOOR.t==='story')hint='اقرأ القصة حتى النهاية، ثم أجب عن الأسئلة ✅';
+  else hint='أكمل اللعبة حتى النهاية 🏁';
+  b.hidden=false;
+  if(JDOOR.ok){b.className='ok';b.innerHTML=`<span class="tx"><b>✅ أحسنت! أنجزت المهمة</b>${s.ic} ${esc(s.ar)} · ${jStars(s.i)}</span><button type="button">🗺️ ارجع للمحطة</button>`;}
+  else{b.className='';b.innerHTML=`<span class="tx"><b>${D.ic} ${esc(D.ar)}</b>${hint}</span><button type="button">🗺️ المحطة</button>`;}
+  b.querySelector('button').onclick=jBack;
+}
+function jTap(i,n){if(!JDOOR||JDOOR.t!=='learn'||JDOOR.ok)return;JDOOR.taps.add(i);if(JDOOR.taps.size>=Math.min(6,n))jDone();else jBar();}
+function jWrite(){if(!JDOOR||JDOOR.t!=='write'||JDOOR.ok)return;JDOOR.w++;if(JDOOR.w>=3)jDone();else jBar();}
+function jDone(){
+  if(!JDOOR||JDOOR.ok)return;JDOOR.ok=1;const i=JDOOR.i,id=i+'.'+JDOOR.k;
+  if(!JR.d[id]){const before=jCount(i);JR.d[id]=1;jSave();addStars(1);JUST={i,next:before===0&&i+1<ST.length};}
+  jBar();if(JDOOR.t==='learn'||JDOOR.t==='write'){window.clubSfx&&clubSfx('win');burst(innerWidth/2,innerHeight-60);}
+}
+
 try{if(history.state&&history.state.v)render(history.state);else{history.replaceState({v:'home'},'',location.pathname+location.search);home();}}catch(e){home();}
 </script>
 </body>
