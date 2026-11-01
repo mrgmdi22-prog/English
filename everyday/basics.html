@@ -139,7 +139,7 @@ const sayBtn=t=>`<button class="say" type="button" data-say="${esc(t)}" aria-lab
 /* home */
 function best(u){return +(store.get('tb-best-'+u.id)||0);}
 function drawHome(){
-  $('units').innerHTML=U.map((u,i)=>{const b=best(u);return `<button class="unit" data-i="${i}" style="--c:${u.c};--t:${u.t}">${b>=4?'<span class="badge">✓</span>':''}<span class="ic" aria-hidden="true">${u.ic}</span><b>${i+1}. ${u.ar}</b><span class="en">${u.en}</span><span class="st">${u.ph.length} عبارة · محادثة · ${b?`أفضل نتيجة ${b}/5`:'تدريب 5 مواقف'}</span></button>`;}).join('');
+  $('units').innerHTML=U.map((u,i)=>{const b=best(u);return `<button class="unit" data-i="${i}" style="--c:${u.c};--t:${u.t}">${b>=4?'<span class="badge">✓</span>':''}<span class="ic" aria-hidden="true">${u.ic}</span><b>${i+1}. ${u.ar}</b><span class="en">${u.en}</span><span class="st">${u.ph.length} عبارات · محادثة · ${b?`أفضل نتيجة ${b}/5`:'تدريب 5 مواقف'}</span></button>`;}).join('');
   $('units').querySelectorAll('.unit').forEach(b=>b.onclick=()=>openUnit(+b.dataset.i));
 }
 
