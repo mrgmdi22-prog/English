@@ -142,7 +142,15 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
 <main class="wrap">
   <h1><span class="gt">Surprise Me</span> <span aria-hidden="true">🎁</span></h1>
   <div class="sub-ar">صندوق المفاجآت</div>
-  <p class="lead">كل يوم صندوق جديد… وما بداخله <b>سرّ</b>! 8 تحديات خاطفة من كل أركان النادي. افتحه، واكتشف ما تخبّئه لك المفاجأة، واجمع <b>نقاطاً ضخمة</b> قبل أن يتغيّر عند منتصف الليل.</p>
+  <p class="lead">هل أنت مستعد؟ كل يوم صندوق جديد، وما بداخله <b>سرّ</b> لا يعرفه أحد! 8 تحديات خاطفة من كل أركان النادي… افتح الصندوق، وأثبت أنك الأسرع، واحصد <b>نقاطاً ضخمة</b> قبل أن يُغلق في <b>العاشرة مساءً</b> ⏰</p>
+
+  <!-- after 10 pm (Saudi time) the box is closed until midnight -->
+  <section class="card" id="vClosed" hidden style="text-align:center">
+    <div style="font-size:4rem;line-height:1.2">🔒</div>
+    <p style="font-weight:800;font-size:1.3rem;margin:6px 0 0">أُغلق صندوق اليوم في العاشرة مساءً</p>
+    <p class="note" id="closedNote"></p>
+    <a class="btn" href="../index.html" style="margin-top:14px">🏠 العودة إلى النادي</a>
+  </section>
 
   <!-- closed gift -->
   <section class="card" id="vStart">
@@ -292,15 +300,27 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     if (q.s === 'mg' && q.x) return '../vocab/mega-goal-' + q.x + '.html';
     return SEC[q.s].href;
   }
-  function left(){ var ms = 864e5 - ((Date.now() + 3 * 3600e3) % 864e5), h = Math.floor(ms / 3600e3), m = Math.floor(ms % 3600e3 / 60000);
+  // The box is open from midnight until 10 pm, Saudi time; from 10 pm to midnight it is closed.
+  var CLOSE = 22 * 3600e3;
+  function nowMs(){ return (Date.now() + 3 * 3600e3) % 864e5; }
+  function isClosed(){ return nowMs() >= CLOSE; }
+  function span(ms){ var h = Math.floor(ms / 3600e3), m = Math.floor(ms % 3600e3 / 60000);
     if (h === 1) return 'ساعة'; if (h === 2) return 'ساعتين'; if (h > 2 && h < 11) return h + ' ساعات'; if (h) return h + ' ساعة';
     return m <= 1 ? 'دقيقة' : m === 2 ? 'دقيقتين' : m < 11 ? m + ' دقائق' : m + ' دقيقة'; }
+  function left(){ return span(864e5 - nowMs()); }          // until the next box (midnight)
+  function toClose(){ return span(CLOSE - nowMs()); }        // until today's box closes (10 pm)
   function pts(right){ return right * PER + (right === N_ALL ? BONUS : 0); }
 
   var day = today(), box = null, i = 0, res = [], practice = 0, streak = 0;
   var done = getDays()[day];
 
   function startView(){
+    if (isClosed()) {
+      $('vStart').hidden = true; $('vClosed').hidden = false;
+      $('closedNote').innerHTML = 'صندوق جديد ينتظرك بعد منتصف الليل (بعد ' + left() + ') — كن أول من يفتحه! 🚀';
+      return;
+    }
+    if (done === undefined) $('startNote').innerHTML += '<br>⏰ يُغلق الصندوق بعد <b>' + toClose() + '</b>';
     if (done !== undefined) {
       $('startNote').innerHTML = 'فتحت صندوق اليوم وأجبت <b>' + done + ' من ' + N_ALL + '</b> (+' + pts(done) + ' نقطة). صندوق جديد بعد ' + left() + '.';
       $('openBtn').textContent = '🎁 صندوق تدريب (بلا نقاط)';
@@ -385,6 +405,6 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
   startView();
 })();
 </script>
-<script src="../assets/club.js?v=9"></script>
+<script src="../assets/club.js?v=10"></script>
 </body>
 </html>

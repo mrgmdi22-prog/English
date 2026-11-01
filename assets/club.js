@@ -30,7 +30,8 @@
     if(P === home || P === home + 'index.html' || /\/(honor|teacher|guide|install|offline|sounds|links)\.html$/.test(P) || /\/(surprise|mystery|level|kids)\//.test(P)) return;
     var day = Math.floor((Date.now() + 3 * 3600e3) / 864e5);
     var opened = function(){ try { return (JSON.parse(localStorage.getItem('mb-days') || '{}') || {})[day] !== undefined; } catch(e){ return true; } };
-    if(opened()) return;
+    var closed = function(){ return (Date.now() + 3 * 3600e3) % 864e5 >= 22 * 3600e3; };   // box closed 10 pm - midnight
+    if(opened() || closed()) return;
     var href = new URL('../surprise/index.html', me).href;
     var css = '#clubMB{position:fixed;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:998;display:inline-flex;align-items:center;gap:6px;' +
       'background:linear-gradient(90deg,#1E78D2,#0FA3A3);border:2px solid #fff;border-radius:999px;padding:6px 15px 6px 9px;text-decoration:none;color:#fff;font:800 16px/1.2 Lexend,Tajawal,system-ui,sans-serif;' +
@@ -50,7 +51,7 @@
       a.innerHTML = '<b>🎁</b>Surprise Me'; document.body.appendChild(a);
       start = sig();
       setInterval(function(){
-        if (opened()) { a.remove(); var t0 = document.getElementById('clubMBtip'); if (t0) t0.remove(); return; }
+        if (opened() || closed()) { a.remove(); var t0 = document.getElementById('clubMBtip'); if (t0) t0.remove(); return; }
         var shown = false; try { shown = localStorage.getItem('mb-tip') == day; } catch(e){}
         if (shown || sig() === start) return;
         try { localStorage.setItem('mb-tip', String(day)); } catch(e){}

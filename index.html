@@ -411,15 +411,17 @@ try { var lr = JSON.parse(localStorage.getItem('lv-results') || '{}'), s = docum
 (function(){
   try {
     var day = Math.floor((Date.now() + 3 * 3600e3) / 864e5), d = JSON.parse(localStorage.getItem('mb-days') || '{}') || {};
-    var ms = 864e5 - ((Date.now() + 3 * 3600e3) % 864e5), h = Math.floor(ms / 3600e3);
-    var t = h < 1 ? 'أقل من ساعة' : h === 1 ? 'ساعة' : h === 2 ? 'ساعتين' : h < 11 ? h + ' ساعات' : h + ' ساعة';
-    var c = document.getElementById('mbox');
-    if (d[day] !== undefined) { document.getElementById('mbSt').textContent = '✓ فتحت مفاجأة اليوم: ' + d[day] + ' / 8 — مفاجأة جديدة بعد ' + t; document.getElementById('mbGo').textContent = 'تدرّب ←'; }
-    else { c.classList.add('closed'); document.getElementById('mbSt').textContent = '🔒 مفاجأة اليوم لم تُفتح — تختفي بعد ' + t; }
+    // open from midnight to 10 pm (Saudi time); closed from 10 pm to midnight
+    var now = (Date.now() + 3 * 3600e3) % 864e5, CLOSE = 22 * 3600e3;
+    var fmt = function(ms){ var h = Math.floor(ms / 3600e3); return h < 1 ? 'أقل من ساعة' : h === 1 ? 'ساعة' : h === 2 ? 'ساعتين' : h < 11 ? h + ' ساعات' : h + ' ساعة'; };
+    var c = document.getElementById('mbox'), st = document.getElementById('mbSt'), go = document.getElementById('mbGo');
+    if (now >= CLOSE) { st.textContent = '🔒 أُغلق صندوق اليوم — صندوق جديد بعد منتصف الليل'; go.textContent = 'نلتقي غداً'; c.removeAttribute('href'); c.style.cursor = 'default'; }
+    else if (d[day] !== undefined) { st.textContent = '✓ فتحت مفاجأة اليوم: ' + d[day] + ' / 8 — مفاجأة جديدة بعد منتصف الليل'; go.textContent = 'تدرّب ←'; }
+    else { c.classList.add('closed'); st.textContent = '⏰ مفاجأة اليوم لم تُفتح — يُغلق الصندوق بعد ' + fmt(CLOSE - now); }
   } catch (e) {}
 })();
 </script>
-<script src="assets/club.js?v=9"></script>
+<script src="assets/club.js?v=10"></script>
 <script type="module">
 // Top three on the honor board (only once Firebase is configured)
 import('./assets/honor.js?v=20261101d').then(async H => {
