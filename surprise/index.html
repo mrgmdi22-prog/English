@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Surprise Me 🎁 · صندوق المفاجآت</title>
 <meta name="description" content="A new surprise box every day: 8 quick challenges from all over the English Club, with big points and fireworks.">
-<meta name="theme-color" content="#FFF5FB">
+<meta name="theme-color" content="#F3F8FF">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
@@ -15,13 +15,13 @@
 /* Surprise Me: one surprise box a day, the same for every student. 8 questions drawn from the whole site,
    most of them from the sections students visit least. Fireworks when the box opens, on every right answer
    and at the end. Each question shows its section, and the result links back to it. */
-:root{color-scheme:light;--bg:#FFF7FC;--card:#fff;--ink:#26203F;--muted:#625B7E;--line:#F1E3F3;
-  --pink:#FF4F9A;--vio:#7B4DFF;--sky:#1FB5E8;--sun:#FFB21E;--ok:#139B6B;--ok-s:#E2F7EE;--bad:#D63F55;--bad-s:#FFE9EE;
+:root{color-scheme:light;--bg:#F3F8FF;--card:#fff;--ink:#1B2A41;--muted:#55657E;--line:#DCE8F5;
+  --pink:#F26B1D;--vio:#1E78D2;--teal:#0FA3A3;--sky:#1FB5E8;--sun:#FFB21E;--ok:#139B6B;--ok-s:#E2F7EE;--bad:#D63F55;--bad-s:#FFE9EE;
   --ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif;--ease:cubic-bezier(.2,.7,.2,1)}
 *{box-sizing:border-box}
 html,body{margin:0}
 body{color:var(--ink);font-family:var(--ar);font-size:20px;line-height:1.7;padding-bottom:env(safe-area-inset-bottom,0px);
-  background:radial-gradient(circle at 15% 8%,#FFE3F1 0,transparent 38%),radial-gradient(circle at 90% 18%,#E5F6FF 0,transparent 40%),radial-gradient(circle at 50% 100%,#FFF2D2 0,transparent 45%),var(--bg);background-attachment:fixed;min-height:100vh}
+  background:radial-gradient(circle at 15% 8%,#DDEEFF 0,transparent 38%),radial-gradient(circle at 90% 18%,#DDF6F2 0,transparent 40%),radial-gradient(circle at 50% 100%,#FFF2D2 0,transparent 45%),var(--bg);background-attachment:fixed;min-height:100vh}
 [hidden]{display:none!important}
 .en{font-family:var(--en);direction:ltr;unicode-bidi:isolate}
 .wrap{max-width:720px;margin:0 auto;padding:72px 16px 90px;position:relative}
@@ -34,27 +34,27 @@ body{color:var(--ink);font-family:var(--ar);font-size:20px;line-height:1.7;paddi
 main{position:relative;z-index:1}
 
 h1{margin:0;text-align:center;font:800 clamp(2.5rem,11vw,3.6rem)/1.1 var(--en);direction:ltr}
-h1 .gt{background:linear-gradient(90deg,var(--pink),var(--vio),var(--sky),var(--pink));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--vio));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
 @keyframes shine{to{background-position:300% 0}}
 .sub-ar{text-align:center;font-weight:800;font-size:1.15rem;color:var(--vio);margin-top:2px}
 .lead{margin:10px auto 0;text-align:center;color:var(--muted);font-size:1.15rem;max-width:30em}
 .lead b{color:var(--ink)}
-.card{background:rgba(255,255,255,.92);border:2px solid var(--line);border-radius:28px;padding:22px 18px;margin-top:20px;box-shadow:0 22px 46px -34px rgba(160,60,140,.7)}
+.card{background:rgba(255,255,255,.92);border:2px solid var(--line);border-radius:28px;padding:22px 18px;margin-top:20px;box-shadow:0 22px 46px -34px rgba(30,90,160,.55)}
 
 /* ----- the gift ----- */
 .gift-wrap{display:grid;place-items:center;text-align:center;gap:6px}
 .stage{position:relative;width:240px;height:230px;margin:6px auto 0}
-.glow{position:absolute;inset:20px;border-radius:50%;background:conic-gradient(from 0deg,#FFD1E6,#E2D5FF,#C9F0FF,#FFF0C2,#FFD1E6);filter:blur(18px);opacity:.9;animation:spin 7s linear infinite}
+.glow{position:absolute;inset:20px;border-radius:50%;background:conic-gradient(from 0deg,#CFE6FF,#CDF3EE,#FFEFC7,#CFE6FF);filter:blur(18px);opacity:.9;animation:spin 7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .gift{all:unset;cursor:pointer;position:absolute;left:30px;top:24px;width:180px;height:180px;animation:hop 1.8s ease-in-out infinite}
 @keyframes hop{0%,62%,100%{transform:translateY(0) rotate(0)}70%{transform:translateY(-16px) rotate(-6deg)}78%{transform:translateY(0) rotate(5deg)}86%{transform:translateY(-6px) rotate(-2deg)}}
 .gift:focus-visible{outline:4px solid var(--vio);outline-offset:8px;border-radius:24px}
-.gift .bx{position:absolute;inset:66px 14px 0;border-radius:20px;background:linear-gradient(150deg,#FF8CC0,#FF4F9A);border:3px solid #E23A84}
-.gift .lid{position:absolute;left:2px;right:2px;top:40px;height:40px;border-radius:14px;background:linear-gradient(150deg,#FFA9D1,#FF6AAB);border:3px solid #E23A84;transform-origin:15% 100%;transition:transform .45s var(--ease)}
+.gift .bx{position:absolute;inset:66px 14px 0;border-radius:20px;background:linear-gradient(150deg,#5DB0F2,#1E78D2);border:3px solid #1562B0}
+.gift .lid{position:absolute;left:2px;right:2px;top:40px;height:40px;border-radius:14px;background:linear-gradient(150deg,#8CCBF7,#3E95E6);border:3px solid #1562B0;transform-origin:15% 100%;transition:transform .45s var(--ease)}
 .gift .rv{position:absolute;top:40px;bottom:0;left:50%;width:28px;margin-left:-14px;background:linear-gradient(#FFE07A,#FFB21E);border-left:3px solid #E59A00;border-right:3px solid #E59A00}
 .gift .rh{position:absolute;left:14px;right:14px;top:112px;height:24px;background:linear-gradient(90deg,#FFE07A,#FFB21E);border-top:3px solid #E59A00;border-bottom:3px solid #E59A00}
-.gift .bow{position:absolute;top:0;left:50%;margin-left:-32px;font-size:58px;line-height:1;transition:transform .45s var(--ease)}
-.gift .qm{position:absolute;left:0;right:0;top:142px;text-align:center;font:800 26px/1 var(--en);color:#fff;text-shadow:0 2px 0 #C72C70}
+.gift .bow{position:absolute;top:-4px;left:50%;margin-left:-29px;font-size:52px;line-height:1;transition:transform .45s var(--ease)}
+.gift .qm{position:absolute;left:0;right:0;top:142px;text-align:center;font:800 26px/1 var(--en);color:#fff;text-shadow:0 2px 0 #0F4E8C}
 .gift.open{animation:none}
 .gift.open .lid{transform:translateY(-60px) rotate(-38deg)}
 .gift.open .bow{transform:translateY(-90px) rotate(-30deg) scale(.6)}
@@ -64,19 +64,19 @@ h1 .gt{background:linear-gradient(90deg,var(--pink),var(--vio),var(--sky),var(--
 @keyframes blink{50%{opacity:.35}}
 .facts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:6px}
 .facts span{border-radius:999px;padding:5px 14px;font-weight:800;font-size:1rem}
-.facts .f1{background:#FFE6F1;color:#B0216A}.facts .f2{background:#ECE5FF;color:#4F2BC0}.facts .f3{background:#FFF1CF;color:#8A5A00}
+.facts .f1{background:#E3F0FF;color:#1559A6}.facts .f2{background:#DDF6F2;color:#0B6F68}.facts .f3{background:#FFF1CF;color:#8A5A00}
 .btn{font:inherit;font-weight:800;font-size:1.2rem;border:0;border-radius:999px;padding:13px 30px;cursor:pointer;color:#fff;text-decoration:none;display:inline-block;
-  background:linear-gradient(90deg,var(--pink),var(--vio));box-shadow:0 12px 24px -12px rgba(200,40,140,.8);transition:transform .15s}
+  background:linear-gradient(90deg,var(--vio),var(--teal));box-shadow:0 12px 24px -12px rgba(20,100,190,.75);transition:transform .15s}
 .btn:hover{transform:translateY(-2px)}
-.btn.soft{background:#F1EAFF;color:#4F2BC0;box-shadow:none}
-.btn:focus-visible{outline:3px solid #2a1a6a;outline-offset:3px}
+.btn.soft{background:#E3F0FF;color:#1559A6;box-shadow:none}
+.btn:focus-visible{outline:3px solid #0F3566;outline-offset:3px}
 .note{color:var(--muted);font-size:1.02rem;margin:4px 0 0}
 
 /* ----- a question ----- */
 .top{display:flex;align-items:center;gap:10px;direction:ltr}
 .dots{display:flex;gap:6px;flex:1}
 .dots i{flex:1;height:10px;border-radius:9px;background:var(--line)}
-.dots i.ok{background:var(--ok)}.dots i.no{background:var(--bad)}.dots i.cur{background:linear-gradient(90deg,var(--pink),var(--vio))}
+.dots i.ok{background:var(--ok)}.dots i.no{background:var(--bad)}.dots i.cur{background:linear-gradient(90deg,var(--vio),var(--teal))}
 .count{font:800 1rem var(--en);color:var(--muted)}
 .combo{font:800 1rem var(--en);color:#C9561A;background:#FFF0DD;border-radius:999px;padding:2px 10px}
 .tag{display:inline-flex;align-items:center;gap:6px;margin-top:14px;border-radius:999px;padding:4px 14px;font-weight:800;font-size:1rem}
@@ -85,12 +85,12 @@ h1 .gt{background:linear-gradient(90deg,var(--pink),var(--vio),var(--sky),var(--
 .qtext.en{text-align:left}
 .qline{display:flex;gap:10px;align-items:flex-start}
 .qline .qtext{flex:1}
-.say{all:unset;cursor:pointer;flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:#F1EAFF;font-size:1.3rem;margin-top:6px}
+.say{all:unset;cursor:pointer;flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:#E3F0FF;font-size:1.3rem;margin-top:6px}
 .say:focus-visible{outline:3px solid var(--vio);outline-offset:2px}
 .opts{display:grid;gap:10px}
 .opt{all:unset;box-sizing:border-box;cursor:pointer;width:100%;border:2px solid var(--line);background:#fff;border-radius:18px;padding:12px 16px;font-size:1.2rem;font-weight:700;line-height:1.5;transition:border-color .15s,background .15s,transform .15s}
 .opt[dir=ltr]{font-family:var(--en);text-align:left}
-.opt:hover:not([disabled]){border-color:#E6B3D8;transform:translateY(-1px)}
+.opt:hover:not([disabled]){border-color:#9CC7F0;transform:translateY(-1px)}
 .opt:focus-visible{outline:3px solid var(--vio);outline-offset:2px}
 .opt.right{border-color:var(--ok);background:var(--ok-s);animation:pop .35s var(--ease)}
 .opt.wrong{border-color:var(--bad);background:var(--bad-s);animation:nope .35s}
@@ -106,10 +106,10 @@ h1 .gt{background:linear-gradient(90deg,var(--pink),var(--vio),var(--sky),var(--
 
 /* ----- result ----- */
 .score{text-align:center}
-.score .big{font:800 3.6rem/1.1 var(--en);background:linear-gradient(90deg,var(--pink),var(--vio));-webkit-background-clip:text;background-clip:text;color:transparent}
+.score .big{font:800 3.6rem/1.1 var(--en);background:linear-gradient(90deg,var(--vio),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
 .score .msg{font-weight:800;font-size:1.25rem}
-.score .pts{display:inline-block;margin-top:8px;background:linear-gradient(90deg,#FFF1CF,#FFE3F0);color:#8A3A00;border-radius:999px;padding:6px 18px;font-weight:800;font-size:1.15rem}
-.score .bonus{display:block;margin-top:6px;color:#B0216A;font-weight:800}
+.score .pts{display:inline-block;margin-top:8px;background:linear-gradient(90deg,#FFF1CF,#E3F0FF);color:#8A3A00;border-radius:999px;padding:6px 18px;font-weight:800;font-size:1.15rem}
+.score .bonus{display:block;margin-top:6px;color:#C25A00;font-weight:800}
 .rows{display:grid;gap:10px;margin-top:16px}
 .row{display:flex;align-items:center;gap:12px;border:2px solid var(--line);border-radius:18px;padding:10px 12px;background:#fff}
 .row .ic{font-size:1.6rem;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;flex:none}
@@ -120,10 +120,10 @@ h1 .gt{background:linear-gradient(90deg,var(--pink),var(--vio),var(--sky),var(--
 @media (max-width:520px){.row{flex-wrap:wrap}.row a{width:100%;text-align:center}}
 .week{display:flex;gap:6px;justify-content:center;margin-top:10px}
 .week span{width:38px;height:38px;flex:none;border-radius:12px;display:grid;place-items:center;font-size:1.2rem;background:#fff;border:2px dashed var(--line)}
-.week span.on{border:2px solid var(--pink);background:#FFE6F1}
+.week span.on{border:2px solid var(--vio);background:#E3F0FF}
 .ranks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
 .rank{border:2px solid var(--line);border-radius:18px;padding:8px 4px;text-align:center;background:#fff;opacity:.55}
-.rank.got{opacity:1;border-color:var(--sun);background:linear-gradient(160deg,#FFF6DB,#FFE9F3)}
+.rank.got{opacity:1;border-color:var(--sun);background:linear-gradient(160deg,#FFF6DB,#E3F0FF)}
 .rank .e{font-size:1.9rem;line-height:1.2}
 .rank b{display:block;font-size:1rem}
 .rank small{color:var(--muted);font-size:.9rem}
@@ -150,11 +150,11 @@ h1 .gt{background:linear-gradient(90deg,var(--pink),var(--vio),var(--sky),var(--
       <div class="stage">
         <span class="glow"></span>
         <button class="gift" id="giftBtn" type="button" aria-label="افتح صندوق المفاجآت">
-          <span class="bx"></span><span class="rv"></span><span class="rh"></span><span class="lid"></span><span class="qm">???</span><span class="bow" aria-hidden="true">🎀</span>
+          <span class="bx"></span><span class="rv"></span><span class="rh"></span><span class="lid"></span><span class="qm">???</span><span class="bow" aria-hidden="true">⭐</span>
         </button>
       </div>
       <div class="tap" id="tap">TAP TO OPEN</div>
-      <div class="facts"><span class="f1">🎯 8 تحديات</span><span class="f2">🌈 من 8 أقسام</span><span class="f3">🔥 20 نقطة للإجابة</span></div>
+      <div class="facts"><span class="f1">🎯 8 تحديات</span><span class="f2">🧩 من 8 أقسام</span><span class="f3">🔥 20 نقطة للإجابة</span></div>
       <p class="note" id="startNote">أجب عن الثمانية كلها صحيحة لتحصل على <b>+80 نقطة إضافية</b> 💥</p>
       <button class="btn" id="openBtn" type="button">🎁 افتح المفاجأة</button>
     </div>
@@ -204,7 +204,7 @@ h1 .gt{background:linear-gradient(90deg,var(--pink),var(--vio),var(--sky),var(--
 
   /* ---------- fireworks ---------- */
   var cv = $('fx'), cx = cv.getContext('2d'), parts = [], rockets = [], running = false, DPR = Math.min(2, window.devicePixelRatio || 1);
-  var COLS = ['#FF4F9A', '#7B4DFF', '#1FB5E8', '#FFB21E', '#22C58B', '#FF7A45', '#FFD84D'];
+  var COLS = ['#1E78D2', '#0FA3A3', '#4FC3F7', '#FFB21E', '#22C58B', '#F26B1D', '#FFD84D'];
   function size(){ cv.width = innerWidth * DPR; cv.height = innerHeight * DPR; }
   size(); addEventListener('resize', size);
   function burst(x, y, n, big){
@@ -385,6 +385,6 @@ h1 .gt{background:linear-gradient(90deg,var(--pink),var(--vio),var(--sky),var(--
   startView();
 })();
 </script>
-<script src="../assets/club.js?v=8"></script>
+<script src="../assets/club.js?v=9"></script>
 </body>
 </html>
