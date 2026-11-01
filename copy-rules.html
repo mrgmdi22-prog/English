@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>نسخ قواعد Firebase</title>
+<style>
+body{margin:0;background:#f8f9fe;color:#232c47;font:20px/1.7 Tajawal,system-ui,sans-serif;padding:24px 16px}
+.wrap{max-width:640px;margin:0 auto;text-align:center}
+button{font:800 24px/1.3 Tajawal,system-ui,sans-serif;background:#2563c9;color:#fff;border:0;border-radius:18px;padding:18px 28px;width:100%;cursor:pointer}
+button.ok{background:#16825d}
+.msg{margin-top:16px;font-weight:800}
+textarea{width:100%;height:200px;margin-top:18px;font:13px/1.4 monospace;direction:ltr;border:1.5px solid #e4e8f3;border-radius:12px;padding:8px;box-sizing:border-box}
+ol{text-align:right;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 style="font-size:1.5rem">قواعد Firebase — نادي اللغة الإنجليزية</h1>
+  <button id="cp" type="button" disabled>⏳ جارٍ التحميل…</button>
+  <div class="msg" id="msg"></div>
+  <ol>
+    <li>اضغط الزر الأزرق لنسخ القواعد كاملة.</li>
+    <li>في Firebase ← Firestore ← Rules: حدّد كل النص واحذفه.</li>
+    <li>الصق، ثم اضغط Publish.</li>
+  </ol>
+  <textarea id="t" readonly></textarea>
+</div>
+<script>
+var t = document.getElementById('t'), b = document.getElementById('cp'), m = document.getElementById('msg');
+fetch('firestore.rules?v=' + Date.now()).then(function(r){ return r.text(); }).then(function(x){
+  t.value = x; b.disabled = false; b.textContent = '📋 انسخ القواعد كاملة';
+  m.textContent = 'عدد الأسطر: ' + x.split('\n').length;
+}).catch(function(){ m.textContent = 'تعذّر التحميل، أعد فتح الصفحة.'; });
+b.onclick = function(){
+  var done = function(){ b.className = 'ok'; b.textContent = '✓ نُسخت القواعد كاملة'; };
+  if (navigator.clipboard) navigator.clipboard.writeText(t.value).then(done).catch(fallback); else fallback();
+  function fallback(){ t.focus(); t.select(); t.setSelectionRange(0, t.value.length); try { document.execCommand('copy'); done(); } catch(e){ m.textContent = 'حدّد النص في المربع وانسخه يدوياً.'; } }
+};
+</script>
+</body>
+</html>
