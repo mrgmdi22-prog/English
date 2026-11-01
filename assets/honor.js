@@ -18,7 +18,7 @@ export const RULES = [
   { key: 'pv',   label: 'إجابة صحيحة في المبني للمجهول', icon: '🔄', per: 7, max: 10 },
   { key: 'im',   label: 'إجابة صحيحة في ركن التعبيرات', icon: '🎨', per: 7, max: 10 },
   { key: 'tb',   label: 'إجابة صحيحة في محادثات التأسيس', icon: '🗣️', per: 5, max: 40 },
-  { key: 'mb',   label: 'درجة في Surprise Me (الصندوق = 100)', icon: '🎁', per: 1, max: 8000 }
+  { key: 'mb',   label: 'صندوق المفاجآت Surprise Me كاملاً (15 سؤالاً)', icon: '🎁', per: 1, max: 8000, note: '100 نقطة', unit: 'نقطة' }
 ];
 const CAPS = ['space', 'flavor', 'life', 'adventure', 'emotion', 'career', 'nature', 'health', 'sports', 'tech'];
 
