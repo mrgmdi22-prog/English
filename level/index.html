@@ -77,7 +77,7 @@ h1 .en{display:block;font-size:.5em;color:var(--pri);letter-spacing:.06em;font-w
 <body>
 <a class="club-home" href="../index.html">🏠 الرئيسية</a>
 <div class="wrap" id="app"></div>
-<script src="../assets/club.js?v=13"></script>
+<script src="../assets/club.js?v=14"></script>
 <script type="module">
 /* ---------- the two forms (version 2, harder): same skills, same difficulty, different questions ----------
    item: [skill, band, question, Arabic help, right answer, wrong, wrong, wrong]   skill v g r l · band 1=A1 2=A2 3=B1 4=B2
@@ -183,8 +183,8 @@ function say(t){ if (!('speechSynthesis' in window)) return false; try { speechS
   const v = voices.find(v => v.lang === 'en-US') || voices.find(v => (v.lang||'').replace('_','-').startsWith('en')); if (v) u.voice = v; speechSynthesis.speak(u); return true; } catch(e){ return false; } }
 
 /* scoring: per skill, per band, and the level (bands 1+2 = basic, 3 = B1, 4 = B2) */
-function score(kind, answers){
-  const items = FORMS[kind].items, sk = { v:0, g:0, r:0, l:0 }, band = { 1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0] }; let total = 0;
+function score(form, answers){
+  const items = FORMS[form].items, sk = { v:0, g:0, r:0, l:0 }, band = { 1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0] }; let total = 0;
   items.forEach((it, i) => { const ok = answers[i] === it[4]; band[it[1]][1]++; if (ok) { total++; sk[it[0]]++; band[it[1]][0]++; } });
   const pc = b => band[b][0] / band[b][1], basic = (band[1][0] + band[2][0]) / (band[1][1] + band[2][1]);
   let lv = 0; if (basic >= .5) lv = 1; if (lv === 1 && basic >= .75) lv = 2; if (lv === 2 && pc(3) >= .6) lv = 3; if (lv === 3 && pc(3) >= .75 && pc(4) >= .6) lv = 4;
@@ -196,17 +196,21 @@ let H = null, cloud = {}, postOpen = false, online = false, OLD = null;
 async function loadAll(){
   const local = store.get('lv-results') || {};
   try {
-    H = await import('../assets/honor.js?v=20261101k');
+    H = await import('../assets/honor.js?v=20261101l');
     if (H.ready) {
       const t = new Promise((_, no) => setTimeout(() => no(new Error('timeout')), 8000));
       const [mine, cfg] = await Promise.race([Promise.all([H.myLevels(), H.levelsConfig()]), t]);
       cloud = mine || {}; postOpen = !!(cfg && cfg.postOpen); online = true;
       // a result saved only on this device (no connection at the time) is sent now
       for (const k of ['pre', 'post']) if (isNew(local[k]) && !isNew(cloud[k]) && (k === 'pre' || isNew(cloud.pre))) { try { await H.saveLevel(k, local[k]); cloud[k] = local[k]; } catch(e){} }
+      // a newer after test taken on this device without a connection
+      if (isNew(local.post) && isNew(cloud.post) && +local.post.at > +cloud.post.at) { try { await H.saveLevel('post', local.post); cloud.prev = (cloud.prev || []).concat([cloud.post]); cloud.post = local.post; } catch(e){} }
     }
   } catch(e) { console.warn('level check offline', e); }
   const pick = k => [cloud[k], local[k]].find(isNew) || null;
-  const res = { pre: pick('pre'), post: pick('post') };
+  const newest = [cloud.post, local.post].filter(isNew).sort((a, b) => b.at - a.at)[0] || null;
+  const prev = (cloud.prev && cloud.prev.length >= (local.prev || []).length ? cloud.prev : local.prev || []).filter(isNew);
+  const res = { pre: pick('pre'), post: newest, prev };
   OLD = [cloud.pre, local.pre, store.get('lv-old')].find(r => r && !isNew(r)) || null;
   if (OLD) store.set('lv-old', OLD);
   if (online) { const s = {}; ['pre', 'post'].forEach(k => { if (isNew(cloud[k])) s[k] = true; }); try { localStorage.setItem('lv-synced', JSON.stringify(s)); } catch(e){} }
@@ -214,36 +218,54 @@ async function loadAll(){
   return res;
 }
 async function save(kind, r){
-  const res = store.get('lv-results') || {}; res[kind] = r; if (kind === 'pre') delete res.post; store.set('lv-results', res);
+  const res = store.get('lv-results') || {};
+  if (kind === 'post' && res.post) res.prev = (res.prev || []).concat([res.post]);   // the earlier after test is kept
+  res[kind] = r; if (kind === 'pre') { delete res.post; delete res.prev; } store.set('lv-results', res);
   try { const s = JSON.parse(localStorage.getItem('lv-synced') || '{}'); delete s[kind]; localStorage.setItem('lv-synced', JSON.stringify(s)); } catch(e){}
   if (H && H.ready) { try { await H.saveLevel(kind, r); try { const s = JSON.parse(localStorage.getItem('lv-synced') || '{}'); s[kind] = true; localStorage.setItem('lv-synced', JSON.stringify(s)); } catch(e){} return true; } catch(e){ console.warn(e); } }
   return false;
 }
 
 /* ---------- screens ---------- */
-let RES = { pre:null, post:null };
+let RES = { pre:null, post:null, prev:[] };
+/* The after test opens by itself 6 weeks after the before test (or earlier if the teacher opens it),
+   and a new after test can be taken every 6 weeks after that. After tests alternate between the two forms. */
+const WAIT_DAYS = 42;
+const postsDone = () => (RES.prev || []).length + (RES.post ? 1 : 0);
+const nextForm = () => postsDone() % 2 === 0 ? 'post' : 'pre';
+const draftKey = () => postsDone() ? 'post' + postsDone() : 'post';
+function nextPostIn(){   // days until the next after test can be taken (0 = now)
+  if (!RES.pre) return Infinity;
+  const from = RES.post ? RES.post.at : RES.pre.at;
+  if (!RES.post && online && postOpen) return 0;
+  return Math.max(0, Math.ceil(WAIT_DAYS - (Date.now() - from) / 864e5));
+}
+const dayWord = n => n === 1 ? 'يوم واحد' : n === 2 ? 'يومين' : n <= 10 ? n + ' أيام' : n + ' يوماً';
 async function home(){
   $('app').innerHTML = `<h1>قياس المستوى<span class="en">LEVEL CHECK</span></h1><p class="lead">جاري التحميل…</p>`;
   RES = await loadAll();
-  const daysSince = RES.pre ? (Date.now() - RES.pre.at) / 864e5 : 0;
-  const postReady = !!RES.pre && (online ? postOpen : daysSince >= 14);
+  const wait = nextPostIn(), postReady = wait === 0;
   const row = (k, ic, sub) => {
-    const r = RES[k];
-    const status = r ? `<span class="tag ok">✓ أنجزته: ${Math.round(r.score / r.max * 100)}٪ · <span class="en">${r.level}</span></span>`
-      : k === 'post' && !postReady ? `<span class="tag wait">🔒 يفتحه المعلم في نهاية الفترة</span>`
-      : k === 'pre' && OLD ? `<span class="tag new">🆕 نسخة جديدة أقوى: أعد الاختبار ليُقاس مستواك بدقة</span>` : '';
-    const btn = r ? `<button class="btn soft" data-show="${k}">النتيجة</button>`
-      : `<button class="btn" data-go="${k}" ${k === 'post' && !postReady ? 'disabled' : ''}>${store.get(DRAFT(k)) ? 'أكمل الاختبار' : 'ابدأ'}</button>`;
+    const r = RES[k], again = k === 'post' && r;
+    const status = (r ? `<span class="tag ok">✓ ${again && postsDone() > 1 ? 'آخر بعدي' : 'أنجزته'}: ${Math.round(r.score / r.max * 100)}٪ · <span class="en">${r.level}</span></span>` : '')
+      + (k === 'post' && RES.pre && !postReady ? `<span class="tag wait">🔒 ${r ? 'الاختبار البعدي التالي' : 'يُفتح تلقائياً'} بعد ${dayWord(wait)}</span>`
+      : k === 'post' && r && postReady ? `<span class="tag new">🆕 حان موعد اختبار بعدي جديد لقياس تقدّمك</span>` : '')
+      + (
+      !r && k === 'pre' && OLD ? `<span class="tag new">🆕 نسخة جديدة أقوى: أعد الاختبار ليُقاس مستواك بدقة</span>` : '');
+    const go = `<button class="btn" data-go="${k}" ${k === 'post' && !postReady ? 'disabled' : ''}>${store.get(DRAFT(k === 'post' ? draftKey() : k)) ? 'أكمل الاختبار' : r ? 'ابدأ الجديد' : 'ابدأ'}</button>`;
+    const btn = r && !(k === 'post' && postReady) ? `<button class="btn soft" data-show="${k}">النتيجة</button>`
+      : r ? `<span style="display:grid;gap:6px">${go}<button class="btn soft" data-show="${k}">النتيجة السابقة</button></span>` : go;
     return `<div class="test"><span class="ic" aria-hidden="true">${ic}</span><span class="tx"><b>${NAME[k]}</b><small>${sub}</small>${status}</span>${btn}</div>`;
   };
   $('app').innerHTML = `<h1>قياس المستوى<span class="en">LEVEL CHECK</span></h1>
-    <p class="lead">اختبار قصير يقيس مستواك في الإنجليزية الآن، ثم اختبار مثله في نهاية الفترة لترى كم تحسّنت.</p>
+    <p class="lead">اختبار يقيس مستواك في الإنجليزية الآن، ثم اختبار بعدي يُفتح تلقائياً بعد 6 أسابيع، ويتكرر كل 6 أسابيع لترى كم تحسّنت.</p>
+    <div class="card"><h2>🏆 نقاط التحسّن</h2><p style="margin:0">لكل مستوى تتقدّمه <b>500 نقطة</b>، ولكل إجابة صحيحة تزيدها عن القبلي <b>10 نقاط</b>. تُحسب أفضل نتيجة بعدية لك، ولا تُخصم نقاط أبداً إن قلّت النتيجة.</p></div>
     <div class="card"><h2>عن الاختبار</h2>
       <div class="parts">${Object.entries(SK).map(([k, s]) => `<div class="part" style="border-color:var(${s[2]})"><b style="color:var(${s[2]})">${s[0]}</b><small class="en">${s[1]} · ${CNT[k]} questions</small></div>`).join('')}</div>
       <p class="muted" style="margin:0">32 سؤالاً في نحو 25 دقيقة. الأسئلة تبدأ سهلة وتصعب تدريجياً حتى المستوى <span class="en">B2</span>، فلا تقلق إن لم تعرف بعضها. أجب وحدك ودون مساعدة، لتكون النتيجة صادقة. يحتاج قسم الاستماع إلى الصوت 🔊.</p></div>
     <div class="tests">
       ${row('pre', '📝', 'في بداية الفترة: يحدد مستواك الآن.')}
-      ${row('post', '🏁', 'في نهاية الفترة: أسئلة جديدة بالصعوبة نفسها، لقياس تحسّنك.')}
+      ${row('post', '🏁', 'بعد 6 أسابيع، ثم كل 6 أسابيع: أسئلة بالصعوبة نفسها، لقياس تحسّنك.')}
     </div>
     ${RES.pre && RES.post ? `<div class="card" id="cmpBox"></div>` : ''}
     ${!online && H && H.ready ? `<p class="note">لم يتصل الاختبار بقاعدة النادي الآن، فستُحفظ نتيجتك على هذا الجهاز وتُرسل للمعلم عند الاتصال.</p>` : ''}`;
@@ -254,11 +276,12 @@ async function home(){
 }
 
 function start(kind){
-  const F = FORMS[kind], N = F.items.length;
+  const form = kind === 'post' ? nextForm() : 'pre', dk = kind === 'post' ? draftKey() : kind;
+  const F = FORMS[form], N = F.items.length;
   // answer order is shuffled once per student and kept with the draft, so leaving and coming back changes nothing
-  let d = store.get(DRAFT(kind));
+  let d = store.get(DRAFT(dk));
   if (!d || !d.order || d.order.length !== N) d = { i: 0, ans: {}, order: F.items.map(it => shuffle(it.slice(4, 8))), plays: {} };
-  const keep = () => store.set(DRAFT(kind), d);
+  const keep = () => store.set(DRAFT(dk), d);
   keep();
   function q(){
     const i = d.i, it = F.items[i], ex = it[8] || {}, s = SK[it[0]];
@@ -284,8 +307,9 @@ function start(kind){
       const missing = F.items.findIndex((_, k) => !d.ans[k]); if (missing >= 0) { d.i = missing; keep(); q(); return; }
       if (!confirm('هل تريد إنهاء الاختبار وإرسال إجاباتك؟ لا يمكن إعادته بعد ذلك.')) return;
       $('next').disabled = true; $('next').textContent = 'جاري الحفظ…';
-      const r = score(kind, F.items.map((_, k) => d.ans[k]));
-      const sent = await save(kind, r); store.del(DRAFT(kind));
+      const r = score(form, F.items.map((_, k) => d.ans[k]));
+      const sent = await save(kind, r); store.del(DRAFT(dk));
+      if (kind === 'post' && RES.post) RES.prev = (RES.prev || []).concat([RES.post]);
       RES[kind] = r; result(kind, true, sent);
     };
     window.scrollTo(0, 0);

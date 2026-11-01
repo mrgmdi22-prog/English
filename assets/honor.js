@@ -18,8 +18,9 @@ export const RULES = [
   { key: 'pv',   label: 'إجابة صحيحة في المبني للمجهول', icon: '🔄', per: 7, max: 10 },
   { key: 'im',   label: 'إجابة صحيحة في ركن التعبيرات', icon: '🎨', per: 7, max: 10 },
   { key: 'tb',   label: 'إجابة صحيحة في محادثات التأسيس', icon: '🗣️', per: 5, max: 40 },
-  { key: 'mb',   label: 'صندوق المفاجآت Surprise Me كاملاً (15 سؤالاً، و+30 لـ 12 إجابة صحيحة فأكثر)', icon: '🎁', per: 1, max: 8000, note: '150 نقطة', unit: 'نقطة' },
-  { key: 'lv',   label: 'كل مستوى تتقدّمه بين الاختبار القبلي والبعدي', icon: '📈', per: 100, max: 4, note: '100 نقطة' },
+  { key: 'mb',   label: 'صندوق المفاجآت Surprise Me كاملاً (15 سؤالاً، و+30 لـ 12 إجابة صحيحة فأكثر)', icon: '🎁', per: 1, max: 8000, note: '120 نقطة', unit: 'نقطة' },
+  { key: 'lv',   label: 'كل مستوى تتقدّمه بين الاختبار القبلي وأفضل اختبار بعدي', icon: '📈', per: 500, max: 4, note: '500 نقطة' },
+  { key: 'lvs',  label: 'كل إجابة صحيحة تزيدها في الاختبار البعدي عن القبلي', icon: '📊', per: 10, max: 32 },
   { key: 'rt',   label: 'كلمة ثبتت في ذاكرتك بالمراجعة المتباعدة (Word Quest والكلمات العامة والأكاديمية)', icon: '🧠', per: 3, max: 1500 }
 ];
 const CAPS = ['space', 'flavor', 'life', 'adventure', 'emotion', 'career', 'nature', 'health', 'sports', 'tech'];
@@ -55,13 +56,19 @@ export function computeScore() {
   // days saved before mb-pts existed (mb-days = {day: right answers}) count 5 per right answer.
   let mb = 0; const mbd = J('mb-days') || {}, mbp = J('mb-pts') || {};
   Object.keys(mbd).forEach(k => { mb += mbp[k] !== undefined ? Math.max(0, Math.min(180, +mbp[k] || 0)) : Math.max(0, Math.min(12, +mbd[k] || 0)) * 5; });
-  // Improvement: levels gained from the pre test to the post test (current version of the test only)
+  // Improvement from the before test to the BEST after test so far (current version of the test only; never goes down):
+  // lv = levels gained, lvs = extra right answers.
   const LV = ['Pre-A1', 'A1', 'A2', 'B1', 'B2'], LV_NEW = 1793547780000, lr = J('lv-results') || {};
   const lvOk = r => r && +r.at >= LV_NEW && LV.indexOf(r.level) >= 0;
-  const lv = lvOk(lr.pre) && lvOk(lr.post) ? Math.max(0, Math.min(4, LV.indexOf(lr.post.level) - LV.indexOf(lr.pre.level))) : 0;
+  const posts = [lr.post].concat(Array.isArray(lr.prev) ? lr.prev : []).filter(lvOk);
+  let lv = 0, lvs = 0;
+  if (lvOk(lr.pre) && posts.length) {
+    lv = Math.max(0, Math.min(4, Math.max(...posts.map(p => LV.indexOf(p.level))) - LV.indexOf(lr.pre.level)));
+    lvs = Math.max(0, Math.min(32, Math.max(...posts.map(p => p.score | 0)) - (lr.pre.score | 0)));
+  }
   // Retention: words that reached box 3+ in spaced review (remembered after 1 day and again after 3 days)
   let rt = 0; ['wq-srs', 'ng-srs', 'aw-srs'].forEach(k => { const o = J(k) || {}; Object.keys(o).forEach(w => { if (((o[w] || [])[0] || 0) >= 3) rt++; }); });
-  const parts = { caps, wq, lab, mg, bf, ng, aw, st, tn, pv, im, tb, mb, lv, rt, wqx: wqStats() };
+  const parts = { caps, wq, lab, mg, bf, ng, aw, st, tn, pv, im, tb, mb, lv, lvs, rt, wqx: wqStats() };
   // The board's database accepts at most 10,000 points per student.
   const score = Math.min(10000, RULES.reduce((t, r) => t + Math.min(parts[r.key], r.max) * r.per, 0));
   return { score, parts };
@@ -455,10 +462,19 @@ export async function myLevels() {
   const snap = await fs.getDoc(fs.doc(D, 'levels', uid));
   return snap.exists() ? snap.data() : {};
 }
-/** Saves the before ('pre') or after ('post') result. Each can be saved once; the teacher can reset it. */
+/** Saves the before ('pre') or after ('post') result. The before test is saved once; a new after test can follow every 6 weeks. */
 export async function saveLevel(kind, r) {
   const { fs, D } = await load();
   const uid = await studentUid();
+  // A new after test (every 6 weeks): the previous after result moves to `prev`, so nothing is lost.
+  if (kind === 'post') {
+    const snap = await fs.getDoc(fs.doc(D, 'levels', uid)), cur = snap.exists() ? snap.data() : {};
+    if (cur.post) {
+      if (+cur.post.at >= +r.at) return;   // already saved
+      await fs.setDoc(fs.doc(D, 'levels', uid), { post: cleanResult(r), prev: (cur.prev || []).concat([cur.post]), updatedAt: fs.serverTimestamp() }, { merge: true });
+      return;
+    }
+  }
   await fs.setDoc(fs.doc(D, 'levels', uid), { [kind]: cleanResult(r), updatedAt: fs.serverTimestamp() }, { merge: true });
 }
 /** Whether the teacher has opened the after test. */

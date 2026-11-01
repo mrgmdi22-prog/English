@@ -240,7 +240,7 @@ footer b{color:var(--ink)}
 
   <a class="mbox reveal" id="mbox" href="surprise/index.html">
     <span class="bx" aria-hidden="true">🎁</span>
-    <span class="txt"><b>Surprise Me</b><small>صندوق مفاجآت جديد كل يوم في السادسة صباحاً: 15 تحدياً خاطفاً من كل أركان النادي: 150 نقطة، و+30 لمن يُجب عن 12 فأكثر!</small>
+    <span class="txt"><b>Surprise Me</b><small>صندوق مفاجآت جديد كل يوم في السادسة صباحاً: 15 تحدياً خاطفاً من كل أركان النادي: 120 نقطة، و30 إضافية لمن يُجب عن 12 فأكثر!</small>
       <span class="st" id="mbSt"></span></span>
     <span class="go" id="mbGo">افتح المفاجأة ←</span>
   </a>
@@ -421,10 +421,10 @@ try { var lr = JSON.parse(localStorage.getItem('lv-results') || '{}'), s = docum
   } catch (e) {}
 })();
 </script>
-<script src="assets/club.js?v=13"></script>
+<script src="assets/club.js?v=14"></script>
 <script type="module">
 // Top three on the honor board (only once Firebase is configured)
-import('./assets/honor.js?v=20261101k').then(async H => {
+import('./assets/honor.js?v=20261101l').then(async H => {
   const s = H.computeScore().score;
   const mp = document.getElementById('myPts'); if (mp) mp.textContent = s.toLocaleString('en-US');
   if (s > 0) document.getElementById('hSub').textContent = 'نقاطك الآن: ' + s.toLocaleString('en-US') + ' نقطة — انضم وتنافس مع زملائك.';
