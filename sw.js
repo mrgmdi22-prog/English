@@ -2,7 +2,7 @@
 // Pages: from the network, but if the network is slow (weak school Wi-Fi) the saved copy is shown after a few
 // seconds instead of a frozen screen; the fresh copy is still saved for next time.
 // Files (scripts, styles, images on this site): the saved copy at once, refreshed in the background.
-const CACHE = 'club-v3';
+const CACHE = 'club-v4';
 const CORE = ['./', './index.html', './assets/club.css', './assets/club.js', './assets/gate.js', './assets/sfx.js', './assets/icons/icon-192.png', './offline.html'];
 const WAIT = 3500;
 
