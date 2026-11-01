@@ -18,7 +18,9 @@ export const RULES = [
   { key: 'pv',   label: 'إجابة صحيحة في المبني للمجهول', icon: '🔄', per: 7, max: 10 },
   { key: 'im',   label: 'إجابة صحيحة في ركن التعبيرات', icon: '🎨', per: 7, max: 10 },
   { key: 'tb',   label: 'إجابة صحيحة في محادثات التأسيس', icon: '🗣️', per: 5, max: 40 },
-  { key: 'mb',   label: 'صندوق المفاجآت Surprise Me كاملاً (15 سؤالاً)', icon: '🎁', per: 1, max: 8000, note: '100 نقطة', unit: 'نقطة' }
+  { key: 'mb',   label: 'صندوق المفاجآت Surprise Me كاملاً (15 سؤالاً، و+30 لـ 12 إجابة صحيحة فأكثر)', icon: '🎁', per: 1, max: 8000, note: '150 نقطة', unit: 'نقطة' },
+  { key: 'lv',   label: 'كل مستوى تتقدّمه بين الاختبار القبلي والبعدي', icon: '📈', per: 100, max: 4, note: '100 نقطة' },
+  { key: 'rt',   label: 'كلمة ثبتت في ذاكرتك بالمراجعة المتباعدة (Word Quest والكلمات العامة والأكاديمية)', icon: '🧠', per: 3, max: 1500 }
 ];
 const CAPS = ['space', 'flavor', 'life', 'adventure', 'emotion', 'career', 'nature', 'health', 'sports', 'tech'];
 
@@ -52,8 +54,14 @@ export function computeScore() {
   // Surprise Me: marks of the first box of each day (mb-pts = {day: marks out of 100});
   // days saved before mb-pts existed (mb-days = {day: right answers}) count 5 per right answer.
   let mb = 0; const mbd = J('mb-days') || {}, mbp = J('mb-pts') || {};
-  Object.keys(mbd).forEach(k => { mb += mbp[k] !== undefined ? Math.max(0, Math.min(100, +mbp[k] || 0)) : Math.max(0, Math.min(12, +mbd[k] || 0)) * 5; });
-  const parts = { caps, wq, lab, mg, bf, ng, aw, st, tn, pv, im, tb, mb, wqx: wqStats() };
+  Object.keys(mbd).forEach(k => { mb += mbp[k] !== undefined ? Math.max(0, Math.min(180, +mbp[k] || 0)) : Math.max(0, Math.min(12, +mbd[k] || 0)) * 5; });
+  // Improvement: levels gained from the pre test to the post test (current version of the test only)
+  const LV = ['Pre-A1', 'A1', 'A2', 'B1', 'B2'], LV_NEW = 1793547780000, lr = J('lv-results') || {};
+  const lvOk = r => r && +r.at >= LV_NEW && LV.indexOf(r.level) >= 0;
+  const lv = lvOk(lr.pre) && lvOk(lr.post) ? Math.max(0, Math.min(4, LV.indexOf(lr.post.level) - LV.indexOf(lr.pre.level))) : 0;
+  // Retention: words that reached box 3+ in spaced review (remembered after 1 day and again after 3 days)
+  let rt = 0; ['wq-srs', 'ng-srs', 'aw-srs'].forEach(k => { const o = J(k) || {}; Object.keys(o).forEach(w => { if (((o[w] || [])[0] || 0) >= 3) rt++; }); });
+  const parts = { caps, wq, lab, mg, bf, ng, aw, st, tn, pv, im, tb, mb, lv, rt, wqx: wqStats() };
   // The board's database accepts at most 10,000 points per student.
   const score = Math.min(10000, RULES.reduce((t, r) => t + Math.min(parts[r.key], r.max) * r.per, 0));
   return { score, parts };

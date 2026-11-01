@@ -1783,7 +1783,7 @@ let SRS={};try{SRS=JSON.parse(store.get("wq-srs")||"{}")||{}}catch(e){SRS={}}   
 const saveSRS=()=>store.set("wq-srs",JSON.stringify(SRS));
 function seen(w){if(INDEX[w]&&!SRS[w]){SRS[w]=[0,dayNo()+1];saveSRS();if(U)drawUnitHead()}}
 function mark(w,ok){if(!INDEX[w])return;const s=SRS[w]||[0,dayNo()];
-  if(ok){s[0]=Math.min(s[0]+1,GAPS.length-1);s[1]=dayNo()+GAPS[s[0]]}else{s[0]=0;s[1]=dayNo()}
+  if(ok){if(s[1]<=dayNo()){s[0]=Math.min(s[0]+1,GAPS.length-1);s[1]=dayNo()+GAPS[s[0]]}}else{s[0]=0;s[1]=dayNo()}
   SRS[w]=s;saveSRS()}
 const dueList=()=>Object.keys(SRS).filter(w=>INDEX[w]&&SRS[w][1]<=dayNo()).sort((a,b)=>SRS[a][1]-SRS[b][1]||SRS[a][0]-SRS[b][0]);
 const masteredN=()=>Object.values(SRS).filter(s=>s[0]>=4).length;
@@ -1912,4 +1912,4 @@ renderHome();
 })();
 </script>
 
-<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=12"></script>
+<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=13"></script>

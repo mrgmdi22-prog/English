@@ -240,7 +240,7 @@ footer b{color:var(--ink)}
 
   <a class="mbox reveal" id="mbox" href="surprise/index.html">
     <span class="bx" aria-hidden="true">🎁</span>
-    <span class="txt"><b>Surprise Me</b><small>صندوق مفاجآت جديد كل يوم في السادسة صباحاً: 15 تحدياً خاطفاً من كل أركان النادي، ومجموعها 100 درجة!</small>
+    <span class="txt"><b>Surprise Me</b><small>صندوق مفاجآت جديد كل يوم في السادسة صباحاً: 15 تحدياً خاطفاً من كل أركان النادي: 150 نقطة، و+30 لمن يُجب عن 12 فأكثر!</small>
       <span class="st" id="mbSt"></span></span>
     <span class="go" id="mbGo">افتح المفاجأة ←</span>
   </a>
@@ -416,15 +416,15 @@ try { var lr = JSON.parse(localStorage.getItem('lv-results') || '{}'), s = docum
     var fmt = function(ms){ var h = Math.floor(ms / 3600e3); return h < 1 ? 'أقل من ساعة' : h === 1 ? 'ساعة' : h === 2 ? 'ساعتين' : h < 11 ? h + ' ساعات' : h + ' ساعة'; };
     var c = document.getElementById('mbox'), st = document.getElementById('mbSt'), go = document.getElementById('mbGo');
     if (now >= CLOSE || now < 6 * 3600e3) { st.textContent = '🔒 الصندوق مغلق — صندوق جديد في السادسة صباحاً'; go.textContent = 'نلتقي غداً'; c.removeAttribute('href'); c.style.cursor = 'default'; }
-    else if (d[day] !== undefined) { st.textContent = '✓ فتحت مفاجأة اليوم' + (dp[day] !== undefined ? ': ' + dp[day] + ' / 100' : '') + ' — مفاجأة جديدة في السادسة صباحاً'; go.textContent = 'تدرّب ←'; }
+    else if (d[day] !== undefined) { st.textContent = '✓ فتحت مفاجأة اليوم' + (dp[day] !== undefined ? ': ' + dp[day] + ' نقطة' : '') + ' — مفاجأة جديدة في السادسة صباحاً'; go.textContent = 'تدرّب ←'; }
     else { c.classList.add('closed'); st.textContent = '⏰ مفاجأة اليوم لم تُفتح — يُغلق الصندوق بعد ' + fmt(CLOSE - now); }
   } catch (e) {}
 })();
 </script>
-<script src="assets/club.js?v=12"></script>
+<script src="assets/club.js?v=13"></script>
 <script type="module">
 // Top three on the honor board (only once Firebase is configured)
-import('./assets/honor.js?v=20261101j').then(async H => {
+import('./assets/honor.js?v=20261101k').then(async H => {
   const s = H.computeScore().score;
   const mp = document.getElementById('myPts'); if (mp) mp.textContent = s.toLocaleString('en-US');
   if (s > 0) document.getElementById('hSub').textContent = 'نقاطك الآن: ' + s.toLocaleString('en-US') + ' نقطة — انضم وتنافس مع زملائك.';
