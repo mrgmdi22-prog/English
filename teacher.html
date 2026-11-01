@@ -51,7 +51,7 @@ h1{font-size:2rem;margin:0 0 4px;font-weight:800}
   <div id="main"></div>
 </div>
 <script type="module">
-import * as H from './assets/honor.js?v=20261101a';
+import * as H from './assets/honor.js?v=20261101b';
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = n => Number(n||0).toLocaleString('en-US');
@@ -82,11 +82,12 @@ async function load() {
   catch (e) { $('main').innerHTML = '<div class="panel"><h2>لا توجد صلاحية</h2><p class="note">هذا الحساب ليس حساب المعلم المسجّل في إعدادات اللوحة.</p></div>'; return; }
   rows.sort((a,b) => (b.score||0) - (a.score||0));
   let priv = {}; try { priv = await H.allPrivate(); } catch (e) { console.warn(e); }
+  let codes = {}; try { codes = await H.allCodes(); } catch (e) { console.warn('recovery codes', e); }
   let lv = {}, lvCfg = {}, lvErr = ''; try { [lv, lvCfg] = await Promise.all([H.allLevels(), H.teacherLevelsConfig()]); } catch (e) { console.warn('levels', e); lvErr = (e && (e.code || e.message) || 'error') + ''; }
   const pend = rows.filter(r => !r.approved), ok = rows.filter(r => r.approved);
-  const item = (r, pending) => `<div class="item" data-id="${r.id}"><span class="nm">${esc(r.nick)}${priv[r.id] ? `<small class="real">👤 ${esc(priv[r.id].name)} · ${priv[r.id].grade === H.EXTERNAL ? '🌐 من خارج المدرسة: ' + esc(priv[r.id].school || 'لم يذكر الجهة') : esc(priv[r.id].grade) + ' · الشعبة ' + esc(priv[r.id].section)}</small>` : '<small class="real miss">⚠️ لم يكتب بياناته الحقيقية بعد</small>'}</span><span class="sc">${fmt(r.score)}<small class="real">${ago(r.updatedAt)}</small></span><span class="acts">
+  const item = (r, pending) => `<div class="item" data-id="${r.id}"><span class="nm">${esc(r.nick)}${priv[r.id] ? `<small class="real">👤 ${esc(priv[r.id].name)} · ${priv[r.id].grade === H.EXTERNAL ? '🌐 من خارج المدرسة: ' + esc(priv[r.id].school || 'لم يذكر الجهة') : esc(priv[r.id].grade) + ' · الشعبة ' + esc(priv[r.id].section)}</small>` : '<small class="real miss">⚠️ لم يكتب بياناته الحقيقية بعد</small>'}</span><span class="sc">${fmt(r.score)}<small class="real">${ago(r.updatedAt)}</small>${codes[r.id] ? `<small class="real" dir="ltr" style="font-family:Lexend,monospace;letter-spacing:1px">🔑 ${esc(codes[r.id])}</small>` : ''}</span><span class="acts">
     ${pending ? '<button class="btn ok" data-a="ok">✓ موافقة</button>' : '<button class="btn soft" data-a="hide">إخفاء</button>'}
-    <button class="btn soft" data-a="ren">تعديل الاسم</button><button class="btn soft" data-a="reg">📍 ${r.region ? esc(r.region) : "المنطقة"}</button><button class="btn bad" data-a="del">حذف</button></span></div>`;
+    <button class="btn soft" data-a="ren">تعديل الاسم</button><button class="btn soft" data-a="reg">📍 ${r.region ? esc(r.region) : "المنطقة"}</button><button class="btn soft" data-a="merge">🔗 ضمّ حساب قديم</button><button class="btn bad" data-a="del">حذف</button></span></div>`;
   const nickOf = id => (rows.find(r => r.id === id) || {}).nick || '';
   const pc = r => r ? Math.round(r.score / r.max * 100) : null;
   const lvIds = Object.keys(lv).filter(id => lv[id].pre || lv[id].post).sort((a, b) => ((priv[a] || {}).name || nickOf(a)).localeCompare((priv[b] || {}).name || nickOf(b), 'ar'));
@@ -157,6 +158,16 @@ async function load() {
         const k = parseInt(v, 10);
         if (k >= 1 && k <= H.REGIONS.length) await H.setRegionFor(id, H.REGIONS[k - 1]);
         else if (v) alert('رقم غير صحيح.');
+      }
+      if (a === 'merge') {
+        const n = prompt('ضمّ نقاط حساب قديم إلى «' + r.nick + '»\n(لطالب ضاع جهازه القديم فسجّل من جديد)\n\nاكتب الاسم المستعار للحساب القديم كما يظهر في القائمة:', '');
+        if (n) {
+          const old = rows.filter(x => x.id !== id && H.cleanNick(x.nick) === H.cleanNick(n));
+          if (old.length !== 1) alert(old.length ? 'يوجد أكثر من حساب بهذا الاسم؛ عدّل اسم أحدهما أولاً.' : 'لم أجد حساباً بهذا الاسم.');
+          else if (confirm('تُضاف ' + fmt(old[0].score) + ' نقطة من «' + old[0].nick + '» إلى «' + r.nick + '»، ثم يُحذف «' + old[0].nick + '». هل تتابع؟')) {
+            const add = await H.mergeInto(id, old[0].id); alert('تم ✓ أُضيفت ' + fmt(add) + ' نقطة إلى «' + r.nick + '».');
+          }
+        }
       }
       if (a === 'ren') { const n = prompt('الاسم المستعار:', r.nick); if (n && H.cleanNick(n).length >= 2) await H.rename(id, n); }
       if (a === 'del' && confirm('حذف «' + r.nick + '» من اللوحة؟')) await H.remove(id);

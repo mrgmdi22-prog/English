@@ -121,6 +121,12 @@ select:focus{border-color:var(--gold);outline:none}
 footer{margin-top:36px;text-align:center;color:var(--muted);font-size:.98rem}
 footer a{color:var(--muted)}
 .skeleton{color:var(--muted);text-align:center;padding:18px}
+.restore{background:#eef6ff;border:2px solid #c9dcf7;border-radius:20px;padding:16px;margin:4px 0 18px}
+.restore > b{display:block;font-size:1.15rem;margin-bottom:4px}
+.restore .row input{font-family:var(--en);font-size:1.35rem;letter-spacing:2px;text-transform:uppercase;text-align:center}
+.codebox{margin-top:14px;background:#fff8e3;border:2px dashed #e0b84a;border-radius:18px;padding:14px;text-align:center}
+.codebox .cd{font-family:var(--en);font-size:1.9rem;font-weight:600;letter-spacing:3px;color:#7a5200;margin:4px 0}
+.codebox p{margin:4px 0;font-size:1rem;color:var(--muted)}
 @media (max-width:520px){.podium{gap:6px}.pl .nm{font-size:1rem}.pl .medal{font-size:2.2rem}.me .pts{width:100%}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pl,.list li{opacity:1;transform:none}}
 </style>
@@ -153,19 +159,19 @@ footer a{color:var(--muted)}
 
   <footer>إعداد: أ. أحمد آل سالم — نادي اللغة الإنجليزية، ثانوية الأمير فيصل بالعقيق<br><a href="teacher.html">دخول المعلم</a></footer>
 </div>
-<script src="assets/club.js?v=5"></script>
+<script src="assets/club.js?v=6"></script>
 <script type="module">
 const demo = /[?&]demo\b/.test(location.search);
 let H;
 if (demo) {
-  const m = await import('./assets/honor.js?v=20261101a').catch(() => null);
+  const m = await import('./assets/honor.js?v=20261101b').catch(() => null);
   const fake = ['نسر الصحراء','Falcon7','نجم الشمال','Lion King','القمر المضيء','Speedy','بطل العقيق','Eagle Eye','الشهاب','Rocket'].map((n,i)=>({id:'d'+i,nick:n,score:3200-i*270-(i%3)*35,approved:true}));
   let me = null, priv = null;
   H = { ready:true, RULES:m.RULES, computeScore:m.computeScore, cleanNick:m.cleanNick,
     GRADES:m.GRADES, SUGGESTED:m.SUGGESTED, EXTERNAL:m.EXTERNAL, REGIONS:m.REGIONS, HOME_REGION:m.HOME_REGION, setRegion: async(r)=>{me.region=r}, cleanText:m.cleanText, myPrivate: async()=>priv, savePrivate: async(p)=>{priv=p}, myEntry: async()=>me, join: async(n,r)=>(me={id:'me',nick:m.cleanNick(n),region:r,approved:false,...m.computeScore()}),
-    sync: async()=>null, board: async()=>fake, watchBoard: async(cb)=>{cb(fake);return ()=>{};} };
+    sync: async()=>null, myCode:()=>'', cleanCode:m.cleanCode, ensureAccount: async()=>'', board: async()=>fake, watchBoard: async(cb)=>{cb(fake);return ()=>{};} };
 } else {
-  H = await import('./assets/honor.js?v=20261101a');
+  H = await import('./assets/honor.js?v=20261101b');
 }
 
 const $ = id => document.getElementById(id);
@@ -315,11 +321,53 @@ function wireSugg() {
   drawSugg(true);
 }
 
+const restoreBox = (open) => `<div class="restore" id="rsBox">
+      <b>📱 سجّلت من قبل في جهاز أو متصفح آخر؟</b>
+      <p class="note" style="margin:0 0 10px">اكتب رمز حسابك لتعود إليك نقاطك كاملة${ME ? '، ويُضمّ إليها ما جمعته على هذا الجهاز' : ''}.</p>
+      ${open ? '' : '<button class="btn soft" type="button" id="rsOpen">🔑 لدي رمز حساب</button>'}
+      <form id="rsF" ${open ? '' : 'hidden'}><div class="row"><input id="rsC" type="text" dir="ltr" maxlength="9" placeholder="ABCD-2345" autocomplete="off" autocapitalize="characters" spellcheck="false" required>
+      <button class="btn" id="rsB">استرجع حسابي</button></div>
+      <p class="note" style="margin-top:6px;font-size:.95rem">نسيت الرمز؟ اطلبه من معلمك، فعنده نسخة منه.</p><div class="msg" id="rsM"></div></form></div>`;
+function wireRestore() {
+  if (!$('rsF')) return;
+  if ($('rsOpen')) $('rsOpen').onclick = () => { $('rsOpen').hidden = true; $('rsF').hidden = false; $('rsC').focus(); };
+  $('rsF').onsubmit = async e => {
+    e.preventDefault();
+    const m = $('rsM'), b = $('rsB'), code = H.cleanCode($('rsC').value);
+    if (!code) { m.className = 'msg err'; m.textContent = 'الرمز 8 خانات (حروف وأرقام)، مثل ABCD-2345.'; return; }
+    if (ME && !confirm('سيُفتح حسابك الأصلي على هذا الجهاز، وتُضمّ إليه نقاط هذا الجهاز، ويُحذف حساب «' + ME.nick + '» المؤقت. هل تتابع؟')) return;
+    b.disabled = true; b.textContent = '⏳ جارٍ الاسترجاع…'; m.textContent = '';
+    try {
+      ME = await H.restore(code); markReg(); gateHeader();
+      PRIV = await H.myPrivate().catch(() => null); ROWS = await H.board();
+      renderBoard();
+      renderMe({ t: ME ? 'أهلاً بعودتك يا «' + ME.nick + '»! عادت إليك نقاطك كاملة 🎉' + (NEXT ? ' جارٍ فتح الصفحة التي طلبتها…' : '') : 'تم فتح حسابك.' });
+      if (NEXT) setTimeout(() => location.replace(NEXT), 1800);
+    } catch (err) {
+      console.error(err);
+      const c = (err && err.code) || '';
+      m.className = 'msg err';
+      m.textContent = c === 'bad-code' ? 'هذا الرمز غير صحيح. تأكد منه واكتبه كما هو، أو اطلبه من معلمك.'
+                    : c === 'network' ? 'تأكد من اتصالك بالإنترنت ثم حاول مرة أخرى.'
+                    : 'تعذّر الاسترجاع، حاول مرة أخرى. (' + (err.code || err.message) + ')';
+      b.disabled = false; b.textContent = 'استرجع حسابي';
+    }
+  };
+}
+function codeCard() {
+  const c = H.myCode && H.myCode();
+  if (!c) return '';
+  try { localStorage.setItem('club-code-seen', '1'); } catch (e) {}
+  return `<div class="codebox"><b>🔑 رمز حسابك</b><div class="cd" dir="ltr">${esc(c)}</div>
+    <p>به تفتح حسابك ونقاطك من أي جهاز أو متصفح. صوّره أو اكتبه في دفترك، ولا تعطه لأحد.</p>
+    <button class="btn soft" type="button" id="cpC">📋 انسخ الرمز</button></div>`;
+}
+
 function renderMe(msg) {
   const P = $('mePanel');
   const local = H.computeScore();
   if (!ME) {
-    P.innerHTML = `<h2>${isReg() ? 'انضم إلى لوحة الشرف' : '📝 سجّل لتبدأ'}</h2>
+    P.innerHTML = `${demo ? '' : restoreBox(false)}<h2>${isReg() ? 'انضم إلى لوحة الشرف' : '📝 سجّل لتبدأ (أول مرة)'}</h2>
       <p class="note">نقاطك الآن على هذا الجهاز: <b style="color:var(--gold)">${fmt(local.score)}</b> نقطة. اختر اسماً مستعاراً يظهر في اللوحة، ولا تكتب اسمك الحقيقي.</p>
       <form id="jf" style="margin-top:14px">${idFields(PRIV)}<label for="nk" style="margin-top:14px">اسمك المستعار (يظهر للجميع)</label>
       <div class="row"><input id="nk" type="text" maxlength="20" minlength="2" placeholder="مثل: نسر العقيق" autocomplete="off" required>
@@ -327,7 +375,7 @@ function renderMe(msg) {
       <div class="sugg"><div class="sugg-h"><span>💡 اختر اسماً جاهزاً وادخل اللوحة فوراً ⚡</span><button class="btn soft" type="button" id="sgMore">🎲 أسماء أخرى</button></div><div class="sugg-list" id="sgList"></div></div>
       <p class="note" style="margin-top:8px;font-size:.95rem">تُفتح لك الأدوات فوراً. الاسم المختار من الاقتراحات يظهر في اللوحة مباشرة، والاسم الذي تكتبه بنفسك يظهر بعد موافقة المعلم.</p></form>
       <div class="msg ${msg&&msg.err?'err':'ok'}">${msg?esc(msg.t):''}</div>`;
-    wireId(); wireSugg();
+    wireId(); wireSugg(); wireRestore();
     $('jf').onsubmit = async e => {
       e.preventDefault();
       const n = H.cleanNick($('nk').value);
@@ -340,8 +388,9 @@ function renderMe(msg) {
       let step = 'private';
       const region = id.region; delete id.region;
       try { await H.savePrivate(id); PRIV = id; step = 'player'; ME = await H.join(n, region); markReg(); gateHeader();
+        await H.ensureAccount().catch(() => {});
         renderMe({t: NEXT ? 'تم التسجيل! جارٍ فتح الصفحة التي طلبتها…' : (ME.approved ? 'تم التسجيل! فُتحت لك جميع الأدوات، واسمك ظاهر الآن في لوحة الشرف 🎉' : 'تم التسجيل! فُتحت لك جميع الأدوات، وسيظهر اسمك في اللوحة بعد موافقة المعلم.')});
-        if (NEXT) setTimeout(() => location.replace(NEXT), 1400);
+        if (NEXT) setTimeout(() => location.replace(NEXT), H.myCode() ? 6000 : 1400);
         else { const a = document.createElement('a'); a.href = 'index.html'; a.className = 'btn'; a.style.cssText = 'display:inline-block;margin-top:12px;text-decoration:none'; a.textContent = 'ابدأ الآن ← الصفحة الرئيسية'; $('mePanel').appendChild(a); } }
       catch (err) {
         console.error(err);
@@ -364,8 +413,12 @@ function renderMe(msg) {
     ${ME.region ? `<p class="lock" style="margin-top:12px">📍 منطقتك في اللوحة: <b>${esc(ME.region)}</b></p>` : (!(PRIV && PRIV.grade === H.EXTERNAL) ? '' : `<form id="rf" class="need"><b>📍 اختر مدينتك أو منطقتك لتظهر بجانب اسمك</b><select id="rg2"><option value="">اختر</option>${regionOpts('')}</select><button class="btn" style="margin-top:10px">حفظ</button></form>`)}
     ${PRIV ? `<p class="lock" style="margin-top:12px">🔒 بيانات التكريم: <b>${esc(PRIV.name)}</b> · ${PRIV.grade === H.EXTERNAL ? 'مشارك من خارج المدرسة' + (PRIV.school ? ' (' + esc(PRIV.school) + ')' : '') : esc(PRIV.grade) + ' · الشعبة ' + esc(PRIV.section)}. لا يراها إلا المعلم.</p>`
            : `<form id="pf" class="need"><b>⚠️ أكمل بياناتك ليُحسب لك التكريم في نهاية العام</b>${idFields(null)}<button class="btn" id="pb" style="margin-top:12px">حفظ بياناتي</button></form>`}
-    <div class="actions"><button class="btn soft" id="ub">🔄 حدّث نقاطي</button><button class="btn link" id="cn">تغيير الاسم المستعار</button></div>
+    ${codeCard()}
+    <div class="actions"><button class="btn soft" id="ub">🔄 حدّث نقاطي</button><button class="btn link" id="cn">تغيير الاسم المستعار</button>${demo || H.myCode() ? '' : '<button class="btn link" id="rsL">🔑 لدي حساب آخر برمز</button>'}</div>
+    <div id="rsSlot"></div>
     <div class="msg ${msg&&msg.err?'err':'ok'}">${msg?esc(msg.t):''}</div>`;
+  if ($('cpC')) $('cpC').onclick = () => { const c = H.myCode(); (navigator.clipboard ? navigator.clipboard.writeText(c) : Promise.reject()).then(() => { $('cpC').textContent = '✓ نُسخ الرمز'; }).catch(() => prompt('انسخ رمزك:', c)); };
+  if ($('rsL')) $('rsL').onclick = () => { $('rsL').hidden = true; $('rsSlot').innerHTML = restoreBox(true); wireRestore(); $('rsC').focus(); };
   renderRace(local.score);
   if (ME && !ME.region && PRIV && PRIV.grade !== H.EXTERNAL) { H.setRegion(H.HOME_REGION).then(() => { ME.region = H.HOME_REGION; }).catch(() => {}); }
   if ($('rf')) $('rf').onsubmit = async e => {
@@ -415,7 +468,7 @@ if (!H.ready) {
   try {
     await H.sync(false).catch(() => {});
     [ME, ROWS] = await Promise.all([H.myEntry(), H.board()]);
-    if (ME) { PRIV = await H.myPrivate().catch(() => null); if (!isReg()) { markReg(); gateHeader(); if (NEXT) { location.replace(NEXT); } } }
+    if (ME) { await H.ensureAccount().catch(() => {}); PRIV = await H.myPrivate().catch(() => null); if (!isReg()) { markReg(); gateHeader(); if (NEXT) { location.replace(NEXT); } } }
     renderMe(); renderBoard();
     // Keep the ranking live: any student's new points appear without reloading the page.
     H.watchBoard(rows => {

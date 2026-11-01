@@ -14,7 +14,8 @@ service cloud.firestore {
         && n in get(/databases/$(database)/documents/config/nicks).data.list;
     }
     function validStudentData(d) {
-      return d.keys().hasOnly(['nick', 'approved', 'score', 'parts', 'region', 'updatedAt'])
+      return d.keys().hasOnly(['nick', 'approved', 'score', 'parts', 'region', 'base', 'updatedAt'])
+        && (!('base' in d) || (d.base is int && d.base >= 0 && d.base <= 10000))
         && (!('region' in d) || (d.region is string && d.region.size() <= 30))
         && d.nick is string && d.nick.size() >= 2 && d.nick.size() <= 20
         && d.score is int && d.score >= 0 && d.score <= 10000
@@ -28,17 +29,38 @@ service cloud.firestore {
 
       // الطالب ينشئ سجله فقط، ولا يستطيع أن يوافق على نفسه
       allow create: if request.auth != null && request.auth.uid == uid
-        && validStudentData(request.resource.data)
+        && validStudentData(request.resource.data) && !('base' in request.resource.data)
         && (request.resource.data.approved == false || suggested(request.resource.data.nick));
 
       // الطالب يحدّث نقاطه؛ وإذا غيّر اسمه يعود إلى انتظار الموافقة
       allow update: if isTeacher() || (
         request.auth != null && request.auth.uid == uid
         && validStudentData(request.resource.data)
+        // النقاط المنقولة من حساب قديم (base) لا يغيّرها إلا المعلم
+        && request.resource.data.get('base', 0) == resource.data.get('base', 0)
         && ((request.resource.data.nick == resource.data.nick && request.resource.data.approved == resource.data.approved)
             || request.resource.data.approved == false
             || (request.resource.data.approved == true && suggested(request.resource.data.nick))));
 
+      // الطالب يحذف حسابه المؤقت حين يسترجع حسابه الأصلي برمز الاستعادة
+      allow delete: if isTeacher() || (request.auth != null && request.auth.uid == uid);
+    }
+
+    // نسخة احتياطية من تقدّم الطالب في الأدوات، ليستعيدها من أي جهاز برمز حسابه
+    match /progress/{uid} {
+      allow read: if isTeacher() || (request.auth != null && request.auth.uid == uid);
+      allow write: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['d', 'updatedAt'])
+        && request.resource.data.d is string && request.resource.data.d.size() <= 900000;
+      allow delete: if isTeacher();
+    }
+
+    // رمز استعادة الحساب: يحفظ المعلم نسخة منه ليساعد من ينساه
+    match /recovery/{uid} {
+      allow read: if isTeacher() || (request.auth != null && request.auth.uid == uid);
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['code', 'at'])
+        && request.resource.data.code is string && request.resource.data.code.size() == 9;
       allow delete: if isTeacher();
     }
 
@@ -60,7 +82,7 @@ service cloud.firestore {
         && request.resource.data.section is string && request.resource.data.section.size() >= 1 && request.resource.data.section.size() <= 10
         && (resource == null || !exists(/databases/$(database)/documents/players/$(uid))
             || get(/databases/$(database)/documents/players/$(uid)).data.approved == false));
-      allow delete: if isTeacher();
+      allow delete: if isTeacher() || (request.auth != null && request.auth.uid == uid);
     }
 
     // قياس المستوى: نتيجة الاختبار القبلي والبعدي، لا يقرؤها إلا الطالب نفسه والمعلم.

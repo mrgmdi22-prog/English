@@ -82,7 +82,8 @@ export async function studentUid() {
   const { auth, A } = await load();
   let u = await currentUser(A);
   // Older versions signed the teacher in here too; a Google account is never used as a student.
-  if (u && !u.isAnonymous) { await auth.signOut(A); u = null; }
+  // (A student whose account has a recovery code is no longer anonymous: their provider is 'password'.)
+  if (u && (u.providerData || []).some(p => p.providerId === 'google.com')) { await auth.signOut(A); u = null; }
   if (!u) u = (await auth.signInAnonymously(A)).user;
   return u.uid;
 }
@@ -139,11 +140,13 @@ export async function allPrivate() {
 export async function join(nick, region) {
   const { fs, D } = await load();
   const uid = await studentUid();
-  const { score, parts } = computeScore();
+  const local = computeScore(), parts = local.parts;
   nick = cleanNick(nick);
   const reg = region ? { region: cleanText(region, 30) } : {};
   const ref = fs.doc(D, 'players', uid);
   const snap = await fs.getDoc(ref);
+  const base = snap.exists() ? (snap.data().base | 0) : 0;
+  const score = Math.min(10000, local.score + base);
   const write = async ok => {
     if (snap.exists()) {
       const same = snap.data().nick === nick;
@@ -158,7 +161,10 @@ export async function join(nick, region) {
   try { await write(auto); } catch (e) { if (!auto || !/permission/i.test(e && (e.code || e.message) || '')) throw e; auto = false; await write(false); }
   try { localStorage.setItem('club-player', '1'); localStorage.setItem('club-sync', JSON.stringify({ t: Date.now(), s: score })); } catch (e) {}
   const approved = snap.exists() && snap.data().nick === nick ? snap.data().approved : auto;
-  return { id: uid, nick, score, parts, approved };
+  // Back up this device's progress and give the student a recovery code (quietly; never blocks joining).
+  pushProgress(uid, true).catch(() => {});
+  ensureAccount().catch(() => {});
+  return { id: uid, nick, score, parts, approved, base };
 }
 
 /** Sets my region shown on the board. */
@@ -168,25 +174,194 @@ export async function setRegion(region) {
   await fs.updateDoc(fs.doc(D, 'players', uid), { region: cleanText(region, 30) });
 }
 
-/** Pushes my latest points if I have joined. Quiet; throttled unless forced. */
+/** Pushes my latest points if I have joined. Quiet; throttled unless forced.
+ *  It also keeps this device and the cloud backup of the student's progress in step:
+ *  the cloud copy is merged in first (so a second device or a restored account never loses anything),
+ *  then the merged progress is backed up again. */
 export async function sync(force) {
   if (!ready) return null;
   pushLevels().catch(() => {});
   let joined = false; try { joined = !!localStorage.getItem('club-player'); } catch (e) {}
   if (!joined) return null;
-  const { score, parts } = computeScore();
+  let { score, parts } = computeScore();
   const last = J('club-sync') || {};
   const sig = JSON.stringify(parts.wqx);
-  if (!force && last.s === score && last.w === sig && Date.now() - (last.t || 0) < 6 * 3600e3) return null;
+  const pullDue = Date.now() - N('club-pull') > 15 * 60e3;
+  if (!force && !pullDue && last.s === score && last.w === sig && last.p === progressSig() && Date.now() - (last.t || 0) < 6 * 3600e3) return null;
   const { fs, D } = await load();
   const uid = await studentUid();
   const ref = fs.doc(D, 'players', uid);
   const snap = await fs.getDoc(ref);
   if (!snap.exists()) { try { localStorage.removeItem('club-player'); } catch (e) {} return null; }
+  if (force || pullDue) { await pullProgress(uid).catch(e => console.warn('progress pull', e)); ({ score, parts } = computeScore()); }
   const was = snap.data();
-  if (was.score !== score || JSON.stringify((was.parts || {}).wqx || null) !== sig) await fs.updateDoc(ref, { score, parts, updatedAt: fs.serverTimestamp() });
-  try { localStorage.setItem('club-sync', JSON.stringify({ t: Date.now(), s: score, w: sig })); } catch (e) {}
-  return score;
+  const total = Math.min(10000, score + (was.base | 0));
+  const wsig = JSON.stringify(parts.wqx);
+  if (was.score !== total || JSON.stringify((was.parts || {}).wqx || null) !== wsig) await fs.updateDoc(ref, { score: total, parts, updatedAt: fs.serverTimestamp() });
+  await pushProgress(uid, force).catch(e => console.warn('progress backup', e));
+  try { localStorage.setItem('club-sync', JSON.stringify({ t: Date.now(), s: score, w: wsig, p: progressSig() })); } catch (e) {}
+  ensureAccount().catch(e => console.warn('recovery code', e));
+  return total;
+}
+
+/* ---------- progress backup & recovery code: the same account (and the same points) on any device ---------- */
+// Everything the tools save in this browser is backed up, except the site's own bookkeeping
+// and the Kids Club (which has no registration).
+const SKIP = /^(club-(sync|player|reg|code|code-seen|code-off|pull|last)|lv-synced|firebase|kd-)/;
+function collectProgress() {
+  const out = {}; let size = 0;
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i); if (!k || SKIP.test(k)) continue;
+      const v = localStorage.getItem(k); if (v == null || v.length > 100000) continue;
+      size += k.length + v.length; if (size > 300000) break;
+      out[k] = v;
+    }
+  } catch (e) {}
+  return out;
+}
+function hash(str) { let h = 5381; for (let i = 0; i < str.length; i++) h = (h * 33 + str.charCodeAt(i)) | 0; return (h >>> 0).toString(36) + ':' + str.length; }
+function progressSig() { const o = collectProgress(); return hash(JSON.stringify(Object.keys(o).sort().map(k => [k, o[k]]))); }
+
+/** Merges two saved values so that nothing learnt is ever lost: highest score, union of word lists, per-item best. */
+function mergeVal(a, b) {
+  if (a === undefined || a === null) return b;
+  if (b === undefined || b === null) return a;
+  if (typeof a === 'number' && typeof b === 'number') return Math.max(a, b);
+  if (Array.isArray(a) && Array.isArray(b)) {
+    const prim = x => x.every(v => v === null || typeof v !== 'object');
+    if (prim(a) && prim(b) && (a.some(v => typeof v === 'string') || b.some(v => typeof v === 'string'))) return Array.from(new Set(a.concat(b)));
+    for (let i = 0; i < Math.max(a.length, b.length); i++) { // e.g. [box, due day]: keep the further one
+      const x = a[i], y = b[i];
+      if (typeof x === 'number' && typeof y === 'number') { if (x !== y) return x > y ? a : b; continue; }
+      if (x === undefined) return b; if (y === undefined) return a;
+      break;
+    }
+    return a.length >= b.length ? a : b;
+  }
+  if (typeof a === 'object' && typeof b === 'object' && !Array.isArray(a) && !Array.isArray(b)) {
+    const o = { ...b }; Object.keys(a).forEach(k => { o[k] = mergeVal(a[k], b[k]); }); return o;
+  }
+  return a; // text settings: this device's choice wins
+}
+function mergeRaw(local, cloud) {
+  if (local == null) return cloud;
+  if (cloud == null || local === cloud) return local;
+  let a, b;
+  try { a = JSON.parse(local); b = JSON.parse(cloud); } catch (e) { return local; }
+  const m = mergeVal(a, b);
+  return m === a ? local : m === b ? cloud : JSON.stringify(m);
+}
+
+/** Brings the cloud copy of my progress into this browser (merging, never replacing). */
+async function pullProgress(uid) {
+  const { fs, D } = await load();
+  const snap = await fs.getDoc(fs.doc(D, 'progress', uid));
+  try { localStorage.setItem('club-pull', String(Date.now())); } catch (e) {}
+  if (!snap.exists()) return false;
+  let cloud = {}; try { cloud = JSON.parse(snap.data().d || '{}') || {}; } catch (e) { return false; }
+  Object.keys(cloud).forEach(k => {
+    if (SKIP.test(k)) return;
+    try { const cur = localStorage.getItem(k), m = mergeRaw(cur, cloud[k]); if (m !== cur && m != null) localStorage.setItem(k, m); } catch (e) {}
+  });
+  return true;
+}
+/** Saves this browser's progress to the cloud (only when it changed). */
+async function pushProgress(uid, force) {
+  const sig = progressSig(), last = J('club-sync') || {};
+  if (!force && last.p === sig) return false;
+  const { fs, D } = await load();
+  await fs.setDoc(fs.doc(D, 'progress', uid), { d: JSON.stringify(collectProgress()), updatedAt: fs.serverTimestamp() });
+  return true;
+}
+
+// Recovery code: 8 characters without look-alikes (no 0/O, 1/I/L), shown as ABCD-2345.
+const ABC = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+export function cleanCode(s) { const c = String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, '').replace(/O/g, '0').replace(/[IL]/g, '1'); return c.length === 8 ? c.slice(0, 4) + '-' + c.slice(4) : ''; }
+const codeEmail = c => c.replace('-', '').toLowerCase() + '@students.english-club-score.firebaseapp.com';
+const codePass = c => 'EH!' + c + '#club';
+function newCode() { const r = crypto.getRandomValues(new Uint32Array(8)); let c = ''; for (let i = 0; i < 8; i++) c += ABC[r[i] % ABC.length]; return c.slice(0, 4) + '-' + c.slice(4); }
+
+/** My recovery code, if this browser knows it. */
+export function myCode() { try { return localStorage.getItem('club-code') || ''; } catch (e) { return ''; } }
+
+/** Gives a registered student a recovery code: the anonymous account is linked to it, so the uid
+ *  (and with it the name, points and everything else) stays exactly the same. Quiet and safe to repeat. */
+export async function ensureAccount() {
+  let joined = false; try { joined = !!localStorage.getItem('club-player'); } catch (e) {}
+  if (!ready || !joined) return '';
+  if (Date.now() - N('club-code-off') < 24 * 3600e3) return myCode();
+  const { auth, fs, A, D } = await load();
+  const u = await currentUser(A);
+  if (!u) return '';
+  let code = myCode();
+  if (u.isAnonymous) {
+    code = newCode();
+    try { await auth.linkWithCredential(u, auth.EmailAuthProvider.credential(codeEmail(code), codePass(code))); }
+    catch (e) {
+      // 'operation-not-allowed': the teacher has not switched on Email/Password sign-in in Firebase yet.
+      if (/operation-not-allowed|admin-restricted/i.test(e && e.code || '')) { try { localStorage.setItem('club-code-off', String(Date.now())); } catch (x) {} }
+      throw e;
+    }
+    try { localStorage.setItem('club-code', code); localStorage.removeItem('club-code-seen'); localStorage.removeItem('club-code-off'); } catch (e) {}
+  }
+  if (!code) return '';
+  // The teacher keeps a copy of every code, to help a student who forgets it.
+  let saved = ''; try { saved = localStorage.getItem('club-code-saved') || ''; } catch (e) {}
+  if (saved !== u.uid) {
+    try { await fs.setDoc(fs.doc(D, 'recovery', u.uid), { code, at: fs.serverTimestamp() }); localStorage.setItem('club-code-saved', u.uid); } catch (e) { console.warn('recovery copy', e); }
+  }
+  return code;
+}
+
+/** Opens my account on this device with my recovery code. Progress already on this device is kept and merged in;
+ *  if this device had made a new (temporary) account, it is removed so it does not appear twice on the board. */
+export async function restore(raw) {
+  const code = cleanCode(raw);
+  if (!code) { const e = new Error('bad-format'); e.code = 'bad-format'; throw e; }
+  const { auth, fs, A, D } = await load();
+  // 1) Check the code on a separate sign-in first, so a wrong code changes nothing here.
+  const appMod = await import(BASE + 'firebase-app.js');
+  const probeApp = appMod.getApps().find(x => x.name === 'probe') || appMod.initializeApp(CONFIG, 'probe');
+  const PA = auth.getAuth(probeApp);
+  let target;
+  try { target = (await auth.signInWithEmailAndPassword(PA, codeEmail(code), codePass(code))).user.uid; }
+  catch (e) { const er = new Error('bad-code'); er.code = /network/i.test(e && e.code || '') ? 'network' : 'bad-code'; throw er; }
+  finally { auth.signOut(PA).catch(() => {}); }
+  // 2) Remove this device's temporary account (only if it is a different, code-less one).
+  const cur = await currentUser(A);
+  if (cur && cur.uid !== target && cur.isAnonymous) {
+    for (const c of ['players', 'private']) { try { await fs.deleteDoc(fs.doc(D, c, cur.uid)); } catch (e) {} }
+  }
+  // 3) Sign in to the real account and bring its progress here.
+  await auth.signInWithEmailAndPassword(A, codeEmail(code), codePass(code));
+  try {
+    ['club-sync', 'club-pull', 'club-code-saved', 'lv-synced'].forEach(k => localStorage.removeItem(k));
+    localStorage.setItem('club-code', code); localStorage.setItem('club-code-seen', '1');
+    localStorage.setItem('club-player', '1'); localStorage.setItem('club-reg', '1');
+  } catch (e) {}
+  await pullProgress(target);
+  await sync(true);
+  return myEntry();
+}
+
+/** Shows the recovery code once, on any page, right after it is created. */
+export function showCodeOnce() {
+  const code = myCode();
+  let seen = true; try { seen = !!localStorage.getItem('club-code-seen'); } catch (e) {}
+  if (!code || seen || document.getElementById('codeCard') || /\/(honor|teacher)\.html$/.test(location.pathname)) return;
+  const d = document.createElement('div');
+  d.id = 'codeCard'; d.dir = 'rtl'; d.setAttribute('role', 'dialog');
+  d.style.cssText = 'position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:rgba(255,252,244,.82);padding:16px;font-family:Tajawal,"Segoe UI",Tahoma,sans-serif';
+  d.innerHTML = `<div style="max-width:440px;width:100%;background:#fff;border:2px solid #f0d58a;border-radius:24px;padding:22px 20px;box-shadow:0 18px 50px rgba(120,90,0,.18);text-align:center;color:#2a2a3d;font-size:19px;line-height:1.7">
+    <div style="font-size:2.4rem">🔑</div>
+    <b style="font-size:1.3rem;display:block">هذا رمز حسابك</b>
+    <p style="margin:8px 0">به تفتح حسابك ونقاطك من أي جهاز أو متصفح آخر.</p>
+    <div dir="ltr" style="font-family:Lexend,monospace;font-size:2.1rem;font-weight:700;letter-spacing:3px;background:#fff6dc;border:2px dashed #e0b84a;border-radius:16px;padding:10px;margin:10px 0">${code}</div>
+    <p style="margin:6px 0;color:#a35a00;font-weight:700">📸 صوّر هذه الشاشة أو اكتب الرمز في دفترك الآن.</p>
+    <button type="button" style="font:inherit;font-weight:800;font-size:1.1rem;border:0;border-radius:999px;background:#16825d;color:#fff;padding:10px 26px;margin-top:8px;cursor:pointer">حفظته ✓</button></div>`;
+  d.querySelector('button').onclick = () => { try { localStorage.setItem('club-code-seen', '1'); } catch (e) {} d.remove(); };
+  document.body.appendChild(d);
 }
 
 /** Approved players, highest first. */
@@ -236,6 +411,23 @@ export async function syncSuggested() {
   if (cur.length === SUGGESTED.length && cur.every((x, i) => x === SUGGESTED[i])) return false;
   await fs.setDoc(ref, { list: SUGGESTED });
   return true;
+}
+/** Teacher: every student's recovery code, keyed by uid. */
+export async function allCodes() {
+  const { fs, TD: D } = await load();
+  const snap = await fs.getDocs(fs.collection(D, 'recovery'));
+  const out = {}; snap.forEach(d => { out[d.id] = d.data().code; });
+  return out;
+}
+/** Teacher: moves the points of an old account (made on a lost device) into the student's current account, then removes the old one. */
+export async function mergeInto(targetId, fromId) {
+  const { fs, TD: D } = await load();
+  const [t, f] = await Promise.all([fs.getDoc(fs.doc(D, 'players', targetId)), fs.getDoc(fs.doc(D, 'players', fromId))]);
+  if (!t.exists() || !f.exists()) throw new Error('not-found');
+  const add = f.data().score | 0, base = (t.data().base | 0) + add;
+  await fs.updateDoc(fs.doc(D, 'players', targetId), { base, score: Math.min(10000, (t.data().score | 0) + add) });
+  await remove(fromId);
+  return add;
 }
 export async function setApproved(id, v) { const { fs, TD: D } = await load(); await fs.updateDoc(fs.doc(D, 'players', id), { approved: !!v }); }
 export async function setRegionFor(id, region) { const { fs, TD: D } = await load(); await fs.updateDoc(fs.doc(D, 'players', id), { region: cleanText(region, 30) }); }
