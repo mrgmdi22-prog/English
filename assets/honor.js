@@ -18,7 +18,7 @@ export const RULES = [
   { key: 'pv',   label: 'إجابة صحيحة في المبني للمجهول', icon: '🔄', per: 10, max: 10 },
   { key: 'im',   label: 'إجابة صحيحة في ركن التعبيرات', icon: '🎨', per: 10, max: 10 },
   { key: 'tb',   label: 'إجابة صحيحة في محادثات التأسيس', icon: '🗣️', per: 5, max: 40 },
-  { key: 'mb',   label: 'إجابة صحيحة في Surprise Me', icon: '🎁', per: 5, max: 1200 }
+  { key: 'mb',   label: 'درجة في Surprise Me (الصندوق = 100)', icon: '🎁', per: 1, max: 8000 }
 ];
 const CAPS = ['space', 'flavor', 'life', 'adventure', 'emotion', 'career', 'nature', 'health', 'sports', 'tech'];
 
@@ -49,8 +49,10 @@ export function computeScore() {
   const pv = Math.max(0, Math.min(10, N('pv-best')));
   const im = Math.max(0, Math.min(10, N('im-best')));
   let tb = 0; ['greet','bye','ask','yesno','sorry','thanks','invite','meet'].forEach(u => { tb += Math.max(0, Math.min(5, N('tb-best-' + u))); });
-  // Surprise Me: right answers in the first box of each day (mb-days = {day: right answers}, 12 questions × 5)
-  let mb = 0; const mbd = J('mb-days') || {}; Object.keys(mbd).forEach(k => { mb += Math.max(0, Math.min(12, +mbd[k] || 0)); });
+  // Surprise Me: marks of the first box of each day (mb-pts = {day: marks out of 100});
+  // days saved before mb-pts existed (mb-days = {day: right answers}) count 5 per right answer.
+  let mb = 0; const mbd = J('mb-days') || {}, mbp = J('mb-pts') || {};
+  Object.keys(mbd).forEach(k => { mb += mbp[k] !== undefined ? Math.max(0, Math.min(100, +mbp[k] || 0)) : Math.max(0, Math.min(12, +mbd[k] || 0)) * 5; });
   const parts = { caps, wq, lab, mg, bf, ng, aw, st, tn, pv, im, tb, mb, wqx: wqStats() };
   // The board's database accepts at most 10,000 points per student.
   const score = Math.min(10000, RULES.reduce((t, r) => t + Math.min(parts[r.key], r.max) * r.per, 0));

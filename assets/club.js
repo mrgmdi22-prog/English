@@ -10,7 +10,7 @@
   try{
     var me = document.currentScript && document.currentScript.src;
     if(me && localStorage.getItem('club-player') && !/\/(honor|teacher)\.html$/.test(location.pathname)){
-      var go = function(){ import(new URL('honor.js?v=20261101f', me).href).then(function(m){ return m.sync(false).catch(function(){}).then(function(){ m.showCodeOnce(); }); }).catch(function(){}); };
+      var go = function(){ import(new URL('honor.js?v=20261101g', me).href).then(function(m){ return m.sync(false).catch(function(){}).then(function(){ m.showCodeOnce(); }); }).catch(function(){}); };
       if(document.readyState === 'complete') setTimeout(go, 800); else addEventListener('load', function(){ setTimeout(go, 800); });
       // Also send new points while the student keeps playing on the same page, and when they leave it.
       // sync(false) does nothing unless the points changed, so this costs nothing when idle.
@@ -28,9 +28,9 @@
     if(!me) return;
     var home = new URL('../', me).pathname;
     if(P === home || P === home + 'index.html' || /\/(honor|teacher|guide|install|offline|sounds|links)\.html$/.test(P) || /\/(surprise|mystery|level|kids)\//.test(P)) return;
-    var day = Math.floor((Date.now() + 3 * 3600e3) / 864e5);
+    var day = Math.floor((Date.now() + 3 * 3600e3 - 6 * 3600e3) / 864e5);   // the box's day starts at 6 am Saudi time
     var opened = function(){ try { return (JSON.parse(localStorage.getItem('mb-days') || '{}') || {})[day] !== undefined; } catch(e){ return true; } };
-    var closed = function(){ return (Date.now() + 3 * 3600e3) % 864e5 >= 22 * 3600e3; };   // box closed 10 pm - midnight
+    var closed = function(){ var t = (Date.now() + 3 * 3600e3) % 864e5; return t >= 22 * 3600e3 || t < 6 * 3600e3; };   // box closed 10 pm - 6 am
     if(opened() || closed()) return;
     var href = new URL('../surprise/index.html', me).href;
     var css = '#clubMB{position:fixed;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:998;display:inline-flex;align-items:center;gap:6px;' +
@@ -56,7 +56,7 @@
         if (shown || sig() === start) return;
         try { localStorage.setItem('mb-tip', String(day)); } catch(e){}
         var t = document.createElement('div'); t.id = 'clubMBtip'; t.setAttribute('role', 'status');
-        t.innerHTML = 'أحسنت! 👏 صندوق المفاجآت 🎁 ما زال مغلقاً… 12 تحدياً خاطفاً، و60 درجة تنتظرك!<br><a href="' + href + '">افتح المفاجأة ←</a><button type="button">لاحقاً</button>';
+        t.innerHTML = 'أحسنت! 👏 صندوق المفاجآت 🎁 ما زال مغلقاً… 15 تحدياً خاطفاً، و100 درجة تنتظرك!<br><a href="' + href + '">افتح المفاجأة ←</a><button type="button">لاحقاً</button>';
         t.querySelector('button').onclick = function(){ t.remove(); };
         document.body.appendChild(t);
       }, 5000);
