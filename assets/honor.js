@@ -27,7 +27,8 @@ export const DAILY_CAP = 500;
 /* Weekly seasons: a new season starts every Tuesday at 6 am Saudi time; the board shows this season's points.
    Each player's weekly scores are kept in players.wk {week: points}; the top STARS_N of every finished week
    are that week's stars, and the stars list is kept for the whole year (the teacher honours repeat stars). */
-export const FIRST_WEEK = 2965;   // the season that starts Tuesday 3 Nov 2026 — the first one with stars
+export const FOUND_WEEK = 2964;   // the founding season: every point earned before Tuesday 3 Nov 2026 (old accounts count here)
+export const FIRST_WEEK = FOUND_WEEK;   // first week with stars: the founding season's top ten are the first stars
 export const STARS_N = 10;
 const dayNo = t => Math.floor(((t || Date.now()) + 3 * 3600e3 - 6 * 3600e3) / 864e5);   // a day starts at 6 am Saudi time
 export const weekNo = t => Math.floor((dayNo(t) - 5) / 7);                              // day 5 (mod 7) is a Tuesday
@@ -100,7 +101,8 @@ export function computeScore() {
   if (L.w !== week) { L.w = week; L.w0 = Math.min(total, L.last >= 0 ? L.last : total); }
   L.last = total;
   try { localStorage.setItem('pts-day', JSON.stringify(L)); } catch (e) {}
-  const score = Math.max(0, Math.min(10000, total - L.w0));
+  // In the founding season the score is everything earned so far, so nobody's old points disappear.
+  const score = week <= FOUND_WEEK ? Math.min(10000, total) : Math.max(0, Math.min(10000, total - L.w0));
   return { score, total, week, parts };
 }
 
@@ -196,7 +198,7 @@ export async function join(nick, region) {
   const ref = fs.doc(D, 'players', uid);
   const snap = await fs.getDoc(ref);
   const base = snap.exists() ? (snap.data().base | 0) : 0;
-  const score = local.score;
+  const score = local.week <= FOUND_WEEK ? Math.min(10000, local.score + base) : local.score;
   const season = seasonFields(snap.exists() ? snap.data() : {}, local, base);
   const write1 = async (ok, extra) => {
     if (snap.exists()) {
@@ -249,6 +251,7 @@ export async function sync(force) {
   if (force || pullDue) { await pullProgress(uid).catch(e => console.warn('progress pull', e)); ({ score, parts } = computeScore()); }
   const was = snap.data();
   const loc = computeScore(), season = seasonFields(was, loc, was.base | 0);
+  if (loc.week <= FOUND_WEEK) score = Math.min(10000, score + (was.base | 0));
   const wsig = JSON.stringify(parts.wqx);
   if (was.score !== score || was.week !== season.week || was.total !== season.total || JSON.stringify((was.parts || {}).wqx || null) !== wsig) {
     try { await fs.updateDoc(ref, { score, parts, ...season, updatedAt: fs.serverTimestamp() }); }
@@ -425,13 +428,18 @@ function seasonFields(was, loc, base) {
   const wk = { ...(was.wk || {}) };
   // a season that was still on the board when it ended keeps its last score
   if (was.week >= FIRST_WEEK - 1 && was.week !== loc.week && !(String(was.week) in wk)) wk[was.week] = was.score | 0;
-  wk[loc.week] = loc.score;
+  wk[loc.week] = loc.week <= FOUND_WEEK ? Math.min(10000, loc.score + base) : loc.score;
   const ks = Object.keys(wk).map(Number).sort((a, b) => b - a); ks.slice(60).forEach(k => { delete wk[k]; });
   return { week: loc.week, total: Math.min(10000000, Math.round(loc.total + base)), wk };
 }
-const thisWeek = rows => { const w = weekNo(); return rows.filter(r => r.week === w).sort((a, b) => (b.score || 0) - (a.score || 0)); };
+const wkOf = r => r.week === undefined ? FOUND_WEEK : r.week;   // accounts from before the seasons belong to the founding season
+const thisWeek = rows => { const w = weekNo(); return rows.filter(r => wkOf(r) === w).sort((a, b) => (b.score || 0) - (a.score || 0)); };
 /** A week's points for a player (the score itself while that week was still their latest). */
-export const weekPts = (r, w) => (r.wk && r.wk[w] !== undefined) ? (r.wk[w] | 0) : (r.week === w ? (r.score | 0) : 0);
+export const weekPts = (r, w) => {
+  let p = (r.wk && r.wk[w] !== undefined) ? (r.wk[w] | 0) : (wkOf(r) === w ? (r.score | 0) : 0);
+  if (w === FOUND_WEEK && wkOf(r) <= FOUND_WEEK) p = Math.max(p, Math.min(10000, r.total | 0), r.score | 0);
+  return p;
+};
 /** The stars of every finished week, newest first: [{w, top: [rows with .s]}], and how many times each player was a star. */
 export function stars(rows) {
   const now = weekNo(), weeks = [], count = {};

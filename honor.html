@@ -175,14 +175,14 @@ footer a{color:var(--muted)}
 const demo = /[?&]demo\b/.test(location.search);
 let H;
 if (demo) {
-  const m = await import('./assets/honor.js?v=20261101p').catch(() => null);
+  const m = await import('./assets/honor.js?v=20261102a').catch(() => null);
   const fake = ['نسر الصحراء','Falcon7','نجم الشمال','Lion King','القمر المضيء','Speedy','بطل العقيق','Eagle Eye','الشهاب','Rocket'].map((n,i)=>({id:'d'+i,nick:n,score:3200-i*270-(i%3)*35,approved:true}));
   let me = null, priv = null;
-  H = { ready:true, RULES:m.RULES, DAILY_CAP:m.DAILY_CAP, STARS_N:m.STARS_N, weekNo:m.weekNo, weekLabel:m.weekLabel, FIRST_WEEK:m.FIRST_WEEK, stars:m.stars, computeScore:m.computeScore, cleanNick:m.cleanNick,
+  H = { ready:true, RULES:m.RULES, DAILY_CAP:m.DAILY_CAP, STARS_N:m.STARS_N, weekNo:m.weekNo, weekLabel:m.weekLabel, FIRST_WEEK:m.FIRST_WEEK, FOUND_WEEK:m.FOUND_WEEK, stars:m.stars, computeScore:m.computeScore, cleanNick:m.cleanNick,
     GRADES:m.GRADES, SUGGESTED:m.SUGGESTED, EXTERNAL:m.EXTERNAL, REGIONS:m.REGIONS, HOME_REGION:m.HOME_REGION, setRegion: async(r)=>{me.region=r}, cleanText:m.cleanText, myPrivate: async()=>priv, savePrivate: async(p)=>{priv=p}, myEntry: async()=>me, join: async(n,r)=>(me={id:'me',nick:m.cleanNick(n),region:r,approved:false,...m.computeScore()}),
     sync: async()=>null, myCode:()=>'', cleanCode:m.cleanCode, ensureAccount: async()=>'', board: async()=>fake, watchBoard: async(cb)=>{cb(fake);return ()=>{};} };
 } else {
-  H = await import('./assets/honor.js?v=20261101p');
+  H = await import('./assets/honor.js?v=20261102a');
 }
 
 const $ = id => document.getElementById(id);
@@ -208,15 +208,16 @@ let ME = null, ROWS = [], ALL = [], PRIV = null;
 function seasonNote() {
   const d = new Date((H.weekNo ? H.weekNo() + 1 : 0) * 7 * 864e5 + 5 * 864e5);
   const ms = Math.max(0, d.getTime() + 3 * 3600e3 - (Date.now() + 3 * 3600e3)), dd = Math.floor(ms / 864e5), hh = Math.floor(ms % 864e5 / 3600e3);
+  if (H.weekNo && H.weekNo() <= H.FOUND_WEEK) { $('topH').textContent = 'أوائل الموسم التأسيسي'; $('seasonNote').textContent = '🏛️ الموسم التأسيسي يضم كل نقاطك منذ البداية، وينتهي الثلاثاء في السادسة صباحاً (بعد ' + (dd ? dd + ' يوم و' : '') + hh + ' ساعة). أفضل ' + H.STARS_N + ' فيه هم أول نجوم النادي 🌟، ثم يبدأ كل ثلاثاء موسم جديد من الصفر.'; return; }
   $('seasonNote').textContent = H.weekNo ? '🗓️ يبدأ موسم جديد كل ثلاثاء في السادسة صباحاً، فيبدأ الجميع من الصفر. ينتهي هذا الموسم بعد ' + (dd ? dd + ' يوم و' : '') + hh + ' ساعة، وأفضل ' + H.STARS_N + ' يصبحون نجوم الأسبوع 🌟' : '';
 }
 function renderStars() {
   if (!H.stars || !ALL.length) return;
   const { weeks, count } = H.stars(ALL), P = $('starsP');
-  if (!weeks.length) { P.hidden = false; $('starsSub').textContent = 'أول نجوم تُعلن بعد نهاية موسم ' + H.weekLabel(H.FIRST_WEEK) + '. اجتهد لتكون منهم!'; $('starsL').innerHTML = ''; return; }
+  if (!weeks.length) { P.hidden = false; $('starsSub').textContent = 'أول نجوم النادي هم أفضل ' + H.STARS_N + ' في الموسم التأسيسي، ويُعلنون الثلاثاء في السادسة صباحاً. اجتهد لتكون منهم!'; $('starsL').innerHTML = ''; return; }
   const last = weeks[0];
   P.hidden = false;
-  $('starsSub').textContent = 'أفضل ' + H.STARS_N + ' في موسم ' + H.weekLabel(last.w) + '. يبقى اسمهم هنا حتى يُعلن نجوم الأسبوع القادم، ويُحفظ في سجل النجوم.';
+  $('starsSub').textContent = 'أفضل ' + H.STARS_N + ' في ' + (last.w === H.FOUND_WEEK ? 'الموسم التأسيسي (كل النقاط حتى 3/11)' : 'موسم ' + H.weekLabel(last.w)) + '. يبقى اسمهم هنا حتى يُعلن نجوم الأسبوع القادم، ويُحفظ في سجل النجوم.';
   const medals = ['🥇','🥈','🥉'];
   $('starsL').innerHTML = last.top.map((r, i) => `<li class="${ME && r.id===ME.id?'mine':''}"><span class="rk">${medals[i] || i + 1}</span><span class="nm">${esc(r.nick)}${regTag(r)}${count[r.id] > 1 ? ` <small style="color:var(--gold)">🌟×${count[r.id]}</small>` : ''}</span><span class="sc">${fmt(r.s)}</span></li>`).join('') || '<li class="empty-board" style="opacity:1;transform:none;border:0;background:none">لم يجمع أحد نقاطاً في ذلك الأسبوع.</li>';
   const ids = Object.keys(count).sort((a, b) => count[b] - count[a]).slice(0, 10), byId = {}; ALL.forEach(r => { byId[r.id] = r; });
