@@ -5,14 +5,14 @@
 <script src="../assets/gate.js?v=9"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Surprise Me 🎁 · صندوق المفاجآت</title>
-<meta name="description" content="A new surprise box every day: 8 quick challenges from all over the English Club, with big points and fireworks.">
+<meta name="description" content="A new surprise box every day: 12 quick challenges from all over the English Club, with big points and fireworks.">
 <meta name="theme-color" content="#F3F8FF">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="../assets/club.css">
 <style>
-/* Surprise Me: one surprise box a day, the same for every student. 8 questions drawn from the whole site,
+/* Surprise Me: one surprise box a day, the same for every student. 12 questions drawn from the whole site,
    most of them from the sections students visit least. Fireworks when the box opens, on every right answer
    and at the end. Each question shows its section, and the result links back to it. */
 :root{color-scheme:light;--bg:#F3F8FF;--card:#fff;--ink:#1B2A41;--muted:#55657E;--line:#DCE8F5;
@@ -142,7 +142,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
 <main class="wrap">
   <h1><span class="gt">Surprise Me</span> <span aria-hidden="true">🎁</span></h1>
   <div class="sub-ar">صندوق المفاجآت</div>
-  <p class="lead">هل أنت مستعد؟ كل يوم صندوق جديد، وما بداخله <b>سرّ</b> لا يعرفه أحد! 8 تحديات خاطفة من كل أركان النادي… افتح الصندوق، وأثبت أنك الأسرع، واحصد <b>نقاطاً ضخمة</b> قبل أن يُغلق في <b>العاشرة مساءً</b> ⏰</p>
+  <p class="lead">هل أنت مستعد؟ كل يوم صندوق جديد، وما بداخله <b>سرّ</b> لا يعرفه أحد! 12 تحدياً خاطفاً من كل أركان النادي، لكل تحدٍّ <b>5 درجات</b> والمجموع <b>60 درجة</b>… افتح الصندوق، وأثبت أنك الأسرع، واجمع الستين كاملة قبل أن يُغلق في <b>العاشرة مساءً</b> ⏰</p>
 
   <!-- after 10 pm (Saudi time) the box is closed until midnight -->
   <section class="card" id="vClosed" hidden style="text-align:center">
@@ -162,8 +162,8 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
         </button>
       </div>
       <div class="tap" id="tap">TAP TO OPEN</div>
-      <div class="facts"><span class="f1">🎯 8 تحديات</span><span class="f2">🧩 كلمات · قواعد · قراءة · محادثة</span><span class="f3">🔥 20 نقطة للإجابة</span></div>
-      <p class="note" id="startNote">أجب عن الثمانية كلها صحيحة لتحصل على <b>+80 نقطة إضافية</b> 💥</p>
+      <div class="facts"><span class="f1">🎯 12 تحدياً</span><span class="f2">🧩 كلمات · قواعد · قراءة · محادثة</span><span class="f3">⭐ 5 درجات لكل تحدٍّ = 60</span></div>
+      <p class="note" id="startNote">هل تستطيع أن تحصد <b>60 من 60</b>؟ 💥</p>
       <button class="btn" id="openBtn" type="button">🎁 افتح المفاجأة</button>
     </div>
   </section>
@@ -250,7 +250,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
   function at(el, n, big){ if (still) return; var r = el.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, n, big); }
 
   /* ---------- sections ---------- */
-  // The 8 kinds of question in every box (see SLOTS below).
+  // The 12 kinds of question in every box (see SLOTS below).
   var SEC = {
     ng:  { ar:'الكلمات العامة',        ic:'🌍', c:'#E6F1FF', href:'../words/ngsl.html' },
     aw:  { ar:'الكلمات الأكاديمية',    ic:'🎓', c:'#E8EEFF', href:'../words/awl.html' },
@@ -263,7 +263,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     caps:{ ar:'الكبسولات',             ic:'🌟', c:'#FFF6D6', href:'../capsules/index.html' }
   };
   var CAPN = { space:'الفضاء', flavor:'النكهة', life:'الحياة', adventure:'المغامرة', emotion:'المشاعر', career:'المهن', nature:'الطبيعة', health:'الصحة', sports:'الرياضة', tech:'التقنية' };
-  var N_ALL = 8, PER = 20, BONUS = 80;
+  var N_ALL = 12, PER = 5;   // 12 questions × 5 = 60
   // weekly ranks (boxes opened in the last 7 days)
   var RANKS = [ { n:3, e:'🧭', ar:'مستكشف المفاجآت' }, { n:5, e:'💎', ar:'صيّاد الكنوز' }, { n:7, e:'👑', ar:'أسطورة المفاجآت' } ];
 
@@ -274,10 +274,10 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
   var BANK = window.SURPRISE_BANK || [], BY = {};
   BANK.forEach(function(x){ (BY[x[0]] = BY[x[0]] || []).push(x); });
 
-  /** The day's box: the same 8 questions (and option order) for every student. `extra` makes a practice box.
-      One question from each slot: general words, academic words, grammar ×2, sentence structure, reading,
-      conversation, capsules. Each question is answerable from the screen alone. */
-  var SLOTS = [['ng'], ['aw'], ['gr', 'tn', 'pv'], ['gr', 'tn', 'gr'], ['sx'], ['rd'], ['ev'], ['caps']];
+  /** The day's box: the same 12 questions (and option order) for every student. `extra` makes a practice box.
+      One question from each slot: general words, academic words, words (either), grammar ×3, sentence structure ×2,
+      reading, reading or conversation, conversation, capsules. Each question is answerable from the screen alone. */
+  var SLOTS = [['ng'], ['aw'], ['ng', 'aw'], ['gr', 'tn', 'pv'], ['gr', 'tn'], ['gr', 'pv'], ['sx'], ['sx'], ['rd'], ['rd', 'ev'], ['ev'], ['caps']];
   function makeBox(day, extra){
     var r = rng(day * 7919 + (extra || 0) * 104729 + 17), used = [];
     var qs = SLOTS.map(function(sl){
@@ -309,7 +309,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     return m <= 1 ? 'دقيقة' : m === 2 ? 'دقيقتين' : m < 11 ? m + ' دقائق' : m + ' دقيقة'; }
   function left(){ return span(864e5 - nowMs()); }          // until the next box (midnight)
   function toClose(){ return span(CLOSE - nowMs()); }        // until today's box closes (10 pm)
-  function pts(right){ return right * PER + (right === N_ALL ? BONUS : 0); }
+  function pts(right){ return right * PER; }
 
   var day = today(), box = null, i = 0, res = [], practice = 0, streak = 0;
   var done = getDays()[day];
@@ -322,7 +322,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     }
     if (done === undefined) $('startNote').innerHTML += '<br>⏰ يُغلق الصندوق بعد <b>' + toClose() + '</b>';
     if (done !== undefined) {
-      $('startNote').innerHTML = 'فتحت صندوق اليوم وأجبت <b>' + done + ' من ' + N_ALL + '</b> (+' + pts(done) + ' نقطة). صندوق جديد بعد ' + left() + '.';
+      $('startNote').innerHTML = 'فتحت صندوق اليوم وأجبت <b>' + done + ' من ' + N_ALL + '</b> (' + pts(done) + ' من ' + N_ALL * PER + ' درجة). صندوق جديد بعد ' + left() + '.';
       $('openBtn').textContent = '🎁 صندوق تدريب (بلا نقاط)';
     }
   }
@@ -382,14 +382,17 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     if (first) { var d = getDays(); d[day] = right; store.set('mb-days', JSON.stringify(d)); done = right; }
     sfx('win');
     $('vQ').hidden = true; $('vEnd').hidden = false;
-    $('sBig').textContent = right + ' / ' + box.length;
-    $('sMsg').textContent = right === box.length ? 'صندوق كامل! أنت أسطورة 🎉' : right >= 6 ? 'أداء ناري 🔥 واصل!' : right >= 4 ? 'جيد! والأقسام أدناه تخبّئ لك المزيد.' : 'لا بأس، أخطاؤك خطواتك نحو الإتقان 💪';
-    $('sPts').textContent = first ? ('+' + pts(right) + ' نقطة في لوحة الشرف') : 'جولة تدريب (النقاط تُحسب لأول صندوق في اليوم)';
-    $('sBonus').textContent = first && right === box.length ? '💥 منها +' + BONUS + ' مكافأة الصندوق الكامل' : '';
-    show(right === box.length ? 12 : right >= 6 ? 7 : right >= 4 ? 4 : 2);
-    $('rows').innerHTML = box.map(function(q, k){ var s = SEC[q.s];
-      return '<div class="row"><span class="ic" style="background:' + s.c + '">' + s.ic + '</span><span class="nm"><b>' + esc(secName(q)) + '</b><small>' + (res[k] ? '✓ أجبت صحيحاً' : '✗ تحتاج مراجعة') + '</small></span>' +
-        '<a href="' + secHref(q) + '">جرّب القسم كاملاً ←</a></div>'; }).join('');
+    $('sBig').textContent = pts(right) + ' / ' + N_ALL * PER;
+    $('sMsg').textContent = right === box.length ? 'صندوق كامل! أنت أسطورة 🎉' : right >= 9 ? 'أداء ناري 🔥 واصل!' : right >= 6 ? 'جيد! والأقسام أدناه تخبّئ لك المزيد.' : 'لا بأس، أخطاؤك خطواتك نحو الإتقان 💪';
+    $('sPts').textContent = first ? ('✓ ' + right + ' من ' + box.length + ' إجابة صحيحة · +' + pts(right) + ' نقطة في لوحة الشرف') : 'جولة تدريب (النقاط تُحسب لأول صندوق في اليوم)';
+    show(right === box.length ? 12 : right >= 9 ? 7 : right >= 6 ? 4 : 2);
+    // one row per section (two questions from the same section are merged)
+    var groups = [], seen = {};
+    box.forEach(function(q, k){ var key = q.s + (q.s === 'caps' ? q.x : ''); if (!seen[key]) { seen[key] = { q:q, n:0, ok:0 }; groups.push(seen[key]); } seen[key].n++; if (res[k]) seen[key].ok++; });
+    $('rows').innerHTML = groups.map(function(g){ var s = SEC[g.q.s], all = g.ok === g.n;
+      return '<div class="row"><span class="ic" style="background:' + s.c + '">' + s.ic + '</span><span class="nm"><b>' + esc(secName(g.q)) + '</b><small>' +
+        (g.n > 1 ? (all ? '✓ ' : g.ok ? '' : '✗ ') + g.ok + ' من ' + g.n + ' صحيحة' : all ? '✓ أجبت صحيحاً' : '✗ تحتاج مراجعة') + '</small></span>' +
+        '<a href="' + secHref(g.q) + '">جرّب القسم كاملاً ←</a></div>'; }).join('');
     var d2 = getDays(), n = 0, cells = [];
     for (var j = 6; j >= 0; j--) { var on = d2[day - j] !== undefined; if (on) n++; cells.push('<span class="' + (on ? 'on' : '') + '">' + (on ? '🎁' : '') + '</span>'); }
     var w = $('week'); w.innerHTML = cells.join(''); w.dir = 'ltr';
@@ -405,6 +408,6 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
   startView();
 })();
 </script>
-<script src="../assets/club.js?v=10"></script>
+<script src="../assets/club.js?v=11"></script>
 </body>
 </html>
