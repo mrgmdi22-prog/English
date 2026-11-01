@@ -17,7 +17,8 @@ export const RULES = [
   { key: 'tn',   label: 'إجابة صحيحة في خارطة الأزمنة', icon: '⏳', per: 10, max: 10 },
   { key: 'pv',   label: 'إجابة صحيحة في المبني للمجهول', icon: '🔄', per: 10, max: 10 },
   { key: 'im',   label: 'إجابة صحيحة في ركن التعبيرات', icon: '🎨', per: 10, max: 10 },
-  { key: 'tb',   label: 'إجابة صحيحة في محادثات التأسيس', icon: '🗣️', per: 5, max: 40 }
+  { key: 'tb',   label: 'إجابة صحيحة في محادثات التأسيس', icon: '🗣️', per: 5, max: 40 },
+  { key: 'mb',   label: 'إجابة صحيحة في Mystery Box', icon: '📦', per: 10, max: 300 }
 ];
 const CAPS = ['space', 'flavor', 'life', 'adventure', 'emotion', 'career', 'nature', 'health', 'sports', 'tech'];
 
@@ -48,7 +49,9 @@ export function computeScore() {
   const pv = Math.max(0, Math.min(10, N('pv-best')));
   const im = Math.max(0, Math.min(10, N('im-best')));
   let tb = 0; ['greet','bye','ask','yesno','sorry','thanks','invite','meet'].forEach(u => { tb += Math.max(0, Math.min(5, N('tb-best-' + u))); });
-  const parts = { caps, wq, lab, mg, bf, ng, aw, st, tn, pv, im, tb, wqx: wqStats() };
+  // Mystery Box: right answers in the first box of each day (mb-days = {day: right answers})
+  let mb = 0; const mbd = J('mb-days') || {}; Object.keys(mbd).forEach(k => { mb += Math.max(0, Math.min(8, +mbd[k] || 0)); });
+  const parts = { caps, wq, lab, mg, bf, ng, aw, st, tn, pv, im, tb, mb, wqx: wqStats() };
   // The board's database accepts at most 10,000 points per student.
   const score = Math.min(10000, RULES.reduce((t, r) => t + Math.min(parts[r.key], r.max) * r.per, 0));
   return { score, parts };

@@ -118,6 +118,21 @@ h1 .en{display:block;font-family:var(--en);font-weight:600;font-size:.38em;lette
 .honor .go{background:#b27a00;color:#fff;font-weight:800;border-radius:999px;padding:9px 18px;white-space:nowrap;font-size:1rem}
 @media (max-width:600px){.honor{flex-wrap:wrap}.honor .go{width:100%;text-align:center}}
 
+/* ---------- Mystery Box entry ---------- */
+.mbox{display:flex;align-items:center;gap:14px;margin-top:14px;text-decoration:none;border-radius:24px;padding:16px 18px;color:inherit;
+  background:linear-gradient(120deg,#F1EAFF,#FDFBFF 70%);border:2px solid #D9C8FA;transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+.mbox:hover{transform:translateY(-2px);box-shadow:0 18px 32px -22px rgba(110,70,210,.7)}
+.mbox .bx{font-size:2.4rem;width:64px;height:64px;display:grid;place-items:center;background:#fff;border-radius:20px;border:1.5px solid #D9C8FA;flex:none}
+.mbox .txt{flex:1;min-width:0}
+.mbox b{display:block;font-size:1.35rem;color:#5A33C9;font-family:Lexend,Tajawal,system-ui,sans-serif}
+.mbox small{display:block;color:var(--muted);font-size:1rem;line-height:1.6}
+.mbox .st{display:inline-block;margin-top:6px;background:#fff;border:1px solid #D9C8FA;border-radius:999px;padding:1px 12px;font-size:.95rem;font-weight:700;color:#4B2DAA}
+.mbox .go{background:#7A4FE0;color:#fff;font-weight:800;border-radius:999px;padding:9px 18px;white-space:nowrap;font-size:1rem}
+@keyframes mbw{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+.mbox.closed .bx{animation:mbw .7s ease-in-out 1s 3}
+@media (max-width:600px){.mbox{flex-wrap:wrap}.mbox .go{width:100%;text-align:center}}
+@media (prefers-reduced-motion:reduce){.mbox.closed .bx{animation:none}}
+
 /* ---------- jump nav ---------- */
 .jump{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:26px 0 4px}
 .jump a{text-decoration:none;font-weight:700;font-size:1rem;padding:8px 16px;border-radius:999px;background:var(--card);border:1.5px solid var(--line);transition:border-color .2s,background .2s}
@@ -218,6 +233,14 @@ footer b{color:var(--ink)}
     <span class="txt"><b>لوحة الشرف</b><small id="hSub">تنافس مع زملائك: كل نجمة وإجابة صحيحة تمنحك نقاطاً.</small>
       <span class="top3" id="top3"></span></span>
     <span class="go">ادخل ←</span>
+  </a>
+
+
+  <a class="mbox reveal" id="mbox" href="mystery/index.html">
+    <span class="bx" aria-hidden="true">📦</span>
+    <span class="txt"><b>Mystery Box</b><small>صندوق اليوم: 8 أسئلة مفاجئة من أقسام مختلفة، ونقاط مضاعفة لكل إجابة صحيحة.</small>
+      <span class="st" id="mbSt"></span></span>
+    <span class="go" id="mbGo">افتح ←</span>
   </a>
 
   <section class="shelf" id="start" aria-labelledby="hst">
@@ -381,10 +404,23 @@ try { var lr = JSON.parse(localStorage.getItem('lv-results') || '{}'), s = docum
   if (lr.post) s.textContent = 'مستواك الآن: ' + lr.post.level + ' — ' + Math.round(lr.post.score / lr.post.max * 100) + '٪ في الاختبار البعدي.';
   else if (lr.pre) s.textContent = 'مستواك في الاختبار القبلي: ' + lr.pre.level + ' — ' + Math.round(lr.pre.score / lr.pre.max * 100) + '٪. الاختبار البعدي في نهاية الفترة.'; } catch (e) {}
 </script>
-<script src="assets/club.js?v=6"></script>
+<script>
+// Mystery Box card: shows whether today's box is still closed, and the time until the next one (Saudi time).
+(function(){
+  try {
+    var day = Math.floor((Date.now() + 3 * 3600e3) / 864e5), d = JSON.parse(localStorage.getItem('mb-days') || '{}') || {};
+    var ms = 864e5 - ((Date.now() + 3 * 3600e3) % 864e5), h = Math.floor(ms / 3600e3);
+    var t = h < 1 ? 'أقل من ساعة' : h === 1 ? 'ساعة' : h === 2 ? 'ساعتين' : h < 11 ? h + ' ساعات' : h + ' ساعة';
+    var c = document.getElementById('mbox');
+    if (d[day] !== undefined) { document.getElementById('mbSt').textContent = '✓ فتحت صندوق اليوم: ' + d[day] + ' / 8 — صندوق جديد بعد ' + t; document.getElementById('mbGo').textContent = 'تدرّب ←'; }
+    else { c.classList.add('closed'); document.getElementById('mbSt').textContent = '🔒 صندوق اليوم مغلق — ينتهي بعد ' + t; }
+  } catch (e) {}
+})();
+</script>
+<script src="assets/club.js?v=7"></script>
 <script type="module">
 // Top three on the honor board (only once Firebase is configured)
-import('./assets/honor.js?v=20261101b').then(async H => {
+import('./assets/honor.js?v=20261101c').then(async H => {
   const s = H.computeScore().score;
   const mp = document.getElementById('myPts'); if (mp) mp.textContent = s.toLocaleString('en-US');
   if (s > 0) document.getElementById('hSub').textContent = 'نقاطك الآن: ' + s.toLocaleString('en-US') + ' نقطة — انضم وتنافس مع زملائك.';

@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<script src="../assets/gate.js?v=9"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mystery Box 📦 · صندوق اليوم</title>
+<meta name="description" content="A daily box of 8 surprise questions from every section of the English Club, with double points.">
+<meta name="theme-color" content="#FBF7FF">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/club.css">
+<style>
+/* Mystery Box: one box a day, the same for every student. 8 questions drawn from the whole site,
+   with more of them from the sections students visit least. Each question shows which section it came from,
+   and the result screen links back to those sections. */
+:root{color-scheme:light;--bg:#FBF7FF;--card:#fff;--ink:#24223A;--muted:#5F5B7A;--line:#ECE4F7;
+  --acc:#7A4FE0;--acc-s:#F0E9FF;--gold:#C98A12;--gold-s:#FFF4D6;--ok:#178A63;--ok-s:#E3F6EE;--bad:#C93C48;--bad-s:#FDE9EB;
+  --ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif;--ease:cubic-bezier(.2,.7,.2,1)}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg)}
+body{color:var(--ink);font-family:var(--ar);font-size:20px;line-height:1.7;padding-bottom:env(safe-area-inset-bottom,0px)}
+[hidden]{display:none!important}
+.en{font-family:var(--en);direction:ltr;unicode-bidi:isolate}
+.wrap{max-width:720px;margin:0 auto;padding:72px 16px 90px}
+h1{margin:0;text-align:center;font-family:var(--en);font-size:clamp(2.2rem,8vw,3rem);line-height:1.15;font-weight:800;color:var(--acc)}
+.lead{margin:6px auto 0;text-align:center;color:var(--muted);font-size:1.15rem;max-width:30em}
+.card{background:var(--card);border:2px solid var(--line);border-radius:26px;padding:22px 18px;margin-top:20px;box-shadow:0 18px 40px -34px rgba(90,60,170,.6)}
+
+/* ----- the closed box ----- */
+.box-wrap{display:grid;place-items:center;text-align:center;gap:6px}
+.box{all:unset;cursor:pointer;width:190px;height:170px;position:relative;margin:14px auto 6px;transition:transform .25s var(--ease)}
+.box:hover{transform:translateY(-4px) rotate(-2deg)}
+.box:focus-visible{outline:4px solid var(--acc);outline-offset:6px;border-radius:24px}
+.box .body{position:absolute;inset:58px 14px 0;border-radius:18px;background:linear-gradient(160deg,#FFD98A,#F5B94C);border:3px solid #E2A033}
+.box .lid{position:absolute;left:4px;right:4px;top:30px;height:40px;border-radius:14px;background:linear-gradient(160deg,#FFE3A3,#F7C35E);border:3px solid #E2A033;transform-origin:20% 100%;transition:transform .5s var(--ease)}
+.box .rib{position:absolute;top:30px;bottom:0;left:50%;width:26px;margin-left:-13px;background:#9B6BF2;border-radius:4px}
+.box .q{position:absolute;top:84px;left:0;right:0;text-align:center;font:800 54px/1 var(--en);color:#fff;text-shadow:0 3px 0 #B9781B}
+.box .bow{position:absolute;top:2px;left:50%;margin-left:-34px;font-size:44px;line-height:1}
+.box.open .lid{transform:translateY(-28px) rotate(-28deg)}
+@keyframes wob{0%,100%{transform:rotate(0)}20%{transform:rotate(-5deg)}40%{transform:rotate(5deg)}60%{transform:rotate(-3deg)}80%{transform:rotate(2deg)}}
+.box.wob{animation:wob 1.6s ease-in-out 1.2s 2}
+.facts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px}
+.facts span{background:var(--acc-s);color:#4B2DAA;border-radius:999px;padding:4px 14px;font-weight:700;font-size:1rem}
+.btn{font:inherit;font-weight:800;font-size:1.15rem;border:0;border-radius:999px;padding:12px 26px;cursor:pointer;background:var(--acc);color:#fff;text-decoration:none;display:inline-block}
+.btn.soft{background:var(--acc-s);color:#4B2DAA}
+.btn:focus-visible{outline:3px solid #2a1a6a;outline-offset:3px}
+.note{color:var(--muted);font-size:1rem;margin:4px 0 0}
+
+/* ----- a question ----- */
+.top{display:flex;align-items:center;gap:10px;direction:ltr}
+.dots{display:flex;gap:6px;flex:1}
+.dots i{flex:1;height:9px;border-radius:9px;background:var(--line)}
+.dots i.ok{background:var(--ok)}.dots i.no{background:var(--bad)}.dots i.cur{background:var(--acc)}
+.count{font:700 1rem var(--en);color:var(--muted)}
+.tag{display:inline-flex;align-items:center;gap:6px;margin-top:14px;border-radius:999px;padding:3px 14px;font-weight:800;font-size:1rem}
+.qa{margin:10px 0 2px;color:var(--muted);font-size:1.05rem;font-weight:700}
+.qtext{margin:4px 0 12px;font-size:1.45rem;font-weight:700;line-height:1.55;white-space:pre-line}
+.qtext.en{text-align:left}
+.qline{display:flex;gap:10px;align-items:flex-start}
+.qline .qtext{flex:1}
+.say{all:unset;cursor:pointer;flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--acc-s);font-size:1.3rem;margin-top:6px}
+.say:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.opts{display:grid;gap:10px}
+.opt{all:unset;box-sizing:border-box;cursor:pointer;width:100%;border:2px solid var(--line);background:#fff;border-radius:18px;padding:12px 16px;font-size:1.2rem;font-weight:700;line-height:1.5;transition:border-color .15s,background .15s,transform .15s}
+.opt[dir=ltr]{font-family:var(--en);text-align:left}
+.opt:hover:not([disabled]){border-color:#C9B6F5;transform:translateY(-1px)}
+.opt:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.opt.right{border-color:var(--ok);background:var(--ok-s)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-s)}
+.opt[disabled]{cursor:default}
+.why{margin-top:12px;border-radius:16px;padding:10px 14px;font-size:1.05rem;background:var(--gold-s);color:#6B4A00}
+.why:empty{display:none}
+.nav{display:flex;justify-content:flex-end;direction:ltr;margin-top:16px}
+
+/* ----- result ----- */
+.score{text-align:center}
+.score .big{font:800 3.2rem/1.1 var(--en);color:var(--acc)}
+.score .pts{display:inline-block;margin-top:6px;background:var(--gold-s);color:#7A5300;border-radius:999px;padding:4px 16px;font-weight:800}
+.rows{display:grid;gap:10px;margin-top:16px}
+.row{display:flex;align-items:center;gap:12px;border:2px solid var(--line);border-radius:18px;padding:10px 12px;background:#fff}
+.row .ic{font-size:1.6rem;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;flex:none}
+.row .nm{flex:1;min-width:0}
+.row .nm b{display:block;font-size:1.1rem}
+.row .nm small{color:var(--muted);font-size:.98rem}
+.row .mk{font-size:1.2rem;letter-spacing:2px}
+.row a{white-space:nowrap;text-decoration:none;font-weight:800;font-size:1rem;color:#4B2DAA;background:var(--acc-s);border-radius:999px;padding:6px 14px}
+@media (max-width:520px){.row{flex-wrap:wrap}.row a{width:100%;text-align:center}}
+.week{display:flex;gap:6px;justify-content:center;margin-top:10px}
+.week span{width:38px;height:38px;flex:none;border-radius:14px;display:grid;place-items:center;font-size:1.3rem;background:#fff;border:2px dashed var(--line)}
+.week span.on{border:2px solid var(--gold);background:var(--gold-s)}
+.badge{text-align:center;margin-top:10px;font-weight:800;color:#7A5300}
+.sign{text-align:center;color:var(--muted);font-size:.95rem;margin-top:26px}
+@media (prefers-reduced-motion:reduce){.box,.box .lid,.opt{transition:none}.box.wob{animation:none}}
+</style>
+</head>
+<body>
+<a class="club-home" href="../index.html">🏠 الرئيسية</a>
+<main class="wrap">
+  <h1>Mystery Box 📦</h1>
+  <p class="lead">صندوق جديد كل يوم: 8 أسئلة مفاجئة من أقسام النادي المختلفة، ونقاط مضاعفة لكل إجابة صحيحة.</p>
+
+  <!-- closed box -->
+  <section class="card" id="vStart">
+    <div class="box-wrap">
+      <button class="box wob" id="boxBtn" type="button" aria-label="افتح صندوق اليوم">
+        <span class="body"></span><span class="rib"></span><span class="lid"></span><span class="q">?</span><span class="bow" aria-hidden="true">🎀</span>
+      </button>
+      <div class="facts"><span>8 أسئلة</span><span id="fSecs">من 8 أقسام</span><span>⭐ 10 نقاط للإجابة</span></div>
+      <p class="note" id="startNote">اضغط على الصندوق لتفتحه.</p>
+      <button class="btn" id="openBtn" type="button">افتح الصندوق</button>
+    </div>
+  </section>
+
+  <!-- a question -->
+  <section class="card" id="vQ" hidden>
+    <div class="top"><div class="dots" id="dots"></div><span class="count" id="count"></span></div>
+    <span class="tag" id="tag"></span>
+    <p class="qa" id="qa"></p>
+    <div class="qline"><p class="qtext" id="qtext"></p><button class="say" id="say" type="button" aria-label="استمع" hidden>🔊</button></div>
+    <div class="opts" id="opts"></div>
+    <div class="why" id="why"></div>
+    <div class="nav"><button class="btn" id="next" type="button" hidden>Next →</button></div>
+  </section>
+
+  <!-- result -->
+  <section class="card" id="vEnd" hidden>
+    <div class="score">
+      <div class="big en" id="sBig"></div>
+      <div id="sMsg"></div>
+      <span class="pts" id="sPts"></span>
+    </div>
+    <h2 style="font-size:1.2rem;margin:20px 0 0">نتيجتك حسب القسم</h2>
+    <div class="rows" id="rows"></div>
+    <h2 style="font-size:1.2rem;margin:22px 0 0;text-align:center">صناديقك هذا الأسبوع</h2>
+    <div class="week" id="week"></div>
+    <div class="badge" id="badge"></div>
+    <p class="note" style="text-align:center;margin-top:14px" id="nextNote"></p>
+    <div style="text-align:center;margin-top:12px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn soft" id="again" type="button">العب مرة أخرى للتدريب</button>
+      <a class="btn" href="../honor.html">🏆 لوحة الشرف</a>
+    </div>
+  </section>
+
+  <p class="sign">أ. أحمد آل سالم</p>
+</main>
+
+<script src="bank.js?v=1"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var store = { get:function(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }, set:function(k,v){ try{ localStorage.setItem(k,v); }catch(e){} } };
+
+  // Sections. `low: 1` = sections students open least; they get most of the box (change here any time).
+  var SEC = {
+    im:  { ar:'ركن التعبيرات',        ic:'🎨', c:'#FDECE6', href:'../idioms/index.html',            low:1 },
+    tn:  { ar:'خارطة الأزمنة',         ic:'⏳', c:'#E6EFFF', href:'../grammar/tenses.html',          low:1 },
+    pv:  { ar:'المبني للمجهول',        ic:'🔄', c:'#EDE7FF', href:'../grammar/passive.html',         low:1 },
+    st:  { ar:'ركن القصص',             ic:'📖', c:'#FFF1D6', href:'../stories/index.html',           low:1 },
+    ev:  { ar:'محادثات التأسيس',       ic:'🗣️', c:'#E3F3FA', href:'../everyday/basics.html',         low:1 },
+    bf:  { ar:'Breakfast Challenge',  ic:'🍳', c:'#FFF4D6', href:'../everyday/breakfast.html',      low:1 },
+    lab: { ar:'مختبر المحادثة',        ic:'💬', c:'#E3F6EE', href:'../journey/conversation-lab.html', low:1 },
+    caps:{ ar:'الكبسولات',             ic:'🌟', c:'#FFF6D6', href:'../capsules/index.html' },
+    wq:  { ar:'Word Quest',           ic:'🗺️', c:'#E7F7EF', href:'../journey/word-quest.html' },
+    ng:  { ar:'الكلمات العامة',        ic:'🌍', c:'#E6F1FF', href:'../words/ngsl.html' },
+    aw:  { ar:'الكلمات الأكاديمية',    ic:'🎓', c:'#F1EAFF', href:'../words/awl.html' },
+    mg:  { ar:'ميدان المفردات',        ic:'🏟️', c:'#FFEDE3', href:'../vocab/mega-goal-1.html' }
+  };
+  var CAPN = { space:'الفضاء', flavor:'النكهة', life:'الحياة', adventure:'المغامرة', emotion:'المشاعر', career:'المهن', nature:'الطبيعة', health:'الصحة', sports:'الرياضة', tech:'التقنية' };
+  var N_LOW = 5, N_ALL = 8, PER = 10;
+
+  // Day number in Saudi time (UTC+3), so the box changes at midnight in Al-Aqiq for everyone.
+  function today(){ return Math.floor((Date.now() + 3 * 3600e3) / 864e5); }
+  function rng(seed){ var h = seed >>> 0; return function(){ h = (h * 1664525 + 1013904223) >>> 0; return h / 4294967296; }; }
+  function shuffle(a, r){ a = a.slice(); for (var i = a.length - 1; i > 0; i--){ var j = Math.floor(r() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+
+  var BANK = window.MYSTERY_BANK || [], BY = {};
+  BANK.forEach(function(x){ (BY[x[0]] = BY[x[0]] || []).push(x); });
+
+  /** The day's box: the same 8 questions (and option order) for every student. `extra` makes a practice box. */
+  function makeBox(day, extra){
+    var r = rng(day * 7919 + (extra || 0) * 104729 + 17);
+    var keys = Object.keys(SEC).filter(function(k){ return BY[k] && BY[k].length; });
+    var low = shuffle(keys.filter(function(k){ return SEC[k].low; }), r).slice(0, N_LOW);
+    var rest = shuffle(keys.filter(function(k){ return low.indexOf(k) < 0; }), r).slice(0, N_ALL - low.length);
+    return shuffle(low.concat(rest), r).map(function(k){
+      var it = BY[k][Math.floor(r() * BY[k].length)];
+      var opts = shuffle(it[2].map(function(t, i){ return { t:t, ok:i === 0 }; }), r);
+      return { s:k, q:it[1], qa:it[4], w:it[3], x:it[5], o:opts };
+    });
+  }
+  function getDays(){ try { return JSON.parse(store.get('mb-days') || '{}') || {}; } catch(e){ return {}; } }
+  function isEn(t){ return /[A-Za-z]/.test(t) && !/[؀-ۿ]/.test(t); }
+  function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]; }); }
+  function sfx(n){ try { window.clubSfx && window.clubSfx(n); } catch(e){} }
+  function say(t){ try { var u = new SpeechSynthesisUtterance(t.replace(/_+/g, ' blank ').replace(/[📖💬“”«»]/g, '')); u.lang = 'en-US'; u.rate = .9; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch(e){} }
+  function secName(q){ var s = SEC[q.s]; return s.ar + (q.s === 'caps' && CAPN[q.x] ? ' · ' + CAPN[q.x] : ''); }
+  function secHref(q){
+    var s = SEC[q.s];
+    if (q.s === 'caps' && CAPN[q.x]) return '../capsules/' + q.x + '.html';
+    if (q.s === 'mg' && q.x) return '../vocab/mega-goal-' + q.x + '.html';
+    return s.href;
+  }
+  function left(){ var ms = 864e5 - ((Date.now() + 3 * 3600e3) % 864e5), h = Math.floor(ms / 3600e3), m = Math.floor(ms % 3600e3 / 60000);
+    if (h === 1) return 'ساعة'; if (h === 2) return 'ساعتين'; if (h > 2 && h < 11) return h + ' ساعات'; if (h) return h + ' ساعة';
+    return m <= 1 ? 'دقيقة' : m === 2 ? 'دقيقتين' : m < 11 ? m + ' دقائق' : m + ' دقيقة'; }
+
+  var day = today(), box = null, i = 0, res = [], practice = 0;
+  var done = getDays()[day];
+
+  // Start screen
+  function startView(){
+    $('fSecs').textContent = 'من ' + N_ALL + ' أقسام';
+    if (done !== undefined) {
+      $('startNote').textContent = 'فتحت صندوق اليوم وأجبت ' + done + ' من ' + N_ALL + '. صندوق جديد بعد ' + left() + '.';
+      $('openBtn').textContent = 'العب مرة أخرى للتدريب';
+    }
+  }
+  function open(){
+    var b = $('boxBtn'); b.classList.remove('wob'); b.classList.add('open'); sfx('win');
+    if (done !== undefined) practice++;
+    box = makeBox(day, practice); i = 0; res = [];
+    setTimeout(function(){ $('vStart').hidden = true; $('vQ').hidden = false; show(); }, 550);
+  }
+  $('boxBtn').onclick = open; $('openBtn').onclick = open;
+
+  function show(){
+    var q = box[i], s = SEC[q.s];
+    $('dots').innerHTML = box.map(function(_, k){ return '<i class="' + (k < res.length ? (res[k] ? 'ok' : 'no') : k === i ? 'cur' : '') + '"></i>'; }).join('');
+    $('count').textContent = (i + 1) + ' / ' + box.length;
+    var tag = $('tag'); tag.textContent = s.ic + ' من: ' + secName(q); tag.style.background = s.c;
+    $('qa').textContent = q.qa || '';
+    var t = $('qtext'); t.textContent = q.q; var en = isEn(q.q);
+    t.className = 'qtext' + (en ? ' en' : ''); t.dir = en ? 'ltr' : 'auto';
+    $('say').hidden = !en;
+    $('opts').innerHTML = q.o.map(function(o, k){ return '<button class="opt" type="button" data-k="' + k + '" dir="' + (isEn(o.t) ? 'ltr' : 'rtl') + '">' + esc(o.t) + '</button>'; }).join('');
+    $('opts').querySelectorAll('.opt').forEach(function(b){ b.onclick = function(){ answer(+b.dataset.k); }; });
+    $('why').textContent = ''; $('next').hidden = true;
+    $('next').textContent = i === box.length - 1 ? 'See my result →' : 'Next →';
+    $('vQ').scrollIntoView({ block:'start', behavior:'smooth' });
+  }
+  $('say').onclick = function(){ say(box[i].q.split('\n').pop()); };
+
+  function answer(k){
+    var q = box[i], ok = q.o[k].ok;
+    $('opts').querySelectorAll('.opt').forEach(function(b, n){ b.disabled = true; if (q.o[n].ok) b.classList.add('right'); else if (n === k) b.classList.add('wrong'); });
+    res.push(ok); sfx(ok ? 'good' : 'bad');
+    var right = q.o.filter(function(o){ return o.ok; })[0].t;
+    $('why').textContent = (ok ? '✓ أحسنت! ' : '✗ الإجابة الصحيحة: ' + right + (q.w ? ' — ' : '')) + (q.w || '');
+    $('next').hidden = false; $('next').focus({ preventScroll:true });
+  }
+  $('next').onclick = function(){ if (++i < box.length) show(); else finish(); };
+
+  function finish(){
+    var right = res.filter(Boolean).length, first = done === undefined;
+    if (first) { var d = getDays(); d[day] = right; store.set('mb-days', JSON.stringify(d)); done = right; }
+    sfx('win');
+    $('vQ').hidden = true; $('vEnd').hidden = false;
+    $('sBig').textContent = right + ' / ' + box.length;
+    $('sMsg').textContent = right === box.length ? 'رائع! صندوق كامل 🎉' : right >= 6 ? 'أداء ممتاز، واصل!' : right >= 4 ? 'جيد، والأقسام أدناه تنتظرك.' : 'لا بأس، أخطاؤك خطواتك نحو الإتقان.';
+    $('sPts').textContent = first ? ('+' + right * PER + ' نقطة في لوحة الشرف') : 'جولة تدريب (النقاط تُحسب لأول صندوق في اليوم)';
+    $('rows').innerHTML = box.map(function(q, k){ var s = SEC[q.s];
+      return '<div class="row"><span class="ic" style="background:' + s.c + '">' + s.ic + '</span><span class="nm"><b>' + esc(secName(q)) + '</b><small>' + (res[k] ? '✓ أجبت صحيحاً' : '✗ تحتاج مراجعة') + '</small></span>' +
+        '<a href="' + secHref(q) + '">جرّب القسم كاملاً ←</a></div>'; }).join('');
+    // this week: the last 7 days, oldest on the left (English order)
+    var d2 = getDays(), n = 0, cells = [];
+    for (var j = 6; j >= 0; j--) { var on = d2[day - j] !== undefined; if (on) n++; cells.push('<span class="' + (on ? 'on' : '') + '">' + (on ? '📦' : '') + '</span>'); }
+    var w = $('week'); w.innerHTML = cells.join(''); w.dir = 'ltr';
+    $('badge').textContent = n >= 5 ? '🏅 وسام «صائد الصناديق»: فتحت ' + n + ' صناديق هذا الأسبوع!' : 'افتح 5 صناديق في أسبوع لتنال وسام «صائد الصناديق» 🏅 (' + n + ' / 5)';
+    $('nextNote').textContent = 'صندوق جديد بعد ' + left() + '.';
+    $('vEnd').scrollIntoView({ block:'start', behavior:'smooth' });
+  }
+  $('again').onclick = function(){ practice++; box = makeBox(day, practice); i = 0; res = []; $('vEnd').hidden = true; $('vQ').hidden = false; show(); };
+
+  startView();
+})();
+</script>
+<script src="../assets/club.js?v=7"></script>
+</body>
+</html>
