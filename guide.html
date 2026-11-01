@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>دليل المتعلم · نادي اللغة الإنجليزية</title>
+<meta name="description" content="كيف تستفيد أقصى استفادة من أقسام نادي اللغة الإنجليزية: من أين تبدأ، وخطتك اليومية، وطريقة استخدام كل قسم.">
+<meta name="theme-color" content="#f8f9fe">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="assets/club.css">
+<style>
+/* Learner's guide: how a student gets the most out of every part of the site.
+   Same airy look as the home page; generous text for phones; open/close cards so the page stays short. */
+:root{
+  color-scheme:light;
+  --paper:#f8f9fe; --card:#fff; --ink:#232c47; --muted:#5a6482; --line:#e4e8f3;
+  --violet:#6046e8; --violet-soft:#efebff; --teal:#11826a; --teal-soft:#e3f6ef;
+  --sun:#a26f00; --sun-soft:#fff4d6; --coral:#c2452a; --coral-soft:#ffece4;
+  --blue:#2B78C2; --blue-soft:#E3EFFA; --rose:#b8336a; --rose-soft:#fdeef3;
+  --ar:"Tajawal","Segoe UI",Tahoma,sans-serif; --en:"Lexend","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{background:var(--paper);scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ar);font-size:20px;line-height:1.8}
+.wrap{max-width:860px;margin:0 auto;padding:64px 16px 48px}
+a{color:var(--violet)}
+.en{font-family:var(--en);direction:ltr;unicode-bidi:isolate}
+
+.hero{text-align:center;background:radial-gradient(circle at 20% 10%,#efebff,transparent 55%),radial-gradient(circle at 85% 90%,#e3f6ef,transparent 55%),#fff;
+  border:1.5px solid var(--line);border-radius:28px;padding:28px 20px 24px}
+.hero .ic{font-size:3.2rem;line-height:1}
+.hero h1{font-size:2.1rem;margin:8px 0 0;line-height:1.3}
+.hero h1 .en{display:block;font-size:1rem;letter-spacing:.18em;color:var(--violet);margin-top:4px}
+.hero p{color:var(--muted);margin:12px auto 0;max-width:560px}
+
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:18px 0 0}
+.toc a{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:10px 12px;font-weight:700;font-size:1.02rem}
+.toc a span{font-size:1.4rem}
+.toc a:hover{border-color:#c9c0fb}
+
+h2.sec{display:flex;align-items:center;gap:10px;font-size:1.6rem;margin:40px 0 12px;line-height:1.35;scroll-margin-top:70px}
+h2.sec .b{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:1.5rem;flex:none}
+.lead{color:var(--muted);margin:0 0 14px}
+
+/* Start-here steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.steps li{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:14px 16px}
+.steps .n{flex:none;width:44px;height:44px;border-radius:50%;background:var(--violet-soft);color:var(--violet);font-weight:800;font-size:1.3rem;display:grid;place-items:center}
+.steps b{display:block;font-size:1.15rem}
+.steps p{margin:2px 0 0;color:var(--muted)}
+.steps a.mini{display:inline-block;margin-top:6px;font-weight:800;text-decoration:none;background:var(--violet-soft);border-radius:999px;padding:3px 14px}
+
+/* Path picker */
+.pick{background:#fff;border:1.5px solid var(--line);border-radius:22px;padding:16px}
+.pick .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.pick button{font:inherit;font-weight:800;font-size:1.05rem;text-align:right;cursor:pointer;border:2px solid var(--line);background:var(--paper);color:var(--ink);border-radius:16px;padding:12px 14px;line-height:1.4}
+.pick button small{display:block;font-weight:500;color:var(--muted);font-size:.9rem}
+.pick button[aria-pressed="true"]{border-color:var(--violet);background:var(--violet-soft)}
+.plan{margin-top:14px;border-radius:18px;padding:14px 16px;background:var(--teal-soft);border:1.5px solid #c3e8da}
+.plan h3{margin:0 0 6px;font-size:1.2rem;color:var(--teal)}
+.plan ol{margin:0;padding-right:24px}
+.plan li{margin:4px 0}
+.plan[hidden]{display:none}
+
+/* Daily routine */
+.day{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.slot{background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:14px 16px;border-top:6px solid var(--c)}
+.slot .t{font-weight:800;color:var(--c);font-size:1.05rem}
+.slot b{display:block;font-size:1.15rem;margin:2px 0}
+.slot p{margin:0;color:var(--muted);font-size:1.08rem}
+
+/* Section cards (open/close) */
+.part{background:#fff;border:1.5px solid var(--line);border-radius:22px;margin:0 0 12px;overflow:hidden;border-right:7px solid var(--c)}
+.part summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:14px 16px}
+.part summary::-webkit-details-marker{display:none}
+.part summary .ic{font-size:2rem;line-height:1;flex:none}
+.part summary .tt{flex:1;min-width:0}
+.part summary b{display:block;font-size:1.2rem;color:var(--c);line-height:1.4}
+.part summary small{display:block;color:var(--muted);font-size:1.02rem;line-height:1.5}
+.part summary .chev{flex:none;font-size:1.2rem;color:var(--muted);transition:transform .2s}
+.part[open] summary .chev{transform:rotate(180deg)}
+.part .body{padding:0 18px 16px}
+.part h4{margin:10px 0 4px;font-size:1.05rem;color:var(--ink)}
+.part ul{margin:0;padding-right:22px}
+.part li{margin:4px 0}
+.tip{background:var(--sun-soft);border-radius:14px;padding:10px 14px;margin-top:10px;font-size:1rem}
+.open{display:inline-block;margin-top:12px;background:var(--c);color:#fff;font-weight:800;text-decoration:none;border-radius:999px;padding:8px 18px}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.links a{background:var(--t);color:var(--c);font-weight:800;text-decoration:none;border-radius:999px;padding:6px 14px;font-size:1rem}
+
+/* Points + golden rules */
+.pts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.pt{background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:14px 16px}
+.pt .big{font-size:1.8rem;font-weight:800;color:var(--sun)}
+.pt p{margin:0;color:var(--muted)}
+.rules{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.rules li{background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:12px 16px;display:flex;gap:12px;align-items:flex-start}
+.rules li span{font-size:1.6rem;line-height:1.2;flex:none}
+
+.note{background:var(--blue-soft);border:1.5px solid #c7dcf3;border-radius:18px;padding:12px 16px;margin-top:12px}
+footer{text-align:center;color:var(--muted);margin-top:44px;font-size:1rem}
+.back{display:inline-block;margin-top:24px;background:var(--violet);color:#fff;font-weight:800;text-decoration:none;border-radius:999px;padding:10px 22px}
+@media print{.toc,.pick .opts,.back{display:none}.part .body{display:block}body{font-size:15px}}
+</style>
+</head>
+<body>
+<a class="club-home" href="index.html">🏠 الرئيسية</a>
+<div class="wrap">
+
+<section class="hero">
+  <div class="ic" aria-hidden="true">🧭</div>
+  <h1>دليل المتعلم<span class="en">LEARNER'S GUIDE</span></h1>
+  <p>كيف تستفيد أقصى استفادة من نادي اللغة الإنجليزية؟ هنا تعرف من أين تبدأ، وماذا تفعل كل يوم، وكيف تستخدم كل قسم استخداماً صحيحاً.</p>
+  <nav class="toc" aria-label="محتويات الدليل">
+    <a href="#start"><span>🚀</span>ابدأ من هنا</a>
+    <a href="#path"><span>🎯</span>أي مسار يناسبني؟</a>
+    <a href="#day"><span>⏱️</span>خطتك اليومية</a>
+    <a href="#parts"><span>🗂️</span>أقسام الموقع</a>
+    <a href="#points"><span>🏆</span>النقاط ولوحة الشرف</a>
+    <a href="#rules"><span>⭐</span>قواعد ذهبية</a>
+  </nav>
+</section>
+
+<!-- 1. Start here -->
+<h2 class="sec" id="start"><span class="b" style="background:var(--violet-soft)">🚀</span>ابدأ من هنا: 4 خطوات</h2>
+<ol class="steps">
+  <li><span class="n">1</span><div><b>ثبّت تطبيق النادي على جوالك</b><p>تظهر أيقونة على شاشتك، ويفتح الموقع بملء الشاشة، وتعمل الصفحات التي فتحتها حتى دون إنترنت. استخدم متصفح Chrome في الأندرويد، وSafari في الآيفون.</p><a class="mini" href="install.html">طريقة التثبيت ←</a></div></li>
+  <li><span class="n">2</span><div><b>سجّل واختر اسماً مستعاراً</b><p>اختر اسماً مستعاراً يظهر في لوحة الشرف، ولا تكتب اسمك الحقيقي فيه. استخدم الجهاز نفسه دائماً حتى تبقى نقاطك وتقدّمك محفوظة.</p></div></li>
+  <li><span class="n">3</span><div><b>اختبر مستواك أولاً</b><p>«قياس المستوى» اختبار قصير (مفردات، قواعد، قراءة، استماع) يحدد مستواك الآن ويقترح خطوتك التالية. وفي نهاية الفترة تختبر مرة أخرى لترى كم تحسّنت.</p><a class="mini" href="level/index.html">ابدأ الاختبار ←</a></div></li>
+  <li><span class="n">4</span><div><b>اختر مسارك والتزم بخطة يومية</b><p>اختر مستواك في الفقرة التالية لترى من أين تبدأ، ثم خصّص 20 دقيقة يومياً. القليل كل يوم أنفع كثيراً من الكثير مرة في الأسبوع.</p></div></li>
+</ol>
+
+<!-- 2. Path picker -->
+<h2 class="sec" id="path"><span class="b" style="background:var(--teal-soft)">🎯</span>أي مسار يناسبني؟</h2>
+<p class="lead">اختر الوصف الأقرب إليك (أو النتيجة التي ظهرت لك في قياس المستوى):</p>
+<div class="pick">
+  <div class="opts" role="group" aria-label="مستواك">
+    <button type="button" data-p="a" aria-pressed="false">🌱 مبتدئ<small>أتعثر في قراءة الكلمات · A1</small></button>
+    <button type="button" data-p="b" aria-pressed="false">🌿 أساسي<small>أقرأ لكن مفرداتي قليلة · A2</small></button>
+    <button type="button" data-p="c" aria-pressed="false">🌳 متوسط<small>أفهم كثيراً وأريد الطلاقة · B1</small></button>
+    <button type="button" data-p="d" aria-pressed="false">🚀 متقدم<small>أستعد للجامعة والاختبارات · B2+</small></button>
+  </div>
+  <div class="plan" id="plan-a" hidden><h3>🌱 مسارك: التأسيس أولاً</h3><ol>
+    <li><a href="letters/letters-sounds.html">ميدان الحروف والأصوات</a>: أصوات الحروف وتكوين الكلمات حتى تقرأ بثقة.</li>
+    <li><a href="everyday/basics.html">محادثات التأسيس</a>: عبارة أو عبارتان كل يوم، استمع وردّد.</li>
+    <li><a href="journey/dictionary.html">قاموس الألف كلمة</a>: كلمات اليوم بنطقها وأمثلتها.</li>
+    <li>بعد أسبوعين انتقل إلى الوحدات الأولى في <a href="journey/word-quest.html">English Word Quest</a>.</li></ol></div>
+  <div class="plan" id="plan-b" hidden><h3>🌿 مسارك: بناء المفردات</h3><ol>
+    <li><a href="journey/word-quest.html">English Word Quest</a>: وحدة كل يومين، مع المراجعة اليومية.</li>
+    <li><a href="vocab/mega-goal-1.html">ميدان المفردات</a>: مفردات كتابك المدرسي قبل الدرس وبعده.</li>
+    <li><a href="capsules/index.html">الكبسولات</a>: كبسولة تحب موضوعها، لترى الكلمات داخل جمل.</li>
+    <li><a href="stories/index.html">ركن القصص</a>: قصة واحدة في نهاية الأسبوع.</li></ol></div>
+  <div class="plan" id="plan-c" hidden><h3>🌳 مسارك: القواعد والطلاقة</h3><ol>
+    <li><a href="words/ngsl.html">الكلمات العامة NGSL</a>: الألف كلمة الأكثر استعمالاً في الإنجليزية.</li>
+    <li><a href="grammar/tenses.html">خارطة الأزمنة</a>: زمن واحد في الأسبوع حتى تتقنه.</li>
+    <li><a href="journey/conversation-lab.html">مختبر المحادثة</a>: محادثة كل يومين، ومثّل الدور بصوت عالٍ.</li>
+    <li><a href="stories/index.html">ركن القصص</a> و<a href="idioms/index.html">ركن التعبيرات</a> لإثراء لغتك.</li></ol></div>
+  <div class="plan" id="plan-d" hidden><h3>🚀 مسارك: اللغة الأكاديمية</h3><ol>
+    <li><a href="words/awl.html">الكلمات الأكاديمية AWL</a>: كلمات الجامعة واختبارات القدرات والآيلتس.</li>
+    <li><a href="grammar/syntax-tree-lab.html">Syntax Tree Lab</a>: حلّل الجمل الطويلة لتفهم بناءها.</li>
+    <li><a href="idioms/index.html">ركن التعبيرات</a>: العبارات الاصطلاحية التي يستعملها المتحدثون الأصليون.</li>
+    <li><a href="links.html">المكتبة الإثرائية</a>: استماع وقراءة من مواقع عالمية.</li></ol></div>
+</div>
+
+<!-- 3. Daily routine -->
+<h2 class="sec" id="day"><span class="b" style="background:var(--sun-soft)">⏱️</span>خطتك اليومية: 20 دقيقة</h2>
+<div class="day">
+  <div class="slot" style="--c:#11826a"><span class="t">5 دقائق</span><b>🔁 المراجعة أولاً</b><p>ابدأ بـ«مراجعتي اليومية» في Word Quest أو قوائم الكلمات. الكلمات التي أخطأت فيها تعود إليك في وقتها حتى تثبت.</p></div>
+  <div class="slot" style="--c:#6046e8"><span class="t">10 دقائق</span><b>📚 شيء جديد</b><p>جزء من وحدة جديدة، أو مرحلة في كبسولة، أو درس قواعد. لا تتعجّل: أتقن قبل أن تنتقل.</p></div>
+  <div class="slot" style="--c:#c2452a"><span class="t">5 دقائق</span><b>🗣️ استماع ونطق</b><p>قصة قصيرة أو محادثة. استمع، ثم ردّد بصوت عالٍ، وسجّل صوتك وقارنه.</p></div>
+</div>
+<p class="note">💡 حافظ على سلسلة الأيام المتتالية في Word Quest: يوم واحد قصير أفضل من الانقطاع. وزر <b>«تابع من حيث توقفت»</b> في الصفحة الرئيسية يعيدك إلى آخر صفحة فتحتها.</p>
+
+<!-- 4. Sections -->
+<h2 class="sec" id="parts"><span class="b" style="background:var(--rose-soft)">🗂️</span>أقسام الموقع: كيف تستخدم كلاً منها؟</h2>
+<p class="lead">اضغط على أي قسم لترى طريقة الاستفادة منه.</p>
+
+<details class="part" style="--c:#2B78C2;--t:#E3EFFA">
+  <summary><span class="ic">🌱</span><span class="tt"><b>التأسيس</b><small>الحروف والأصوات · محادثات التأسيس · قاموس الألف كلمة</small></span><span class="chev">⌄</span></summary>
+  <div class="body">
+    <h4>🔤 ميدان الحروف والأصوات</h4>
+    <ul><li>ابدأ بـ«تتبّع الحروف» واكتب كل حرف بإصبعك.</li><li>ثم «زهرة الكلمات» و«كوّن الكلمات»: ركّب الحروف لتصنع كلمات حقيقية.</li></ul>
+    <h4>🗣️ محادثات التأسيس</h4>
+    <ul><li>التحية والشكر والاعتذار والطلب: استمع للعبارة وردّها، ثم ردّدهما.</li><li>استعمل عبارة جديدة في الفصل كل يوم.</li></ul>
+    <h4>📖 قاموس الألف كلمة</h4>
+    <ul><li>مرتّب بالأسبوع واليوم: خذ كلمات يومك فقط، واستمع لنطق كل كلمة واقرأ مثالها.</li></ul>
+    <div class="links"><a href="letters/letters-sounds.html">🔤 الحروف والأصوات</a><a href="everyday/basics.html">🗣️ محادثات التأسيس</a><a href="journey/dictionary.html">📖 القاموس</a></div>
+  </div>
+</details>
+
+<details class="part" style="--c:#2f6fd6;--t:#e8f0fd">
+  <summary><span class="ic">🗺️</span><span class="tt"><b>English Word Quest</b><small>50 وحدة · أهم أداة لبناء المفردات</small></span><span class="chev">⌄</span></summary>
+  <div class="body">
+    <h4>رتّب كل وحدة هكذا:</h4>
+    <ul><li><b>تعرّف</b> على الكلمات: استمع لنطق كل كلمة واقرأ معناها ومثالها.</li><li><b>تدرّب</b> بالأنشطة حتى تعرف الكلمات دون تردد.</li><li>اقرأ <b>القصة</b>: سترى الكلمات تعمل داخل نص حقيقي.</li><li><b>اختبر نفسك</b> في النهاية، وأعد الاختبار حتى تحصل على الدرجة الكاملة.</li></ul>
+    <h4>لا تنسَ:</h4>
+    <ul><li><b>مراجعتي اليومية</b>: تعيد لك الكلمات في الوقت المناسب قبل أن تنساها.</li><li><b>سجّل صوتك</b> وقارنه بالنطق الصحيح.</li></ul>
+    <div class="tip">⚡ اختبار الوحدة يمنحك حتى 50 نقطة في لوحة الشرف.</div>
+    <a class="open" href="journey/word-quest.html">افتح Word Quest ←</a>
+  </div>
+</details>
+
+<details class="part" style="--c:#b8336a;--t:#fdeef3">
+  <summary><span class="ic">📚</span><span class="tt"><b>قوائم الكلمات وميدان المفردات</b><small>NGSL · AWL · Mega Goal</small></span><span class="chev">⌄</span></summary>
+  <div class="body">
+    <h4>🌍 الكلمات العامة (1000 كلمة)</h4>
+    <ul><li>أكثر الكلمات استعمالاً في الإنجليزية: من يتقنها يفهم أغلب ما يقرأ ويسمع.</li></ul>
+    <h4>🎓 الكلمات الأكاديمية (569 كلمة)</h4>
+    <ul><li>للمتقدمين والمستعدين للجامعة: كلمات الكتب والمحاضرات والاختبارات الدولية.</li></ul>
+    <p style="margin:6px 0 0">تعمل القائمتان بطريقة Word Quest نفسها: بطاقات، ثم تدريب، ثم قصة، ثم اختبار، مع المراجعة اليومية.</p>
+    <h4>🏟️ ميدان المفردات (Mega Goal)</h4>
+    <ul><li>مفردات كتابك المدرسي في تحديات سريعة. العب قبل الدرس لتتعرف على الكلمات، وبعده لتثبّتها، وقبل الاختبار للمراجعة.</li></ul>
+    <div class="links"><a href="words/ngsl.html">🌍 NGSL</a><a href="words/awl.html">🎓 AWL</a><a href="vocab/mega-goal-1.html">Mega Goal 1.1</a><a href="vocab/mega-goal-2.html">Mega Goal 2.1</a><a href="vocab/mega-goal-3.html">Mega Goal 3.1</a></div>
+  </div>
+</details>
+
+<details class="part" style="--c:#c25a20;--t:#fff0e4">
+  <summary><span class="ic">🌟</span><span class="tt"><b>الكبسولات</b><small>10 كبسولات: رتّب الجمل وافهم معانيها</small></span><span class="chev">⌄</span></summary>
+  <div class="body">
+    <ul><li>ابدأ بالموضوع الذي تحبه: الفضاء، الرياضة، التقنية، الطبيعة…</li><li>تقدّم في «خريطة المراحل» مرحلة بعد مرحلة، ولا تتخطَّ مرحلة قبل أن تفهم جملها.</li><li>اقرأ كل جملة بصوت عالٍ بعد أن ترتّبها، وانتبه لترتيب الكلمات: هو سرّ الجملة الإنجليزية.</li></ul>
+    <div class="tip">⭐ كل نجمة في الكبسولات تمنحك 10 نقاط.</div>
+    <a class="open" href="capsules/index.html">افتح الكبسولات ←</a>
+  </div>
+</details>
+
+<details class="part" style="--c:#6046e8;--t:#efebff">
+  <summary><span class="ic">🧩</span><span class="tt"><b>القواعد</b><small>خارطة الأزمنة · Syntax Tree Lab</small></span><span class="chev">⌄</span></summary>
+  <div class="body">
+    <h4>⏳ خارطة الأزمنة</h4>
+    <ul><li>زمن واحد كل أسبوع: اقرأ القاعدة، وانظر إلى الخط الزمني، وتأمّل الأمثلة.</li><li>استعمل جدول التصريف مع أي فعل تريده، ثم حلّ الاختبار السريع.</li><li>اطبع ورقة الأزمنة وضعها في دفترك للمراجعة.</li></ul>
+    <h4>🌳 Syntax Tree Lab</h4>
+    <ul><li>اكتب جملة من كتابك أو من قصة، وشاهد أجزاءها ونوع كل كلمة فيها.</li><li>مفيد جداً عندما تقابلك جملة طويلة لا تفهمها.</li></ul>
+    <div class="links"><a href="grammar/tenses.html">⏳ خارطة الأزمنة</a><a href="grammar/syntax-tree-lab.html">🌳 Syntax Tree Lab</a></div>
+  </div>
+</details>
+
+<details class="part" style="--c:#c4532f;--t:#fdece5">
+  <summary><span class="ic">💬</span><span class="tt"><b>القراءة والمحادثة</b><small>ركن القصص · مختبر المحادثة · Breakfast Challenge</small></span><span class="chev">⌄</span></summary>
+  <div class="body">
+    <h4>📖 ركن القصص</h4>
+    <ul><li>اقرأ القصة أولاً وحاول أن تفهمها وحدك، ثم استمع لها، ثم أجب عن الأسئلة.</li><li>أعد قراءة القصة نفسها بعد أيام: ستلاحظ أنك صرت أسرع.</li></ul>
+    <h4>💬 مختبر المحادثة</h4>
+    <ul><li>استمع للمحادثة دون نص، ثم أجب، ثم اقرأ النص.</li><li>الخطوة الأهم: <b>مثّل الدور</b> بصوت عالٍ، ويفضَّل مع زميل.</li></ul>
+    <h4>🍳 Breakfast Challenge</h4>
+    <ul><li>ابنِ إفطارك وتعلّم أسماء الأطعمة ونطقها، ثم خض تحدي الكلمات.</li></ul>
+    <div class="links"><a href="stories/index.html">📖 القصص</a><a href="journey/conversation-lab.html">💬 المحادثة</a><a href="everyday/breakfast.html">🍳 الإفطار</a></div>
+  </div>
+</details>
+
+<details class="part" style="--c:#E2573B;--t:#FDECE6">
+  <summary><span class="ic">🎨</span><span class="tt"><b>ركن التعبيرات</b><small>26 عبارة اصطلاحية برسومات</small></span><span class="chev">⌄</span></summary>
+  <div class="body">
+    <ul><li>انظر إلى الرسمة واضحك من المعنى الحرفي، ثم اقرأ المعنى الحقيقي وما يقابله بالعربية.</li><li>اختر تعبيراً واحداً كل أسبوع واستعمله في جملة من حياتك.</li></ul>
+    <a class="open" href="idioms/index.html">افتح ركن التعبيرات ←</a>
+  </div>
+</details>
+
+<details class="part" style="--c:#2563c9;--t:#e8f0fd">
+  <summary><span class="ic">🌐</span><span class="tt"><b>المكتبة الإثرائية</b><small>مواقع عالمية مجانية مختارة</small></span><span class="chev">⌄</span></summary>
+  <div class="body">
+    <ul><li>للطالب الذي يريد المزيد: استماع وقراءة وقواعد وقواميس من مواقع موثوقة.</li><li>اختر موقعاً واحداً يناسبك وداوم عليه، بدلاً من التنقّل بين المواقع كلها.</li></ul>
+    <a class="open" href="links.html">تصفّح المكتبة ←</a>
+  </div>
+</details>
+
+<details class="part" style="--c:#c99300;--t:#fff6d8">
+  <summary><span class="ic">🧒</span><span class="tt"><b>نادي البراعم</b><small>لإخوتك الصغار في المرحلة الابتدائية</small></span><span class="chev">⌄</span></summary>
+  <div class="body">
+    <ul><li>حروف وكلمات بالصور وقصص وألعاب بالصوت، دون تسجيل.</li><li>اجلس مع أخيك الصغير وتعلّما معاً: حين تعلّم غيرك تتقن أنت أكثر.</li></ul>
+    <a class="open" href="kids/index.html">افتح نادي البراعم ←</a>
+  </div>
+</details>
+
+<!-- 5. Points -->
+<h2 class="sec" id="points"><span class="b" style="background:var(--sun-soft)">🏆</span>النقاط ولوحة الشرف</h2>
+<div class="pts">
+  <div class="pt"><div class="big">50</div><p>نقطة حتى في كل اختبار وحدة في Word Quest أو قوائم الكلمات.</p></div>
+  <div class="pt"><div class="big">10</div><p>نقاط لكل نجمة في الكبسولات.</p></div>
+  <div class="pt"><div class="big">🏅</div><p>نقاطك من كل أدوات الموقع تُجمع في لوحة الشرف باسمك المستعار.</p></div>
+</div>
+<p class="note">🎯 النقاط وسيلة وليست غاية: من يتعلّم بإتقان يجمع النقاط تلقائياً. أعد الاختبار حتى تتقن، لا لتجمع النقاط فقط.</p>
+<a class="open" href="honor.html" style="--c:#a26f00;display:inline-block;margin-top:10px;background:#a26f00;color:#fff;font-weight:800;text-decoration:none;border-radius:999px;padding:8px 18px">ادخل لوحة الشرف ←</a>
+
+<!-- 6. Golden rules -->
+<h2 class="sec" id="rules"><span class="b" style="background:var(--teal-soft)">⭐</span>قواعد ذهبية للمتعلم الناجح</h2>
+<ul class="rules">
+  <li><span>🔊</span><div><b>تكلّم بصوت عالٍ.</b> كل كلمة وجملة تقرؤها قلها بصوتك، فاللسان يتعلّم بالتكرار.</div></li>
+  <li><span>🎙️</span><div><b>سجّل صوتك وقارنه.</b> استمع للنطق الصحيح، ثم لصوتك، وكرّر حتى يتشابها.</div></li>
+  <li><span>❌</span><div><b>أخطاؤك صديقتك.</b> الخطأ يعود إليك في المراجعة حتى تتقنه، فلا تخف منه.</div></li>
+  <li><span>📅</span><div><b>كل يوم ولو قليلاً.</b> 20 دقيقة يومياً أنفع من ساعتين مرة في الأسبوع.</div></li>
+  <li><span>📓</span><div><b>دوّن الكلمات الجديدة</b> في دفتر صغير مع جملة من تأليفك.</div></li>
+  <li><span>🎧</span><div><b>استعمل سماعة</b> في الأماكن العامة، وتأكد أن زر الصوت 🔊 مفعّل.</div></li>
+  <li><span>📈</span><div><b>قِس تقدّمك.</b> اختبر مستواك في البداية، ثم في نهاية الفترة، وقارن النتيجتين.</div></li>
+</ul>
+
+<div style="text-align:center"><a class="back" href="index.html">ابدأ رحلتك الآن ←</a></div>
+
+<footer>إعداد: <b>أ. أحمد آل سالم</b> — معلم اللغة الإنجليزية<br>ثانوية الأمير فيصل بالعقيق</footer>
+</div>
+<script>
+// Path picker: show the plan that fits the chosen level, and remember the choice on this device.
+(function(){
+  var bs = document.querySelectorAll('.pick button');
+  function show(p){
+    bs.forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.p === p ? 'true' : 'false'); });
+    document.querySelectorAll('.plan').forEach(function(x){ x.hidden = x.id !== 'plan-' + p; });
+    try { localStorage.setItem('guide-path', p); } catch(e) {}
+  }
+  bs.forEach(function(b){ b.addEventListener('click', function(){ show(b.dataset.p); }); });
+  try { var s = localStorage.getItem('guide-path'); if (s) show(s); } catch(e) {}
+  // A link like guide.html#parts-capsules is not needed; a hash pointing to a section just scrolls there.
+  try { if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js'); } catch(e) {}
+})();
+</script>
+</body>
+</html>
