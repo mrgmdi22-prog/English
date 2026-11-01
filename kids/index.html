@@ -197,6 +197,32 @@ h2.sec{font-size:1.4rem;margin:26px 4px 12px}
 footer{text-align:center;color:var(--muted);font-size:.95rem;margin-top:26px}
 
 /* ---------- journey (مسيرة البطل) ---------- */
+.jscene{position:relative;border:3px solid var(--ink);border-radius:30px;overflow:hidden;box-shadow:5px 5px 0 var(--ink);min-height:330px;margin:4px 0 16px;display:flex;flex-direction:column}
+.jbg{position:absolute;inset:0;width:100%;height:100%}
+.jsun{transform-origin:64px 62px;animation:spin 18s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.jcl{animation:drift 9s ease-in-out infinite alternate}.jcl.b{animation-duration:12s}@keyframes drift{to{transform:translateX(-34px)}}
+.jttl{position:relative;text-align:center;margin:14px auto 0;background:#fff;border:3px solid var(--ink);border-radius:20px;padding:4px 22px 6px;box-shadow:0 5px 0 var(--ink);transform:rotate(-2deg)}
+.jttl h1{margin:0;font-size:clamp(1.9rem,8vw,2.5rem);line-height:1.2}.jttl .en{display:block;color:#FF7A1A;font-weight:800;font-size:1.15rem;line-height:1.1}
+.jstage{position:relative;display:flex;align-items:flex-end;gap:8px;padding:14px 14px 0;margin-top:auto}
+.jlion{font-size:4.4rem;line-height:1;animation:hop 1.8s ease-in-out infinite;filter:drop-shadow(0 6px 0 rgba(42,36,64,.15));flex:none}
+.jsay{position:relative;flex:1;background:#fff;border:3px solid var(--ink);border-radius:22px;padding:8px 12px;font-size:1.05rem;line-height:1.45;margin-bottom:26px;box-shadow:3px 3px 0 var(--ink)}
+.jsay::after{content:"";position:absolute;bottom:14px;right:-13px;width:18px;height:18px;background:#fff;border-right:3px solid var(--ink);border-bottom:3px solid var(--ink);transform:rotate(-45deg)}
+.jsay b{display:block;font-size:1.2rem}.jsay .nx{display:inline-block;margin-top:4px;background:#FFF3C4;border:2px dashed #D99A00;border-radius:12px;padding:0 10px;font-weight:800}
+.jtrail{position:relative;background:rgba(255,255,255,.9);border-top:3px solid var(--ink);padding:10px 10px 8px}
+.tls{display:flex;align-items:center;justify-content:center}
+.tl{position:relative;width:46px;height:46px;flex:none;border-radius:50%;border:3px solid var(--ink);background:var(--t);display:grid;place-items:center;font-size:1.55rem;line-height:1}
+.tl.lk{filter:grayscale(1);opacity:.45;border-color:#BDB49E}
+.tl.on{transform:scale(1.15);box-shadow:0 0 0 4px #FFD23F}
+.tl.on::after{content:"🦁";position:absolute;top:-22px;font-size:1.15rem}
+.tl i{position:absolute;bottom:-6px;left:-6px;font-style:normal;font-size:.8rem;background:#22A060;color:#fff;border:2px solid var(--ink);border-radius:50%;width:22px;height:22px;display:grid;place-items:center}
+.tlk{flex:1;max-width:22px;min-width:4px;height:0;border-top:3px dashed #BDB49E}
+.jstat{display:flex;justify-content:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+.jstat span{font-weight:800;font-size:1.05rem;background:#fff;border:2px solid var(--ink);border-radius:999px;padding:0 12px}
+.jlinks.top{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.jlinks.top button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:20px;font-size:1.05rem;line-height:1.2}
+.jlinks.top button span{font-size:1.9rem;line-height:1.1}
+@media(max-width:400px){.tl{width:40px;height:40px;font-size:1.35rem}}
+
 .jhero{display:flex;align-items:center;gap:12px;justify-content:center;text-align:center;margin:6px 0 12px;flex-wrap:wrap}
 .jhero .mascot{font-size:3.8rem;line-height:1;animation:bob 2.6s ease-in-out infinite}
 .jhero h1{margin:0;font-size:clamp(2rem,8vw,2.7rem);line-height:1.15}.jhero h1 .en{display:block;font-size:.55em;color:#FF7A1A}
@@ -418,7 +444,7 @@ const SECTIONS=[
   {id:'col',ic:'🎨',ar:'الألوان',en:'Colors',c:'#D94BA0',t:'#FCE6F2'},
   {id:'shp',ic:'🔷',ar:'الأشكال',en:'Shapes',c:'#5B5BD6',t:'#ECECFC'},
   ...TOPICS.map(t=>({id:'t-'+t.id,ic:t.ic,ar:t.ar,en:t.en,c:t.c,t:t.t,topic:t})),
-  {id:'phr',ic:'💬',ar:'جمل وتحيات',en:'Say it!',c:'#12A36E',t:'#E1F6EC',g:3},
+  {id:'phr',ic:'💬',ar:'جمل وتحايا',en:'Say it!',c:'#12A36E',t:'#E1F6EC',g:3},
   {id:'cls',ic:'🧑‍🏫',ar:'جمل الفصل',en:'Classroom',c:'#2563EB',t:'#E5EEFD',g:3},
   {id:'sto',ic:'📚',ar:'قصص قصيرة',en:'Stories',c:'#9333EA',t:'#F3E8FF',g:3},
   {id:'spl',ic:'🧩',ar:'كوّن الكلمة',en:'Spell it!',c:'#EA580C',t:'#FFEDD5',g:4},
@@ -457,7 +483,7 @@ function allSections(){
       <button class="allbtn" data-id="sto">📖 كل القصص حسب المستوى</button></div>
     <h2 class="sec">🌱 أبدأ من هنا</h2><div class="tiles">${SECTIONS.slice(0,5).map(tile).join('')}</div>
     <h2 class="sec">🖼️ كلمات بالصور</h2><div class="tiles">${SECTIONS.slice(5,5+TOPICS.length).map(tile).join('')}</div>
-    <h2 class="sec">💬 جمل وتحيات</h2><div class="tiles">${SECTIONS.filter(s=>s.g===3&&s.id!=='sto').map(tile).join('')}</div>
+    <h2 class="sec">💬 جمل وتحايا</h2><div class="tiles">${SECTIONS.filter(s=>s.g===3&&s.id!=='sto').map(tile).join('')}</div>
     <h2 class="sec">🎮 ألعاب وجوائز</h2><div class="tiles">${SECTIONS.filter(s=>s.g===4).map(tile).join('')}</div>
     <h2 class="sec">🚀 ركن الأبطال المتقدمين</h2><div class="advhub"><p>هل أنهيت ما سبق؟ تحدَّ نفسك: قصص أطول، وترتيب جمل، وقواعد، وأضداد، وكلمات أطول 💪</p><div class="tiles">${SECTIONS.filter(s=>s.g===5).map(tile).join('')}</div></div>`;
   document.querySelectorAll('.tile,.allbtn').forEach(b=>b.onclick=()=>open(b.dataset.id));
@@ -985,7 +1011,7 @@ const LANDS=[
    ['🎨','الألوان','Colors',[['learn','col'],['play','col'],['story','My Garden']]],
    ['🔷','الأشكال','Shapes',[['learn','shp'],['play','shp'],['read','shp']]]]},
  {ic:'🏡',ar:'قرية الأسرة',en:'Family Village',c:'#D9480F',bg:'linear-gradient(180deg,#FFF0E3,#FFF9EE)',t:'#FFE2CC',deco:['🌳','🏠','🐓','🌻','🧺'],st:[
-   ['👋','التحيات','Say Hello',[['learn','phr'],['play','phr'],['read','phr']]],
+   ['👋','التحايا','Say Hello',[['learn','phr'],['play','phr'],['read','phr']]],
    ['👨‍👩‍👧‍👦','الأسرة','Family',[['learn','t-family'],['play','t-family'],['story','My Family']]],
    ['🐘','الحيوانات','Animals',[['learn','t-animals'],['play','t-animals'],['story','Mimi the Cat']]],
    ['🍎','الطعام','Food',[['learn','t-food'],['play','t-food'],['story','The Hungry Rabbit']]],
@@ -1039,10 +1065,28 @@ function journeyMap(){
   JDOOR=null;jBar();jClose();
   $('topBtn').textContent='🏠 النادي';$('topBtn').dir='rtl';$('topBtn').href='../index.html';$('topBtn').onclick=null;
   const cur=jCur(),done=ST.filter(s=>jCount(s.i)).length,c=ST[cur],allDone=done===ST.length;
-  let html=`<div class="jhero"><span class="mascot" aria-hidden="true">🦁</span><div><h1>مسيرة البطل<span class="en">Hero Journey</span></h1><p>محطة بعد محطة… وفي كل محطة تختار مهمتك!</p></div></div>
-    <div class="jprog"><div class="bar"><i style="width:${Math.round(done*100/ST.length)}%"></i></div><b>🚩 ${done} / ${ST.length}</b></div>
-    <button class="jgo" data-go="${cur}"><span>${allDone?'🏆 أنهيت المسيرة! اجمع ⭐⭐⭐':done?'▶️ تابع المسيرة':'▶️ ابدأ المسيرة'}<small>المحطة ${cur+1}: ${esc(c.ar)}</small></span><span class="ic">${c.ic}</span></button>
-    <div class="jlinks"><button data-x="stk">🎁 ملصقاتي</button><button data-x="adv">🚀 أنا بطل متقدم</button><button data-x="all">🗂️ كل الأقسام</button></div>${reviewBox()}`;
+  const hr=new Date().getHours(),hi=hr<12?'صباح الخير':'مساء الخير',curL=ST[cur].L,stk=Math.min(STICKERS.length,Math.floor(STARS/5));
+  const trail=LANDS.map((L,li)=>{const dn=landDone(li),on=li===curL&&!allDone,lk=!dn&&!on&&!ST.some(s=>s.L===li&&jOpen(s.i));
+    return `<span class="tl${dn?' dn':''}${on?' on':''}${lk?' lk':''}" style="--t:${L.t}" title="${esc(L.ar)}">${L.ic}${dn?'<i>✓</i>':''}</span>`;}).join('<b class="tlk"></b>');
+  let html=`<div class="jscene">
+      <svg class="jbg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs><linearGradient id="jsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D8F0FF"/><stop offset=".75" stop-color="#FFF6DC"/></linearGradient></defs>
+        <rect width="400" height="300" fill="url(#jsky)"/>
+        <g class="jsun"><circle cx="64" cy="62" r="26" fill="#FFD23F"/><g stroke="#FFC21A" stroke-width="5" stroke-linecap="round"><path d="M64 22v-10M64 102v10M24 62h-10M104 62h10M36 34l-7-7M92 90l7 7M36 90l-7 7M92 34l7-7"/></g></g>
+        <g class="jcl" fill="#fff"><ellipse cx="250" cy="58" rx="34" ry="14"/><ellipse cx="272" cy="48" rx="22" ry="15"/><ellipse cx="232" cy="50" rx="16" ry="12"/></g>
+        <g class="jcl b" fill="#fff" opacity=".9"><ellipse cx="350" cy="104" rx="26" ry="10"/><ellipse cx="364" cy="96" rx="16" ry="11"/></g>
+        <path d="M0 196 Q90 140 190 176 T400 160 V300 H0Z" fill="#CDEFC0"/>
+        <path d="M0 236 Q110 196 220 226 T400 214 V300 H0Z" fill="#A9DF92"/>
+        <path d="M206 300 C200 262 250 250 236 226 S190 196 214 172" fill="none" stroke="#FBEFCF" stroke-width="16" stroke-linecap="round"/>
+        <path d="M206 300 C200 262 250 250 236 226 S190 196 214 172" fill="none" stroke="#E9D59F" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>
+        <g font-size="18"><text x="300" y="186">🌳</text><text x="40" y="220">🌷</text><text x="340" y="232">🌼</text><text x="208" y="166">🚩</text></g>
+      </svg>
+      <div class="jttl"><h1>مسيرة البطل</h1><span class="en">Hero Journey</span></div>
+      <div class="jstage"><span class="jlion" aria-hidden="true">🦁</span><div class="jsay"><b>${hi} يا بطل! 👋</b>${allDone?'أنهيت المسيرة كلها! 🏆':done?'هيا نكمل من حيث توقفنا':'هيا نبدأ مغامرة الإنجليزية'}<span class="nx">${c.ic} المحطة ${cur+1}: ${esc(c.ar)}</span></div></div>
+      <div class="jtrail"><div class="tls">${trail}</div><div class="jstat"><span>🚩 ${done} / ${ST.length}</span><span>⭐ ${STARS}</span><span>🎁 ${stk}</span></div></div>
+    </div>
+    <button class="jgo" data-go="${cur}"><span>${allDone?'🏆 اجمع ⭐⭐⭐ في كل محطة':done?'تابع المسيرة 🚀':'هيا ننطلق! 🚀'}<small>${LANDS[curL].ic} ${LANDS[curL].ar} · المحطة ${cur+1}</small></span><span class="ic">${c.ic}</span></button>
+    <div class="jlinks top"><button data-x="stk"><span>🎁</span>ملصقاتي</button><button data-x="adv"><span>🚀</span>متقدم؟</button><button data-x="all"><span>🗂️</span>كل الأقسام</button></div>${reviewBox()}`;
   LANDS.forEach((L,li)=>{
     const sts=ST.filter(s=>s.L===li),lp=sts.filter(s=>jCount(s.i)).length;
     const deco=L.deco.map((e,k)=>`<span style="top:${90+k*(sts.length*170)/L.deco.length}px;${k%2?'left':'right'}:${6+(k*7)%14}px">${e}</span>`).join('');
@@ -1069,7 +1113,7 @@ function journeyMap(){
     const rd=v.startsWith('r-'),id=rd?v.slice(2):v;open(id);MODE=rd?'read':'play';draw();});
   jLines();
   const y=+(sessionStorage.getItem('kd-jy')||-1);
-  if(y>=0)window.scrollTo(0,y);else{window.scrollTo(0,0);if(done){const n=$('app').querySelector('.jn.cur');if(n)setTimeout(()=>{try{n.scrollIntoView({block:'center',behavior:'smooth'});}catch(e){}},300);}}
+  window.scrollTo(0,y>=0?y:0);
 }
 /* the dotted road between stations; the walked part is coloured */
 function jLines(){
