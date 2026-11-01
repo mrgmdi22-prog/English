@@ -261,7 +261,7 @@ footer{text-align:center;color:var(--muted);font-size:.95rem;margin-top:26px}
 #jbar button{font:inherit;font-weight:800;font-size:1.05rem;border:3px solid var(--ink);background:#fff;border-radius:999px;padding:6px 14px;cursor:pointer;color:var(--ink);box-shadow:2px 2px 0 var(--ink);white-space:nowrap}
 #jbar.ok{background:#DFF7E8}#jbar.ok button{background:#FFD23F;animation:hop 1s ease-in-out infinite}
 .jmodal{position:fixed;inset:0;z-index:60;background:rgba(42,36,64,.3);display:grid;place-items:center;padding:20px}
-.jmodal .box{background:#fff;border:4px solid var(--ink);border-radius:28px;box-shadow:6px 6px 0 var(--ink);padding:20px;max-width:380px;width:100%;text-align:center;animation:pop .45s var(--ease)}
+.jmodal .box{max-height:92vh;overflow-y:auto;background:#fff;border:4px solid var(--ink);border-radius:28px;box-shadow:6px 6px 0 var(--ink);padding:20px;max-width:380px;width:100%;text-align:center;animation:pop .45s var(--ease)}
 .jmodal .big{font-size:4.8rem;line-height:1.2}.jmodal h3{margin:6px 0;font-size:1.5rem}.jmodal p{margin:0 0 14px;color:var(--muted);font-size:1.1rem}
 .jmodal .bt{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .jmodal button{font:inherit;font-weight:800;font-size:1.15rem;border:3px solid var(--ink);background:#FFD23F;border-radius:999px;padding:8px 20px;cursor:pointer;color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
@@ -1020,11 +1020,12 @@ const DOOR={learn:['🖼️','تعلّم الكلمات','Learn','اضغط ال�
   spl2:['🏅','كلمات أطول','Super Spell','تهجئة للأبطال',null,'#FEF3C7'],mem:['🃏','لعبة الذاكرة','Memory','ابحث عن الصورة وكلمتها',null,'#DDF5F1'],
   ord:['🧱','رتّب الجملة','Build it!','اضغط الكلمات بالترتيب',null,'#E0F2FE'],grm:['🎯','اختر الصحيح','Grammar','أكمل الجملة بالكلمة الصحيحة',null,'#F3E8FF'],
   opp:['🔄','الأضداد','Opposites','ما عكس الكلمة؟',null,'#FCE7F3']};
-let JR={d:{},c:{}};try{const j=JSON.parse(store.get('kd-jr')||'null');if(j&&j.d)JR={d:j.d,c:j.c||{}};}catch(e){}
+let JR={d:{},c:{},j:0};try{const j=JSON.parse(store.get('kd-jr')||'null');if(j&&j.d)JR={d:j.d,c:j.c||{},j:+j.j||0};}catch(e){}
 const jSave=()=>store.set('kd-jr',JSON.stringify(JR));
 const jCount=i=>ST[i].doors.filter((_,k)=>JR.d[i+'.'+k]).length;
-const jOpen=i=>i===0||jCount(i-1)>0;
-const jCur=()=>{for(let i=0;i<ST.length;i++)if(!jCount(i))return i;return ST.length-1;};
+/* advanced jump (JR.j = highest land chosen): the first station of every land up to it is open */
+const jOpen=i=>i===0||jCount(i-1)>0||(ST[i].L<=JR.j&&ST[i-1].L!==ST[i].L);
+const jCur=()=>{for(let i=ST.length-1;i>=0;i--)if(jOpen(i)&&!jCount(i))return i;return ST.length-1;};
 const landDone=L=>ST.filter(s=>s.L===L).every(s=>jCount(s.i)>0);
 const jStars=i=>'⭐'.repeat(jCount(i))+'☆'.repeat(ST[i].doors.length-jCount(i));
 let JDOOR=null,JSTACK=0,JUST=null;
@@ -1041,7 +1042,7 @@ function journeyMap(){
   let html=`<div class="jhero"><span class="mascot" aria-hidden="true">🦁</span><div><h1>مسيرة البطل<span class="en">Hero Journey</span></h1><p>محطة بعد محطة… وفي كل محطة تختار مهمتك!</p></div></div>
     <div class="jprog"><div class="bar"><i style="width:${Math.round(done*100/ST.length)}%"></i></div><b>🚩 ${done} / ${ST.length}</b></div>
     <button class="jgo" data-go="${cur}"><span>${allDone?'🏆 أنهيت المسيرة! اجمع ⭐⭐⭐':done?'▶️ تابع المسيرة':'▶️ ابدأ المسيرة'}<small>المحطة ${cur+1}: ${esc(c.ar)}</small></span><span class="ic">${c.ic}</span></button>
-    <div class="jlinks"><button data-x="stk">🎁 ملصقاتي</button><button data-x="all">🗂️ كل الأقسام</button></div>${reviewBox()}`;
+    <div class="jlinks"><button data-x="stk">🎁 ملصقاتي</button><button data-x="adv">🚀 أنا بطل متقدم</button><button data-x="all">🗂️ كل الأقسام</button></div>${reviewBox()}`;
   LANDS.forEach((L,li)=>{
     const sts=ST.filter(s=>s.L===li),lp=sts.filter(s=>jCount(s.i)).length;
     const deco=L.deco.map((e,k)=>`<span style="top:${90+k*(sts.length*170)/L.deco.length}px;${k%2?'left':'right'}:${6+(k*7)%14}px">${e}</span>`).join('');
@@ -1061,7 +1062,7 @@ function journeyMap(){
   $('app').querySelectorAll('[data-st]').forEach(b=>b.onclick=()=>{const i=+b.dataset.st;if(jOpen(i))station(i);else jLocked(i);});
   $('app').querySelectorAll('[data-ch]').forEach(b=>b.onclick=()=>chest(+b.dataset.ch));
   $('app').querySelector('[data-go]').onclick=()=>station(cur);
-  $('app').querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>b.dataset.x==='all'?allSections():open('stk'));
+  $('app').querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>b.dataset.x==='all'?allSections():b.dataset.x==='adv'?jAdvanced():open('stk'));
   $('app').querySelectorAll('[data-rv]').forEach(b=>b.onclick=()=>{const v=b.dataset.rv;
     if(['spl','spl2','ord','grm','opp'].includes(v))return open(v);
     if(v.startsWith('sto:')){const n=+v.slice(4);open('sto');return storyQuiz(n,fixDue('sto').filter(k=>k.split(':')[0]===String(n)).map(k=>+k.split(':')[1]),true);}
@@ -1086,6 +1087,14 @@ function jModal(big,h,p,btns){jClose();const d=document.createElement('div');d.c
   d.innerHTML=`<div class="box" role="dialog" aria-modal="true"><div class="big">${big}</div><h3>${h}</h3><p>${p}</p><div class="bt">${btns.map((b,k)=>`<button data-k="${k}" class="${b[2]||''}">${b[0]}</button>`).join('')}</div></div>`;
   document.body.appendChild(d);d.onclick=e=>{if(e.target===d)jClose();};d.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{jClose();const f=btns[+b.dataset.k][1];if(f)f();});}
 function jClose(){const m=$('jmodal');if(m)m.remove();}
+/* "I'm an advanced hero": jump straight to a higher land (earlier lands stay open to come back to) */
+function jAdvanced(){
+  jModal('🚀','أنا بطل متقدم!','تعرف الحروف والكلمات السهلة؟ اختر المرحلة التي تبدأ منها 👇',[]);
+  const box=document.querySelector('#jmodal .bt');box.style.flexDirection='column';
+  box.innerHTML=LANDS.map((L,li)=>li?`<button data-l="${li}" style="background:${L.t};text-align:right">${L.ic} المرحلة ${li+1}: ${L.ar}<small style="display:block;font-weight:700;color:var(--muted);font-size:.95rem">${['','كلمات الأسرة والحيوانات والطعام','المدرسة والجسم والألعاب','قصص فيها مشكلة وحل','قصص أطول بالزمن الماضي','قصص الأبطال والقواعد'][li]}</small></button>`:'').join('')+'<button class="alt" data-l="-1">لا، سأبدأ من الأول</button>';
+  box.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{const li=+b.dataset.l;jClose();if(li<1)return;
+    if(li>JR.j){JR.j=li;jSave();}window.clubSfx&&clubSfx('win');station(ST.find(s=>s.L===li).i);});
+}
 function jLocked(i){const p=ST[i-1];window.clubSfx&&clubSfx('bad');
   jModal('🔒','هذه المحطة مقفلة',`أنجز مهمة واحدة في المحطة ${i}: «${esc(p.ar)}» لتفتحها 🗝️`,[[`اذهب إلى «${esc(p.ar)}» ${p.ic}`,()=>station(jOpen(i-1)?i-1:jCur())],['حسناً',null,'alt']]);}
 function chest(li){
