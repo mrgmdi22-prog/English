@@ -53,6 +53,7 @@ h1{font-size:2rem;margin:0 0 4px;font-weight:800}
 <script type="module">
 import * as H from './assets/honor.js?v=20261101f';
 const $ = id => document.getElementById(id);
+const LV_NEW_AT = 1793547780000; // same as NEW_AT in level/index.html: start of the harder level-check version
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = n => Number(n||0).toLocaleString('en-US');
 // When this student's points last reached the board — helps tell whether a device is still sending them.
@@ -65,15 +66,18 @@ async function start() {
   if (!u) {
     $('authBox').innerHTML = '';
     $('main').innerHTML = '<div class="panel"><h2>تسجيل الدخول</h2><p class="note">ادخل بحساب Google الخاص بالمعلم لمراجعة الأسماء المستعارة والموافقة عليها.</p><p style="margin-top:14px"><button class="btn" id="si">الدخول بحساب Google</button></p><div class="err" id="er"></div></div>';
-    $('si').onclick = async () => { try { await H.teacherSignIn(); start(); } catch (e) { $('er').textContent = 'تعذّر الدخول: ' + (e.code || e.message); } };
+    $('si').onclick = async () => { const b = $('si'); if (b.disabled) return; b.disabled = true; $('er').textContent = '';
+      try { await H.teacherSignIn(); start(); } catch (e) { b.disabled = false; $('er').textContent = 'تعذّر الدخول: ' + (e.code || e.message); } };
     return;
   }
   $('who').textContent = 'مسجّل باسم: ' + (u.email || '');
   try { localStorage.setItem('club-reg', 'teacher'); } catch (e) {}
   $('authBox').innerHTML = '<button class="btn soft" id="so">خروج</button>';
   $('so').onclick = async () => { await H.teacherSignOut(); start(); };
+  $('main').innerHTML = '<div class="panel"><p class="note">جارٍ تحميل البيانات…</p></div>';
   try { await H.syncSuggested(); } catch (e) { console.warn('suggested nicknames not saved', e); }
-  await load();
+  try { await load(); }
+  catch (e) { console.error(e); $('main').innerHTML = '<div class="panel"><h2>تعذّر عرض اللوحة</h2><p class="err">' + esc(e && (e.code || e.message) || e) + '</p><p class="note">حدّث الصفحة، وإن تكرر الخطأ فأرسل صورة هذه الرسالة.</p></div>'; }
 }
 
 async function load() {
