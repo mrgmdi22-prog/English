@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<script src="../assets/gate.js?v=9"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>المبني للمجهول · Passive Voice</title>
+<meta name="description" content="The English passive voice: the rule, four steps to change active to passive, every tense, a sentence builder and a quiz.">
+<meta name="theme-color" content="#F7F8FC">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/club.css">
+<style>
+/* Passive voice page: Learn (rule, 4 steps, uses, all tenses, negatives/questions, mistakes, V3 list),
+   Converter (any sentence × any tense, step by step), Builder (tap the chunks in order), Quiz (10 Q → honor board).
+   One colour code everywhere: doer = blue, object / new subject = orange, be = violet, V3 = green. */
+:root{color-scheme:light;
+  --bg:#F7F8FC;--card:#FFFFFF;--ink:#1F2840;--muted:#5B6580;--line:#E3E7F1;
+  --main:#0F8A7A;--main-s:#E2F5F1;
+  --ag:#2F67D8;--ag-s:#E7EEFC;--ob:#D9622B;--ob-s:#FDEEE5;--be:#6A4BD8;--be-s:#EFEBFD;--v3:#1F9D6B;--v3-s:#E3F6EE;
+  --ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif;--ease:cubic-bezier(.2,.7,.2,1)}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg)}
+body{color:var(--ink);font-family:var(--ar);font-size:19px;line-height:1.7;padding-bottom:env(safe-area-inset-bottom,0px)}
+[hidden]{display:none!important}
+.wrap{max-width:980px;margin:0 auto;padding:70px 16px 70px}
+.en{font-family:var(--en);direction:ltr;unicode-bidi:isolate}
+header.top{text-align:center;margin-bottom:22px}
+header.top .kick{display:inline-block;font-family:var(--en);font-weight:700;font-size:.9rem;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+h1{margin:6px 0 4px;font-size:clamp(2rem,6.5vw,3.1rem);line-height:1.2;font-weight:800}
+h1 .en{color:var(--main)}
+header.top p{margin:0 auto;color:var(--muted);max-width:36em;font-size:1.1rem}
+.tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:22px 0 18px}
+.tabs button{font:inherit;font-weight:800;font-size:1.05rem;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:9px 18px;cursor:pointer;transition:all .18s}
+.tabs button[aria-selected=true]{background:var(--main);border-color:var(--main);color:#fff}
+.bar{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:16px;color:var(--muted);font-size:1rem}
+.bar select{font:inherit;font-size:1.05rem;font-weight:700;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:6px 12px;cursor:pointer;max-width:100%}
+.seg{display:inline-flex;gap:4px}
+.seg button{font:inherit;font-size:1rem;font-weight:700;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:6px 12px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn{font:inherit;font-weight:800;font-size:1.05rem;border:0;border-radius:999px;padding:10px 22px;cursor:pointer;background:var(--main);color:#fff}
+.btn.soft{background:var(--main-s);color:#0B6E62}
+.btn.ghost{background:var(--card);color:var(--ink);border:2px solid var(--line)}
+.btn:disabled{opacity:.45;cursor:default}
+
+/* colour code */
+.k-ag{color:var(--ag);font-weight:700}.k-s{color:var(--ob);font-weight:700}.k-be{color:var(--be);font-weight:700}.k-v{color:var(--v3);font-weight:700}
+.k-by{color:var(--ag);font-weight:700}.k-va{font-weight:700}.k-tm{color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 16px}
+.legend>span{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:2px solid var(--line);border-radius:999px;padding:4px 14px;font-weight:700;font-size:1rem}
+.legend>span>i{width:14px;height:14px;border-radius:50%;display:inline-block}
+
+/* learn cards */
+.card{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:18px 20px;margin-bottom:16px}
+.card h2{margin:0 0 10px;font-size:1.45rem;line-height:1.35;display:flex;align-items:center;gap:10px}
+.card h2 .n{flex:none;width:38px;height:38px;border-radius:50%;background:var(--main-s);color:var(--main);display:grid;place-items:center;font-size:1.15rem}
+.card h2 .en{color:var(--muted);font-size:1rem;font-weight:600}
+.card p{margin:6px 0}
+.sent{direction:ltr;text-align:left;font-family:var(--en);font-size:clamp(1.15rem,4.2vw,1.4rem);line-height:1.55;background:var(--bg);border-radius:14px;padding:10px 14px;margin:8px 0;display:flex;align-items:center;gap:10px}
+.sent .tx{flex:1 1 auto;min-width:0}
+@media (max-width:640px){.legend{gap:6px}.legend>span{font-size:.92rem;padding:3px 10px}}
+.sent .lb{font-family:var(--ar);direction:rtl;font-size:.95rem;font-weight:800;border-radius:999px;padding:2px 12px;flex:none}
+.lb.act{background:var(--ag-s);color:var(--ag)}.lb.pas{background:var(--v3-s);color:#167A53}
+.say{all:unset;cursor:pointer;flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--card);border:2px solid var(--line);font-size:1.05rem}
+.say:hover{border-color:var(--main)}
+.say:focus-visible{outline:3px solid var(--main);outline-offset:2px}
+.formula{direction:ltr;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;font-family:var(--en);font-weight:700;font-size:clamp(1.05rem,3.8vw,1.3rem);margin:10px 0}
+.formula .ch{border-radius:14px;padding:8px 14px;text-align:center;line-height:1.25}
+.formula .ch small{display:block;font-family:var(--ar);font-size:.85rem;font-weight:700}
+.formula .plus{color:var(--muted)}
+.ch.s{background:var(--ob-s);color:var(--ob)}.ch.be{background:var(--be-s);color:var(--be)}.ch.v{background:var(--v3-s);color:#167A53}.ch.by{background:var(--ag-s);color:var(--ag);border:2px dashed #b9cbf3}
+.steps{display:grid;gap:10px;margin-top:8px}
+.step{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start;background:var(--bg);border-radius:16px;padding:12px 14px}
+.step .num{width:44px;height:44px;border-radius:50%;background:var(--main);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.2rem}
+.step b{font-size:1.1rem}
+.step .sent{background:var(--card);margin:6px 0 0}
+.uses{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.use{background:var(--bg);border-radius:16px;padding:12px 14px}
+.use b{display:block;font-size:1.08rem}
+.use .sent{background:var(--card);font-size:1.1rem;margin:6px 0 0}
+table.tt{width:100%;border-collapse:separate;border-spacing:0 8px;direction:ltr}
+table.tt th{font-family:var(--ar);font-size:1rem;color:var(--muted);text-align:left;padding:0 10px}
+table.tt td{background:var(--bg);padding:10px 12px;font-family:var(--en);font-size:1.05rem;line-height:1.45;vertical-align:middle}
+table.tt td:first-child{border-radius:14px 0 0 14px;font-weight:700;width:24%}
+table.tt td:first-child small{display:block;font-family:var(--ar);direction:rtl;text-align:left;color:var(--muted);font-weight:700;font-size:.92rem}
+table.tt td:last-child{border-radius:0 14px 14px 0}
+.note{background:#FFF8E6;border:2px solid #F5DFA6;border-radius:16px;padding:10px 14px;margin-top:10px}
+.mist{display:grid;gap:8px}
+.mist .row{display:grid;grid-template-columns:1fr 1fr;gap:8px;direction:ltr}
+.mist .bad,.mist .good{font-family:var(--en);border-radius:14px;padding:8px 12px;font-size:1.08rem}
+.mist .bad{background:#FDECEC;color:#9B2C34;text-decoration:line-through;text-decoration-thickness:2px}
+.mist .good{background:#E3F6EE;color:#14593E;font-weight:600}
+.mist .why{direction:rtl;font-size:.98rem;color:var(--muted);margin:-2px 4px 6px}
+.v3grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;direction:ltr}
+.v3grid button{all:unset;box-sizing:border-box;cursor:pointer;background:var(--bg);border:2px solid transparent;border-radius:14px;padding:8px 12px;font-family:var(--en);font-size:1.05rem;display:flex;justify-content:space-between;gap:8px}
+.v3grid button:hover,.v3grid button:focus-visible{border-color:var(--main)}
+.v3grid .b{color:var(--muted)}.v3grid .p{color:var(--v3);font-weight:700}
+
+/* converter */
+.tchips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;direction:ltr;margin:0 0 14px}
+.tchips button{font:inherit;cursor:pointer;border:2px solid var(--line);background:var(--card);border-radius:14px;padding:6px 12px;line-height:1.25;text-align:center}
+.tchips button .e{display:block;font-family:var(--en);font-weight:700;font-size:.95rem}
+.tchips button .a{display:block;font-size:.85rem;color:var(--muted);font-weight:700}
+.tchips button[aria-pressed=true]{background:var(--main-s);border-color:var(--main)}
+.arrow{text-align:center;font-size:1.6rem;color:var(--main);line-height:1;margin:4px 0}
+.cstep{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start;padding:8px 0;border-bottom:1px dashed var(--line)}
+.cstep:last-child{border-bottom:0}
+.cstep .num{width:34px;height:34px;border-radius:50%;background:var(--main-s);color:var(--main);display:grid;place-items:center;font-weight:800}
+.pm{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.pm li{display:flex;align-items:center;gap:10px;direction:ltr}
+.pm .sg{flex:none;width:26px;height:26px;border-radius:50%;color:#fff;font-weight:800;display:grid;place-items:center;font-family:var(--en)}
+.sg.a{background:#1F9D6B}.sg.n{background:#D23F4A}.sg.q{background:#3268D6}
+.pm .sent{flex:1;margin:0}
+
+/* builder */
+.game{max-width:760px;margin:0 auto;background:var(--card);border:2px solid var(--line);border-radius:24px;padding:20px}
+.gtop{display:flex;justify-content:space-between;align-items:center;gap:10px;color:var(--muted);font-weight:700;margin-bottom:8px}
+.slots{direction:ltr;min-height:66px;border:2px dashed #BFD9D3;border-radius:18px;padding:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:#FAFDFC;margin:12px 0}
+.slots:empty::before{content:"اضغط على الكلمات بالترتيب ←";font-family:var(--ar);color:#9aa3b8;direction:rtl;width:100%;text-align:center}
+.bank{direction:ltr;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:14px}
+.chip{font-family:var(--en);font-size:1.15rem;font-weight:600;cursor:pointer;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;padding:8px 14px;transition:transform .15s,border-color .15s}
+.chip:hover{border-color:var(--main);transform:translateY(-2px)}
+.chip.used{visibility:hidden}
+.slots .chip{background:var(--main-s);border-color:#A8DCD2}
+.gbtns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.gfb{min-height:2.2em;text-align:center;font-weight:800;margin-top:12px}
+.gfb.ok{color:#1F9D6B}.gfb.no{color:#D23F4A}
+.gfb .sent{justify-content:center;font-weight:500}
+
+/* quiz */
+.quiz{max-width:760px;margin:0 auto;background:var(--card);border:2px solid var(--line);border-radius:24px;padding:20px}
+.qtop{display:flex;justify-content:space-between;align-items:center;gap:10px;color:var(--muted);font-weight:700}
+.qbar{height:10px;border-radius:99px;background:var(--bg);overflow:hidden;margin:10px 0 16px}
+.qbar i{display:block;height:100%;background:var(--main);transition:width .3s}
+.qask{text-align:center;font-weight:800;font-size:1.12rem;margin-bottom:8px}
+.qsent{direction:ltr;text-align:center;font-family:var(--en);font-size:clamp(1.25rem,4.6vw,1.6rem);line-height:1.5;margin:4px 0 14px;display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap}
+.qsent .gap{display:inline-block;min-width:3.4em;border-bottom:3px solid var(--be);color:var(--be);font-weight:700}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.opts.one{grid-template-columns:1fr}
+.opts button{font:inherit;cursor:pointer;border:2px solid var(--line);background:var(--card);border-radius:16px;padding:10px 14px;text-align:center;line-height:1.4;transition:all .15s}
+.opts button .en{display:block;font-weight:600;font-size:1.12rem}
+.opts.one button .en{text-align:left}
+.opts button .a{display:block;font-size:.95rem;color:var(--muted)}
+.opts button:hover:not(:disabled){border-color:var(--main)}
+.opts button.right{background:#E3F6EE;border-color:#1F9D6B}
+.opts button.wrong{background:#FDECEC;border-color:#D23F4A}
+.qfb{min-height:2.2em;text-align:center;font-weight:800;margin-top:12px}
+.qfb.ok{color:#1F9D6B}.qfb.no{color:#D23F4A}
+.qfb .why{display:block;font-weight:600;color:var(--muted);font-size:1rem}
+.qend{text-align:center}
+.qend .big{font-size:3rem;font-weight:800;color:var(--main);line-height:1.2}
+footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
+
+@media (max-width:640px){.uses{grid-template-columns:1fr}.opts{grid-template-columns:1fr}.mist .row{grid-template-columns:1fr}
+  table.tt td:first-child{width:auto}table.tt,table.tt tbody,table.tt tr,table.tt td{display:block}
+  table.tt thead{display:none}table.tt tr{margin-bottom:10px}
+  table.tt td{border-radius:0!important}table.tt td:first-child{border-radius:14px 14px 0 0!important}table.tt td:last-child{border-radius:0 0 14px 14px!important}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{
+  @page{size:A4;margin:12mm}
+  body{font-size:13px;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}.wrap{padding:0;max-width:none}
+  .tabs,.bar,.club-home,#clubSfxBtn,.say,.noprint{display:none!important}
+  #p-conv,#p-build,#p-quiz{display:none!important}#p-learn{display:block!important}
+  .card{break-inside:avoid;border-width:1px;padding:10px 12px;margin-bottom:8px}
+  .sent,.step,.use,table.tt td,.v3grid button{background:#F4F6FA!important}}
+</style>
+</head>
+<body>
+<a class="club-home" href="../index.html">🏠 الرئيسية</a>
+<div class="wrap">
+  <header class="top">
+    <span class="kick">English Club · Grammar</span>
+    <h1>المبني للمجهول <span class="en">Passive Voice</span></h1>
+    <p>متى نبدأ الجملة بالمفعول به بدل الفاعل، وكيف نحوّل أي جملة في أي زمن، مع تدريب على ترتيب الجملة واختبار سريع.</p>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="learn" aria-selected="true">📘 الشرح</button>
+    <button role="tab" data-tab="conv" aria-selected="false">🔄 المحوّل</button>
+    <button role="tab" data-tab="build" aria-selected="false">🧩 رتّب الجملة</button>
+    <button role="tab" data-tab="quiz" aria-selected="false">🎯 اختبر نفسك</button>
+  </nav>
+
+  <div class="bar noprint">
+    <span>النطق:</span><span class="seg" id="acc"><button data-a="en-US" aria-pressed="true">US</button><button data-a="en-GB" aria-pressed="false">UK</button></span>
+    <button class="btn soft" id="printBtn" type="button">🖨️ طباعة الشرح</button>
+  </div>
+
+  <div class="legend" aria-label="مفتاح الألوان">
+    <span><i style="background:var(--ag)"></i>الفاعل <small class="en">doer</small></span>
+    <span><i style="background:var(--ob)"></i>المفعول به / الفاعل الجديد</span>
+    <span><i style="background:var(--be)"></i>فعل <span class="en">be</span></span>
+    <span><i style="background:var(--v3)"></i>التصريف الثالث <span class="en">V3</span></span>
+  </div>
+
+  <!-- ===================== LEARN ===================== -->
+  <section id="p-learn">
+    <div class="card">
+      <h2><span class="n">1</span>ما المبني للمجهول؟ <span class="en">Active vs Passive</span></h2>
+      <p>في <b>المبني للمعلوم</b> تبدأ الجملة بالفاعل الذي قام بالفعل. وفي <b>المبني للمجهول</b> تبدأ بالمفعول به، لأن ما حدث له أهم عندنا من الذي فعله.</p>
+      <div id="introEx"></div>
+      <p>الجملتان بالمعنى نفسه، لكن التركيز تغيّر: الأولى عن <b>العمّال</b>، والثانية عن <b>الجسر</b>.</p>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">2</span>القاعدة <span class="en">The rule</span></h2>
+      <div class="formula">
+        <span class="ch s">Object<small>المفعول به (يصبح فاعلاً)</small></span><span class="plus">+</span>
+        <span class="ch be">be<small>بزمن الجملة الأصلية</small></span><span class="plus">+</span>
+        <span class="ch v">V3<small>التصريف الثالث</small></span><span class="plus">+</span>
+        <span class="ch by">(by + doer)<small>اختياري</small></span>
+      </div>
+      <p>فعل <span class="en">be</span> هو الذي يحمل الزمن، ويطابق الفاعل الجديد في الإفراد والجمع: <span class="en">is / are</span> ، <span class="en">was / were</span> ، <span class="en">has / have been</span>. أمّا الفعل الأصلي فيبقى دائماً في التصريف الثالث <span class="en">V3</span>.</p>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">3</span>خطوات التحويل الأربع <span class="en">4 steps</span></h2>
+      <div class="steps" id="steps"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">4</span>متى نستخدمه؟ <span class="en">When do we use it?</span></h2>
+      <div class="uses" id="uses"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">5</span>المبني للمجهول في كل الأزمنة <span class="en">All tenses</span></h2>
+      <p>انظر كيف يتغيّر فعل <span class="en">be</span> وحده، والفعل الأصلي يبقى <span class="en k-v">cleaned</span> في كل الأزمنة.</p>
+      <table class="tt"><thead><tr><th>الزمن</th><th>المبني للمعلوم Active</th><th>المبني للمجهول Passive</th></tr></thead><tbody id="tt"></tbody></table>
+      <div class="note">💡 جرّب أي جملة في أي زمن من تبويب <b>🔄 المحوّل</b>.</div>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">6</span>النفي والسؤال <span class="en">Negative &amp; Question</span></h2>
+      <p><b>النفي:</b> نضع <span class="en">not</span> بعد أول فعل مساعد. <b>السؤال:</b> نقدّم أول فعل مساعد إلى أول الجملة.</p>
+      <div id="negq"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">7</span>أخطاء شائعة <span class="en">Common mistakes</span></h2>
+      <div class="mist" id="mist"></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="n">8</span>التصريف الثالث لأفعال شائعة <span class="en">Irregular V3</span></h2>
+      <p>اضغط على الفعل لتسمع نطقه.</p>
+      <div class="v3grid" id="v3"></div>
+    </div>
+  </section>
+
+  <!-- ===================== CONVERTER ===================== -->
+  <section id="p-conv" hidden>
+    <div class="bar">
+      <label for="sel">اختر الجملة:</label>
+      <select id="sel"></select>
+    </div>
+    <div class="tchips" id="tchips"></div>
+    <div class="card"><div id="conv"></div></div>
+  </section>
+
+  <!-- ===================== BUILDER ===================== -->
+  <section id="p-build" hidden>
+    <div class="game" id="game"></div>
+  </section>
+
+  <!-- ===================== QUIZ ===================== -->
+  <section id="p-quiz" hidden>
+    <div class="quiz" id="quiz"></div>
+  </section>
+
+  <footer>إعداد: أ. أحمد آل سالم — نادي اللغة الإنجليزية، ثانوية الأمير فيصل بالعقيق</footer>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const sfx=k=>{try{window.clubSfx&&clubSfx(k)}catch(e){}};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- speech ---------- */
+let ACC=store.get('pv-accent')||store.get('tn-accent')||'en-US',voices=[];
+function loadVoices(){try{voices=speechSynthesis.getVoices()||[]}catch(e){}}
+if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices;}
+function say(t){if(!('speechSynthesis' in window))return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang=ACC;u.rate=.9;
+  const v=voices.find(v=>v.lang===ACC)||voices.find(v=>v.lang&&v.lang.replace('_','-').startsWith(ACC));if(v)u.voice=v;speechSynthesis.speak(u);}catch(e){}}
+document.querySelectorAll('#acc button').forEach(b=>{b.setAttribute('aria-pressed',b.dataset.a===ACC);b.onclick=()=>{ACC=b.dataset.a;store.set('pv-accent',ACC);document.querySelectorAll('#acc button').forEach(x=>x.setAttribute('aria-pressed',x===b));say('Hello');};});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-say]');if(b)say(b.dataset.say);});
+const sayBtn=t=>`<button type="button" class="say" data-say="${esc(t)}" aria-label="استمع">🔊</button>`;
+
+/* ---------- sentences ----------
+   ag = doer (active subject), by = doer after "by", agp = doer is plural,
+   v = [base, -s, past, -ing, V3], ob = object, obp = object is plural, keep = object keeps its capital letter */
+const S=[
+ {ag:'The workers',by:'the workers',agp:1,v:['build','builds','built','building','built'],ob:'a new bridge',obp:0,ar:'العمّال يبنون جسراً جديداً'},
+ {ag:'The cleaner',by:'the cleaner',agp:0,v:['clean','cleans','cleaned','cleaning','cleaned'],ob:'the classroom',obp:0,ar:'عامل النظافة ينظّف الفصل'},
+ {ag:'Our teacher',by:'our teacher',agp:0,v:['write','writes','wrote','writing','written'],ob:'the tests',obp:1,ar:'معلمنا يكتب الاختبارات'},
+ {ag:'The chef',by:'the chef',agp:0,v:['cook','cooks','cooked','cooking','cooked'],ob:'the meals',obp:1,ar:'الطاهي يطبخ الوجبات'},
+ {ag:'Farmers',by:'farmers',agp:1,v:['grow','grows','grew','growing','grown'],ob:'dates',obp:1,ar:'المزارعون يزرعون التمور'},
+ {ag:'The school',by:'the school',agp:0,v:['send','sends','sent','sending','sent'],ob:'the messages',obp:1,ar:'المدرسة ترسل الرسائل'},
+ {ag:'The students',by:'the students',agp:1,v:['paint','paints','painted','painting','painted'],ob:'the wall',obp:0,ar:'الطلاب يدهنون الجدار'},
+ {ag:'The factory',by:'the factory',agp:0,v:['make','makes','made','making','made'],ob:'these cars',obp:1,ar:'المصنع يصنع هذه السيارات'},
+ {ag:'Volunteers',by:'volunteers',agp:1,v:['teach','teaches','taught','teaching','taught'],ob:'English',obp:0,keep:1,ar:'المتطوعون يعلّمون الإنجليزية'},
+ {ag:'The boys',by:'the boys',agp:1,v:['break','breaks','broke','breaking','broken'],ob:'the window',obp:0,ar:'الأولاد يكسرون النافذة'},
+ {ag:'My brother',by:'my brother',agp:0,v:['wash','washes','washed','washing','washed'],ob:'the car',obp:0,ar:'أخي يغسل السيارة'},
+ {ag:'The police',by:'the police',agp:1,v:['catch','catches','caught','catching','caught'],ob:'the thief',obp:0,ar:'الشرطة تقبض على اللص'}
+];
+/* tenses: act(plural) = auxiliaries + verb-form index for the active; pas(plural) = auxiliaries for the passive */
+const T=[
+ {id:'ps', en:'Present Simple',     ar:'المضارع البسيط', tm:'every day',              act:p=>[[],p?0:1], pas:p=>[p?'are':'is']},
+ {id:'pc', en:'Present Continuous', ar:'المضارع المستمر', tm:'right now',             act:p=>[[p?'are':'is'],3], pas:p=>[p?'are':'is','being']},
+ {id:'pas',en:'Past Simple',        ar:'الماضي البسيط', tm:'yesterday',               act:p=>[[],2], pas:p=>[p?'were':'was']},
+ {id:'pac',en:'Past Continuous',    ar:'الماضي المستمر', tm:"at nine o'clock yesterday", act:p=>[[p?'were':'was'],3], pas:p=>[p?'were':'was','being']},
+ {id:'pp', en:'Present Perfect',    ar:'المضارع التام', tm:'this week',               act:p=>[[p?'have':'has'],4], pas:p=>[p?'have':'has','been']},
+ {id:'pap',en:'Past Perfect',       ar:'الماضي التام', tm:'before noon',              act:p=>[['had'],4], pas:p=>['had','been']},
+ {id:'fw', en:'Future (will)',      ar:'المستقبل will', tm:'tomorrow',                act:p=>[['will'],0], pas:p=>['will','be']},
+ {id:'gt', en:'Future (going to)',  ar:'المستقبل going to', tm:'next week',           act:p=>[[p?'are':'is','going to'],0], pas:p=>[p?'are':'is','going to','be']},
+ {id:'md', en:'Modal (should)',     ar:'الأفعال الناقصة', tm:'every week',            act:p=>[['should'],0], pas:p=>['should','be']}
+];
+const AGREE={ps:1,pc:1,pas:1,pac:1,pp:1,gt:1};
+const GRP={ps:'p',pc:'p',pp:'p',pas:'d',pac:'d',pap:'d',fw:'f',gt:'f',md:'m'};const other=t=>T.filter(x=>GRP[x.id]!==GRP[t.id]);
+const cap=t=>t.charAt(0).toUpperCase()+t.slice(1);
+const low=(t,keep)=>keep?t:t.charAt(0).toLowerCase()+t.slice(1);
+const NEG={is:"isn't",are:"aren't",was:"wasn't",were:"weren't",has:"hasn't",have:"haven't",had:"hadn't",will:"won't",should:"shouldn't"};
+
+/* token = [text, role]; roles: ag doer, s object/new subject, be auxiliaries, v V3, va active verb, by by-phrase, tm time, x other */
+function active(s,t,form){
+  const [aux,vi]=t.act(s.agp);const k=[[s.ag,'ag']];
+  if(form==='n'){ if(aux.length){k.push([NEG[aux[0]]||aux[0]+' not','x']);aux.slice(1).forEach(a=>k.push([a,'x']));k.push([s.v[vi],'va']);}
+    else {k.push([s.agp?"don't":"doesn't",'x']);k.push([s.v[0],'va']);} }
+  else { aux.forEach(a=>k.push([a,'x']));k.push([s.v[vi],'va']); }
+  k.push([s.ob,'s']);if(t.tm)k.push([t.tm,'tm']);return k;
+}
+function passive(s,t,form,noBy){
+  const aux=t.pas(s.obp);const subj=s.ob;const k=[];
+  if(form==='q'){k.push([cap(aux[0]),'be']);k.push([low(subj,s.keep),'s']);aux.slice(1).forEach(a=>k.push([a,'be']));}
+  else{k.push([cap(subj),'s']);aux.forEach((a,i)=>k.push([form==='n'&&i===0?NEG[a]:a,'be']));}
+  k.push([s.v[4],'v']);if(!noBy)k.push(['by '+s.by,'by']);if(t.tm)k.push([t.tm,'tm']);return k;
+}
+const fixCap=k=>{k=k.map(x=>x.slice());k[0][0]=cap(k[0][0]);return k;};
+const plain=(k,q)=>fixCap(k).map(x=>x[0]).join(' ')+(q?'?':'.');
+const html=(k,q)=>fixCap(k).map(x=>`<span class="k-${x[1]}">${esc(x[0])}</span>`).join(' ')+(q?'?':'.');
+const line=(k,q,lb)=>`<div class="sent">${lb||''}<span class="tx">${html(k,q)}</span>${sayBtn(plain(k,q))}</div>`;
+const LA='<span class="lb act">معلوم</span>',LP='<span class="lb pas">مجهول</span>';
+const tById=id=>T.find(t=>t.id===id);
+
+/* ---------- LEARN ---------- */
+(function learn(){
+  const bridge=S[0],pas=tById('pas');
+  $('introEx').innerHTML=line(active(bridge,pas),0,LA)+line(passive(bridge,pas),0,LP);
+  $('steps').innerHTML=[
+    ['حدّد المفعول به في الجملة.','الشيء الذي وقع عليه الفعل: <span class="en k-s">a new bridge</span>',line(active(bridge,pas))],
+    ['انقله إلى أول الجملة ليصبح فاعلاً.','<span class="en k-s">A new bridge</span> مفرد، وهذا يحدد شكل <span class="en">be</span>.',`<div class="sent"><span class="tx"><span class="k-s">A new bridge</span> …</span></div>`],
+    ['ضع <span class="en">be</span> بزمن الجملة الأصلية، ثم الفعل في التصريف الثالث.','<span class="en">built</span> ماضٍ بسيط ← <span class="en k-be">was</span> (مفرد)، والفعل <span class="en">build</span> ← <span class="en k-v">built</span>.',`<div class="sent"><span class="tx"><span class="k-s">A new bridge</span> <span class="k-be">was</span> <span class="k-v">built</span> …</span></div>`],
+    ['أضف <span class="en">by</span> + الفاعل إن كان مهماً (اختياري).','وإن كان الفاعل غير مهم أو غير معروف نحذفه.',line(passive(bridge,pas),0)]
+  ].map((x,i)=>`<div class="step"><span class="num">${i+1}</span><div><b>${x[0]}</b><div style="color:var(--muted)">${x[1]}</div>${x[2]}</div></div>`).join('');
+  const U=[
+    ['لا نعرف الفاعل','My phone was stolen.'],
+    ['الفاعل غير مهم أو معروف للجميع','English is spoken in many countries.'],
+    ['الحدث أهم من الفاعل','The new hospital was opened last week.'],
+    ['في الأخبار والعلوم والأسلوب الرسمي','The water is heated to 100 degrees.'],
+    ['نريد ذكر الفاعل في آخر الجملة للتركيز عليه','Al-Baha is visited by many tourists every summer.'],
+    ['في التعليمات والإعلانات','Phones must be turned off in class.']
+  ];
+  const mark=s=>esc(s).replace(/\b(was|were|is|are|be)\b/,'<span class="k-be">$1</span>').replace(/\b(stolen|spoken|opened|heated|visited|turned)\b/,'<span class="k-v">$1</span>').replace(/by many tourists/,'<span class="k-by">by many tourists</span>');
+  $('uses').innerHTML=U.map(u=>`<div class="use"><b>${u[0]}</b><div class="sent"><span class="tx">${mark(u[1])}</span>${sayBtn(u[1])}</div></div>`).join('');
+  const room={ag:'They',by:'them',agp:1,v:['clean','cleans','cleaned','cleaning','cleaned'],ob:'the room',obp:0};
+  $('tt').innerHTML=T.map(t=>{const a=active(room,t),p=passive(room,t,'a',1);
+    return `<tr><td>${t.en}<small>${t.ar}</small></td><td>${html(a)}</td><td>${html(p)} ${sayBtn(plain(p))}</td></tr>`;}).join('');
+  const ex=[[S[1],'ps'],[S[0],'pas'],[S[2],'pp']];
+  $('negq').innerHTML=ex.map(([s,id])=>{const t=tById(id);return `<ul class="pm" style="margin:12px 0">
+    <li><span class="sg a">+</span>${line(passive(s,t,'a',1))}</li><li><span class="sg n">−</span>${line(passive(s,t,'n',1))}</li><li><span class="sg q">?</span>${line(passive(s,t,'q',1),1)}</li></ul>`;}).join('');
+  const M=[
+    ['The bridge was build last year.','The bridge was built last year.','بعد be نستخدم التصريف الثالث V3، لا المصدر.'],
+    ['The tests was written yesterday.','The tests were written yesterday.','الفاعل الجديد جمع (the tests) فنستخدم were.'],
+    ['English is speaking in many countries.','English is spoken in many countries.','V-ing للمبني للمعلوم المستمر؛ المجهول يحتاج V3.'],
+    ['The room cleaned every day.','The room is cleaned every day.','لا مبني للمجهول بدون فعل be.'],
+    ['The accident was happened at night.','The accident happened at night.','الأفعال التي ليس لها مفعول به (happen, arrive, die) لا تُبنى للمجهول.'],
+    ['The car has washed.','The car has been washed.','في الأزمنة التامة نضيف been.']
+  ];
+  $('mist').innerHTML=M.map(m=>`<div><div class="row"><span class="bad">✗ ${esc(m[0])}</span><span class="good">✓ ${esc(m[1])}</span></div><div class="why">${m[2]}</div></div>`).join('');
+  const V=[['build','built'],['write','written'],['make','made'],['send','sent'],['teach','taught'],['grow','grown'],['break','broken'],['catch','caught'],
+    ['speak','spoken'],['steal','stolen'],['eat','eaten'],['give','given'],['take','taken'],['see','seen'],['find','found'],['buy','bought'],
+    ['sell','sold'],['choose','chosen'],['do','done'],['drive','driven'],['forget','forgotten'],['keep','kept'],['know','known'],['tell','told'],
+    ['wear','worn'],['bring','brought'],['hold','held'],['hide','hidden']];
+  $('v3').innerHTML=V.map(v=>`<button type="button" data-say="${v[0]}, ${v[1]}"><span class="b">${v[0]}</span><span>→</span><span class="p">${v[1]}</span></button>`).join('');
+})();
+
+/* ---------- CONVERTER ---------- */
+let cs=0,ct='pas';
+$('sel').innerHTML=S.map((s,i)=>`<option value="${i}">${esc(s.ag)} ${s.agp?s.v[0]:s.v[1]} ${esc(s.ob)} — ${s.ar}</option>`).join('');
+$('sel').onchange=()=>{cs=+$('sel').value;drawConv();};
+$('tchips').innerHTML=T.map(t=>`<button type="button" data-t="${t.id}" aria-pressed="${t.id===ct}"><span class="e">${t.en}</span><span class="a">${t.ar}</span></button>`).join('');
+$('tchips').querySelectorAll('button').forEach(b=>b.onclick=()=>{ct=b.dataset.t;$('tchips').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));drawConv();});
+function drawConv(){
+  const s=S[cs],t=tById(ct),aux=t.pas(s.obp),a=active(s,t),[aa,vi]=t.act(s.agp);
+  const verbNow=[...aa,s.v[vi]].join(' ');
+  const agree=AGREE[t.id]?`لأن <span class="en k-s">${esc(s.ob)}</span> ${s.obp?'جمع':'مفرد'}`:'وهذا الشكل لا يتغيّر مع المفرد والجمع';
+  $('conv').innerHTML=`<div style="font-weight:800;color:var(--muted)">المبني للمعلوم · ${t.ar}</div>${line(a,0,LA)}
+   <div class="arrow">⬇</div>
+   <div class="cstep"><span class="num">1</span><div>المفعول به <span class="en k-s">${esc(s.ob)}</span> يصبح فاعلاً في أول الجملة.</div></div>
+   <div class="cstep"><span class="num">2</span><div>الفعل <span class="en">${esc(verbNow)}</span> في زمن <span class="en">${t.en}</span> ← نستخدم <span class="en k-be">${aux.join(' ')}</span>، ${agree}.</div></div>
+   <div class="cstep"><span class="num">3</span><div>الفعل <span class="en">${s.v[0]}</span> ← التصريف الثالث <span class="en k-v">${s.v[4]}</span>.</div></div>
+   <div class="cstep"><span class="num">4</span><div>الفاعل يأتي بعد <span class="en k-by">by</span> في آخر الجملة، ويمكن حذفه.</div></div>
+   <div class="arrow">⬇</div>
+   <div style="font-weight:800;color:var(--muted)">المبني للمجهول</div>
+   <ul class="pm"><li><span class="sg a">+</span>${line(passive(s,t,'a'))}</li><li><span class="sg n">−</span>${line(passive(s,t,'n'))}</li><li><span class="sg q">?</span>${line(passive(s,t,'q'),1)}</li></ul>
+   <div class="note">✂️ بدون الفاعل: <span class="en">${html(passive(s,t,'a',1))}</span></div>`;
+}
+drawConv();
+
+/* ---------- BUILDER ---------- */
+let G={n:0,ok:0};
+function wrongBe(w){return {is:'are',are:'is',was:'were',were:'was',has:'have',have:'has',had:'has',will:'is',should:'is'}[w];}
+function newRound(){
+  const s=pick(S),t=pick(T);const p=passive(s,t,'a',Math.random()<.35);
+  const ch=fixCap(p).map(x=>x[0]);
+  // keep "going to" as one chunk; distractors: wrong be + a wrong verb form
+  const extra=[];const wb=wrongBe(t.pas(s.obp)[0]);if(wb&&!ch.includes(wb))extra.push(wb);
+  const wv=s.v[2]!==s.v[4]?s.v[2]:s.v[0];if(!ch.includes(wv))extra.push(wv);
+  G.cur={s,t,ans:ch,act:active(s,t),chips:shuffle([...ch,...extra]),put:[]};drawGame();
+}
+function drawGame(){
+  const c=G.cur,Z=$('game');
+  Z.innerHTML=`<div class="gtop"><span>الجولة ${G.n+1}</span><span>✅ ${G.ok}</span></div>
+   <div style="text-align:center;font-weight:800;font-size:1.1rem">حوّل الجملة إلى المبني للمجهول <span style="color:var(--muted);font-weight:700">(${c.t.ar})</span></div>
+   ${line(c.act,0,LA)}
+   <div class="slots" id="slots"></div><div class="bank" id="bank"></div>
+   <div class="gbtns"><button class="btn" id="gchk" type="button">تحقّق ✔</button><button class="btn ghost" id="gclr" type="button">مسح</button><button class="btn soft" id="gnext" type="button" hidden>التالية ←</button></div>
+   <div class="gfb" id="gfb" aria-live="polite"></div>`;
+  const drawChips=()=>{
+    $('bank').innerHTML=c.chips.map((w,i)=>`<button type="button" class="chip${c.put.includes(i)?' used':''}" data-i="${i}">${esc(w)}</button>`).join('');
+    $('slots').innerHTML=c.put.map((i,j)=>`<button type="button" class="chip" data-j="${j}">${esc(c.chips[i])}</button>`).join('');
+    $('bank').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{if(c.done)return;c.put.push(+b.dataset.i);sfx('tap');drawChips();});
+    $('slots').querySelectorAll('.chip').forEach(b=>b.onclick=()=>{if(c.done)return;c.put.splice(+b.dataset.j,1);drawChips();});
+  };
+  drawChips();
+  $('gclr').onclick=()=>{if(c.done)return;c.put=[];drawChips();};
+  $('gnext').onclick=()=>{G.n++;newRound();};
+  $('gchk').onclick=()=>{
+    if(c.done||!c.put.length)return;
+    const got=c.put.map(i=>c.chips[i]).join(' '),want=c.ans.join(' ');
+    const ok=got===want,f=$('gfb');c.done=true;
+    if(ok){G.ok++;sfx('good');f.className='gfb ok';f.innerHTML='أحسنت! ✔';}
+    else{sfx('bad');f.className='gfb no';f.innerHTML=`الترتيب الصحيح:<div class="sent">${esc(want)}.</div>`;}
+    say(want);$('gchk').hidden=true;$('gclr').hidden=true;$('gnext').hidden=false;
+    Z.querySelector('.gtop span:last-child').textContent='✅ '+G.ok;
+  };
+}
+
+/* ---------- QUIZ ---------- */
+let Q=null;
+function qPassiveChoice(){
+  const s=pick(S),t=pick(T),right=plain(passive(s,t));
+  const aux=t.pas(s.obp);const w1=passive(s,t);
+  const outs=[];
+  // wrong agreement
+  if(AGREE[t.id]){const k=passive(s,t);k[1]=[wrongBe(aux[0]),'be'];outs.push(plain(k));}
+  // wrong verb form
+  {const k=passive(s,t);const vi=k.findIndex(x=>x[1]==='v');k[vi]=[s.v[2]!==s.v[4]?s.v[2]:s.v[0],'v'];outs.push(plain(k));}
+  // be missing / -ing
+  {const k=passive(s,t);const vi=k.findIndex(x=>x[1]==='v');k[vi]=[s.v[3],'v'];outs.push(plain(k));}
+  // another tense
+  {const o=pick(other(t));const k=passive(s,{...o,tm:t.tm});outs.push(plain(k));}
+  // active sentence starting with the object (classic mistake)
+  {const k=[[cap(s.ob),'s'],[s.v[2],'v'],['by '+s.by,'by']];if(t.tm)k.push([t.tm,'tm']);outs.push(plain(k));}
+  const opts=shuffle([right,...shuffle([...new Set(outs)].filter(x=>x!==right)).slice(0,3)]);
+  return {ask:'اختر صيغة المبني للمجهول الصحيحة:',sent:html(active(s,t)),say:plain(active(s,t)),opts,right,one:1,why:`${t.ar}: ${aux.join(' ')} + ${s.v[4]}`};
+}
+function qBe(){
+  const s=pick(S),t=pick(T.filter(x=>x.id!=='md')),aux=t.pas(s.obp).join(' ');
+  const k=passive(s,t);const st=k.filter(x=>x[1]!=='be');
+  const sent=`<span class="k-s">${esc(cap(s.ob))}</span> <span class="gap">____</span> ${st.slice(1).map(x=>`<span class="k-${x[1]}">${esc(x[0])}</span>`).join(' ')}.`;
+  const wrong=AGREE[t.id]?[t.pas(!s.obp).join(' ')]:[];
+  const pool=other(t).filter(x=>x.id!=='md').map(x=>x.pas(s.obp).join(' '));
+  const opts=shuffle([aux,...wrong,...shuffle([...new Set(pool)].filter(x=>x!==aux&&!wrong.includes(x))).slice(0,3-wrong.length)]);
+  return {ask:`أكمل بالفعل المساعد المناسب (${t.ar}):`,sent,say:plain(k),opts,right:aux,why:AGREE[t.id]?`${s.obp?'الفاعل جمع':'الفاعل مفرد'} ← ${aux}`:''};
+}
+function qV3(){
+  const s=pick(S),t=pick(T),k=passive(s,t);const vi=k.findIndex(x=>x[1]==='v');
+  const sent=fixCap(k).map((x,i)=>i===vi?'<span class="gap">____</span>':`<span class="k-${x[1]}">${esc(x[0])}</span>`).join(' ')+'.';
+  const opts=shuffle([...new Set([s.v[4],s.v[0],s.v[3],s.v[1],s.v[2]])]).slice(0,4);if(!opts.includes(s.v[4]))opts[0]=s.v[4];
+  return {ask:'أكمل بالصيغة الصحيحة للفعل:',sent,say:plain(k),opts:shuffle(opts),right:s.v[4],why:`بعد be نستخدم التصريف الثالث: ${s.v[0]} → ${s.v[4]}`};
+}
+function qWhich(){
+  const s=pick(S),t=pick(T),isP=Math.random()<.5,k=isP?passive(s,t,'a',Math.random()<.5):active(s,t);
+  const sent=fixCap(k).map(x=>esc(x[0])).join(' ')+'.';
+  return {ask:'هل الجملة مبنية للمعلوم أم للمجهول؟',sent,say:plain(k),opts:['Active · مبني للمعلوم','Passive · مبني للمجهول'],right:isP?'Passive · مبني للمجهول':'Active · مبني للمعلوم',
+    why:isP?'فيها be + V3 والفاعل ليس في أولها':'تبدأ بالفاعل الذي قام بالفعل'};
+}
+function newQuiz(){
+  const gen=[qPassiveChoice,qPassiveChoice,qPassiveChoice,qPassiveChoice,qBe,qBe,qBe,qV3,qWhich,qWhich];
+  Q={qs:shuffle(gen).map(f=>f()),i:0,right:0};drawQ();
+}
+function drawQ(){
+  const Z=$('quiz');
+  if(Q.i>=Q.qs.length){
+    const best=Math.max(+(store.get('pv-best')||0),Q.right);store.set('pv-best',String(best));
+    if(Q.right>=7)sfx('win');
+    const msg=Q.right>=9?'ممتاز! أتقنت المبني للمجهول 🏆':Q.right>=7?'جيد جداً، استمر 👏':Q.right>=5?'جيد، راجع الشرح وحاول مرة أخرى':'راجع الخطوات الأربع ثم أعد المحاولة 💪';
+    Z.innerHTML=`<div class="qend"><div class="big" dir="ltr">${Q.right} / ${Q.qs.length}</div><p style="font-size:1.25rem;font-weight:800;margin:6px 0">${msg}</p><p style="color:var(--muted)">أفضل نتيجة لك: ${best} / 10 · كل إجابة صحيحة في أفضل نتيجة تمنحك 10 نقاط في لوحة الشرف.</p><button class="btn" id="again" type="button">🔁 اختبار جديد</button></div>`;
+    $('again').onclick=newQuiz;return;
+  }
+  const q=Q.qs[Q.i];
+  Z.innerHTML=`<div class="qtop"><span>السؤال ${Q.i+1} من ${Q.qs.length}</span><span>✅ ${Q.right}</span></div><div class="qbar"><i style="width:${Q.i/Q.qs.length*100}%"></i></div>
+    <div class="qask">${q.ask}</div><div class="qsent"><span>${q.sent}</span>${sayBtn(q.say)}</div>
+    <div class="opts${q.one?' one':''}">${q.opts.map((o,i)=>{const p=o.split(' · ');return `<button type="button" data-i="${i}"><span class="en">${esc(p[0])}</span>${p[1]?`<span class="a">${p[1]}</span>`:''}</button>`;}).join('')}</div>
+    <div class="qfb" id="qfb" aria-live="polite"></div>`;
+  Z.querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{
+    const ok=q.opts[+b.dataset.i]===q.right;
+    Z.querySelectorAll('.opts button').forEach(c=>{c.disabled=true;if(q.opts[+c.dataset.i]===q.right)c.classList.add('right');});
+    if(!ok)b.classList.add('wrong');else Q.right++;
+    sfx(ok?'good':'bad');
+    const f=$('qfb');f.className='qfb '+(ok?'ok':'no');
+    f.innerHTML=(ok?'أحسنت! ✔':'انتبه للإجابة الصحيحة المظللة بالأخضر')+(q.why?`<span class="why">${esc(q.why)}</span>`:'');
+    setTimeout(()=>{Q.i++;drawQ();},ok?1500:2900);
+  });
+}
+
+/* ---------- tabs ---------- */
+function setTab(t){document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===t));
+  ['learn','conv','build','quiz'].forEach(k=>$('p-'+k).hidden=k!==t);
+  if(t==='build'&&!G.cur)newRound();if(t==='quiz'&&!Q)newQuiz();}
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+$('printBtn').onclick=()=>window.print();
+const m=location.search.match(/[?&]tab=(learn|conv|build|quiz)/);if(m)setTab(m[1]);
+</script>
+<script src="../assets/club.js?v=5"></script>
+</body>
+</html>

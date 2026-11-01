@@ -274,10 +274,11 @@ footer b{color:var(--ink)}
   <section class="shelf" id="f3" aria-labelledby="hf3">
     <div class="shelf-head reveal">
       <span class="badge" style="background:var(--violet-soft)" aria-hidden="true">🧩</span>
-      <div><h2 id="hf3" style="color:var(--violet)">القواعد</h2><p>Grammar · افهم الأزمنة وتركيب الجملة</p></div>
+      <div><h2 id="hf3" style="color:var(--violet)">القواعد</h2><p>Grammar · افهم الأزمنة والمبني للمجهول وتركيب الجملة</p></div>
     </div>
     <div class="grid">
       <a class="card reveal" href="grammar/tenses.html" style="--c:#5B47D6;--t:#EEEBFD"><span class="arrow">←</span><span class="ic" aria-hidden="true">⏳</span><b>خارطة الأزمنة</b><span class="en">The 12 English tenses</span><p>الأزمنة الاثنا عشر: القاعدة والخط الزمني وأمثلة لكل زمن، وجدول تصريف لأي فعل، واختبار سريع.</p></a>
+      <a class="card reveal" href="grammar/passive.html" style="--c:#0F8A7A;--t:#E2F5F1"><span class="arrow">←</span><span class="ic" aria-hidden="true">🔄</span><b>المبني للمجهول</b><span class="en">Passive Voice</span><p>القاعدة وخطوات التحويل الأربع في كل الأزمنة، مع محوّل للجمل ولعبة ترتيب واختبار سريع.</p></a>
       <a class="card reveal" href="grammar/syntax-tree-lab.html" style="--c:#3A5BD0;--t:#ECEFFC"><span class="arrow">←</span><span class="ic" aria-hidden="true">🌳</span><b>Syntax Tree Lab</b><span class="en">See how a sentence is built</span><p>شجرة تُظهر أجزاء الجملة الإنجليزية ونوع كل كلمة، مع شرح لكل جزء.</p></a>
     </div>
   </section>
@@ -355,7 +356,7 @@ try { var lr = JSON.parse(localStorage.getItem('lv-results') || '{}'), s = docum
 <script src="assets/club.js?v=5"></script>
 <script type="module">
 // Top three on the honor board (only once Firebase is configured)
-import('./assets/honor.js?v=20261030a').then(async H => {
+import('./assets/honor.js?v=20261101a').then(async H => {
   const s = H.computeScore().score;
   const mp = document.getElementById('myPts'); if (mp) mp.textContent = s.toLocaleString('en-US');
   if (s > 0) document.getElementById('hSub').textContent = 'نقاطك الآن: ' + s.toLocaleString('en-US') + ' نقطة — انضم وتنافس مع زملائك.';
@@ -394,7 +395,7 @@ import('./assets/honor.js?v=20261030a').then(async H => {
     'journey/word-quest.html':['English Word Quest','🗺️'], 'journey/dictionary.html':['قاموس الألف كلمة','📖'], 'journey/conversation-lab.html':['مختبر المحادثة','💬'],
     'vocab/mega-goal-1.html':['ميدان المفردات 1','🏟️'], 'vocab/mega-goal-2.html':['ميدان المفردات 2','🏆'], 'vocab/mega-goal-3.html':['ميدان المفردات 3','🥇'],
     'everyday/breakfast.html':['Breakfast Challenge','🍳'],
-    'grammar/syntax-tree-lab.html':['Syntax Tree Lab','🌳'], 'grammar/tenses.html':['خارطة الأزمنة','⏳'], 'kids/index.html':['نادي البراعم','🦁'], 'level/index.html':['قياس المستوى','📈'], 'everyday/basics.html':['محادثات التأسيس','🗣️'], 'idioms/index.html':['ركن التعبيرات','🎨'],
+    'grammar/syntax-tree-lab.html':['Syntax Tree Lab','🌳'], 'grammar/tenses.html':['خارطة الأزمنة','⏳'], 'grammar/passive.html':['المبني للمجهول','🔄'], 'kids/index.html':['نادي البراعم','🦁'], 'level/index.html':['قياس المستوى','📈'], 'everyday/basics.html':['محادثات التأسيس','🗣️'], 'idioms/index.html':['ركن التعبيرات','🎨'],
     'letters/letters-sounds.html':['ميدان الحروف والأصوات','🔤']
   };
   var last = get('club-last');
