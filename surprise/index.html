@@ -142,7 +142,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
 <main class="wrap">
   <h1><span class="gt">Surprise Me</span> <span aria-hidden="true">🎁</span></h1>
   <div class="sub-ar">صندوق المفاجآت</div>
-  <p class="lead">هل أنت مستعد؟ كل يوم صندوق جديد، وما بداخله <b>سرّ</b> لا يعرفه أحد! 15 تحدياً خاطفاً من كل أركان النادي، لكل تحدٍّ <b>8 نقاط</b> والمجموع <b>120</b>، ومن يُجب عن 12 فأكثر صحيحة يربح <b>مكافأة الدقة: 30 نقطة</b>… ركّز، فالدقة تربح أكثر من السرعة! يُفتح الصندوق في <b>السادسة صباحاً</b> ويُغلق في <b>العاشرة مساءً</b> ⏰</p>
+  <p class="lead">هل أنت مستعد؟ كل يوم صندوق جديد، وما بداخله <b>سرّ</b> لا يعرفه أحد! 15 تحدياً خاطفاً من كل أركان النادي: <b>7</b> إجابات صحيحة = <b>70 نقطة</b>، و<b>11</b> = <b>100</b>، و<b>13</b> فأكثر = <b>150 نقطة</b>… ركّز، فالدقة تربح أكثر من السرعة! يُفتح الصندوق في <b>السادسة صباحاً</b> ويُغلق في <b>العاشرة مساءً</b> ⏰</p>
 
   <!-- from 10 pm to 6 am (Saudi time) the box is closed -->
   <section class="card" id="vClosed" hidden style="text-align:center">
@@ -162,8 +162,8 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
         </button>
       </div>
       <div class="tap" id="tap">TAP TO OPEN</div>
-      <div class="facts"><span class="f1">🎯 15 تحدياً</span><span class="f2">🧩 كلمات · قواعد · قراءة · محادثة</span><span class="f3">⭐ 8 لكل تحدٍّ = 120</span></div>
-      <p class="note" id="startNote">أجب عن <b>12 فأكثر</b> صحيحة لتربح <b>مكافأة الدقة: 30 نقطة</b> 🎯</p>
+      <div class="facts"><span class="f1">🎯 15 تحدياً</span><span class="f2">🧩 كلمات · قواعد · قراءة · محادثة</span><span class="f3">⭐ حتى 150 نقطة</span></div>
+      <p class="note" id="startNote">7 صحيحة = <b>70</b> · 11 = <b>100</b> · 13 فأكثر = <b>150</b> 🎯</p>
       <button class="btn" id="openBtn" type="button">🎁 افتح المفاجأة</button>
     </div>
   </section>
@@ -263,7 +263,9 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     caps:{ ar:'الكبسولات',             ic:'🌟', c:'#FFF6D6', href:'../capsules/index.html' }
   };
   var CAPN = { space:'الفضاء', flavor:'النكهة', life:'الحياة', adventure:'المغامرة', emotion:'المشاعر', career:'المهن', nature:'الطبيعة', health:'الصحة', sports:'الرياضة', tech:'التقنية' };
-  var N_ALL = 15, PER = 8, TOTAL = 120, ACC = 12, ACC_BONUS = 30;   // 15 × 8 = 120; 12+ right (80%) earns +30
+  var N_ALL = 15, TOTAL = 150;
+  // reward levels by right answers: 7–10 → 70, 11–12 → 100, 13–15 → 150; under 7 → 0
+  var TIERS = [ { n:13, p:150 }, { n:11, p:100 }, { n:7, p:70 } ];
   // weekly ranks (boxes opened in the last 7 days)
   var RANKS = [ { n:3, e:'🧭', ar:'مستكشف المفاجآت' }, { n:5, e:'💎', ar:'صيّاد الكنوز' }, { n:7, e:'👑', ar:'أسطورة المفاجآت' } ];
 
@@ -309,9 +311,8 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     return m <= 1 ? 'دقيقة' : m === 2 ? 'دقيقتين' : m < 11 ? m + ' دقائق' : m + ' دقيقة'; }
   function left(){ var t = nowMs(); return span(t < OPEN ? OPEN - t : 864e5 - t + OPEN); }   // until the next box (6 am)
   function toClose(){ return span(CLOSE - nowMs()); }        // until today's box closes (10 pm)
-  // marks: 8 per right answer (out of 120); the accuracy bonus is added only for 12+ right answers
-  function pts(right){ return right * PER; }
-  function bonus(right){ return right >= ACC ? ACC_BONUS : 0; }
+  function pts(right){ for (var t = 0; t < TIERS.length; t++) if (right >= TIERS[t].n) return TIERS[t].p; return 0; }
+  function nextTier(right){ for (var t = TIERS.length - 1; t >= 0; t--) if (right < TIERS[t].n) return TIERS[t]; return null; }
   function getPts(){ try { return JSON.parse(store.get('mb-pts') || '{}') || {}; } catch(e){ return {}; } }
 
   var day = today(), box = null, i = 0, res = [], practice = 0, streak = 0;
@@ -367,7 +368,8 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     res.push(ok); streak = ok ? streak + 1 : 0; sfx(ok ? 'good' : 'bad');
     if (ok){
       at(btn, 40 + streak * 10, streak >= 3);
-      if (done === undefined && !still){ var r = btn.getBoundingClientRect(), p = document.createElement('span'); p.className = 'plus'; p.textContent = '+' + PER;
+      var nr = res.filter(Boolean).length;
+      if (done === undefined && pts(nr) > pts(nr - 1)){ show(6); var r = btn.getBoundingClientRect(), p = document.createElement('span'); p.className = 'plus'; p.textContent = '🔓 ' + pts(nr);
         p.style.left = (r.left + r.width / 2) + 'px'; p.style.top = (r.top - 10) + 'px'; document.body.appendChild(p); setTimeout(function(){ p.remove(); }, 1000); }
       if (streak >= 3) show(1);
     }
@@ -384,14 +386,15 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
   function finish(){
     var right = res.filter(Boolean).length, first = done === undefined;
     if (first) { var d = getDays(); d[day] = right; store.set('mb-days', JSON.stringify(d)); done = right;
-      var dp = getPts(); dp[day] = pts(right) + bonus(right); store.set('mb-pts', JSON.stringify(dp)); }
+      var dp = getPts(); dp[day] = pts(right); store.set('mb-pts', JSON.stringify(dp)); }
     sfx('win');
     $('vQ').hidden = true; $('vEnd').hidden = false;
-    $('sBig').textContent = pts(right) + ' / ' + TOTAL;
-    $('sMsg').textContent = right === box.length ? 'صندوق كامل! أنت أسطورة 🎉' : right >= 12 ? 'أداء ناري 🔥 واصل!' : right >= 8 ? 'جيد! والأقسام أدناه تخبّئ لك المزيد.' : 'لا بأس، أخطاؤك خطواتك نحو الإتقان 💪';
-    $('sPts').textContent = first ? ('✓ ' + right + ' من ' + box.length + ' إجابة صحيحة · +' + (pts(right) + bonus(right)) + ' نقطة في لوحة الشرف') : 'جولة تدريب (النقاط تُحسب لأول صندوق في اليوم)';
-    $('sBonus').textContent = !first ? '' : bonus(right) ? '🎯 منها +' + ACC_BONUS + ' مكافأة الدقة (12 إجابة صحيحة فأكثر)' : 'أجب عن ' + ACC + ' صحيحة غداً لتربح +' + ACC_BONUS + ' مكافأة الدقة 🎯';
-    show(right === box.length ? 12 : right >= 12 ? 7 : right >= 8 ? 4 : 2);
+    $('sBig').textContent = pts(right) + ' نقطة';
+    $('sMsg').textContent = right === box.length ? 'صندوق كامل! أنت أسطورة 🎉' : right >= 13 ? 'أداء ناري 🔥 حصدت الجائزة الكبرى!' : right >= 7 ? 'جيد! والأقسام أدناه تخبّئ لك المزيد.' : 'لا بأس، أخطاؤك خطواتك نحو الإتقان 💪';
+    $('sPts').textContent = first ? ('✓ ' + right + ' من ' + box.length + ' إجابة صحيحة · +' + pts(right) + ' نقطة في لوحة الشرف') : 'جولة تدريب (النقاط تُحسب لأول صندوق في اليوم)';
+    var nt = nextTier(right);
+    $('sBonus').textContent = !first ? '' : nt ? '🎯 كان ينقصك ' + (nt.n - right) + ' للوصول إلى ' + nt.p + ' نقطة. جرّب غداً!' : '🏆 حصدت أعلى جائزة في الصندوق!';
+    show(right === box.length ? 12 : right >= 13 ? 9 : right >= 11 ? 6 : right >= 7 ? 4 : 2);
     // one row per section (two questions from the same section are merged)
     var groups = [], seen = {};
     box.forEach(function(q, k){ var key = q.s + (q.s === 'caps' ? q.x : ''); if (!seen[key]) { seen[key] = { q:q, n:0, ok:0 }; groups.push(seen[key]); } seen[key].n++; if (res[k]) seen[key].ok++; });
@@ -414,6 +417,6 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
   startView();
 })();
 </script>
-<script src="../assets/club.js?v=14"></script>
+<script src="../assets/club.js?v=15"></script>
 </body>
 </html>
