@@ -154,6 +154,21 @@ h1 .en{display:block;font-family:var(--en);font-weight:600;font-size:.38em;lette
 .portal .go{background:var(--violet);color:#fff;font-weight:800;border-radius:999px;padding:10px 20px;white-space:nowrap;font-size:1rem}
 .portal .arrow{display:none}
 
+/* start-here steps + section picker */
+.starts{display:grid;grid-template-columns:1fr;gap:12px}
+.starts .gdban,.starts .lvban{margin:0;padding:16px 18px}
+.starts .gdban{border-width:2px;box-shadow:0 14px 28px -22px rgba(17,130,106,.7)}
+.starts .gdban b{font-size:1.35rem}
+.num{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:1.05rem;color:#fff;background:currentColor}
+.gdban .num{background:#11826a}.lvban .num{background:#3157D5}
+@media (max-width:600px){.starts .gdban,.starts .lvban{flex-wrap:wrap}.starts .go{width:100%;text-align:center}}
+.secnav{margin-top:34px;background:var(--card);border:1.5px solid var(--line);border-radius:26px;padding:16px}
+.secnav h2{margin:0 4px 12px;font-size:1.35rem;font-weight:800}
+.secnav .paths{grid-template-columns:repeat(3,minmax(0,1fr));margin:0;max-width:none}
+@media (max-width:640px){.secnav .paths{grid-template-columns:1fr 1fr}}
+.hcaps{max-width:none;margin:0}
+.hcaps-all{display:block;margin-top:10px;text-align:center;text-decoration:none;background:#9a6a00;color:#fff;font-weight:800;border-radius:999px;padding:10px 18px}
+#kids{scroll-margin-top:16px}
 footer{margin-top:48px;text-align:center;color:var(--muted);font-size:1rem;line-height:1.9}
 footer b{color:var(--ink)}
 
@@ -189,29 +204,14 @@ footer b{color:var(--ink)}
     <span class="chip">ثانوية الأمير فيصل بالعقيق</span>
     <h1>نادي اللغة الإنجليزية<span class="en">ENGLISH CLUB</span></h1>
     <p class="sub">منصتك لتتعلّم الإنجليزية بنفسك: من الحروف والأصوات، إلى المفردات والقواعد، إلى القصص والمحادثة. العب، وتعلّم، واصعد في لوحة الشرف.</p>
-    <div class="paths">
-      <a class="path" href="#f1" style="--pc:#2B78C2;--pb:#E3EFFA"><span class="pi" aria-hidden="true">🌱</span><b>التأسيس</b><small>الحروف وعبارات الحياة</small></a>
-      <a class="path" href="#f2" style="--pc:#b8336a;--pb:#fdeef3"><span class="pi" aria-hidden="true">📚</span><b>المفردات</b><small>أكثر من 3000 كلمة</small></a>
-      <a class="path" href="#f3" style="--pc:#6046e8;--pb:#efebff"><span class="pi" aria-hidden="true">🧩</span><b>القواعد</b><small>12 زمناً وتركيب الجملة</small></a>
-      <a class="path" href="#f4" style="--pc:#c4532f;--pb:#fdece5"><span class="pi" aria-hidden="true">💬</span><b>القراءة والمحادثة</b><small>18 قصة و20 محادثة</small></a>
-    </div>
-    <div class="hcaps">
-      <a class="hcaps-h" href="capsules/index.html"><span aria-hidden="true">🌟</span><b>الكبسولات</b><small id="capProg">رتّب الجمل وافهم معانيها</small><span class="all">كل الكبسولات ←</span></a>
-      <div class="capchips">
-        <a class="capchip" href="capsules/space.html" style="--c:#6046e8;--t:#efebff"><span aria-hidden="true">🚀</span>الفضاء</a>
-        <a class="capchip" href="capsules/flavor.html" style="--c:#c25a20;--t:#fff0e4"><span aria-hidden="true">🍊</span>النكهة</a>
-        <a class="capchip" href="capsules/life.html" style="--c:#7d47c4;--t:#f3ebff"><span aria-hidden="true">🦋</span>الحياة</a>
-        <a class="capchip" href="capsules/adventure.html" style="--c:#2477b5;--t:#e6f3fc"><span aria-hidden="true">🎈</span>المغامرة</a>
-        <a class="capchip" href="capsules/emotion.html" style="--c:#9a6a00;--t:#fff6d8"><span aria-hidden="true">💛</span>المشاعر</a>
-        <a class="capchip" href="capsules/career.html" style="--c:#2f5fa8;--t:#e8effb"><span aria-hidden="true">🎓</span>المسيرة</a>
-        <a class="capchip" href="capsules/nature.html" style="--c:#1d7a50;--t:#e4f5ec"><span aria-hidden="true">🌍</span>الطبيعة</a>
-        <a class="capchip" href="capsules/health.html" style="--c:#13807f;--t:#e2f5f4"><span aria-hidden="true">🩺</span>التعافي</a>
-        <a class="capchip" href="capsules/sports.html" style="--c:#1f8a4c;--t:#e4f6ea"><span aria-hidden="true">🏆</span>الرياضة</a>
-        <a class="capchip" href="capsules/tech.html" style="--c:#3f51c9;--t:#e9ecfd"><span aria-hidden="true">💻</span>التقنية</a>
-      </div>
-    </div>
-    <div class="me-strip"><span>⭐ <b id="myStars">0</b> نجمة</span><span>🏅 <b id="myPts">0</b> نقطة</span><span>🎯 <b>4</b> مسارات و<b>20+</b> أداة</span></div>
+    <div class="me-strip"><span>⭐ <b id="myStars">0</b> نجمة</span><span>🏅 <b id="myPts">0</b> نقطة</span><span>🎯 <b>5</b> أقسام و<b>20+</b> أداة</span></div>
   </section>
+
+  <a class="resume" id="resume" href="#">
+    <span class="ic" id="rIc" aria-hidden="true">▶️</span>
+    <span><small>تابع من حيث توقفت</small><b id="rName"></b></span>
+    <span class="go">أكمل ←</span>
+  </a>
 
   <a class="honor reveal" href="honor.html">
     <span class="tro" aria-hidden="true">🏆</span>
@@ -220,28 +220,43 @@ footer b{color:var(--ink)}
     <span class="go">ادخل ←</span>
   </a>
 
-  <a class="lvban reveal" href="level/index.html">
-    <span class="ki" aria-hidden="true">📈</span>
-    <span class="txt"><b>قياس المستوى</b><small id="lvSub">اختبار قصير يحدد مستواك الآن، وآخر في نهاية الفترة لترى كم تحسّنت.</small></span>
-    <span class="go">ابدأ ←</span>
-  </a>
-
-  <a class="gdban reveal" href="guide.html">
-    <span class="ki" aria-hidden="true">🧭</span>
-    <span class="txt"><b>دليل المتعلم</b><small>من أين تبدأ؟ وكيف تستفيد أقصى استفادة من كل قسم؟ خطتك اليومية في 20 دقيقة.</small></span>
-    <span class="go">اقرأ ←</span>
-  </a>
-  <a class="resume" id="resume" href="#">
-    <span class="ic" id="rIc" aria-hidden="true">▶️</span>
-    <span><small>تابع من حيث توقفت</small><b id="rName"></b></span>
-    <span class="go">أكمل ←</span>
-  </a>
+  <section class="shelf" id="start" aria-labelledby="hst">
+    <div class="shelf-head reveal">
+      <span class="badge" style="background:#E3F6EF" aria-hidden="true">🧭</span>
+      <div><h2 id="hst" style="color:#11826a">ابدأ من هنا</h2><p>خطوتان قبل أن تبدأ: اقرأ الدليل، ثم اعرف مستواك</p></div>
+    </div>
+    <div class="starts">
+      <a class="gdban reveal" href="guide.html">
+        <span class="num">1</span><span class="ki" aria-hidden="true">🧭</span>
+        <span class="txt"><b>دليل المتعلم</b><small>من أين تبدأ؟ وكيف تستفيد من كل قسم؟ وخطتك اليومية في 20 دقيقة.</small></span>
+        <span class="go">اقرأ الدليل ←</span>
+      </a>
+      <a class="lvban reveal" href="level/index.html">
+        <span class="num">2</span><span class="ki" aria-hidden="true">📈</span>
+        <span class="txt"><b>قياس المستوى</b><small id="lvSub">اختبار قصير يحدد مستواك الآن، وآخر في نهاية الفترة لترى كم تحسّنت.</small></span>
+        <span class="go">ابدأ الاختبار ←</span>
+      </a>
+    </div>
+  </section>
 
   <div class="install" id="install" hidden>
     <img src="assets/icons/icon-192.png?v=2" alt="" width="56" height="56">
     <span class="txt"><b>ثبّت تطبيق النادي على جوالك 📲</b><small id="instHint">أيقونة على شاشتك، ويفتح بملء الشاشة، ويعمل دون إنترنت للصفحات التي فتحتها.</small></span>
     <button class="go" id="instBtn" type="button">ثبّت التطبيق</button>
   </div>
+
+
+  <nav class="secnav reveal" aria-labelledby="hnav">
+    <h2 id="hnav">اختر القسم</h2>
+    <div class="paths">
+      <a class="path" href="#f1" style="--pc:#2B78C2;--pb:#E3EFFA"><span class="pi" aria-hidden="true">🌱</span><b>التأسيس</b><small>الحروف وعبارات الحياة</small></a>
+      <a class="path" href="#f2" style="--pc:#b8336a;--pb:#fdeef3"><span class="pi" aria-hidden="true">📚</span><b>المفردات</b><small>أكثر من 3000 كلمة</small></a>
+      <a class="path" href="#f3" style="--pc:#6046e8;--pb:#efebff"><span class="pi" aria-hidden="true">🧩</span><b>القواعد</b><small>12 زمناً وتركيب الجملة</small></a>
+      <a class="path" href="#f5" style="--pc:#9a6a00;--pb:#fff4d6"><span class="pi" aria-hidden="true">🌟</span><b>الكبسولات</b><small>10 كبسولات للجمل</small></a>
+      <a class="path" href="#f4" style="--pc:#c4532f;--pb:#fdece5"><span class="pi" aria-hidden="true">💬</span><b>القراءة والمحادثة</b><small>18 قصة و20 محادثة</small></a>
+      <a class="path" href="#kids" style="--pc:#C2560E;--pb:#FFF3C4"><span class="pi" aria-hidden="true">🦁</span><b>نادي البراعم</b><small>للمرحلة الابتدائية</small></a>
+    </div>
+  </nav>
 
   <section class="shelf" id="f1" aria-labelledby="hf1">
     <div class="shelf-head reveal">
@@ -283,6 +298,28 @@ footer b{color:var(--ink)}
     </div>
   </section>
 
+  <section class="shelf" id="f5" aria-labelledby="hf5">
+    <div class="shelf-head reveal">
+      <span class="badge" style="background:#fff4d6" aria-hidden="true">🌟</span>
+      <div><h2 id="hf5" style="color:#9a6a00">الكبسولات</h2><p>Sentence Capsules · <span id="capProg">رتّب الجمل وافهم معانيها</span></p></div>
+    </div>
+    <div class="hcaps reveal">
+      <div class="capchips">
+        <a class="capchip" href="capsules/space.html" style="--c:#6046e8;--t:#efebff"><span aria-hidden="true">🚀</span>الفضاء</a>
+        <a class="capchip" href="capsules/flavor.html" style="--c:#c25a20;--t:#fff0e4"><span aria-hidden="true">🍊</span>النكهة</a>
+        <a class="capchip" href="capsules/life.html" style="--c:#7d47c4;--t:#f3ebff"><span aria-hidden="true">🦋</span>الحياة</a>
+        <a class="capchip" href="capsules/adventure.html" style="--c:#2477b5;--t:#e6f3fc"><span aria-hidden="true">🎈</span>المغامرة</a>
+        <a class="capchip" href="capsules/emotion.html" style="--c:#9a6a00;--t:#fff6d8"><span aria-hidden="true">💛</span>المشاعر</a>
+        <a class="capchip" href="capsules/career.html" style="--c:#2f5fa8;--t:#e8effb"><span aria-hidden="true">🎓</span>المسيرة</a>
+        <a class="capchip" href="capsules/nature.html" style="--c:#1d7a50;--t:#e4f5ec"><span aria-hidden="true">🌍</span>الطبيعة</a>
+        <a class="capchip" href="capsules/health.html" style="--c:#13807f;--t:#e2f5f4"><span aria-hidden="true">🩺</span>التعافي</a>
+        <a class="capchip" href="capsules/sports.html" style="--c:#1f8a4c;--t:#e4f6ea"><span aria-hidden="true">🏆</span>الرياضة</a>
+        <a class="capchip" href="capsules/tech.html" style="--c:#3f51c9;--t:#e9ecfd"><span aria-hidden="true">💻</span>التقنية</a>
+      </div>
+      <a class="hcaps-all" href="capsules/index.html">كل الكبسولات ←</a>
+    </div>
+  </section>
+
   <section class="shelf" id="f4" aria-labelledby="hf4">
     <div class="shelf-head reveal">
       <span class="badge" style="background:var(--coral-soft)" aria-hidden="true">💬</span>
@@ -298,7 +335,7 @@ footer b{color:var(--ink)}
   <section class="shelf" id="s7" aria-labelledby="h7s">
     <div class="shelf-head reveal">
       <span class="badge" style="background:#e8f0fd" aria-hidden="true">🌐</span>
-      <div><h2 id="h7s" style="color:#2563c9">مواقع إثرائية</h2><p>مواقع عالمية مجانية مختارة للتدرّب أكثر</p></div>
+      <div><h2 id="h7s" style="color:#2563c9">مواقع إضافية</h2><p>مواقع عالمية مختارة للتدرّب أكثر، وموقعنا الشقيق لتعليم العربية</p></div>
     </div>
     <div class="grid">
       <a class="card portal reveal" href="links.html" style="--c:#2563c9;--t:#e8f0fd;background:linear-gradient(120deg,#e8f0fd,#ffffff 70%)">
@@ -306,15 +343,6 @@ footer b{color:var(--ink)}
         <span class="txt"><b>المكتبة الإثرائية</b><p>Study Zone و ManyThings و LearnEnglish Teens وغيرها: استماع وقراءة وقواعد وقواميس.</p></span>
         <span class="go" style="background:#2563c9">تصفّح المواقع ←</span>
       </a>
-    </div>
-  </section>
-
-  <section class="shelf" id="s8" aria-labelledby="h8s">
-    <div class="shelf-head reveal">
-      <span class="badge" style="background:#e2f4f1;color:#0f7f74;font-weight:800" aria-hidden="true">ض</span>
-      <div><h2 id="h8s" style="color:#0f7f74">مرافئ العربية</h2><p>Arabic Harbours · موقعنا الشقيق لتعليم العربية للناطقين بغيرها</p></div>
-    </div>
-    <div class="grid">
       <a class="card portal reveal" href="https://mrgmdi22-prog.github.io/Arabic/" style="--c:#0f7f74;--t:#e2f4f1;background:linear-gradient(120deg,#e2f4f1,#ffffff 70%)">
         <span class="ic" aria-hidden="true">📖</span>
         <span class="txt"><b>مرافئ العربية</b><p>قصص كليلة ودمنة، وفهم المقروء، والإملاء، ومختبر الإعراب — بواجهة عربية وإنجليزية.</p></span>
@@ -323,7 +351,7 @@ footer b{color:var(--ink)}
     </div>
   </section>
 
-  <a class="kidsban reveal" href="kids/index.html">
+  <a class="kidsban reveal" id="kids" href="kids/index.html">
     <img class="ki" src="assets/icons/kids-192.png?v=2" alt="" width="64" height="64" style="width:64px;height:64px;border-radius:16px;box-shadow:0 6px 14px -8px rgba(0,0,0,.4)">
     <span class="txt"><b>نادي البراعم <span class="en">Kids</span></b><small>لطلاب المرحلة الابتدائية: الحروف وكتابتها، و16 موضوعاً من الكلمات بالصور، وجمل وقصص قصيرة وألعاب، بالصوت.</small></span>
     <span class="go">ادخل ←</span>
