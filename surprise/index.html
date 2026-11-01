@@ -142,7 +142,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
 <main class="wrap">
   <h1><span class="gt">Surprise Me</span> <span aria-hidden="true">🎁</span></h1>
   <div class="sub-ar">صندوق المفاجآت</div>
-  <p class="lead">هل أنت مستعد؟ كل يوم صندوق جديد، وما بداخله <b>سرّ</b> لا يعرفه أحد! 15 تحدياً خاطفاً من كل أركان النادي: <b>7</b> إجابات صحيحة = <b>70 نقطة</b>، و<b>11</b> = <b>100</b>، و<b>13</b> فأكثر = <b>150 نقطة</b>… ركّز، فالدقة تربح أكثر من السرعة! يُفتح الصندوق في <b>السادسة صباحاً</b> ويُغلق في <b>العاشرة مساءً</b> ⏰</p>
+  <p class="lead">هل أنت مستعد؟ كل يوم <b>ثلاثة صناديق</b> جديدة، وما بداخلها <b>سرّ</b> لا يعرفه أحد! 15 تحدياً خاطفاً من كل أركان النادي: <b>7</b> إجابات صحيحة = <b>70 نقطة</b>، و<b>11</b> = <b>100</b>، و<b>13</b> فأكثر = <b>150 نقطة</b>… ركّز، فالدقة تربح أكثر من السرعة! تُفتح الصناديق في <b>السادسة صباحاً</b> وتُغلق في <b>العاشرة مساءً</b> ⏰</p>
 
   <!-- from 10 pm to 6 am (Saudi time) the box is closed -->
   <section class="card" id="vClosed" hidden style="text-align:center">
@@ -314,6 +314,14 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
   function pts(right){ for (var t = 0; t < TIERS.length; t++) if (right >= TIERS[t].n) return TIERS[t].p; return 0; }
   function nextTier(right){ for (var t = TIERS.length - 1; t >= 0; t--) if (right < TIERS[t].n) return TIERS[t]; return null; }
   function getPts(){ try { return JSON.parse(store.get('mb-pts') || '{}') || {}; } catch(e){ return {}; } }
+  // Boxes 2 and 3 of the day: mb-x = {'<day>-2': points, '<day>-3': points}. Boxes after the third are practice.
+  var MAXB = 3;
+  function getX(){ try { return JSON.parse(store.get('mb-x') || '{}') || {}; } catch(e){ return {}; } }
+  function nDone(){ var x = getX(), n = getDays()[day] !== undefined ? 1 : 0; for (var b = 2; b <= MAXB; b++) if (x[day + '-' + b] !== undefined) n++; return n; }
+  function dayPts(){ var x = getX(), t = +getPts()[day] || 0; for (var b = 2; b <= MAXB; b++) t += +x[day + '-' + b] || 0; return t; }
+  var counted = false, extraP = 0;
+  function newBox(){ var n = nDone(); counted = n < MAXB; box = makeBox(day, counted ? n : MAXB + (extraP++)); i = 0; res = []; streak = 0; }
+  function boxWord(n, nom){ return n === 1 ? (nom ? 'صندوق واحد' : 'صندوقاً واحداً') : n === 2 ? (nom ? 'صندوقان' : 'صندوقين') : n + ' صناديق'; }
 
   var day = today(), box = null, i = 0, res = [], practice = 0, streak = 0;
   var done = getDays()[day];
@@ -326,9 +334,14 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     }
     if (done === undefined) $('startNote').innerHTML += '<br>⏰ يُغلق الصندوق بعد <b>' + toClose() + '</b>';
     if (done !== undefined) {
-      var dp = getPts()[day];
-      $('startNote').innerHTML = 'فتحت صندوق اليوم' + (dp !== undefined ? ' وحصدت <b>' + dp + '</b> نقطة' : '') + '. صندوق جديد في السادسة صباحاً (بعد ' + left() + ').';
-      $('openBtn').textContent = '🎁 صندوق تدريب (بلا نقاط)';
+      var nd = nDone();
+      if (nd < MAXB) {
+        $('startNote').innerHTML = 'فتحت ' + boxWord(nd) + ' من ' + MAXB + ' اليوم وحصدت <b>' + dayPts() + '</b> نقطة. بقي لك ' + boxWord(MAXB - nd, 1) + ' بنقاط 🎯<br>⏰ تُغلق الصناديق بعد <b>' + toClose() + '</b>';
+        $('openBtn').textContent = '🎁 افتح الصندوق ' + (nd + 1) + ' من ' + MAXB;
+      } else {
+        $('startNote').innerHTML = 'فتحت صناديق اليوم الثلاثة وحصدت <b>' + dayPts() + '</b> نقطة. صناديق جديدة في السادسة صباحاً (بعد ' + left() + ').';
+        $('openBtn').textContent = '🎁 صندوق تدريب (بلا نقاط)';
+      }
     }
   }
   function open(){
@@ -337,8 +350,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     setTimeout(function(){
       g.classList.remove('shake'); g.classList.add('open'); sfx('win'); $('tap').style.visibility = 'hidden';
       at(g, 110, true); show(5);
-      if (done !== undefined) practice++;
-      box = makeBox(day, practice); i = 0; res = []; streak = 0;
+      newBox();
       setTimeout(function(){ $('vStart').hidden = true; $('vQ').hidden = false; render(); }, 1300);
     }, 520);
   }
@@ -369,7 +381,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     if (ok){
       at(btn, 40 + streak * 10, streak >= 3);
       var nr = res.filter(Boolean).length;
-      if (done === undefined && pts(nr) > pts(nr - 1)){ show(6); var r = btn.getBoundingClientRect(), p = document.createElement('span'); p.className = 'plus'; p.textContent = '🔓 ' + pts(nr);
+      if (counted && pts(nr) > pts(nr - 1)){ show(6); var r = btn.getBoundingClientRect(), p = document.createElement('span'); p.className = 'plus'; p.textContent = '🔓 ' + pts(nr);
         p.style.left = (r.left + r.width / 2) + 'px'; p.style.top = (r.top - 10) + 'px'; document.body.appendChild(p); setTimeout(function(){ p.remove(); }, 1000); }
       if (streak >= 3) show(1);
     }
@@ -384,16 +396,20 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
   $('next').onclick = function(){ if (++i < box.length) render(); else finish(); };
 
   function finish(){
-    var right = res.filter(Boolean).length, first = done === undefined;
-    if (first) { var d = getDays(); d[day] = right; store.set('mb-days', JSON.stringify(d)); done = right;
+    var right = res.filter(Boolean).length, first = counted && nDone() < MAXB, num = nDone() + 1;
+    if (first && num === 1) { var d = getDays(); d[day] = right; store.set('mb-days', JSON.stringify(d)); done = right;
       var dp = getPts(); dp[day] = pts(right); store.set('mb-pts', JSON.stringify(dp)); }
+    else if (first) { var x = getX(); x[day + '-' + num] = pts(right); store.set('mb-x', JSON.stringify(x)); }
+    counted = false;
+    var more = MAXB - nDone();
+    $('again').textContent = more > 0 ? '🎁 افتح الصندوق ' + (MAXB - more + 1) + ' من ' + MAXB : 'العب مرة أخرى للتدريب';
     sfx('win');
     $('vQ').hidden = true; $('vEnd').hidden = false;
     $('sBig').textContent = pts(right) + ' نقطة';
     $('sMsg').textContent = right === box.length ? 'صندوق كامل! أنت أسطورة 🎉' : right >= 13 ? 'أداء ناري 🔥 حصدت الجائزة الكبرى!' : right >= 7 ? 'جيد! والأقسام أدناه تخبّئ لك المزيد.' : 'لا بأس، أخطاؤك خطواتك نحو الإتقان 💪';
-    $('sPts').textContent = first ? ('✓ ' + right + ' من ' + box.length + ' إجابة صحيحة · +' + pts(right) + ' نقطة في لوحة الشرف') : 'جولة تدريب (النقاط تُحسب لأول صندوق في اليوم)';
+    $('sPts').textContent = first ? ('✓ ' + right + ' من ' + box.length + ' إجابة صحيحة · +' + pts(right) + ' نقطة في لوحة الشرف · الصندوق ' + num + ' من ' + MAXB) : 'جولة تدريب (النقاط تُحسب لأول ' + MAXB + ' صناديق في اليوم)';
     var nt = nextTier(right);
-    $('sBonus').textContent = !first ? '' : nt ? '🎯 كان ينقصك ' + (nt.n - right) + ' للوصول إلى ' + nt.p + ' نقطة. جرّب غداً!' : '🏆 حصدت أعلى جائزة في الصندوق!';
+    $('sBonus').textContent = !first ? '' : nt ? '🎯 كان ينقصك ' + (nt.n - right) + ' للوصول إلى ' + nt.p + ' نقطة. ' + (more > 0 ? 'جرّب الصندوق التالي!' : 'جرّب غداً!') : '🏆 حصدت أعلى جائزة في الصندوق!';
     show(right === box.length ? 12 : right >= 13 ? 9 : right >= 11 ? 6 : right >= 7 ? 4 : 2);
     // one row per section (two questions from the same section are merged)
     var groups = [], seen = {};
@@ -409,10 +425,10 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     var nx = RANKS.filter(function(r){ return n < r.n; })[0], got = RANKS.filter(function(r){ return n >= r.n; }).pop();
     $('rankNote').innerHTML = (got ? 'لقبك هذا الأسبوع: <b>' + got.e + ' ' + got.ar + '</b>. ' : '') +
       (nx ? 'افتح ' + (nx.n - n === 1 ? 'صندوقاً واحداً آخر' : nx.n - n === 2 ? 'صندوقين آخرين' : (nx.n - n) + ' صناديق أخرى') + ' لتصبح <b>' + nx.e + ' ' + nx.ar + '</b>.' : 'وصلت إلى القمة! 👑');
-    $('nextNote').textContent = 'صندوق جديد بعد ' + left() + '.';
+    $('nextNote').textContent = more > 0 ? 'بقي لك اليوم ' + boxWord(more, 1) + ' بنقاط.' : 'صناديق جديدة بعد ' + left() + '.';
     $('vEnd').scrollIntoView({ block:'start', behavior:'smooth' });
   }
-  $('again').onclick = function(){ practice++; box = makeBox(day, practice); i = 0; res = []; streak = 0; $('vEnd').hidden = true; $('vQ').hidden = false; render(); };
+  $('again').onclick = function(){ newBox(); $('vEnd').hidden = true; $('vQ').hidden = false; render(); };
 
   startView();
 })();

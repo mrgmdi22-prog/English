@@ -18,7 +18,7 @@ export const RULES = [
   { key: 'pv',   label: 'إجابة صحيحة في المبني للمجهول', icon: '🔄', per: 7, max: 10 },
   { key: 'im',   label: 'إجابة صحيحة في ركن التعبيرات', icon: '🎨', per: 7, max: 10 },
   { key: 'tb',   label: 'إجابة صحيحة في محادثات التأسيس', icon: '🗣️', per: 5, max: 40 },
-  { key: 'mb',   label: 'صندوق المفاجآت Surprise Me (7 صحيحة = 70، 11 = 100، 13 فأكثر = 150)', icon: '🎁', per: 1, max: 8000, note: 'حتى 150 نقطة', unit: 'نقطة' },
+  { key: 'mb',   label: 'Surprise Me — ثلاثة صناديق في اليوم', icon: '🎁', per: 1, max: 1000000, note: 'حتى 150 للصندوق', unit: 'نقطة' },
   { key: 'lv',   label: 'كل مستوى تتقدّمه بين الاختبار القبلي وأفضل اختبار بعدي', icon: '📈', per: 500, max: 4, note: '500 نقطة' },
   { key: 'lvs',  label: 'كل إجابة صحيحة تزيدها في الاختبار البعدي عن القبلي', icon: '📊', per: 10, max: 32 },
   { key: 'rt',   label: 'كلمة ثبتت في ذاكرتك بالمراجعة المتباعدة (Word Quest والكلمات العامة والأكاديمية)', icon: '🧠', per: 3, max: 1500 }
@@ -57,6 +57,7 @@ export function computeScore() {
   // Surprise Me: marks of the first box of each day (mb-pts = {day: marks out of 100});
   // days saved before mb-pts existed (mb-days = {day: right answers}) count 5 per right answer.
   let mb = 0; const mbd = J('mb-days') || {}, mbp = J('mb-pts') || {};
+  const mbx = J('mb-x') || {}; Object.keys(mbx).forEach(k => { mb += Math.max(0, Math.min(150, +mbx[k] || 0)); });   // boxes 2 and 3 of a day
   Object.keys(mbd).forEach(k => { mb += mbp[k] !== undefined ? Math.max(0, Math.min(180, +mbp[k] || 0)) : Math.max(0, Math.min(12, +mbd[k] || 0)) * 5; });
   // Improvement from the before test to the BEST after test so far (current version of the test only; never goes down):
   // lv = levels gained, lvs = extra right answers.
@@ -76,7 +77,7 @@ export function computeScore() {
   const pts = r => Math.min(parts[r.key], r.max) * r.per;
   const raw = RULES.filter(r => !FREE.has(r.key)).reduce((t, r) => t + pts(r), 0);
   const free = RULES.filter(r => FREE.has(r.key)).reduce((t, r) => t + pts(r), 0);
-  const day = Math.floor((Date.now() + 3 * 3600e3) / 864e5);
+  const day = Math.floor((Date.now() + 3 * 3600e3 - 6 * 3600e3) / 864e5);   // the points day starts at 6 am Saudi time, like Surprise Me
   let L = J('pts-day');
   if (!L || typeof L !== 'object' || !(L.seen >= 0)) L = { d: day, seen: raw, got: raw, t: 0 }; // existing points are kept
   if (L.d !== day) { L.d = day; L.t = 0; }
