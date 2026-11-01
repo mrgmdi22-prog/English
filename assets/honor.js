@@ -6,17 +6,17 @@ const V = '10.12.2';
 const BASE = `https://www.gstatic.com/firebasejs/${V}/`;
 
 export const RULES = [
-  { key: 'caps', label: 'نجمة في الكبسولات', icon: '🌟', per: 10, max: 507 },
+  { key: 'caps', label: 'نجمة في الكبسولات', icon: '🌟', per: 7, max: 507 },
   { key: 'wq',   label: 'إجابة صحيحة في Word Quest', icon: '🗺️', per: 5, max: 500 },
-  { key: 'lab',  label: 'إجابة صحيحة في مختبر المحادثة', icon: '💬', per: 10, max: 100 },
-  { key: 'mg',   label: 'كلمة أتقنتها في ميدان المفردات', icon: '🏟️', per: 3, max: 900 },
+  { key: 'lab',  label: 'إجابة صحيحة في مختبر المحادثة', icon: '💬', per: 7, max: 100 },
+  { key: 'mg',   label: 'كلمة أتقنتها في ميدان المفردات', icon: '🏟️', per: 4, max: 900 },
   { key: 'ng',   label: 'إجابة صحيحة في الكلمات العامة', icon: '🌍', per: 5, max: 500 },
   { key: 'aw',   label: 'إجابة صحيحة في الكلمات الأكاديمية', icon: '🎓', per: 5, max: 290 },
-  { key: 'st',   label: 'إجابة صحيحة في ركن القصص', icon: '📖', per: 10, max: 54 },
-  { key: 'bf',   label: 'إجابة صحيحة في Breakfast Challenge', icon: '🍳', per: 10, max: 10 },
-  { key: 'tn',   label: 'إجابة صحيحة في خارطة الأزمنة', icon: '⏳', per: 10, max: 10 },
-  { key: 'pv',   label: 'إجابة صحيحة في المبني للمجهول', icon: '🔄', per: 10, max: 10 },
-  { key: 'im',   label: 'إجابة صحيحة في ركن التعبيرات', icon: '🎨', per: 10, max: 10 },
+  { key: 'st',   label: 'إجابة صحيحة في ركن القصص', icon: '📖', per: 7, max: 54 },
+  { key: 'bf',   label: 'إجابة صحيحة في Breakfast Challenge', icon: '🍳', per: 7, max: 10 },
+  { key: 'tn',   label: 'إجابة صحيحة في خارطة الأزمنة', icon: '⏳', per: 7, max: 10 },
+  { key: 'pv',   label: 'إجابة صحيحة في المبني للمجهول', icon: '🔄', per: 7, max: 10 },
+  { key: 'im',   label: 'إجابة صحيحة في ركن التعبيرات', icon: '🎨', per: 7, max: 10 },
   { key: 'tb',   label: 'إجابة صحيحة في محادثات التأسيس', icon: '🗣️', per: 5, max: 40 },
   { key: 'mb',   label: 'درجة في Surprise Me (الصندوق = 100)', icon: '🎁', per: 1, max: 8000 }
 ];
