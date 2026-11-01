@@ -51,7 +51,7 @@ h1{font-size:2rem;margin:0 0 4px;font-weight:800}
   <div id="main"></div>
 </div>
 <script type="module">
-import * as H from './assets/honor.js?v=20261101o';
+import * as H from './assets/honor.js?v=20261101p';
 const $ = id => document.getElementById(id);
 const LV_NEW_AT = 1793547780000; // same as NEW_AT in level/index.html: start of the harder level-check version
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -84,12 +84,15 @@ async function load() {
   let rows;
   try { rows = await H.allPlayers(); }
   catch (e) { $('main').innerHTML = '<div class="panel"><h2>لا توجد صلاحية</h2><p class="note">هذا الحساب ليس حساب المعلم المسجّل في إعدادات اللوحة.</p></div>'; return; }
-  rows.sort((a,b) => (b.score||0) - (a.score||0));
+  // Honour order: how many weeks the student was a star, then all-time points.
+  const ST = H.stars(rows.filter(r => r.approved)), nS = id => ST.count[id] || 0, tot = r => r.total || r.score || 0;
+  const sWeeks = id => ST.weeks.filter(w => w.top.some(x => x.id === id)).map(w => H.weekLabel(w.w));
+  rows.sort((a,b) => nS(b.id) - nS(a.id) || tot(b) - tot(a));
   let priv = {}; try { priv = await H.allPrivate(); } catch (e) { console.warn(e); }
   let codes = {}; try { codes = await H.allCodes(); } catch (e) { console.warn('recovery codes', e); }
   let lv = {}, lvCfg = {}, lvErr = ''; try { [lv, lvCfg] = await Promise.all([H.allLevels(), H.teacherLevelsConfig()]); } catch (e) { console.warn('levels', e); lvErr = (e && (e.code || e.message) || 'error') + ''; }
   const pend = rows.filter(r => !r.approved), ok = rows.filter(r => r.approved);
-  const item = (r, pending) => `<div class="item" data-id="${r.id}"><span class="nm">${esc(r.nick)}${priv[r.id] ? `<small class="real">👤 ${esc(priv[r.id].name)} · ${priv[r.id].grade === H.EXTERNAL ? '🌐 من خارج المدرسة: ' + esc(priv[r.id].school || 'لم يذكر الجهة') : esc(priv[r.id].grade) + ' · الشعبة ' + esc(priv[r.id].section)}</small>` : '<small class="real miss">⚠️ لم يكتب بياناته الحقيقية بعد</small>'}</span><span class="sc">${fmt(r.score)}<small class="real">${ago(r.updatedAt)}</small>${codes[r.id] ? `<small class="real" dir="ltr" style="font-family:Lexend,monospace;letter-spacing:1px">🔑 ${esc(codes[r.id])}</small>` : ''}</span><span class="acts">
+  const item = (r, pending) => `<div class="item" data-id="${r.id}"><span class="nm">${esc(r.nick)}${priv[r.id] ? `<small class="real">👤 ${esc(priv[r.id].name)} · ${priv[r.id].grade === H.EXTERNAL ? '🌐 من خارج المدرسة: ' + esc(priv[r.id].school || 'لم يذكر الجهة') : esc(priv[r.id].grade) + ' · الشعبة ' + esc(priv[r.id].section)}</small>` : '<small class="real miss">⚠️ لم يكتب بياناته الحقيقية بعد</small>'}</span><span class="sc">${r.week === H.weekNo() ? fmt(r.score) : 0}<small class="real">هذا الأسبوع · المجموع ${fmt(tot(r))}${nS(r.id) ? ' · 🌟×' + nS(r.id) : ''}</small><small class="real">${ago(r.updatedAt)}</small>${codes[r.id] ? `<small class="real" dir="ltr" style="font-family:Lexend,monospace;letter-spacing:1px">🔑 ${esc(codes[r.id])}</small>` : ''}</span><span class="acts">
     ${pending ? '<button class="btn ok" data-a="ok">✓ موافقة</button>' : '<button class="btn soft" data-a="hide">إخفاء</button>'}
     <button class="btn soft" data-a="ren">تعديل الاسم</button><button class="btn soft" data-a="reg">📍 ${r.region ? esc(r.region) : "المنطقة"}</button><button class="btn soft" data-a="merge">🔗 ضمّ حساب قديم</button><button class="btn bad" data-a="del">حذف</button></span></div>`;
   const nickOf = id => (rows.find(r => r.id === id) || {}).nick || '';
@@ -127,13 +130,19 @@ async function load() {
     ${wqRows.length ? `<div class="lvwrap"><table class="lvt"><thead><tr><th>الطالب</th><th>🏅</th><th>🔥</th><th>🧠</th><th>آخر نشاط</th></tr></thead><tbody>${wqRows.map(r => { const x = r.parts.wqx, p = priv[r.id] || {};
       return `<tr><td><b>${esc(p.name || r.nick)}</b><small class="real">${esc(r.nick)}${p.grade ? ' · ' + esc(p.grade === H.EXTERNAL ? 'من خارج المدرسة' : p.grade + ' ' + (p.section || '')) : ''}</small></td><td>${x.u || 0}<small class="real">من ${x.t || 0} بدأها</small></td><td>${x.s || 0}</td><td>${x.m || 0}<small class="real">من ${x.k || 0}</small></td><td>${dAgo(x.d)}${x.d === todayNo && x.g ? `<small class="real">${x.g} إجابة اليوم</small>` : ''}</td></tr>`; }).join('')}</tbody></table></div>`
       : '<div class="empty">لم تصل بيانات بعد. تظهر هنا حين يستخدم الطلاب المسجّلون English Word Quest.</div>'}</div>`;
-  $('main').innerHTML = `<div class="panel"><h2>بانتظار الموافقة <span class="count">${pend.length}</span></h2>${pend.map(r => item(r, true)).join('') || '<div class="empty">لا توجد أسماء جديدة.</div>'}</div>` + newPanel + levelPanel + wqPanel + `
-    <div class="panel"><h2>قائمة التكريم</h2><p class="note">ملف فيه الترتيب والاسم الحقيقي والصف والشعبة والاسم المستعار والنقاط، يُفتح في Excel.</p><p style="margin-top:12px"><button class="btn ok" id="csv">⬇️ تنزيل قائمة التكريم</button></p></div>
+  const nm = r => { const p = priv[r.id] || {}; return `<b>${esc(p.name || r.nick)}</b><small class="real">${esc(r.nick)}${p.grade ? ' · ' + esc(p.grade === H.EXTERNAL ? 'من خارج المدرسة' : p.grade + ' ' + (p.section || '')) : ''}</small>`; };
+  const starsPanel = `<div class="panel"><h2>🌟 سجل نجوم الأسابيع</h2>
+    <p class="note">موسم جديد كل ثلاثاء في السادسة صباحاً. أفضل ${H.STARS_N} في كل أسبوع هم نجومه، والقائمة محفوظة طوال العام. الترتيب في «قائمة التكريم» حسب عدد مرات النجومية ثم المجموع.</p>
+    ${ST.weeks.length ? `<div class="lvwrap"><table class="lvt"><thead><tr><th>الطالب</th><th>🌟 مرات</th><th>الأسابيع</th><th>المجموع</th></tr></thead><tbody>${rows.filter(r => nS(r.id)).map(r => `<tr><td>${nm(r)}</td><td>${nS(r.id)}</td><td>${sWeeks(r.id).join('، ')}</td><td>${fmt(tot(r))}</td></tr>`).join('')}</tbody></table></div>
+      ${ST.weeks.map(w => `<h3 style="margin:16px 0 6px">موسم ${H.weekLabel(w.w)}</h3><div class="note">${w.top.map((r, i) => (i + 1) + '. ' + esc((priv[r.id] || {}).name || r.nick) + ' (' + fmt(r.s) + ')').join(' · ') || '—'}</div>`).join('')}`
+      : `<div class="empty">أول نجوم تُعلن بعد نهاية موسم ${H.weekLabel(H.FIRST_WEEK)}.</div>`}</div>`;
+  $('main').innerHTML = `<div class="panel"><h2>بانتظار الموافقة <span class="count">${pend.length}</span></h2>${pend.map(r => item(r, true)).join('') || '<div class="empty">لا توجد أسماء جديدة.</div>'}</div>` + newPanel + starsPanel + levelPanel + wqPanel + `
+    <div class="panel"><h2>قائمة التكريم</h2><p class="note">ملف فيه الترتيب (حسب مرات النجومية ثم المجموع) والاسم الحقيقي والصف والشعبة والاسم المستعار وأسابيع النجومية والنقاط، يُفتح في Excel.</p><p style="margin-top:12px"><button class="btn ok" id="csv">⬇️ تنزيل قائمة التكريم</button></p></div>
     <div class="panel"><h2>ظاهرون في اللوحة <span class="count" style="background:var(--ok-soft);color:var(--ok)">${ok.length}</span></h2>${ok.map(r => item(r, false)).join('') || '<div class="empty">لا أحد بعد.</div>'}</div>`;
   $('csv').onclick = () => {
     const q = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
-    const lines = [['الترتيب','الاسم الحقيقي','الصف','الشعبة','المدرسة / الجهة (للمشارك الخارجي)','الاسم المستعار','النقاط','الحالة'].map(q).join(',')];
-    rows.forEach((r, i) => { const p = priv[r.id] || {}; lines.push([i + 1, p.name || '—', p.grade === H.EXTERNAL ? 'من خارج المدرسة' : (p.grade || ''), p.grade === H.EXTERNAL ? '' : (p.section || ''), p.school || '', r.nick, r.score || 0, r.approved ? 'ظاهر في اللوحة' : 'بانتظار الموافقة'].map(q).join(',')); });
+    const lines = [['الترتيب','الاسم الحقيقي','الصف','الشعبة','المدرسة / الجهة (للمشارك الخارجي)','الاسم المستعار','مرات النجومية','أسابيع النجومية','نقاط هذا الأسبوع','المجموع منذ البداية','الحالة'].map(q).join(',')];
+    rows.forEach((r, i) => { const p = priv[r.id] || {}; lines.push([i + 1, p.name || '—', p.grade === H.EXTERNAL ? 'من خارج المدرسة' : (p.grade || ''), p.grade === H.EXTERNAL ? '' : (p.section || ''), p.school || '', r.nick, nS(r.id), sWeeks(r.id).join(' - '), r.week === H.weekNo() ? (r.score || 0) : 0, tot(r), r.approved ? 'ظاهر في اللوحة' : 'بانتظار الموافقة'].map(q).join(',')); });
     const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'قائمة-التكريم-لوحة-الشرف.csv'; document.body.appendChild(a); a.click(); a.remove();
   };

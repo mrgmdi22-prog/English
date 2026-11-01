@@ -70,6 +70,8 @@ input[type=text]:focus{border-color:var(--gold)}
 .list{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:8px}
 .list li{display:flex;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:10px 16px;
   opacity:0;transform:translateY(8px);animation:up .5s var(--ease) forwards}
+.stars h2{margin:0}.arch{margin-top:16px}.arch summary{cursor:pointer;font-weight:800;font-size:1.1rem;padding:8px 0}
+.arch h3{font-size:1.05rem;margin:16px 0 6px}.arch .wk{line-height:2;font-size:1.02rem}.arch .wk span{display:inline-block;background:#fff8e1;border:1px solid var(--line);border-radius:999px;padding:0 10px;margin:2px}
 .list li.mine{border-color:var(--gold);background:#fffaea}
 .list .rk{width:38px;height:38px;border-radius:12px;background:#f6f2e7;display:grid;place-items:center;font-weight:800;color:var(--muted);flex:none;font-variant-numeric:tabular-nums}
 .list .nm{flex:1;font-weight:700;font-size:1.1rem;overflow-wrap:anywhere}
@@ -145,10 +147,19 @@ footer a{color:var(--muted)}
   <section class="panel race" id="race" hidden aria-live="polite"></section>
 
   <section aria-labelledby="topH">
-    <h2 id="topH" style="text-align:center;margin:34px 0 0;font-size:1.5rem">الأوائل</h2>
+    <h2 id="topH" style="text-align:center;margin:34px 0 0;font-size:1.5rem">أوائل هذا الأسبوع</h2>
+    <p class="note" id="seasonNote" style="text-align:center;margin-top:6px"></p>
     <div style="text-align:center;margin-top:10px"><button class="btn soft" id="rb" type="button">🔄 حدّث الترتيب</button><div class="note" id="rbNote" style="margin-top:6px;font-size:.95rem" aria-live="polite"></div></div>
     <div class="podium" id="podium"></div>
     <ol class="list" id="list"></ol>
+  </section>
+
+  <section class="panel stars" id="starsP" hidden>
+    <h2>🌟 نجوم الأسبوع الماضي</h2>
+    <p class="note" id="starsSub"></p>
+    <ol class="list" id="starsL"></ol>
+    <details class="arch" id="archD" hidden><summary>📜 سجل النجوم في كل الأسابيع</summary>
+      <div id="archTop"></div><div id="arch"></div></details>
   </section>
 
   <section class="panel">
@@ -164,14 +175,14 @@ footer a{color:var(--muted)}
 const demo = /[?&]demo\b/.test(location.search);
 let H;
 if (demo) {
-  const m = await import('./assets/honor.js?v=20261101o').catch(() => null);
+  const m = await import('./assets/honor.js?v=20261101p').catch(() => null);
   const fake = ['نسر الصحراء','Falcon7','نجم الشمال','Lion King','القمر المضيء','Speedy','بطل العقيق','Eagle Eye','الشهاب','Rocket'].map((n,i)=>({id:'d'+i,nick:n,score:3200-i*270-(i%3)*35,approved:true}));
   let me = null, priv = null;
-  H = { ready:true, RULES:m.RULES, DAILY_CAP:m.DAILY_CAP, computeScore:m.computeScore, cleanNick:m.cleanNick,
+  H = { ready:true, RULES:m.RULES, DAILY_CAP:m.DAILY_CAP, STARS_N:m.STARS_N, weekNo:m.weekNo, weekLabel:m.weekLabel, FIRST_WEEK:m.FIRST_WEEK, stars:m.stars, computeScore:m.computeScore, cleanNick:m.cleanNick,
     GRADES:m.GRADES, SUGGESTED:m.SUGGESTED, EXTERNAL:m.EXTERNAL, REGIONS:m.REGIONS, HOME_REGION:m.HOME_REGION, setRegion: async(r)=>{me.region=r}, cleanText:m.cleanText, myPrivate: async()=>priv, savePrivate: async(p)=>{priv=p}, myEntry: async()=>me, join: async(n,r)=>(me={id:'me',nick:m.cleanNick(n),region:r,approved:false,...m.computeScore()}),
     sync: async()=>null, myCode:()=>'', cleanCode:m.cleanCode, ensureAccount: async()=>'', board: async()=>fake, watchBoard: async(cb)=>{cb(fake);return ()=>{};} };
 } else {
-  H = await import('./assets/honor.js?v=20261101o');
+  H = await import('./assets/honor.js?v=20261101p');
 }
 
 const $ = id => document.getElementById(id);
@@ -191,9 +202,28 @@ gateHeader();
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = n => Number(n||0).toLocaleString('en-US');
 
-$('rules').innerHTML = H.RULES.map(r => `<tr><td>${r.icon} ${r.label}</td><td>${r.note || (r.per + ' نقاط')}</td></tr>`).join('') + `<tr><td>⏳ حدّ يومي لنقاط التمارين: بعده تواصل التدريب للتعلّم، ولا تُحسب النقاط حتى الغد (يبدأ اليوم في السادسة صباحاً، وSurprise Me ونقاط التحسّن خارج الحد)</td><td>${H.DAILY_CAP || 500} نقطة</td></tr>`;
+$('rules').innerHTML = H.RULES.map(r => `<tr><td>${r.icon} ${r.label}</td><td>${r.note || (r.per + ' نقاط')}</td></tr>`).join('') + `<tr><td>⏳ حدّ يومي لنقاط التمارين: بعده تواصل التدريب للتعلّم، ولا تُحسب النقاط حتى الغد (يبدأ اليوم في السادسة صباحاً، وSurprise Me ونقاط التحسّن خارج الحد)</td><td>${H.DAILY_CAP || 500} نقطة</td></tr>` + `<tr><td>🗓️ موسم جديد كل ثلاثاء في السادسة صباحاً: يبدأ الجميع من الصفر، وأفضل ${H.STARS_N || 10} في كل أسبوع يدخلون سجل النجوم، ويُكرَّم في نهاية العام من تكررت نجوميته</td><td>أسبوعياً</td></tr>`;
 
-let ME = null, ROWS = [], PRIV = null;
+let ME = null, ROWS = [], ALL = [], PRIV = null;
+function seasonNote() {
+  const d = new Date((H.weekNo ? H.weekNo() + 1 : 0) * 7 * 864e5 + 5 * 864e5);
+  const ms = Math.max(0, d.getTime() + 3 * 3600e3 - (Date.now() + 3 * 3600e3)), dd = Math.floor(ms / 864e5), hh = Math.floor(ms % 864e5 / 3600e3);
+  $('seasonNote').textContent = H.weekNo ? '🗓️ يبدأ موسم جديد كل ثلاثاء في السادسة صباحاً، فيبدأ الجميع من الصفر. ينتهي هذا الموسم بعد ' + (dd ? dd + ' يوم و' : '') + hh + ' ساعة، وأفضل ' + H.STARS_N + ' يصبحون نجوم الأسبوع 🌟' : '';
+}
+function renderStars() {
+  if (!H.stars || !ALL.length) return;
+  const { weeks, count } = H.stars(ALL), P = $('starsP');
+  if (!weeks.length) { P.hidden = false; $('starsSub').textContent = 'أول نجوم تُعلن بعد نهاية موسم ' + H.weekLabel(H.FIRST_WEEK) + '. اجتهد لتكون منهم!'; $('starsL').innerHTML = ''; return; }
+  const last = weeks[0];
+  P.hidden = false;
+  $('starsSub').textContent = 'أفضل ' + H.STARS_N + ' في موسم ' + H.weekLabel(last.w) + '. يبقى اسمهم هنا حتى يُعلن نجوم الأسبوع القادم، ويُحفظ في سجل النجوم.';
+  const medals = ['🥇','🥈','🥉'];
+  $('starsL').innerHTML = last.top.map((r, i) => `<li class="${ME && r.id===ME.id?'mine':''}"><span class="rk">${medals[i] || i + 1}</span><span class="nm">${esc(r.nick)}${regTag(r)}${count[r.id] > 1 ? ` <small style="color:var(--gold)">🌟×${count[r.id]}</small>` : ''}</span><span class="sc">${fmt(r.s)}</span></li>`).join('') || '<li class="empty-board" style="opacity:1;transform:none;border:0;background:none">لم يجمع أحد نقاطاً في ذلك الأسبوع.</li>';
+  const ids = Object.keys(count).sort((a, b) => count[b] - count[a]).slice(0, 10), byId = {}; ALL.forEach(r => { byId[r.id] = r; });
+  $('archD').hidden = false;
+  $('archTop').innerHTML = `<h3>👑 الأكثر نجوميةً</h3><div class="wk">${ids.map(id => `<span>${esc((byId[id] || {}).nick || '—')} · 🌟×${count[id]}</span>`).join('')}</div>`;
+  $('arch').innerHTML = weeks.map(w => `<h3>موسم ${H.weekLabel(w.w)}</h3><div class="wk">${w.top.map((r, i) => `<span>${i + 1}. ${esc(r.nick)}</span>`).join('') || '—'}</div>`).join('');
+}
 
 function renderBoard() {
   const top = ROWS.slice(0, 3), rest = ROWS.slice(3, 50);
@@ -408,7 +438,8 @@ function renderMe(msg) {
   P.innerHTML = `<div class="me"><span class="av" aria-hidden="true">🏅</span>
       <div class="who"><b>${esc(ME.nick)}</b>
         <span class="status ${ME.approved?'ok':'wait'}">${ME.approved?'✓ ظاهر في اللوحة · المركز '+rk:'⏳ بانتظار موافقة المعلم'}</span></div>
-      <div class="pts"><b>${fmt(local.score)}</b><span>نقطة</span></div></div>
+      <div class="pts"><b>${fmt(local.score)}</b><span>نقطة هذا الأسبوع</span></div></div>
+    ${(() => { const c = H.stars && ALL.length ? (H.stars(ALL).count[ME.id] || 0) : 0; return c ? `<p class="lock" style="margin-top:12px">🌟 كنت من نجوم الأسبوع <b>${c === 1 ? 'مرة واحدة' : c === 2 ? 'مرتين' : c + ' مرات'}</b>. واصل، فالتكريم في نهاية العام لمن تكررت نجوميته!</p>` : ''; })()}
     ${p.dl ? `<p class="lock" style="margin-top:12px">${p.dl.t >= p.dl.cap ? '✅ أكملت حدّ اليوم من نقاط التمارين (' + fmt(p.dl.cap) + '). واصل التدريب لتتعلّم، ونقاط جديدة تنتظرك بعد السادسة صباحاً 🌅' : '⏳ نقاط التمارين اليوم: <b>' + fmt(p.dl.t) + '</b> من ' + fmt(p.dl.cap)}</p>` : ''}
     <div class="chips">${H.RULES.map(r=>`<span>${r.icon} ${r.unit ? fmt(p[r.key]) + ' ' + r.unit : fmt(p[r.key]) + ' × ' + r.per}</span>`).join('')}</div>
     ${ME.region ? `<p class="lock" style="margin-top:12px">📍 منطقتك في اللوحة: <b>${esc(ME.region)}</b></p>` : (!(PRIV && PRIV.grade === H.EXTERNAL) ? '' : `<form id="rf" class="need"><b>📍 اختر مدينتك أو منطقتك لتظهر بجانب اسمك</b><select id="rg2"><option value="">اختر</option>${regionOpts('')}</select><button class="btn" style="margin-top:10px">حفظ</button></form>`)}
@@ -470,10 +501,10 @@ if (!H.ready) {
     await H.sync(false).catch(() => {});
     [ME, ROWS] = await Promise.all([H.myEntry(), H.board()]);
     if (ME) { await H.ensureAccount().catch(() => {}); PRIV = await H.myPrivate().catch(() => null); if (!isReg()) { markReg(); gateHeader(); if (NEXT) { location.replace(NEXT); } } }
-    renderMe(); renderBoard();
+    renderMe(); renderBoard(); seasonNote();
     // Keep the ranking live: any student's new points appear without reloading the page.
-    H.watchBoard(rows => {
-      ROWS = rows; renderBoard(); drawSugg(false);
+    H.watchBoard((rows, all) => {
+      ROWS = rows; if (all) { ALL = all; renderStars(); } renderBoard(); drawSugg(false);
       if (ME) { const mine = rows.find(r => r.id === ME.id); if (mine) ME.score = mine.score; renderRace(H.computeScore().score); }
     }).catch(err => console.warn(err));
     // And send my own new points every 30 seconds while this page is open.

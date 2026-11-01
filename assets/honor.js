@@ -24,6 +24,15 @@ export const RULES = [
   { key: 'rt',   label: 'كلمة ثبتت في ذاكرتك بالمراجعة المتباعدة (Word Quest والكلمات العامة والأكاديمية)', icon: '🧠', per: 3, max: 1500 }
 ];
 export const DAILY_CAP = 500;
+/* Weekly seasons: a new season starts every Tuesday at 6 am Saudi time; the board shows this season's points.
+   Each player's weekly scores are kept in players.wk {week: points}; the top STARS_N of every finished week
+   are that week's stars, and the stars list is kept for the whole year (the teacher honours repeat stars). */
+export const FIRST_WEEK = 2965;   // the season that starts Tuesday 3 Nov 2026 — the first one with stars
+export const STARS_N = 10;
+const dayNo = t => Math.floor(((t || Date.now()) + 3 * 3600e3 - 6 * 3600e3) / 864e5);   // a day starts at 6 am Saudi time
+export const weekNo = t => Math.floor((dayNo(t) - 5) / 7);                              // day 5 (mod 7) is a Tuesday
+/** The Tuesday a season starts, as d/m (Gregorian). */
+export function weekLabel(w) { const d = new Date((w * 7 + 5) * 864e5); return d.getUTCDate() + '/' + (d.getUTCMonth() + 1); }
 const FREE = new Set(['mb', 'lv', 'lvs', 'rt']);
 const CAPS = ['space', 'flavor', 'life', 'adventure', 'emotion', 'career', 'nature', 'health', 'sports', 'tech'];
 
@@ -77,7 +86,7 @@ export function computeScore() {
   const pts = r => Math.min(parts[r.key], r.max) * r.per;
   const raw = RULES.filter(r => !FREE.has(r.key)).reduce((t, r) => t + pts(r), 0);
   const free = RULES.filter(r => FREE.has(r.key)).reduce((t, r) => t + pts(r), 0);
-  const day = Math.floor((Date.now() + 3 * 3600e3 - 6 * 3600e3) / 864e5);   // the points day starts at 6 am Saudi time, like Surprise Me
+  const day = dayNo(), week = weekNo();   // the points day starts at 6 am Saudi time, like Surprise Me
   let L = J('pts-day');
   if (!L || typeof L !== 'object' || !(L.seen >= 0)) L = { d: day, seen: raw, got: raw, t: 0 }; // existing points are kept
   if (L.d !== day) { L.d = day; L.t = 0; }
@@ -85,9 +94,14 @@ export function computeScore() {
   L.got = Math.min(L.got, raw);
   try { localStorage.setItem('pts-day', JSON.stringify(L)); } catch (e) {}
   parts.dl = { t: L.t, cap: DAILY_CAP };
-  // The board's database accepts at most 10,000 points per student.
-  const score = Math.min(10000, L.got + free);
-  return { score, parts };
+  // total = all points since the start; score = this season's points (since Tuesday 6 am).
+  const total = L.got + free;
+  if (!(L.w0 >= 0)) { L.w = week; L.w0 = total; }                 // the first season starts from zero for everyone
+  if (L.w !== week) { L.w = week; L.w0 = Math.min(total, L.last >= 0 ? L.last : total); }
+  L.last = total;
+  try { localStorage.setItem('pts-day', JSON.stringify(L)); } catch (e) {}
+  const score = Math.max(0, Math.min(10000, total - L.w0));
+  return { score, total, week, parts };
 }
 
 export const ready = !!(CONFIG && CONFIG.apiKey);
@@ -182,16 +196,19 @@ export async function join(nick, region) {
   const ref = fs.doc(D, 'players', uid);
   const snap = await fs.getDoc(ref);
   const base = snap.exists() ? (snap.data().base | 0) : 0;
-  const score = Math.min(10000, local.score + base);
-  const write = async ok => {
+  const score = local.score;
+  const season = seasonFields(snap.exists() ? snap.data() : {}, local, base);
+  const write1 = async (ok, extra) => {
     if (snap.exists()) {
       const same = snap.data().nick === nick;
-      await fs.updateDoc(ref, same ? { score, parts, ...reg, updatedAt: fs.serverTimestamp() }
-                                   : { nick, approved: ok, score, parts, ...reg, updatedAt: fs.serverTimestamp() });
+      await fs.updateDoc(ref, same ? { score, parts, ...extra, ...reg, updatedAt: fs.serverTimestamp() }
+                                   : { nick, approved: ok, score, parts, ...extra, ...reg, updatedAt: fs.serverTimestamp() });
     } else {
-      await fs.setDoc(ref, { nick, approved: ok, score, parts, ...reg, updatedAt: fs.serverTimestamp() });
+      await fs.setDoc(ref, { nick, approved: ok, score, parts, ...extra, ...reg, updatedAt: fs.serverTimestamp() });
     }
   };
+  // Until the new database rules are published, the season fields are refused: then write without them.
+  const write = async ok => { try { await write1(ok, season); } catch (e) { if (!/permission/i.test(e && (e.code || e.message) || '')) throw e; await write1(ok, {}); } };
   let auto = isSuggested(nick);
   // If the board's rules do not allow instant approval yet, fall back to waiting for the teacher.
   try { await write(auto); } catch (e) { if (!auto || !/permission/i.test(e && (e.code || e.message) || '')) throw e; auto = false; await write(false); }
@@ -231,13 +248,16 @@ export async function sync(force) {
   if (!snap.exists()) { try { localStorage.removeItem('club-player'); } catch (e) {} return null; }
   if (force || pullDue) { await pullProgress(uid).catch(e => console.warn('progress pull', e)); ({ score, parts } = computeScore()); }
   const was = snap.data();
-  const total = Math.min(10000, score + (was.base | 0));
+  const loc = computeScore(), season = seasonFields(was, loc, was.base | 0);
   const wsig = JSON.stringify(parts.wqx);
-  if (was.score !== total || JSON.stringify((was.parts || {}).wqx || null) !== wsig) await fs.updateDoc(ref, { score: total, parts, updatedAt: fs.serverTimestamp() });
+  if (was.score !== score || was.week !== season.week || was.total !== season.total || JSON.stringify((was.parts || {}).wqx || null) !== wsig) {
+    try { await fs.updateDoc(ref, { score, parts, ...season, updatedAt: fs.serverTimestamp() }); }
+    catch (e) { if (!/permission/i.test(e && (e.code || e.message) || '')) throw e; await fs.updateDoc(ref, { score, parts, updatedAt: fs.serverTimestamp() }); }
+  }
   await pushProgress(uid, force).catch(e => console.warn('progress backup', e));
   try { localStorage.setItem('club-sync', JSON.stringify({ t: Date.now(), s: score, w: wsig, p: progressSig() })); } catch (e) {}
   ensureAccount().catch(e => console.warn('recovery code', e));
-  return total;
+  return score;
 }
 
 /* ---------- progress backup & recovery code: the same account (and the same points) on any device ---------- */
@@ -400,14 +420,42 @@ export function showCodeOnce() {
   document.body.appendChild(d);
 }
 
-/** Approved players, highest first. */
+/** Fields that keep a player's seasons: this week, all-time total (plus points merged in by the teacher), and every week's points. */
+function seasonFields(was, loc, base) {
+  const wk = { ...(was.wk || {}) };
+  // a season that was still on the board when it ended keeps its last score
+  if (was.week >= FIRST_WEEK - 1 && was.week !== loc.week && !(String(was.week) in wk)) wk[was.week] = was.score | 0;
+  wk[loc.week] = loc.score;
+  const ks = Object.keys(wk).map(Number).sort((a, b) => b - a); ks.slice(60).forEach(k => { delete wk[k]; });
+  return { week: loc.week, total: Math.min(10000000, Math.round(loc.total + base)), wk };
+}
+const thisWeek = rows => { const w = weekNo(); return rows.filter(r => r.week === w).sort((a, b) => (b.score || 0) - (a.score || 0)); };
+/** A week's points for a player (the score itself while that week was still their latest). */
+export const weekPts = (r, w) => (r.wk && r.wk[w] !== undefined) ? (r.wk[w] | 0) : (r.week === w ? (r.score | 0) : 0);
+/** The stars of every finished week, newest first: [{w, top: [rows with .s]}], and how many times each player was a star. */
+export function stars(rows) {
+  const now = weekNo(), weeks = [], count = {};
+  for (let w = now - 1; w >= FIRST_WEEK; w--) {
+    const top = rows.map(r => ({ ...r, s: weekPts(r, w) })).filter(r => r.s > 0).sort((a, b) => b.s - a.s).slice(0, STARS_N);
+    top.forEach(r => { count[r.id] = (count[r.id] || 0) + 1; });
+    weeks.push({ w, top });
+  }
+  return { weeks, count };
+}
+
+/** Approved players with points this season, highest first. */
 export async function board(limit) {
+  const all = await boardAll();
+  const rows = thisWeek(all);
+  return limit ? rows.slice(0, limit) : rows;
+}
+/** Every approved player (for the stars list). */
+export async function boardAll() {
   const { fs, D } = await load();
   const q = fs.query(fs.collection(D, 'players'), fs.where('approved', '==', true));
   const snap = await fs.getDocs(q);
   const rows = []; snap.forEach(d => rows.push({ id: d.id, ...d.data() }));
-  rows.sort((a, b) => (b.score || 0) - (a.score || 0));
-  return limit ? rows.slice(0, limit) : rows;
+  return rows;
 }
 
 /** Live board: calls cb(rows) now and again whenever any approved player's points change. Returns a stop function. */
@@ -415,9 +463,9 @@ export async function watchBoard(cb, limit) {
   const { fs, D } = await load();
   const q = fs.query(fs.collection(D, 'players'), fs.where('approved', '==', true));
   return fs.onSnapshot(q, snap => {
-    const rows = []; snap.forEach(d => rows.push({ id: d.id, ...d.data() }));
-    rows.sort((a, b) => (b.score || 0) - (a.score || 0));
-    cb(limit ? rows.slice(0, limit) : rows);
+    const all = []; snap.forEach(d => all.push({ id: d.id, ...d.data() }));
+    const rows = thisWeek(all);
+    cb(limit ? rows.slice(0, limit) : rows, all);
   }, err => console.warn(err));
 }
 
@@ -460,8 +508,8 @@ export async function mergeInto(targetId, fromId) {
   const { fs, TD: D } = await load();
   const [t, f] = await Promise.all([fs.getDoc(fs.doc(D, 'players', targetId)), fs.getDoc(fs.doc(D, 'players', fromId))]);
   if (!t.exists() || !f.exists()) throw new Error('not-found');
-  const add = f.data().score | 0, base = (t.data().base | 0) + add;
-  await fs.updateDoc(fs.doc(D, 'players', targetId), { base, score: Math.min(10000, (t.data().score | 0) + add) });
+  const add = (f.data().total | 0) || (f.data().score | 0), base = (t.data().base | 0) + add;
+  await fs.updateDoc(fs.doc(D, 'players', targetId), { base, total: (t.data().total | 0) + add });
   await remove(fromId);
   return add;
 }
