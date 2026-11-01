@@ -164,14 +164,14 @@ footer a{color:var(--muted)}
 const demo = /[?&]demo\b/.test(location.search);
 let H;
 if (demo) {
-  const m = await import('./assets/honor.js?v=20261101m').catch(() => null);
+  const m = await import('./assets/honor.js?v=20261101n').catch(() => null);
   const fake = ['نسر الصحراء','Falcon7','نجم الشمال','Lion King','القمر المضيء','Speedy','بطل العقيق','Eagle Eye','الشهاب','Rocket'].map((n,i)=>({id:'d'+i,nick:n,score:3200-i*270-(i%3)*35,approved:true}));
   let me = null, priv = null;
-  H = { ready:true, RULES:m.RULES, computeScore:m.computeScore, cleanNick:m.cleanNick,
+  H = { ready:true, RULES:m.RULES, DAILY_CAP:m.DAILY_CAP, computeScore:m.computeScore, cleanNick:m.cleanNick,
     GRADES:m.GRADES, SUGGESTED:m.SUGGESTED, EXTERNAL:m.EXTERNAL, REGIONS:m.REGIONS, HOME_REGION:m.HOME_REGION, setRegion: async(r)=>{me.region=r}, cleanText:m.cleanText, myPrivate: async()=>priv, savePrivate: async(p)=>{priv=p}, myEntry: async()=>me, join: async(n,r)=>(me={id:'me',nick:m.cleanNick(n),region:r,approved:false,...m.computeScore()}),
     sync: async()=>null, myCode:()=>'', cleanCode:m.cleanCode, ensureAccount: async()=>'', board: async()=>fake, watchBoard: async(cb)=>{cb(fake);return ()=>{};} };
 } else {
-  H = await import('./assets/honor.js?v=20261101m');
+  H = await import('./assets/honor.js?v=20261101n');
 }
 
 const $ = id => document.getElementById(id);
@@ -191,7 +191,7 @@ gateHeader();
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = n => Number(n||0).toLocaleString('en-US');
 
-$('rules').innerHTML = H.RULES.map(r => `<tr><td>${r.icon} ${r.label}</td><td>${r.note || (r.per + ' نقاط')}</td></tr>`).join('');
+$('rules').innerHTML = H.RULES.map(r => `<tr><td>${r.icon} ${r.label}</td><td>${r.note || (r.per + ' نقاط')}</td></tr>`).join('') + `<tr><td>⏳ حدّ يومي لنقاط التمارين: بعده تواصل التدريب للتعلّم، ولا تُحسب النقاط حتى الغد (صندوق المفاجآت ونقاط التحسّن خارج الحد)</td><td>${H.DAILY_CAP || 500} نقطة</td></tr>`;
 
 let ME = null, ROWS = [], PRIV = null;
 
@@ -409,6 +409,7 @@ function renderMe(msg) {
       <div class="who"><b>${esc(ME.nick)}</b>
         <span class="status ${ME.approved?'ok':'wait'}">${ME.approved?'✓ ظاهر في اللوحة · المركز '+rk:'⏳ بانتظار موافقة المعلم'}</span></div>
       <div class="pts"><b>${fmt(local.score)}</b><span>نقطة</span></div></div>
+    ${p.dl ? `<p class="lock" style="margin-top:12px">${p.dl.t >= p.dl.cap ? '✅ أكملت حدّ اليوم من نقاط التمارين (' + fmt(p.dl.cap) + '). واصل التدريب لتتعلّم، ونقاط جديدة تنتظرك غداً 🌅' : '⏳ نقاط التمارين اليوم: <b>' + fmt(p.dl.t) + '</b> من ' + fmt(p.dl.cap)}</p>` : ''}
     <div class="chips">${H.RULES.map(r=>`<span>${r.icon} ${r.unit ? fmt(p[r.key]) + ' ' + r.unit : fmt(p[r.key]) + ' × ' + r.per}</span>`).join('')}</div>
     ${ME.region ? `<p class="lock" style="margin-top:12px">📍 منطقتك في اللوحة: <b>${esc(ME.region)}</b></p>` : (!(PRIV && PRIV.grade === H.EXTERNAL) ? '' : `<form id="rf" class="need"><b>📍 اختر مدينتك أو منطقتك لتظهر بجانب اسمك</b><select id="rg2"><option value="">اختر</option>${regionOpts('')}</select><button class="btn" style="margin-top:10px">حفظ</button></form>`)}
     ${PRIV ? `<p class="lock" style="margin-top:12px">🔒 بيانات التكريم: <b>${esc(PRIV.name)}</b> · ${PRIV.grade === H.EXTERNAL ? 'مشارك من خارج المدرسة' + (PRIV.school ? ' (' + esc(PRIV.school) + ')' : '') : esc(PRIV.grade) + ' · الشعبة ' + esc(PRIV.section)}. لا يراها إلا المعلم.</p>`

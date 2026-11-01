@@ -23,6 +23,8 @@ export const RULES = [
   { key: 'lvs',  label: 'كل إجابة صحيحة تزيدها في الاختبار البعدي عن القبلي', icon: '📊', per: 10, max: 32 },
   { key: 'rt',   label: 'كلمة ثبتت في ذاكرتك بالمراجعة المتباعدة (Word Quest والكلمات العامة والأكاديمية)', icon: '🧠', per: 3, max: 1500 }
 ];
+export const DAILY_CAP = 500;
+const FREE = new Set(['mb', 'lv', 'lvs', 'rt']);
 const CAPS = ['space', 'flavor', 'life', 'adventure', 'emotion', 'career', 'nature', 'health', 'sports', 'tech'];
 
 function J(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
@@ -69,8 +71,21 @@ export function computeScore() {
   // Retention: words that reached box 3+ in spaced review (remembered after 1 day and again after 3 days)
   let rt = 0; ['wq-srs', 'ng-srs', 'aw-srs'].forEach(k => { const o = J(k) || {}; Object.keys(o).forEach(w => { if (((o[w] || [])[0] || 0) >= 3) rt++; }); });
   const parts = { caps, wq, lab, mg, bf, ng, aw, st, tn, pv, im, tb, mb, lv, lvs, rt, wqx: wqStats() };
+  // Practice points count at most DAILY_CAP a day (Saudi day). Practice after that is for learning only:
+  // the extra points are not counted, then or later. Surprise Me and the level/retention rewards are outside the cap.
+  const pts = r => Math.min(parts[r.key], r.max) * r.per;
+  const raw = RULES.filter(r => !FREE.has(r.key)).reduce((t, r) => t + pts(r), 0);
+  const free = RULES.filter(r => FREE.has(r.key)).reduce((t, r) => t + pts(r), 0);
+  const day = Math.floor((Date.now() + 3 * 3600e3) / 864e5);
+  let L = J('pts-day');
+  if (!L || typeof L !== 'object' || !(L.seen >= 0)) L = { d: day, seen: raw, got: raw, t: 0 }; // existing points are kept
+  if (L.d !== day) { L.d = day; L.t = 0; }
+  if (raw > L.seen) { const add = Math.min(raw - L.seen, Math.max(0, DAILY_CAP - L.t)); L.got += add; L.t += add; L.seen = raw; }
+  L.got = Math.min(L.got, raw);
+  try { localStorage.setItem('pts-day', JSON.stringify(L)); } catch (e) {}
+  parts.dl = { t: L.t, cap: DAILY_CAP };
   // The board's database accepts at most 10,000 points per student.
-  const score = Math.min(10000, RULES.reduce((t, r) => t + Math.min(parts[r.key], r.max) * r.per, 0));
+  const score = Math.min(10000, L.got + free);
   return { score, parts };
 }
 
