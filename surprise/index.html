@@ -386,7 +386,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
       if (streak >= 3) show(1);
     }
     var right = q.o.filter(function(o){ return o.ok; })[0].t;
-    var cheer = ['✓ أحسنت!', '✓ ممتاز!', '✓ رائع!', '✓ ضربة معلّم!', '✓ لا يُوقَف!'][Math.min(4, Math.max(0, streak - 1))];
+    var cheer = ['✓ أحسنت!', '✓ ممتاز!', '✓ رائع!', '✓ ضربة معلّم!', '✓ لا توقّف!'][Math.min(4, Math.max(0, streak - 1))];
     // each part on its own line, in its own direction, so Arabic and English never get mixed up
     var line = function(t, cls){ return '<div dir="' + (isEn(t) ? 'ltr' : 'rtl') + '"' + (isEn(t) ? ' class="en"' : '') + (cls ? ' style="' + cls + '"' : '') + '>' + esc(t) + '</div>'; };
     $('why').innerHTML = (ok ? line(cheer, 'font-weight:800') : line('✗ الإجابة الصحيحة:', 'font-weight:800') + line(right, 'font-weight:800')) + (q.w ? line(q.w) : '');
