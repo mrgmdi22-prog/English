@@ -228,9 +228,9 @@ async function save(kind, r){
 
 /* ---------- screens ---------- */
 let RES = { pre:null, post:null, prev:[] };
-/* The after test opens by itself 6 weeks after the before test (or earlier if the teacher opens it),
-   and a new after test can be taken every 6 weeks after that. After tests alternate between the two forms. */
-const WAIT_DAYS = 42;
+/* The after test opens by itself 4 weeks after the before test (or earlier if the teacher opens it),
+   and a new after test can be taken every 4 weeks after that. After tests alternate between the two forms. */
+const WAIT_DAYS = 28;
 const postsDone = () => (RES.prev || []).length + (RES.post ? 1 : 0);
 const nextForm = () => postsDone() % 2 === 0 ? 'post' : 'pre';
 const draftKey = () => postsDone() ? 'post' + postsDone() : 'post';
@@ -258,14 +258,14 @@ async function home(){
     return `<div class="test"><span class="ic" aria-hidden="true">${ic}</span><span class="tx"><b>${NAME[k]}</b><small>${sub}</small>${status}</span>${btn}</div>`;
   };
   $('app').innerHTML = `<h1>قياس المستوى<span class="en">LEVEL CHECK</span></h1>
-    <p class="lead">اختبار يقيس مستواك في الإنجليزية الآن، ثم اختبار بعدي يُفتح تلقائياً بعد 6 أسابيع، ويتكرر كل 6 أسابيع لترى كم تحسّنت.</p>
+    <p class="lead">اختبار يقيس مستواك في الإنجليزية الآن، ثم اختبار بعدي يُفتح تلقائياً بعد 4 أسابيع، ويتكرر كل 4 أسابيع لترى كم تحسّنت.</p>
     <div class="card"><h2>🏆 نقاط التحسّن</h2><p style="margin:0">لكل مستوى تتقدّمه <b>500 نقطة</b>، ولكل إجابة صحيحة تزيدها عن القبلي <b>10 نقاط</b>. تُحسب أفضل نتيجة بعدية لك، ولا تُخصم نقاط أبداً إن قلّت النتيجة.</p></div>
     <div class="card"><h2>عن الاختبار</h2>
       <div class="parts">${Object.entries(SK).map(([k, s]) => `<div class="part" style="border-color:var(${s[2]})"><b style="color:var(${s[2]})">${s[0]}</b><small class="en">${s[1]} · ${CNT[k]} questions</small></div>`).join('')}</div>
       <p class="muted" style="margin:0">32 سؤالاً في نحو 25 دقيقة. الأسئلة تبدأ سهلة وتصعب تدريجياً حتى المستوى <span class="en">B2</span>، فلا تقلق إن لم تعرف بعضها. أجب وحدك ودون مساعدة، لتكون النتيجة صادقة. يحتاج قسم الاستماع إلى الصوت 🔊.</p></div>
     <div class="tests">
       ${row('pre', '📝', 'في بداية الفترة: يحدد مستواك الآن.')}
-      ${row('post', '🏁', 'بعد 6 أسابيع، ثم كل 6 أسابيع: أسئلة بالصعوبة نفسها، لقياس تحسّنك.')}
+      ${row('post', '🏁', 'بعد 4 أسابيع، ثم كل 4 أسابيع: أسئلة مختلفة بالصعوبة نفسها، لقياس تحسّنك.')}
     </div>
     ${RES.pre && RES.post ? `<div class="card" id="cmpBox"></div>` : ''}
     ${!online && H && H.ready ? `<p class="note">لم يتصل الاختبار بقاعدة النادي الآن، فستُحفظ نتيجتك على هذا الجهاز وتُرسل للمعلم عند الاتصال.</p>` : ''}`;

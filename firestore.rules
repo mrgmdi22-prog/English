@@ -90,8 +90,8 @@ service cloud.firestore {
     }
 
     // قياس المستوى: نتيجة الاختبار القبلي والبعدي، لا يقرؤها إلا الطالب نفسه والمعلم.
-    // القبلي يُحفظ مرة واحدة. البعدي يُفتح تلقائياً بعد 6 أسابيع من القبلي (أو حين يفتحه المعلم)،
-    // ثم يمكن أداء بعدي جديد كل 6 أسابيع: ينتقل البعدي السابق إلى قائمة prev ولا يُحذف.
+    // القبلي يُحفظ مرة واحدة. البعدي يُفتح تلقائياً بعد 4 أسابيع من القبلي (أو حين يفتحه المعلم)،
+    // ثم يمكن أداء بعدي جديد كل 4 أسابيع: ينتقل البعدي السابق إلى قائمة prev ولا يُحذف.
     function validResult(x) {
       return x is map && x.keys().hasOnly(['score', 'max', 'level', 'v', 'g', 'r', 'l', 'at'])
         && x.score is int && x.max is int && x.score >= 0 && x.max <= 60 && x.score <= x.max
@@ -101,28 +101,28 @@ service cloud.firestore {
       return exists(/databases/$(database)/documents/config/levels)
         && get(/databases/$(database)/documents/config/levels).data.get('postOpen', false) == true;
     }
-    function sixWeeksAfter(t) { return request.time.toMillis() >= t + 42 * 86400000; }
+    function fourWeeksAfter(t) { return request.time.toMillis() >= t + 28 * 86400000; }
     match /levels/{uid} {
       allow read: if isTeacher() || (request.auth != null && request.auth.uid == uid);
       allow create: if request.auth != null && request.auth.uid == uid
         && request.resource.data.keys().hasOnly(['pre', 'updatedAt'])
         && validResult(request.resource.data.pre);
       allow update: if isTeacher()
-        // البعدي الأول: بعد 6 أسابيع من القبلي، أو حين يفتحه المعلم
+        // البعدي الأول: بعد 4 أسابيع من القبلي، أو حين يفتحه المعلم
         || (request.auth != null && request.auth.uid == uid
         && request.resource.data.keys().hasOnly(['pre', 'post', 'prev', 'updatedAt'])
         && ('pre' in resource.data) && request.resource.data.pre == resource.data.pre
         && !('post' in resource.data) && request.resource.data.get('prev', []) == resource.data.get('prev', [])
         && validResult(request.resource.data.post)
-        && (postOpen() || sixWeeksAfter(resource.data.pre.at)))
-        // بعدي جديد كل 6 أسابيع: البعدي السابق يُضاف إلى prev
+        && (postOpen() || fourWeeksAfter(resource.data.pre.at)))
+        // بعدي جديد كل 4 أسابيع: البعدي السابق يُضاف إلى prev
         || (request.auth != null && request.auth.uid == uid
         && request.resource.data.keys().hasOnly(['pre', 'post', 'prev', 'updatedAt'])
         && ('post' in resource.data) && request.resource.data.pre == resource.data.pre
         && request.resource.data.prev == resource.data.get('prev', []).concat([resource.data.post])
         && request.resource.data.prev.size() <= 12
         && validResult(request.resource.data.post) && request.resource.data.post.at > resource.data.post.at
-        && sixWeeksAfter(resource.data.post.at))
+        && fourWeeksAfter(resource.data.post.at))
         // النسخة الجديدة الأصعب: من أدّى القبلي القديم (قبل موعد النسخة الجديدة) يستبدله مرة واحدة بنتيجة الجديد
         || (request.auth != null && request.auth.uid == uid
         && request.resource.data.keys().hasOnly(['pre', 'updatedAt'])

@@ -534,11 +534,11 @@ export async function myLevels() {
   const snap = await fs.getDoc(fs.doc(D, 'levels', uid));
   return snap.exists() ? snap.data() : {};
 }
-/** Saves the before ('pre') or after ('post') result. The before test is saved once; a new after test can follow every 6 weeks. */
+/** Saves the before ('pre') or after ('post') result. The before test is saved once; a new after test can follow every 4 weeks. */
 export async function saveLevel(kind, r) {
   const { fs, D } = await load();
   const uid = await studentUid();
-  // A new after test (every 6 weeks): the previous after result moves to `prev`, so nothing is lost.
+  // A new after test (every 4 weeks): the previous after result moves to `prev`, so nothing is lost.
   if (kind === 'post') {
     const snap = await fs.getDoc(fs.doc(D, 'levels', uid)), cur = snap.exists() ? snap.data() : {};
     if (cur.post) {
