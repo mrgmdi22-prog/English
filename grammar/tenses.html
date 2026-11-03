@@ -251,7 +251,7 @@ footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
 <script>
 /* ---------------- data ---------------- */
 const TIMES={pr:['Present','المضارع'],pa:['Past','الماضي'],fu:['Future','المستقبل']};
-const ASPECTS={s:['Simple','البسيط','--a1'],c:['Progressive','المستمر','--a2'],p:['Perfect','التام','--a3'],pc:['Perfect Progressive','التام المستمر','--a4']};
+const ASPECTS={s:['Simple','البسيط','--a1'],c:['Progressive','الجاري (المستمر)','--a2'],p:['Perfect','التام','--a3'],pc:['Perfect Progressive','التام الجاري (المستمر)','--a4']};
 // Timeline marks, on a 0–1 axis where past≈.2, now=.5, future≈.8
 // p: point, r: ongoing range, b: bar ending at a point, k: arrow from a to b, d: deadline flag, rep: repeated dots
 const T=[
@@ -260,7 +260,7 @@ const T=[
  fx:{a:'She **plays** football.',n:'She **doesn\'t play** football.',q:'**Does** she **play** football?'},
  uses:[['عادات وأفعال تتكرر','I **play** football every Friday.'],['حقائق عامة لا تتغير','Water **boils** at 100 degrees.'],['جداول ومواعيد ثابتة','The bus **leaves** at seven in the morning.']],
  sig:['always','usually','often','sometimes','never','every day','on Fridays'],tl:[['rep']]},
-{id:'prc',t:'pr',a:'c',ar:'المضارع المستمر',
+{id:'prc',t:'pr',a:'c',ar:'المضارع الجاري (المستمر)',
  f:{a:'Subject + am / is / are + V-ing',n:'Subject + am / is / are + not + V-ing',q:'Am / Is / Are + subject + V-ing ?'},
  fx:{a:'They **are studying** now.',n:'They **aren\'t studying** now.',q:'**Are** they **studying** now?'},
  uses:[['حدث يجري الآن في لحظة الكلام','She **is reading** a story now.'],['وضع مؤقت هذه الأيام','I **am studying** hard this week.'],['خطة مرتّبة في المستقبل القريب','We **are visiting** Abha tomorrow.']],
@@ -270,7 +270,7 @@ const T=[
  fx:{a:'He **has finished** his homework.',n:'He **hasn\'t finished** his homework.',q:'**Has** he **finished** his homework?'},
  uses:[['تجربة في الحياة دون ذكر وقتها','I **have visited** Jeddah twice.'],['حدث ماضٍ أثره ظاهر الآن','He **has lost** his keys, so he can\'t open the door.'],['بدأ في الماضي وما زال مستمراً','They **have lived** in Al-Aqiq since 2015.']],
  sig:['just','already','yet','ever','never','since','for','so far'],tl:[['p',.24],['k',.24,.5]]},
-{id:'prpc',t:'pr',a:'pc',ar:'المضارع التام المستمر',
+{id:'prpc',t:'pr',a:'pc',ar:'المضارع التام الجاري (المستمر)',
  f:{a:'Subject + have / has + been + V-ing',n:'Subject + have / has + not + been + V-ing',q:'Have / Has + subject + been + V-ing ?'},
  fx:{a:'I **have been waiting** for an hour.',n:'I **haven\'t been waiting** long.',q:'**Have** you **been waiting** long?'},
  uses:[['نشاط بدأ في الماضي ومستمر حتى الآن، مع التركيز على المدة','I **have been waiting** for an hour.'],['نشاط حديث ما زال أثره ظاهراً','She is tired because she **has been running**.']],
@@ -281,7 +281,7 @@ const T=[
  fx:{a:'We **visited** AlUla.',n:'We **didn\'t visit** AlUla.',q:'**Did** you **visit** AlUla?'},
  uses:[['حدث انتهى في وقت محدد من الماضي','We **visited** AlUla last summer.'],['أحداث متتابعة في قصة','He **opened** the door and **smiled**.'],['عادة كانت في الماضي','My grandfather **walked** to school every day.']],
  sig:['yesterday','last week','ago','in 2020','when I was a child'],tl:[['p',.24]]},
-{id:'pac',t:'pa',a:'c',ar:'الماضي المستمر',
+{id:'pac',t:'pa',a:'c',ar:'الماضي الجاري (المستمر)',
  f:{a:'Subject + was / were + V-ing',n:'Subject + was / were + not + V-ing',q:'Was / Were + subject + V-ing ?'},
  fx:{a:'I **was sleeping** at ten.',n:'I **wasn\'t sleeping** at ten.',q:'**Were** you **sleeping** at ten?'},
  uses:[['حدث كان جارياً في لحظة من الماضي','At eight o\'clock I **was doing** my homework.'],['حدث طويل قطعه حدث قصير','I **was sleeping** when the phone rang.'],['حدثان كانا يجريان معاً','While Dad **was cooking**, we **were setting** the table.']],
@@ -291,7 +291,7 @@ const T=[
  fx:{a:'The train **had left**.',n:'The train **hadn\'t left**.',q:'**Had** the train **left**?'},
  uses:[['حدث وقع قبل حدث آخر في الماضي','The train **had left** when we arrived.'],['سبب لحالة في الماضي','She was happy because she **had passed** the test.']],
  sig:['before','after','already','by the time','when'],tl:[['p',.14],['k',.14,.32],['d',.32]]},
-{id:'papc',t:'pa',a:'pc',ar:'الماضي التام المستمر',
+{id:'papc',t:'pa',a:'pc',ar:'الماضي التام الجاري (المستمر)',
  f:{a:'Subject + had + been + V-ing',n:'Subject + had + not + been + V-ing',q:'Had + subject + been + V-ing ?'},
  fx:{a:'It **had been raining**.',n:'It **hadn\'t been raining**.',q:'**Had** it **been raining**?'},
  uses:[['نشاط استمر مدة قبل حدث في الماضي','We **had been playing** for two hours when it started to rain.'],['سبب لحالة في الماضي','The ground was wet because it **had been raining**.']],
@@ -302,7 +302,7 @@ const T=[
  fx:{a:'I **will help** you.',n:'I **won\'t forget**.',q:'**Will** you **help** me?'},
  uses:[['قرار تتخذه لحظة الكلام','It\'s cold. I **will close** the window.'],['توقّع أو رأي','I think our team **will win**.'],['وعد أو عرض للمساعدة','I **will help** you with your project.']],
  sig:['tomorrow','next week','soon','I think','probably','in 2030'],tl:[['p',.78]]},
-{id:'fuc',t:'fu',a:'c',ar:'المستقبل المستمر',
+{id:'fuc',t:'fu',a:'c',ar:'المستقبل الجاري (المستمر)',
  f:{a:'Subject + will + be + V-ing',n:'Subject + won\'t + be + V-ing',q:'Will + subject + be + V-ing ?'},
  fx:{a:'I **will be flying** to Riyadh.',n:'I **won\'t be working** tomorrow.',q:'**Will** you **be using** the car?'},
  uses:[['حدث سيكون جارياً في لحظة من المستقبل','This time tomorrow I **will be flying** to Riyadh.'],['حدث متوقّع ضمن سير الأمور المعتاد','Don\'t call at nine; I **will be sleeping**.']],
@@ -312,7 +312,7 @@ const T=[
  fx:{a:'I **will have finished** by Friday.',n:'I **won\'t have finished** by Friday.',q:'**Will** you **have finished** by Friday?'},
  uses:[['حدث سينتهي قبل وقت محدد في المستقبل','I **will have finished** the book by Friday.'],['إنجاز سيكتمل قبل موعد قادم','By 2030, they **will have built** the new stadium.']],
  sig:['by','by the time','before','by then','by the end of'],tl:[['p',.7],['k',.7,.86],['d',.86]]},
-{id:'fupc',t:'fu',a:'pc',ar:'المستقبل التام المستمر',
+{id:'fupc',t:'fu',a:'pc',ar:'المستقبل التام الجاري (المستمر)',
  f:{a:'Subject + will + have + been + V-ing',n:'Subject + won\'t + have + been + V-ing',q:'Will + subject + have + been + V-ing ?'},
  fx:{a:'She **will have been working** for eight hours.',n:'She **won\'t have been working** long.',q:'**Will** she **have been working** long?'},
  uses:[['مدة نشاط مستمر حتى نقطة في المستقبل','By June, I **will have been studying** English for six years.'],['التركيز على طول المدة حتى موعد قادم','At five o\'clock she **will have been working** for eight hours.']],

@@ -310,9 +310,9 @@ const S=[
 /* tenses: act(plural) = auxiliaries + verb-form index for the active; pas(plural) = auxiliaries for the passive */
 const T=[
  {id:'ps', en:'Present Simple',     ar:'المضارع البسيط', tm:'every day',              act:p=>[[],p?0:1], pas:p=>[p?'are':'is']},
- {id:'pc', en:'Present Continuous', ar:'المضارع المستمر', tm:'right now',             act:p=>[[p?'are':'is'],3], pas:p=>[p?'are':'is','being']},
+ {id:'pc', en:'Present Progressive', ar:'المضارع الجاري (المستمر)', tm:'right now',             act:p=>[[p?'are':'is'],3], pas:p=>[p?'are':'is','being']},
  {id:'pas',en:'Past Simple',        ar:'الماضي البسيط', tm:'yesterday',               act:p=>[[],2], pas:p=>[p?'were':'was']},
- {id:'pac',en:'Past Continuous',    ar:'الماضي المستمر', tm:"at nine o'clock yesterday", act:p=>[[p?'were':'was'],3], pas:p=>[p?'were':'was','being']},
+ {id:'pac',en:'Past Progressive',    ar:'الماضي الجاري (المستمر)', tm:"at nine o'clock yesterday", act:p=>[[p?'were':'was'],3], pas:p=>[p?'were':'was','being']},
  {id:'pp', en:'Present Perfect',    ar:'المضارع التام', tm:'this week',               act:p=>[[p?'have':'has'],4], pas:p=>[p?'have':'has','been']},
  {id:'pap',en:'Past Perfect',       ar:'الماضي التام', tm:'before noon',              act:p=>[['had'],4], pas:p=>['had','been']},
  {id:'fw', en:'Future (will)',      ar:'المستقبل will', tm:'tomorrow',                act:p=>[['will'],0], pas:p=>['will','be']},
