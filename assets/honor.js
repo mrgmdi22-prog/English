@@ -23,7 +23,7 @@ export const RULES = [
   { key: 'lvs',  label: 'كل إجابة صحيحة تزيدها في الاختبار البعدي عن القبلي', icon: '📊', per: 10, max: 32 },
   { key: 'rt',   label: 'كلمة ثبتت في ذاكرتك بالمراجعة المتباعدة (Word Quest والكلمات العامة والأكاديمية)', icon: '🧠', per: 3, max: 1500 }
 ];
-export const DAILY_CAP = 500;
+export const DAILY_CAP = 750;
 /* Weekly seasons: a new season starts every Tuesday at 6 am Saudi time; the board shows this season's points.
    Each player's weekly scores are kept in players.wk {week: points}; the top STARS_N of every finished week
    are that week's stars, and the stars list is kept for the whole year (the teacher honours repeat stars). */
