@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<link rel="manifest" href="../../manifest.webmanifest"><link rel="apple-touch-icon" href="../../assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<script src="../../assets/gate.js?v=9"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>مكتبة النخبة · Elite Classics</title>
+<meta name="theme-color" content="#F6F3FF">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Lexend:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+<style>
+/* Elite Classics: a short shelf of American classic stories, each a bilingual reader (original English + Al-Aqqad's Arabic). */
+:root{color-scheme:light;--bg:#F6F3FF;--bg2:#FFFBF0;--card:#fff;--ink:#231f3a;--muted:#625d7d;--line:#e6e1f5;--vio:#6B4BD8;--vio-soft:#EEE9FF;--gold:#B87F0A;--gold-soft:#FFF4D6;
+  --ar:Tajawal,system-ui,sans-serif;--title:Fraunces,Georgia,serif;--en:Lexend,system-ui,sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%) fixed;color:var(--ink);font-family:var(--ar);font-size:20px;line-height:1.7;min-height:100vh}
+.wrap{max-width:820px;margin:0 auto;padding:14px max(16px,env(safe-area-inset-right,0px)) 80px max(16px,env(safe-area-inset-left,0px))}
+.back{color:var(--vio);font-weight:700;text-decoration:none}
+header{text-align:center;padding:26px 0 10px}
+.kicker{display:inline-block;background:var(--gold-soft);color:var(--gold);border:1px solid #f1dc9f;border-radius:999px;padding:4px 16px;font-weight:800;font-size:.95rem}
+h1{margin:10px 0 0;font-size:clamp(2rem,6vw,2.8rem);line-height:1.25;color:var(--vio)}
+h1 small{display:block;font-family:var(--title);font-size:1.15rem;letter-spacing:.08em;color:var(--gold)}
+header p{color:var(--muted);max-width:32em;margin:10px auto 0;text-wrap:balance}
+.books{display:grid;gap:16px;margin-top:24px}
+.book{display:grid;grid-template-columns:96px 1fr;gap:18px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;text-decoration:none;color:inherit;box-shadow:0 6px 18px rgba(80,60,160,.06);transition:transform .15s}
+.book:hover{transform:translateY(-2px)}
+.book:focus-visible{outline:3px solid var(--vio);outline-offset:3px}
+.spine{height:122px;border-radius:6px 14px 14px 6px;display:grid;place-items:center;font-size:2.6rem;box-shadow:inset 8px 0 0 rgba(0,0,0,.08)}
+.book h2{margin:0;font-family:var(--title);font-size:1.45rem;line-height:1.25;direction:ltr;text-align:left;color:var(--ink)}
+.book .ar{font-weight:800;color:var(--vio);font-size:1.15rem}
+.book .meta{font-family:var(--en);font-size:.95rem;color:var(--muted);direction:ltr;text-align:left}
+.book p{margin:6px 0 0;font-size:1.05rem}
+.how{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px 20px;margin-top:22px}
+.how h2{margin:0 0 6px;font-size:1.2rem;color:var(--gold)}
+.how ol{margin:0;padding-inline-start:1.3em}
+@media (max-width:520px){.book{grid-template-columns:70px 1fr}.spine{height:96px;font-size:2rem}}
+@media (prefers-reduced-motion:reduce){.book{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">→ مسار النخبة</a>
+  <header>
+    <span class="kicker">💎 مسار النخبة</span>
+    <h1>مكتبة النخبة<small>ELITE CLASSICS</small></h1>
+    <p>قصص من روائع الأدب الأمريكي بنصّها الإنجليزي الأصلي، وبجانب كل فقرة ترجمة عباس محمود العقاد.</p>
+  </header>
+
+  <div class="books">
+    <a class="book" href="rip-van-winkle.html">
+      <div class="spine" style="background:#e1edf3" aria-hidden="true">⛰️</div>
+      <div>
+        <h2>Rip Van Winkle</h2>
+        <div class="ar">ريب فان ونكل</div>
+        <div class="meta">Washington Irving · 1819 · 58 paragraphs</div>
+        <p>رجل طيب كسول يصعد جبال كاتسكل، فينام عشرين سنة، ويعود إلى قرية تغيّر فيها كل شيء.</p>
+      </div>
+    </a>
+    <a class="book" href="jumping-frog.html">
+      <div class="spine" style="background:#e3f3e6" aria-hidden="true">🐸</div>
+      <div>
+        <h2>The Notorious Jumping Frog of Calaveras County</h2>
+        <div class="ar">الضفدعة النطاطة المشهورة</div>
+        <div class="meta">Mark Twain · 1865 · 25 paragraphs</div>
+        <p>القصة التي صنعت شهرة مارك توين: رجل يراهن على كل شيء، وضفدع بطل، وغريب أذكى منه.</p>
+      </div>
+    </a>
+  </div>
+
+  <section class="how">
+    <h2>📖 كيف تقرأ؟</h2>
+    <ol>
+      <li>اضغط «إخفاء الترجمة» واقرأ الفقرة بالإنجليزية أولاً.</li>
+      <li>استمع إليها بزر 🔊، ثم اضغط على الفقرة العربية لتتأكد من فهمك.</li>
+      <li>دوّن ثلاث كلمات جديدة من كل قصة.</li>
+    </ol>
+  </section>
+</div>
+<script src="../../assets/club.js?v=15"></script>
+</body>
+</html>
