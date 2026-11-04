@@ -16,6 +16,16 @@
   function half(run){ return run >= 5 ? 2 : run >= 3 ? 1 : 0; }   // extra half-answers earned by the answer that makes this run
   function get(sec, unit){ var x = J('xb'); return +((x[sec] || {})[unit] || 0) || 0; }
   function put(sec, unit, v){ try { var x = J('xb'); x[sec] = x[sec] || {}; x[sec][unit] = v; localStorage.setItem('xb', JSON.stringify(x)); } catch (e) {} }
+  // Answer counts for the teacher's report (accuracy per section): ans = {sec: [right, total]} all time,
+  // ansd = {day: {sec: [right, total]}} for the last 14 days (the day starts at 6 am Saudi time).
+  function count(sec, ok){
+    try {
+      var day = Math.floor((Date.now() + 3 * 3600e3 - 6 * 3600e3) / 864e5);
+      var a = J('ans'); a[sec] = a[sec] || [0, 0]; if (ok) a[sec][0]++; a[sec][1]++; localStorage.setItem('ans', JSON.stringify(a));
+      var d = J('ansd'); d[day] = d[day] || {}; var x = d[day][sec] = d[day][sec] || [0, 0]; if (ok) x[0]++; x[1]++;
+      Object.keys(d).forEach(function(k){ if (+k < day - 13) delete d[k]; }); localStorage.setItem('ansd', JSON.stringify(d));
+    } catch (e) {}
+  }
   function pts(sec, h){ return Math.round(h * (PER[sec] || 5) / 2); }
 
   function css(){
@@ -48,6 +58,7 @@
     /** One answer. fresh = false for an item the student already had (item mode only). Returns the multiplier of this answer. */
     hit: function(ok, fresh){
       if (!cur) return 1;
+      if (!cur.noCount) count(cur.s, !!ok);
       if (!ok) { cur.run = 0; hide(); return 1; }
       cur.run++; cur.best = Math.max(cur.best, cur.run);
       var m = mult(cur.run), h = half(cur.run);

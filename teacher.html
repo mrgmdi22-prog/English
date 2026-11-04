@@ -51,6 +51,16 @@ h1{font-size:2rem;margin:0 0 4px;font-weight:800}
 .ac .secs{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.ac .secs span{background:#f6f7fb;border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:.98rem}
 .ac .days{display:flex;gap:4px;margin-top:6px;direction:rtl}.ac .days i{flex:1;max-width:52px;text-align:center;font-style:normal;font-size:.8rem;color:var(--muted)}
 .ac .days i b{display:block;border-radius:8px;padding:3px 0;font-size:.9rem;color:#4b33c9;background:#f1efff}.ac .days i b.z{background:#f6f7fb;color:#b8b5c8}
+.ac .rp{margin-top:8px;font-size:.95rem;padding:6px 14px}
+#rpBox{position:fixed;inset:0;z-index:2000;background:rgba(40,36,70,.35);display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;padding:12px}
+#rpBox .sheet{background:#fff;border-radius:22px;max-width:640px;width:100%;padding:18px 16px 26px;margin:6px 0 40px;font-size:1.08rem;box-shadow:0 20px 50px -20px rgba(40,36,70,.5)}
+#rpBox h2{margin:0 0 4px;font-size:1.45rem}#rpBox h3{margin:20px 0 8px;font-size:1.2rem;color:#4b33c9}
+#rpBox .x{float:left;font:inherit;font-size:1.05rem;font-weight:800;border:0;background:#eef0f6;border-radius:999px;padding:7px 16px;cursor:pointer}
+.rpSum{background:#f6f4ff;border:1.5px solid #e2dcff;border-radius:16px;padding:10px 14px;margin-top:10px}.rpSum li{margin:4px 0}
+.bar2{display:grid;grid-template-columns:minmax(110px,40%) 1fr auto;gap:8px;align-items:center;margin:6px 0}.bar2 .t{height:14px;border-radius:9px;background:#f0eef8;overflow:hidden}.bar2 .t i{display:block;height:100%;border-radius:9px;background:#9b8cf2}
+.bar2 .t i.g{background:#5cc28a}.bar2 .t i.y{background:#f2c14e}.bar2 .t i.r{background:#ef8a80}.bar2 small{color:var(--muted)}
+.rpT{width:100%;border-collapse:collapse}.rpT td{border-bottom:1px solid var(--line);padding:8px 4px;vertical-align:top}.rpT td:last-child{text-align:left;white-space:nowrap;font-weight:800}
+.rpT small{display:block;color:var(--muted);font-weight:500}
 .acIdle{margin-top:10px}.acIdle summary{cursor:pointer;font-weight:800;color:var(--muted);font-size:1.05rem}
 </style>
 </head>
@@ -61,7 +71,7 @@ h1{font-size:2rem;margin:0 0 4px;font-weight:800}
   <div id="main"></div>
 </div>
 <script type="module">
-import * as H from './assets/honor.js?v=20261104d';
+import * as H from './assets/honor.js?v=20261104e';
 const $ = id => document.getElementById(id);
 const LV_NEW_AT = 1793547780000; // same as NEW_AT in level/index.html: start of the harder level-check version
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -168,8 +178,8 @@ async function load() {
     return `<div class="acTabs"><button class="btn ${AC.mode === 'day' ? 'on' : ''}" data-ac="day">اليوم</button><button class="btn ${AC.mode === 'week' ? 'on' : ''}" data-ac="week">هذا الأسبوع</button>
       <select id="acG"><option value="">كل الصفوف والشعب</option>${acGroups.map(g => `<option ${g === AC.g ? 'selected' : ''}>${esc(g)}</option>`).join('')}</select></div>
       <div class="acSum"><div><b>${act.length}</b>طالباً نشطاً</div><div><b>${idle.length}</b>لم ينشط${AC.mode === 'day' ? ' اليوم' : ' هذا الأسبوع'}</div><div><b>${fmt(total)}</b>مجموع النقاط</div></div>
-      ${act.map(x => `<div class="ac"><div class="h"><span>${nm(x.r)}</span><span class="p">${fmt(x.a.sum)}${AC.mode === 'week' ? `<small class="real" style="font-size:.85rem">نشط ${x.a.active} من 7 أيام</small>` : ''}</span></div><div class="secs">${secs(x.a.o)}</div>${days(x)}</div>`).join('') || '<div class="empty">لا نشاط مسجّل بعد في هذه الفترة.</div>'}
-      ${idle.length ? `<details class="acIdle"><summary>لم ينشطوا (${idle.length})</summary>${idle.map(x => `<div class="ac"><span>${nm(x.r)}</span>${x.a ? '' : '<small class="real">لم يصل منه نشاط بعد (يظهر بعد أول دخول له بعد هذا التحديث)</small>'}</div>`).join('')}</details>` : ''}`;
+      ${act.map(x => `<div class="ac"><div class="h"><span>${nm(x.r)}</span><span class="p">${fmt(x.a.sum)}${AC.mode === 'week' ? `<small class="real" style="font-size:.85rem">نشط ${x.a.active} من 7 أيام</small>` : ''}</span></div><div class="secs">${secs(x.a.o)}</div>${days(x)}<button class="btn soft rp" data-rp="${x.r.id}">📋 تقرير الطالب</button></div>`).join('') || '<div class="empty">لا نشاط مسجّل بعد في هذه الفترة.</div>'}
+      ${idle.length ? `<details class="acIdle"><summary>لم ينشطوا (${idle.length})</summary>${idle.map(x => `<div class="ac"><span>${nm(x.r)}</span><button class="btn soft rp" data-rp="${x.r.id}">📋 تقرير الطالب</button>${x.a ? '' : '<small class="real">لم يصل منه نشاط بعد (يظهر بعد أول دخول له بعد هذا التحديث)</small>'}</div>`).join('')}</details>` : ''}`;
   };
   const actPanel = `<div class="panel" id="acPanel"><h2>📊 نشاط الطلاب</h2><p class="note">النقاط التي جمعها كل طالب في كل قسم (قبل الحد اليومي)، ويبدأ اليوم في السادسة صباحاً والأسبوع يوم الثلاثاء. يُحدَّث حين يفتح الطالب الموقع.</p><div id="acBody">${acHTML()}</div></div>`;
   $('main').innerHTML = actPanel + `<div class="panel"><h2>بانتظار الموافقة <span class="count">${pend.length}</span></h2>${pend.map(r => item(r, true)).join('') || '<div class="empty">لا توجد أسماء جديدة.</div>'}</div>` + newPanel + starsPanel + levelPanel + wqPanel + `
@@ -178,7 +188,90 @@ async function load() {
   const acWire = () => {
     $('acBody').querySelectorAll('[data-ac]').forEach(b => b.onclick = () => { AC.mode = b.dataset.ac; acSave(); });
     $('acG').onchange = e => { AC.g = e.target.value; acSave(); };
+    $('acBody').querySelectorAll('[data-rp]').forEach(b => b.onclick = () => openReport(b.dataset.rp));
   };
+  // 📋 تقرير الطالب: what the student focuses on (points per section) and how well they do in each section,
+  // built from the student's progress backup (everything the tools saved) + the honor-board record.
+  const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+  const tone = p => p >= 80 ? 'g' : p >= 60 ? 'y' : 'r';
+  const bar = (label, v, max, txt, cls) => `<div class="bar2"><span>${label}</span><span class="t"><i class="${cls || ''}" style="width:${Math.max(3, Math.min(100, max ? v / max * 100 : 0))}%"></i></span><b>${txt}</b></div>`;
+  const STEP_AR = { tenses:'الأزمنة', conditionals:'الشرط والتمني', passive:'المبني للمجهول', modals:'الأفعال الناقصة', gerund_inf:'المصدر وing', questions:'تكوين السؤال', conjunctions:'أدوات الربط', relative:'أسماء الموصول', prepositions:'حروف الجر', pronouns:'الضمائر', quantifiers:'الكمية والتعريف', comparatives:'المقارنة والتفضيل', vocab:'مفردات وتراكيب', word_order:'ترتيب الكلمات', paragraph_order:'ترتيب الجمل', add_clause:'إضافة جملة', capitalization:'الحروف الكبيرة', punctuation:'علامات الترقيم', error_id:'تحديد الخطأ', r_main:'قراءة: الفكرة الرئيسية', r_vocab:'قراءة: معنى كلمة', r_ref:'قراءة: عودة الضمير', r_infer:'قراءة: الاستنتاج', r_detail:'قراءة: التفاصيل', r_not:'قراءة: ما لم يُذكر', words:'مفردات القراءة', listen:'الاستماع' };
+  const CAP_AR = { space:'الفضاء', flavor:'النكهات', life:'الحياة', adventure:'المغامرة', emotion:'المشاعر', career:'المهن', nature:'الطبيعة', health:'الصحة', sports:'الرياضة', tech:'التقنية' };
+  function reportHTML(r, d) {
+    d = d || {}; const N = k => +d[k] || 0, L = k => Array.isArray(d[k]) ? d[k].length : 0, O = k => (d[k] && typeof d[k] === 'object') ? d[k] : {};
+    const units = (pre, n) => { let t = 0, b = 0, s = 0; for (let i = 1; i <= n; i++) { const v = N(pre + i); if (v > 0) { t++; s += v; if (v >= 8) b++; } } return { t, b, avg: t ? s / t : 0 }; };
+    const keysWith = pre => Object.keys(d).filter(k => k.indexOf(pre) === 0).map(k => N(k));
+    // 1) focus: all-time points by section from the board record
+    const P = r.parts || {}, F = H.RULES.filter(x => !['lv', 'lvs', 'xb', 'rt'].includes(x.key)).map(x => ({ k: x.key, v: Math.min(P[x.key] || 0, x.max) * x.per })).filter(x => x.v > 0).sort((a, b) => b.v - a.v);
+    const fT = F.reduce((t, x) => t + x.v, 0);
+    const W = Object.assign({}, ((P.act || {}).week === acWeek ? (P.act || {}).w : null) || {}); delete W.xb; delete W.rt; const wT = Object.keys(W).reduce((t, k) => t + W[k], 0);
+    // 2) accuracy per section (answers counted since 4 Nov 2026)
+    const A = O('ans'), acc = Object.keys(A).map(k => ({ k, r: +A[k][0] || 0, t: +A[k][1] || 0 })).filter(x => x.t > 0).sort((a, b) => b.t - a.t);
+    const AD = O('ansd'); let w7r = 0, w7t = 0, dAct = 0; for (let dd = acDay - 6; dd <= acDay; dd++) { const x = AD[dd] || {}; let any = 0; Object.keys(x).forEach(k => { w7r += +x[k][0] || 0; w7t += +x[k][1] || 0; any = 1; }); dAct += any; }
+    // 3) STEP skills
+    const SS = O('step.stats'), steps = Object.keys(SS).map(k => ({ k, r: +SS[k][0] || 0, t: +SS[k][1] || 0, p: pct(+SS[k][0] || 0, +SS[k][1] || 0) })).filter(x => x.t > 0);
+    // 4) per-section progress
+    const wq = units('wq-best-', 50), ng = units('ng-best-', 50), aw = units('aw-best-', 29), el = units('el-best-', 10);
+    let capS = 0, cap3 = 0; const capDone = []; Object.keys(CAP_AR).forEach(c => { const st = O('cap2-' + c + '-stars'); const n = Object.keys(st).length; if (n) capDone.push(CAP_AR[c] + ' ' + n); capS += n; Object.values(st).forEach(v => { if (+v >= 3) cap3++; }); });
+    const stA = keysWith('st-best-').filter(v => v > 0), lab = keysWith('cl-q-').filter(v => v >= 0), tb = keysWith('tb-best-').filter(v => v > 0);
+    const mbd = O('mb-days'), mbDays = Object.keys(mbd), mbAvg = mbDays.length ? mbDays.reduce((t, k) => t + (+mbd[k] || 0), 0) / mbDays.length : 0;
+    const srs = k => { const o = O(k), w = Object.keys(o); return [w.length, w.filter(x => ((o[x] || [])[0] || 0) >= 3).length]; };
+    const [wqK, wqM] = srs('wq-srs'), [ngK, ngM] = srs('ng-srs'), [awK, awM] = srs('aw-srs');
+    const lr = O('lv-results'), lvTxt = lr.pre ? `قبلي ${esc(lr.pre.level || '')}` + (lr.post ? ` ← بعدي ${esc(lr.post.level || '')}` : '') : 'لم يختبر بعد';
+    const rows = [
+      ['🗺️ Word Quest', wq.t, `${wq.t} من 50 وحدة · شارة في ${wq.b}`, wq.t ? `متوسط ${wq.avg.toFixed(1)}/10` : ''],
+      ['🌍 الكلمات العامة', ng.t, `${ng.t} من 50 وحدة · شارة في ${ng.b}`, ng.t ? `متوسط ${ng.avg.toFixed(1)}/10` : ''],
+      ['🎓 الكلمات الأكاديمية', aw.t, `${aw.t} من 29 وحدة · شارة في ${aw.b}`, aw.t ? `متوسط ${aw.avg.toFixed(1)}/10` : ''],
+      ['🧠 المراجعة المتباعدة', wqK + ngK + awK, `ثبتت ${wqM + ngM + awM} كلمة من ${wqK + ngK + awK} تعلّمها`, ''],
+      ['🏟️ ميدان المفردات', L('mg1-known') + L('mg2-known') + L('mg3-known'), `أتقن ${L('mg1-known') + L('mg2-known') + L('mg3-known')} كلمة من كتب Mega Goal`, ''],
+      ['🧭 Core Quest', Object.keys(O('cq-done')).length, `${Object.keys(O('cq-done')).length} مجموعة من 163`, ''],
+      ['🌟 الكبسولات', capS, `${capS} مرحلة · ⭐⭐⭐ في ${cap3}` + (capDone.length ? `<small>${esc(capDone.join('، '))}</small>` : ''), capS ? `${pct(cap3, capS)}٪ بلا خطأ` : ''],
+      ['🗣️ محادثات التأسيس', tb.length, `${tb.length} من 8 وحدات`, tb.length ? `متوسط ${(tb.reduce((a, b) => a + b, 0) / tb.length).toFixed(1)}/5` : ''],
+      ['💬 مختبر المحادثة', lab.length, `${lab.length} من 20 أسبوعاً`, lab.length ? `متوسط ${(lab.reduce((a, b) => a + b, 0) / lab.length).toFixed(1)}/5` : ''],
+      ['📖 القصص', stA.length, `${stA.length} قصة`, stA.length ? `متوسط ${(stA.reduce((a, b) => a + b, 0) / stA.length).toFixed(1)}/3` : ''],
+      ['⏳ الأزمنة', Math.max(L('tn-known'), N('tn-best')), `${Math.max(L('tn-known'), N('tn-best'))} من 42 سؤالاً`, ''],
+      ['🔄 المبني للمجهول', Math.max(L('pv-known'), N('pv-best')), `${Math.max(L('pv-known'), N('pv-best'))} سؤالاً صحيحاً مختلفاً`, ''],
+      ['🎨 التعبيرات', Math.max(L('im-known'), N('im-best')), `${Math.max(L('im-known'), N('im-best'))} من 52`, ''],
+      ['📝 ستيب', steps.reduce((t, x) => t + x.t, 0), `${Object.keys(O('step.ok')).length} سؤالاً أجابها صحيحاً`, steps.length ? `دقة ${pct(steps.reduce((t, x) => t + x.r, 0), steps.reduce((t, x) => t + x.t, 0))}٪` : ''],
+      ['💎 مسار النخبة', el.t, `${el.t} من 10 وحدات · تحدي اليوم ${Object.keys(O('el-daily')).length} يوماً`, el.t ? `متوسط ${el.avg.toFixed(1)}/10` : ''],
+      ['🎁 Surprise Me', mbDays.length, `${mbDays.length} صندوقاً`, mbDays.length ? `متوسط ${mbAvg.toFixed(1)}/15` : ''],
+      ['🍳 Breakfast', N('bf-best'), N('bf-best') ? `أفضل نتيجة ${N('bf-best')}/10` : '', '']
+    ];
+    const tried = rows.filter(x => x[1] > 0), untried = rows.filter(x => !x[1]).map(x => x[0]);
+    // summary
+    const sum = [];
+    if (F.length) sum.push(`<b>يركّز على:</b> ${F.slice(0, 3).map(x => `${ICON[x.k] || ''} ${esc(SEC_AR[x.k] || x.k)} (${pct(x.v, fT)}٪)`).join('، ')}.`);
+    const good = acc.filter(x => x.t >= 10).sort((a, b) => b.r / b.t - a.r / a.t);
+    if (good.length) sum.push(`<b>أقوى أداء:</b> ${esc(SEC_AR[good[0].k] || good[0].k)} بدقة ${pct(good[0].r, good[0].t)}٪.`);
+    if (good.length > 1 && pct(good[good.length - 1].r, good[good.length - 1].t) < 75) sum.push(`<b>يحتاج دعماً في:</b> ${esc(SEC_AR[good[good.length - 1].k] || good[good.length - 1].k)} (دقة ${pct(good[good.length - 1].r, good[good.length - 1].t)}٪).`);
+    const weakStep = steps.filter(x => x.t >= 5).sort((a, b) => a.p - b.p).slice(0, 2).filter(x => x.p < 70);
+    if (weakStep.length) sum.push(`<b>أضعف مهارات ستيب:</b> ${weakStep.map(x => `${esc(STEP_AR[x.k] || x.k)} (${x.p}٪)`).join('، ')}.`);
+    const days = n => n === 1 ? 'يوماً واحداً' : n === 2 ? 'يومين' : n + ' أيام';
+    sum.push(`<b>آخر 7 أيام:</b> نشط ${dAct ? days(dAct) : 'صفر أيام'}${w7t ? `، أجاب ${w7t} سؤالاً بدقة ${pct(w7r, w7t)}٪` : ''}.`);
+    if (untried.length && tried.length) sum.push(`<b>لم يجرّب بعد:</b> ${untried.slice(0, 6).join('، ')}${untried.length > 6 ? '…' : '.'}`);
+    const p = priv[r.id] || {};
+    return `<div class="sheet" role="dialog" aria-modal="true"><button class="x" id="rpX">✕ إغلاق</button>
+      <h2>📋 ${esc(p.name || r.nick)}</h2><p class="note">${esc(r.nick)}${gradeOf(r.id) ? ' · ' + esc(gradeOf(r.id)) : ''} · المستوى: ${lvTxt} · المجموع ${fmt(tot(r))} نقطة</p>
+      <ul class="rpSum">${sum.map(x => `<li>${x}</li>`).join('')}</ul>
+      <h3>🎯 أين يركّز؟ (توزيع نقاطه على الأقسام)</h3>
+      ${F.length ? F.slice(0, 8).map(x => bar(`${ICON[x.k] || ''} ${esc(SEC_AR[x.k] || x.k)}`, x.v, F[0].v, `${pct(x.v, fT)}٪`)).join('') : '<p class="note">لا نقاط بعد.</p>'}
+      ${wT ? `<p class="note" style="margin-top:8px">هذا الأسبوع: ${Object.keys(W).sort((a, b) => W[b] - W[a]).slice(0, 4).map(k => `${ICON[k] || ''} ${esc(SEC_AR[k] || k)} ${pct(W[k], wT)}٪`).join(' · ')}</p>` : ''}
+      <h3>✅ دقة إجاباته في كل قسم</h3>
+      ${acc.length ? acc.map(x => bar(`${ICON[x.k] || ''} ${esc(SEC_AR[x.k] || x.k)} <small>(${x.t} سؤالاً)</small>`, x.r, x.t, `${pct(x.r, x.t)}٪`, tone(pct(x.r, x.t)))).join('') : '<p class="note">تُسجَّل الدقة من 4/11/2026، وتظهر بعد أن يجيب الطالب أسئلة جديدة.</p>'}
+      <h3>📚 تقدّمه في الأقسام</h3>
+      ${tried.length ? `<table class="rpT">${tried.map(x => `<tr><td>${x[0]}<small>${x[2]}</small></td><td>${x[3]}</td></tr>`).join('')}</table>` : '<p class="note">لم يصل تقدّم من أدوات الموقع بعد.</p>'}
+      ${steps.length ? `<h3>📝 مهارات ستيب (الأضعف أولاً)</h3>${steps.sort((a, b) => a.p - b.p).map(x => bar(`${esc(STEP_AR[x.k] || x.k)} <small>(${x.t})</small>`, x.r, x.t, `${x.p}٪`, tone(x.p))).join('')}` : ''}
+      <p class="note" style="margin-top:16px">آخر نسخة من تقدّمه وصلت: ${d.__at ? new Date(d.__at).toLocaleString('ar-SA-u-nu-latn', { dateStyle: 'medium', timeStyle: 'short' }) : '—'}</p></div>`;
+  }
+  async function openReport(id) {
+    const r = rows.find(x => x.id === id); if (!r) return;
+    let box = $('rpBox'); if (!box) { box = document.createElement('div'); box.id = 'rpBox'; document.body.appendChild(box); }
+    box.innerHTML = '<div class="sheet"><p class="note">جارٍ تحميل التقرير…</p></div>'; box.hidden = false; document.body.style.overflow = 'hidden';
+    const close = () => { box.hidden = true; box.innerHTML = ''; document.body.style.overflow = ''; };
+    box.onclick = e => { if (e.target === box) close(); };
+    let d = null; try { d = await H.teacherProgress(id); } catch (e) { console.warn('progress', e); }
+    box.innerHTML = reportHTML(r, d); $('rpX').onclick = close; box.scrollTop = 0;
+  }
   const acSave = () => { try { sessionStorage.setItem('t-ac', JSON.stringify(AC)); } catch (e) {} $('acBody').innerHTML = acHTML(); acWire(); };
   acWire();
   $('csv').onclick = () => {

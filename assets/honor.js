@@ -563,6 +563,16 @@ export async function allCodes() {
   const out = {}; snap.forEach(d => { out[d.id] = d.data().code; });
   return out;
 }
+/** Teacher: one student's progress backup (everything the tools saved on the student's devices), as an object of parsed values. */
+export async function teacherProgress(uid) {
+  const { fs, TD: D } = await load();
+  const snap = await fs.getDoc(fs.doc(D, 'progress', uid));
+  if (!snap.exists()) return null;
+  let raw = {}; try { raw = JSON.parse(snap.data().d || '{}'); } catch (e) {}
+  const out = {}; Object.keys(raw).forEach(k => { try { out[k] = JSON.parse(raw[k]); } catch (e) { out[k] = raw[k]; } });
+  const t = snap.data().updatedAt; out.__at = t && t.toMillis ? t.toMillis() : 0;
+  return out;
+}
 /** Teacher: moves the points of an old account (made on a lost device) into the student's current account, then removes the old one. */
 export async function mergeInto(targetId, fromId) {
   const { fs, TD: D } = await load();
