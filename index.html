@@ -302,6 +302,7 @@ footer b{color:var(--ink)}
       <div><h2 id="hf2" style="color:#b8336a">المفردات</h2><p>Vocabulary · كلمات عامة وأكاديمية ومفردات المنهج والعبارات الاصطلاحية</p></div>
     </div>
     <div class="grid">
+      <a class="card reveal" href="words/core2000.html" style="--c:#0f7f93;--t:#e0f4f7"><span class="arrow">←</span><span class="ic" aria-hidden="true">🧭</span><b>Core Quest</b><span class="en">2000 Core Words</span><p>أكثر من 1600 كلمة وعبارة شائعة في مجموعات من 10: تعلّم، ثم اختر، ثم اكتب. 20 نقطة لكل مجموعة تنهيها.</p></a>
       <a class="card reveal" href="journey/word-quest.html" style="--c:#2f6fd6;--t:#e8f0fd"><span class="arrow">←</span><span class="ic" aria-hidden="true">🗺️</span><b>English Word Quest</b><p>50 وحدة: تعرّف على الكلمات، وتدرّب، واقرأ القصة، واختبر نفسك.</p></a>
       <div class="card reveal lcard" style="--c:#b8336a;--t:#fdeef3"><div class="lmain"><span class="ic" aria-hidden="true">📚</span><b>قوائم الكلمات</b><span class="en">Word Lists · NGSL &amp; AWL</span><p>بطاقات وجمل وقصص واختبارات لأهم الكلمات العامة والأكاديمية.</p></div>
         <div class="lmodes"><a href="words/ngsl.html">🌍 الكلمات العامة<br><small>1000 كلمة</small></a><a href="words/awl.html">🎓 الكلمات الأكاديمية<br><small>569 كلمة</small></a></div></div>
@@ -427,7 +428,7 @@ try { var lr = JSON.parse(localStorage.getItem('lv-results') || '{}'), s = docum
 <script src="assets/club.js?v=15"></script>
 <script type="module">
 // Top three on the honor board (only once Firebase is configured)
-import('./assets/honor.js?v=20261103a').then(async H => {
+import('./assets/honor.js?v=20261104a').then(async H => {
   const s = H.computeScore().score;
   const mp = document.getElementById('myPts'); if (mp) mp.textContent = s.toLocaleString('en-US');
   if (s > 0) document.getElementById('hSub').textContent = 'نقاطك هذا الأسبوع: ' + s.toLocaleString('en-US') + ' نقطة — موسم جديد كل ثلاثاء، تنافس لتكون من نجوم الأسبوع 🌟';
@@ -465,7 +466,7 @@ import('./assets/honor.js?v=20261103a').then(async H => {
     'capsules/nature.html':['كبسولة الطبيعة','🌍'], 'capsules/health.html':['كبسولة التعافي','🩺'], 'capsules/sports.html':['كبسولة الرياضة','🏆'], 'capsules/tech.html':['كبسولة التقنية','💻'],
     'journey/word-quest.html':['English Word Quest','🗺️'], 'journey/dictionary.html':['قاموس الألف كلمة','📖'], 'journey/conversation-lab.html':['مختبر المحادثة','💬'], 'elite/index.html':['مسار النخبة','💎'],
     'vocab/mega-goal-1.html':['ميدان المفردات 1','🏟️'], 'vocab/mega-goal-2.html':['ميدان المفردات 2','🏆'], 'vocab/mega-goal-3.html':['ميدان المفردات 3','🥇'],
-    'everyday/breakfast.html':['Breakfast Challenge','🍳'],
+    'everyday/breakfast.html':['Breakfast Challenge','🍳'], 'words/core2000.html':['Core Quest','🧭'],
     'grammar/syntax-tree-lab.html':['Syntax Tree Lab','🌳'], 'grammar/tenses.html':['خارطة الأزمنة','⏳'], 'grammar/passive.html':['المبني للمجهول','🔄'], 'kids/index.html':['نادي البراعم','🦁'], 'level/index.html':['قياس المستوى','📈'], 'everyday/basics.html':['محادثات التأسيس','🗣️'], 'idioms/index.html':['ركن التعبيرات','🎨'],
     'letters/letters-sounds.html':['ميدان الحروف والأصوات','🔤']
   };

@@ -196,7 +196,7 @@ let H = null, cloud = {}, postOpen = false, online = false, OLD = null;
 async function loadAll(){
   const local = store.get('lv-results') || {};
   try {
-    H = await import('../assets/honor.js?v=20261103a');
+    H = await import('../assets/honor.js?v=20261104a');
     if (H.ready) {
       const t = new Promise((_, no) => setTimeout(() => no(new Error('timeout')), 8000));
       const [mine, cfg] = await Promise.race([Promise.all([H.myLevels(), H.levelsConfig()]), t]);
