@@ -251,7 +251,15 @@ const G = D.g.map((q,i)=>({key:'g'+i, kind:'g', cat:q[0], stem:q[1], options:q[2
 const R = D.r.map((p,i)=>({key:'p'+i, title:p[0], paras:p[1], freq:p[2],
   qs:p[3].map((q,j)=>({key:'p'+i+'.'+j, kind:'r', pi:i, cat:'r_'+q[4], rtype:q[4], stem:q[0], ar:q[1], options:q[2], answer:q[3], freq:q[5]}))}));
 const RQ = R.flatMap(p=>p.qs);
+
+const WB = (window.STEP_WORDS||[]).map((w,i)=>({w:w[0], m:w[1], ar:w[2], i}));
+function wordQ(x){
+  const others = shuffle(WB.filter(y=>y.m!==x.m)).slice(0,3).map(y=>y.m);
+  const opts = shuffle([x.m, ...others]);
+  return {key:'w'+x.i, kind:'w', cat:'words', stem:'The word “'+x.w+'” is closest in meaning to ______', options:opts, answer:opts.indexOf(x.m), freq:1, hint:'«'+x.w+'» = '+x.ar+' ('+x.m+')'};
+}
 const BYKEY = Object.fromEntries([...G, ...RQ].map(q=>[q.key,q]));
+WB.forEach(x=>{ BYKEY['w'+x.i] = wordQ(x); });
 
 function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
 const esc = s => String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -306,6 +314,8 @@ function home(){
     <div class="cats">${ANALYSIS_CATS.filter(c=>count(c)).map(c=>catTile(c,count(c),CATS[c])).join('')}</div></section>
   <section class="block"><h2>استيعاب المقروء</h2><p class="sub">قطعة كاملة وأسئلتها، مع ترجمة عربية للسؤال عند الحاجة.</p>
     <div class="cats">${catTile('r_all', RQ.length, 'كل القطع بالترتيب')}${Object.keys(RTYPES).filter(t=>rcount(t)>2).map(t=>catTile('r_'+t, rcount(t), RTYPES[t])).join('')}</div></section>
+  <section class="block"><h2>مفردات القراءة المتكررة</h2><p class="sub">كلمات يتكرر السؤال عن معناها في قطع ستيب: اختر المعنى الأقرب، وتظهر لك ترجمتها العربية بعد الإجابة.</p>
+    <div class="cats">${catTile('words', WB.length, 'معنى الكلمة')}</div></section>
   <p class="note">يُحفظ تقدمك وأخطاؤك على هذا الجهاز فقط. لا يشمل البنك قسم الاستماع. إن لاحظت سؤالاً فيه خطأ فأخبر معلمك.</p>
   <footer>إعداد: أ. أحمد آل سالم — الأسئلة مجمّعة من نماذج ستيب المتداولة (تجميعات د. برق وأكاديمية ستيب المجانية)، وأُعيد تنظيمها وتصنيفها للتدريب.</footer>`;
   app.querySelectorAll('.cat').forEach(b=>b.onclick=()=>startCat(b.dataset.cat));
@@ -315,6 +325,7 @@ function home(){
   window.scrollTo(0,0);
 }
 function startCat(cat){
+  if(cat==='words') return startSession('مفردات القراءة المتكررة', shuffle(WB).map(wordQ));
   if(cat==='r_all') return startSession('استيعاب المقروء', RQ.slice());
   if(cat.startsWith('r_')){ const t=cat.slice(2); return startSession('استيعاب المقروء: '+RTYPES[t], shuffle(RQ.filter(q=>q.rtype===t))); }
   startSession(CATS[cat], shuffle(G.filter(q=>q.cat===cat)));
@@ -327,6 +338,7 @@ function startSession(title, list, mock){
   renderQ();
 }
 function ruleBox(q){
+  if(q.kind==='w') return '';
   if(q.kind==='r') return `<div class="tip"><b>طريقة الحل: </b>${RTIPS[q.rtype]||RTIPS.detail}</div>`;
   const r = RULES[q.cat]; if(!r) return '';
   return `<details class="rule"><summary>قاعدة الباب: ${CATS[q.cat]}</summary><ul>${r.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></details>`;
@@ -357,7 +369,7 @@ function renderQ(){
       ${q.hint?`<div class="clue">${esc(q.hint)}</div>`:''}</div>${ruleBox(q)}`;
   } else if(q.kind==='r' && !S.mock){ fb = ''; }
   const hot = q.freq>=3 ? `<span class="chip hot">متكرر في ${q.freq} نماذج</span>` : '';
-  const catChip = `<span class="chip">${q.kind==='r'?RTYPES[q.rtype]:CATS[q.cat]}</span>`;
+  const catChip = `<span class="chip">${q.kind==='r'?RTYPES[q.rtype]:q.kind==='w'?'معنى الكلمة':CATS[q.cat]}</span>`;
   const timer = S.mock ? `<span class="timer" id="timer"></span>` : '';
   const qcard = `<div class="qcard"><div class="qmeta">${catChip}${hot}</div>
       <div class="stem en">${stemHTML(q)}</div>
