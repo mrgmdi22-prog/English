@@ -10,82 +10,217 @@
 <script src="../assets/gate.js?v=9"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>مسار النخبة · Elite Track</title>
-<meta name="description" content="مسار النخبة: مفردات وقواعد وجمل ومحادثات ونصوص للمستوى B1 فأعلى، بنقاط أعلى ولوحة خاصة.">
-<meta name="theme-color" content="#F7F8FC">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<meta name="description" content="مسار النخبة: رحلة من قمة B1 إلى قمة B2، بنجوم وألقاب وأوسمة وتحدٍّ يومي ولوحة خاصة.">
+<meta name="theme-color" content="#F6F3FF">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Lexend:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
 <style>
-:root{--bg:#F7F8FC;--card:#FFFFFF;--ink:#1d2433;--muted:#5b6478;--line:#e4e8f2;--gold:#b7791f;--gold-soft:#fff6df;--ok:#17805d;--ok-soft:#e5f7ef;--bad:#c2452a;--bad-soft:#fdeee9;--blue:#2f6fd6}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#F7F8FC}}
-:root[data-theme="dark"]{--bg:#F7F8FC}
+:root{
+  --bg:#F6F3FF;--bg2:#FFFBF0;--card:#FFFFFF;--ink:#231f3a;--muted:#625d7d;--line:#e6e1f5;
+  --vio:#6B4BD8;--vio-soft:#EEE9FF;--gold:#D9970F;--gold-soft:#FFF4D6;--ok:#16855F;--ok-soft:#E3F7EE;--bad:#C9472B;--bad-soft:#FDECE7;
+  --sky:#E8F3FF;--mint:#E6F8F1;--peach:#FFF0E6;--rose:#FDEBF3;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#F6F3FF}}
+:root[data-theme="dark"]{--bg:#F6F3FF}
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Tajawal,system-ui,sans-serif;font-size:20px;line-height:1.7}
-.wrap{max-width:820px;margin:0 auto;padding:18px 16px 60px}
-h1{font-size:2.1rem;margin:8px 0 4px}
-h2{font-size:1.5rem;margin:0 0 8px}
-.en{font-family:Lexend,sans-serif;font-size:.85em;color:var(--muted);font-weight:500}
-.lead{font-size:1.2rem;color:var(--muted);margin:0 0 16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px;margin:14px 0;box-shadow:0 2px 10px rgba(30,40,70,.05)}
-.gold{background:var(--gold-soft);border-color:#f2dca4}
-.btn{font:inherit;font-weight:800;font-size:1.15rem;border:0;border-radius:14px;padding:12px 22px;background:var(--blue);color:#fff;cursor:pointer;min-height:52px}
-.btn.soft{background:#eef2fb;color:var(--ink)}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-.btn.link{display:inline-block;text-decoration:none;line-height:28px}
-.unit{display:flex;align-items:center;gap:14px;justify-content:space-between;flex-wrap:wrap}
-.unit .t{flex:1;min-width:200px}
-.unit small{display:block;color:var(--muted);font-size:1rem}
-.badge{display:inline-block;padding:2px 12px;border-radius:999px;font-weight:700;font-size:1rem;background:#eef2fb}
-.badge.ok{background:var(--ok-soft);color:var(--ok)}
-.passage{background:#fbfcff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-family:Lexend,sans-serif;font-size:1.15rem;line-height:1.9;white-space:pre-line;direction:ltr;text-align:left;margin-bottom:14px}
-.qtext{font-family:Lexend,sans-serif;font-size:1.3rem;font-weight:600;direction:ltr;text-align:left;margin:10px 0 14px}
-.opts{display:grid;gap:10px}
-.opt{font:inherit;font-family:Lexend,sans-serif;font-size:1.2rem;text-align:left;direction:ltr;background:#fff;border:2px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer;color:var(--ink);min-height:56px}
-.opt.right{border-color:var(--ok);background:var(--ok-soft)}
-.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
-.fb{margin-top:12px;padding:12px 14px;border-radius:12px;font-size:1.1rem}
-.fb.ok{background:var(--ok-soft);color:#0f5e43}
-.fb.bad{background:var(--bad-soft);color:#8a2d18}
-.bar{height:12px;background:#e9edf6;border-radius:999px;overflow:hidden;margin:10px 0}
-.bar i{display:block;height:100%;background:linear-gradient(90deg,#7aa8ff,#2f6fd6);transition:width .3s}
-.nav{display:flex;justify-content:space-between;gap:10px;margin-top:16px}
-.lock{text-align:center;padding:28px 18px}
-.lock .big{font-size:3rem}
-table.board{width:100%;border-collapse:collapse;font-size:1.15rem}
-table.board td{padding:10px 6px;border-bottom:1px solid var(--line)}
-table.board td.n{width:42px;font-weight:800;color:var(--gold)}
-table.board td.p{text-align:left;font-family:Lexend,sans-serif;font-weight:600}
-table.board tr.me td{background:var(--gold-soft)}
+html,body{margin:0}
+body{background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%) fixed;color:var(--ink);font-family:Tajawal,system-ui,sans-serif;font-size:20px;line-height:1.7;min-height:100vh}
+.wrap{max-width:760px;margin:0 auto;padding:14px 16px 90px}
+.en{font-family:Lexend,sans-serif}
 .muted{color:var(--muted)}
 .hide{display:none!important}
+.back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--vio);font-weight:800;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 16px;font-size:1rem}
+.btn{font:inherit;font-weight:800;font-size:1.15rem;border:0;border-radius:16px;padding:12px 22px;background:var(--vio);color:#fff;cursor:pointer;min-height:54px;box-shadow:0 6px 0 #4c33a8;transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #4c33a8}
+.btn.gold{background:linear-gradient(180deg,#FFC94A,#F0A818);color:#4a3200;box-shadow:0 6px 0 #c58a0c}
+.btn.soft{background:#fff;color:var(--ink);border:2px solid var(--line);box-shadow:0 5px 0 var(--line)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;margin:16px 0;box-shadow:0 6px 18px rgba(80,60,160,.06)}
+h2{font-size:1.45rem;margin:0 0 6px}
+
+/* hero */
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#F1ECFF 0%,#FFF6DD 100%);border:1px solid #e9def9;border-radius:28px;padding:22px 18px 18px;margin-top:12px;text-align:center}
+.hero .gem{font-size:4rem;line-height:1;display:inline-block;animation:float 3.2s ease-in-out infinite;filter:drop-shadow(0 8px 10px rgba(107,75,216,.25))}
+@keyframes float{50%{transform:translateY(-8px) rotate(-4deg)}}
+.hero h1{font-size:2.2rem;margin:6px 0 0;line-height:1.3}
+.hero h1 small{display:block;font-family:Lexend,sans-serif;font-size:.95rem;letter-spacing:.25em;color:var(--vio);font-weight:600}
+.rank{display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid #e2d6ff;border-radius:999px;padding:6px 16px;font-weight:900;font-size:1.2rem;margin-top:10px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.stat{background:#fff;border-radius:16px;padding:8px 4px;border:1px solid var(--line)}
+.stat b{display:block;font-size:1.5rem;font-family:Lexend,sans-serif}
+.stat span{font-size:.95rem;color:var(--muted)}
+.next{margin-top:14px;text-align:right;font-size:1rem}
+.pbar{height:14px;background:#fff;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-top:6px}
+.pbar i{display:block;height:100%;background:linear-gradient(90deg,#B9A4FF,#6B4BD8);border-radius:999px;transition:width .6s}
+.sparkle{position:absolute;font-size:1.2rem;opacity:.55;animation:tw 2.6s ease-in-out infinite}
+@keyframes tw{50%{opacity:.1;transform:scale(.7)}}
+
+/* daily */
+.daily{display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#FFF4D6,#FFE9C2);border:1px solid #f3dca2}
+.daily .ic{font-size:2.6rem}
+.daily .tx{flex:1}
+.daily .tx b{font-size:1.25rem}
+.daily .tx small{display:block;color:#7a5a12;font-size:1rem}
+.done-chip{display:inline-block;background:var(--ok-soft);color:var(--ok);font-weight:800;border-radius:999px;padding:4px 12px;font-size:1rem}
+
+/* map */
+.realm{margin:26px 0 6px;display:flex;align-items:center;gap:10px}
+.realm .flag{font-size:2rem}
+.realm h2{margin:0}
+.realm small{display:block;color:var(--muted);font-size:1rem;font-weight:500}
+.path{position:relative;padding:6px 0}
+.path::before{content:"";position:absolute;top:44px;bottom:44px;left:50%;margin-left:-2px;border-left:4px dashed #d9cff7}
+.stop{position:relative;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;margin:12px 0}
+.node{grid-column:2;grid-row:1;width:86px;height:86px;border-radius:50%;display:grid;place-items:center;font-size:2.3rem;border:5px solid #fff;box-shadow:0 6px 0 rgba(80,60,160,.15),0 10px 20px rgba(80,60,160,.12);cursor:pointer;position:relative;transition:transform .15s;z-index:1;padding:0;font-family:inherit}
+.stop .lbl{grid-row:1}
+.stop:nth-child(odd) .lbl{grid-column:1}
+.stop:nth-child(even) .lbl{grid-column:3}
+.node:hover{transform:scale(1.06)}
+.node.locked{background:#eceaf3!important;filter:grayscale(1);cursor:not-allowed;opacity:.8}
+.node.now::after{content:"";position:absolute;inset:-12px;border-radius:50%;border:4px solid var(--gold);animation:pulse 1.6s ease-out infinite}
+@keyframes pulse{0%{opacity:1;transform:scale(.85)}100%{opacity:0;transform:scale(1.2)}}
+.k-vocab{background:var(--sky)}.k-grammar{background:var(--vio-soft)}.k-sentences{background:var(--mint)}.k-dialogue{background:var(--peach)}.k-reading{background:var(--rose)}
+.lbl{flex:1;min-width:0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px 12px;cursor:pointer}
+.lbl b{display:block;font-size:1.1rem;line-height:1.4}
+.lbl .en{font-size:.85rem;color:var(--muted)}
+.stars{font-size:1.15rem;letter-spacing:2px;direction:ltr;display:inline-block}
+.stars .off{filter:grayscale(1);opacity:.3}
+.lockmsg{background:#fff;border:2px dashed #d9cff7;border-radius:16px;padding:10px 14px;color:var(--muted);font-size:1rem;margin:4px 0 0}
+
+/* badges */
+.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.badge{background:#faf9ff;border:2px solid var(--line);border-radius:18px;padding:10px 6px;text-align:center}
+.badge .bi{font-size:2.1rem;display:block}
+.badge b{font-size:1rem;display:block;line-height:1.4}
+.badge small{font-size:.85rem;color:var(--muted);display:block;line-height:1.4}
+.badge.off .bi{filter:grayscale(1);opacity:.35}
+.badge.on{background:var(--gold-soft);border-color:#f0d58c}
+
+/* board */
+.podium{display:grid;grid-template-columns:1fr 1fr 1fr;align-items:end;gap:8px;margin:10px 0 6px}
+.pod{text-align:center}
+.pod .m{font-size:2rem}
+.pod .nm{font-weight:800;font-size:1rem;line-height:1.3;word-break:break-word}
+.pod .sc{font-family:Lexend,sans-serif;color:var(--muted);font-size:.95rem}
+.pod .blk{border-radius:14px 14px 0 0;margin-top:4px}
+.pod.p1 .blk{height:90px;background:linear-gradient(180deg,#FFE08A,#F5C04A)}
+.pod.p2 .blk{height:64px;background:linear-gradient(180deg,#E9ECF5,#CFD5E6)}
+.pod.p3 .blk{height:48px;background:linear-gradient(180deg,#FCD9C0,#EBB58F)}
+.pod.me .nm{color:var(--vio)}
+ol.rest{list-style:none;padding:0;margin:0}
+ol.rest li{display:flex;gap:10px;align-items:center;padding:9px 6px;border-bottom:1px solid var(--line);font-size:1.1rem}
+ol.rest li .r{width:34px;font-weight:900;color:var(--gold);font-family:Lexend,sans-serif}
+ol.rest li .n{flex:1}
+ol.rest li .s{font-family:Lexend,sans-serif;font-weight:600}
+ol.rest li.me{background:var(--gold-soft);border-radius:12px}
+
+/* play */
+#play{max-width:760px;margin:0 auto;padding:12px 16px 100px}
+.ptop{display:flex;align-items:center;gap:10px}
+.x{font:inherit;font-size:1.3rem;width:46px;height:46px;border-radius:50%;border:2px solid var(--line);background:#fff;cursor:pointer;flex:0 0 auto}
+.ptitle{flex:1;font-weight:800;font-size:1.1rem}
+.combo{font-weight:900;background:linear-gradient(180deg,#FFB24A,#F0731D);color:#fff;border-radius:999px;padding:4px 14px;font-size:1.1rem;opacity:0;transform:scale(.6);transition:all .2s}
+.combo.on{opacity:1;transform:scale(1)}
+.combo.bump{animation:bump .35s}
+@keyframes bump{40%{transform:scale(1.3)}}
+.dots{display:flex;gap:6px;justify-content:center;margin:14px 0 6px;direction:ltr}
+.dots i{width:22px;height:10px;border-radius:999px;background:#e3def3}
+.dots i.cur{background:#B9A4FF}
+.dots i.ok{background:#3BBF86}
+.dots i.no{background:#F08B71}
+.qcard{background:#fff;border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 8px 22px rgba(80,60,160,.08);margin-top:10px;animation:in .25s ease-out}
+@keyframes in{from{opacity:0;transform:translateY(10px)}}
+.kind{display:inline-block;border-radius:999px;padding:2px 12px;font-weight:800;font-size:.95rem}
+.passage{background:#FBFAFF;border:1px solid var(--line);border-radius:16px;padding:12px 16px;font-family:Lexend,sans-serif;font-size:1.1rem;line-height:1.85;white-space:pre-line;direction:ltr;text-align:left;max-height:42vh;overflow:auto;margin:10px 0}
+.qtext{font-family:Lexend,sans-serif;font-size:1.3rem;font-weight:600;direction:ltr;text-align:left;margin:12px 0 14px;white-space:pre-line;line-height:1.7}
+.opts{display:grid;gap:10px}
+.opt{position:relative;font:inherit;font-family:Lexend,sans-serif;font-size:1.2rem;text-align:left;direction:ltr;background:#fff;border:2px solid var(--line);border-bottom-width:5px;border-radius:16px;padding:12px 14px 12px 56px;cursor:pointer;color:var(--ink);min-height:60px}
+.opt .L{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:10px;background:var(--vio-soft);color:var(--vio);display:grid;place-items:center;font-weight:700;font-size:1rem}
+.opt:not(:disabled):hover{border-color:#cbbdfa;background:#fcfbff}
+.opt.right{border-color:#3BBF86;background:var(--ok-soft)}
+.opt.right .L{background:#3BBF86;color:#fff}
+.opt.wrong{border-color:#F08B71;background:var(--bad-soft);animation:shake .4s}
+.opt.wrong .L{background:#F08B71;color:#fff}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.plus{position:absolute;right:14px;top:50%;font-weight:900;color:var(--ok);font-family:Lexend,sans-serif;animation:up 1s ease-out forwards}
+@keyframes up{from{opacity:1;transform:translate(0,-50%)}to{opacity:0;transform:translate(0,-180%)}}
+.fb{margin-top:12px;padding:12px 14px;border-radius:14px;font-size:1.1rem;animation:in .2s}
+.fb.ok{background:var(--ok-soft);color:#0f5e43}
+.fb.bad{background:var(--bad-soft);color:#8a2d18}
+.pnav{display:flex;justify-content:flex-end;margin-top:16px;direction:ltr}
+
+/* result */
+.res{text-align:center;padding:10px 0}
+.bigstars{font-size:3.6rem;direction:ltr;letter-spacing:6px;margin:6px 0}
+.bigstars span{display:inline-block;filter:grayscale(1);opacity:.25;transform:scale(.6);transition:all .35s cubic-bezier(.3,1.6,.5,1)}
+.bigstars span.lit{filter:none;opacity:1;transform:scale(1)}
+.score{font-family:Lexend,sans-serif;font-size:2.4rem;font-weight:700}
+.chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.chip{background:#fff;border:2px solid var(--line);border-radius:999px;padding:4px 14px;font-weight:800}
+.chip.g{background:var(--gold-soft);border-color:#f0d58c}
+.chip.v{background:var(--vio-soft);border-color:#d7ccff}
+.rev{text-align:right;margin-top:16px}
+.rev li{margin-bottom:10px}
+.rev .q{font-family:Lexend,sans-serif;direction:ltr;text-align:left;display:block;white-space:pre-line}
+.rev .ans{display:block;color:var(--ok);font-weight:800;font-family:Lexend,sans-serif;direction:ltr;text-align:left}
+.rbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+
+/* toast */
+.toast{position:fixed;left:50%;top:18px;transform:translate(-50%,-140%);background:#fff;border:2px solid #f0d58c;border-radius:20px;padding:12px 20px;font-weight:900;font-size:1.15rem;box-shadow:0 12px 30px rgba(80,60,160,.2);z-index:1002;transition:transform .35s cubic-bezier(.3,1.4,.5,1);text-align:center;max-width:92vw}
+.toast.on{transform:translate(-50%,0)}
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1000}
+
+/* lock */
+.lock{text-align:center;padding:28px 18px}
+.lock .big{font-size:3.4rem}
+
+@media (max-width:520px){
+  .node{width:72px;height:72px;font-size:1.9rem}
+  .stop{gap:8px}
+  .lbl{padding:6px 10px}
+  .lbl b{font-size:1rem}
+  .badges{grid-template-columns:repeat(2,1fr)}
+  .hero h1{font-size:1.9rem}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <a class="btn soft link" href="../index.html" style="font-size:1rem;min-height:0;padding:6px 14px">← الرئيسية</a>
-  <h1>💎 مسار النخبة<span class="en"> ELITE TRACK</span></h1>
-  <p class="lead">للطلاب الذين بلغوا <b>B1</b> فأعلى في قياس المستوى: مفردات أكاديمية، وقواعد متقدمة، وجمل تراكيبية، ومحادثات، ونصوص قراءة. كل إجابة صحيحة هنا <b>10 نقاط</b>، ولك حدّ يومي أعلى.</p>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="wrap" id="homeV">
+  <a class="back" href="../index.html">→ الرئيسية</a>
+
+  <header class="hero">
+    <span class="sparkle" style="top:14px;right:18px">✦</span><span class="sparkle" style="top:40px;left:24px;animation-delay:.8s">✧</span><span class="sparkle" style="bottom:20px;right:40px;animation-delay:1.5s">✦</span>
+    <div class="gem" aria-hidden="true">💎</div>
+    <h1>مسار النخبة<small>ELITE TRACK</small></h1>
+    <div id="heroBody"></div>
+  </header>
 
   <div id="lock" class="card lock hide">
     <div class="big" aria-hidden="true">🔒</div>
-    <h2>يُفتح بعد الوصول إلى B1</h2>
-    <p class="muted">أجرِ قياس المستوى، وعند بلوغ <b>B1</b> فأعلى يُفتح لك هذا المسار تلقائياً.</p>
-    <a class="btn link" href="../level/index.html">إلى قياس المستوى</a>
+    <h2>بوابة النخبة مغلقة… مؤقتاً</h2>
+    <p class="muted">هذا المسار لمن بلغ <b>B1</b> فأعلى في قياس المستوى. أجرِ الاختبار، وعند وصولك إلى B1 تُفتح لك البوابة تلقائياً.</p>
+    <a class="btn gold" href="../level/index.html" style="display:inline-block;text-decoration:none;line-height:30px">📈 إلى قياس المستوى</a>
   </div>
 
   <div id="main" class="hide">
-    <div class="card gold" id="myCard"></div>
-    <div id="units"></div>
-    <div class="card" id="boardCard">
-      <h2>🏆 لوحة النخبة</h2>
-      <p class="muted" style="margin-top:0">ترتيب طلاب المسار هذا الأسبوع فقط.</p>
-      <div id="board"><p class="muted">جارٍ التحميل…</p></div>
+    <div class="card daily" id="daily"></div>
+    <div id="map"></div>
+    <div class="card"><h2>🏅 أوسمتك</h2><div class="badges" id="badges"></div></div>
+    <div class="card"><h2>🏆 لوحة النخبة</h2><p class="muted" style="margin:0">ترتيب طلاب المسار هذا الأسبوع.</p><div id="board"><p class="muted">جارٍ التحميل…</p></div></div>
+    <div class="card" style="font-size:1.05rem">
+      <h2>💡 كيف تجمع النقاط؟</h2>
+      <p style="margin:0">كل إجابة صحيحة = <b>10 نقاط</b> (أفضل نتيجة لكل وحدة). تحدي اليوم = <b>10 نقاط</b> للإجابة في أول محاولة. حدّك اليومي <b>1000 نقطة</b>.<br>⭐ = 5 إجابات صحيحة · ⭐⭐ = 8 · ⭐⭐⭐ = 10 من 10. وتُفتح المحطة التالية بنجمة واحدة.</p>
     </div>
   </div>
-
-  <div id="play" class="card hide"></div>
 </div>
 
+<div id="play" class="hide"></div>
+
 <script type="module">
-/* ---------- content: five units, ten questions each. a[0] is always the right answer; options are shuffled on screen. ---------- */
+/* ---------- content: ten units, ten questions each. a[0] is always the right answer; options are shuffled on screen. ---------- */
 const UNITS = [
  { id:1, kind:'vocab', title:'مفردات أكاديمية', en:'Academic vocabulary', items:[
   {q:'The new policy was designed to ____ the effects of climate change on farmers.', a:['mitigate','ignore','celebrate','multiply'], e:'mitigate = يخفف من حدّة الأثر.'},
@@ -221,93 +356,263 @@ However, the experience has also revealed serious challenges. Some workers feel 
  ]}
 ];
 
+/* ---------- settings ---------- */
 const LV = ['Pre-A1','A1','A2','B1','B2'], LV_NEW = 1793547780000;
+const KIND = { vocab:['📚','مفردات','#2f6fd6','var(--sky)'], grammar:['⚙️','قواعد','#6B4BD8','var(--vio-soft)'], sentences:['🧩','تراكيب','#16855F','var(--mint)'], dialogue:['💬','محادثة','#C4532F','var(--peach)'], reading:['📜','قراءة','#B23A78','var(--rose)'] };
+const REALMS = [ { name:'قمة B1', en:'Summit B1', flag:'🏔️', ids:[1,2,3,4,5] }, { name:'قمة B2', en:'Summit B2', flag:'🏰', ids:[6,7,8,9,10] } ];
+const TITLES = [ [0,'مرشّح النخبة','🌱'], [5,'فارس النخبة','🛡️'], [12,'ماسة النخبة','💎'], [20,'نجم النخبة','🌟'], [28,'أسطورة النخبة','👑'] ];
+const DAILY_N = 5;
+const PRAISE = ['رائع!','ممتاز!','أحسنت!','إجابة ذكية!','مذهل!','بالضبط!'];
+const COMBO_MSG = { 3:'🔥 ثلاث متتالية!', 5:'🔥🔥 خمس متتالية! سلسلة نارية', 7:'⚡ سبع متتالية! لا يوقفك أحد', 10:'👑 عشر من عشر! أداء أسطوري' };
+
+/* ---------- helpers ---------- */
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const J = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } };
-const setBest = (n, v) => { try { const k = 'el-best-' + n; if ((+localStorage.getItem(k) || 0) < v) localStorage.setItem(k, String(v)); } catch (e) {} };
+const J = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } };
+const S = (k, v) => { try { localStorage.setItem(k, typeof v === 'string' ? v : JSON.stringify(v)); } catch (e) {} };
 const best = n => { try { return +localStorage.getItem('el-best-' + n) || 0; } catch (e) { return 0; } };
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const sfx = n => { try { window.clubSfx && window.clubSfx(n); } catch (e) {} };
+const dayNo = () => Math.floor((Date.now() + 3 * 3600e3 - 6 * 3600e3) / 864e5);   // the club's day starts at 6 am Saudi time
+const starsOf = b => b >= 10 ? 3 : b >= 8 ? 2 : b >= 5 ? 1 : 0;
+const starStr = n => [0,1,2].map(i => `<span class="${i < n ? '' : 'off'}">⭐</span>`).join('');
+const U = id => UNITS.find(u => u.id === id);
 
-/* eligibility: a current-version level test at B1 or above (the same rule the points use) */
-function eligible() {
+function myLevel() {
   const lr = J('lv-results', {});
-  return [lr.pre].concat(lr.post || [], Array.isArray(lr.prev) ? lr.prev : []).some(r => r && +r.at >= LV_NEW && LV.indexOf(r.level) >= 3);
+  const all = [lr.pre].concat(lr.post || [], Array.isArray(lr.prev) ? lr.prev : []).filter(r => r && +r.at >= LV_NEW && LV.indexOf(r.level) >= 0);
+  return all.reduce((m, r) => Math.max(m, LV.indexOf(r.level)), -1);
+}
+const eligible = () => myLevel() >= 3;
+const isB2 = () => myLevel() >= 4;
+const totalStars = () => UNITS.reduce((t, u) => t + starsOf(best(u.id)), 0);
+const unitPts = () => UNITS.reduce((t, u) => t + best(u.id), 0) * 10;
+const daily = () => J('el-daily', {});
+const dailyPts = () => Object.values(daily()).reduce((t, v) => t + Math.max(0, Math.min(DAILY_N, +v || 0)), 0) * 10;
+const titleOf = s => { let t = TITLES[0]; TITLES.forEach(x => { if (s >= x[0]) t = x; }); return t; };
+const nextTitle = s => TITLES.find(x => x[0] > s);
+function isOpen(id) {
+  if (id === 1 || isB2() || best(id) > 0) return true;
+  return best(id - 1) >= 5;
+}
+const realmDone = r => r.ids.every(id => best(id) >= 5);
+
+/* ---------- badges ---------- */
+const BADGES = [
+  { id:'fire',  icon:'🔥', name:'سلسلة نارية',   how:'5 إجابات صحيحة متتالية', ok: () => (+J('el-combo', 0)) >= 5 },
+  { id:'full',  icon:'🎯', name:'إصابة كاملة',   how:'10 من 10 في وحدة', ok: () => UNITS.some(u => best(u.id) >= 10) },
+  { id:'b1',    icon:'🏔️', name:'فاتح قمة B1',   how:'نجمة في كل وحدات B1', ok: () => realmDone(REALMS[0]) },
+  { id:'b2',    icon:'🏰', name:'فاتح قمة B2',   how:'نجمة في كل وحدات B2', ok: () => realmDone(REALMS[1]) },
+  { id:'stars', icon:'🌟', name:'جامع النجوم',   how:'20 نجمة', ok: () => totalStars() >= 20 },
+  { id:'daily', icon:'⚡', name:'بطل التحديات',  how:'تحدي اليوم 3 أيام', ok: () => Object.keys(daily()).length >= 3 }
+];
+const earned = () => BADGES.filter(b => b.ok()).map(b => b.id);
+
+/* ---------- toast + fireworks ---------- */
+let toastT = null;
+function toast(html, ms) { const t = $('toast'); t.innerHTML = html; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), ms || 2600); }
+const queue = []; let qBusy = false;
+function toastQueue(items) { queue.push(...items); if (!qBusy) nextToast(); }
+function nextToast() { const x = queue.shift(); if (!x) { qBusy = false; return; } qBusy = true; toast(x, 2400); sfx('win'); setTimeout(nextToast, 2700); }
+
+const cv = $('fx'), cx = cv.getContext('2d'), DPR = Math.min(2, window.devicePixelRatio || 1);
+let parts = [], running = false;
+const COLS = ['#6B4BD8', '#B9A4FF', '#FFC94A', '#3BBF86', '#4FC3F7', '#F0731D', '#FF8FB1'];
+function size() { cv.width = innerWidth * DPR; cv.height = innerHeight * DPR; }
+size(); addEventListener('resize', size);
+const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function burst(x, y, n) {
+  for (let i = 0; i < n; i++) { const a = Math.random() * Math.PI * 2, s = 2 + Math.random() * 6;
+    parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 2, life: 1, d: .01 + Math.random() * .012, c: COLS[i % COLS.length], r: 2.5 + Math.random() * 3, sq: Math.random() < .4 }); }
+  if (!running) { running = true; requestAnimationFrame(step); }
+}
+function fireworks(k) { if (still) return; for (let i = 0; i < k; i++) setTimeout(() => burst(innerWidth * (.15 + Math.random() * .7), innerHeight * (.15 + Math.random() * .35), 60), i * 280); }
+function step() {
+  cx.setTransform(DPR, 0, 0, DPR, 0, 0); cx.clearRect(0, 0, innerWidth, innerHeight);
+  parts = parts.filter(p => { p.x += p.vx; p.y += p.vy; p.vx *= .975; p.vy = p.vy * .975 + .09; p.life -= p.d;
+    cx.globalAlpha = Math.max(0, p.life); cx.fillStyle = p.c;
+    if (p.sq) { cx.save(); cx.translate(p.x, p.y); cx.rotate(p.life * 9); cx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r); cx.restore(); }
+    else { cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 7); cx.fill(); }
+    return p.life > 0; });
+  cx.globalAlpha = 1;
+  if (parts.length) requestAnimationFrame(step); else { running = false; cx.clearRect(0, 0, innerWidth, innerHeight); }
 }
 
-function totals() { let s = 0; UNITS.forEach(u => s += best(u.id)); return s; }
-
+/* ---------- home ---------- */
 function home() {
-  $('play').classList.add('hide');
-  if (!eligible()) { $('lock').classList.remove('hide'); $('main').classList.add('hide'); return; }
-  $('lock').classList.add('hide'); $('main').classList.remove('hide');
-  const done = UNITS.filter(u => best(u.id) >= 8).length;
-  $('myCard').innerHTML = `<h2>نقاطك في النخبة</h2><p style="margin:0">أفضل نتائجك: <b>${totals() * 10}</b> نقطة من ${UNITS.length * 100} · أتممت <b>${done}</b> من ${UNITS.length} وحدات بنسبة 80٪ فأكثر.</p>`;
-  $('units').innerHTML = UNITS.map(u => {
-    const b = best(u.id);
-    return `<div class="card unit"><div class="t"><h2 style="margin:0 0 2px">${u.title}</h2><small class="en">${u.en} · ${u.items.length} أسئلة</small></div>
-      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">${b ? `<span class="badge ${b >= 8 ? 'ok' : ''}">أفضل نتيجة: ${b} / ${u.items.length}</span>` : ''}
-      <button class="btn" data-u="${u.id}">${b ? 'أعد الوحدة' : 'ابدأ'}</button></div></div>`;
+  $('play').classList.add('hide'); $('homeV').classList.remove('hide');
+  const ok = eligible();
+  $('lock').classList.toggle('hide', ok); $('main').classList.toggle('hide', !ok);
+  const st = totalStars(), t = titleOf(st), nx = nextTitle(st);
+  $('heroBody').innerHTML = ok ? `
+    <div class="rank"><span aria-hidden="true">${t[2]}</span>${t[1]}</div>
+    <div class="stats">
+      <div class="stat"><b dir="ltr">${st}<small style="font-size:.9rem;color:var(--muted)">/${UNITS.length * 3}</small></b><span>⭐ نجومك</span></div>
+      <div class="stat"><b>${(unitPts() + dailyPts()).toLocaleString('en')}</b><span>💎 نقاط النخبة</span></div>
+      <div class="stat"><b>${+J('el-combo', 0)}</b><span>🔥 أطول سلسلة</span></div>
+    </div>
+    <div class="next">${nx ? `باقٍ لك <b>${nx[0] - st}</b> ${nx[0] - st === 1 ? 'نجمة' : 'نجوم'} لتصبح <b>${nx[2]} ${nx[1]}</b>` : '👑 بلغت أعلى لقب في المسار!'}
+      <div class="pbar"><i style="width:${nx ? Math.round((st - t[0]) / (nx[0] - t[0]) * 100) : 100}%"></i></div></div>`
+    : `<p class="muted" style="margin:8px 0 0">رحلة من قمة B1 إلى قمة B2: 10 محطات، 30 نجمة، وألقاب وأوسمة.</p>`;
+  if (!ok) { window.scrollTo(0, 0); return; }
+
+  // daily challenge
+  const dd = daily()[dayNo()];
+  $('daily').innerHTML = `<span class="ic" aria-hidden="true">⚡</span><div class="tx"><b>تحدي اليوم</b><small>${DAILY_N} أسئلة منوّعة من كل المحطات، تتجدد كل يوم في السادسة صباحاً.</small>
+    ${dd !== undefined ? `<span class="done-chip">✓ أنجزته اليوم: <bdi dir="ltr">${dd} / ${DAILY_N}</bdi></span>` : `<small style="font-weight:800;color:#7a5a12">حتى ${DAILY_N * 10} نقطة!</small>`}</div>
+    <button class="btn gold" id="goDaily">${dd !== undefined ? 'تدرّب' : 'ابدأ'}</button>`;
+  $('goDaily').onclick = () => runDaily();
+
+  // map
+  const nowId = (UNITS.find(u => isOpen(u.id) && best(u.id) < 5) || {}).id;
+  $('map').innerHTML = REALMS.map((r, ri) => {
+    const lockedRealm = !r.ids.some(isOpen);
+    return `<div class="realm"><span class="flag" aria-hidden="true">${r.flag}</span><div><h2>${r.name}</h2><small class="en" dir="ltr" style="text-align:right">${r.en} · ${r.ids.reduce((t, id) => t + starsOf(best(id)), 0)} / ${r.ids.length * 3} ⭐</small></div></div>
+      ${lockedRealm ? `<p class="lockmsg">🔒 تُفتح بنجمة في آخر محطات ${REALMS[ri - 1].name}، أو مباشرة إن كان مستواك <span class="en">B2</span>.</p>` : ''}
+      <div class="path">${r.ids.map(id => {
+        const u = U(id), k = KIND[u.kind], open = isOpen(id), b = best(id);
+        return `<div class="stop"><button class="node k-${u.kind} ${open ? '' : 'locked'} ${id === nowId ? 'now' : ''}" data-u="${id}" ${open ? '' : 'disabled'} aria-label="${esc(u.title)}">${open ? k[0] : '🔒'}</button>
+          <div class="lbl" data-u="${id}"><b>${id}. ${esc(u.title)}</b><span class="en">${esc(u.en)}</span><br><span class="stars">${starStr(starsOf(b))}</span> ${b ? `<small class="muted en" dir="ltr">${b}/10</small>` : ''}</div></div>`;
+      }).join('')}</div>`;
   }).join('');
-  $('units').querySelectorAll('[data-u]').forEach(x => x.onclick = () => run(UNITS.find(u => u.id === +x.dataset.u)));
-  window.scrollTo(0, 0);
+  $('map').querySelectorAll('[data-u]').forEach(x => x.onclick = () => {
+    const id = +x.dataset.u;
+    if (!isOpen(id)) { sfx('bad'); toast('🔒 اجمع نجمة في المحطة السابقة لتفتح هذه'); return; }
+    run(U(id));
+  });
+
+  // badges
+  const got = earned();
+  $('badges').innerHTML = BADGES.map(b => `<div class="badge ${got.includes(b.id) ? 'on' : 'off'}"><span class="bi" aria-hidden="true">${b.icon}</span><b>${b.name}</b><small>${got.includes(b.id) ? '✓ حصلت عليه' : b.how}</small></div>`).join('');
+  boardPanel();
+}
+
+/* ---------- a quiz run (a unit, or today's challenge) ---------- */
+function dailyItems() {
+  // the same five questions for everyone today: questions that stand on their own (no reading passage, no "same dialogue")
+  const pool = []; UNITS.forEach(u => { if (u.passage) return; u.items.forEach(it => { if (!/^\(/.test(it.q)) pool.push({ ...it, kind: u.kind }); }); });
+  let seed = dayNo() * 9301 + 49297; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  const pick = [], used = new Set();
+  while (pick.length < DAILY_N && used.size < pool.length) { const i = Math.floor(rnd() * pool.length); if (!used.has(i)) { used.add(i); pick.push(pool[i]); } }
+  return pick;
+}
+function runDaily() {
+  run({ id: 'daily', title: 'تحدي اليوم ⚡', kind: 'mix', items: dailyItems() });
 }
 
 function run(u) {
-  $('main').classList.add('hide'); $('play').classList.remove('hide');
-  const N = u.items.length;
-  const order = u.items.map(it => ({ q: it.q, e: it.e, opts: shuffle(it.a), right: it.a[0] }));
-  const ans = new Array(N).fill(null);   // one answer per question: {text, ok}; going back never counts twice
-  let i = 0;
-  const feedback = (it, p) => `<div class="fb ${p.ok ? 'ok' : 'bad'}"><b>${p.ok ? 'إجابة صحيحة ✓' : 'ليست صحيحة'}</b> · ${esc(it.e)}</div>`;
-  const pane = () => {
-    const it = order[i], p = ans[i], done = p !== null;
+  $('homeV').classList.add('hide'); $('play').classList.remove('hide');
+  const N = u.items.length, before = u.id === 'daily' ? null : best(u.id);
+  const badgesBefore = earned(), titleBefore = titleOf(totalStars())[1];
+  const nextOpenBefore = u.id === 'daily' || !U(u.id + 1) || isOpen(u.id + 1);
+  const order = u.items.map(it => ({ q: it.q, e: it.e, kind: it.kind || u.kind, opts: shuffle(it.a), right: it.a[0] }));
+  const ans = new Array(N).fill(null);
+  let i = 0, combo = 0, bestCombo = 0;
+
+  const draw = () => {
+    const it = order[i], p = ans[i], done = p !== null, k = KIND[it.kind] || ['🎲','منوّع','#6B4BD8','var(--vio-soft)'];
     $('play').innerHTML = `
-      <div class="muted" style="display:flex;justify-content:space-between;font-family:Lexend,sans-serif"><span>${esc(u.title)}</span><span>${i + 1} / ${N}</span></div>
-      <div class="bar"><i style="width:${(i + (done ? 1 : 0)) / N * 100}%"></i></div>
-      ${u.passage ? `<div class="passage">${esc(u.passage)}</div>` : ''}
-      <p class="qtext" style="white-space:pre-line">${esc(it.q)}</p>
-      <div class="opts">${it.opts.map(o => {
-        let c = '';
-        if (done) { if (o === it.right) c = 'right'; else if (o === p.text) c = 'wrong'; }
-        return `<button class="opt ${c}" data-o="${esc(o)}" ${done ? 'disabled' : ''}>${esc(o)}</button>`;
-      }).join('')}</div>
-      <div id="fb">${done ? feedback(it, p) : ''}</div>
-      <div class="nav"><button class="btn soft" id="back" ${i === 0 ? 'disabled' : ''}>← السابق</button><button class="btn" id="next" ${done ? '' : 'disabled'}>${i === N - 1 ? 'إنهاء ✓' : 'التالي →'}</button></div>`;
-    $('play').querySelectorAll('.opt').forEach(b => b.onclick = () => { ans[i] = { text: b.dataset.o, ok: b.dataset.o === it.right }; pane(); });
-    $('back').onclick = () => { i--; pane(); window.scrollTo(0, 0); };
-    $('next').onclick = () => { if (i < N - 1) { i++; pane(); window.scrollTo(0, 0); } else finish(); };
+      <div class="ptop"><button class="x" id="quit" aria-label="خروج">✕</button><span class="ptitle">${esc(u.title)}</span><span class="combo ${combo >= 2 ? 'on' : ''}" id="combo">🔥 ×${combo}</span></div>
+      <div class="dots">${order.map((_, j) => `<i class="${ans[j] ? (ans[j].ok ? 'ok' : 'no') : j === i ? 'cur' : ''}"></i>`).join('')}</div>
+      <div class="qcard">
+        <span class="kind" style="background:${k[3]};color:${k[2]}">${k[0]} ${k[1]}</span> <span class="muted en" dir="ltr" style="float:left">${i + 1} / ${N}</span>
+        ${u.passage ? `<div class="passage">${esc(u.passage)}</div>` : ''}
+        <p class="qtext">${esc(it.q)}</p>
+        <div class="opts">${it.opts.map((o, j) => {
+          let c = ''; if (done) { if (o === it.right) c = 'right'; else if (o === p.text) c = 'wrong'; }
+          return `<button class="opt ${c}" data-o="${esc(o)}" ${done ? 'disabled' : ''}><span class="L">${'ABCD'[j]}</span>${esc(o)}</button>`;
+        }).join('')}</div>
+        <div id="fb">${done ? `<div class="fb ${p.ok ? 'ok' : 'bad'}"><b>${p.ok ? p.praise : 'ليست صحيحة'}</b> · ${esc(it.e)}</div>` : ''}</div>
+        <div class="pnav"><button class="btn" id="next" ${done ? '' : 'disabled'}>${i === N - 1 ? 'النتيجة 🏁' : 'التالي →'}</button></div>
+      </div>`;
+    $('quit').onclick = () => { if (ans.some(x => x) && !confirm('هل تريد الخروج؟ لن تُحسب هذه المحاولة.')) return; home(); };
+    $('play').querySelectorAll('.opt').forEach(b => b.onclick = () => pickAns(b, it));
+    $('next').onclick = () => { if (i < N - 1) { i++; draw(); window.scrollTo(0, 0); } else finish(); };
+  };
+  const pickAns = (btn, it) => {
+    if (ans[i]) return;
+    const ok = btn.dataset.o === it.right;
+    ans[i] = { text: btn.dataset.o, ok, praise: PRAISE[Math.floor(Math.random() * PRAISE.length)] };
+    combo = ok ? combo + 1 : 0; bestCombo = Math.max(bestCombo, combo);
+    sfx(ok ? 'good' : 'bad');
+    draw();
+    if (ok) {
+      const b = [...$('play').querySelectorAll('.opt')].find(x => x.dataset.o === it.right);
+      if (b) b.insertAdjacentHTML('beforeend', '<span class="plus">+10</span>');
+      if (combo >= 2) $('combo').classList.add('bump');
+      if (COMBO_MSG[combo]) { toast(COMBO_MSG[combo], 1800); if (combo >= 5) burst(innerWidth / 2, innerHeight * .3, 50); }
+    }
+    $('next').focus({ preventScroll: true });
   };
   const finish = () => {
     const right = ans.filter(a => a && a.ok).length;
-    setBest(u.id, right);   // the saved best only goes up
-    const pc = Math.round(right / N * 100);
-    $('play').innerHTML = `<div style="text-align:center;padding:18px 0">
-      <div style="font-size:3rem" aria-hidden="true">${pc >= 80 ? '🏆' : pc >= 50 ? '👏' : '💪'}</div>
-      <h2>${esc(u.title)}</h2>
-      <p class="lead">${right} من ${N} · ${right * 10} نقطة</p>
-      <p class="muted">${pc >= 80 ? 'ممتاز! أحسنت.' : 'راجع الأسئلة الخاطئة وأعد الوحدة لتصل إلى 8 أو أكثر.'}</p>
-      <div class="nav" style="justify-content:center"><button class="btn soft" id="again">أعد الوحدة</button><button class="btn" id="home">العودة إلى المسار</button></div></div>`;
-    $('again').onclick = () => run(u); $('home').onclick = home; window.scrollTo(0, 0);
+    if (bestCombo > +J('el-combo', 0)) S('el-combo', String(bestCombo));
+    let first = false, record = false;
+    if (u.id === 'daily') {
+      const d = daily(); if (d[dayNo()] === undefined) { d[dayNo()] = right; S('el-daily', d); first = true; }
+    } else if (right > before) { S('el-best-' + u.id, String(right)); record = before > 0; }
+    const st = u.id === 'daily' ? 0 : starsOf(right), newStars = u.id === 'daily' ? 0 : Math.max(0, starsOf(right) - starsOf(before));
+    const pts = u.id === 'daily' ? (first ? right * 10 : 0) : Math.max(0, right - before) * 10;
+    const nextU = u.id === 'daily' ? null : UNITS.find(x => x.id === u.id + 1);
+    const pc = right / N;
+    $('play').innerHTML = `<div class="qcard res">
+      <div style="font-size:3.2rem" aria-hidden="true">${pc >= .8 ? '🏆' : pc >= .5 ? '🎉' : '💪'}</div>
+      <h2 style="margin:0">${esc(u.title)}</h2>
+      ${u.id === 'daily' ? '' : `<div class="bigstars" id="bs">${[0,1,2].map(() => '<span>⭐</span>').join('')}</div>`}
+      <div class="score" dir="ltr">${right} / ${N}</div>
+      <div class="chips">
+        ${pts ? `<span class="chip g">💎 +${pts} نقطة</span>` : `<span class="chip">${u.id === 'daily' && !first ? 'تدريب: النقاط لأول محاولة في اليوم' : 'لا نقاط جديدة: حطّم رقمك السابق لتكسب أكثر'}</span>`}
+        ${record ? `<span class="chip v">🏅 رقم قياسي جديد!</span>` : ''}
+        ${bestCombo >= 3 ? `<span class="chip">🔥 أطول سلسلة: ${bestCombo}</span>` : ''}
+      </div>
+      <p class="muted" style="margin:6px 0 0">${pc === 1 ? 'عشر من عشر! أنت من النخبة فعلاً 👑' : pc >= .8 ? 'أداء رائع! قريب جداً من الكمال.' : pc >= .5 ? 'جيد! راجع أخطاءك ثم أعد المحاولة لنجمة أكثر.' : 'لا بأس، كل محاولة تقرّبك. راجع الإجابات الصحيحة وأعد الوحدة.'}</p>
+      <div class="rbtns">
+        ${nextU && isOpen(nextU.id) && u.id !== 'daily' ? `<button class="btn gold" id="goNext">المحطة التالية ←</button>` : ''}
+        <button class="btn soft" id="again">${u.id === 'daily' ? 'تدرّب مرة أخرى' : 'أعد المحاولة'}</button>
+        <button class="btn soft" id="toMap">🗺️ الخريطة</button>
+      </div>
+      ${ans.some(a => !a.ok) ? `<div class="rev"><h2 style="font-size:1.2rem">📝 راجع أخطاءك</h2><ol>${order.map((it, j) => ans[j].ok ? '' : `<li><span class="q">${esc(it.q.split('\n').pop())}</span><span class="ans">✓ ${esc(it.right)}</span><small class="muted">${esc(it.e)}</small></li>`).join('')}</ol></div>` : ''}
+    </div>`;
+    if ($('goNext')) $('goNext').onclick = () => run(nextU);
+    $('again').onclick = () => u.id === 'daily' ? runDaily() : run(U(u.id));
+    $('toMap').onclick = home;
+    window.scrollTo(0, 0);
+    // stars pop one by one, then fireworks for a strong result, then any new title or badge
+    if (u.id !== 'daily') [...$('bs').children].forEach((s, j) => { if (j < st) setTimeout(() => { s.classList.add('lit'); sfx('good'); }, 350 + j * 380); });
+    if (pc >= .8) setTimeout(() => { sfx('win'); fireworks(pc === 1 ? 6 : 3); }, 450 + st * 380); else setTimeout(() => sfx('win'), 450 + st * 380);
+    const news = [];
+    if (newStars) news.push(`⭐ +${newStars} ${newStars === 1 ? 'نجمة جديدة' : 'نجوم جديدة'}`);
+    const tAfter = titleOf(totalStars());
+    if (tAfter[1] !== titleBefore) news.push(`${tAfter[2]} لقب جديد: <b>${tAfter[1]}</b>!`);
+    earned().filter(id => !badgesBefore.includes(id)).forEach(id => { const b = BADGES.find(x => x.id === id); news.push(`🏅 وسام جديد: ${b.icon} <b>${b.name}</b>`); });
+    if (!nextOpenBefore && nextU && isOpen(nextU.id)) news.push(`🔓 فُتحت المحطة ${nextU.id}: ${nextU.title}`);
+    if (news.length) setTimeout(() => toastQueue(news), 1500 + st * 380);
+    syncSoon();
   };
-  pane();
+  draw();
 }
 
+/* ---------- club points + elite board ---------- */
+let H = null;
+async function honor() { if (H) return H; try { H = await import('../assets/honor.js?v=20261104a'); } catch (e) { H = null; } return H; }
+async function syncSoon() { try { const h = await honor(); if (h && h.ready && h.sync) await h.sync(); } catch (e) {} }
 async function boardPanel() {
   const el = $('board');
   try {
-    const H = await import('../assets/honor.js?v=20261104a');
-    if (!H.ready) { el.innerHTML = '<p class="muted">تظهر اللوحة عند اتصال الموقع بقاعدة النادي.</p>'; return; }
-    const rows = (await H.eliteBoard()).slice().sort((a, b) => (b.score || 0) - (a.score || 0));
-    const mine = await H.myEntry().catch(() => null);
-    el.innerHTML = rows.length
-      ? `<table class="board">${rows.slice(0, 10).map((r, i) => `<tr class="${mine && r.id === mine.id ? 'me' : ''}"><td class="n">${i + 1}</td><td>${esc(r.nick)}</td><td class="p">${(r.score || 0).toLocaleString('en')}</td></tr>`).join('')}</table>`
-      : '<p class="muted">لا أحد في لوحة النخبة هذا الأسبوع بعد. كن الأول!</p>';
+    const h = await honor();
+    if (!h || !h.ready) { el.innerHTML = '<p class="muted">تظهر اللوحة عند اتصال الموقع بقاعدة النادي.</p>'; return; }
+    const rows = (await h.eliteBoard()).filter(r => (r.score || 0) > 0).sort((a, b) => (b.score || 0) - (a.score || 0));
+    const me = await h.myEntry().catch(() => null), mine = r => me && r.id === me.id;
+    if (!rows.length) { el.innerHTML = '<p class="muted" style="text-align:center;padding:12px 0">🏁 لا أحد في لوحة النخبة هذا الأسبوع بعد.<br><b>كن أول اسم يظهر هنا!</b></p>'; return; }
+    const pod = (r, n) => r ? `<div class="pod p${n} ${mine(r) ? 'me' : ''}"><div class="m">${['🥇','🥈','🥉'][n - 1]}</div><div class="nm">${esc(r.nick)}</div><div class="sc">${(r.score || 0).toLocaleString('en')}</div><div class="blk"></div></div>` : `<div class="pod p${n}"><div class="m" style="opacity:.3">${['🥇','🥈','🥉'][n - 1]}</div><div class="nm muted">مكان شاغر</div><div class="blk" style="opacity:.4"></div></div>`;
+    const myRank = me ? rows.findIndex(mine) + 1 : 0;
+    el.innerHTML = `<div class="podium">${pod(rows[1], 2)}${pod(rows[0], 1)}${pod(rows[2], 3)}</div>
+      <ol class="rest">${rows.slice(3, 10).map((r, j) => `<li class="${mine(r) ? 'me' : ''}"><span class="r">${j + 4}</span><span class="n">${esc(r.nick)}</span><span class="s">${(r.score || 0).toLocaleString('en')}</span></li>`).join('')}</ol>
+      ${myRank > 10 ? `<p style="margin:10px 0 0">📍 ترتيبك: <b>${myRank}</b> من ${rows.length}</p>` : ''}`;
   } catch (e) { el.innerHTML = '<p class="muted">تعذّر تحميل اللوحة الآن.</p>'; }
 }
 
 home();
-boardPanel();
 </script>
 <script src="../assets/club.js?v=15"></script>
 </body>

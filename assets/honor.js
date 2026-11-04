@@ -23,6 +23,7 @@ export const RULES = [
   { key: 'lv',   label: 'كل مستوى تتقدّمه بين الاختبار القبلي وأفضل اختبار بعدي', icon: '📈', per: 500, max: 4, note: '500 نقطة' },
   { key: 'lvs',  label: 'كل إجابة صحيحة تزيدها في الاختبار البعدي عن القبلي', icon: '📊', per: 10, max: 32 },
   { key: 'ek',   label: 'إجابة صحيحة في مسار النخبة (B1 فأعلى)', icon: '💎', per: 10, max: 400 },
+  { key: 'ed',   label: 'إجابة صحيحة في تحدي النخبة اليومي (أول محاولة)', icon: '⚡', per: 10, max: 1500 },
   { key: 'rt',   label: 'كلمة ثبتت في ذاكرتك بالمراجعة المتباعدة (Word Quest والكلمات العامة والأكاديمية)', icon: '🧠', per: 3, max: 1500 }
 ];
 export const DAILY_CAP = 750;
@@ -88,7 +89,9 @@ export function computeScore() {
   // Elite track (مسار النخبة): best score of each unit (0–10) summed; elite = reached B1 or above in a current-version level test.
   let ek = 0; for (let n = 1; n <= 20; n++) ek += Math.max(0, Math.min(10, N('el-best-' + n)));
   const elite = [lr.pre].concat(posts).some(r => lvOk(r) && LV.indexOf(r.level) >= 3) ? 1 : 0;
-  const parts = { caps, wq, lab, mg, bf, ng, aw, st, cq, tn, pv, im, tb, mb, lv, lvs, rt, ek: elite ? ek : 0, el: elite, wqx: wqStats() };
+  // Elite daily challenge: right answers of the first try each day (el-daily = {day: right, max 5}).
+  let ed = 0; const eld = J('el-daily') || {}; Object.keys(eld).forEach(k => { ed += Math.max(0, Math.min(5, +eld[k] || 0)); });
+  const parts = { caps, wq, lab, mg, bf, ng, aw, st, cq, tn, pv, im, tb, mb, lv, lvs, rt, ek: elite ? ek : 0, ed: elite ? ed : 0, el: elite, wqx: wqStats() };
   // Practice points count at most DAILY_CAP a day (Saudi day). Practice after that is for learning only:
   // the extra points are not counted, then or later. Surprise Me and the level/retention rewards are outside the cap.
   const pts = r => Math.min(parts[r.key], r.max) * r.per;
@@ -262,7 +265,7 @@ export async function sync(force) {
   if (loc.week <= FOUND_WEEK) score = Math.min(10000, score + (was.base | 0));
   const wsig = JSON.stringify(parts.wqx);
   if (was.score !== score || was.week !== season.week || was.total !== season.total || JSON.stringify((was.parts || {}).wqx || null) !== wsig
-      || !!(was.parts || {}).el !== !!parts.el || ((was.parts || {}).ek | 0) !== (parts.ek | 0)) {
+      || !!(was.parts || {}).el !== !!parts.el || ((was.parts || {}).ek | 0) !== (parts.ek | 0) || ((was.parts || {}).ed | 0) !== (parts.ed | 0)) {
     try { await fs.updateDoc(ref, { score, parts, ...season, updatedAt: fs.serverTimestamp() }); }
     catch (e) { if (!/permission/i.test(e && (e.code || e.message) || '')) throw e; await fs.updateDoc(ref, { score, parts, updatedAt: fs.serverTimestamp() }); }
   }
