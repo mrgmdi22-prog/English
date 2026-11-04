@@ -33,8 +33,8 @@ export const RULES = [
   { key: 'rt',   label: 'كلمة ثبتت في ذاكرتك بالمراجعة المتباعدة (Word Quest والكلمات العامة والأكاديمية)', icon: '🧠', per: 3, max: 1500 }
 ];
 const RATES_V = 2;   // rates version: when it changes, points already earned stay as they were and the new rates apply from then on
-export const DAILY_CAP = 750;
-export const DAILY_CAP_EL = 1000;   // elite students (B1 and above) get a higher daily cap
+export const DAILY_CAP = 900;   // 750 until 4 Nov 2026 (raised with the streak multiplier); 500 until 3 Nov
+export const DAILY_CAP_EL = 1200;   // elite students (B1 and above) get a higher daily cap
 /* Weekly seasons: a new season starts every Tuesday at 6 am Saudi time; the board shows this season's points.
    Each player's weekly scores are kept in players.wk {week: points}; the top STARS_N of every finished week
    are that week's stars, and the stars list is kept for the whole year (the teacher honours repeat stars). */

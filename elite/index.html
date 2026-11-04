@@ -228,7 +228,7 @@ ol.rest li.me{background:var(--gold-soft);border-radius:12px}
     <div class="card"><h2>🏆 لوحة النخبة</h2><p class="muted" style="margin:0">ترتيب طلاب المسار هذا الأسبوع.</p><div id="board"><p class="muted">جارٍ التحميل…</p></div></div>
     <div class="card" style="font-size:1.05rem">
       <h2>💡 كيف تجمع النقاط؟</h2>
-      <p style="margin:0">كل إجابة صحيحة = <b>10 نقاط</b> (أفضل نتيجة لكل وحدة). تحدي اليوم = <b>10 نقاط</b> للإجابة في أول محاولة.<br>🔥 مضاعف التسلسل: الثالثة والرابعة على التوالي ×1.5 (15 نقطة)، والخامسة فما بعدها ×2 (20 نقطة). حدّك اليومي <b>1000 نقطة</b>.<br>⭐ = 5 إجابات صحيحة · ⭐⭐ = 8 · ⭐⭐⭐ = 10 من 10. وتُفتح المحطة التالية بنجمة واحدة.</p>
+      <p style="margin:0">كل إجابة صحيحة = <b>10 نقاط</b> (أفضل نتيجة لكل وحدة). تحدي اليوم = <b>10 نقاط</b> للإجابة في أول محاولة.<br>🔥 مضاعف التسلسل: الثالثة والرابعة على التوالي ×1.5 (15 نقطة)، والخامسة فما بعدها ×2 (20 نقطة). حدّك اليومي <b>1200 نقطة</b>.<br>⭐ = 5 إجابات صحيحة · ⭐⭐ = 8 · ⭐⭐⭐ = 10 من 10. وتُفتح المحطة التالية بنجمة واحدة.</p>
     </div>
   </div>
 </div>
@@ -618,7 +618,7 @@ function run(u) {
 
 /* ---------- club points + elite board ---------- */
 let H = null;
-async function honor() { if (H) return H; try { H = await import('../assets/honor.js?v=20261104b'); } catch (e) { H = null; } return H; }
+async function honor() { if (H) return H; try { H = await import('../assets/honor.js?v=20261104c'); } catch (e) { H = null; } return H; }
 async function syncSoon() { try { const h = await honor(); if (h && h.ready && h.sync) await h.sync(); } catch (e) {} }
 async function boardPanel() {
   const el = $('board');
@@ -638,6 +638,6 @@ async function boardPanel() {
 
 home();
 </script>
-<script src="../assets/club.js?v=16"></script>
+<script src="../assets/club.js?v=17"></script>
 </body>
 </html>
