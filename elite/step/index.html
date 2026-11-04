@@ -135,6 +135,7 @@ footer{margin-top:40px;font-size:.8rem;color:var(--ink-soft);text-align:center;l
 <div class="wrap" id="app" dir="rtl"></div>
 
 <script src="data.js"></script>
+<script src="listening.js"></script>
 <script>
 const D = window.STEP_DATA;
 const CATS = {
@@ -256,6 +257,29 @@ const G = D.g.map((q,i)=>({key:'g'+i, kind:'g', cat:q[0], stem:q[1], options:q[2
 const R = D.r.map((p,i)=>({key:'p'+i, title:p[0], paras:p[1], freq:p[2],
   qs:p[3].map((q,j)=>({key:'p'+i+'.'+j, kind:'r', pi:i, cat:'r_'+q[4], rtype:q[4], stem:q[0], ar:q[1], options:q[2], answer:q[3], freq:q[5]}))}));
 const RQ = R.flatMap(p=>p.qs);
+const LR = (window.STEP_LISTEN||[]);
+const LQ = LR.flatMap((r,ri)=>r.q.map((q,j)=>({key:'l'+ri+'.'+j, kind:'l', ri, cat:'listen', stem:q[0], options:q[1], answer:q[2], freq:1, hint:''})));
+/* speech */
+let VOICES = [];
+function loadVoices(){ try{ VOICES = speechSynthesis.getVoices().filter(v=>/^en[-_]/i.test(v.lang)); }catch(e){} }
+try{ loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }catch(e){}
+function pickVoice(n){ if(!VOICES.length) return null; const us = VOICES.filter(v=>/en[-_]US/i.test(v.lang)); const pool = us.length>1?us:VOICES; return pool[n % pool.length]; }
+let speakingRi = null;
+function stopSpeech(){ try{ speechSynthesis.cancel(); }catch(e){} speakingRi = null; const b=document.getElementById('playBtn'); if(b) b.textContent='▶ استمع إلى التسجيل'; }
+function playRec(ri, rate){
+  try{ speechSynthesis.cancel(); }catch(e){}
+  const r = LR[ri]; if(!r || !window.speechSynthesis){ alertNoTTS(); return; }
+  speakingRi = ri; const b=document.getElementById('playBtn'); if(b) b.textContent='⏸ إيقاف';
+  r.L.forEach((ln,i)=>{
+    const u = new SpeechSynthesisUtterance(ln[1]);
+    u.lang = 'en-US'; u.rate = rate||0.95;
+    const v = pickVoice(ln[0]); if(v) u.voice = v;
+    if(r.k==='conv' && ln[0]===1 && (!v || VOICES.length<2)) u.pitch = 1.35;
+    if(i===r.L.length-1) u.onend = ()=>{ if(speakingRi===ri) stopSpeech(); };
+    speechSynthesis.speak(u);
+  });
+}
+function alertNoTTS(){ const n=document.getElementById('ttsNote'); if(n) n.hidden=false; }
 
 const WB = (window.STEP_WORDS||[]).map((w,i)=>({w:w[0], m:w[1], ar:w[2], i}));
 function wordQ(x){
@@ -263,7 +287,7 @@ function wordQ(x){
   const opts = shuffle([x.m, ...others]);
   return {key:'w'+x.i, kind:'w', cat:'words', stem:'The word “'+x.w+'” is closest in meaning to ______', options:opts, answer:opts.indexOf(x.m), freq:1, hint:'«'+x.w+'» = '+x.ar+' ('+x.m+')'};
 }
-const BYKEY = Object.fromEntries([...G, ...RQ].map(q=>[q.key,q]));
+const BYKEY = Object.fromEntries([...G, ...RQ, ...LQ].map(q=>[q.key,q]));
 WB.forEach(x=>{ BYKEY['w'+x.i] = wordQ(x); });
 
 function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
@@ -309,10 +333,12 @@ function home(){
     <div class="stat"><b>${answered}</b><span>إجابة سجّلتها حتى الآن</span></div>
   </div>
   <div class="quick">
-    <button class="primary" id="mock"><b>اختبار محاكٍ</b><small>40 سؤال قراءة + 40 سؤال قواعد وتحليل كتابي، مع مؤقت ونتيجة لكل مهارة</small></button>
+    <button class="primary" id="mock"><b>اختبار محاكٍ</b><small>20 سؤال استماع + 40 قراءة + 40 قواعد وتحليل كتابي، مع مؤقت ونتيجة لكل مهارة</small></button>
     <button id="hot"><b>الأسئلة الأكثر تكراراً</b><small>${nHot} سؤالاً ظهرت في ثلاثة نماذج أو أكثر</small></button>
     <button id="mistakes" ${nWrong?'':'disabled'}><b>مراجعة أخطائي</b><small>${nWrong?nWrong+' سؤالاً أخطأت فيها':'ستظهر هنا الأسئلة التي تخطئ فيها'}</small></button>
   </div>
+  <section class="block"><h2>الاستماع</h2><p class="sub">محاضرات ومحادثات قصيرة بأسلوب ستيب، يقرؤها جهازك بصوت مسموع. استمع ثم أجب، ويظهر لك نص التسجيل بعد الإجابة.</p>
+    <div class="cats">${catTile('listen', LQ.length, 'تسجيلات الاستماع ('+LR.length+' تسجيلاً)')}</div></section>
   <section class="block"><h2>القواعد</h2><p class="sub">اختر باباً لتتدرب على أسئلته.</p>
     <div class="cats">${GRAMMAR_CATS.filter(c=>count(c)).map(c=>catTile(c,count(c),CATS[c])).join('')}</div></section>
   <section class="block"><h2>التحليل الكتابي</h2><p class="sub">ترتيب الكلمات والجمل، الحروف الكبيرة، علامات الترقيم، وتحديد الخطأ.</p>
@@ -321,7 +347,7 @@ function home(){
     <div class="cats">${catTile('r_all', RQ.length, 'كل القطع بالترتيب')}${Object.keys(RTYPES).filter(t=>rcount(t)>2).map(t=>catTile('r_'+t, rcount(t), RTYPES[t])).join('')}</div></section>
   <section class="block"><h2>مفردات القراءة المتكررة</h2><p class="sub">كلمات يتكرر السؤال عن معناها في قطع ستيب: اختر المعنى الأقرب، وتظهر لك ترجمتها العربية بعد الإجابة.</p>
     <div class="cats">${catTile('words', WB.length, 'معنى الكلمة')}</div></section>
-  <p class="note">🏆 كل سؤال تجيبه صحيحاً = <b>7 نقاط</b> في لوحة الشرف (مرة واحدة لكل سؤال)، وتتضاعف مع التسلسل 🔥: ثلاث صحيحة متتالية ×1.5، وخمس فأكثر ×2. لا يشمل البنك قسم الاستماع. إن لاحظت سؤالاً فيه خطأ فأخبر معلمك.</p>
+  <p class="note">🏆 كل سؤال تجيبه صحيحاً = <b>7 نقاط</b> في لوحة الشرف (مرة واحدة لكل سؤال)، وتتضاعف مع التسلسل 🔥: ثلاث صحيحة متتالية ×1.5، وخمس فأكثر ×2. أسئلة الاستماع من تأليفنا، والصوت يقرؤه جهازك. إن لاحظت سؤالاً فيه خطأ فأخبر معلمك.</p>
   <footer>إعداد: أ. أحمد آل سالم — الأسئلة مجمّعة من نماذج ستيب المتداولة (تجميعات د. برق وأكاديمية ستيب المجانية)، وأُعيد تنظيمها وتصنيفها للتدريب.</footer>`;
   app.querySelectorAll('.cat').forEach(b=>b.onclick=()=>startCat(b.dataset.cat));
   $('#mock').onclick = startMock;
@@ -330,6 +356,7 @@ function home(){
   window.scrollTo(0,0);
 }
 function startCat(cat){
+  if(cat==='listen') return startSession('الاستماع', shuffle(LR.map((r,ri)=>ri)).flatMap(ri=>LQ.filter(q=>q.ri===ri)));
   if(cat==='words') return startSession('مفردات القراءة المتكررة', shuffle(WB).map(wordQ));
   if(cat==='r_all') return startSession('استيعاب المقروء', RQ.slice());
   if(cat.startsWith('r_')){ const t=cat.slice(2); return startSession('استيعاب المقروء: '+RTYPES[t], shuffle(RQ.filter(q=>q.rtype===t))); }
@@ -345,6 +372,7 @@ function startSession(title, list, mock){
 }
 function ruleBox(q){
   if(q.kind==='w') return '';
+  if(q.kind==='l') return `<details class="rule"><summary>نص التسجيل</summary><div class="en" style="margin-top:8px">${LR[q.ri].L.map(l=>`<p style="margin:0 0 8px">${LR[q.ri].k==='conv'?'<b>'+(l[0]?'B':'A')+':</b> ':''}${esc(l[1])}</p>`).join('')}</div></details>`;
   if(q.kind==='r') return `<div class="tip"><b>طريقة الحل: </b>${RTIPS[q.rtype]||RTIPS.detail}</div>`;
   const r = RULES[q.cat]; if(!r) return '';
   return `<details class="rule"><summary>قاعدة الباب: ${CATS[q.cat]}</summary><ul>${r.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></details>`;
@@ -363,6 +391,13 @@ function renderQ(){
     return `<button class="${cls} en" data-k="${k}" ${showFeedback?'disabled':''}><span class="bub">${letters[k]}</span><span class="tx">${esc(o)}</span></button>`;
   }).join('');
   let passage = '';
+  if(q.kind==='l'){
+    const r = LR[q.ri];
+    passage = `<div class="passage"><h3>${r.k==='conv'?'محادثة':'محاضرة'} قصيرة — استمع ثم أجب</h3>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button class="btn" id="playBtn">▶ استمع إلى التسجيل</button>
+      <label style="font-size:.9rem;color:var(--ink-soft)">السرعة <select id="rate" style="font:inherit;font-size:.9rem;border:1px solid var(--line);border-radius:8px;padding:4px"><option value="0.95">عادية</option><option value="0.8">أبطأ</option><option value="0.65">بطيئة جداً</option></select></label></div>
+      <p id="ttsNote" class="tip" hidden style="margin-top:10px">جهازك لا يدعم القراءة الصوتية. جرّب متصفح Chrome، أو افتح «نص التسجيل» بعد الإجابة.</p></div>`;
+  }
   if(q.kind==='r'){
     const p = R[q.pi];
     passage = `<div class="passage"><h3>${p.title?esc(p.title):'قطعة القراءة'}</h3><div class="en">${p.paras.map(x=>`<p>${esc(x)}</p>`).join('')}</div></div>`;
@@ -375,7 +410,7 @@ function renderQ(){
       ${q.hint?`<div class="clue">${esc(q.hint)}</div>`:''}</div>${ruleBox(q)}`;
   } else if(q.kind==='r' && !S.mock){ fb = ''; }
   const hot = q.freq>=3 ? `<span class="chip hot">متكرر في ${q.freq} نماذج</span>` : '';
-  const catChip = `<span class="chip">${q.kind==='r'?RTYPES[q.rtype]:q.kind==='w'?'معنى الكلمة':CATS[q.cat]}</span>`;
+  const catChip = `<span class="chip">${q.kind==='r'?RTYPES[q.rtype]:q.kind==='w'?'معنى الكلمة':q.kind==='l'?'الاستماع':CATS[q.cat]}</span>`;
   const timer = S.mock ? `<span class="timer" id="timer"></span>` : '';
   const qcard = `<div class="qcard"><div class="qmeta">${catChip}${hot}</div>
       <div class="stem en">${stemHTML(q)}</div>
@@ -383,10 +418,13 @@ function renderQ(){
       <div class="opts">${opts}</div>${fb}
       <div class="navrow"><button class="btn ghost" id="prev" ${S.i===0?'disabled':''}>← السابق</button>
       <button class="btn" id="next" ${(!done && !S.mock)?'disabled':''}>${S.i===S.list.length-1?(S.mock?'إنهاء الاختبار':'إنهاء'):'التالي →'}</button></div></div>`;
-  app.classList.toggle('wide', q.kind==='r');
+  app.classList.toggle('wide', q.kind==='r'||q.kind==='l');
+  if(speakingRi!==null && (q.kind!=='l' || q.ri!==speakingRi)) stopSpeech();
   app.innerHTML = header(true) + `<div class="ptop"><h2>${esc(S.title)}</h2><span class="progress" dir="ltr">${S.i+1} / ${S.list.length}</span>${timer}</div>` +
-    (q.kind==='r' ? `<div class="rgrid">${passage}<div>${qcard}</div></div>` : qcard);
-  $('#home').onclick = ()=>{ S=null; home(); };
+    ((q.kind==='r'||q.kind==='l') ? `<div class="rgrid">${passage}<div>${qcard}</div></div>` : qcard);
+  const pb = document.getElementById('playBtn');
+  if(pb){ if(speakingRi===q.ri) pb.textContent='⏸ إيقاف'; pb.onclick = ()=>{ if(speakingRi===q.ri) stopSpeech(); else playRec(q.ri, +document.getElementById('rate').value); }; }
+  $('#home').onclick = ()=>{ stopSpeech(); S=null; home(); };
   app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
     if(showFeedback) return;
     const k = +b.dataset.k;
@@ -395,7 +433,7 @@ function renderQ(){
     if(!S.mock){ const f=$('.feedback'); if(f) f.scrollIntoView({block:'nearest',behavior:'smooth'}); }
   });
   $('#prev').onclick = ()=>{ S.i--; renderQ(); };
-  $('#next').onclick = ()=>{ S.i++; renderQ(); if(S && S.list[S.i] && (S.list[S.i].kind!=='r' || S.list[S.i].pi!==q.pi)) window.scrollTo(0,0); };
+  $('#next').onclick = ()=>{ S.i++; renderQ(); if(S && S.list[S.i] && (S.list[S.i].kind!==q.kind || (q.kind==='r' && S.list[S.i].pi!==q.pi) || (q.kind==='l' && S.list[S.i].ri!==q.ri))) window.scrollTo(0,0); };
   tick();
 }
 function tick(){
@@ -411,7 +449,8 @@ function startMock(){
   for(const p of ps){ if(reading.length>=40) break; reading.push(...p.qs.slice(0, 40-reading.length)); }
   const gram = shuffle(G.filter(q=>GRAMMAR_CATS.includes(q.cat))).slice(0,26);
   const ana = shuffle(G.filter(q=>ANALYSIS_CATS.includes(q.cat))).slice(0,14);
-  startSession('اختبار محاكٍ', [...reading, ...shuffle([...gram, ...ana])], true);
+  const listen = []; for(const ri of shuffle(LR.map((r,i)=>i))){ if(listen.length>=20) break; listen.push(...LQ.filter(q=>q.ri===ri).slice(0, 20-listen.length)); }
+  startSession('اختبار محاكٍ', [...listen, ...reading, ...shuffle([...gram, ...ana])], true);
 }
 function finish(){
   const list = S.list; let right = 0; const by = {};
@@ -419,7 +458,7 @@ function finish(){
     const a = S.answers[i]; const ok = a===q.answer;
     if(S.mock && a!==undefined) record(q.key, q.cat, ok);
     if(ok) right++;
-    const g = q.kind==='r' ? 'استيعاب المقروء' : (ANALYSIS_CATS.includes(q.cat)?'التحليل الكتابي':CATS[q.cat]);
+    const g = q.kind==='l' ? 'الاستماع' : q.kind==='w' ? 'مفردات القراءة' : q.kind==='r' ? 'استيعاب المقروء' : (ANALYSIS_CATS.includes(q.cat)?'التحليل الكتابي':CATS[q.cat]);
     by[g] = by[g] || [0,0]; by[g][1]++; if(ok) by[g][0]++;
   });
   const pct = Math.round(100*right/list.length);
@@ -435,7 +474,7 @@ function finish(){
     <p style="color:var(--ink-soft);margin:4px 0 0">نسبة ${pct}٪ ${S.mock?'— الوقت '+mins+' دقيقة':''}</p>${window.clubCombo?window.clubCombo.line():''}
     <h3 style="font-size:1rem;margin-top:20px">حسب المهارة (الأضعف أولاً)</h3><div class="rows">${rows}</div>
     <div class="navrow"><button class="btn" id="again">${S.mock?'اختبار جديد':'إعادة التدريب'}</button><button class="btn ghost" id="review">مراجعة الإجابات</button></div></div>`;
-  $('#home').onclick = ()=>{ S=null; home(); };
+  $('#home').onclick = ()=>{ stopSpeech(); S=null; home(); };
   $('#again').onclick = ()=> S.mock ? startMock() : startSession(S.title, shuffle(list));
   $('#review').onclick = ()=>{ S.mock=false; S.i=0; renderQ(); };
   window.scrollTo(0,0);
