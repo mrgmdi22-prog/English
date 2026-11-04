@@ -60,6 +60,12 @@ h2{font-size:1.45rem;margin:0 0 6px}
 .daily .tx{flex:1}
 .daily .tx b{font-size:1.25rem}
 .daily .tx small{display:block;color:#7a5a12;font-size:1rem}
+.stepcard{display:flex;gap:14px;align-items:center;text-decoration:none;color:var(--ink);background:linear-gradient(135deg,#EEE9FF,#E8F3FF);border:1px solid #d9cff7}
+.stepcard .ic{font-size:2.6rem}
+.stepcard .tx{flex:1;min-width:0}
+.stepcard .tx b{font-size:1.25rem;display:block}
+.stepcard .tx small{display:block;color:var(--muted);font-size:1rem;line-height:1.5}
+.stepcard .go{font-size:1.5rem;color:var(--vio);font-weight:800}
 .done-chip{display:inline-block;background:var(--ok-soft);color:var(--ok);font-weight:800;border-radius:999px;padding:4px 12px;font-size:1rem}
 
 /* map */
@@ -207,6 +213,11 @@ ol.rest li.me{background:var(--gold-soft);border-radius:12px}
 
   <div id="main" class="hide">
     <div class="card daily" id="daily"></div>
+    <a class="card stepcard" href="step/index.html">
+      <span class="ic" aria-hidden="true">🎓</span>
+      <span class="tx"><b>مِران ستيب</b><small>استعد لاختبار ستيب: 1385 سؤال قواعد وتحليل كتابي، و312 قطعة قراءة، واختبار محاكٍ بمؤقت.</small></span>
+      <span class="go" aria-hidden="true">←</span>
+    </a>
     <div id="map"></div>
     <a class="card" href="classics/index.html" style="display:flex;gap:14px;align-items:center;text-decoration:none;color:inherit;background:linear-gradient(135deg,#fff 0%,var(--gold-soft) 100%)">
       <span style="font-size:2.4rem" aria-hidden="true">📚</span>
