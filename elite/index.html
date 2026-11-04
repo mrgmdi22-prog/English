@@ -417,8 +417,9 @@ const realmDone = r => r.ids.every(id => best(id) >= 5);
 const BADGES = [
   { id:'fire',  icon:'🔥', name:'سلسلة نارية',   how:'5 إجابات صحيحة متتالية', ok: () => (+J('el-combo', 0)) >= 5 },
   { id:'full',  icon:'🎯', name:'إصابة كاملة',   how:'10 من 10 في وحدة', ok: () => UNITS.some(u => best(u.id) >= 10) },
-  { id:'b1',    icon:'🏔️', name:'فاتح قمة B1',   how:'نجمة في كل وحدات B1', ok: () => realmDone(REALMS[0]) },
-  { id:'b2',    icon:'🏰', name:'فاتح قمة B2',   how:'نجمة في كل وحدات B2', ok: () => realmDone(REALMS[1]) },
+  { id:'b1',    icon:'🎖️', name:'سفير الإنجليزية', how:'نجمة في كل وحدات B1', ok: () => realmDone(REALMS[0]) },
+  { id:'b2',    icon:'🏔️', name:'سيّد القمة',   how:'نجمة في كل وحدات B2', ok: () => realmDone(REALMS[1]) },
+  { id:'legend', icon:'👑', name:'أسطورة اللغة', how:'8 من 10 أو أكثر في كل وحدات B1 وB2', ok: () => UNITS.every(u => best(u.id) >= 8) },
   { id:'stars', icon:'🌟', name:'جامع النجوم',   how:'20 نجمة', ok: () => totalStars() >= 20 },
   { id:'daily', icon:'⚡', name:'بطل التحديات',  how:'تحدي اليوم 3 أيام', ok: () => Object.keys(daily()).length >= 3 }
 ];
