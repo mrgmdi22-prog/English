@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2">
+<meta name="apple-mobile-web-app-title" content="English Club">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<script src="../assets/gate.js?v=9"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>مسار النخبة · Elite Track</title>
+<meta name="description" content="مسار النخبة: مفردات وقواعد وجمل ومحادثات ونصوص للمستوى B1 فأعلى، بنقاط أعلى ولوحة خاصة.">
+<meta name="theme-color" content="#F7F8FC">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<style>
+:root{--bg:#F7F8FC;--card:#FFFFFF;--ink:#1d2433;--muted:#5b6478;--line:#e4e8f2;--gold:#b7791f;--gold-soft:#fff6df;--ok:#17805d;--ok-soft:#e5f7ef;--bad:#c2452a;--bad-soft:#fdeee9;--blue:#2f6fd6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#F7F8FC}}
+:root[data-theme="dark"]{--bg:#F7F8FC}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Tajawal,system-ui,sans-serif;font-size:20px;line-height:1.7}
+.wrap{max-width:820px;margin:0 auto;padding:18px 16px 60px}
+h1{font-size:2.1rem;margin:8px 0 4px}
+h2{font-size:1.5rem;margin:0 0 8px}
+.en{font-family:Lexend,sans-serif;font-size:.85em;color:var(--muted);font-weight:500}
+.lead{font-size:1.2rem;color:var(--muted);margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px;margin:14px 0;box-shadow:0 2px 10px rgba(30,40,70,.05)}
+.gold{background:var(--gold-soft);border-color:#f2dca4}
+.btn{font:inherit;font-weight:800;font-size:1.15rem;border:0;border-radius:14px;padding:12px 22px;background:var(--blue);color:#fff;cursor:pointer;min-height:52px}
+.btn.soft{background:#eef2fb;color:var(--ink)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.link{display:inline-block;text-decoration:none;line-height:28px}
+.unit{display:flex;align-items:center;gap:14px;justify-content:space-between;flex-wrap:wrap}
+.unit .t{flex:1;min-width:200px}
+.unit small{display:block;color:var(--muted);font-size:1rem}
+.badge{display:inline-block;padding:2px 12px;border-radius:999px;font-weight:700;font-size:1rem;background:#eef2fb}
+.badge.ok{background:var(--ok-soft);color:var(--ok)}
+.passage{background:#fbfcff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-family:Lexend,sans-serif;font-size:1.15rem;line-height:1.9;white-space:pre-line;direction:ltr;text-align:left;margin-bottom:14px}
+.qtext{font-family:Lexend,sans-serif;font-size:1.3rem;font-weight:600;direction:ltr;text-align:left;margin:10px 0 14px}
+.opts{display:grid;gap:10px}
+.opt{font:inherit;font-family:Lexend,sans-serif;font-size:1.2rem;text-align:left;direction:ltr;background:#fff;border:2px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer;color:var(--ink);min-height:56px}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.fb{margin-top:12px;padding:12px 14px;border-radius:12px;font-size:1.1rem}
+.fb.ok{background:var(--ok-soft);color:#0f5e43}
+.fb.bad{background:var(--bad-soft);color:#8a2d18}
+.bar{height:12px;background:#e9edf6;border-radius:999px;overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#7aa8ff,#2f6fd6);transition:width .3s}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:16px}
+.lock{text-align:center;padding:28px 18px}
+.lock .big{font-size:3rem}
+table.board{width:100%;border-collapse:collapse;font-size:1.15rem}
+table.board td{padding:10px 6px;border-bottom:1px solid var(--line)}
+table.board td.n{width:42px;font-weight:800;color:var(--gold)}
+table.board td.p{text-align:left;font-family:Lexend,sans-serif;font-weight:600}
+table.board tr.me td{background:var(--gold-soft)}
+.muted{color:var(--muted)}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="btn soft link" href="../index.html" style="font-size:1rem;min-height:0;padding:6px 14px">← الرئيسية</a>
+  <h1>💎 مسار النخبة<span class="en"> ELITE TRACK</span></h1>
+  <p class="lead">للطلاب الذين بلغوا <b>B1</b> فأعلى في قياس المستوى: مفردات أكاديمية، وقواعد متقدمة، وجمل تراكيبية، ومحادثات، ونصوص قراءة. كل إجابة صحيحة هنا <b>10 نقاط</b>، ولك حدّ يومي أعلى.</p>
+
+  <div id="lock" class="card lock hide">
+    <div class="big" aria-hidden="true">🔒</div>
+    <h2>يُفتح بعد الوصول إلى B1</h2>
+    <p class="muted">أجرِ قياس المستوى، وعند بلوغ <b>B1</b> فأعلى يُفتح لك هذا المسار تلقائياً.</p>
+    <a class="btn link" href="../level/index.html">إلى قياس المستوى</a>
+  </div>
+
+  <div id="main" class="hide">
+    <div class="card gold" id="myCard"></div>
+    <div id="units"></div>
+    <div class="card" id="boardCard">
+      <h2>🏆 لوحة النخبة</h2>
+      <p class="muted" style="margin-top:0">ترتيب طلاب المسار هذا الأسبوع فقط.</p>
+      <div id="board"><p class="muted">جارٍ التحميل…</p></div>
+    </div>
+  </div>
+
+  <div id="play" class="card hide"></div>
+</div>
+
+<script type="module">
+/* ---------- content: five units, ten questions each. a[0] is always the right answer; options are shuffled on screen. ---------- */
+const UNITS = [
+ { id:1, kind:'vocab', title:'مفردات أكاديمية', en:'Academic vocabulary', items:[
+  {q:'The new policy was designed to ____ the effects of climate change on farmers.', a:['mitigate','ignore','celebrate','multiply'], e:'mitigate = يخفف من حدّة الأثر.'},
+  {q:'The instructions were so ____ that three students understood them in three different ways.', a:['ambiguous','obvious','cheerful','spacious'], e:'ambiguous = غامض يحتمل أكثر من معنى.'},
+  {q:'Despite many failures, the young entrepreneur remained ____ and started again.', a:['resilient','reluctant','scarce','vague'], e:'resilient = قادر على التعافي والصمود.'},
+  {q:'The company made a ____ investment of two million riyals in staff training.', a:['substantial','harmless','hollow','temporary'], e:'substantial = كبير وذو قيمة واضحة.'},
+  {q:'Some people are ____ to try new foods, so they always order the same dish.', a:['reluctant','eager','generous','capable'], e:'reluctant = متردد أو غير راغب.'},
+  {q:'The evidence was so ____ that the judge changed her opinion.', a:['compelling','boring','fragile','distant'], e:'compelling = مقنع يصعب رفضه.'},
+  {q:'Water was ____ in the village, so people had to share it carefully.', a:['scarce','abundant','sweet','loud'], e:'scarce = نادر وغير متوفر بكثرة.'},
+  {q:'It is hard to ____ motivation for months without a clear goal.', a:['sustain','invent','interrupt','borrow'], e:'sustain = يحافظ على الشيء ويستمر فيه.'},
+  {q:'The change in the schedule was ____; nobody could have prevented it.', a:['inevitable','optional','temporary','gentle'], e:'inevitable = لا مفر منه.'},
+  {q:'Travellers often ____ the local culture differently from the people who live there.', a:['perceive','erase','postpone','purchase'], e:'perceive = يدرك ويفهم بطريقته.'}
+ ]},
+ { id:2, kind:'grammar', title:'قواعد متقدمة', en:'Advanced grammar', items:[
+  {q:'If I had listened to my doctor, I ______ so ill now.', a:["wouldn't be","wouldn't have been",'am not','hadn\'t been'], e:'شرط ماضٍ ونتيجة في الحاضر (Mixed Conditional): If + had + V3, would + V1.'},
+  {q:'Never before ______ such a beautiful view.', a:['have I seen','I have seen','did I see','I saw'], e:'بعد Never في أول الجملة يأتي الفعل المساعد قبل الفاعل (Inversion).'},
+  {q:'She said, "I am going to the library tomorrow." → She said she ______ to the library the next day.', a:['was going','is going','goes','had gone'], e:'في الكلام المنقول تتحول الأزمنة إلى الماضي: am going → was going.'},
+  {q:'The report ______ by Friday.', a:['must be finished','must finish','must be finishing','has must been finished'], e:'الفعل المساعد + be + V3 في المبني للمجهول.'},
+  {q:'I wish I ______ more time to prepare for the presentation.', a:['had','have','would have','will have'], e:'بعد wish للحاضر نستخدم الماضي البسيط: I wish I had (= لو كان لدي).'},
+  {q:'______ by the noise, the children woke up.', a:['Woken','Wake','To wake','Having wake'], e:'جملة الحال المختصرة في المبني للمجهول: Woken by the noise.'},
+  {q:'She ______ her hair cut yesterday.', a:['had','did','made','let'], e:'had + مفعول + V3 = أن يقوم شخص آخر بالعمل لنا (causative).'},
+  {q:'The book, ______ I borrowed from the library, was excellent.', a:['which','who','where','when'], e:'نستخدم which للأشياء في الجملة الوصفية.'},
+  {q:'By next June, I ______ English for ten years.', a:['will have studied','will study','study','have studied'], e:'Future Perfect يعبّر عن مدة تكتمل قبل وقت في المستقبل.'},
+  {q:'You ______ leave now, or you will miss the bus.', a:['had better','would rather','must have','are able to'], e:'had better = من الأفضل أن (نصيحة قوية مع تهديد ضمني).'}
+ ]},
+ { id:3, kind:'sentences', title:'جمل وتراكيب', en:'Sentence patterns', items:[
+  {q:'______ the rain, the match continued.', a:['Despite','Although','However','Because'], e:'Despite + اسم، أما Although فتُتبع بجملة كاملة.'},
+  {q:"It's high time we ______.", a:['left','leave','will leave','leaving'], e:'It\'s high time + الماضي البسيط يعني حان وقت أن.'},
+  {q:'We need to ______ the meeting until next week.', a:['put off','put on','put up','put out'], e:'put off = يؤجّل.'},
+  {q:'They ______ an agreement after two long days of talks.', a:['reached','arrived','went','took'], e:'reach an agreement = يتوصل إلى اتفاق.'},
+  {q:'Not only ______ the exam, but she also got the highest score.', a:['did she pass','she passed','did she passed','she did pass'], e:'Not only + فعل مساعد + فاعل في بداية الجملة (Inversion).'},
+  {q:'No sooner ______ than the phone rang.', a:['had I sat down','I had sat down','did I sit','I sat down'], e:'No sooner + had + فاعل + V3 + than.'},
+  {q:'The results were disappointing; ______, we learned a lot from them.', a:['however','therefore','moreover','similarly'], e:'however = مع ذلك، وتفيد التناقض أو التباين.'},
+  {q:"I'd rather you ______ smoke here.", a:["didn't",'don\'t','won\'t','not'], e:'would rather + فاعل آخر + الماضي البسيط للإشارة إلى الحاضر.'},
+  {q:'The results are ______ to change before the final report.', a:['unlikely','unable','unwilling','reluctant'], e:'unlikely to + فعل = من غير المرجح أن.'},
+  {q:'The town is famous ______ its ancient mosque.', a:['for','of','with','on'], e:'famous for = مشهور بـ.'}
+ ]},
+ { id:4, kind:'dialogue', title:'محادثات', en:'Dialogues', items:[
+  {q:'Interviewer: "Tell me about a time you faced a difficult problem at work."\nCandidate: "Last year our main supplier went bankrupt two weeks before a big order. I contacted three other suppliers, negotiated prices, and we delivered on time."\n\nWhat was the problem?', a:['The main supplier went bankrupt before a big order','The office was too small','The computers stopped working','The staff were on holiday'], e:'أفلس المورد الرئيسي قبل طلب كبير بأسبوعين.'},
+  {q:'(Same dialogue) What did the candidate do?', a:['Contacted other suppliers and negotiated prices','Closed the company','Asked the manager to resign','Cancelled the order'], e:'تواصل مع موردين آخرين وتفاوض على الأسعار.'},
+  {q:'Customer: "Actually, the soup is a bit cold, and I asked for no onions."\nWaiter: "I\'m terribly sorry. I\'ll bring you a fresh bowl right away, and the dessert is on the house."\n\nWhat did the customer complain about?', a:['Cold soup with onions','Burnt bread and slow service','A wrong drink','A noisy room'], e:'الحساء بارد ويحتوي على بصل رغم طلبه بدونه.'},
+  {q:'(Same dialogue) What did the waiter offer?', a:['A fresh bowl and a free dessert','A discount on the bill','A new table','Free drinks for the family'], e:'وعد بوعاء جديد، والحلوى "على حساب المطعم" أي مجاناً.'},
+  {q:'A: "I\'m calling about the apartment. Is it still available?"\nB: "Yes, but we have another viewing this afternoon, so you\'d need to come before three."\nA: "I can be there by half past two. Would that work?"\nB: "That\'s fine. Let me give you the address."\n\nWhy must the caller come before three?', a:['There is another viewing that afternoon','The office closes at three','The owner travels at three','The apartment is being painted'], e:'هناك معاينة أخرى بعد الظهر.'},
+  {q:'(Same dialogue) When will the caller arrive?', a:['By half past two','At four o\'clock','Tomorrow morning','After the address is sent'], e:'قال إنه سيكون هناك قبل الثانية والنصف.'},
+  {q:'Maha: "I think homework should be banned in primary schools."\nFaisal: "I see your point, but children also need routine and some practice at home."\nMaha: "Maybe, but they already spend six hours at school."\nFaisal: "True. Perhaps a short, optional task would be a good compromise."\n\nWhat does Faisal think?', a:['Children need some homework, but less of it','Homework should be doubled','Children should stay at school longer','He has no opinion'], e:'يوافق على أن الواجب يجب أن يكون أقل وقابلاً للاختيار.'},
+  {q:'(Same dialogue) Why does Maha think homework should be banned?', a:['Children already spend six hours at school','The teachers are tired','Homework is too expensive','Parents do not like it'], e:'قالت إن الطلاب يقضون ست ساعات في المدرسة.'},
+  {q:'(Same dialogue) What compromise does Faisal suggest?', a:['A short, optional task','No homework at all','Homework every day for two hours','Longer school days'], e:'اقترح واجباً قصيراً واختيارياً.'},
+  {q:'(Restaurant dialogue) In the phrase "on the house", what does it mean?', a:['It is free','It is in the house','It is late','It is sold out'], e:'on the house = مجاناً، على حساب المطعم.'}
+ ]},
+ { id:5, kind:'reading', title:'نص قراءة: طريق البخور', en:'Reading: The Incense Route', passage:
+`For more than two thousand years, merchants carried frankincense and myrrh from southern Arabia to the markets of the Mediterranean. The journey was long and dangerous. Caravans crossed deserts with little water, and travellers depended on wells and oasis towns to survive. These towns grew rich by selling food, water and shelter to the merchants, and some of them, such as Tayma and Dedan, became important centres of trade and culture.
+
+Incense was so valuable that it was used in temples, in medicine and in funerals. Because of this demand, merchants were willing to pay high taxes at every stop, and this made some rulers very wealthy. However, the route slowly lost its importance when sea transport became cheaper and faster. Today, the old trade roads are mostly studied by archaeologists, who find ancient inscriptions, pottery and remains of caravan stations along the way.
+
+Visitors to these sites often say the most impressive thing is not the buildings but the silence of the desert, which makes it easy to imagine the caravans of the past.`,
+ items:[
+  {q:'How long did the Incense Route operate?', a:['More than two thousand years','About two hundred years','Less than a century','Exactly five hundred years'], e:'النص: "أكثر من ألفي سنة".'},
+  {q:'What did merchants carry along the route?', a:['Frankincense and myrrh','Gold and silver coins','Wheat and rice','Wool and leather'], e:'اللبان والمر.'},
+  {q:'Why were oasis towns important?', a:['They provided water, food and shelter','They built the sea ships','They closed the deserts','They printed the maps'], e:'كانت تبيع الطعام والماء والمأوى للتجار.'},
+  {q:'Why was incense so valuable?', a:['It was used in temples, medicine and funerals','It was used as money','It could replace water','It was cheap to produce'], e:'استُخدم في المعابد والطب والجنائز.'},
+  {q:'What made some rulers very wealthy?', a:['The high taxes merchants paid at each stop','The sale of their own gold','Ships they built on the sea','Land they sold to tourists'], e:'كان التجار يدفعون ضرائب مرتفعة عند كل محطة.'},
+  {q:'Why did the route slowly lose its importance?', a:['Sea transport became cheaper and faster','The incense ran out completely','The rulers closed the towns','The desert became a sea'], e:'النقل البحري صار أرخص وأسرع.'},
+  {q:'What do archaeologists find along the old roads?', a:['Inscriptions, pottery and caravan station remains','Modern roads and shops','Ships and anchors','Gold mines'], e:'النقوش والفخار وبقايا محطات القوافل.'},
+  {q:'The word "impressive" in the last paragraph is closest in meaning to:', a:['Striking','Boring','Cheap','Hidden'], e:'impressive = مثير للإعجاب، ومرادفها striking.'},
+  {q:'What do visitors say is most impressive at these sites?', a:['The silence of the desert','The modern buildings','The sea views','The shops and restaurants'], e:'قالوا إن أكثر ما يُعجبهم هو صمت الصحراء.'},
+  {q:'Which sentence best describes the main idea of the text?', a:['The Incense Route was an important trade road that shaped the towns along it','The Incense Route was a sea route with no caravans','Incense was only used for cooking','Travellers never reached the markets'], e:'النص كله عن طريق تجارة مهم شكّل مدنه.'}
+ ]}
+];
+
+const LV = ['Pre-A1','A1','A2','B1','B2'], LV_NEW = 1793547780000;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const J = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } };
+const setBest = (n, v) => { try { const k = 'el-best-' + n; if ((+localStorage.getItem(k) || 0) < v) localStorage.setItem(k, String(v)); } catch (e) {} };
+const best = n => { try { return +localStorage.getItem('el-best-' + n) || 0; } catch (e) { return 0; } };
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+/* eligibility: a current-version level test at B1 or above (the same rule the points use) */
+function eligible() {
+  const lr = J('lv-results', {});
+  return [lr.pre].concat(lr.post || [], Array.isArray(lr.prev) ? lr.prev : []).some(r => r && +r.at >= LV_NEW && LV.indexOf(r.level) >= 3);
+}
+
+function totals() { let s = 0; UNITS.forEach(u => s += best(u.id)); return s; }
+
+function home() {
+  $('play').classList.add('hide');
+  if (!eligible()) { $('lock').classList.remove('hide'); $('main').classList.add('hide'); return; }
+  $('lock').classList.add('hide'); $('main').classList.remove('hide');
+  const done = UNITS.filter(u => best(u.id) >= 8).length;
+  $('myCard').innerHTML = `<h2>نقاطك في النخبة</h2><p style="margin:0">أفضل نتائجك: <b>${totals() * 10}</b> نقطة من ${UNITS.length * 100} · أتممت <b>${done}</b> من ${UNITS.length} وحدات بنسبة 80٪ فأكثر.</p>`;
+  $('units').innerHTML = UNITS.map(u => {
+    const b = best(u.id);
+    return `<div class="card unit"><div class="t"><h2 style="margin:0 0 2px">${u.title}</h2><small class="en">${u.en} · ${u.items.length} أسئلة</small></div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">${b ? `<span class="badge ${b >= 8 ? 'ok' : ''}">أفضل نتيجة: ${b} / ${u.items.length}</span>` : ''}
+      <button class="btn" data-u="${u.id}">${b ? 'أعد الوحدة' : 'ابدأ'}</button></div></div>`;
+  }).join('');
+  $('units').querySelectorAll('[data-u]').forEach(x => x.onclick = () => run(UNITS.find(u => u.id === +x.dataset.u)));
+  window.scrollTo(0, 0);
+}
+
+function run(u) {
+  $('main').classList.add('hide'); $('play').classList.remove('hide');
+  const N = u.items.length;
+  const order = u.items.map(it => ({ q: it.q, e: it.e, opts: shuffle(it.a), right: it.a[0] }));
+  const ans = new Array(N).fill(null);   // one answer per question: {text, ok}; going back never counts twice
+  let i = 0;
+  const feedback = (it, p) => `<div class="fb ${p.ok ? 'ok' : 'bad'}"><b>${p.ok ? 'إجابة صحيحة ✓' : 'ليست صحيحة'}</b> · ${esc(it.e)}</div>`;
+  const pane = () => {
+    const it = order[i], p = ans[i], done = p !== null;
+    $('play').innerHTML = `
+      <div class="muted" style="display:flex;justify-content:space-between;font-family:Lexend,sans-serif"><span>${esc(u.title)}</span><span>${i + 1} / ${N}</span></div>
+      <div class="bar"><i style="width:${(i + (done ? 1 : 0)) / N * 100}%"></i></div>
+      ${u.passage ? `<div class="passage">${esc(u.passage)}</div>` : ''}
+      <p class="qtext" style="white-space:pre-line">${esc(it.q)}</p>
+      <div class="opts">${it.opts.map(o => {
+        let c = '';
+        if (done) { if (o === it.right) c = 'right'; else if (o === p.text) c = 'wrong'; }
+        return `<button class="opt ${c}" data-o="${esc(o)}" ${done ? 'disabled' : ''}>${esc(o)}</button>`;
+      }).join('')}</div>
+      <div id="fb">${done ? feedback(it, p) : ''}</div>
+      <div class="nav"><button class="btn soft" id="back" ${i === 0 ? 'disabled' : ''}>← السابق</button><button class="btn" id="next" ${done ? '' : 'disabled'}>${i === N - 1 ? 'إنهاء ✓' : 'التالي →'}</button></div>`;
+    $('play').querySelectorAll('.opt').forEach(b => b.onclick = () => { ans[i] = { text: b.dataset.o, ok: b.dataset.o === it.right }; pane(); });
+    $('back').onclick = () => { i--; pane(); window.scrollTo(0, 0); };
+    $('next').onclick = () => { if (i < N - 1) { i++; pane(); window.scrollTo(0, 0); } else finish(); };
+  };
+  const finish = () => {
+    const right = ans.filter(a => a && a.ok).length;
+    setBest(u.id, right);   // the saved best only goes up
+    const pc = Math.round(right / N * 100);
+    $('play').innerHTML = `<div style="text-align:center;padding:18px 0">
+      <div style="font-size:3rem" aria-hidden="true">${pc >= 80 ? '🏆' : pc >= 50 ? '👏' : '💪'}</div>
+      <h2>${esc(u.title)}</h2>
+      <p class="lead">${right} من ${N} · ${right * 10} نقطة</p>
+      <p class="muted">${pc >= 80 ? 'ممتاز! أحسنت.' : 'راجع الأسئلة الخاطئة وأعد الوحدة لتصل إلى 8 أو أكثر.'}</p>
+      <div class="nav" style="justify-content:center"><button class="btn soft" id="again">أعد الوحدة</button><button class="btn" id="home">العودة إلى المسار</button></div></div>`;
+    $('again').onclick = () => run(u); $('home').onclick = home; window.scrollTo(0, 0);
+  };
+  pane();
+}
+
+async function boardPanel() {
+  const el = $('board');
+  try {
+    const H = await import('../assets/honor.js?v=20261103a');
+    if (!H.ready) { el.innerHTML = '<p class="muted">تظهر اللوحة عند اتصال الموقع بقاعدة النادي.</p>'; return; }
+    const rows = (await H.eliteBoard()).slice().sort((a, b) => (b.score || 0) - (a.score || 0));
+    const mine = await H.myEntry().catch(() => null);
+    el.innerHTML = rows.length
+      ? `<table class="board">${rows.slice(0, 10).map((r, i) => `<tr class="${mine && r.id === mine.id ? 'me' : ''}"><td class="n">${i + 1}</td><td>${esc(r.nick)}</td><td class="p">${(r.score || 0).toLocaleString('en')}</td></tr>`).join('')}</table>`
+      : '<p class="muted">لا أحد في لوحة النخبة هذا الأسبوع بعد. كن الأول!</p>';
+  } catch (e) { el.innerHTML = '<p class="muted">تعذّر تحميل اللوحة الآن.</p>'; }
+}
+
+home();
+boardPanel();
+</script>
+<script src="../assets/club.js?v=15"></script>
+</body>
+</html>

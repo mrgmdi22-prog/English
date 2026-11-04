@@ -21,9 +21,11 @@ export const RULES = [
   { key: 'mb',   label: 'Surprise Me — ثلاثة صناديق في اليوم', icon: '🎁', per: 1, max: 1000000, note: 'حتى 150 للصندوق', unit: 'نقطة' },
   { key: 'lv',   label: 'كل مستوى تتقدّمه بين الاختبار القبلي وأفضل اختبار بعدي', icon: '📈', per: 500, max: 4, note: '500 نقطة' },
   { key: 'lvs',  label: 'كل إجابة صحيحة تزيدها في الاختبار البعدي عن القبلي', icon: '📊', per: 10, max: 32 },
+  { key: 'ek',   label: 'إجابة صحيحة في مسار النخبة (B1 فأعلى)', icon: '💎', per: 10, max: 400 },
   { key: 'rt',   label: 'كلمة ثبتت في ذاكرتك بالمراجعة المتباعدة (Word Quest والكلمات العامة والأكاديمية)', icon: '🧠', per: 3, max: 1500 }
 ];
 export const DAILY_CAP = 750;
+export const DAILY_CAP_EL = 1000;   // elite students (B1 and above) get a higher daily cap
 /* Weekly seasons: a new season starts every Tuesday at 6 am Saudi time; the board shows this season's points.
    Each player's weekly scores are kept in players.wk {week: points}; the top STARS_N of every finished week
    are that week's stars, and the stars list is kept for the whole year (the teacher honours repeat stars). */
@@ -81,7 +83,10 @@ export function computeScore() {
   }
   // Retention: words that reached box 3+ in spaced review (remembered after 1 day and again after 3 days)
   let rt = 0; ['wq-srs', 'ng-srs', 'aw-srs'].forEach(k => { const o = J(k) || {}; Object.keys(o).forEach(w => { if (((o[w] || [])[0] || 0) >= 3) rt++; }); });
-  const parts = { caps, wq, lab, mg, bf, ng, aw, st, tn, pv, im, tb, mb, lv, lvs, rt, wqx: wqStats() };
+  // Elite track (مسار النخبة): best score of each unit (0–10) summed; elite = reached B1 or above in a current-version level test.
+  let ek = 0; for (let n = 1; n <= 20; n++) ek += Math.max(0, Math.min(10, N('el-best-' + n)));
+  const elite = [lr.pre].concat(posts).some(r => lvOk(r) && LV.indexOf(r.level) >= 3) ? 1 : 0;
+  const parts = { caps, wq, lab, mg, bf, ng, aw, st, tn, pv, im, tb, mb, lv, lvs, rt, ek: elite ? ek : 0, el: elite, wqx: wqStats() };
   // Practice points count at most DAILY_CAP a day (Saudi day). Practice after that is for learning only:
   // the extra points are not counted, then or later. Surprise Me and the level/retention rewards are outside the cap.
   const pts = r => Math.min(parts[r.key], r.max) * r.per;
@@ -91,10 +96,11 @@ export function computeScore() {
   let L = J('pts-day');
   if (!L || typeof L !== 'object' || !(L.seen >= 0)) L = { d: day, seen: raw, got: raw, t: 0 }; // existing points are kept
   if (L.d !== day) { L.d = day; L.t = 0; }
-  if (raw > L.seen) { const add = Math.min(raw - L.seen, Math.max(0, DAILY_CAP - L.t)); L.got += add; L.t += add; L.seen = raw; }
+  const cap = parts.el ? DAILY_CAP_EL : DAILY_CAP;
+  if (raw > L.seen) { const add = Math.min(raw - L.seen, Math.max(0, cap - L.t)); L.got += add; L.t += add; L.seen = raw; }
   L.got = Math.min(L.got, raw);
   try { localStorage.setItem('pts-day', JSON.stringify(L)); } catch (e) {}
-  parts.dl = { t: L.t, cap: DAILY_CAP };
+  parts.dl = { t: L.t, cap };
   // total = all points since the start; score = this season's points (since Tuesday 6 am).
   const total = L.got + free;
   if (!(L.w0 >= 0)) { L.w = week; L.w0 = total; }                 // the first season starts from zero for everyone
@@ -253,7 +259,8 @@ export async function sync(force) {
   const loc = computeScore(), season = seasonFields(was, loc, was.base | 0);
   if (loc.week <= FOUND_WEEK) score = Math.min(10000, score + (was.base | 0));
   const wsig = JSON.stringify(parts.wqx);
-  if (was.score !== score || was.week !== season.week || was.total !== season.total || JSON.stringify((was.parts || {}).wqx || null) !== wsig) {
+  if (was.score !== score || was.week !== season.week || was.total !== season.total || JSON.stringify((was.parts || {}).wqx || null) !== wsig
+      || !!(was.parts || {}).el !== !!parts.el || ((was.parts || {}).ek | 0) !== (parts.ek | 0)) {
     try { await fs.updateDoc(ref, { score, parts, ...season, updatedAt: fs.serverTimestamp() }); }
     catch (e) { if (!/permission/i.test(e && (e.code || e.message) || '')) throw e; await fs.updateDoc(ref, { score, parts, updatedAt: fs.serverTimestamp() }); }
   }
@@ -456,6 +463,11 @@ export async function board(limit) {
   const all = await boardAll();
   const rows = thisWeek(all);
   return limit ? rows.slice(0, limit) : rows;
+}
+/** The elite board (مسار النخبة): approved players who reached B1 or above, same weekly points. */
+export async function eliteBoard() {
+  const rows = await board();
+  return rows.filter(r => r.parts && r.parts.el === 1);
 }
 /** Every approved player (for the stars list). */
 export async function boardAll() {
