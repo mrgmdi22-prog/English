@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" data-theme="light">
 <head>
 <meta charset="utf-8"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
-<script src="../assets/gate.js?v=9"></script>
+<script src="../assets/gate.js?v=9"></script><script src="../assets/combo.js?v=1"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ركن التعبيرات (العبارات الاصطلاحية) · Idioms Corner</title>
 <meta name="description" content="Common English idioms explained with cartoons: the funny literal picture, the real meaning, an Arabic equivalent and a quiz.">
@@ -206,13 +206,13 @@ document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>setTab(b.data
 
 /* quiz: half the questions ask for the idiom from its cartoon, half for its real meaning */
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
-function newQuiz(){Q={qs:shuffle(ID).slice(0,10).map((x,i)=>({x,k:i%2?'mean':'name'})),i:0,right:0};drawQ();}
+function newQuiz(){Q={qs:shuffle(ID).slice(0,10).map((x,i)=>({x,k:i%2?'mean':'name'})),i:0,right:0};if(window.clubCombo)clubCombo.start('im','*');drawQ();}
 function drawQ(){
   const Z=$('quiz');
   if(Q.i>=Q.qs.length){
     const best=Math.max(+(store.get('im-best')||0),Q.right);store.set('im-best',String(best));
     const msg=Q.right>=9?'رائع! أنت خبير التعبيرات 🏆':Q.right>=7?'جيد جداً 👏':Q.right>=5?'جيد، راجع البطاقات وحاول مرة أخرى':'تصفّح بطاقات التعبيرات ثم أعد المحاولة 💪';
-    Z.innerHTML=`<div class="qend"><div class="big" dir="ltr">${Q.right} / ${Q.qs.length}</div><p style="font-size:1.25rem;font-weight:800;margin:6px 0">${msg}</p><p style="color:var(--muted)">أفضل نتيجة لك: ${best} / 10 · كل إجابة صحيحة في أفضل نتيجة تمنحك 7 نقاط في لوحة الشرف.</p><button class="btn" id="again">🔁 اختبار جديد</button></div>`;
+    Z.innerHTML=`<div class="qend"><div class="big" dir="ltr">${Q.right} / ${Q.qs.length}</div><p style="font-size:1.25rem;font-weight:800;margin:6px 0">${msg}</p><p style="color:var(--muted)">أفضل نتيجة لك: ${best} / 10 · كل سؤال جديد تجيبه صحيحاً يمنحك 7 نقاط في لوحة الشرف (مرة واحدة لكل سؤال)، وتتضاعف مع التسلسل 🔥</p>${window.clubCombo?clubCombo.line():''}<button class="btn" id="again">🔁 اختبار جديد</button></div>`;
     $('again').onclick=newQuiz;return;
   }
   const {x,k}=Q.qs[Q.i],others=shuffle(ID.filter(y=>y!==x)).slice(0,3),opts=shuffle([x,...others]);
@@ -223,6 +223,7 @@ function drawQ(){
   Z.querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{
     const ok=b.dataset.id===x.id;Z.querySelectorAll('.opts button').forEach(c=>{c.disabled=true;if(c.dataset.id===x.id)c.classList.add('right');});
     if(!ok)b.classList.add('wrong');else Q.right++;
+    if(window.clubCombo)clubCombo.hit(ok,ok&&clubCombo.learn('im-known',x.id+':'+k,52));
     const f=$('qfb');f.className='qfb '+(ok?'ok':'no');f.innerHTML=ok?'أحسنت! ✔':`الصحيح: <span class="en">${esc(x.en)}</span> = ${esc(x.ar)}`;
     if(k==='name'&&ok)say(x.en);
     setTimeout(()=>{Q.i++;drawQ();},ok?1200:2600);
@@ -230,6 +231,6 @@ function drawQ(){
 }
 drawWall();
 </script>
-<script src="../assets/club.js?v=15"></script>
+<script src="../assets/club.js?v=16"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-<!doctype html><html data-theme="light"><head><meta charset=utf8><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2"><script src="../assets/gate.js?v=9"></script><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html data-theme="light"><head><meta charset=utf8><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2"><script src="../assets/gate.js?v=9"></script><script src="../assets/combo.js?v=1"></script><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>كبسولة المغامرة</title>
 <meta name="theme-color" content="#2f7fb0">
 <meta name="mobile-web-app-capable" content="yes">
@@ -918,7 +918,7 @@
 
   /* ---------- play ---------- */
   var run = null;
-  function startStage(k){ var list = shuffle(stageScenes(k)); run = {mode:'stage', stage:k, qs: list.map(function(s,i){ return {s:s, t:pickType(i,s,'stage')}; }), i:0, miss:0, right:0, combo:0, hints:3}; showPlay(); }
+  function startStage(k){ var list = shuffle(stageScenes(k)); run = {mode:'stage', stage:k, qs: list.map(function(s,i){ return {s:s, t:pickType(i,s,'stage')}; }), i:0, miss:0, right:0, combo:0, hints:3}; if (window.clubCombo) clubCombo.start('caps', KEY.slice(5, -1) + '-' + k); showPlay(); }
   function startReview(){ var list = shuffle(dueList()).slice(0, 10); run = {mode:'review', qs: list.map(function(s,i){ return {s:s, t:pickType(i,s,'review')}; }), i:0, miss:0, right:0, combo:0, hints:3}; showPlay(); }
   function showPlay(){ $('mapView').hidden = true; $('playView').hidden = false; window.scrollTo(0,0); renderQ(); }
 
@@ -951,12 +951,12 @@
 
     function finish(ok, correctText){
       if (answered) return; answered = true;
-      if (ok){ run.right++; run.combo++; playCorrectChime();
+      if (ok){ run.right++; run.combo++; if (run.mode === 'stage' && window.clubCombo) clubCombo.hit(true); playCorrectChime();
         var praise = run.combo >= 10 ? 'Unstoppable! 🔥 ' : run.combo >= 5 ? 'Amazing! ⚡ ' : run.combo >= 3 ? 'Great job! ' : '';
         $('feedback').textContent = praise + 'أحسنت! إجابة صحيحة 🎉'; $('feedback').className = 'feedback good';
         if (run.combo === 3 || run.combo === 5 || run.combo === 10){ confetti(); toast('سلسلة ' + run.combo + ' إجابات صحيحة! 🔥'); }
         if (run.mode === 'review'){ var r = review[q.s] || {box:0}; r.box += 1; if (r.box >= 3){ delete review[q.s]; mastered += 1; save('mastered', mastered); } else { r.due = today() + [1,3,7][r.box]; review[q.s] = r; } save('review', review); }
-      } else { run.miss++; run.combo = 0; playWrongBlip();
+      } else { run.miss++; run.combo = 0; if (run.mode === 'stage' && window.clubCombo) clubCombo.hit(false); playWrongBlip();
         $('feedback').innerHTML = 'الإجابة الصحيحة:<br><b dir="auto" style="display:block">' + esc(correctText) + '</b><span style="font-weight:500">ستعود إليك هذه الجملة في «مراجعة أخطائي» 🔁</span>'; $('feedback').className = 'feedback bad';
         review[q.s] = {box:0, due: today() + 1}; save('review', review);
       }
@@ -1018,6 +1018,8 @@
       body = 'كل جملة تجيبها صحيحًا في المراجعة تعود بعد مدة أطول، وبعد ثلاث مرات تصبح «متقنة» ✅';
     }
     $('ovTitle').textContent = title; $('ovBody').textContent = body;
+    var oldCb = document.querySelector('#stageOverlay .comboRes'); if (oldCb) oldCb.remove();
+    if (run.mode === 'stage' && window.clubCombo) $('ovBody').insertAdjacentHTML('afterend', clubCombo.line());
     $('ovStars').innerHTML = run.mode === 'stage' ? ('<i class="' + (st>=1?'on':'') + '">★</i><i class="' + (st>=2?'on':'') + '">★</i><i class="' + (st>=3?'on':'') + '">★</i>') : '🔁';
     $('ovRight').textContent = run.right + ' من ' + run.qs.length;
     $('ovDays').textContent = liveDays();
@@ -1035,5 +1037,5 @@
 })();
 </script>
 
-<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=15"></script>
+<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=16"></script>
 </body></html>

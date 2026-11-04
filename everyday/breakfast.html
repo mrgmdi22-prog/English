@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr" data-theme="light">
 <head>
 <meta charset="utf-8"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
-<script src="../assets/gate.js?v=9"></script>
+<script src="../assets/gate.js?v=9"></script><script src="../assets/combo.js?v=1"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Breakfast Challenge · English Club</title>
 <meta name="description" content="Learn food words in English while you build a healthy breakfast.">
@@ -349,7 +349,7 @@ button:focus-visible{outline:4px solid var(--coral);outline-offset:3px}
   // QUIZ
   var qOrder=[],qi=0,qScore=0;
   function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
-  function quizStart(){qOrder=shuffle(QS.map(function(_,i){return i}));qi=0;qScore=0;quizQ();}
+  function quizStart(){qOrder=shuffle(QS.map(function(_,i){return i}));qi=0;qScore=0;if(window.clubCombo)clubCombo.start('bf','q');quizQ();}
   function quizQ(){
     if(qi>=QS.length)return quizEnd();
     var Q=QS[qOrder[qi]],opts=shuffle(Q.o.map(function(t,i){return {t:t,i:i}}));
@@ -363,7 +363,7 @@ button:focus-visible{outline:4px solid var(--coral);outline-offset:3px}
       document.getElementById('q'+n).onclick=function(){
         var ok=o.i===0;
         document.querySelectorAll('.qopt').forEach(function(b,m){b.disabled=true;if(opts[m].i===0)b.classList.add('right');});
-        if(!ok)this.classList.add('wrong'); else qScore++;
+        if(!ok)this.classList.add('wrong'); else qScore++;if(window.clubCombo)clubCombo.hit(ok);
         document.getElementById('after').innerHTML='<div style="display:flex;flex-direction:column;gap:14px"><div class="explain"><b>'+(ok?'Correct! Well done.':'The right answer is in green.')+'</b><span>'+Q.e[0]+'</span><span class="ar">'+Q.e[1]+'</span></div><div class="row"><button type="button" class="btn" id="next">'+(qi+1<QS.length?'Next question':'See my score')+'</button></div></div>';
         document.getElementById('next').onclick=function(){qi++;quizQ();};
         document.getElementById('after').scrollIntoView({behavior:'smooth',block:'nearest'});
@@ -375,6 +375,7 @@ button:focus-visible{outline:4px solid var(--coral);outline-offset:3px}
     var msg=qScore===QS.length?'Perfect! You are a nutrition expert.':qScore>=7?'Great job! Try again to get them all.':'Good start. Try again and learn more.';
     mount(topBar('Your score')+'<div class="card" style="align-items:center;text-align:center"><div class="score">'+qScore+' / '+QS.length+'</div><p style="font-size:22px;font-weight:700">'+msg+'</p><p style="font-size:16px;color:var(--muted)">Best score: '+best+' / '+QS.length+'</p><p class="ar" style="font-size:17px;color:var(--muted)">كل إجابة صحيحة في أفضل محاولة لك تُضاف إلى نقاطك في لوحة الشرف.</p></div><div class="row"><button type="button" class="btn" id="again">Try again</button><button type="button" class="btn light" id="toHome">Home</button></div>');
     document.getElementById('back').onclick=home;
+    var cbc=document.querySelector('.card');if(cbc&&window.clubCombo)cbc.insertAdjacentHTML('beforeend',clubCombo.line());
     document.getElementById('again').onclick=quizStart;
     document.getElementById('toHome').onclick=home;
   }
@@ -420,6 +421,6 @@ button:focus-visible{outline:4px solid var(--coral);outline-offset:3px}
   home();
 })();
 </script>
-<script src="../assets/club.js?v=15"></script>
+<script src="../assets/club.js?v=16"></script>
 </body>
 </html>

@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-title" content="English Club">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<script src="../../assets/gate.js?v=9"></script>
+<script src="../../assets/gate.js?v=9"></script><script src="../../assets/combo.js?v=1"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>مِران ستيب · STEP Practice</title>
 <meta name="description" content="مِران ستيب: بنك تدريبي لاختبار ستيب داخل مسار النخبة — قواعد وتحليل كتابي وقراءة واختبار محاكٍ.">
@@ -240,10 +240,15 @@ const store = {
 };
 let stats = store.get('stats', {});     // key -> [right, total]
 let wrongs = store.get('wrongs', {});   // qkey -> 1
+// Honor-board points: each question answered right counts once (step.ok = {qkey: 1}), 7 points + the streak bonus 🔥.
+let okKeys = store.get('ok', {});
 function record(key, cat, ok){
   const s = stats[cat] || [0,0]; s[1]++; if(ok) s[0]++; stats[cat] = s;
   if(ok) delete wrongs[key]; else wrongs[key] = 1;
+  const fresh = ok && !okKeys[key]; if(fresh){ okKeys = store.get('ok', okKeys); okKeys[key] = 1; store.set('ok', okKeys); }
   store.set('stats', stats); store.set('wrongs', wrongs);
+  if(window.clubCombo) window.clubCombo.hit(ok, fresh);
+  return fresh;
 }
 
 /* ---------- question model ---------- */
@@ -316,7 +321,7 @@ function home(){
     <div class="cats">${catTile('r_all', RQ.length, 'كل القطع بالترتيب')}${Object.keys(RTYPES).filter(t=>rcount(t)>2).map(t=>catTile('r_'+t, rcount(t), RTYPES[t])).join('')}</div></section>
   <section class="block"><h2>مفردات القراءة المتكررة</h2><p class="sub">كلمات يتكرر السؤال عن معناها في قطع ستيب: اختر المعنى الأقرب، وتظهر لك ترجمتها العربية بعد الإجابة.</p>
     <div class="cats">${catTile('words', WB.length, 'معنى الكلمة')}</div></section>
-  <p class="note">يُحفظ تقدمك وأخطاؤك على هذا الجهاز فقط. لا يشمل البنك قسم الاستماع. إن لاحظت سؤالاً فيه خطأ فأخبر معلمك.</p>
+  <p class="note">🏆 كل سؤال تجيبه صحيحاً = <b>7 نقاط</b> في لوحة الشرف (مرة واحدة لكل سؤال)، وتتضاعف مع التسلسل 🔥: ثلاث صحيحة متتالية ×1.5، وخمس فأكثر ×2. لا يشمل البنك قسم الاستماع. إن لاحظت سؤالاً فيه خطأ فأخبر معلمك.</p>
   <footer>إعداد: أ. أحمد آل سالم — الأسئلة مجمّعة من نماذج ستيب المتداولة (تجميعات د. برق وأكاديمية ستيب المجانية)، وأُعيد تنظيمها وتصنيفها للتدريب.</footer>`;
   app.querySelectorAll('.cat').forEach(b=>b.onclick=()=>startCat(b.dataset.cat));
   $('#mock').onclick = startMock;
@@ -335,6 +340,7 @@ function startCat(cat){
 let S = null;
 function startSession(title, list, mock){
   S = {title, list, i:0, answers:{}, mock:!!mock, t0:Date.now()};
+  if(window.clubCombo) window.clubCombo.start('sp', '*', mock ? {quiet:true} : null);
   renderQ();
 }
 function ruleBox(q){
@@ -426,7 +432,7 @@ function finish(){
   app.classList.remove('wide');
   app.innerHTML = header(true) + `<div class="result"><h2 style="font-size:1.2rem;margin-bottom:6px">${esc(S.title)}: النتيجة</h2>
     <div class="score" dir="ltr" style="text-align:right">${right} / ${list.length}</div>
-    <p style="color:var(--ink-soft);margin:4px 0 0">نسبة ${pct}٪ ${S.mock?'— الوقت '+mins+' دقيقة':''}</p>
+    <p style="color:var(--ink-soft);margin:4px 0 0">نسبة ${pct}٪ ${S.mock?'— الوقت '+mins+' دقيقة':''}</p>${window.clubCombo?window.clubCombo.line():''}
     <h3 style="font-size:1rem;margin-top:20px">حسب المهارة (الأضعف أولاً)</h3><div class="rows">${rows}</div>
     <div class="navrow"><button class="btn" id="again">${S.mock?'اختبار جديد':'إعادة التدريب'}</button><button class="btn ghost" id="review">مراجعة الإجابات</button></div></div>`;
   $('#home').onclick = ()=>{ S=null; home(); };
@@ -437,6 +443,6 @@ function finish(){
 home();
 </script>
 
-<script src="../../assets/club.js?v=15"></script>
+<script src="../../assets/club.js?v=16"></script>
 </body>
 </html>

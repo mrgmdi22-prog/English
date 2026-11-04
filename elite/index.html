@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-title" content="English Club">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<script src="../assets/gate.js?v=9"></script>
+<script src="../assets/gate.js?v=9"></script><script src="../assets/combo.js?v=1"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>مسار النخبة · Elite Track</title>
 <meta name="description" content="مسار النخبة: رحلة من قمة B1 إلى قمة B2، بنجوم وألقاب وأوسمة وتحدٍّ يومي ولوحة خاصة.">
@@ -228,7 +228,7 @@ ol.rest li.me{background:var(--gold-soft);border-radius:12px}
     <div class="card"><h2>🏆 لوحة النخبة</h2><p class="muted" style="margin:0">ترتيب طلاب المسار هذا الأسبوع.</p><div id="board"><p class="muted">جارٍ التحميل…</p></div></div>
     <div class="card" style="font-size:1.05rem">
       <h2>💡 كيف تجمع النقاط؟</h2>
-      <p style="margin:0">كل إجابة صحيحة = <b>10 نقاط</b> (أفضل نتيجة لكل وحدة). تحدي اليوم = <b>10 نقاط</b> للإجابة في أول محاولة. حدّك اليومي <b>1000 نقطة</b>.<br>⭐ = 5 إجابات صحيحة · ⭐⭐ = 8 · ⭐⭐⭐ = 10 من 10. وتُفتح المحطة التالية بنجمة واحدة.</p>
+      <p style="margin:0">كل إجابة صحيحة = <b>10 نقاط</b> (أفضل نتيجة لكل وحدة). تحدي اليوم = <b>10 نقاط</b> للإجابة في أول محاولة.<br>🔥 مضاعف التسلسل: الثالثة والرابعة على التوالي ×1.5 (15 نقطة)، والخامسة فما بعدها ×2 (20 نقطة). حدّك اليومي <b>1000 نقطة</b>.<br>⭐ = 5 إجابات صحيحة · ⭐⭐ = 8 · ⭐⭐⭐ = 10 من 10. وتُفتح المحطة التالية بنجمة واحدة.</p>
     </div>
   </div>
 </div>
@@ -379,7 +379,7 @@ const REALMS = [ { name:'قمة B1', en:'Summit B1', flag:'🏔️', ids:[1,2,3,
 const TITLES = [ [0,'مرشّح النخبة','🌱'], [5,'فارس النخبة','🛡️'], [12,'ماسة النخبة','💎'], [20,'نجم النخبة','🌟'], [28,'أسطورة النخبة','👑'] ];
 const DAILY_N = 5;
 const PRAISE = ['رائع!','ممتاز!','أحسنت!','إجابة ذكية!','مذهل!','بالضبط!'];
-const COMBO_MSG = { 3:'🔥 ثلاث متتالية!', 5:'🔥🔥 خمس متتالية! سلسلة نارية', 7:'⚡ سبع متتالية! لا يوقفك أحد', 10:'👑 عشر من عشر! أداء أسطوري' };
+const COMBO_MSG = { 3:'🔥 ثلاث متتالية! النقاط ×1.5', 5:'🔥🔥 خمس متتالية! النقاط مضاعفة ×2', 7:'⚡ سبع متتالية! لا يوقفك أحد', 10:'👑 عشر من عشر! أداء أسطوري' };
 
 /* ---------- helpers ---------- */
 const $ = id => document.getElementById(id);
@@ -525,11 +525,15 @@ function run(u) {
   const order = u.items.map(it => ({ q: it.q, e: it.e, kind: it.kind || u.kind, opts: shuffle(it.a), right: it.a[0] }));
   const ans = new Array(N).fill(null);
   let i = 0, combo = 0, bestCombo = 0;
+  // مضاعف التسلسل: the unit's best attempt keeps its streak bonus; in the daily challenge only the first try of the day counts.
+  const CB = window.clubCombo && (u.id !== 'daily' || daily()[dayNo()] === undefined) ? window.clubCombo : null;
+  if (CB) CB.start(u.id === 'daily' ? 'ed' : 'ek', u.id === 'daily' ? 'd' + dayNo() : u.id, { quiet: true });
+  const multOf = c => c >= 5 ? 2 : c >= 3 ? 1.5 : 1;
 
   const draw = () => {
     const it = order[i], p = ans[i], done = p !== null, k = KIND[it.kind] || ['🎲','منوّع','#6B4BD8','var(--vio-soft)'];
     $('play').innerHTML = `
-      <div class="ptop"><button class="x" id="quit" aria-label="خروج">✕</button><span class="ptitle">${esc(u.title)}</span><span class="combo ${combo >= 2 ? 'on' : ''}" id="combo">🔥 ×${combo}</span></div>
+      <div class="ptop"><button class="x" id="quit" aria-label="خروج">✕</button><span class="ptitle">${esc(u.title)}</span><span class="combo ${combo >= 2 ? 'on' : ''}" id="combo">🔥 ${combo}${multOf(combo) > 1 ? ' · ×' + multOf(combo) : ''}</span></div>
       <div class="dots">${order.map((_, j) => `<i class="${ans[j] ? (ans[j].ok ? 'ok' : 'no') : j === i ? 'cur' : ''}"></i>`).join('')}</div>
       <div class="qcard">
         <span class="kind" style="background:${k[3]};color:${k[2]}">${k[0]} ${k[1]}</span> <span class="muted en" dir="ltr" style="float:left">${i + 1} / ${N}</span>
@@ -551,11 +555,12 @@ function run(u) {
     const ok = btn.dataset.o === it.right;
     ans[i] = { text: btn.dataset.o, ok, praise: PRAISE[Math.floor(Math.random() * PRAISE.length)] };
     combo = ok ? combo + 1 : 0; bestCombo = Math.max(bestCombo, combo);
+    if (CB) CB.hit(ok);
     sfx(ok ? 'good' : 'bad');
     draw();
     if (ok) {
       const b = [...$('play').querySelectorAll('.opt')].find(x => x.dataset.o === it.right);
-      if (b) b.insertAdjacentHTML('beforeend', '<span class="plus">+10</span>');
+      if (b) b.insertAdjacentHTML('beforeend', '<span class="plus">+' + 10 * multOf(combo) + '</span>');
       if (combo >= 2) $('combo').classList.add('bump');
       if (COMBO_MSG[combo]) { toast(COMBO_MSG[combo], 1800); if (combo >= 5) burst(innerWidth / 2, innerHeight * .3, 50); }
     }
@@ -570,6 +575,7 @@ function run(u) {
     } else if (right > before) { S('el-best-' + u.id, String(right)); record = before > 0; }
     const st = u.id === 'daily' ? 0 : starsOf(right), newStars = u.id === 'daily' ? 0 : Math.max(0, starsOf(right) - starsOf(before));
     const pts = u.id === 'daily' ? (first ? right * 10 : 0) : Math.max(0, right - before) * 10;
+    const cbGain = CB ? CB.result().gain : 0;
     const nextU = u.id === 'daily' ? null : UNITS.find(x => x.id === u.id + 1);
     const pc = right / N;
     $('play').innerHTML = `<div class="qcard res">
@@ -579,6 +585,7 @@ function run(u) {
       <div class="score" dir="ltr">${right} / ${N}</div>
       <div class="chips">
         ${pts ? `<span class="chip g">💎 +${pts} نقطة</span>` : `<span class="chip">${u.id === 'daily' && !first ? 'تدريب: النقاط لأول محاولة في اليوم' : 'لا نقاط جديدة: حطّم رقمك السابق لتكسب أكثر'}</span>`}
+        ${cbGain ? `<span class="chip g">🔥 مكافأة التسلسل +${cbGain}</span>` : ''}
         ${record ? `<span class="chip v">🏅 رقم قياسي جديد!</span>` : ''}
         ${bestCombo >= 3 ? `<span class="chip">🔥 أطول سلسلة: ${bestCombo}</span>` : ''}
       </div>
@@ -611,7 +618,7 @@ function run(u) {
 
 /* ---------- club points + elite board ---------- */
 let H = null;
-async function honor() { if (H) return H; try { H = await import('../assets/honor.js?v=20261104a'); } catch (e) { H = null; } return H; }
+async function honor() { if (H) return H; try { H = await import('../assets/honor.js?v=20261104b'); } catch (e) { H = null; } return H; }
 async function syncSoon() { try { const h = await honor(); if (h && h.ready && h.sync) await h.sync(); } catch (e) {} }
 async function boardPanel() {
   const el = $('board');
@@ -631,6 +638,6 @@ async function boardPanel() {
 
 home();
 </script>
-<script src="../assets/club.js?v=15"></script>
+<script src="../assets/club.js?v=16"></script>
 </body>
 </html>

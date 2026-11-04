@@ -1,5 +1,5 @@
 <!doctype html><html data-theme="light" lang="ar"><head><meta charset="utf-8"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
-<script src="../assets/gate.js?v=9"></script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<script src="../assets/gate.js?v=9"></script><script src="../assets/combo.js?v=1"></script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>مختبر المحادثة</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
@@ -236,16 +236,16 @@ function rListen(){const P=$("panel");
   $("show").onchange=e=>document.querySelectorAll(".bub").forEach(b=>b.classList.toggle("hidden",!e.target.checked));
   $("nx").onclick=nextStep}
 
-function rQuiz(){const P=$("panel");let right=0,answered=0;
+function rQuiz(){const P=$("panel");let right=0,answered=0;window.clubCombo&&clubCombo.start("lab",C.week);
   P.innerHTML=task("اختر الإجابة الصحيحة لكل سؤال. يظهر التصحيح والسبب فورًا. إن أخطأت فارجع إلى «استمع» واسمع الجزء مرة أخرى.")+
    `<div class="qs">${C.quiz.map((q,qi)=>`<div class="q" data-q="${qi}"><p>${qi+1}. ${esc(q.q)}</p><div class="opts">${q.options.map((o,oi)=>`<button class="opt" data-o="${oi}">${esc(o)}</button>`).join("")}</div><div class="why" hidden></div></div>`).join("")}</div>
     <div class="score" id="score" hidden></div>`+nextBtn("<bdi>اقرأ النص</bdi> <bdi>→</bdi>");
   P.querySelectorAll(".q").forEach(qd=>{const q=C.quiz[+qd.dataset.q];let done=false;
-    qd.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{if(done)return;done=true;answered++;const ok=+b.dataset.o===q.answer;if(ok)right++;
+    qd.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{if(done)return;done=true;answered++;const ok=+b.dataset.o===q.answer;if(ok)right++;window.clubCombo&&clubCombo.hit(ok);
       b.classList.add(ok?"right":"wrong");if(!ok)qd.querySelector(`.opt[data-o="${q.answer}"]`).classList.add("right");
       const w=qd.querySelector(".why");w.hidden=false;w.textContent=(ok?"✓ صحيح. ":"✗ الإجابة الصحيحة مظلّلة بالأخضر. ")+q.why;
       if(answered===5){const s=$("score");s.hidden=false;s.textContent=`نتيجتك: ${right} من 5. `+(right===5?"ممتاز! فهمت المحادثة كاملة.":right>=3?"جيد. راجع ما أخطأت فيه في خطوة النص.":"استمع مرة أخرى، ثم أعد المحاولة.");
-        const prev=+(store.get("cl-q-"+C.week)||-1);if(right>prev)store.set("cl-q-"+C.week,String(right))}})});
+        const prev=+(store.get("cl-q-"+C.week)||-1);if(right>prev)store.set("cl-q-"+C.week,String(right));if(window.clubCombo)s.insertAdjacentHTML("afterend",clubCombo.line())}})});
   $("nx").onclick=nextStep}
 
 function rScript(){const P=$("panel");
@@ -279,4 +279,4 @@ renderHome();
 })();
 </script>
 
-<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=15"></script>
+<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=16"></script>

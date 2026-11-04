@@ -5,27 +5,34 @@ import CONFIG from './firebase-config.js';
 const V = '10.12.2';
 const BASE = `https://www.gstatic.com/firebasejs/${V}/`;
 
+/* Fair rates (since 4 Nov 2026): one right answer is worth the same in every section of the same level —
+   5 for foundation practice, 7 for academic words, reading, conversation, grammar and STEP, 10 in the elite track.
+   Each unit/stage/set counts its BEST attempt only, and item lists count each item once, so replaying never farms points.
+   On top: مضاعف التسلسل 🔥 (assets/combo.js) — right answers in a row are worth ×1.5 (3rd–4th) and ×2 (5th on). */
 export const RULES = [
-  { key: 'caps', label: 'نجمة في الكبسولات', icon: '🌟', per: 7, max: 507 },
-  { key: 'wq',   label: 'إجابة صحيحة في Word Quest', icon: '🗺️', per: 5, max: 500 },
-  { key: 'lab',  label: 'إجابة صحيحة في مختبر المحادثة', icon: '💬', per: 7, max: 100 },
-  { key: 'mg',   label: 'كلمة أتقنتها في ميدان المفردات', icon: '🏟️', per: 4, max: 900 },
+  { key: 'wq',   label: 'إجابة صحيحة في Word Quest (أفضل محاولة لكل وحدة)', icon: '🗺️', per: 5, max: 500 },
   { key: 'ng',   label: 'إجابة صحيحة في الكلمات العامة', icon: '🌍', per: 5, max: 500 },
-  { key: 'aw',   label: 'إجابة صحيحة في الكلمات الأكاديمية', icon: '🎓', per: 6, max: 290 },
-  { key: 'st',   label: 'إجابة صحيحة في ركن القصص', icon: '📖', per: 7, max: 54 },
-  { key: 'bf',   label: 'إجابة صحيحة في Breakfast Challenge', icon: '🍳', per: 5, max: 10 },
-  { key: 'cq',   label: 'مجموعة كلمات أنهيتها في Core Quest', icon: '🧭', per: 20, max: 170 },
-  { key: 'tn',   label: 'إجابة صحيحة في خارطة الأزمنة', icon: '⏳', per: 7, max: 10 },
-  { key: 'pv',   label: 'إجابة صحيحة في المبني للمجهول', icon: '🔄', per: 7, max: 10 },
-  { key: 'im',   label: 'إجابة صحيحة في ركن التعبيرات', icon: '🎨', per: 7, max: 10 },
+  { key: 'mg',   label: 'كلمة أتقنتها في ميدان المفردات', icon: '🏟️', per: 5, max: 900 },
+  { key: 'cq',   label: 'مجموعة كلمات أنهيتها في Core Quest (10 كلمات)', icon: '🧭', per: 50, max: 170, note: '50 نقطة' },
+  { key: 'caps', label: 'مرحلة في الكبسولات: ⭐ 15 · ⭐⭐ 25 · ⭐⭐⭐ 35 (7 أسئلة)', icon: '🌟', per: 5, max: 1183, note: 'حتى 35 للمرحلة' },
   { key: 'tb',   label: 'إجابة صحيحة في محادثات التأسيس', icon: '🗣️', per: 5, max: 40 },
+  { key: 'bf',   label: 'إجابة صحيحة في Breakfast Challenge', icon: '🍳', per: 5, max: 10 },
+  { key: 'aw',   label: 'إجابة صحيحة في الكلمات الأكاديمية', icon: '🎓', per: 7, max: 290 },
+  { key: 'st',   label: 'إجابة صحيحة في ركن القصص', icon: '📖', per: 7, max: 54 },
+  { key: 'lab',  label: 'إجابة صحيحة في مختبر المحادثة', icon: '💬', per: 7, max: 100 },
+  { key: 'tn',   label: 'سؤال جديد أجبته صحيحاً في خارطة الأزمنة', icon: '⏳', per: 7, max: 42 },
+  { key: 'pv',   label: 'سؤال جديد أجبته صحيحاً في المبني للمجهول', icon: '🔄', per: 7, max: 60 },
+  { key: 'im',   label: 'سؤال جديد أجبته صحيحاً في ركن التعبيرات', icon: '🎨', per: 7, max: 52 },
+  { key: 'sp',   label: 'سؤال ستيب أجبته صحيحاً (مرة واحدة لكل سؤال)', icon: '📝', per: 7, max: 2600 },
+  { key: 'ek',   label: 'إجابة صحيحة في مسار النخبة (B1 فأعلى)', icon: '💎', per: 10, max: 400 },
+  { key: 'ed',   label: 'إجابة صحيحة في تحدي النخبة اليومي (أول محاولة)', icon: '⚡', per: 10, max: 1500 },
+  { key: 'xb',   label: 'مكافأة التسلسل: 3 صحيحة متتالية ×1.5، و5 فأكثر ×2', icon: '🔥', per: 1, max: 1000000, note: 'حتى ضعف النقاط', unit: 'نقطة' },
   { key: 'mb',   label: 'Surprise Me — ثلاثة صناديق في اليوم', icon: '🎁', per: 1, max: 1000000, note: 'حتى 150 للصندوق', unit: 'نقطة' },
   { key: 'lv',   label: 'كل مستوى تتقدّمه بين الاختبار القبلي وأفضل اختبار بعدي', icon: '📈', per: 500, max: 4, note: '500 نقطة' },
   { key: 'lvs',  label: 'كل إجابة صحيحة تزيدها في الاختبار البعدي عن القبلي', icon: '📊', per: 10, max: 32 },
-  { key: 'ek',   label: 'إجابة صحيحة في مسار النخبة (B1 فأعلى)', icon: '💎', per: 10, max: 400 },
-  { key: 'ed',   label: 'إجابة صحيحة في تحدي النخبة اليومي (أول محاولة)', icon: '⚡', per: 10, max: 1500 },
   { key: 'rt',   label: 'كلمة ثبتت في ذاكرتك بالمراجعة المتباعدة (Word Quest والكلمات العامة والأكاديمية)', icon: '🧠', per: 3, max: 1500 }
 ];
+const RATES_V = 2;   // rates version: when it changes, points already earned stay as they were and the new rates apply from then on
 export const DAILY_CAP = 750;
 export const DAILY_CAP_EL = 1000;   // elite students (B1 and above) get a higher daily cap
 /* Weekly seasons: a new season starts every Tuesday at 6 am Saudi time; the board shows this season's points.
@@ -55,8 +62,9 @@ function wqStats() {
 }
 /** Points earned on this device, with the breakdown. */
 export function computeScore() {
-  let caps = 0;
-  CAPS.forEach(c => { const s = J('cap2-' + c + '-stars') || {}; Object.keys(s).forEach(k => { caps += Math.max(0, Math.min(3, +s[k] || 0)); }); });
+  // Capsules: a stage has 7 questions; its best stars count as right answers: ⭐ 3, ⭐⭐ 5, ⭐⭐⭐ 7 (= 15 / 25 / 35 points).
+  let caps = 0; const CAP_EQ = [0, 3, 5, 7];
+  CAPS.forEach(c => { const s = J('cap2-' + c + '-stars') || {}; Object.keys(s).forEach(k => { caps += CAP_EQ[Math.max(0, Math.min(3, +s[k] || 0))]; }); });
   let wq = 0; for (let n = 1; n <= 50; n++) wq += Math.max(0, Math.min(10, N('wq-best-' + n)));
   let lab = 0; for (let w = 1; w <= 20; w++) lab += Math.max(0, Math.min(5, N('cl-q-' + w)));
   const mg = Math.min(300, (J('mg1-known') || []).length) + Math.min(300, (J('mg2-known') || []).length) + Math.min(300, (J('mg3-known') || []).length);
@@ -65,9 +73,14 @@ export function computeScore() {
   let aw = 0; for (let n = 1; n <= 29; n++) aw += Math.max(0, Math.min(10, N('aw-best-' + n)));
   let st = 0; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.indexOf('st-best-') === 0) st += Math.max(0, Math.min(3, N(k))); } } catch (e) {}
   const cq = Math.max(0, Math.min(170, Object.keys(J('cq-done') || {}).length));   // Core Quest: finished sets of 10 words
-  const tn = Math.max(0, Math.min(10, N('tn-best')));
-  const pv = Math.max(0, Math.min(10, N('pv-best')));
-  const im = Math.max(0, Math.min(10, N('im-best')));
+  // Tenses / passive / idioms quizzes: every question answered right counts once (lists tn-known, pv-known, im-known);
+  // the old single best score (out of 10) still counts if it is larger, so nobody loses points.
+  const known = k => { const a = J(k); return Array.isArray(a) ? a.length : 0; };
+  const tn = Math.max(0, Math.min(42, Math.max(N('tn-best'), known('tn-known'))));
+  const pv = Math.max(0, Math.min(60, Math.max(N('pv-best'), known('pv-known'))));
+  const im = Math.max(0, Math.min(52, Math.max(N('im-best'), known('im-known'))));
+  // STEP practice: each question answered right counts once (step.ok = {question key: 1}).
+  const sp = Math.max(0, Math.min(2600, Object.keys(J('step.ok') || {}).length));
   let tb = 0; ['greet','bye','ask','yesno','sorry','thanks','invite','meet'].forEach(u => { tb += Math.max(0, Math.min(5, N('tb-best-' + u))); });
   // Surprise Me: marks of the first box of each day (mb-pts = {day: marks out of 100});
   // days saved before mb-pts existed (mb-days = {day: right answers}) count 5 per right answer.
@@ -91,7 +104,13 @@ export function computeScore() {
   const elite = [lr.pre].concat(posts).some(r => lvOk(r) && LV.indexOf(r.level) >= 3) ? 1 : 0;
   // Elite daily challenge: right answers of the first try each day (el-daily = {day: right, max 5}).
   let ed = 0; const eld = J('el-daily') || {}; Object.keys(eld).forEach(k => { ed += Math.max(0, Math.min(5, +eld[k] || 0)); });
-  const parts = { caps, wq, lab, mg, bf, ng, aw, st, cq, tn, pv, im, tb, mb, lv, lvs, rt, ek: elite ? ek : 0, ed: elite ? ed : 0, el: elite, wqx: wqStats() };
+  // Streak bonus (combo.js): xb = {section: {unit: half-answers}}; each half-answer is worth half that section's rate.
+  const PER = {}; RULES.forEach(r => { PER[r.key] = r.per; }); PER.caps = 5; PER.cq = 5;
+  let xb = 0; const xbo = J('xb') || {};
+  Object.keys(xbo).forEach(sec => { if ((sec === 'ek' || sec === 'ed') && !elite) return; const u = xbo[sec] || {};
+    Object.keys(u).forEach(k => { xb += Math.max(0, Math.min(k === '*' ? 100000 : 14, +u[k] || 0)) * (PER[sec] || 5) / 2; }); });
+  xb = Math.round(xb);
+  const parts = { caps, wq, lab, mg, bf, ng, aw, st, cq, tn, pv, im, tb, sp, xb, mb, lv, lvs, rt, ek: elite ? ek : 0, ed: elite ? ed : 0, el: elite, wqx: wqStats() };
   // Practice points count at most DAILY_CAP a day (Saudi day). Practice after that is for learning only:
   // the extra points are not counted, then or later. Surprise Me and the level/retention rewards are outside the cap.
   const pts = r => Math.min(parts[r.key], r.max) * r.per;
@@ -101,6 +120,7 @@ export function computeScore() {
   let L = J('pts-day');
   if (!L || typeof L !== 'object' || !(L.seen >= 0)) L = { d: day, seen: raw, got: raw, t: 0 }; // existing points are kept
   if (L.d !== day) { L.d = day; L.t = 0; }
+  if (L.rv !== RATES_V) { L.rv = RATES_V; if (raw > L.seen) L.seen = raw; }   // new rates apply from now on, not to past work
   const cap = parts.el ? DAILY_CAP_EL : DAILY_CAP;
   if (raw > L.seen) { const add = Math.min(raw - L.seen, Math.max(0, cap - L.t)); L.got += add; L.t += add; L.seen = raw; }
   L.got = Math.min(L.got, raw);

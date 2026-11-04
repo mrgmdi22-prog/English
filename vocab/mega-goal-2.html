@@ -1,4 +1,4 @@
-<!doctype html><html data-theme="light"><head><meta charset=utf8><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><script src="../assets/gate.js?v=9"></script><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800;900&family=Poppins:ital,wght@0,500;0,600;0,700;1,600&display=swap" media="print" onload="this.media='all'">
+<!doctype html><html data-theme="light"><head><meta charset=utf8><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><script src="../assets/gate.js?v=9"></script><script src="../assets/combo.js?v=1"></script><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800;900&family=Poppins:ital,wght@0,500;0,600;0,700;1,600&display=swap" media="print" onload="this.media='all'">
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>ميدان المفردات</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -854,7 +854,8 @@ function handleAnswer(choice, btnEl, choicesEl){
   });
 
   if (isCorrect) {
-    try { const _k='mg2-known', _s=new Set(JSON.parse(localStorage.getItem(_k)||'[]')); _s.add(String(q.item.en)); localStorage.setItem(_k, JSON.stringify([..._s])); } catch(e) {}
+    let _fresh=false; try { const _k='mg2-known', _s=new Set(JSON.parse(localStorage.getItem(_k)||'[]')); _fresh=!_s.has(String(q.item.en)); _s.add(String(q.item.en)); localStorage.setItem(_k, JSON.stringify([..._s])); } catch(e) {}
+    if (window.clubCombo) clubCombo.hit(true, _fresh);
     state.streak += 1;
     state.bestStreak = Math.max(state.bestStreak, state.streak);
     const bonus = Math.min(state.streak - 1, 5) * 2;
@@ -883,6 +884,7 @@ function handleAnswer(choice, btnEl, choicesEl){
 
 function registerWrong(q){
   state.streak = 0;
+  if (window.clubCombo) clubCombo.hit(false);
   state.wrongList.push({ en: q.item.en, ar: q.item.ar });
   if (!state.practiceMode) {
     state.lives -= 1;
@@ -1229,6 +1231,7 @@ function renderPlacementResult(){
 /* ================= GAME FLOW ================= */
 function startGame(){
   stopTimer();
+  if (window.clubCombo) clubCombo.start('mg', '*');
   buildRound();
   state.qIndex = 0;
   state.score = 0;
@@ -1284,5 +1287,5 @@ if (window.claude && window.claude.hot) {
 })();
 </script>
 
-<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=15"></script>
+<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=16"></script>
 </body></html>

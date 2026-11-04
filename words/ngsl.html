@@ -1,5 +1,5 @@
 <!doctype html><html data-theme="light" lang="ar"><head><meta charset="utf-8"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
-<script src="../assets/gate.js?v=9"></script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<script src="../assets/gate.js?v=9"></script><script src="../assets/combo.js?v=1"></script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>General Words Quest</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;700;800&family=Tajawal:wght@400;500;700;800&family=Figtree:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" media="print" onload="this.media='all'">
@@ -660,9 +660,9 @@ function renderTest(){
     t.opts.forEach(o=>{const b=document.createElement("button");b.className="opt";b.textContent=o;
       b.onclick=()=>{t.pick=o;$("opts").querySelectorAll(".opt").forEach(c=>c.classList.toggle("pick",c===b));$("tn").disabled=false};$("opts").appendChild(b)});
     $("tn").onclick=()=>{i++;i<10?q():end()}}
-  function end(){const s=T.filter(t=>t.pick===t.ans).length;T.forEach(t=>mark(t.ans,t.pick===t.ans));addDaily(10);drawUnitHead();const prev=+(store.get("ng-best-"+U.n)||0);if(s>prev)store.set("ng-best-"+U.n,String(s));
+  function end(){const s=T.filter(t=>t.pick===t.ans).length;T.forEach(t=>mark(t.ans,t.pick===t.ans));addDaily(10);drawUnitHead();const prev=+(store.get("ng-best-"+U.n)||0);if(s>prev)store.set("ng-best-"+U.n,String(s));const cb=window.clubCombo?clubCombo.run("ng",U.n,T.map(t=>t.pick===t.ans)):null;
     sfx(s>=8?"win":"soft");const msg=s===10?"ممتاز! درجة كاملة":s>=8?"رائع! حصلت على شارة الوحدة":s>=6?"جيد، راجع الكلمات التي أخطأت فيها وأعد المحاولة":"راجع مرحلتي تعرّف وتدرّب ثم أعد الاختبار";
-    Z.innerHTML=`<div class="score"><span class="big" style="color:${s>=8?"var(--good)":s>=6?"#c98500":"var(--bad)"}">${s} / 10</span><span class="msg ar" style="text-align:center">${msg}</span>${s>=8?'<span class="badge" style="position:static;transform:rotate(-3deg)">Unit '+U.n+' Badge</span>':""}</div>
+    Z.innerHTML=`<div class="score"><span class="big" style="color:${s>=8?"var(--good)":s>=6?"#c98500":"var(--bad)"}">${s} / 10</span><span class="msg ar" style="text-align:center">${msg}</span>${s>=8?'<span class="badge" style="position:static;transform:rotate(-3deg)">Unit '+U.n+' Badge</span>':""}</div>${cb?clubCombo.line(cb):""}
       <h3 style="margin-bottom:8px">Review · المراجعة</h3><div class="review" id="rv"></div><div class="row center" style="margin-top:16px"><button class="btn" id="again">Try again · أعد الاختبار</button></div>`;
     T.forEach((t,k)=>{const ok=t.pick===t.ans;const d=document.createElement("div");d.className="rv "+(ok?"ok":"no");
       d.innerHTML=`<span><b>${k+1}.</b> ${t.rq}</span><span style="display:flex;align-items:center;gap:4px;font-weight:700">${esc(t.ans)}${sayBtn(t.x.w+"||"+t.x.ex,t.x.w,"we")}${camLink(t.x.w,"inl")}</span>
@@ -809,4 +809,4 @@ renderHome();
 })();
 </script>
 
-<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=15"></script>
+<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=16"></script>

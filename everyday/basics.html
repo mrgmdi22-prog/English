@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" data-theme="light">
 <head>
 <meta charset="utf-8"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
-<script src="../assets/gate.js?v=9"></script>
+<script src="../assets/gate.js?v=9"></script><script src="../assets/combo.js?v=1"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>محادثات التأسيس · Everyday Talk</title>
 <meta name="description" content="Basic everyday English for greetings, goodbyes, requests, accepting and refusing, apologizing, thanking, invitations and meetings.">
@@ -184,25 +184,25 @@ function playAll(names){
 /* practice */
 let Q=null;
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
-function newQuiz(){Q={qs:shuffle(cur.q),i:0,right:0};drawQ();}
+function newQuiz(){Q={qs:shuffle(cur.q),i:0,right:0};window.clubCombo&&clubCombo.start('tb',cur.id);drawQ();}
 function drawQ(){
   const Z=$('pn');Z.classList.add('quiz');
   if(Q.i>=Q.qs.length){const b=Math.max(best(cur),Q.right);store.set('tb-best-'+cur.id,String(b));
     const m=Q.right===5?'ممتاز! أتقنت هذه المواقف 🏆':Q.right>=3?'جيد جداً 👏 راجع العبارات وحاول مرة أخرى':'راجع العبارات والمحادثة ثم أعد المحاولة 💪';
     const nx=U.indexOf(cur)+1<U.length;
-    Z.innerHTML=`<div class="qend"><div class="big" dir="ltr">${Q.right} / 5</div><p style="font-weight:800;font-size:1.2rem;margin:6px 0">${m}</p><p style="color:var(--muted)">أفضل نتيجة لك في هذه الوحدة: ${b}/5 · كل إجابة صحيحة تمنحك 5 نقاط في لوحة الشرف.</p><button class="btn" id="again">🔁 مرة أخرى</button> ${nx?'<button class="btn soft" id="nextU">الوحدة التالية ←</button>':''}</div>`;
+    Z.innerHTML=`<div class="qend"><div class="big" dir="ltr">${Q.right} / 5</div><p style="font-weight:800;font-size:1.2rem;margin:6px 0">${m}</p><p style="color:var(--muted)">أفضل نتيجة لك في هذه الوحدة: ${b}/5 · كل إجابة صحيحة تمنحك 5 نقاط في لوحة الشرف، وتتضاعف مع التسلسل 🔥</p>${window.clubCombo?clubCombo.line():''}<button class="btn" id="again">🔁 مرة أخرى</button> ${nx?'<button class="btn soft" id="nextU">الوحدة التالية ←</button>':''}</div>`;
     $('again').onclick=newQuiz;if(nx)$('nextU').onclick=()=>openUnit(U.indexOf(cur)+1);return;}
   const q=Q.qs[Q.i],opts=shuffle(q.slice(1));
   Z.innerHTML=`<div class="qtop"><span>الموقف ${Q.i+1} من 5</span><span>✅ ${Q.right}</span></div><div class="qbar"><i style="width:${Q.i/5*100}%"></i></div>
     <div class="sit">${esc(q[0])}</div><div class="opts">${opts.map(o=>`<button type="button">${esc(o)}</button>`).join('')}</div><div class="qfb" id="qfb" aria-live="polite"></div>`;
   Z.querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{const ok=b.textContent===q[1];
     Z.querySelectorAll('.opts button').forEach(c=>{c.disabled=true;if(c.textContent===q[1])c.classList.add('right');});
-    if(!ok)b.classList.add('wrong');else Q.right++;say(q[1]);
+    if(!ok)b.classList.add('wrong');else Q.right++;window.clubCombo&&clubCombo.hit(ok);say(q[1]);
     const f=$('qfb');f.className='qfb '+(ok?'ok':'no');f.innerHTML=ok?'أحسنت! ✔':'الأنسب: <span class="en">'+esc(q[1])+'</span>';
     setTimeout(()=>{Q.i++;drawQ();},ok?1300:2600);});
 }
 drawHome();
 </script>
-<script src="../assets/club.js?v=15"></script>
+<script src="../assets/club.js?v=16"></script>
 </body>
 </html>
