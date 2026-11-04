@@ -41,7 +41,7 @@ export const DAILY_CAP_EL = 1200;   // elite students (B1 and above) get a highe
 export const FOUND_WEEK = 2964;   // the founding season: every point earned before Tuesday 3 Nov 2026 (old accounts count here)
 export const FIRST_WEEK = FOUND_WEEK;   // first week with stars: the founding season's top ten are the first stars
 export const STARS_N = 10;
-const dayNo = t => Math.floor(((t || Date.now()) + 3 * 3600e3 - 6 * 3600e3) / 864e5);   // a day starts at 6 am Saudi time
+export const dayNo = t => Math.floor(((t || Date.now()) + 3 * 3600e3 - 6 * 3600e3) / 864e5);   // a day starts at 6 am Saudi time
 export const weekNo = t => Math.floor((dayNo(t) - 5) / 7);                              // day 5 (mod 7) is a Tuesday
 /** The Tuesday a season starts, as d/m (Gregorian). */
 export function weekLabel(w) { const d = new Date((w * 7 + 5) * 864e5); return d.getUTCDate() + '/' + (d.getUTCMonth() + 1); }
@@ -59,6 +59,19 @@ function wqStats() {
   const sk = J('wq-streak') || {}, s = sk.last >= today - 1 ? (sk.n || 0) : 0;
   const day = J('wq-day') || {}, la = Math.max(+day.d || 0, +sk.last || 0);
   return { d: la, g: day.d === today ? (day.n || 0) : 0, k: ws.length, m, s, t, u };
+}
+/** The student's activity for the teacher: points earned per section today (t) and this week (w), and the points of
+ *  each of the last 14 days (h). Raw points (before the daily cap), so the teacher sees the real effort.
+ *  Kept on this device only ('act' is not backed up), starting from zero the first time it runs. */
+function activity(sec, day, week) {
+  let A = J('act'); if (!A || typeof A !== 'object' || !A.ds) A = { day, week, ds: sec, ws: sec, h: {} };
+  if (A.day !== day) { A.day = day; A.ds = sec; }
+  if (A.week !== week) { A.week = week; A.ws = sec; }
+  const diff = base => { const o = {}; Object.keys(sec).forEach(k => { const v = Math.round(sec[k] - (base[k] || 0)); if (v > 0) o[k] = v; }); return o; };
+  const t = diff(A.ds), w = diff(A.ws), sum = o => Object.keys(o).reduce((a, k) => a + o[k], 0);
+  A.h = A.h || {}; A.h[day] = sum(t); Object.keys(A.h).forEach(d => { if (+d < day - 13 || !A.h[d]) delete A.h[d]; });
+  try { localStorage.setItem('act', JSON.stringify(A)); } catch (e) {}
+  return { day, week, t, w, h: A.h };
 }
 /** Points earned on this device, with the breakdown. */
 export function computeScore() {
@@ -126,6 +139,8 @@ export function computeScore() {
   L.got = Math.min(L.got, raw);
   try { localStorage.setItem('pts-day', JSON.stringify(L)); } catch (e) {}
   parts.dl = { t: L.t, cap };
+  const sec = {}; RULES.forEach(r => { const v = Math.min(parts[r.key] || 0, r.max) * r.per; if (v > 0) sec[r.key] = v; });
+  parts.act = activity(sec, day, week);
   // total = all points since the start; score = this season's points (since Tuesday 6 am).
   const total = L.got + free;
   if (!(L.w0 >= 0)) { L.w = week; L.w0 = total; }                 // the first season starts from zero for everyone
@@ -271,7 +286,7 @@ export async function sync(force) {
   if (!joined) return null;
   let { score, parts } = computeScore();
   const last = J('club-sync') || {};
-  const sig = JSON.stringify(parts.wqx);
+  const sig = JSON.stringify([parts.wqx, parts.act]);
   const pullDue = Date.now() - N('club-pull') > 15 * 60e3;
   if (!force && !pullDue && last.s === score && last.w === sig && last.p === progressSig() && Date.now() - (last.t || 0) < 6 * 3600e3) return null;
   const { fs, D } = await load();
@@ -283,8 +298,8 @@ export async function sync(force) {
   const was = snap.data();
   const loc = computeScore(), season = seasonFields(was, loc, was.base | 0);
   if (loc.week <= FOUND_WEEK) score = Math.min(10000, score + (was.base | 0));
-  const wsig = JSON.stringify(parts.wqx);
-  if (was.score !== score || was.week !== season.week || was.total !== season.total || JSON.stringify((was.parts || {}).wqx || null) !== wsig
+  const wsig = JSON.stringify([parts.wqx, parts.act]);
+  if (was.score !== score || was.week !== season.week || was.total !== season.total || JSON.stringify([(was.parts || {}).wqx || null, (was.parts || {}).act || null]) !== wsig
       || !!(was.parts || {}).el !== !!parts.el || ((was.parts || {}).ek | 0) !== (parts.ek | 0) || ((was.parts || {}).ed | 0) !== (parts.ed | 0)) {
     try { await fs.updateDoc(ref, { score, parts, ...season, updatedAt: fs.serverTimestamp() }); }
     catch (e) { if (!/permission/i.test(e && (e.code || e.message) || '')) throw e; await fs.updateDoc(ref, { score, parts, updatedAt: fs.serverTimestamp() }); }
@@ -298,7 +313,7 @@ export async function sync(force) {
 /* ---------- progress backup & recovery code: the same account (and the same points) on any device ---------- */
 // Everything the tools save in this browser is backed up, except the site's own bookkeeping
 // and the Kids Club (which has no registration).
-const SKIP = /^(club-(sync|player|reg|code|code-seen|code-off|pull|last)|lv-synced|firebase|kd-)/;
+const SKIP = /^(club-(sync|player|reg|code|code-seen|code-off|pull|last)|lv-synced|firebase|kd-|act$)/;
 function collectProgress() {
   const out = {}; let size = 0;
   try {

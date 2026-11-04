@@ -425,10 +425,10 @@ try { var lr = JSON.parse(localStorage.getItem('lv-results') || '{}'), s = docum
   } catch (e) {}
 })();
 </script>
-<script src="assets/club.js?v=17"></script>
+<script src="assets/club.js?v=18"></script>
 <script type="module">
 // Top three on the honor board (only once Firebase is configured)
-import('./assets/honor.js?v=20261104c').then(async H => {
+import('./assets/honor.js?v=20261104d').then(async H => {
   const s = H.computeScore().score;
   const mp = document.getElementById('myPts'); if (mp) mp.textContent = s.toLocaleString('en-US');
   if (s > 0) document.getElementById('hSub').textContent = 'نقاطك هذا الأسبوع: ' + s.toLocaleString('en-US') + ' نقطة — موسم جديد كل ثلاثاء، تنافس لتكون من نجوم الأسبوع 🌟';
