@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<script src="assets/gate.js?v=9"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>التحضير لاختبار IELTS · نادي اللغة الإنجليزية</title>
+<meta name="theme-color" content="#eef6ff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="assets/club.css">
+<style>
+/* IELTS preparation plan: same calm library shelf as links.html, plus a skills strip, band ruler, 8-week phases and a weekly table. */
+:root{color-scheme:light;--paper:#f8f9fe;--card:#fff;--ink:#232c47;--muted:#5a6482;--line:#e4e8f3;--blue:#2563c9;--blue-soft:#e8f0fd;
+  --ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif;--ease:cubic-bezier(.2,.7,.2,1)}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{margin:0;background:radial-gradient(900px 380px at 50% -120px,#e3eeff,transparent 70%),var(--paper);color:var(--ink);font-family:var(--ar);font-size:19px;line-height:1.7;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:20px}
+.wrap{max-width:1000px;margin:0 auto;padding:64px 16px 64px}
+header{text-align:center}
+.chip{display:inline-block;background:#fff;color:var(--blue);font-weight:800;font-size:.95rem;border-radius:999px;padding:5px 18px;border:1px solid #cfe0fb}
+h1{font-size:clamp(2.1rem,7vw,3.1rem);font-weight:800;margin:12px 0 6px;line-height:1.2}
+h1 bdi{font-family:var(--en);letter-spacing:.04em}
+header p{margin:0 auto;color:var(--muted);font-size:1.1rem;max-width:34em;text-wrap:balance}
+.tip{margin:22px auto 0;max-width:720px;background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:12px 18px;font-size:1rem;color:var(--muted)}
+.tip b{color:var(--ink)}
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:28px}
+.sk{border-radius:20px;padding:14px 18px;background:var(--t);color:var(--c)}
+.sk b{display:block;font-size:1.35rem;font-weight:800;line-height:1.3}
+.sk i{display:block;font-style:normal;font-family:var(--en);font-weight:600;font-size:.82rem;letter-spacing:.08em}
+.sk span{display:block;color:var(--ink);font-size:1.02rem;margin-top:4px}
+.ruler{margin-top:28px;background:#fff;border:1.5px solid var(--line);border-radius:22px;padding:18px}
+.ruler h2{margin:0 0 10px;font-size:1.4rem;font-weight:800}
+.scale{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;direction:ltr}
+.scale span{border-radius:10px;background:var(--blue-soft);color:var(--blue);text-align:center;font-family:var(--en);font-weight:600;font-size:1.25rem;padding:8px 0}
+.scale .g{background:var(--blue);color:#fff}
+.ruler p{margin:10px 0 0;color:var(--muted);font-size:1.02rem}
+section{margin-top:34px}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.sh .b{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;font-size:1.5rem;flex:none}
+.sh h2{margin:0;font-size:1.55rem;font-weight:800;line-height:1.25}
+.sh p{margin:0;color:var(--muted);font-size:1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.site{--c:var(--blue);--t:var(--blue-soft);display:flex;flex-direction:column;gap:6px;text-decoration:none;color:inherit;background:var(--card);border:1.5px solid var(--line);border-radius:22px;padding:18px;
+  transition:transform .22s var(--ease),box-shadow .22s var(--ease),border-color .22s}
+.site:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--c) 45%,white);box-shadow:0 18px 32px -24px color-mix(in srgb,var(--c) 70%,black)}
+.site .top{display:flex;align-items:center;gap:12px}
+.site .ic{width:50px;height:50px;border-radius:15px;background:var(--t);color:var(--c);display:grid;place-items:center;font-family:var(--en);font-weight:600;font-size:1.05rem;flex:none}
+.site b{font-family:var(--en);font-weight:600;font-size:1.12rem;direction:ltr;text-align:right;line-height:1.3;display:block}
+.site small{display:block;color:var(--c);font-size:.92rem;font-weight:700}
+.site p{margin:0;color:var(--muted);font-size:1.02rem;line-height:1.65;flex:1}
+.site .go{align-self:flex-start;margin-top:4px;font-weight:800;font-size:.98rem;color:var(--c);background:var(--t);border-radius:999px;padding:5px 14px}
+.phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.ph{background:#fff;border:1.5px solid var(--line);border-radius:22px;padding:18px}
+.ph .n{width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.2rem;margin-bottom:6px}
+.ph small{display:block;color:var(--muted);font-weight:700;font-size:.95rem}
+.ph b{display:block;font-size:1.3rem;font-weight:800;color:var(--blue)}
+.ph p{margin:4px 0 0;font-size:1.02rem}
+.week{display:flex;flex-direction:column;gap:10px}
+.day{display:grid;grid-template-columns:84px 1fr auto;gap:12px;align-items:center;background:var(--t);border-radius:16px;padding:12px 16px}
+.day .d{font-weight:800;color:var(--c);font-size:1.1rem}
+.day .w{font-size:1.05rem;min-width:0}
+.day .w small{display:block;color:var(--c);font-weight:800;font-size:.9rem}
+.day .h{color:var(--muted);font-weight:700;font-size:.98rem;white-space:nowrap}
+.note{margin-top:22px;background:#fff;border:1.5px dashed #c9d3e3;border-radius:18px;padding:12px 18px;color:var(--muted);font-size:1rem}
+footer{margin-top:44px;text-align:center;color:var(--muted);font-size:.98rem;line-height:1.9}
+footer a{color:var(--blue);font-weight:800}
+@media (max-width:520px){.day{grid-template-columns:70px 1fr}.day .h{grid-column:2}.scale span{font-size:1rem;padding:6px 0}}
+@media (prefers-reduced-motion:reduce){.site{transition:none}}
+</style>
+</head>
+<body>
+<a class="club-home" href="index.html">🏠 الرئيسية</a>
+<div class="wrap">
+  <header>
+    <span class="chip">نادي اللغة الإنجليزية · المكتبة الإثرائية</span>
+    <h1>التحضير لاختبار <bdi dir="ltr">IELTS</bdi></h1>
+    <p>مصادر مجانية لكل مهارة، وخطة ثمانية أسابيع وجدول أسبوعي، للطالب الذي يستعد للاختبار.</p>
+    <div class="tip">💡 <b>نصيحة:</b> ابدأ باختبار تجريبي كامل لتعرف مستواك، ثم اتبع الخطة. المواقع تُفتح في صفحة جديدة وهي خارج موقع النادي، فلا تُحسب نقاطها في لوحة الشرف.</div>
+  </header>
+
+  <div class="skills">
+    <div class="sk" style="--c:#11826a;--t:#e3f6ef"><b>الاستماع</b><i>LISTENING</i><span>30 دقيقة · 4 أجزاء · 40 سؤالاً</span></div>
+    <div class="sk" style="--c:#c4532f;--t:#fdece5"><b>القراءة</b><i>READING</i><span>60 دقيقة · 3 نصوص · 40 سؤالاً</span></div>
+    <div class="sk" style="--c:#a26f00;--t:#fff4d6"><b>الكتابة</b><i>WRITING</i><span>60 دقيقة · 150 ثم 250 كلمة</span></div>
+    <div class="sk" style="--c:#b0507a;--t:#f8e5ee"><b>المحادثة</b><i>SPEAKING</i><span>11 – 14 دقيقة · 3 أجزاء</span></div>
+  </div>
+
+  <div class="ruler">
+    <h2>سلّم الدرجات</h2>
+    <div class="scale"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span class="g">6</span><span class="g">7</span><span>8</span><span>9</span></div>
+    <p>تطلب أغلب الجامعات 6 أو 6.5 في الاختبار الأكاديمي، وبعض التخصصات 7. <b>الأكاديمي</b> للدراسة الجامعية، و<b>العام</b> للعمل والهجرة. الاستماع والمحادثة واحدان في النسختين.</p>
+  </div>
+
+  <section aria-labelledby="i1">
+    <div class="sh"><span class="b" style="background:#e8f0fd" aria-hidden="true">⭐</span><div><h2 id="i1" style="color:#2563c9">ابدأ من هنا</h2><p><bdi dir="ltr">اختبارات رسمية ومقرر جامعي كامل</bdi></p><p>مصادر من الجهات المالكة للاختبار وجامعة كوينزلاند</p></div></div>
+    <div class="grid">
+      <a class="site" style="--c:#2563c9;--t:#e8f0fd" href="https://takeielts.britishcouncil.org/prepare-test/practice-tests" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">BC</span><div><b>Free IELTS practice tests</b><small>British Council · Take IELTS</small></div></div>
+        <p>نماذج للمهارات الأربع بشكل الاختبار الحقيقي.</p><span class="go">افتح الموقع ↗</span></a>
+      <a class="site" style="--c:#2563c9;--t:#e8f0fd" href="https://ielts.idp.com/prepare" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">IDP</span><div><b>IELTS Prepare</b><small>IDP · IELTS</small></div></div>
+        <p>أسئلة تدريبية ومقالات إرشادية وتجربة الاختبار على الحاسب.</p><span class="go">افتح الموقع ↗</span></a>
+      <a class="site" style="--c:#2563c9;--t:#e8f0fd" href="https://www.edx.org/course/ielts-academic-test-preparation-uqx-ieltsx" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">UQ</span><div><b>IELTS Academic Test Preparation</b><small>University of Queensland · edX</small></div></div>
+        <p>ثمانية أسابيع تغطي المهارات الأربع واستراتيجيات الاختبار. المشاهدة مجانية والشهادة اختيارية.</p><span class="go">افتح الموقع ↗</span></a>
+      <a class="site" style="--c:#2563c9;--t:#e8f0fd" href="https://www.udemy.com/courses/search/?price=price-free&amp;q=ielts" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">UD</span><div><b>IELTS free courses</b><small>Udemy · دورات مجانية</small></div></div>
+        <p>نتائج البحث مفلترة على الدورات المجانية. اختر الأعلى تقييماً.</p><span class="go">افتح الموقع ↗</span></a>
+    </div>
+  </section>
+
+  <section aria-labelledby="i2">
+    <div class="sh"><span class="b" style="background:#e3f6ef" aria-hidden="true">🎧</span><div><h2 id="i2" style="color:#11826a">الاستماع</h2><p><bdi dir="ltr">Listening · 30 دقيقة · 40 سؤالاً</bdi></p><p>اعتد على اللهجات البريطانية والأسترالية والأمريكية، والتقاط الأرقام والأسماء والتهجئة</p></div></div>
+    <div class="grid">
+      <a class="site" style="--c:#11826a;--t:#e3f6ef" href="https://www.bbc.co.uk/learningenglish/english/features/6-minute-english" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">6M</span><div><b>6 Minute English</b><small>BBC Learning English</small></div></div>
+        <p>حلقات من ست دقائق مع النص المكتوب والمفردات.</p><span class="go">افتح الموقع ↗</span></a>
+      <a class="site" style="--c:#11826a;--t:#e3f6ef" href="https://www.ted.com/talks" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">TED</span><div><b>TED Talks</b><small>محاضرات تشبه الجزء الرابع</small></div></div>
+        <p>محاضرات قصيرة مع نص مكتوب وترجمة، للتدرّب على المحاضرات الأكاديمية.</p><span class="go">افتح الموقع ↗</span></a>
+      <a class="site" style="--c:#11826a;--t:#e3f6ef" href="https://www.youtube.com/results?search_query=IELTS+listening+practice+test+with+answers" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">YT</span><div><b>IELTS listening practice tests</b><small>يوتيوب · بحث جاهز</small></div></div>
+        <p>اختبارات صوتية كاملة بالأسئلة. أوقف التسجيل وصحّح بعد كل جزء.</p><span class="go">افتح الموقع ↗</span></a>
+    </div>
+  </section>
+
+  <section aria-labelledby="i3">
+    <div class="sh"><span class="b" style="background:#fdece5" aria-hidden="true">📰</span><div><h2 id="i3" style="color:#c4532f">القراءة</h2><p><bdi dir="ltr">Reading · 60 دقيقة · 40 سؤالاً</bdi></p><p>السرعة وإدارة الوقت، وأصعب الأسئلة: True / False / Not Given ومطابقة العناوين</p></div></div>
+    <div class="grid">
+      <a class="site" style="--c:#c4532f;--t:#fdece5" href="https://ieltsliz.com/" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">LIZ</span><div><b>IELTS Liz</b><small>شرح أنواع الأسئلة</small></div></div>
+        <p>شرح كل نوع من أسئلة القراءة مع تمارين ونصائح.</p><span class="go">افتح الموقع ↗</span></a>
+      <a class="site" style="--c:#c4532f;--t:#fdece5" href="https://theconversation.com/global" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">TC</span><div><b>The Conversation</b><small>قراءة أكاديمية يومية</small></div></div>
+        <p>مقالات يكتبها أساتذة جامعات بأسلوب قريب من نصوص الاختبار.</p><span class="go">افتح الموقع ↗</span></a>
+      <a class="site" style="--c:#c4532f;--t:#fdece5" href="https://www.youtube.com/results?search_query=IELTS+reading+true+false+not+given+strategy" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">YT</span><div><b>IELTS reading strategies</b><small>يوتيوب · بحث جاهز</small></div></div>
+        <p>شروحات مرئية لأصعب الأسئلة وكيف تتجنب الفخاخ.</p><span class="go">افتح الموقع ↗</span></a>
+    </div>
+  </section>
+
+  <section aria-labelledby="i4">
+    <div class="sh"><span class="b" style="background:#fff4d6" aria-hidden="true">✍️</span><div><h2 id="i4" style="color:#a26f00">الكتابة</h2><p><bdi dir="ltr">Writing · 60 دقيقة · مهمتان</bdi></p><p>المهمة الأولى: رسم بياني (الأكاديمي) أو رسالة (العام). المهمة الثانية: مقالة رأي أو نقاش</p></div></div>
+    <div class="grid">
+      <a class="site" style="--c:#a26f00;--t:#fff4d6" href="https://ielts-simon.com/" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">SIM</span><div><b>IELTS Simon</b><small>إجابات نموذجية</small></div></div>
+        <p>موقع ممتحن سابق: إجابات نموذجية للمهمتين مع تحليل الأسلوب.</p><span class="go">افتح الموقع ↗</span></a>
+      <a class="site" style="--c:#a26f00;--t:#fff4d6" href="https://www.youtube.com/@E2IELTS" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">E2</span><div><b>E2 IELTS</b><small>قناة يوتيوب</small></div></div>
+        <p>بناء المقالة والفقرة ومعايير التصحيح.</p><span class="go">افتح الموقع ↗</span></a>
+      <a class="site" style="--c:#a26f00;--t:#fff4d6" href="https://www.youtube.com/results?search_query=IELTS+academic+writing+task+1+band+9" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">T1</span><div><b>IELTS writing task 1</b><small>وصف الرسوم البيانية</small></div></div>
+        <p>طريقة كتابة الملخص ووصف الاتجاهات والمقارنات.</p><span class="go">افتح الموقع ↗</span></a>
+      <a class="site" style="--c:#a26f00;--t:#fff4d6" href="https://www.youtube.com/results?search_query=IELTS+general+training+letter+writing" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">LET</span><div><b>IELTS letter writing</b><small>النسخة العامة</small></div></div>
+        <p>الرسائل الرسمية وشبه الرسمية والودية.</p><span class="go">افتح الموقع ↗</span></a>
+    </div>
+  </section>
+
+  <section aria-labelledby="i5">
+    <div class="sh"><span class="b" style="background:#f8e5ee" aria-hidden="true">🗣️</span><div><h2 id="i5" style="color:#b0507a">المحادثة</h2><p><bdi dir="ltr">Speaking · 11 – 14 دقيقة · 3 أجزاء</bdi></p><p>الطلاقة والنطق وتنوع المفردات. سجّل صوتك دائماً، فالممتحن يقيّم ما يسمعه فقط</p></div></div>
+    <div class="grid">
+      <a class="site" style="--c:#b0507a;--t:#f8e5ee" href="https://www.youtube.com/results?search_query=IELTS+speaking+mock+test+band+8" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">MT</span><div><b>IELTS speaking mock test</b><small>يوتيوب · بحث جاهز</small></div></div>
+        <p>مقابلات كاملة بدرجات مختلفة لتسمع الفرق بين 6 و8.</p><span class="go">افتح الموقع ↗</span></a>
+      <a class="site" style="--c:#b0507a;--t:#f8e5ee" href="https://youglish.com/" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">YG</span><div><b>YouGlish</b><small>النطق الصحيح</small></div></div>
+        <p>اكتب أي كلمة واسمعها في مقاطع حقيقية بلهجات مختلفة.</p><span class="go">افتح الموقع ↗</span></a>
+      <a class="site" style="--c:#b0507a;--t:#f8e5ee" href="https://www.youtube.com/results?search_query=IELTS+speaking+part+2+cue+card+practice" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">P2</span><div><b>IELTS cue card practice</b><small>الجزء الثاني</small></div></div>
+        <p>التحدث دقيقتين بعد دقيقة تحضير.</p><span class="go">افتح الموقع ↗</span></a>
+    </div>
+  </section>
+
+  <section aria-labelledby="i6">
+    <div class="sh"><span class="b" style="background:#edf3dd" aria-hidden="true">📚</span><div><h2 id="i6" style="color:#5e7a1e">المفردات والقواعد</h2><p><bdi dir="ltr">أساس كل المهارات</bdi></p><p>قائمة الكلمات الأكاديمية تظهر كثيراً في القراءة والاستماع، وترفع درجة الكتابة</p></div></div>
+    <div class="grid">
+      <a class="site" style="--c:#5e7a1e;--t:#edf3dd" href="https://www.wgtn.ac.nz/lals/resources/academicwordlist" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">AWL</span><div><b>The Academic Word List</b><small>Victoria University of Wellington</small></div></div>
+        <p>570 عائلة كلمات أكاديمية في قوائم فرعية. (وعندنا في النادي قائمة AWL بتمارينها).</p><span class="go">افتح الموقع ↗</span></a>
+      <a class="site" style="--c:#5e7a1e;--t:#edf3dd" href="https://dictionary.cambridge.org/dictionary/english-arabic/" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">CD</span><div><b>Cambridge Dictionary</b><small>إنجليزي – عربي</small></div></div>
+        <p>المعنى والنطق البريطاني والأمريكي وأمثلة الاستعمال.</p><span class="go">افتح الموقع ↗</span></a>
+      <a class="site" style="--c:#5e7a1e;--t:#edf3dd" href="https://learnenglish.britishcouncil.org/grammar" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">GR</span><div><b>LearnEnglish Grammar</b><small>British Council</small></div></div>
+        <p>دروس قواعد بمستويات متدرجة مع تمارين تصحيح فوري.</p><span class="go">افتح الموقع ↗</span></a>
+    </div>
+  </section>
+
+  <section aria-labelledby="i7">
+    <div class="sh"><span class="b" style="background:#f3ecdf" aria-hidden="true">🌍</span><div><h2 id="i7" style="color:#7d6338">شروحات بالعربي</h2><p><bdi dir="ltr">للبداية فقط</bdi></p><p>شرح بالعربية يساعدك على فهم شكل الاختبار قبل الانتقال إلى المصادر الإنجليزية</p></div></div>
+    <div class="grid">
+      <a class="site" style="--c:#7d6338;--t:#f3ecdf" href="https://www.youtube.com/results?search_query=%D8%B4%D8%B1%D8%AD+%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1+%D8%A7%D9%8A%D9%84%D8%AA%D8%B3+%D8%A8%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">ع</span><div><b>شرح آيلتس بالعربي</b><small>يوتيوب · بحث جاهز</small></div></div>
+        <p>شروحات عربية لأقسام الاختبار ونصائح من مختبرين سابقين.</p><span class="go">افتح الموقع ↗</span></a>
+      <a class="site" style="--c:#7d6338;--t:#f3ecdf" href="https://www.youtube.com/results?search_query=%D8%B4%D8%B1%D8%AD+%D9%83%D8%AA%D8%A7%D8%A8%D8%A9+%D8%A7%D9%8A%D9%84%D8%AA%D8%B3+%D8%A8%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A" target="_blank" rel="noopener">
+        <div class="top"><span class="ic" aria-hidden="true">ع</span><div><b>شرح كتابة آيلتس بالعربي</b><small>يوتيوب · بحث جاهز</small></div></div>
+        <p>بناء المقالة والرسالة بشرح عربي خطوة بخطوة.</p><span class="go">افتح الموقع ↗</span></a>
+    </div>
+  </section>
+
+  <section aria-labelledby="i8">
+    <div class="sh"><span class="b" style="background:#e8f0fd" aria-hidden="true">🗓️</span><div><h2 id="i8" style="color:#2563c9">خطة ثمانية أسابيع</h2><p>ثلاث مراحل من معرفة الاختبار إلى التدرّب بالوقت الحقيقي</p></div></div>
+    <div class="phases">
+      <div class="ph"><div class="n">1</div><small>الأسبوعان 1 – 2</small><b>اعرف الاختبار</b><p>حلّ اختباراً تجريبياً كاملاً لتعرف مستواك، وادرس شكل كل قسم وأنواع أسئلته.</p></div>
+      <div class="ph"><div class="n">2</div><small>الأسابيع 3 – 6</small><b>ابنِ المهارات</b><p>مهارة واحدة كل يوم، وقائمة الكلمات الأكاديمية، ومقالة كاملة كل أسبوع.</p></div>
+      <div class="ph"><div class="n">3</div><small>الأسبوعان 7 – 8</small><b>تدرّب بالوقت</b><p>اختباران كاملان كل أسبوع بالوقت الحقيقي، وراجع كل خطأ واكتب سببه.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="i9">
+    <div class="sh"><span class="b" style="background:#fff4d6" aria-hidden="true">⏰</span><div><h2 id="i9" style="color:#a26f00">جدول أسبوعي مقترح</h2><p>سبع ساعات أسبوعياً بجانب الدراسة</p></div></div>
+    <div class="week">
+      <div class="day" style="--c:#2563c9;--t:#e8f0fd"><span class="d">الأحد</span><span class="w"><small>الاستماع</small>قسم تجريبي ثم مراجعة النص المكتوب للتسجيل</span><span class="h">ساعة</span></div>
+      <div class="day" style="--c:#11826a;--t:#e3f6ef"><span class="d">الاثنين</span><span class="w"><small>القراءة</small>نص أكاديمي بوقت محدد: 20 دقيقة للنص</span><span class="h">ساعة</span></div>
+      <div class="day" style="--c:#a26f00;--t:#fff4d6"><span class="d">الثلاثاء</span><span class="w"><small>الكتابة</small>المهمة الأولى: وصف رسم بياني أو رسالة</span><span class="h">ساعة</span></div>
+      <div class="day" style="--c:#b0507a;--t:#f8e5ee"><span class="d">الأربعاء</span><span class="w"><small>المحادثة</small>سجّل إجابتك عن أسئلة الأجزاء الثلاثة واستمع لنفسك</span><span class="h">ساعة</span></div>
+      <div class="day" style="--c:#a26f00;--t:#fff4d6"><span class="d">الخميس</span><span class="w"><small>الكتابة</small>المهمة الثانية: مقالة 250 كلمة في 40 دقيقة</span><span class="h">ساعة</span></div>
+      <div class="day" style="--c:#5e7a1e;--t:#edf3dd"><span class="d">السبت</span><span class="w"><small>مفردات وقواعد</small>20 كلمة أكاديمية جديدة ومراجعة الأخطاء</span><span class="h">ساعتان</span></div>
+    </div>
+  </section>
+
+  <p class="note">بعض المواقع تطلب تسجيلاً مجانياً بالبريد فقط. الحجز في الاختبار نفسه يكون من موقع المجلس الثقافي البريطاني أو IDP، ومن يحجز يحصل غالباً على مواد تدريب إضافية مجاناً.</p>
+
+  <footer>إعداد: أ. أحمد آل سالم — نادي اللغة الإنجليزية، ثانوية الأمير فيصل بالعقيق<br>المواقع المذكورة مستقلة عن النادي، ومحتواها مسؤولية أصحابها.<br><a href="links.html">← المكتبة الإثرائية</a></footer>
+</div>
+<script src="assets/club.js?v=22"></script>
+</body>
+</html>

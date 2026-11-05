@@ -26,6 +26,12 @@ h1{font-size:clamp(2.1rem,7vw,3.1rem);font-weight:800;margin:12px 0 6px;line-hei
 header p{margin:0 auto;color:var(--muted);font-size:1.1rem;max-width:34em;text-wrap:balance}
 .tip{margin:22px auto 0;max-width:720px;background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:12px 18px;font-size:1rem;color:var(--muted)}
 .tip b{color:var(--ink)}
+.feat{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:26px auto 0;max-width:720px;text-decoration:none;color:inherit;text-align:right;background:linear-gradient(120deg,#e8f0fd,#fff 70%);border:1.5px solid #cfe0fb;border-radius:22px;padding:16px 18px;transition:transform .22s var(--ease),box-shadow .22s var(--ease)}
+.feat:hover{transform:translateY(-3px);box-shadow:0 18px 32px -24px #2563c9}
+.feat .ic{width:54px;height:54px;border-radius:16px;background:#fff;display:grid;place-items:center;font-size:1.7rem;flex:none;border:1px solid #cfe0fb}
+.feat .t{flex:1;min-width:200px}.feat b{display:block;font-size:1.3rem;font-weight:800;color:var(--blue)}.feat p{margin:0;color:var(--muted);font-size:1rem}
+.feat .go{font-weight:800;font-size:.98rem;color:#fff;background:var(--blue);border-radius:999px;padding:6px 16px}
+@media (prefers-reduced-motion:reduce){.feat{transition:none}}
 section{margin-top:34px}
 .sh{display:flex;align-items:center;gap:12px;margin-bottom:12px}
 .sh .b{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;font-size:1.5rem;flex:none}
@@ -53,6 +59,7 @@ footer{margin-top:44px;text-align:center;color:var(--muted);font-size:.98rem;lin
     <h1>مواقع إثرائية</h1>
     <p>مواقع عالمية مجانية مختارة لتتدرّب أكثر على الاستماع والقراءة والقواعد والمفردات.</p>
     <div class="tip">💡 <b>نصيحة:</b> اختر موقعاً واحداً تبدأ به، وخصّص له 10 دقائق يومياً. المواقع تُفتح في صفحة جديدة، وهي خارج موقع النادي فلا تُحسب نقاطها في لوحة الشرف.</div>
+    <a class="feat" href="ielts.html"><span class="ic" aria-hidden="true">🎓</span><span class="t"><b>التحضير لاختبار <bdi dir="ltr">IELTS</bdi></b><p>مصادر لكل مهارة، وخطة ثمانية أسابيع وجدول أسبوعي.</p></span><span class="go">افتح الخطة ←</span></a>
   </header>
 
   <section aria-labelledby="g1">
