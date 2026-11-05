@@ -158,7 +158,7 @@ async function load() {
       : `<div class="empty">أول نجوم (أفضل ${H.STARS_N} في الموسم التأسيسي، أي كل النقاط حتى 3/11) يُعلنون الثلاثاء في السادسة صباحاً.</div>`}</div>`;
   // 📊 نشاط الطلاب: points earned per section today / this week (sent by each student's device in parts.act).
   const acDay = H.dayNo(), acWeek = H.weekNo(), ICON = {}; H.RULES.forEach(r => { ICON[r.key] = r.icon; });
-  const SEC_AR = { wq:'Word Quest', ng:'الكلمات العامة', mg:'ميدان المفردات', cq:'Core Quest', caps:'الكبسولات', tb:'محادثات التأسيس', bf:'Breakfast', aw:'الأكاديمية', st:'القصص', lab:'مختبر المحادثة', tn:'الأزمنة', pv:'المجهول', im:'التعبيرات', sp:'ستيب', ek:'النخبة', ed:'تحدي النخبة', xb:'مكافأة التسلسل', mb:'Surprise Me', lv:'تقدّم المستوى', lvs:'تقدّم المستوى', rt:'المراجعة' };
+  const SEC_AR = { wq:'Word Quest', ng:'الكلمات العامة', mg:'ميدان المفردات', cq:'Core Quest', caps:'الكبسولات', tb:'محادثات التأسيس', bf:'Breakfast', aw:'الأكاديمية', st:'القصص', lab:'مختبر المحادثة', tn:'الأزمنة', pv:'المجهول', im:'التعبيرات', sp:'ستيب', ek:'النخبة', ed:'تحدي النخبة', et:'في المدينة', xb:'مكافأة التسلسل', mb:'Surprise Me', lv:'تقدّم المستوى', lvs:'تقدّم المستوى', rt:'المراجعة' };
   const actOf = (r, mode) => { const a = (r.parts || {}).act; if (!a) return null;
     const o = mode === 'day' ? (a.day === acDay ? a.t : {}) : (a.week === acWeek ? a.w : {});
     const sum = Object.keys(o || {}).reduce((t, k) => t + (+o[k] || 0), 0);
@@ -213,7 +213,7 @@ async function load() {
     // 4) per-section progress
     const wq = units('wq-best-', 50), ng = units('ng-best-', 50), aw = units('aw-best-', 29), el = units('el-best-', 10);
     let capS = 0, cap3 = 0; const capDone = []; Object.keys(CAP_AR).forEach(c => { const st = O('cap2-' + c + '-stars'); const n = Object.keys(st).length; if (n) capDone.push(CAP_AR[c] + ' ' + n); capS += n; Object.values(st).forEach(v => { if (+v >= 3) cap3++; }); });
-    const stA = keysWith('st-best-').filter(v => v > 0), lab = keysWith('cl-q-').filter(v => v >= 0), tb = keysWith('tb-best-').filter(v => v > 0);
+    const stA = keysWith('st-best-').filter(v => v > 0), lab = keysWith('cl-q-').filter(v => v >= 0), etq = keysWith('et-q-').filter(v => v >= 0), tb = keysWith('tb-best-').filter(v => v > 0);
     const mbd = O('mb-days'), mbDays = Object.keys(mbd), mbAvg = mbDays.length ? mbDays.reduce((t, k) => t + (+mbd[k] || 0), 0) / mbDays.length : 0;
     const srs = k => { const o = O(k), w = Object.keys(o); return [w.length, w.filter(x => ((o[x] || [])[0] || 0) >= 3).length]; };
     const [wqK, wqM] = srs('wq-srs'), [ngK, ngM] = srs('ng-srs'), [awK, awM] = srs('aw-srs');
@@ -227,7 +227,8 @@ async function load() {
       ['🧭 Core Quest', Object.keys(O('cq-done')).length, `${Object.keys(O('cq-done')).length} مجموعة من 163`, ''],
       ['🌟 الكبسولات', capS, `${capS} مرحلة · ⭐⭐⭐ في ${cap3}` + (capDone.length ? `<small>${esc(capDone.join('، '))}</small>` : ''), capS ? `${pct(cap3, capS)}٪ بلا خطأ` : ''],
       ['🗣️ محادثات التأسيس', tb.length, `${tb.length} من 8 وحدات`, tb.length ? `متوسط ${(tb.reduce((a, b) => a + b, 0) / tb.length).toFixed(1)}/5` : ''],
-      ['💬 مختبر المحادثة', lab.length, `${lab.length} من 45 محادثة`, lab.length ? `متوسط ${(lab.reduce((a, b) => a + b, 0) / lab.length).toFixed(1)}/5` : ''],
+      ['💬 مختبر المحادثة', lab.length, `${lab.length} من 20 أسبوعاً`, lab.length ? `متوسط ${(lab.reduce((a, b) => a + b, 0) / lab.length).toFixed(1)}/5` : ''],
+      ['🏙️ في المدينة (النخبة)', etq.length, `${etq.length} من 25 محطة`, etq.length ? `متوسط ${(etq.reduce((a, b) => a + b, 0) / etq.length).toFixed(1)}/5` : ''],
       ['📖 القصص', stA.length, `${stA.length} قصة`, stA.length ? `متوسط ${(stA.reduce((a, b) => a + b, 0) / stA.length).toFixed(1)}/3` : ''],
       ['⏳ الأزمنة', Math.max(L('tn-known'), N('tn-best')), `${Math.max(L('tn-known'), N('tn-best'))} من 42 سؤالاً`, ''],
       ['🔄 المبني للمجهول', Math.max(L('pv-known'), N('pv-best')), `${Math.max(L('pv-known'), N('pv-best'))} سؤالاً صحيحاً مختلفاً`, ''],

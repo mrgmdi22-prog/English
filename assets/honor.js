@@ -19,12 +19,13 @@ export const RULES = [
   { key: 'bf',   label: 'إجابة صحيحة في Breakfast Challenge', icon: '🍳', per: 5, max: 10 },
   { key: 'aw',   label: 'إجابة صحيحة في الكلمات الأكاديمية', icon: '🎓', per: 7, max: 290 },
   { key: 'st',   label: 'إجابة صحيحة في ركن القصص', icon: '📖', per: 7, max: 54 },
-  { key: 'lab',  label: 'إجابة صحيحة في مختبر المحادثة', icon: '💬', per: 7, max: 225 },
+  { key: 'lab',  label: 'إجابة صحيحة في مختبر المحادثة', icon: '💬', per: 7, max: 100 },
   { key: 'tn',   label: 'سؤال جديد أجبته صحيحاً في خارطة الأزمنة', icon: '⏳', per: 7, max: 42 },
   { key: 'pv',   label: 'سؤال جديد أجبته صحيحاً في المبني للمجهول', icon: '🔄', per: 7, max: 60 },
   { key: 'im',   label: 'سؤال جديد أجبته صحيحاً في ركن التعبيرات', icon: '🎨', per: 7, max: 52 },
   { key: 'sp',   label: 'سؤال ستيب أجبته صحيحاً (مرة واحدة لكل سؤال)', icon: '📝', per: 7, max: 2600 },
   { key: 'ek',   label: 'إجابة صحيحة في مسار النخبة (B1 فأعلى)', icon: '💎', per: 10, max: 400 },
+  { key: 'et',   label: 'إجابة صحيحة في «في المدينة» بمسار النخبة (أفضل محاولة)', icon: '🏙️', per: 10, max: 125 },
   { key: 'ed',   label: 'إجابة صحيحة في تحدي النخبة اليومي (أول محاولة)', icon: '⚡', per: 10, max: 1500 },
   { key: 'xb',   label: 'مكافأة التسلسل: 3 صحيحة متتالية ×1.5، و5 فأكثر ×2', icon: '🔥', per: 1, max: 1000000, note: 'حتى ضعف النقاط', unit: 'نقطة' },
   { key: 'mb',   label: 'Surprise Me — ثلاثة صناديق في اليوم', icon: '🎁', per: 1, max: 1000000, note: 'حتى 150 للصندوق', unit: 'نقطة' },
@@ -79,7 +80,7 @@ export function computeScore() {
   let caps = 0; const CAP_EQ = [0, 3, 5, 7];
   CAPS.forEach(c => { const s = J('cap2-' + c + '-stars') || {}; Object.keys(s).forEach(k => { caps += CAP_EQ[Math.max(0, Math.min(3, +s[k] || 0))]; }); });
   let wq = 0; for (let n = 1; n <= 50; n++) wq += Math.max(0, Math.min(10, N('wq-best-' + n)));
-  let lab = 0; for (let w = 1; w <= 45; w++) lab += Math.max(0, Math.min(5, N('cl-q-' + w)));
+  let lab = 0; for (let w = 1; w <= 20; w++) lab += Math.max(0, Math.min(5, N('cl-q-' + w)));
   const mg = Math.min(300, (J('mg1-known') || []).length) + Math.min(300, (J('mg2-known') || []).length) + Math.min(300, (J('mg3-known') || []).length);
   const bf = Math.max(0, Math.min(10, N('bf-best')));
   let ng = 0; for (let n = 1; n <= 50; n++) ng += Math.max(0, Math.min(10, N('ng-best-' + n)));
@@ -113,6 +114,8 @@ export function computeScore() {
   // Retention: words that reached box 3+ in spaced review (remembered after 1 day and again after 3 days)
   let rt = 0; ['wq-srs', 'ng-srs', 'aw-srs'].forEach(k => { const o = J(k) || {}; Object.keys(o).forEach(w => { if (((o[w] || [])[0] || 0) >= 3) rt++; }); });
   // Elite track (مسار النخبة): best score of each unit (0–10) summed; elite = reached B1 or above in a current-version level test.
+  // «في المدينة · Around Town» (elite/town): best quiz score of each of the 25 stations (0–5).
+  let et = 0; for (let n = 1; n <= 25; n++) et += Math.max(0, Math.min(5, N('et-q-' + n)));
   let ek = 0; for (let n = 1; n <= 20; n++) ek += Math.max(0, Math.min(10, N('el-best-' + n)));
   const elite = [lr.pre].concat(posts).some(r => lvOk(r) && LV.indexOf(r.level) >= 3) ? 1 : 0;
   // Elite daily challenge: right answers of the first try each day (el-daily = {day: right, max 5}).
@@ -120,10 +123,10 @@ export function computeScore() {
   // Streak bonus (combo.js): xb = {section: {unit: half-answers}}; each half-answer is worth half that section's rate.
   const PER = {}; RULES.forEach(r => { PER[r.key] = r.per; }); PER.caps = 5; PER.cq = 5;
   let xb = 0; const xbo = J('xb') || {};
-  Object.keys(xbo).forEach(sec => { if ((sec === 'ek' || sec === 'ed') && !elite) return; const u = xbo[sec] || {};
+  Object.keys(xbo).forEach(sec => { if ((sec === 'ek' || sec === 'ed' || sec === 'et') && !elite) return; const u = xbo[sec] || {};
     Object.keys(u).forEach(k => { xb += Math.max(0, Math.min(k === '*' ? 100000 : 14, +u[k] || 0)) * (PER[sec] || 5) / 2; }); });
   xb = Math.round(xb);
-  const parts = { caps, wq, lab, mg, bf, ng, aw, st, cq, tn, pv, im, tb, sp, xb, mb, lv, lvs, rt, ek: elite ? ek : 0, ed: elite ? ed : 0, el: elite, wqx: wqStats() };
+  const parts = { caps, wq, lab, mg, bf, ng, aw, st, cq, tn, pv, im, tb, sp, xb, mb, lv, lvs, rt, ek: elite ? ek : 0, ed: elite ? ed : 0, et: elite ? et : 0, el: elite, wqx: wqStats() };
   // Practice points count at most DAILY_CAP a day (Saudi day). Practice after that is for learning only:
   // the extra points are not counted, then or later. Surprise Me and the level/retention rewards are outside the cap.
   const pts = r => Math.min(parts[r.key], r.max) * r.per;
@@ -300,7 +303,7 @@ export async function sync(force) {
   if (loc.week <= FOUND_WEEK) score = Math.min(10000, score + (was.base | 0));
   const wsig = JSON.stringify([parts.wqx, parts.act]);
   if (was.score !== score || was.week !== season.week || was.total !== season.total || JSON.stringify([(was.parts || {}).wqx || null, (was.parts || {}).act || null]) !== wsig
-      || !!(was.parts || {}).el !== !!parts.el || ((was.parts || {}).ek | 0) !== (parts.ek | 0) || ((was.parts || {}).ed | 0) !== (parts.ed | 0)) {
+      || !!(was.parts || {}).el !== !!parts.el || ((was.parts || {}).ek | 0) !== (parts.ek | 0) || ((was.parts || {}).ed | 0) !== (parts.ed | 0) || ((was.parts || {}).et | 0) !== (parts.et | 0)) {
     try { await fs.updateDoc(ref, { score, parts, ...season, updatedAt: fs.serverTimestamp() }); }
     catch (e) { if (!/permission/i.test(e && (e.code || e.message) || '')) throw e; await fs.updateDoc(ref, { score, parts, updatedAt: fs.serverTimestamp() }); }
   }
