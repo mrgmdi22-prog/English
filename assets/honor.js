@@ -26,6 +26,9 @@ export const RULES = [
   { key: 'sp',   label: 'سؤال ستيب أجبته صحيحاً (مرة واحدة لكل سؤال)', icon: '📝', per: 7, max: 2600 },
   { key: 'ek',   label: 'إجابة صحيحة في مسار النخبة (B1 فأعلى)', icon: '💎', per: 10, max: 400 },
   { key: 'et',   label: 'إجابة صحيحة في «في المدينة» بمسار النخبة (أفضل محاولة)', icon: '🏙️', per: 10, max: 125 },
+  { key: 'ep',   label: 'سؤال جديد حللته في النخبة+ (لا يتكرر، وخارج السقف اليومي)', icon: '🚀', per: 15, max: 2000 },
+  { key: 'epb',  label: 'إجابة صحيحة ضد زعيم الأسبوع في النخبة+ (المحاولة الأولى)', icon: '👹', per: 25, max: 2000 },
+  { key: 'epx',  label: 'مكافأة السلسلة في النخبة+: +5 من الإجابة الخامسة المتتالية', icon: '🔥', per: 1, max: 1000000, unit: 'نقطة' },
   { key: 'ed',   label: 'إجابة صحيحة في تحدي النخبة اليومي (أول محاولة)', icon: '⚡', per: 10, max: 1500 },
   { key: 'xb',   label: 'مكافأة التسلسل: 3 صحيحة متتالية ×1.5، و5 فأكثر ×2', icon: '🔥', per: 1, max: 1000000, note: 'حتى ضعف النقاط', unit: 'نقطة' },
   { key: 'mb',   label: 'Surprise Me — ثلاثة صناديق في اليوم', icon: '🎁', per: 1, max: 1000000, note: 'حتى 150 للصندوق', unit: 'نقطة' },
@@ -46,7 +49,7 @@ export const dayNo = t => Math.floor(((t || Date.now()) + 3 * 3600e3 - 6 * 3600e
 export const weekNo = t => Math.floor((dayNo(t) - 5) / 7);                              // day 5 (mod 7) is a Tuesday
 /** The Tuesday a season starts, as d/m (Gregorian). */
 export function weekLabel(w) { const d = new Date((w * 7 + 5) * 864e5); return d.getUTCDate() + '/' + (d.getUTCMonth() + 1); }
-const FREE = new Set(['mb', 'lv', 'lvs', 'rt']);
+const FREE = new Set(['mb', 'lv', 'lvs', 'rt', 'ep', 'epb', 'epx']);   // النخبة+ (elite/plus) has no daily cap
 const CAPS = ['space', 'flavor', 'life', 'adventure', 'emotion', 'career', 'nature', 'health', 'sports', 'tech'];
 
 function J(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
@@ -120,13 +123,21 @@ export function computeScore() {
   const elite = [lr.pre].concat(posts).some(r => lvOk(r) && LV.indexOf(r.level) >= 3) ? 1 : 0;
   // Elite daily challenge: right answers of the first try each day (el-daily = {day: right, max 5}).
   let ed = 0; const eld = J('el-daily') || {}; Object.keys(eld).forEach(k => { ed += Math.max(0, Math.min(5, +eld[k] || 0)); });
+  // النخبة+ (elite/plus): elite students who passed its entry test. Each question answered right counts once (ep-ok),
+  // the weekly boss counts its first try (ep-boss = {week: right, max 10}), streak bonus ep-xb (+5 per new right answer from the 5th in a row).
+  let ep = 0, epb = 0, epx = 0;
+  if (elite && J('ep-pass')) {
+    ep = Math.max(0, Math.min(2000, Object.keys(J('ep-ok') || {}).length));
+    const eb = J('ep-boss') || {}; Object.keys(eb).forEach(k => { epb += Math.max(0, Math.min(10, +eb[k] || 0)); });
+    epx = Math.max(0, Math.min(ep * 5, +J('ep-xb') || 0));
+  }
   // Streak bonus (combo.js): xb = {section: {unit: half-answers}}; each half-answer is worth half that section's rate.
   const PER = {}; RULES.forEach(r => { PER[r.key] = r.per; }); PER.caps = 5; PER.cq = 5;
   let xb = 0; const xbo = J('xb') || {};
   Object.keys(xbo).forEach(sec => { if ((sec === 'ek' || sec === 'ed' || sec === 'et') && !elite) return; const u = xbo[sec] || {};
     Object.keys(u).forEach(k => { xb += Math.max(0, Math.min(k === '*' ? 100000 : 14, +u[k] || 0)) * (PER[sec] || 5) / 2; }); });
   xb = Math.round(xb);
-  const parts = { caps, wq, lab, mg, bf, ng, aw, st, cq, tn, pv, im, tb, sp, xb, mb, lv, lvs, rt, ek: elite ? ek : 0, ed: elite ? ed : 0, et: elite ? et : 0, el: elite, wqx: wqStats() };
+  const parts = { caps, wq, lab, mg, bf, ng, aw, st, cq, tn, pv, im, tb, sp, xb, mb, lv, lvs, rt, ek: elite ? ek : 0, ed: elite ? ed : 0, et: elite ? et : 0, ep, epb, epx, epp: ep * 15 + epb * 25 + epx, el: elite, wqx: wqStats() };
   // Practice points count at most DAILY_CAP a day (Saudi day). Practice after that is for learning only:
   // the extra points are not counted, then or later. Surprise Me and the level/retention rewards are outside the cap.
   const pts = r => Math.min(parts[r.key], r.max) * r.per;
@@ -303,7 +314,7 @@ export async function sync(force) {
   if (loc.week <= FOUND_WEEK) score = Math.min(10000, score + (was.base | 0));
   const wsig = JSON.stringify([parts.wqx, parts.act]);
   if (was.score !== score || was.week !== season.week || was.total !== season.total || JSON.stringify([(was.parts || {}).wqx || null, (was.parts || {}).act || null]) !== wsig
-      || !!(was.parts || {}).el !== !!parts.el || ((was.parts || {}).ek | 0) !== (parts.ek | 0) || ((was.parts || {}).ed | 0) !== (parts.ed | 0) || ((was.parts || {}).et | 0) !== (parts.et | 0)) {
+      || !!(was.parts || {}).el !== !!parts.el || ((was.parts || {}).ek | 0) !== (parts.ek | 0) || ((was.parts || {}).ed | 0) !== (parts.ed | 0) || ((was.parts || {}).et | 0) !== (parts.et | 0) || ((was.parts || {}).epp | 0) !== (parts.epp | 0)) {
     try { await fs.updateDoc(ref, { score, parts, ...season, updatedAt: fs.serverTimestamp() }); }
     catch (e) { if (!/permission/i.test(e && (e.code || e.message) || '')) throw e; await fs.updateDoc(ref, { score, parts, updatedAt: fs.serverTimestamp() }); }
   }
@@ -511,6 +522,11 @@ export async function board(limit) {
 export async function eliteBoard() {
   const rows = await board();
   return rows.filter(r => r.parts && r.parts.el === 1);
+}
+/** The Elite+ board (النخبة+): approved players ranked by all their Elite+ points (parts.epp). */
+export async function plusBoard() {
+  const all = await boardAll();
+  return (all || []).filter(r => r.parts && (r.parts.epp | 0) > 0).sort((a, b) => (b.parts.epp | 0) - (a.parts.epp | 0));
 }
 /** Every approved player (for the stars list). */
 export async function boardAll() {

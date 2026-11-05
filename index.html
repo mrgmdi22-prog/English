@@ -371,6 +371,7 @@ footer b{color:var(--ink)}
         <span class="txt"><b>مسار النخبة <bdi dir="ltr" style="font-family:var(--en);color:#7a4bd8">B1+</bdi></b><p>رحلة في قمتين: <bdi dir="ltr">B1</bdi> و<bdi dir="ltr">B2</bdi>: مفردات وقواعد وجمل ومحادثات ونصوص، وتحدٍّ يومي ⚡، ونقاط أعلى ولوحة شرف خاصة.</p></span>
         <span class="go" style="background:#7a4bd8">ادخل المسار ←</span>
       </a>
+      <a class="card reveal" href="elite/plus/index.html" style="--c:#c4532f;--t:#ffe9e0"><span class="arrow">←</span><span class="ic" aria-hidden="true">🚀</span><b>النخبة+</b><span class="en">Elite+ · Challenge</span><p>للمتفوقين: أسئلة لا تتكرر، بلا تلميحات، وبلا سقف يومي للنقاط. الدخول باختبار تأهيل.</p></a>
       <a class="card reveal" href="elite/step/index.html" style="--c:#2f6fd6;--t:#e8f0fd"><span class="arrow">←</span><span class="ic" aria-hidden="true">🎓</span><b>مِران ستيب</b><span class="en">STEP Drill · مفتوح للجميع</span><p>استماع وقواعد وتحليل كتابي وقراءة من نماذج ستيب، ومفردات القراءة، واختبار محاكٍ بمؤقت.</p></a>
       <a class="card reveal" href="elite/town/index.html" style="--c:#11826a;--t:#e3f6ef"><span class="arrow">←</span><span class="ic" aria-hidden="true">🏙️</span><b>في المدينة</b><span class="en">Around Town · B1+</span><p>25 محادثة يومية من المتجر إلى المطار، و213 تعبيراً: استمع، ومثّل الدور، وسجّل صوتك.</p></a>
       <a class="card reveal" href="elite/classics/index.html" style="--c:#a26f00;--t:#fff4d6"><span class="arrow">←</span><span class="ic" aria-hidden="true">📚</span><b>مكتبة النخبة</b><span class="en">Elite Classics</span><p>قصص من الأدب الأمريكي بنصّها الإنجليزي الأصلي مع ترجمة العقاد، تبدأ بريب فان ونكل.</p></a>
@@ -443,10 +444,10 @@ try { var lr = JSON.parse(localStorage.getItem('lv-results') || '{}'), s = docum
   } catch (e) {}
 })();
 </script>
-<script src="assets/club.js?v=20"></script>
+<script src="assets/club.js?v=21"></script>
 <script type="module">
 // Top three on the honor board (only once Firebase is configured)
-import('./assets/honor.js?v=20261105a').then(async H => {
+import('./assets/honor.js?v=20261105b').then(async H => {
   const s = H.computeScore().score;
   const mp = document.getElementById('myPts'); if (mp) mp.textContent = s.toLocaleString('en-US');
   if (s > 0) document.getElementById('hSub').textContent = 'نقاطك هذا الأسبوع: ' + s.toLocaleString('en-US') + ' نقطة — موسم جديد كل ثلاثاء، تنافس لتكون من نجوم الأسبوع 🌟';
@@ -482,7 +483,7 @@ import('./assets/honor.js?v=20261105a').then(async H => {
     'capsules/space.html':['كبسولة الفضاء','🚀'], 'capsules/flavor.html':['كبسولة النكهة','🍊'], 'capsules/life.html':['كبسولة الحياة','🦋'],
     'capsules/adventure.html':['كبسولة المغامرة','🎈'], 'capsules/emotion.html':['كبسولة المشاعر','💛'], 'capsules/career.html':['كبسولة المسيرة','🎓'],
     'capsules/nature.html':['كبسولة الطبيعة','🌍'], 'capsules/health.html':['كبسولة التعافي','🩺'], 'capsules/sports.html':['كبسولة الرياضة','🏆'], 'capsules/tech.html':['كبسولة التقنية','💻'],
-    'journey/word-quest.html':['English Word Quest','🗺️'], 'journey/dictionary.html':['قاموس الألف كلمة','📖'], 'journey/conversation-lab.html':['مختبر المحادثة','💬'], 'elite/index.html':['مسار النخبة','💎'], 'elite/step/index.html':['مِران ستيب','🎓'], 'elite/town/index.html':['في المدينة','🏙️'], 'elite/classics/index.html':['مكتبة النخبة','📚'], 'words/ngsl.html':['الكلمات العامة','🌍'], 'words/awl.html':['الكلمات الأكاديمية','🎓'], 'stories/index.html':['ركن القصص','📖'], 'capsules/index.html':['بوابة الكبسولات','🌟'], 'guide.html':['دليل المتعلم','🧭'],
+    'journey/word-quest.html':['English Word Quest','🗺️'], 'journey/dictionary.html':['قاموس الألف كلمة','📖'], 'journey/conversation-lab.html':['مختبر المحادثة','💬'], 'elite/index.html':['مسار النخبة','💎'], 'elite/plus/index.html':['النخبة+','🚀'], 'elite/step/index.html':['مِران ستيب','🎓'], 'elite/town/index.html':['في المدينة','🏙️'], 'elite/classics/index.html':['مكتبة النخبة','📚'], 'words/ngsl.html':['الكلمات العامة','🌍'], 'words/awl.html':['الكلمات الأكاديمية','🎓'], 'stories/index.html':['ركن القصص','📖'], 'capsules/index.html':['بوابة الكبسولات','🌟'], 'guide.html':['دليل المتعلم','🧭'],
     'vocab/mega-goal-1.html':['ميدان المفردات 1','🏟️'], 'vocab/mega-goal-2.html':['ميدان المفردات 2','🏆'], 'vocab/mega-goal-3.html':['ميدان المفردات 3','🥇'],
     'everyday/breakfast.html':['Breakfast Challenge','🍳'], 'words/core2000.html':['Core Quest','🧭'],
     'grammar/syntax-tree-lab.html':['Syntax Tree Lab','🌳'], 'grammar/tenses.html':['خارطة الأزمنة','⏳'], 'grammar/passive.html':['المبني للمجهول','🔄'], 'kids/index.html':['نادي البراعم','🦁'], 'level/index.html':['قياس المستوى','📈'], 'everyday/basics.html':['محادثات التأسيس','🗣️'], 'idioms/index.html':['ركن التعبيرات','🎨'],

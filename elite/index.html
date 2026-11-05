@@ -223,6 +223,11 @@ ol.rest li.me{background:var(--gold-soft);border-radius:12px}
       <span class="tx"><b>في المدينة <span dir="ltr" style="font-weight:600;opacity:.75">· Around Town</span></b><small>25 محادثة يومية من المتجر إلى المطار، فيها 213 تعبيراً اصطلاحياً: استمع، وأجب، ومثّل الدور، وسجّل صوتك لتصحّح نطقك.</small></span>
       <span class="go" aria-hidden="true">←</span>
     </a>
+    <a class="card stepcard" href="plus/index.html" style="background:linear-gradient(135deg,#FFE9E0,#DDF6EF);border-color:#f3cdbd">
+      <span class="ic" aria-hidden="true">🚀</span>
+      <span class="tx"><b>النخبة+ <span dir="ltr" style="font-weight:600;opacity:.75">· Elite+</span></b><small>تحدٍّ أعلى لمن يريد المزيد: أسئلة لا تتكرر، بلا تلميحات، وبلا سقف يومي للنقاط.</small></span>
+      <span class="go" aria-hidden="true">←</span>
+    </a>
     <div id="map"></div>
     <a class="card" href="classics/index.html" style="display:flex;gap:14px;align-items:center;text-decoration:none;color:inherit;background:linear-gradient(135deg,#fff 0%,var(--gold-soft) 100%)">
       <span style="font-size:2.4rem" aria-hidden="true">📚</span>
@@ -623,7 +628,7 @@ function run(u) {
 
 /* ---------- club points + elite board ---------- */
 let H = null;
-async function honor() { if (H) return H; try { H = await import('../assets/honor.js?v=20261105a'); } catch (e) { H = null; } return H; }
+async function honor() { if (H) return H; try { H = await import('../assets/honor.js?v=20261105b'); } catch (e) { H = null; } return H; }
 async function syncSoon() { try { const h = await honor(); if (h && h.ready && h.sync) await h.sync(); } catch (e) {} }
 async function boardPanel() {
   const el = $('board');
@@ -643,6 +648,6 @@ async function boardPanel() {
 
 home();
 </script>
-<script src="../assets/club.js?v=20"></script>
+<script src="../assets/club.js?v=21"></script>
 </body>
 </html>
