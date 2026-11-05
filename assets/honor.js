@@ -19,7 +19,7 @@ export const RULES = [
   { key: 'bf',   label: 'إجابة صحيحة في Breakfast Challenge', icon: '🍳', per: 5, max: 10 },
   { key: 'aw',   label: 'إجابة صحيحة في الكلمات الأكاديمية', icon: '🎓', per: 7, max: 290 },
   { key: 'st',   label: 'إجابة صحيحة في ركن القصص', icon: '📖', per: 7, max: 54 },
-  { key: 'lab',  label: 'إجابة صحيحة في مختبر المحادثة', icon: '💬', per: 7, max: 100 },
+  { key: 'lab',  label: 'إجابة صحيحة في مختبر المحادثة', icon: '💬', per: 7, max: 225 },
   { key: 'tn',   label: 'سؤال جديد أجبته صحيحاً في خارطة الأزمنة', icon: '⏳', per: 7, max: 42 },
   { key: 'pv',   label: 'سؤال جديد أجبته صحيحاً في المبني للمجهول', icon: '🔄', per: 7, max: 60 },
   { key: 'im',   label: 'سؤال جديد أجبته صحيحاً في ركن التعبيرات', icon: '🎨', per: 7, max: 52 },
@@ -79,7 +79,7 @@ export function computeScore() {
   let caps = 0; const CAP_EQ = [0, 3, 5, 7];
   CAPS.forEach(c => { const s = J('cap2-' + c + '-stars') || {}; Object.keys(s).forEach(k => { caps += CAP_EQ[Math.max(0, Math.min(3, +s[k] || 0))]; }); });
   let wq = 0; for (let n = 1; n <= 50; n++) wq += Math.max(0, Math.min(10, N('wq-best-' + n)));
-  let lab = 0; for (let w = 1; w <= 20; w++) lab += Math.max(0, Math.min(5, N('cl-q-' + w)));
+  let lab = 0; for (let w = 1; w <= 45; w++) lab += Math.max(0, Math.min(5, N('cl-q-' + w)));
   const mg = Math.min(300, (J('mg1-known') || []).length) + Math.min(300, (J('mg2-known') || []).length) + Math.min(300, (J('mg3-known') || []).length);
   const bf = Math.max(0, Math.min(10, N('bf-best')));
   let ng = 0; for (let n = 1; n <= 50; n++) ng += Math.max(0, Math.min(10, N('ng-best-' + n)));

@@ -618,7 +618,7 @@ function run(u) {
 
 /* ---------- club points + elite board ---------- */
 let H = null;
-async function honor() { if (H) return H; try { H = await import('../assets/honor.js?v=20261104e'); } catch (e) { H = null; } return H; }
+async function honor() { if (H) return H; try { H = await import('../assets/honor.js?v=20261105a'); } catch (e) { H = null; } return H; }
 async function syncSoon() { try { const h = await honor(); if (h && h.ready && h.sync) await h.sync(); } catch (e) {} }
 async function boardPanel() {
   const el = $('board');
@@ -638,6 +638,6 @@ async function boardPanel() {
 
 home();
 </script>
-<script src="../assets/club.js?v=19"></script>
+<script src="../assets/club.js?v=20"></script>
 </body>
 </html>
