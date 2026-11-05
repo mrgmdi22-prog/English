@@ -9,7 +9,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <script src="../../assets/gate.js?v=9"></script><script src="../../assets/combo.js?v=2"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>مِران ستيب · STEP Practice</title>
+<title>مِران ستيب · STEP Drill</title>
 <meta name="description" content="مِران ستيب: بنك تدريبي لاختبار ستيب داخل مسار النخبة — قواعد وتحليل كتابي وقراءة واختبار محاكٍ.">
 <meta name="theme-color" content="#F6F3FF">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
@@ -310,7 +310,7 @@ function stemHTML(q){
 
 /* ---------- views ---------- */
 function header(showHome){
-  return `<a class="back" href="../index.html">→ مسار النخبة</a><header class="top"><div class="brand"><div class="mark">STEP</div><div><h1>مِران ستيب</h1><small>مسار النخبة · تدريب على اختبار كفايات اللغة الإنجليزية</small></div></div>${showHome?'<button class="home-btn" id="home">قائمة ستيب</button>':''}</header>`;
+  return `<a class="back" href="../index.html">→ مسار النخبة</a><header class="top"><div class="brand"><div class="mark">STEP</div><div><h1>مِران ستيب <span dir="ltr" style="font-size:.7em;opacity:.75">STEP Drill</span></h1><small>مسار النخبة · تدريب على اختبار كفايات اللغة الإنجليزية</small></div></div>${showHome?'<button class="home-btn" id="home">قائمة ستيب</button>':''}</header>`;
 }
 function catTile(cat, n, label){
   const s = stats[cat]; const pct = s && s[1] ? Math.round(100*s[0]/s[1]) : null;
