@@ -76,6 +76,7 @@ h2{font-size:1.45rem;margin:0 0 6px}
 .mode.blitz{background:linear-gradient(135deg,#FFF3D3,#fff)}
 .mode.boss{background:linear-gradient(135deg,#FFE9E0,#fff)}
 .mode.fix{background:linear-gradient(135deg,#EEE9FF,#fff)}
+.summit{background:linear-gradient(135deg,#E8F3FF,#F3EEFF);border-color:#d6e2f7}
 
 /* arenas */
 .arena{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px dashed var(--line);cursor:pointer;background:none;border-left:0;border-right:0;border-top:0;width:100%;font:inherit;color:inherit;text-align:right}
@@ -214,6 +215,16 @@ h2{font-size:1.45rem;margin:0 0 6px}
       <div id="arenas"></div>
     </div>
 
+    <div class="card summit">
+      <h2>🏔️ قمة C2</h2>
+      <p style="margin:0 0 6px">الطبقة العليا: كلمات C2 نادرة، وتراكيب متقدمة، ونصوص أكاديمية تسأل عن نبرة الكاتب وغرضه. <b>25 نقطة</b> لكل سؤال جديد تحلّه.</p>
+      <div id="c2Lock"><p class="muted" style="margin:6px 0 2px">🔒 تُفتح عندما تحلّ 300 سؤال في النخبة+.</p><div id="c2Need"></div></div>
+      <div id="c2Open" class="hide">
+        <button class="mode boss" data-mode="summit" style="margin:8px 0"><span class="ic" aria-hidden="true">🏔️</span><span class="tx"><b>تحدي القمة</b><small>10 أسئلة جديدة مختلطة من مستوى C2.</small></span></button>
+        <div id="arenas2"></div>
+      </div>
+    </div>
+
     <div class="card">
       <h2>🏆 لوحة أبطال النخبة+</h2>
       <p class="muted" style="margin:0 0 6px">الترتيب بمجموع نقاط النخبة+.</p>
@@ -242,7 +253,7 @@ h2{font-size:1.45rem;margin:0 0 6px}
 </section>
 </main>
 
-<script src="data.js?v=1"></script>
+<script src="data.js?v=1"></script><script src="data2.js?v=1"></script>
 <script>
 (function(){
 const $ = id => document.getElementById(id);
@@ -254,34 +265,44 @@ const sfx = n => { try { window.clubSfx && window.clubSfx(n); } catch (e) {} };
 const dayNo = () => Math.floor((Date.now() + 3 * 3600e3 - 6 * 3600e3) / 864e5);   // the club's day starts at 6 am Saudi time
 const weekNo = () => Math.floor((dayNo() - 5) / 7);                              // a new week every Tuesday 6 am
 const mulberry = a => () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
-const PER = 15, BONUS = 5, BOSS_PER = 25, LIVES = 3, BLITZ_S = 60, QUAL_N = 10, QUAL_PASS = 8;
+const PER = 15, PER2 = 25, C2_AT = 300, BONUS = 5, BOSS_PER = 25, LIVES = 3, BLITZ_S = 60, QUAL_N = 10, QUAL_PASS = 8;
 const PREVIEW = /#preview/.test(location.hash);
 
 /* ---------- build the question bank ---------- */
 const D = window.EP, Q = [];
-const SK = { v: ['📚', 'كلمات النخبة', 'Advanced vocabulary'], e: ['🕵️', 'صائد الأخطاء', 'Error hunter'], k: ['🔁', 'إعادة الصياغة', 'Key word transformation'], i: ['🎭', 'تعابير وأفعال مركّبة', 'Idioms & phrasal verbs'], r: ['🔎', 'القراءة الاستنتاجية', 'Reading between the lines'] };
+const SK = { v: ['📚', 'كلمات النخبة', 'Advanced vocabulary'], e: ['🕵️', 'صائد الأخطاء', 'Error hunter'], k: ['🔁', 'إعادة الصياغة', 'Key word transformation'], i: ['🎭', 'تعابير وأفعال مركّبة', 'Idioms & phrasal verbs'], r: ['🔎', 'القراءة الاستنتاجية', 'Reading between the lines'],
+  cv: ['💠', 'كلمات القمة', 'C2 vocabulary'], ce: ['🧩', 'تراكيب القمة', 'Advanced structures'], ck: ['🧠', 'صياغة القمة', 'C2 transformations'], cr: ['🏛️', 'القراءة الأكاديمية', 'Academic reading'] };
 const pick3 = (pool, n, rnd) => shuffle(pool, rnd).slice(0, n || 3);
-D.V.forEach((v, i) => {
-  const [w, c, def, ar, sen, syn] = v, other = D.V.filter(x => x[0] !== w && (!c || x[1] !== c));
-  Q.push({ id: 'v' + i + 'd', g: 'v' + i, k: 'v', t: 'mcq', pr: `Which word means: <i>${esc(def)}</i>?`, a: w, d: () => pick3(other.map(x => x[0])), ar: `${w} = ${ar}` });
-  Q.push({ id: 'v' + i + 's', g: 'v' + i, k: 'v', t: 'mcq', pr: `Choose the word closest in meaning to <b>${esc(w)}</b>.`, a: syn, d: () => pick3(other.map(x => x[5])), ar: `${w} (${ar}) ≈ ${syn}` });
-  Q.push({ id: 'v' + i + 'g', g: 'v' + i, k: 'v', t: 'type', pr: esc(sen).replace('___', '<span class="gap"></span>'), ans: [w], hint: `الكلمة تبدأ بالحرف <b class="en" style="display:inline">${w[0]}</b> وعدد حروفها ${w.length}.`, ar: `${w} = ${ar}` });
-});
-D.E.forEach((e, i) => Q.push({ id: 'e' + i, g: 'e' + i, k: 'e', t: 'err', parts: e[0], w: e[1], fix: e[2], ar: e[3] }));
-D.K.forEach((x, i) => Q.push({ id: 'k' + i, g: 'k' + i, k: 'k', t: 'kwt', s1: x[0], key: x[1], s2: x[2], ans: x[3] }));
-D.I.forEach((x, i) => {
-  const [ph, ty, c, mean, ar, sen] = x, other = D.I.filter(y => y[0] !== ph && y[1] === ty && (!c || y[2] !== c));
-  const all = D.I.filter(y => y[0] !== ph && (!c || y[2] !== c));
-  Q.push({ id: 'i' + i + 'm', g: 'i' + i, k: 'i', t: 'mcq', pr: `What does <b>${esc(ph)}</b> mean?`, a: mean, d: () => pick3(all.map(y => y[3])), ar: `${ph} = ${ar}` });
-  Q.push({ id: 'i' + i + 'g', g: 'i' + i, k: 'i', t: 'mcq', pr: esc(sen).replace('___', '<span class="gap"></span>'), a: ph, d: () => pick3(other.map(y => y[0])), ar: `${ph} = ${ar}` });
-});
-D.R.forEach((p, n) => p.q.forEach((q, j) => Q.push({ id: 'r' + n + 'q' + j, g: 'r' + n, k: 'r', t: 'mcq', ps: n, pr: esc(q[0]), a: q[1], d: () => q.slice(2) })));
+// build(bank, id prefix, key prefix, tier): tier 1 = النخبة+ (B2–C1), tier 2 = قمة C2 (ids start with "c")
+function build(B, P, K, tier) {
+  (B.V || []).forEach((v, i) => {
+    const [w, c, def, ar, sen, syn] = v, other = B.V.filter(x => x[0] !== w && (!c || x[1] !== c)), g = P + 'v' + i, k = K + 'v';
+    Q.push({ id: g + 'd', g, k, tier, t: 'mcq', pr: `Which word means: <i>${esc(def)}</i>?`, a: w, d: () => pick3(other.map(x => x[0])), ar: `${w} = ${ar}` });
+    Q.push({ id: g + 's', g, k, tier, t: 'mcq', pr: `Choose the word closest in meaning to <b>${esc(w)}</b>.`, a: syn, d: () => pick3(other.map(x => x[5])), ar: `${w} (${ar}) ≈ ${syn}` });
+    Q.push({ id: g + 'g', g, k, tier, t: 'type', pr: esc(sen).replace('___', '<span class="gap"></span>'), ans: [w], hint: `الكلمة تبدأ بالحرف <b class="en" style="display:inline">${w[0]}</b> وعدد حروفها ${w.length}.`, ar: `${w} = ${ar}` });
+  });
+  (B.E || []).forEach((e, i) => Q.push({ id: P + 'e' + i, g: P + 'e' + i, k: K + 'e', tier, t: 'err', parts: e[0], w: e[1], fix: e[2], ar: e[3] }));
+  (B.K || []).forEach((x, i) => Q.push({ id: P + 'k' + i, g: P + 'k' + i, k: K + 'k', tier, t: 'kwt', s1: x[0], key: x[1], s2: x[2], ans: x[3] }));
+  (B.I || []).forEach((x, i) => {
+    const [ph, ty, c, mean, ar, sen] = x, other = B.I.filter(y => y[0] !== ph && y[1] === ty && (!c || y[2] !== c));
+    const all = B.I.filter(y => y[0] !== ph && (!c || y[2] !== c)), g = P + 'i' + i, k = K + 'i';
+    Q.push({ id: g + 'm', g, k, tier, t: 'mcq', pr: `What does <b>${esc(ph)}</b> mean?`, a: mean, d: () => pick3(all.map(y => y[3])), ar: `${ph} = ${ar}` });
+    Q.push({ id: g + 'g', g, k, tier, t: 'mcq', pr: esc(sen).replace('___', '<span class="gap"></span>'), a: ph, d: () => pick3(other.map(y => y[0])), ar: `${ph} = ${ar}` });
+  });
+  (B.R || []).forEach((p, n) => p.q.forEach((q, j) => Q.push({ id: P + 'r' + n + 'q' + j, g: P + 'r' + n, k: K + 'r', tier, t: 'mcq', ps: p, pr: esc(q[0]), a: q[1], d: () => q.slice(2) })));
+}
+build(D, '', '', 1);
+if (window.EP2) build(window.EP2, 'c', 'c', 2);
+const T1 = q => q.tier === 1, T2 = q => q.tier === 2;
+const ptsOf = q => q.tier === 2 ? PER2 : PER;
 const BYID = {}; Q.forEach(q => { BYID[q.id] = q; });
 
 /* ---------- the student's record ---------- */
 const ok = () => J('ep-ok', {}), wrongs = () => J('ep-wrong', {});
 const solved = () => Object.keys(ok()).filter(k => BYID[k]).length;
-const myPts = () => solved() * PER + Math.min(+J('ep-xb', 0) || 0, solved() * BONUS) + Object.values(J('ep-boss', {})).reduce((t, v) => t + Math.max(0, Math.min(10, +v || 0)), 0) * BOSS_PER;
+const solvedT = t => Object.keys(ok()).filter(k => BYID[k] && BYID[k].tier === t).length;
+const c2Open = () => PREVIEW || solvedT(1) >= C2_AT;
+const myPts = () => solvedT(1) * PER + solvedT(2) * PER2 + Math.min(+J('ep-xb', 0) || 0, solved() * BONUS) + Object.values(J('ep-boss', {})).reduce((t, v) => t + Math.max(0, Math.min(10, +v || 0)), 0) * BOSS_PER;
 const TITLES = [[0, 'متحدٍّ', '🎯'], [40, 'مقاتل', '⚔️'], [120, 'بطل', '🏅'], [250, 'نجم خارق', '🌠'], [400, 'أسطورة النخبة+', '👑']];
 const titleOf = n => { let t = TITLES[0]; TITLES.forEach(x => { if (n >= x[0]) t = x; }); return t; };
 const LV = ['Pre-A1', 'A1', 'A2', 'B1', 'B2'], LV_NEW = 1793547780000;
@@ -340,15 +361,16 @@ const isRight = (q, typed) => q.ans.some(a => norm(a) === norm(typed));
 let R = null;   // {mode, list, i, right, lives, streak, best, gained, log, end, timer, week}
 const MODES = {
   endless: { t: '♾️ التحدي اللانهائي' }, blitz: { t: '⏱️ تحدي البرق' }, boss: { t: '👹 زعيم الأسبوع' },
-  fix: { t: '🔁 ثأر الأخطاء' }, arena: { t: '' }, qual: { t: '🎟️ اختبار التأهيل' }
+  fix: { t: '🔁 ثأر الأخطاء' }, arena: { t: '' }, summit: { t: '🏔️ تحدي القمة' }, qual: { t: '🎟️ اختبار التأهيل' }
 };
 function startRound(mode, arg) {
   let list = [];
-  if (mode === 'qual') { list = choose(QUAL_N, q => q.t === 'mcq' && q.k !== 'r' || q.t === 'err'); S('ep-qday', dayNo()); }
+  if (mode === 'qual') { list = choose(QUAL_N, q => T1(q) && (q.t === 'mcq' && q.k !== 'r' || q.t === 'err')); S('ep-qday', dayNo()); }
   else if (mode === 'arena') list = choose(10, q => q.k === arg);
-  else if (mode === 'fix') { const W = wrongs(), O = ok(); list = shuffle(Q.filter(q => W[q.id] && !O[q.id])).slice(0, 10); }
-  else if (mode === 'blitz') list = choose(200, q => q.t === 'mcq' && q.k !== 'r' || q.t === 'err');
-  else if (mode === 'endless') list = choose(500, () => true);
+  else if (mode === 'fix') { const W = wrongs(), O = ok(); list = shuffle(Q.filter(q => W[q.id] && !O[q.id] && (T1(q) || c2Open()))).slice(0, 10); }
+  else if (mode === 'blitz') list = choose(200, q => T1(q) && (q.t === 'mcq' && q.k !== 'r' || q.t === 'err'));
+  else if (mode === 'endless') list = choose(500, T1);
+  else if (mode === 'summit') list = choose(10, T2);
   else if (mode === 'boss') list = bossList();
   if (!list.length) { toast(mode === 'fix' ? 'لا أخطاء تنتظر الثأر 🎉' : 'أنهيت كل أسئلة هذا القسم! 👑'); return; }
   R = { mode, arg, list, i: 0, right: 0, lives: LIVES, streak: 0, best: 0, gained: 0, log: [], week: weekNo() };
@@ -378,7 +400,7 @@ function render() {
   info();
   const W = wrongs(), fresh = !W[q.id];
   let h = `<span class="qtag ${fresh ? 'new' : ''}">${SK[q.k][0]} ${SK[q.k][1]}${fresh ? ' · جديد' : ' · ثأر'}</span>`;
-  if (q.ps != null) { const p = D.R[q.ps]; h += `<div class="passage en"><h3>${esc(p.t)}</h3>${esc(p.p)}</div>`; }
+  if (q.ps) { const p = q.ps; h += `<div class="passage en"><h3>${esc(p.t)}</h3>${esc(p.p)}</div>`; }
   if (q.t === 'mcq') {
     const opts = shuffle([q.a].concat(q.d()));
     R.opts = opts;
@@ -410,7 +432,7 @@ function answer(right, btn, typed) {
   if (right) {
     R.right++; R.streak++; R.best = Math.max(R.best, R.streak);
     if (counts && fresh) {
-      O[q.id] = 1; S('ep-ok', O); delete W[q.id]; S('ep-wrong', W); got = PER;
+      O[q.id] = 1; S('ep-ok', O); delete W[q.id]; S('ep-wrong', W); got = ptsOf(q);
       if (R.streak >= 5) { S('ep-xb', (+J('ep-xb', 0) || 0) + BONUS); got += BONUS; }
     }
     if (R.mode === 'boss' && R.counts) { const B = J('ep-boss', {}); B[R.week] = Math.min(10, (+B[R.week] || 0) + 1); S('ep-boss', B); got += BOSS_PER; }
@@ -481,7 +503,7 @@ function finish() {
 function bossList() {
   const rnd = mulberry(weekNo() * 7919 + 13), pickN = (f, n) => shuffle(Q.filter(f), rnd).slice(0, n);
   const used = new Set(), out = [];
-  [[q => q.k === 'k', 3], [q => q.k === 'e', 3], [q => q.k === 'r', 2], [q => q.t === 'type', 2]].forEach(([f, n]) => pickN(f, 20).forEach(q => { if (out.length < 10 && n > 0 && !used.has(q.g)) { used.add(q.g); out.push(q); n--; } }));
+  [[q => q.k === 'k', 3], [q => q.k === 'e', 3], [q => q.k === 'r', 2], [q => T1(q) && q.t === 'type', 2]].forEach(([f, n]) => pickN(f, 20).forEach(q => { if (out.length < 10 && n > 0 && !used.has(q.g)) { used.add(q.g); out.push(q); n--; } }));
   return out;
 }
 
@@ -511,11 +533,16 @@ function home() {
   $('bossChip').textContent = String(w) in B ? '✔️ ' + B[w] + '/10' : '⚔️ متاح';
   const W = wrongs(), O = ok(), nw = Object.keys(W).filter(k => BYID[k] && !O[k]).length;
   $('fixChip').textContent = nw ? nw + ' سؤال' : '—';
-  $('arenas').innerHTML = Object.keys(SK).map(k => {
+  const arenaRow = k => {
     const all = Q.filter(q => q.k === k), done = all.filter(q => O[q.id]).length, pc = Math.round(done / all.length * 100);
     return `<button class="arena" data-k="${k}"><span class="ic" aria-hidden="true">${SK[k][0]}</span><span><b>${SK[k][1]}</b><small class="en" style="text-align:right">${SK[k][2]} · ${done}/${all.length}</small><span class="pbar" style="display:block"><i style="width:${pc}%"></i></span></span><span class="pc">${pc}%</span></button>`;
-  }).join('');
-  $('arenas').querySelectorAll('.arena').forEach(b => b.onclick = () => startRound('arena', b.dataset.k));
+  };
+  $('arenas').innerHTML = ['v', 'e', 'k', 'i', 'r'].map(arenaRow).join('');
+  const t1 = solvedT(1), open2 = c2Open();
+  $('c2Lock').classList.toggle('hide', open2); $('c2Open').classList.toggle('hide', !open2);
+  $('c2Need').innerHTML = `حللت <b>${t1}</b> من ${C2_AT} سؤال في النخبة+<div class="pbar"><i style="width:${Math.min(100, Math.round(t1 / C2_AT * 100))}%"></i></div>`;
+  if (open2) $('arenas2').innerHTML = ['cv', 'ce', 'ck', 'cr'].map(arenaRow).join('');
+  document.querySelectorAll('.arena').forEach(b => b.onclick = () => startRound('arena', b.dataset.k));
   boardPanel();
 }
 document.querySelectorAll('.mode').forEach(b => b.onclick = () => startRound(b.dataset.mode));
@@ -523,7 +550,7 @@ $('qualGo').onclick = () => startRound('qual');
 
 /* ---------- club points + Elite+ board ---------- */
 let H = null;
-async function honor() { if (H) return H; try { H = await import('../../assets/honor.js?v=20261105b'); } catch (e) { H = null; } return H; }
+async function honor() { if (H) return H; try { H = await import('../../assets/honor.js?v=20261105c'); } catch (e) { H = null; } return H; }
 async function syncSoon() { try { const h = await honor(); if (h && h.ready && h.sync) await h.sync(); } catch (e) {} }
 let boardBusy = false;
 async function boardPanel() {
@@ -547,6 +574,6 @@ home();
 syncSoon();
 })();
 </script>
-<script src="../../assets/club.js?v=21"></script>
+<script src="../../assets/club.js?v=22"></script>
 </body>
 </html>

@@ -27,6 +27,7 @@ export const RULES = [
   { key: 'ek',   label: 'إجابة صحيحة في مسار النخبة (B1 فأعلى)', icon: '💎', per: 10, max: 400 },
   { key: 'et',   label: 'إجابة صحيحة في «في المدينة» بمسار النخبة (أفضل محاولة)', icon: '🏙️', per: 10, max: 125 },
   { key: 'ep',   label: 'سؤال جديد حللته في النخبة+ (لا يتكرر، وخارج السقف اليومي)', icon: '🚀', per: 15, max: 2000 },
+  { key: 'ep2',  label: 'سؤال جديد حللته في قمة C2 بالنخبة+ (خارج السقف اليومي)', icon: '🏔️', per: 25, max: 1000 },
   { key: 'epb',  label: 'إجابة صحيحة ضد زعيم الأسبوع في النخبة+ (المحاولة الأولى)', icon: '👹', per: 25, max: 2000 },
   { key: 'epx',  label: 'مكافأة السلسلة في النخبة+: +5 من الإجابة الخامسة المتتالية', icon: '🔥', per: 1, max: 1000000, unit: 'نقطة' },
   { key: 'ed',   label: 'إجابة صحيحة في تحدي النخبة اليومي (أول محاولة)', icon: '⚡', per: 10, max: 1500 },
@@ -49,7 +50,7 @@ export const dayNo = t => Math.floor(((t || Date.now()) + 3 * 3600e3 - 6 * 3600e
 export const weekNo = t => Math.floor((dayNo(t) - 5) / 7);                              // day 5 (mod 7) is a Tuesday
 /** The Tuesday a season starts, as d/m (Gregorian). */
 export function weekLabel(w) { const d = new Date((w * 7 + 5) * 864e5); return d.getUTCDate() + '/' + (d.getUTCMonth() + 1); }
-const FREE = new Set(['mb', 'lv', 'lvs', 'rt', 'ep', 'epb', 'epx']);   // النخبة+ (elite/plus) has no daily cap
+const FREE = new Set(['mb', 'lv', 'lvs', 'rt', 'ep', 'ep2', 'epb', 'epx']);   // النخبة+ (elite/plus) has no daily cap
 const CAPS = ['space', 'flavor', 'life', 'adventure', 'emotion', 'career', 'nature', 'health', 'sports', 'tech'];
 
 function J(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
@@ -125,11 +126,14 @@ export function computeScore() {
   let ed = 0; const eld = J('el-daily') || {}; Object.keys(eld).forEach(k => { ed += Math.max(0, Math.min(5, +eld[k] || 0)); });
   // النخبة+ (elite/plus): elite students who passed its entry test. Each question answered right counts once (ep-ok),
   // the weekly boss counts its first try (ep-boss = {week: right, max 10}), streak bonus ep-xb (+5 per new right answer from the 5th in a row).
-  let ep = 0, epb = 0, epx = 0;
+  // Ids starting with "c" belong to قمة C2 (the top tier): 25 each.
+  let ep = 0, ep2 = 0, epb = 0, epx = 0;
   if (elite && J('ep-pass')) {
-    ep = Math.max(0, Math.min(2000, Object.keys(J('ep-ok') || {}).length));
+    const eo = Object.keys(J('ep-ok') || {});
+    ep = Math.max(0, Math.min(2000, eo.filter(k => k[0] !== 'c').length));
+    ep2 = Math.max(0, Math.min(1000, eo.filter(k => k[0] === 'c').length));
     const eb = J('ep-boss') || {}; Object.keys(eb).forEach(k => { epb += Math.max(0, Math.min(10, +eb[k] || 0)); });
-    epx = Math.max(0, Math.min(ep * 5, +J('ep-xb') || 0));
+    epx = Math.max(0, Math.min((ep + ep2) * 5, +J('ep-xb') || 0));
   }
   // Streak bonus (combo.js): xb = {section: {unit: half-answers}}; each half-answer is worth half that section's rate.
   const PER = {}; RULES.forEach(r => { PER[r.key] = r.per; }); PER.caps = 5; PER.cq = 5;
@@ -137,7 +141,7 @@ export function computeScore() {
   Object.keys(xbo).forEach(sec => { if ((sec === 'ek' || sec === 'ed' || sec === 'et') && !elite) return; const u = xbo[sec] || {};
     Object.keys(u).forEach(k => { xb += Math.max(0, Math.min(k === '*' ? 100000 : 14, +u[k] || 0)) * (PER[sec] || 5) / 2; }); });
   xb = Math.round(xb);
-  const parts = { caps, wq, lab, mg, bf, ng, aw, st, cq, tn, pv, im, tb, sp, xb, mb, lv, lvs, rt, ek: elite ? ek : 0, ed: elite ? ed : 0, et: elite ? et : 0, ep, epb, epx, epp: ep * 15 + epb * 25 + epx, el: elite, wqx: wqStats() };
+  const parts = { caps, wq, lab, mg, bf, ng, aw, st, cq, tn, pv, im, tb, sp, xb, mb, lv, lvs, rt, ek: elite ? ek : 0, ed: elite ? ed : 0, et: elite ? et : 0, ep, ep2, epb, epx, epp: ep * 15 + ep2 * 25 + epb * 25 + epx, el: elite, wqx: wqStats() };
   // Practice points count at most DAILY_CAP a day (Saudi day). Practice after that is for learning only:
   // the extra points are not counted, then or later. Surprise Me and the level/retention rewards are outside the cap.
   const pts = r => Math.min(parts[r.key], r.max) * r.per;
