@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl" data-theme="light">
 <head>
 <meta charset="utf-8"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
-<script src="../assets/gate.js?v=9"></script><script src="../assets/combo.js?v=2"></script>
+<script src="../assets/gate.js?v=9"></script><script src="../assets/combo.js?v=3"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>محادثات التأسيس · Everyday Talk</title>
 <meta name="description" content="Basic everyday English for greetings, goodbyes, requests, accepting and refusing, apologizing, thanking, invitations and meetings.">
@@ -190,7 +190,7 @@ function drawQ(){
   if(Q.i>=Q.qs.length){const b=Math.max(best(cur),Q.right);store.set('tb-best-'+cur.id,String(b));
     const m=Q.right===5?'ممتاز! أتقنت هذه المواقف 🏆':Q.right>=3?'جيد جداً 👏 راجع العبارات وحاول مرة أخرى':'راجع العبارات والمحادثة ثم أعد المحاولة 💪';
     const nx=U.indexOf(cur)+1<U.length;
-    Z.innerHTML=`<div class="qend"><div class="big" dir="ltr">${Q.right} / 5</div><p style="font-weight:800;font-size:1.2rem;margin:6px 0">${m}</p><p style="color:var(--muted)">أفضل نتيجة لك في هذه الوحدة: ${b}/5 · كل إجابة صحيحة تمنحك 5 نقاط في لوحة الشرف، وتتضاعف مع التسلسل 🔥</p>${window.clubCombo?clubCombo.line():''}<button class="btn" id="again">🔁 مرة أخرى</button> ${nx?'<button class="btn soft" id="nextU">الوحدة التالية ←</button>':''}</div>`;
+    Z.innerHTML=`<div class="qend"><div class="big" dir="ltr">${Q.right} / 5</div><p style="font-weight:800;font-size:1.2rem;margin:6px 0">${m}</p><p style="color:var(--muted)">أفضل نتيجة لك في هذه الوحدة: ${b}/5 · كل إجابة صحيحة تمنحك 5 نقاط في لوحة الشرف</p>${window.clubCombo?clubCombo.line():''}<button class="btn" id="again">🔁 مرة أخرى</button> ${nx?'<button class="btn soft" id="nextU">الوحدة التالية ←</button>':''}</div>`;
     $('again').onclick=newQuiz;if(nx)$('nextU').onclick=()=>openUnit(U.indexOf(cur)+1);return;}
   const q=Q.qs[Q.i],opts=shuffle(q.slice(1));
   Z.innerHTML=`<div class="qtop"><span>الموقف ${Q.i+1} من 5</span><span>✅ ${Q.right}</span></div><div class="qbar"><i style="width:${Q.i/5*100}%"></i></div>

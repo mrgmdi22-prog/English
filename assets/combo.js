@@ -10,6 +10,8 @@
   // Points of one right answer in each section (same as RULES in honor.js). Used here only to show the bonus.
   var PER = { wq:5, ng:5, mg:5, tb:5, bf:5, caps:5, cq:5, aw:7, st:7, lab:7, tn:7, pv:7, im:7, sp:7, ek:10, ed:10 };
   var UNIT_MAX = 14;
+  // Sections with NO streak bonus (very easy levels): sentence capsules and the Foundations talk (since 6 Nov 2026).
+  var NOBONUS = { caps: 1, tb: 1 };
   var cur = null, chip = null, hideT = 0;
   function J(k){ try { return JSON.parse(localStorage.getItem(k)) || {}; } catch (e) { return {}; } }
   function mult(run){ return run >= 5 ? 2 : run >= 3 ? 1.5 : 1; }
@@ -54,12 +56,13 @@
 
   window.clubCombo = {
     /** A new attempt (a unit test, a stage, a round). unit '*' = item mode. opts.quiet: no floating chip. */
-    start: function(sec, unit, opts){ cur = { s: sec, u: String(unit == null ? '*' : unit), run: 0, best: 0, h: 0, quiet: !!(opts && opts.quiet), base: 0 }; cur.base = get(cur.s, cur.u); hide(); },
+    start: function(sec, unit, opts){ cur = { s: sec, u: String(unit == null ? '*' : unit), run: 0, best: 0, h: 0, quiet: !!(opts && opts.quiet), base: 0, off: !!NOBONUS[sec] }; cur.base = get(cur.s, cur.u); hide(); },
     /** One answer. fresh = false for an item the student already had (item mode only). Returns the multiplier of this answer. */
     hit: function(ok, fresh){
       if (!cur) return 1;
       if (!cur.noCount) count(cur.s, !!ok);
       if (!ok) { cur.run = 0; hide(); return 1; }
+      if (cur.off) { cur.run++; cur.best = Math.max(cur.best, cur.run); return 1; }   // no bonus, no chip
       cur.run++; cur.best = Math.max(cur.best, cur.run);
       var m = mult(cur.run), h = half(cur.run);
       if (cur.u === '*') { if (fresh !== false && h) { cur.h += h; put(cur.s, '*', get(cur.s, '*') + h); } }
@@ -77,6 +80,7 @@
     },
     /** A short HTML line for a result screen ('' when there was no run of three). */
     line: function(r){
+      if (cur && cur.off) return '';
       r = r || this.result(); if (r.best < 3) return '';
       return '<div class="comboRes">🔥 أطول تسلسل: <b>' + r.best + '</b> إجابات صحيحة متتالية — ' +
         (r.gain > 0 ? 'مكافأة التسلسل: <b>+' + r.gain + '</b> نقطة 🎉' : (cur && cur.u !== '*' ? 'مكافأتك السابقة في هذه الوحدة أعلى أو مساوية.' : 'الإجابات المكررة لا تضيف مكافأة.')) + '</div>';
