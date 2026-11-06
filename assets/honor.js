@@ -150,10 +150,21 @@ export function computeScore() {
   const day = dayNo(), week = weekNo();   // the points day starts at 6 am Saudi time, like Surprise Me
   let L = J('pts-day');
   if (!L || typeof L !== 'object' || !(L.seen >= 0)) L = { d: day, seen: raw, got: raw, t: 0 }; // existing points are kept
-  if (L.d !== day) { L.d = day; L.t = 0; }
+  L.d = day;
   if (L.rv !== RATES_V) { L.rv = RATES_V; if (raw > L.seen) L.seen = raw; }   // new rates apply from now on, not to past work
   const cap = parts.el ? DAILY_CAP_EL : DAILY_CAP;
-  if (raw > L.seen) { const add = Math.min(raw - L.seen, Math.max(0, cap - L.t)); L.got += add; L.t += add; L.seen = raw; }
+  // Points counted today live in L.tt = {d, v}. (The old field L.t was merged max-wise by the cloud backup across DAYS:
+  // yesterday's full counter came back every morning and pinned students at the cap — fixed 6 Nov 2026; L.t is only a mirror now.)
+  if (!L.tt || L.tt.d !== day) {
+    let v = 0;
+    if (!L.tt) {   // first run after the fix: estimate today's counted points from this device's activity record
+      const A = J('act');
+      if (A && A.day === day && A.ds) { const ds = RULES.filter(r => !FREE.has(r.key)).reduce((t, r) => t + (+A.ds[r.key] || 0), 0); v = Math.min(cap, Math.max(0, Math.round(raw - ds))); }
+    }
+    L.tt = { d: day, v };
+  }
+  L.t = L.tt.v;
+  if (raw > L.seen) { const add = Math.min(raw - L.seen, Math.max(0, cap - L.t)); L.got += add; L.t += add; L.tt.v = L.t; L.seen = raw; }
   L.got = Math.min(L.got, raw);
   try { localStorage.setItem('pts-day', JSON.stringify(L)); } catch (e) {}
   parts.dl = { t: L.t, cap };
@@ -368,6 +379,20 @@ function mergeVal(a, b) {
   }
   return a; // text settings: this device's choice wins
 }
+/** The points ledger is merged by DAY: counters of an older day never leak into a newer day (see computeScore). */
+function mergePtsDay(local, cloud) {
+  if (local == null) return cloud; if (cloud == null || local === cloud) return local;
+  let a, b; try { a = JSON.parse(local); b = JSON.parse(cloud); } catch (e) { return local; }
+  if (!a || typeof a !== 'object') return cloud; if (!b || typeof b !== 'object') return local;
+  const o = { ...b, ...a }, mx = k => { if (a[k] != null || b[k] != null) o[k] = Math.max(+a[k] || 0, +b[k] || 0); };
+  ['d', 'seen', 'got', 'rv', 'last'].forEach(mx);
+  const wa = +a.w || 0, wb = +b.w || 0;                      // season baseline: from the later season, the larger one within it
+  if (wa !== wb) { const n = wa > wb ? a : b; o.w = n.w; o.w0 = n.w0; } else { o.w = a.w != null ? a.w : b.w; mx('w0'); }
+  const ta = a.tt, tb = b.tt;                                // counted today: only from the same (or the later) day
+  if (ta && tb) o.tt = ta.d === tb.d ? { d: ta.d, v: Math.max(+ta.v || 0, +tb.v || 0) } : (ta.d > tb.d ? ta : tb); else o.tt = ta || tb;
+  delete o.t;
+  return JSON.stringify(o);
+}
 function mergeRaw(local, cloud) {
   if (local == null) return cloud;
   if (cloud == null || local === cloud) return local;
@@ -386,7 +411,7 @@ async function pullProgress(uid) {
   let cloud = {}; try { cloud = JSON.parse(snap.data().d || '{}') || {}; } catch (e) { return false; }
   Object.keys(cloud).forEach(k => {
     if (SKIP.test(k)) return;
-    try { const cur = localStorage.getItem(k), m = mergeRaw(cur, cloud[k]); if (m !== cur && m != null) localStorage.setItem(k, m); } catch (e) {}
+    try { const cur = localStorage.getItem(k), m = (k === 'pts-day' ? mergePtsDay : mergeRaw)(cur, cloud[k]); if (m !== cur && m != null) localStorage.setItem(k, m); } catch (e) {}
   });
   return true;
 }
