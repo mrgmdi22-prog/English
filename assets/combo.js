@@ -10,8 +10,8 @@
   // Points of one right answer in each section (same as RULES in honor.js). Used here only to show the bonus.
   var PER = { wq:5, ng:5, mg:5, tb:5, bf:5, caps:5, cq:5, aw:7, st:7, lab:7, tn:7, pv:7, im:7, sp:7, ek:10, ed:10 };
   var UNIT_MAX = 14;
-  // Sections with NO streak bonus (very easy levels): sentence capsules and the Foundations talk (since 6 Nov 2026).
-  var NOBONUS = { caps: 1, tb: 1 };
+  // Sections with NO streak bonus (very easy levels): sentence capsules, the Foundations talk and the breakfast quiz (since 6 Nov 2026).
+  var NOBONUS = { caps: 1, tb: 1, bf: 1 };
   var cur = null, chip = null, hideT = 0;
   function J(k){ try { return JSON.parse(localStorage.getItem(k)) || {}; } catch (e) { return {}; } }
   function mult(run){ return run >= 5 ? 2 : run >= 3 ? 1.5 : 1; }
