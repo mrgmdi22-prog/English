@@ -51,6 +51,15 @@ input[type=text]:focus{border-color:var(--gold)}
 .me .pts span{font-size:.92rem;color:var(--muted)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .chips span{background:#faf7ef;border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.95rem}
+/* my progress per section: earned / the section's ceiling */
+.secs{margin-top:16px}.secs h3{margin:0 0 6px;font-size:1.15rem;font-weight:800}
+.secs .sub{margin:0 0 10px;color:var(--muted);font-size:1rem}
+.sec{display:grid;grid-template-columns:minmax(120px,36%) 1fr;gap:4px 12px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line)}
+.sec:last-of-type{border-bottom:0}.sec .nm{font-weight:700;font-size:1.05rem}
+.sec .bar{height:14px;border-radius:9px;background:#f4efe0;overflow:hidden}.sec .bar i{display:block;height:100%;border-radius:9px;background:#e9b949}
+.sec .nu{grid-column:1/-1;display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:1rem}
+.sec.done .bar i{background:#4cbf8b}.sec.done .nu b{color:var(--ok)}
+.secs .todo{margin:10px 0 0;background:var(--violet-soft);border-radius:16px;padding:10px 14px;font-size:1.02rem}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;align-items:center}
 
 /* podium */
@@ -201,6 +210,26 @@ function gateHeader() {
 gateHeader();
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = n => Number(n||0).toLocaleString('en-US');
+/* «تقدّمك في الأقسام»: each section has a ceiling (its content × the points of an answer). Shows what I earned of it and what is left. */
+const SEC_NAME = { wq:'Word Quest', ng:'الكلمات العامة', mg:'ميدان المفردات', cq:'Core Quest', caps:'الكبسولات', tb:'محادثات التأسيس', bf:'Breakfast', aw:'الكلمات الأكاديمية', st:'القصص', lab:'مختبر المحادثة', tn:'خارطة الأزمنة', pv:'المبني للمجهول', im:'التعبيرات', ek:'مسار النخبة', et:'في المدينة' };
+const SEC_ORDER = ['wq','ng','aw','mg','cq','caps','tb','bf','st','lab','tn','pv','im','ek','et'];
+const SEC_EXTRA = ['mb','xb','rt','lv','lvs','sp','ep','ep2','epb','epx','ed'];      // no fixed ceiling worth showing: shown as plain numbers
+function secsHTML(p) {
+  const R = {}; H.RULES.forEach(r => { R[r.key] = r; });
+  const rows = SEC_ORDER.filter(k => R[k] && (p.el || (k !== 'ek' && k !== 'et'))).map(k => {
+    const r = R[k], max = r.max * r.per, got = Math.min(p[k] || 0, r.max) * r.per; return { k, r, max, got, done: got >= max };
+  });
+  const started = rows.filter(x => x.got > 0).sort((a, b) => (a.done - b.done) || (b.got / b.max - a.got / a.max)), fresh = rows.filter(x => x.got <= 0);
+  const line = x => `<div class="sec ${x.done ? 'done' : ''}"><span class="nm">${x.r.icon} ${SEC_NAME[x.k]}</span><span class="bar" aria-hidden="true"><i style="width:${Math.max(2, Math.round(x.got / x.max * 100))}%"></i></span>
+      <span class="nu"><span>${fmt(x.got)} من ${fmt(x.max)} نقطة</span><b>${x.done ? '✅ مكتمل' : 'بقي ' + fmt(x.max - x.got)}</b></span></div>`;
+  const extra = SEC_EXTRA.filter(k => R[k] && (p[k] || 0) > 0 && (p.el || !['ep','ep2','epb','epx','ed'].includes(k))).map(k => { const r = R[k], v = r.unit ? p[k] : Math.min(p[k], r.max) * r.per; return `<span>${r.icon} ${SEC_NAME[k] || r.label.split(':')[0].split('—')[0].trim()} ${fmt(v)}</span>`; });
+  const full = started.filter(x => x.done).length;
+  return `<div class="secs"><h3>📊 تقدّمك في الأقسام</h3>
+    <p class="sub">لكل قسم سقف نقاط بحسب محتواه، ويُحسب لك أفضل ما حققته في كل وحدة، فالإعادة لا تزيد النقاط.</p>
+    ${started.map(line).join('') || '<p class="sub">لم تجمع نقاطاً بعد، ابدأ بأي قسم من الصفحة الرئيسية.</p>'}
+    ${full ? `<p class="todo">🎉 أكملت ${full === 1 ? 'قسماً كاملاً' : full + ' أقسام كاملة'}! ${fresh.length ? 'نقاط جديدة تنتظرك في: ' + fresh.slice(0, 5).map(x => x.r.icon + ' ' + SEC_NAME[x.k]).join('، ') + '.' : ''}</p>` : (fresh.length ? `<p class="todo">لم تبدأ بعد: ${fresh.slice(0, 6).map(x => x.r.icon + ' ' + SEC_NAME[x.k]).join('، ')}.</p>` : '')}
+    ${extra.length ? `<div class="chips">${extra.join('')}</div>` : ''}</div>`;
+}
 
 $('rules').innerHTML = H.RULES.map(r => `<tr><td>${r.icon} ${r.label}</td><td>${r.note || (r.per + ' نقاط')}</td></tr>`).join('') + `<tr><td>⏳ حدّ يومي لنقاط التمارين: بعده تواصل التدريب للتعلّم، ولا تُحسب النقاط حتى الغد (يبدأ اليوم في السادسة صباحاً، وSurprise Me ونقاط التحسّن خارج الحد)</td><td>${H.DAILY_CAP || 750} نقطة</td></tr>` + `<tr><td>🗓️ موسم جديد كل ثلاثاء في السادسة صباحاً: يبدأ الجميع من الصفر، وأفضل ${H.STARS_N || 10} في كل أسبوع يدخلون سجل النجوم، ويُكرَّم في نهاية العام من تكررت نجوميته</td><td>أسبوعياً</td></tr>`;
 
@@ -442,7 +471,7 @@ function renderMe(msg) {
       <div class="pts"><b>${fmt(local.score)}</b><span>نقطة هذا الأسبوع</span></div></div>
     ${(() => { const c = H.stars && ALL.length ? (H.stars(ALL).count[ME.id] || 0) : 0; return c ? `<p class="lock" style="margin-top:12px">🌟 كنت من نجوم الأسبوع <b>${c === 1 ? 'مرة واحدة' : c === 2 ? 'مرتين' : c + ' مرات'}</b>. واصل، فالتكريم في نهاية العام لمن تكررت نجوميته!</p>` : ''; })()}
     ${p.dl ? `<p class="lock" style="margin-top:12px">${p.dl.t >= p.dl.cap ? '✅ أكملت حدّ اليوم من نقاط التمارين (' + fmt(p.dl.cap) + '). واصل التدريب لتتعلّم، ونقاط جديدة تنتظرك بعد السادسة صباحاً 🌅' : '⏳ نقاط التمارين اليوم: <b>' + fmt(p.dl.t) + '</b> من ' + fmt(p.dl.cap)}</p>` : ''}
-    <div class="chips">${H.RULES.map(r=>`<span>${r.icon} ${r.unit ? fmt(p[r.key]) + ' ' + r.unit : fmt(p[r.key]) + ' × ' + r.per}</span>`).join('')}</div>
+    ${secsHTML(p)}
     ${ME.region ? `<p class="lock" style="margin-top:12px">📍 منطقتك في اللوحة: <b>${esc(ME.region)}</b></p>` : (!(PRIV && PRIV.grade === H.EXTERNAL) ? '' : `<form id="rf" class="need"><b>📍 اختر مدينتك أو منطقتك لتظهر بجانب اسمك</b><select id="rg2"><option value="">اختر</option>${regionOpts('')}</select><button class="btn" style="margin-top:10px">حفظ</button></form>`)}
     ${PRIV ? `<p class="lock" style="margin-top:12px">🔒 بيانات التكريم: <b>${esc(PRIV.name)}</b> · ${PRIV.grade === H.EXTERNAL ? 'مشارك من خارج المدرسة' + (PRIV.school ? ' (' + esc(PRIV.school) + ')' : '') : esc(PRIV.grade) + ' · الشعبة ' + esc(PRIV.section)}. لا يراها إلا المعلم.</p>`
            : `<form id="pf" class="need"><b>⚠️ أكمل بياناتك ليُحسب لك التكريم في نهاية العام</b>${idFields(null)}<button class="btn" id="pb" style="margin-top:12px">حفظ بياناتي</button></form>`}
