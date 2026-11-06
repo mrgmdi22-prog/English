@@ -166,6 +166,9 @@ export function computeScore() {
   L.t = L.tt.v;
   if (raw > L.seen) { const add = Math.min(raw - L.seen, Math.max(0, cap - L.t)); L.got += add; L.t += add; L.tt.v = L.t; L.seen = raw; }
   L.got = Math.min(L.got, raw);
+  // One-time compensation (6 Nov 2026) for points lost to the pinned-counter bug: practice points that were not counted
+  // are given back once, at most 3 daily caps (the bug hit the days since the cap was introduced).
+  if (!L.comp) { L.comp = 1; L.got += Math.min(Math.max(0, raw - L.got), 3 * cap); }
   try { localStorage.setItem('pts-day', JSON.stringify(L)); } catch (e) {}
   parts.dl = { t: L.t, cap };
   const sec = {}; RULES.forEach(r => { const v = Math.min(parts[r.key] || 0, r.max) * r.per; if (v > 0) sec[r.key] = v; });
@@ -385,7 +388,7 @@ function mergePtsDay(local, cloud) {
   let a, b; try { a = JSON.parse(local); b = JSON.parse(cloud); } catch (e) { return local; }
   if (!a || typeof a !== 'object') return cloud; if (!b || typeof b !== 'object') return local;
   const o = { ...b, ...a }, mx = k => { if (a[k] != null || b[k] != null) o[k] = Math.max(+a[k] || 0, +b[k] || 0); };
-  ['d', 'seen', 'got', 'rv', 'last'].forEach(mx);
+  ['d', 'seen', 'got', 'rv', 'last', 'comp'].forEach(mx);
   const wa = +a.w || 0, wb = +b.w || 0;                      // season baseline: from the later season, the larger one within it
   if (wa !== wb) { const n = wa > wb ? a : b; o.w = n.w; o.w0 = n.w0; } else { o.w = a.w != null ? a.w : b.w; mx('w0'); }
   const ta = a.tt, tb = b.tt;                                // counted today: only from the same (or the later) day

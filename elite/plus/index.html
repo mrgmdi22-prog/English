@@ -550,7 +550,7 @@ $('qualGo').onclick = () => startRound('qual');
 
 /* ---------- club points + Elite+ board ---------- */
 let H = null;
-async function honor() { if (H) return H; try { H = await import('../../assets/honor.js?v=20261106a'); } catch (e) { H = null; } return H; }
+async function honor() { if (H) return H; try { H = await import('../../assets/honor.js?v=20261106b'); } catch (e) { H = null; } return H; }
 async function syncSoon() { try { const h = await honor(); if (h && h.ready && h.sync) await h.sync(); } catch (e) {} }
 let boardBusy = false;
 async function boardPanel() {
@@ -574,6 +574,6 @@ home();
 syncSoon();
 })();
 </script>
-<script src="../../assets/club.js?v=23"></script>
+<script src="../../assets/club.js?v=24"></script>
 </body>
 </html>
