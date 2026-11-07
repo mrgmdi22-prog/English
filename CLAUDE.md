@@ -1,13 +1,13 @@
 # English Club site (نادي اللغة الإنجليزية) — notes for new sessions
 
-Owner: أ. أحمد آل سالم (Ahmed Al-Salim), English teacher, Prince Faisal Secondary School, Al-Aqiq.
+Owner: أ. أحمد بن سالم (Ahmed Ben Salim), English teacher, Prince Faisal Secondary School, Al-Aqiq.
 Live: https://mrgmdi22-prog.github.io/English/ · repo mrgmdi22-prog/English (GitHub Pages, branch main, root).
 
 ## Working with Ahmed
-- Reply in Arabic, short and clear. Sign materials «أ. أحمد آل سالم». Tanween on the alif (كثيراً).
+- Reply in Arabic, short and clear. Sign materials «أ. أحمد بن سالم». Tanween on the alif (كثيراً).
 - Large fonts, light colours. Never «ملائكة الرحمة».
 - English content always left-to-right: Previous ← on the left, Next → on the right; letters A→Z from the left.
-- Commit as `-c user.name="Ahmed Al-Salim" -c user.email="mr.gmdi22@gmail.com"`; `git fetch -q origin && git rebase -q FETCH_HEAD` before push. Changes go live ~10 min after push.
+- Commit as `-c user.name="Ahmed Ben Salim" -c user.email="mr.gmdi22@gmail.com"`; `git fetch -q origin && git rebase -q FETCH_HEAD` before push. Changes go live ~10 min after push.
 - Test locally: `python3 -m http.server 8765` + Playwright (Google fonts/gstatic are blocked in the sandbox; stub `assets/gate.js` to skip registration).
 
 ## Structure
