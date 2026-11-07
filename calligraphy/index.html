@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+<meta charset="utf-8"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club">
+<script src="../assets/gate.js?v=9"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Calligraphy Studio · English Club</title>
+<meta name="description" content="A writing board with pens for English calligraphy: trace, copy and practise.">
+<meta name="theme-color" content="#FFF7DD">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&family=Baloo+Bhaijaan+2:wght@500;600;700;800&family=Great+Vibes&family=Pinyon+Script&family=Playfair+Display:ital,wght@1,500&family=UnifrakturCook:wght@700&display=swap">
+<style>
+:root{color-scheme:light;--bg:#FFF7DD;--card:#fff;--ink:#1E2A44;--muted:#4F5B74;--line:#EADFC0;--on:#FFE7A8;--onb:#E0A800;--accent:#C2452A;
+  --en:'Lexend','Segoe UI',system-ui,sans-serif;--ar:'Baloo Bhaijaan 2','Tajawal','Segoe UI',Tahoma,sans-serif}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--ink)}
+body{margin:0;font-family:var(--en);font-size:19px;line-height:1.5;padding:calc(64px + env(safe-area-inset-top,0px)) max(14px,env(safe-area-inset-left,0px)) calc(150px + env(safe-area-inset-bottom,0px))}
+.app{max-width:940px;margin:0 auto}
+h1{font-size:30px;line-height:1.2;margin:0 0 4px}
+.sub{margin:0 0 14px;color:var(--muted);font-family:var(--ar);font-size:19px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:14px;margin:0 0 14px}
+.card h2{font-size:21px;margin:0 0 4px}
+.card h2 small{font-family:var(--ar);font-weight:500;font-size:17px;color:var(--muted);margin-inline-start:8px}
+.board{position:relative;width:100%;border-radius:14px;overflow:hidden;border:3px solid #E7D9AE;background:#FFFDF5;box-shadow:0 10px 24px -16px rgba(120,90,20,.5)}
+.board canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#ink{touch-action:none;cursor:crosshair}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 0}
+.btn{font:600 18px/1.2 var(--en);min-height:52px;padding:8px 14px;border-radius:14px;border:2px solid var(--line);background:#FFFBEF;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;flex:1 1 auto}
+.btn small{font-family:var(--ar);font-weight:500;font-size:15px;color:var(--muted)}
+.btn.on{background:var(--on);border-color:var(--onb)}
+.btn:active{transform:scale(.97)}
+.pens .btn{flex:1 1 30%;flex-direction:column;gap:2px;padding:8px 6px}
+.pens .btn .ic{font-size:26px}
+.sw{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.sw button{width:48px;height:48px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px var(--line);cursor:pointer}
+.sw button.on{box-shadow:0 0 0 4px var(--onb)}
+.lbl{font-weight:700;margin:12px 0 0;font-size:18px}
+.lbl small{font-family:var(--ar);font-weight:500;color:var(--muted);font-size:16px;margin-inline-start:6px}
+input[type=text]{width:100%;font:500 20px var(--en);padding:12px 14px;border-radius:14px;border:2px solid var(--line);margin-top:8px;background:#fff;color:var(--ink)}
+input[type=range]{width:100%;height:36px;accent-color:#E0A800}
+.tip{background:#EAF6FF;border:2px solid #BFE0F7;border-radius:14px;padding:10px 14px;font-family:var(--ar);font-size:19px;direction:rtl;margin-top:10px}
+.act .btn{flex:1 1 30%}
+.btn.warn.on{background:#FFE1D6;border-color:#E58B6D}
+.hint{color:var(--muted);font-family:var(--ar);font-size:17px;direction:rtl;margin:6px 0 0}
+@media print{body{background:#fff;padding:0}.app>*:not(.pr){display:none!important}.app>.pr{display:block!important;border:0;padding:0;margin:0}.pr .row,.pr h2{display:none!important}.board{border:1px solid #999;box-shadow:none}#floatHome,[class*=club-]{display:none!important}}
+#qbar{position:fixed;left:0;right:0;bottom:0;z-index:50;background:rgba(255,251,239,.97);border-top:2px solid var(--line);padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:6px;align-items:center}
+#qbar .qr{display:flex;gap:6px;justify-content:center;flex-wrap:nowrap}
+#qbar button{width:50px;height:50px;border-radius:14px;border:2px solid var(--line);background:#fff;font-size:25px;cursor:pointer;padding:0}
+#qbar button.on{background:var(--on);border-color:var(--onb)}
+#qbar .qc button{width:34px;height:34px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px var(--line)}
+#qbar .qc button.on{box-shadow:0 0 0 3px var(--onb)}
+@media print{#qbar{display:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>✒️ Calligraphy Studio</h1>
+  <p class="sub">ورشة الخط الإنجليزي — لوح وأقلام للتدريب</p>
+
+  <div class="card pr">
+    <div class="board" id="board"><canvas id="paper"></canvas><canvas id="ink"></canvas></div>
+    <div class="row act">
+      <button class="btn" id="undo">↶ Undo <small>تراجع</small></button>
+      <button class="btn warn" id="clear">🗑 Clear <small>مسح</small></button>
+      <button class="btn" id="save">💾 Save <small>حفظ صورة</small></button>
+      <button class="btn" id="print">🖨️ Print sheet <small>طباعة الورقة</small></button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Pens <small>الأقلام</small></h2>
+    <div class="row pens" id="pens">
+      <button class="btn" data-pen="pencil"><span class="ic">✏️</span>Pencil <small>رصاص</small></button>
+      <button class="btn" data-pen="pointed"><span class="ic">🖋️</span>Pointed pen <small>مدبّب</small></button>
+      <button class="btn" data-pen="broad"><span class="ic">🖊️</span>Broad nib <small>مسطّح</small></button>
+      <button class="btn" data-pen="brush"><span class="ic">🖌️</span>Brush pen <small>فرشاة</small></button>
+      <button class="btn" data-pen="marker"><span class="ic">🖍️</span>Marker <small>ماركر</small></button>
+      <button class="btn" data-pen="eraser"><span class="ic">🧽</span>Eraser <small>ممحاة</small></button>
+    </div>
+    <div class="tip" id="tip"></div>
+
+    <div class="lbl">Ink <small>اللون</small></div>
+    <div class="sw" id="colors"></div>
+
+    <div class="lbl">Pen size <small>سماكة القلم</small></div>
+    <div class="row" id="sizes">
+      <button class="btn" data-size="0.7">Thin <small>رفيع</small></button>
+      <button class="btn" data-size="1">Medium <small>وسط</small></button>
+      <button class="btn" data-size="1.4">Thick <small>سميك</small></button>
+    </div>
+
+    <div id="nibBox" style="display:none">
+      <div class="lbl">Nib angle <small>زاوية سنّ القلم</small>: <span id="nibVal">40</span>°</div>
+      <input type="range" id="nib" min="0" max="80" value="40" aria-label="Nib angle">
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Paper <small>الورقة</small></h2>
+    <div class="lbl">Guide lines <small>الخطوط الإرشادية</small></div>
+    <div class="row" id="guides">
+      <button class="btn" data-g="none">None <small>بدون</small></button>
+      <button class="btn" data-g="two">Two lines <small>سطران</small></button>
+      <button class="btn" data-g="lines">Four lines <small>أربعة أسطر</small></button>
+      <button class="btn" data-g="slant">Lines + slant <small>مع الميل</small></button>
+    </div>
+    <div id="slantBox">
+      <div class="lbl">Slant <small>زاوية الميل</small></div>
+      <div class="row" id="slants">
+        <button class="btn" data-a="55">55° <small>Copperplate</small></button>
+        <button class="btn" data-a="70">70° <small>Italic</small></button>
+        <button class="btn" data-a="90">90° <small>Upright</small></button>
+      </div>
+    </div>
+    <div class="lbl">Line size <small>حجم السطر</small></div>
+    <div class="row" id="lsz">
+      <button class="btn" data-u="36">Small <small>صغير</small></button>
+      <button class="btn" data-u="48">Medium <small>وسط</small></button>
+      <button class="btn" data-u="64">Large <small>كبير</small></button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Model text <small>النموذج</small></h2>
+    <div class="row" id="modes">
+      <button class="btn" data-m="trace">Trace over <small>تتبّع</small></button>
+      <button class="btn" data-m="copy">Copy below <small>انسخ تحته</small></button>
+      <button class="btn" data-m="free">Free writing <small>كتابة حرّة</small></button>
+    </div>
+    <div class="lbl">Style <small>الخط</small></div>
+    <div class="row" id="fonts">
+      <button class="btn" data-f="Pinyon Script">Copperplate</button>
+      <button class="btn" data-f="Great Vibes">Flowing</button>
+      <button class="btn" data-f="Playfair Display">Italic</button>
+      <button class="btn" data-f="UnifrakturCook">Gothic</button>
+      <button class="btn" data-f="Lexend">Print</button>
+    </div>
+    <div class="lbl">Text <small>اختر نصاً</small></div>
+    <div class="row" id="presets"></div>
+    <input type="text" id="custom" maxlength="40" placeholder="Or type your own… (your name, a word)" aria-label="Your own text" autocomplete="off" spellcheck="false">
+    <p class="hint">في «انسخ تحته» يظهر النموذج في سطر ويبقى الذي تحته فارغاً لتكتب فيه بنفسك.</p>
+  </div>
+</div>
+
+<div id="qbar" aria-label="Quick tools"><div class="qr" id="qp"></div><div class="qr qc" id="qcol"></div></div>
+<script>
+(function(){
+'use strict';
+var W = 1000;
+var $ = function(id){ return document.getElementById(id); };
+var board = $('board'), paper = $('paper'), ink = $('ink');
+var pc = paper.getContext('2d'), ic = ink.getContext('2d');
+
+var COLORS = ['#1F3A5F','#2B2B2B','#7A4A1E','#C2452A','#1F7A52','#6046E8','#0E7C86','#B8336A'];
+var PRESETS = [
+  { n: 'Warm-up', ar: 'تسخين', t: ['llllllll', 'oooooooo', 'nnnnnnnn', 'uuuuuuuu'] },
+  { n: 'a – m', ar: '', t: ['abcdefghijklm'] },
+  { n: 'n – z', ar: '', t: ['nopqrstuvwxyz'] },
+  { n: 'A – M', ar: '', t: ['ABCDEFGHIJKLM'] },
+  { n: 'N – Z', ar: '', t: ['NOPQRSTUVWXYZ'] },
+  { n: 'Words', ar: 'كلمات', t: ['Hello', 'Welcome', 'Knowledge', 'Beautiful', 'Friendship'] },
+  { n: 'Sayings', ar: 'حكم', t: ['Practice makes perfect', 'Knowledge is power', 'Never give up', 'Read every day', 'Small steps, big dreams'] }
+];
+var TIPS = {
+  pencil: 'قلم رصاص: للتدريب الحرّ وحركات التسخين.',
+  pointed: 'القلم المدبّب (Copperplate): الحركة إلى الأسفل تخرج سميكة، وإلى الأعلى رفيعة. اجعل خطوطك السميكة موازية لخطوط الميل.',
+  broad: 'القلم المسطّح: السماكة تتغيّر حسب اتجاه الحركة وزاوية سنّ القلم. جرّب 40° للخط المائل (Italic) و0° للخط القوطي.',
+  brush: 'قلم الفرشاة: تحرّك ببطء ليصير الخط أسمك، وبسرعة ليصير أرقّ. إن كانت شاشتك تدعم الضغط فاضغط أكثر للسماكة.',
+  marker: 'الماركر: خط ثابت السماكة، مناسب للحروف الكبيرة والعناوين.',
+  eraser: 'الممحاة تمسح ما كتبته فقط، ولا تمسح الخطوط الإرشادية ولا النموذج.'
+};
+
+var S = { pen: 'pointed', color: COLORS[0], size: 1, guides: 'two', slant: 55, u: 64, mode: 'trace', font: 'Pinyon Script', preset: 5, custom: '', nib: 40 };
+try { var sv = JSON.parse(localStorage.getItem('cal-set') || '{}'); Object.keys(sv).forEach(function(k){ if (k in S) S[k] = sv[k]; }); } catch (e) {}
+function save(){ try { localStorage.setItem('cal-set', JSON.stringify(S)); } catch (e) {} }
+
+var strokes = [], cur = null, H = 700, K = 1, DPR = 1, rows = 3, TOP = 0, ROW = 0;
+
+/* ---------- layout ---------- */
+function layout(){
+  var cw = board.clientWidth || 600; DPR = Math.min(window.devicePixelRatio || 1, 3);
+  var u = S.u; TOP = u * .45; ROW = u * (S.guides === 'two' ? 3.2 : 3.8);
+  var ratio = cw < 640 ? 1.25 : .75;
+  rows = Math.max(2, Math.floor((ratio * W - TOP) / ROW));
+  H = Math.round(TOP + rows * ROW);
+  board.style.aspectRatio = W + ' / ' + H;
+  var ch = Math.round(cw * H / W); K = cw / W;
+  [paper, ink].forEach(function(c){ c.width = Math.round(cw * DPR); c.height = Math.round(ch * DPR); });
+  drawPaper(); replay();
+}
+function setT(c){ c.setTransform(DPR * K, 0, 0, DPR * K, 0, 0); }
+
+/* ---------- paper: guide lines and model text ---------- */
+function modelLines(){
+  if (S.custom.trim()) return [S.custom.trim()];
+  return (PRESETS[S.preset] || PRESETS[5]).t;
+}
+function drawPaper(){
+  setT(pc); pc.clearRect(0, 0, W, H);
+  var u = S.u, i;
+  if (S.guides === 'slant') {
+    var a = S.slant * Math.PI / 180, dx = Math.cos(a), dy = -Math.sin(a), step = Math.max(60, u * 1.4);
+    pc.strokeStyle = '#E3EBF7'; pc.lineWidth = 2;
+    var span = H / Math.tan(a);
+    for (var x = -Math.abs(span) - step; x < W + Math.abs(span) + step; x += step) {
+      pc.beginPath(); pc.moveTo(x, H); pc.lineTo(x + (H) * (dx / -dy), 0); pc.stroke();
+    }
+  }
+  for (i = 0; i < rows; i++) {
+    var asc = TOP + i * ROW, waist = asc + u, base = asc + 2 * u, desc = base + u;
+    if (S.guides !== 'none') {
+      pc.setLineDash([14, 10]); pc.lineWidth = 2;
+      if (S.guides !== 'two') { pc.strokeStyle = '#C9DBF1'; line(asc); line(desc); }
+      pc.strokeStyle = '#9DBFE6'; line(waist);
+      pc.setLineDash([]); pc.lineWidth = 3; pc.strokeStyle = '#F2A999'; line(base);
+    }
+  }
+  function line(y){ pc.beginPath(); pc.moveTo(14, y); pc.lineTo(W - 14, y); pc.stroke(); }
+  if (S.mode !== 'free') drawModel();
+}
+function drawModel(){
+  var L = modelLines(), u = S.u, fam = S.font;
+  pc.save(); pc.textBaseline = 'alphabetic'; pc.fillStyle = '#B3BDD0';
+  pc.font = '100px "' + fam + '", cursive';
+  var xh = pc.measureText('x').actualBoundingBoxAscent || 40;
+  var fs = 100 * u / xh; fs = Math.min(fs, u * 4.2);
+  for (var r = 0; r < rows; r++) {
+    var idx;
+    if (S.mode === 'trace') idx = r % L.length; else { if (r % 2) continue; idx = (r / 2) % L.length; }
+    var t = L[Math.floor(idx)]; if (!t) continue;
+    var size = fs; pc.font = size + 'px "' + fam + '", cursive';
+    var w = pc.measureText(t).width, maxW = W - 80;
+    if (w > maxW) { size = size * maxW / w; pc.font = size + 'px "' + fam + '", cursive'; }
+    pc.fillText(t, 40, TOP + r * ROW + 2 * u);
+  }
+  pc.restore();
+}
+
+/* ---------- pens ---------- */
+function unitW(pen, s){
+  var m = s.size;
+  switch (pen) {
+    case 'pencil': return 3 * m;
+    case 'pointed': return 9 * m;
+    case 'broad': return S.u * .24 * m;
+    case 'brush': return 17 * m;
+    case 'marker': return 20 * m;
+    case 'eraser': return 46 * m;
+  }
+  return 4;
+}
+function seg(c, s, a, b){
+  var dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy) || .001, st = s.st, w, p = (b.p > 0 && b.p !== .5) ? b.p : 0;
+  c.save(); c.lineCap = 'round'; c.lineJoin = 'round'; c.strokeStyle = s.color; c.fillStyle = s.color;
+  var base = unitW(s.pen, s);
+  if (s.pen === 'pencil') {
+    c.globalAlpha = .88; c.lineWidth = base; line();
+  } else if (s.pen === 'pointed') {
+    var A = s.slant * Math.PI / 180, sx = -Math.cos(A), sy = Math.sin(A);
+    var down = Math.max(0, (dx * sx + dy * sy) / d);
+    w = base * (.2 + .8 * Math.pow(down, 1.3));
+    if (p) w *= (.6 + .8 * p);
+    st.w = st.w == null ? w : st.w * .62 + w * .38;
+    c.lineWidth = Math.max(1.2, st.w); line();
+  } else if (s.pen === 'broad') {
+    var th = s.nib * Math.PI / 180, nx = Math.cos(th) * base / 2, ny = -Math.sin(th) * base / 2;
+    c.beginPath(); c.moveTo(a.x - nx, a.y - ny); c.lineTo(a.x + nx, a.y + ny); c.lineTo(b.x + nx, b.y + ny); c.lineTo(b.x - nx, b.y - ny); c.closePath(); c.fill();
+    c.lineWidth = 1; c.stroke();
+  } else if (s.pen === 'brush') {
+    var dt = Math.max(4, (b.t || 0) - (a.t || 0) || 16), v = d / dt;
+    w = p ? base * (.3 + p * 1.1) : base * (1.25 - Math.min(1, v / 2.2) * .9);
+    st.w = st.w == null ? w : st.w * .7 + w * .3;
+    c.lineWidth = Math.max(1.5, st.w); line();
+  } else if (s.pen === 'marker') {
+    c.lineWidth = base; line();
+  } else if (s.pen === 'eraser') {
+    c.globalCompositeOperation = 'destination-out'; c.lineWidth = base; line();
+  }
+  c.restore();
+  function line(){ c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(b.x, b.y); c.stroke(); }
+}
+function drawStroke(c, s){
+  s.st = {};
+  var P = s.pts;
+  if (P.length === 1) seg(c, s, P[0], { x: P[0].x + .01, y: P[0].y, p: P[0].p, t: P[0].t });
+  for (var i = 1; i < P.length; i++) seg(c, s, P[i - 1], P[i]);
+}
+function replay(){
+  setT(ic); ic.clearRect(0, 0, W, H);
+  strokes.forEach(function(s){ drawStroke(ic, s); });
+}
+
+/* ---------- pointer input ---------- */
+function pt(e){
+  var r = ink.getBoundingClientRect();
+  return { x: (e.clientX - r.left) / K, y: (e.clientY - r.top) / K, p: e.pointerType === 'pen' ? e.pressure : 0, t: e.timeStamp };
+}
+ink.addEventListener('pointerdown', function(e){
+  if (e.button > 0) return;
+  e.preventDefault();
+  try { ink.setPointerCapture(e.pointerId); } catch (x) {}
+  var q = pt(e);
+  cur = { pen: S.pen, color: S.color, size: S.size, slant: S.slant, nib: S.nib, pts: [q], st: {}, id: e.pointerId };
+  setT(ic); seg(ic, cur, q, { x: q.x + .01, y: q.y, p: q.p, t: q.t });
+});
+ink.addEventListener('pointermove', function(e){
+  if (!cur || e.pointerId !== cur.id) return;
+  e.preventDefault();
+  var list = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
+  if (!list.length) list = [e];
+  setT(ic);
+  list.forEach(function(ev){
+    var q = pt(ev), last = cur.pts[cur.pts.length - 1];
+    if (Math.hypot(q.x - last.x, q.y - last.y) < 1.2) return;
+    cur.pts.push(q); seg(ic, cur, last, q);
+  });
+});
+function end(e){
+  if (!cur || (e && e.pointerId !== cur.id)) return;
+  var s = cur; cur = null; delete s.id;
+  strokes.push(s);
+}
+ink.addEventListener('pointerup', end);
+ink.addEventListener('pointercancel', end);
+ink.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+
+/* ---------- controls ---------- */
+function mark(box, attr, val){
+  Array.prototype.forEach.call(box.querySelectorAll('[data-' + attr + ']'), function(b){ b.classList.toggle('on', String(b.getAttribute('data-' + attr)) === String(val)); });
+}
+function ui(){
+  mark($('pens'), 'pen', S.pen); mark($('qp'), 'pen', S.pen); mark($('sizes'), 'size', S.size); mark($('guides'), 'g', S.guides);
+  mark($('slants'), 'a', S.slant); mark($('lsz'), 'u', S.u); mark($('modes'), 'm', S.mode); mark($('fonts'), 'f', S.font);
+  Array.prototype.forEach.call($('qcol').children, function(b){ b.classList.toggle('on', b.dataset.c === S.color); });
+  Array.prototype.forEach.call($('colors').children, function(b){ b.classList.toggle('on', b.dataset.c === S.color); });
+  Array.prototype.forEach.call($('presets').children, function(b){ b.classList.toggle('on', !S.custom.trim() && +b.dataset.p === S.preset); });
+  $('tip').textContent = TIPS[S.pen];
+  $('nibBox').style.display = S.pen === 'broad' ? '' : 'none';
+  $('slantBox').style.display = S.guides === 'slant' ? '' : 'none';
+  $('nib').value = S.nib; $('nibVal').textContent = S.nib;
+  ink.style.cursor = S.pen === 'eraser' ? 'cell' : 'crosshair';
+}
+[['pencil','✏️'],['pointed','🖋️'],['broad','🖊️'],['brush','🖌️'],['marker','🖍️'],['eraser','🧽']].forEach(function(a){
+  var b = document.createElement('button'); b.dataset.pen = a[0]; b.textContent = a[1]; b.setAttribute('aria-label', a[0]); $('qp').appendChild(b);
+});
+var ub = document.createElement('button'); ub.textContent = '↶'; ub.setAttribute('aria-label', 'Undo'); ub.addEventListener('click', function(){ strokes.pop(); replay(); }); $('qp').appendChild(ub);
+$('qp').addEventListener('click', function(e){ var b = e.target.closest('[data-pen]'); if (!b) return; S.pen = b.dataset.pen; ui(); save(); });
+COLORS.forEach(function(c){
+  var q = document.createElement('button'); q.style.background = c; q.dataset.c = c; q.setAttribute('aria-label', 'Ink'); $('qcol').appendChild(q);
+  var b = document.createElement('button'); b.style.background = c; b.dataset.c = c; b.setAttribute('aria-label', 'Ink ' + c); $('colors').appendChild(b);
+});
+$('qcol').addEventListener('click', function(e){ var b = e.target.closest('[data-c]'); if (!b) return; S.color = b.dataset.c; if (S.pen === 'eraser') S.pen = 'pointed'; ui(); save(); });
+PRESETS.forEach(function(p, i){
+  var b = document.createElement('button'); b.className = 'btn'; b.dataset.p = i; b.innerHTML = p.n + (p.ar ? ' <small>' + p.ar + '</small>' : ''); $('presets').appendChild(b);
+});
+function on(box, attr, fn){
+  $(box).addEventListener('click', function(e){
+    var b = e.target.closest('[data-' + attr + ']'); if (!b) return; fn(b.getAttribute('data-' + attr), b); ui(); save();
+  });
+}
+on('pens', 'pen', function(v){ S.pen = v; });
+on('sizes', 'size', function(v){ S.size = +v; });
+on('guides', 'g', function(v){ S.guides = v; layout(); });
+on('slants', 'a', function(v){ S.slant = +v; drawPaper(); });
+on('lsz', 'u', function(v){ S.u = +v; layout(); });
+on('modes', 'm', function(v){ S.mode = v; drawPaper(); });
+on('fonts', 'f', function(v){ S.font = v; loadFont(); });
+on('presets', 'p', function(v){ S.preset = +v; S.custom = ''; $('custom').value = ''; drawPaper(); });
+$('colors').addEventListener('click', function(e){ var b = e.target.closest('[data-c]'); if (!b) return; S.color = b.dataset.c; if (S.pen === 'eraser') S.pen = 'pointed'; ui(); save(); });
+$('nib').addEventListener('input', function(){ S.nib = +this.value; $('nibVal').textContent = S.nib; save(); });
+$('custom').addEventListener('input', function(){ S.custom = this.value; if (S.mode === 'free') S.mode = 'trace'; drawPaper(); ui(); });
+$('undo').addEventListener('click', function(){ strokes.pop(); replay(); });
+var clearT = 0;
+$('clear').addEventListener('click', function(){
+  var b = this;
+  if (!b.classList.contains('on')) { b.classList.add('on'); b.innerHTML = 'Tap again <small>اضغط مرة أخرى</small>'; clearT = setTimeout(reset, 2500); return; }
+  strokes = []; replay(); reset();
+  function reset(){ clearTimeout(clearT); b.classList.remove('on'); b.innerHTML = '🗑 Clear <small>مسح</small>'; }
+});
+$('save').addEventListener('click', function(){
+  var out = document.createElement('canvas'), sc = 2; out.width = W * sc; out.height = H * sc;
+  var o = out.getContext('2d'); o.fillStyle = '#FFFDF5'; o.fillRect(0, 0, out.width, out.height);
+  o.drawImage(paper, 0, 0, out.width, out.height); o.drawImage(ink, 0, 0, out.width, out.height);
+  out.toBlob(function(bl){
+    if (!bl) return;
+    var a = document.createElement('a'); a.href = URL.createObjectURL(bl); a.download = 'my-calligraphy.png';
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(a.href); }, 4000);
+  }, 'image/png');
+});
+
+$('print').addEventListener('click', function(){ window.print(); });
+function loadFont(){
+  drawPaper();
+  if (document.fonts && document.fonts.load) document.fonts.load('60px "' + S.font + '"', 'Abc').then(drawPaper, function(){});
+}
+if (document.fonts) document.fonts.addEventListener && document.fonts.addEventListener('loadingdone', drawPaper);
+var rt = 0; window.addEventListener('resize', function(){ clearTimeout(rt); rt = setTimeout(layout, 150); });
+ui(); layout(); loadFont();
+window.__cal = { strokes: function(){ return strokes; }, S: S };
+})();
+</script>
+<script src="../assets/club.js?v=24"></script>
+</body>
+</html>
