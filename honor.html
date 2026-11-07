@@ -179,19 +179,19 @@ footer a{color:var(--muted)}
 
   <footer>إعداد: أ. أحمد آل سالم — نادي اللغة الإنجليزية<br><a href="teacher.html">دخول المعلم</a></footer>
 </div>
-<script src="assets/club.js?v=24"></script>
+<script src="assets/club.js?v=25"></script>
 <script type="module">
 const demo = /[?&]demo\b/.test(location.search);
 let H;
 if (demo) {
-  const m = await import('./assets/honor.js?v=20261106b').catch(() => null);
+  const m = await import('./assets/honor.js?v=20261107a').catch(() => null);
   const fake = ['نسر الصحراء','Falcon7','نجم الشمال','Lion King','القمر المضيء','Speedy','بطل العقيق','Eagle Eye','الشهاب','Rocket'].map((n,i)=>({id:'d'+i,nick:n,score:3200-i*270-(i%3)*35,approved:true}));
   let me = null, priv = null;
   H = { ready:true, RULES:m.RULES, DAILY_CAP:m.DAILY_CAP, STARS_N:m.STARS_N, weekNo:m.weekNo, weekLabel:m.weekLabel, FIRST_WEEK:m.FIRST_WEEK, FOUND_WEEK:m.FOUND_WEEK, stars:m.stars, computeScore:m.computeScore, cleanNick:m.cleanNick,
     GRADES:m.GRADES, SUGGESTED:m.SUGGESTED, EXTERNAL:m.EXTERNAL, REGIONS:m.REGIONS, HOME_REGION:m.HOME_REGION, setRegion: async(r)=>{me.region=r}, cleanText:m.cleanText, myPrivate: async()=>priv, savePrivate: async(p)=>{priv=p}, myEntry: async()=>me, join: async(n,r)=>(me={id:'me',nick:m.cleanNick(n),region:r,approved:false,...m.computeScore()}),
     sync: async()=>null, myCode:()=>'', cleanCode:m.cleanCode, ensureAccount: async()=>'', board: async()=>fake, watchBoard: async(cb)=>{cb(fake);return ()=>{};} };
 } else {
-  H = await import('./assets/honor.js?v=20261106b');
+  H = await import('./assets/honor.js?v=20261107a');
 }
 
 const $ = id => document.getElementById(id);
@@ -217,7 +217,7 @@ const SEC_EXTRA = ['mb','xb','rt','lv','lvs','sp','ep','ep2','epb','epx','ed']; 
 function secsHTML(p) {
   const R = {}; H.RULES.forEach(r => { R[r.key] = r; });
   const rows = SEC_ORDER.filter(k => R[k] && (p.el || (k !== 'ek' && k !== 'et'))).map(k => {
-    const r = R[k], max = r.max * r.per, got = Math.min(p[k] || 0, r.max) * r.per; return { k, r, max, got, done: got >= max };
+    const r = R[k], g3 = k === 'caps' ? Math.min(p.capsg || 0, r.max) * 3 : 0, max = r.max * r.per + g3, got = Math.min(p[k] || 0, r.max) * r.per + g3; return { k, r, max, got, done: got >= max };
   });
   const started = rows.filter(x => x.got > 0).sort((a, b) => (a.done - b.done) || (b.got / b.max - a.got / a.max)), fresh = rows.filter(x => x.got <= 0);
   const line = x => `<div class="sec ${x.done ? 'done' : ''}"><span class="nm">${x.r.icon} ${SEC_NAME[x.k]}</span><span class="bar" aria-hidden="true"><i style="width:${Math.max(2, Math.round(x.got / x.max * 100))}%"></i></span>
@@ -231,7 +231,7 @@ function secsHTML(p) {
     ${extra.length ? `<div class="chips">${extra.join('')}</div>` : ''}</div>`;
 }
 
-$('rules').innerHTML = H.RULES.map(r => `<tr><td>${r.icon} ${r.label}</td><td>${r.note || (r.per + ' نقاط')}</td></tr>`).join('') + `<tr><td>⏳ حدّ يومي لنقاط التمارين: بعده تواصل التدريب للتعلّم، ولا تُحسب النقاط حتى الغد (يبدأ اليوم في السادسة صباحاً، وSurprise Me ونقاط التحسّن خارج الحد)</td><td>${H.DAILY_CAP || 750} نقطة</td></tr>` + `<tr><td>🗓️ موسم جديد كل ثلاثاء في السادسة صباحاً: يبدأ الجميع من الصفر، وأفضل ${H.STARS_N || 10} في كل أسبوع يدخلون سجل النجوم، ويُكرَّم في نهاية العام من تكررت نجوميته</td><td>أسبوعياً</td></tr>`;
+$('rules').innerHTML = H.RULES.filter(r => !r.hide).map(r => `<tr><td>${r.icon} ${r.label}</td><td>${r.note || (r.per + ' نقاط')}</td></tr>`).join('') + `<tr><td>⏳ حدّ يومي لنقاط التمارين: بعده تواصل التدريب للتعلّم، ولا تُحسب النقاط حتى الغد (يبدأ اليوم في السادسة صباحاً، وSurprise Me ونقاط التحسّن خارج الحد)</td><td>${H.DAILY_CAP || 750} نقطة</td></tr>` + `<tr><td>🗓️ موسم جديد كل ثلاثاء في السادسة صباحاً: يبدأ الجميع من الصفر، وأفضل ${H.STARS_N || 10} في كل أسبوع يدخلون سجل النجوم، ويُكرَّم في نهاية العام من تكررت نجوميته</td><td>أسبوعياً</td></tr>`;
 
 let ME = null, ROWS = [], ALL = [], PRIV = null;
 function seasonNote() {

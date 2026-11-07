@@ -71,7 +71,7 @@ h1{font-size:2rem;margin:0 0 4px;font-weight:800}
   <div id="main"></div>
 </div>
 <script type="module">
-import * as H from './assets/honor.js?v=20261106b';
+import * as H from './assets/honor.js?v=20261107a';
 const $ = id => document.getElementById(id);
 const LV_NEW_AT = 1793547780000; // same as NEW_AT in level/index.html: start of the harder level-check version
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -202,7 +202,7 @@ async function load() {
     const units = (pre, n) => { let t = 0, b = 0, s = 0; for (let i = 1; i <= n; i++) { const v = N(pre + i); if (v > 0) { t++; s += v; if (v >= 8) b++; } } return { t, b, avg: t ? s / t : 0 }; };
     const keysWith = pre => Object.keys(d).filter(k => k.indexOf(pre) === 0).map(k => N(k));
     // 1) focus: all-time points by section from the board record
-    const P = r.parts || {}, F = H.RULES.filter(x => !['lv', 'lvs', 'xb', 'rt'].includes(x.key)).map(x => ({ k: x.key, v: Math.min(P[x.key] || 0, x.max) * x.per })).filter(x => x.v > 0).sort((a, b) => b.v - a.v);
+    const P = r.parts || {}, F = H.RULES.filter(x => !['lv', 'lvs', 'xb', 'rt', 'capsg'].includes(x.key)).map(x => ({ k: x.key, v: Math.min(P[x.key] || 0, x.max) * x.per + (x.key === 'caps' ? Math.min(P.capsg || 0, 1183) * 3 : 0) })).filter(x => x.v > 0).sort((a, b) => b.v - a.v);
     const fT = F.reduce((t, x) => t + x.v, 0);
     const W = Object.assign({}, ((P.act || {}).week === acWeek ? (P.act || {}).w : null) || {}); delete W.xb; delete W.rt; const wT = Object.keys(W).reduce((t, k) => t + W[k], 0);
     // 2) accuracy per section (answers counted since 4 Nov 2026)

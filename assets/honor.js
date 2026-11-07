@@ -14,7 +14,9 @@ export const RULES = [
   { key: 'ng',   label: 'إجابة صحيحة في الكلمات العامة', icon: '🌍', per: 5, max: 500 },
   { key: 'mg',   label: 'كلمة أتقنتها في ميدان المفردات', icon: '🏟️', per: 5, max: 900 },
   { key: 'cq',   label: 'مجموعة كلمات أنهيتها في Core Quest (10 كلمات)', icon: '🧭', per: 50, max: 170, note: '50 نقطة' },
-  { key: 'caps', label: 'مرحلة في الكبسولات: ⭐ 15 · ⭐⭐ 25 · ⭐⭐⭐ 35 (7 أسئلة)', icon: '🌟', per: 5, max: 1183, note: 'حتى 35 للمرحلة' },
+  { key: 'caps', label: 'مرحلة في الكبسولات: ⭐ 6 · ⭐⭐ 10 · ⭐⭐⭐ 14 (7 أسئلة)', icon: '🌟', per: 2, max: 1183, note: 'حتى 14 للمرحلة' },
+  // Points of capsule stages earned before 7 Nov 2026 (rate was 5 per right answer, now 2): kept at the old rate, never lost.
+  { key: 'capsg', label: 'مراحل الكبسولات قبل تعديل المعدل', icon: '🌟', per: 3, max: 1183, hide: true },
   { key: 'tb',   label: 'إجابة صحيحة في محادثات التأسيس', icon: '🗣️', per: 5, max: 40 },
   { key: 'bf',   label: 'إجابة صحيحة في Breakfast Challenge', icon: '🍳', per: 5, max: 10 },
   { key: 'aw',   label: 'إجابة صحيحة في الكلمات الأكاديمية', icon: '🎓', per: 7, max: 290 },
@@ -83,6 +85,10 @@ export function computeScore() {
   // Capsules: a stage has 7 questions; its best stars count as right answers: ⭐ 3, ⭐⭐ 5, ⭐⭐⭐ 7 (= 15 / 25 / 35 points).
   let caps = 0; const CAP_EQ = [0, 3, 5, 7];
   CAPS.forEach(c => { const s = J('cap2-' + c + '-stars') || {}; Object.keys(s).forEach(k => { caps += CAP_EQ[Math.max(0, Math.min(3, +s[k] || 0))]; }); });
+  // Capsules rate: 2 points per right answer since 7 Nov 2026 (was 5). `caps-g` = the stage total the student had at that moment:
+  // those stages keep 5 per answer (2 in `caps` + 3 in `capsg`), new stages count 2.
+  let capsg = 0;
+  try { let g = localStorage.getItem('caps-g'); if (g === null && caps > 0) { localStorage.setItem('caps-g', String(caps)); g = caps; } capsg = Math.max(0, Math.min(caps, +g || 0)); } catch (e) {}
   let wq = 0; for (let n = 1; n <= 50; n++) wq += Math.max(0, Math.min(10, N('wq-best-' + n)));
   let lab = 0; for (let w = 1; w <= 20; w++) lab += Math.max(0, Math.min(5, N('cl-q-' + w)));
   const mg = Math.min(300, (J('mg1-known') || []).length) + Math.min(300, (J('mg2-known') || []).length) + Math.min(300, (J('mg3-known') || []).length);
@@ -136,12 +142,12 @@ export function computeScore() {
     epx = Math.max(0, Math.min((ep + ep2) * 5, +J('ep-xb') || 0));
   }
   // Streak bonus (combo.js): xb = {section: {unit: half-answers}}; each half-answer is worth half that section's rate.
-  const PER = {}; RULES.forEach(r => { PER[r.key] = r.per; }); PER.caps = 5; PER.cq = 5;
+  const PER = {}; RULES.forEach(r => { PER[r.key] = r.per; }); PER.cq = 5;
   let xb = 0; const xbo = J('xb') || {};
   Object.keys(xbo).forEach(sec => { if ((sec === 'ek' || sec === 'ed' || sec === 'et') && !elite) return; const u = xbo[sec] || {};
     Object.keys(u).forEach(k => { xb += Math.max(0, Math.min(k === '*' ? 100000 : 14, +u[k] || 0)) * (PER[sec] || 5) / 2; }); });
   xb = Math.round(xb);
-  const parts = { caps, wq, lab, mg, bf, ng, aw, st, cq, tn, pv, im, tb, sp, xb, mb, lv, lvs, rt, ek: elite ? ek : 0, ed: elite ? ed : 0, et: elite ? et : 0, ep, ep2, epb, epx, epp: ep * 15 + ep2 * 25 + epb * 25 + epx, el: elite, wqx: wqStats() };
+  const parts = { caps, capsg, wq, lab, mg, bf, ng, aw, st, cq, tn, pv, im, tb, sp, xb, mb, lv, lvs, rt, ek: elite ? ek : 0, ed: elite ? ed : 0, et: elite ? et : 0, ep, ep2, epb, epx, epp: ep * 15 + ep2 * 25 + epb * 25 + epx, el: elite, wqx: wqStats() };
   // Practice points count at most DAILY_CAP a day (Saudi day). Practice after that is for learning only:
   // the extra points are not counted, then or later. Surprise Me and the level/retention rewards are outside the cap.
   const pts = r => Math.min(parts[r.key], r.max) * r.per;
@@ -172,6 +178,7 @@ export function computeScore() {
   try { localStorage.setItem('pts-day', JSON.stringify(L)); } catch (e) {}
   parts.dl = { t: L.t, cap };
   const sec = {}; RULES.forEach(r => { const v = Math.min(parts[r.key] || 0, r.max) * r.per; if (v > 0) sec[r.key] = v; });
+  if (sec.capsg) { sec.caps = (sec.caps || 0) + sec.capsg; delete sec.capsg; }   // one 'capsules' section for the activity report
   parts.act = activity(sec, day, week);
   // total = all points since the start; score = this season's points (since Tuesday 6 am).
   const total = L.got + free;
