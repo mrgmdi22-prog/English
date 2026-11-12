@@ -331,6 +331,15 @@ function renderRace(myScore) {
 
 function regionOpts(sel) { return H.REGIONS.map(x => `<option${sel===x?' selected':''}>${x}</option>`).join(''); }
 function regTag(r) { return r && r.region ? `<small class="reg">📍 ${esc(r.region)}</small>` : ''; }
+/* A clear reason for a Firebase failure (the code stays visible so the teacher can tell what happened). */
+function whyFail(err) {
+  const c = String((err && (err.code || err.message)) || '');
+  if (/too-many-requests|quota|resource-exhausted/i.test(c)) return 'سجّل طلاب كثيرون من الشبكة نفسها في وقت قصير، فأوقف الخادم التسجيل الجديد مؤقتاً. جرّب بعد ساعة، أو سجّل من بيانات الجوال بدل شبكة المدرسة.';
+  if (/operation-not-allowed|admin-restricted/i.test(c)) return 'التسجيل مغلق في إعدادات الموقع الآن. أخبر معلمك.';
+  if (/network|unavailable|offline|failed to fetch/i.test(c)) return 'تأكد من اتصالك بالإنترنت ثم حاول مرة أخرى.';
+  if (/permission/i.test(c)) return 'قواعد اللوحة رفضت الحفظ. أخبر معلمك.';
+  return 'حدث خطأ غير متوقع. حاول مرة أخرى، وإن تكرر فصوّر هذه الرسالة لمعلمك.';
+}
 function showMsg(t, ok) { const m = document.querySelector('#mePanel .msg'); if (m) { m.className = 'msg ' + (ok ? 'ok' : 'err'); m.textContent = t; } }
 
 function idFields(p) {
@@ -466,8 +475,7 @@ function renderMe(msg) {
         const code = (err && (err.code || err.message) || '').toString();
         const denied = /permission/i.test(code);
         if (/nick-taken/.test(code)) { if (H.boardAll) { try { ALL = await H.boardAll(); } catch (e) {} } drawSugg(false); showMsg('هذا الاسم المستعار يستخدمه طالب آخر، اختر اسماً غيره.'); $('jb').disabled = false; $('jb').textContent = 'انضم 🚀'; return; }
-        showMsg(denied ? 'تعذّر الحفظ: قواعد اللوحة لا تسمح بعد بحفظ بيانات التكريم. أخبر معلمك. (' + step + ' · ' + code + ')'
-                       : 'تعذّر الحفظ، تأكد من الاتصال بالإنترنت ثم حاول مرة أخرى. (' + step + ' · ' + code + ')');
+        showMsg((denied ? 'تعذّر الحفظ: قواعد اللوحة لا تسمح بعد بحفظ بيانات التكريم. أخبر معلمك.' : 'تعذّر الحفظ. ' + whyFail(err)) + ' (' + step + ' · ' + code + ')');
         $('jb').disabled = false; $('jb').textContent = 'انضم 🚀';
       }
     };
@@ -552,7 +560,7 @@ if (!H.ready) {
     setInterval(() => { if (document.visibilityState === 'visible' && ME) H.sync(false).catch(() => {}); }, 30000);
   } catch (err) {
     console.error(err);
-    $('mePanel').innerHTML = `<h2>تعذّر الاتصال</h2><p class="note">تأكد من اتصالك بالإنترنت ثم أعد تحميل الصفحة.</p>`;
+    $('mePanel').innerHTML = `<h2>تعذّر الاتصال</h2><p class="note">${esc(whyFail(err))}</p><p class="note" style="margin-top:8px;font-size:.95rem" dir="ltr">(${esc((err && (err.code || err.message)) || 'unknown')})</p><p style="margin-top:12px"><button class="btn" type="button" onclick="location.reload()">🔄 حاول مرة أخرى</button></p>`;
     renderBoard();
   }
 }
