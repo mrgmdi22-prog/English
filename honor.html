@@ -183,19 +183,19 @@ footer a{color:var(--muted)}
 
   <footer>إعداد: أ. أحمد بن سالم — نادي اللغة الإنجليزية<br><a href="teacher.html">لوحة التحكم (للمعلم)</a></footer>
 </div>
-<script src="assets/club.js?v=25"></script>
+<script src="assets/club.js?v=26"></script>
 <script type="module">
 const demo = /[?&]demo\b/.test(location.search);
 let H;
 if (demo) {
-  const m = await import('./assets/honor.js?v=20261107a').catch(() => null);
+  const m = await import('./assets/honor.js?v=20261112a').catch(() => null);
   const fake = ['نسر الصحراء','Falcon7','نجم الشمال','Lion King','القمر المضيء','Speedy','بطل العقيق','Eagle Eye','الشهاب','Rocket'].map((n,i)=>({id:'d'+i,nick:n,score:3200-i*270-(i%3)*35,approved:true}));
   let me = null, priv = null;
-  H = { ready:true, RULES:m.RULES, DAILY_CAP:m.DAILY_CAP, STARS_N:m.STARS_N, weekNo:m.weekNo, weekLabel:m.weekLabel, FIRST_WEEK:m.FIRST_WEEK, FOUND_WEEK:m.FOUND_WEEK, stars:m.stars, computeScore:m.computeScore, cleanNick:m.cleanNick,
+  H = { ready:true, RULES:m.RULES, DAILY_CAP:m.DAILY_CAP, STARS_N:m.STARS_N, weekNo:m.weekNo, weekLabel:m.weekLabel, FIRST_WEEK:m.FIRST_WEEK, FOUND_WEEK:m.FOUND_WEEK, stars:m.stars, computeScore:m.computeScore, cleanNick:m.cleanNick, nickKey:m.nickKey,
     GRADES:m.GRADES, SUGGESTED:m.SUGGESTED, EXTERNAL:m.EXTERNAL, REGIONS:m.REGIONS, HOME_REGION:m.HOME_REGION, setRegion: async(r)=>{me.region=r}, cleanText:m.cleanText, myPrivate: async()=>priv, savePrivate: async(p)=>{priv=p}, myEntry: async()=>me, join: async(n,r)=>(me={id:'me',nick:m.cleanNick(n),region:r,approved:false,...m.computeScore()}),
     sync: async()=>null, myCode:()=>'', cleanCode:m.cleanCode, ensureAccount: async()=>'', board: async()=>fake, watchBoard: async(cb)=>{cb(fake);return ()=>{};} };
 } else {
-  H = await import('./assets/honor.js?v=20261107a');
+  H = await import('./assets/honor.js?v=20261112a');
 }
 
 const $ = id => document.getElementById(id);
@@ -365,7 +365,8 @@ function readId() {
 /* Suggested nicknames: a big pool, 16 shown at a time; names already on the board are hidden. */
 const NICKS = H.SUGGESTED || [];
 const nkey = s => H.cleanNick(s).toLowerCase().replace(/\s+/g, '');
-const isTaken = n => ROWS.some(r => r.id !== (ME && ME.id) && nkey(r.nick) === nkey(n));
+// Used nicknames = every approved player (ALL), not only this season's board rows: a student who has not played since Tuesday still owns their name.
+const isTaken = n => ALL.concat(ROWS).some(r => r.id !== (ME && ME.id) && nkey(r.nick) === nkey(n));
 let sgShown = [];
 function drawSugg(fresh) {
   const box = $('sgList'); if (!box) return;
@@ -449,7 +450,8 @@ function renderMe(msg) {
       const id = readId();
       if (id.err) { showMsg(id.err); return; }
       if (n.length < 2) { showMsg('اكتب اسماً مستعاراً من حرفين على الأقل.'); return; }
-      if (isTaken(n)) { showMsg('هذا الاسم المستعار يستخدمه طالب آخر، اختر اسماً غيره.'); return; }
+      if (H.boardAll) { try { ALL = await H.boardAll(); } catch (e) {} }
+      if (isTaken(n)) { drawSugg(false); showMsg('هذا الاسم المستعار يستخدمه طالب آخر، اختر اسماً غيره.'); return; }
       if (n.replace(/\s/g,'') === id.name.replace(/\s/g,'') || id.name.split(' ').some(w => w.length > 2 && n.includes(w))) { showMsg('اختر اسماً مستعاراً لا يحتوي على اسمك الحقيقي.'); return; }
       $('jb').disabled = true; $('jb').textContent = 'جارٍ الحفظ…';
       let step = 'private';
@@ -463,6 +465,7 @@ function renderMe(msg) {
         console.error(err);
         const code = (err && (err.code || err.message) || '').toString();
         const denied = /permission/i.test(code);
+        if (/nick-taken/.test(code)) { if (H.boardAll) { try { ALL = await H.boardAll(); } catch (e) {} } drawSugg(false); showMsg('هذا الاسم المستعار يستخدمه طالب آخر، اختر اسماً غيره.'); $('jb').disabled = false; $('jb').textContent = 'انضم 🚀'; return; }
         showMsg(denied ? 'تعذّر الحفظ: قواعد اللوحة لا تسمح بعد بحفظ بيانات التكريم. أخبر معلمك. (' + step + ' · ' + code + ')'
                        : 'تعذّر الحفظ، تأكد من الاتصال بالإنترنت ثم حاول مرة أخرى. (' + step + ' · ' + code + ')');
         $('jb').disabled = false; $('jb').textContent = 'انضم 🚀';
@@ -513,7 +516,7 @@ function renderMe(msg) {
     if (n == null) return;
     const c = H.cleanNick(n); if (c.length < 2 || c === ME.nick) return;
     H.join(c).then(async r => { ME = await H.myEntry() || r; ROWS = await H.board(); renderBoard(); renderMe({t: ME.approved ? 'تم تغيير الاسم، وهو ظاهر الآن في اللوحة.' : 'تم تغيير الاسم، وهو بانتظار موافقة المعلم.'}); })
-      .catch(() => renderMe({err:1,t:'تعذّر الحفظ.'}));
+      .catch(err => renderMe({err:1,t: err && err.code === 'nick-taken' ? 'هذا الاسم المستعار يستخدمه طالب آخر، اختر اسماً غيره.' : 'تعذّر الحفظ.'}));
   };
 }
 
@@ -537,6 +540,7 @@ if (!H.ready) {
   try {
     await H.sync(false).catch(() => {});
     [ME, ROWS] = await Promise.all([H.myEntry(), H.board()]);
+    if (H.boardAll) ALL = await H.boardAll().catch(() => []);
     if (ME) { await H.ensureAccount().catch(() => {}); PRIV = await H.myPrivate().catch(() => null); if (!isReg()) { markReg(); gateHeader(); if (NEXT) { location.replace(NEXT); } } }
     renderMe(); renderBoard(); seasonNote();
     // Keep the ranking live: any student's new points appear without reloading the page.

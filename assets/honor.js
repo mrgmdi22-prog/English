@@ -226,6 +226,16 @@ export async function studentUid() {
 }
 
 export function cleanNick(s) { return String(s || '').replace(/\s+/g, ' ').trim().slice(0, 20); }
+/** A nickname compared without case or spaces ("Sky Hunter" = "skyhunter"). */
+export const nickKey = s => cleanNick(s).toLowerCase().replace(/\s+/g, '');
+/** Is this nickname already used by another approved player? Looks at EVERY approved player, not only this season's rows
+ *  (a student who has not played since Tuesday is not on the season board but still owns their name). Network errors say "free". */
+export async function nickTaken(nick, exceptId) {
+  try {
+    const k = nickKey(nick), all = await boardAll();
+    return all.some(r => r.id !== exceptId && nickKey(r.nick) === k);
+  } catch (e) { return false; }
+}
 
 /** My entry in the board, or null if I have not joined. */
 export async function myEntry() {
@@ -283,6 +293,8 @@ export async function join(nick, region) {
   const ref = fs.doc(D, 'players', uid);
   const snap = await fs.getDoc(ref);
   const base = snap.exists() ? (snap.data().base | 0) : 0;
+  // A name another student already uses is refused (new registration or a name change); keeping my own name is fine.
+  if ((!snap.exists() || snap.data().nick !== nick) && await nickTaken(nick, uid)) { const e = new Error('nick-taken'); e.code = 'nick-taken'; throw e; }
   const score = local.week <= FOUND_WEEK ? Math.min(10000, local.score + base) : local.score;
   const season = seasonFields(snap.exists() ? snap.data() : {}, local, base);
   const write1 = async (ok, extra) => {
