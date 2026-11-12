@@ -42,6 +42,11 @@ input[type=text]:focus{border-color:var(--gold)}
 .btn.link{background:none;color:var(--muted);padding:6px 8px;font-weight:700;text-decoration:underline}
 .msg{margin-top:10px;font-weight:700;font-size:1rem}
 .msg.err{color:#b3261e}.msg.ok{color:var(--ok)}
+.msg.big{background:#fdecea;border:2px solid #f3b7b0;border-radius:16px;padding:12px 16px;font-size:1.12rem;line-height:1.6}
+.msg:empty{display:none}
+.shake{animation:shake .45s}@keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+.fmsg{margin-top:8px;color:#b3261e;font-weight:800;font-size:1.1rem;background:#fdecea;border:2px solid #f3b7b0;border-radius:14px;padding:8px 14px;animation:shake .45s}
+input.bad,select.bad{border-color:#d93025!important;background:#fff5f4!important;box-shadow:0 0 0 4px rgba(217,48,37,.15)}
 
 .me{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .me .av{width:64px;height:64px;border-radius:20px;display:grid;place-items:center;font-size:2rem;background:var(--gold-soft);flex:none}
@@ -336,11 +341,27 @@ function whyFail(err) {
   const c = String((err && (err.code || err.message)) || '');
   if (/too-many-requests|quota|resource-exhausted/i.test(c)) return 'سجّل طلاب كثيرون من الشبكة نفسها في وقت قصير، فأوقف الخادم التسجيل الجديد مؤقتاً. جرّب بعد ساعة، أو سجّل من بيانات الجوال بدل شبكة المدرسة.';
   if (/operation-not-allowed|admin-restricted/i.test(c)) return 'التسجيل مغلق في إعدادات الموقع الآن. أخبر معلمك.';
+  if (/timeout|deadline/i.test(c)) return 'الاتصال بطيء أو متقطع فلم يكتمل الحفظ. جرّب شبكة أخرى (بيانات الجوال مثلاً) ثم اضغط «انضم» مرة أخرى.';
   if (/network|unavailable|offline|failed to fetch/i.test(c)) return 'تأكد من اتصالك بالإنترنت ثم حاول مرة أخرى.';
   if (/permission/i.test(c)) return 'قواعد اللوحة رفضت الحفظ. أخبر معلمك.';
   return 'حدث خطأ غير متوقع. حاول مرة أخرى، وإن تكرر فصوّر هذه الرسالة لمعلمك.';
 }
-function showMsg(t, ok) { const m = document.querySelector('#mePanel .msg'); if (m) { m.className = 'msg ' + (ok ? 'ok' : 'err'); m.textContent = t; } }
+function showMsg(t, ok, field) {
+  const m = document.querySelector('#mePanel .msg'); if (!m) return;
+  m.className = 'msg ' + (ok ? 'ok' : 'err big'); m.textContent = (ok ? '' : '⚠️ ') + t;
+  document.querySelectorAll('#mePanel .bad').forEach(x => x.classList.remove('bad'));
+  const f = field && $(field);
+  document.querySelectorAll('#mePanel .fmsg').forEach(x => x.remove());
+  if (f) { const fm = document.createElement('div'); fm.className = 'fmsg'; fm.setAttribute('role', 'alert'); fm.textContent = '⚠️ ' + t;
+    const host = f.closest('.row2') || f.closest('.row') || f; host.insertAdjacentElement('afterend', fm);
+    const clear = () => { f.classList.remove('bad'); fm.remove(); }; f.addEventListener('input', clear, { once: true }); f.addEventListener('change', clear, { once: true }); }
+  if (f) { f.classList.add('bad'); f.addEventListener('input', () => f.classList.remove('bad'), { once: true }); f.addEventListener('change', () => f.classList.remove('bad'), { once: true }); }
+  if (!ok) { m.classList.remove('shake'); void m.offsetWidth; m.classList.add('shake'); }
+  (f || m).scrollIntoView({ block: 'center', behavior: 'smooth' });
+  if (f && f.focus) setTimeout(() => f.focus({ preventScroll: true }), 350);
+}
+/* A save that never answers (weak or blocked connection) must not leave the button stuck on «جارٍ الحفظ…». */
+const timed = (p, ms) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(Object.assign(new Error('timeout'), { code: 'timeout' })), ms))]);
 
 function idFields(p) {
   p = p || {};
@@ -361,13 +382,13 @@ function wireId() {
 }
 function readId() {
   const name = H.cleanText($('rn').value, 60), grade = $('gr').value, ext = grade === H.EXTERNAL, section = ext ? '—' : $('sc').value;
-  if (name.split(' ').filter(Boolean).length < 3) return { err: 'اكتب اسمك الثلاثي كاملاً.' };
-  if (!grade) return { err: 'اختر صفك.' };
-  if (!section) return { err: 'اختر شعبتك.' };
+  if (name.split(' ').filter(Boolean).length < 3) return { err: 'اكتب اسمك الثلاثي كاملاً (اسمك واسم أبيك واسم العائلة).', f: 'rn' };
+  if (!grade) return { err: 'اختر صفك.', f: 'gr' };
+  if (!section) return { err: 'اختر شعبتك.', f: 'sc' };
   const school = ext ? H.cleanText($('ex').value, 60) : '';
-  if (ext && school.length < 3) return { err: 'اكتب اسم مدرستك أو جهتك ومدينتك.' };
+  if (ext && school.length < 3) return { err: 'اكتب اسم مدرستك أو جهتك ومدينتك.', f: 'ex' };
   const region = ext ? $('rg').value : H.HOME_REGION;
-  if (ext && !region) return { err: 'اختر منطقتك.' };
+  if (ext && !region) return { err: 'اختر منطقتك.', f: 'rg' };
   return ext ? { name, grade, section, school, region } : { name, grade, section, region };
 }
 
@@ -449,24 +470,24 @@ function renderMe(msg) {
       <form id="jf" style="margin-top:14px">${idFields(PRIV)}<label for="nk" style="margin-top:14px">اسمك المستعار (يظهر للجميع)</label>
       <div class="row"><input id="nk" type="text" maxlength="20" minlength="2" placeholder="مثل: نسر العقيق" autocomplete="off" required>
       <button class="btn" id="jb">انضم 🚀</button></div>
+      <div class="msg ${msg&&msg.err?'err big':'ok'}" role="alert" aria-live="assertive">${msg?esc(msg.t):''}</div>
       <div class="sugg"><div class="sugg-h"><span>💡 اختر اسماً جاهزاً وادخل اللوحة فوراً ⚡</span><button class="btn soft" type="button" id="sgMore">🎲 أسماء أخرى</button></div><div class="sugg-list" id="sgList"></div></div>
-      <p class="note" style="margin-top:8px;font-size:.95rem">تُفتح لك الأدوات فوراً. الاسم المختار من الاقتراحات يظهر في اللوحة مباشرة، والاسم الذي تكتبه بنفسك يظهر بعد موافقة المعلم.</p></form>
-      <div class="msg ${msg&&msg.err?'err':'ok'}">${msg?esc(msg.t):''}</div>`;
+      <p class="note" style="margin-top:8px;font-size:.95rem">تُفتح لك الأدوات فوراً. الاسم المختار من الاقتراحات يظهر في اللوحة مباشرة، والاسم الذي تكتبه بنفسك يظهر بعد موافقة المعلم.</p></form>`;
     wireId(); wireSugg(); wireRestore();
     $('jf').onsubmit = async e => {
       e.preventDefault();
       const n = H.cleanNick($('nk').value);
       const id = readId();
-      if (id.err) { showMsg(id.err); return; }
-      if (n.length < 2) { showMsg('اكتب اسماً مستعاراً من حرفين على الأقل.'); return; }
-      if (H.boardAll) { try { ALL = await H.boardAll(); } catch (e) {} }
-      if (isTaken(n)) { drawSugg(false); showMsg('هذا الاسم المستعار يستخدمه طالب آخر، اختر اسماً غيره.'); return; }
-      if (n.replace(/\s/g,'') === id.name.replace(/\s/g,'') || id.name.split(' ').some(w => w.length > 2 && n.includes(w))) { showMsg('اختر اسماً مستعاراً لا يحتوي على اسمك الحقيقي.'); return; }
-      $('jb').disabled = true; $('jb').textContent = 'جارٍ الحفظ…';
+      if (id.err) { showMsg(id.err, false, id.f); return; }
+      if (n.length < 2) { showMsg('اكتب اسماً مستعاراً من حرفين على الأقل، أو اختر واحداً من الأسماء الجاهزة تحته.', false, 'nk'); return; }
+      if (H.boardAll) { try { ALL = await timed(H.boardAll(), 8000); } catch (e) {} }
+      if (isTaken(n)) { drawSugg(false); showMsg('هذا الاسم المستعار يستخدمه طالب آخر، اختر اسماً غيره.', false, 'nk'); return; }
+      if (n.replace(/\s/g,'') === id.name.replace(/\s/g,'') || id.name.split(' ').some(w => w.length > 2 && n.includes(w))) { showMsg('اختر اسماً مستعاراً لا يحتوي على اسمك الحقيقي.', false, 'nk'); return; }
+      $('jb').disabled = true; $('jb').textContent = 'جارٍ الحفظ…'; showMsg('⏳ جارٍ حفظ تسجيلك، انتظر قليلاً…', true);
       let step = 'private';
       const region = id.region; delete id.region;
-      try { await H.savePrivate(id); PRIV = id; step = 'player'; ME = await H.join(n, region); markReg(); gateHeader();
-        await H.ensureAccount().catch(() => {});
+      try { await timed(H.savePrivate(id), 25000); PRIV = id; step = 'player'; ME = await timed(H.join(n, region), 25000); markReg(); gateHeader();
+        await timed(H.ensureAccount(), 15000).catch(() => {});
         renderMe({t: NEXT ? 'تم التسجيل! جارٍ فتح الصفحة التي طلبتها…' : (ME.approved ? 'تم التسجيل! فُتحت لك جميع الأدوات، واسمك ظاهر الآن في لوحة الشرف 🎉' : 'تم التسجيل! فُتحت لك جميع الأدوات، وسيظهر اسمك في اللوحة بعد موافقة المعلم.')});
         if (NEXT) setTimeout(() => location.replace(NEXT), H.myCode() ? 6000 : 1400);
         else { const a = document.createElement('a'); a.href = 'index.html'; a.className = 'btn'; a.style.cssText = 'display:inline-block;margin-top:12px;text-decoration:none'; a.textContent = 'ابدأ الآن ← الصفحة الرئيسية'; $('mePanel').appendChild(a); } }
@@ -474,7 +495,7 @@ function renderMe(msg) {
         console.error(err);
         const code = (err && (err.code || err.message) || '').toString();
         const denied = /permission/i.test(code);
-        if (/nick-taken/.test(code)) { if (H.boardAll) { try { ALL = await H.boardAll(); } catch (e) {} } drawSugg(false); showMsg('هذا الاسم المستعار يستخدمه طالب آخر، اختر اسماً غيره.'); $('jb').disabled = false; $('jb').textContent = 'انضم 🚀'; return; }
+        if (/nick-taken/.test(code)) { if (H.boardAll) { try { ALL = await timed(H.boardAll(), 8000); } catch (e) {} } drawSugg(false); showMsg('هذا الاسم المستعار يستخدمه طالب آخر، اختر اسماً غيره.', false, 'nk'); $('jb').disabled = false; $('jb').textContent = 'انضم 🚀'; return; }
         showMsg((denied ? 'تعذّر الحفظ: قواعد اللوحة لا تسمح بعد بحفظ بيانات التكريم. أخبر معلمك.' : 'تعذّر الحفظ. ' + whyFail(err)) + ' (' + step + ' · ' + code + ')');
         $('jb').disabled = false; $('jb').textContent = 'انضم 🚀';
       }
