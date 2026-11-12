@@ -67,6 +67,9 @@ h1 .en{display:block;font-family:var(--en);font-weight:600;font-size:.38em;lette
 .lvban .go{background:#3157D5;color:#fff;font-weight:800;border-radius:999px;padding:8px 16px;white-space:nowrap}
 .gdban{display:flex;align-items:center;gap:14px;margin:14px 0 0;text-decoration:none;color:var(--ink);background:linear-gradient(120deg,#E3F6EF,#fff 75%);border:1.5px solid #BFE6D6;border-radius:22px;padding:12px 16px;transition:transform .2s}
 .gdban:hover{transform:translateY(-2px)}.gdban .ki{font-size:2.4rem;line-height:1;flex:none}.gdban .txt{flex:1;min-width:0}.gdban b{display:block;font-size:1.15rem;color:#11826a}.gdban small{color:var(--muted);font-size:.95rem;line-height:1.5;display:block}
+.wdban{display:flex;align-items:center;gap:14px;margin:14px 0 0;text-decoration:none;color:var(--ink);background:linear-gradient(120deg,#FFF3DA,#fff 75%);border:1.5px solid #F2D79A;border-radius:22px;padding:12px 16px;transition:transform .2s}
+.wdban:hover{transform:translateY(-2px)}.wdban .ki{font-size:2.4rem;line-height:1;flex:none}.wdban .txt{flex:1;min-width:0}.wdban b{display:block;font-size:1.15rem;color:#9a6400}.wdban small{color:var(--muted);font-size:.95rem;line-height:1.5;display:block}
+.wdban .go{background:#b57800;color:#fff;font-weight:800;border-radius:999px;padding:8px 16px;white-space:nowrap}
 .gdban .go{background:#11826a;color:#fff;font-weight:800;border-radius:999px;padding:8px 16px;white-space:nowrap}
 .kidsban{display:flex;align-items:center;gap:14px;margin:14px 0 0;text-decoration:none;color:var(--ink);background:linear-gradient(120deg,#FFF3C4,#FFE3EF 80%);border:1.5px solid #F5D98A;border-radius:22px;padding:12px 16px;transition:transform .2s}
 .kidsban:hover{transform:translateY(-2px)}
@@ -173,12 +176,12 @@ h1 .en{display:block;font-family:var(--en);font-weight:600;font-size:.38em;lette
 
 /* start-here steps + section picker */
 .starts{display:grid;grid-template-columns:1fr;gap:12px}
-.starts .gdban,.starts .lvban{margin:0;padding:16px 18px}
+.starts .gdban,.starts .lvban,.starts .wdban{margin:0;padding:16px 18px}
 .starts .gdban{border-width:2px;box-shadow:0 14px 28px -22px rgba(17,130,106,.7)}
 .starts .gdban b{font-size:1.35rem}
 .num{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:1.05rem;color:#fff;background:currentColor}
-.gdban .num{background:#11826a}.lvban .num{background:#3157D5}
-@media (max-width:600px){.starts .gdban,.starts .lvban{flex-wrap:wrap}.starts .go{width:100%;text-align:center}}
+.gdban .num{background:#11826a}.lvban .num{background:#3157D5}.wdban .num{background:#b57800}
+@media (max-width:600px){.starts .gdban,.starts .lvban,.starts .wdban{flex-wrap:wrap}.starts .go{width:100%;text-align:center}}
 .secnav{margin-top:34px;background:var(--card);border:1.5px solid var(--line);border-radius:26px;padding:16px}
 .secnav h2{margin:0 4px 12px;font-size:1.35rem;font-weight:800}
 .secnav .paths{grid-template-columns:repeat(4,minmax(0,1fr));margin:0;max-width:none}
@@ -247,7 +250,7 @@ footer b{color:var(--ink)}
   <section class="shelf" id="start" aria-labelledby="hst">
     <div class="shelf-head reveal">
       <span class="badge" style="background:#E3F6EF" aria-hidden="true">🧭</span>
-      <div><h2 id="hst" style="color:#11826a">ابدأ من هنا</h2><p>خطوتان قبل أن تبدأ: اقرأ الدليل، ثم اعرف مستواك</p></div>
+      <div><h2 id="hst" style="color:#11826a">ابدأ من هنا</h2><p>اقرأ الدليل، ثم اعرف مستواك، ثم انطلق في رحلة العوالم</p></div>
     </div>
     <div class="starts">
       <a class="gdban reveal" href="guide.html">
@@ -259,6 +262,11 @@ footer b{color:var(--ink)}
         <span class="num">2</span><span class="ki" aria-hidden="true">📈</span>
         <span class="txt"><b>قياس المستوى</b><small id="lvSub">اختبار قصير يحدد مستواك الآن، وآخر في نهاية الفترة لترى كم تحسّنت.</small></span>
         <span class="go">ابدأ الاختبار ←</span>
+      </a>
+      <a class="wdban reveal" href="worlds/index.html">
+        <span class="num">3</span><span class="ki" aria-hidden="true">🌍</span>
+        <span class="txt"><b>عوالم النادي وجواز السفر</b><small id="wdSub">رحلة واحدة تربط الأقسام: في كل عالم كبسولة وكلمات وقصة وحوار، ثم تحدٍّ يمنحك ختماً في جوازك.</small></span>
+        <span class="go">انطلق ←</span>
       </a>
     </div>
   </section>
@@ -443,10 +451,10 @@ try { var lr = JSON.parse(localStorage.getItem('lv-results') || '{}'), s = docum
   } catch (e) {}
 })();
 </script>
-<script src="assets/club.js?v=26"></script>
+<script src="assets/club.js?v=27"></script>
 <script type="module">
 // Top three on the honor board (only once Firebase is configured)
-import('./assets/honor.js?v=20261112a').then(async H => {
+import('./assets/honor.js?v=20261112b').then(async H => {
   const s = H.computeScore().score;
   const mp = document.getElementById('myPts'); if (mp) mp.textContent = s.toLocaleString('en-US');
   if (s > 0) document.getElementById('hSub').textContent = 'نقاطك هذا الأسبوع: ' + s.toLocaleString('en-US') + ' نقطة — موسم جديد كل ثلاثاء، تنافس لتكون من نجوم الأسبوع 🌟';
@@ -482,7 +490,7 @@ import('./assets/honor.js?v=20261112a').then(async H => {
     'capsules/space.html':['كبسولة الفضاء','🚀'], 'capsules/flavor.html':['كبسولة النكهة','🍊'], 'capsules/life.html':['كبسولة الحياة','🦋'],
     'capsules/adventure.html':['كبسولة المغامرة','🎈'], 'capsules/emotion.html':['كبسولة المشاعر','💛'], 'capsules/career.html':['كبسولة المسيرة','🎓'],
     'capsules/nature.html':['كبسولة الطبيعة','🌍'], 'capsules/health.html':['كبسولة التعافي','🩺'], 'capsules/sports.html':['كبسولة الرياضة','🏆'], 'capsules/tech.html':['كبسولة التقنية','💻'],
-    'journey/word-quest.html':['English Word Quest','🗺️'], 'journey/dictionary.html':['قاموس الألف كلمة','📖'], 'journey/conversation-lab.html':['مختبر المحادثة','💬'], 'elite/index.html':['مسار النخبة','💎'], 'elite/plus/index.html':['النخبة+','🚀'], 'elite/town/index.html':['في المدينة','🏙️'], 'elite/classics/index.html':['مكتبة النخبة','📚'], 'words/ngsl.html':['الكلمات العامة','🌍'], 'words/awl.html':['الكلمات الأكاديمية','🎓'], 'stories/index.html':['ركن القصص','📖'], 'capsules/index.html':['بوابة الكبسولات','🌟'], 'guide.html':['دليل المتعلم','🧭'],
+    'journey/word-quest.html':['English Word Quest','🗺️'], 'journey/dictionary.html':['قاموس الألف كلمة','📖'], 'journey/conversation-lab.html':['مختبر المحادثة','💬'], 'elite/index.html':['مسار النخبة','💎'], 'elite/plus/index.html':['النخبة+','🚀'], 'elite/town/index.html':['في المدينة','🏙️'], 'elite/classics/index.html':['مكتبة النخبة','📚'], 'words/ngsl.html':['الكلمات العامة','🌍'], 'words/awl.html':['الكلمات الأكاديمية','🎓'], 'stories/index.html':['ركن القصص','📖'], 'capsules/index.html':['بوابة الكبسولات','🌟'], 'guide.html':['دليل المتعلم','🧭'], 'worlds/index.html':['عوالم النادي','🌍'],
     'vocab/mega-goal-1.html':['ميدان المفردات 1','🏟️'], 'vocab/mega-goal-2.html':['ميدان المفردات 2','🏆'], 'vocab/mega-goal-3.html':['ميدان المفردات 3','🥇'],
     'everyday/breakfast.html':['Breakfast Challenge','🍳'], 'words/core2000.html':['Core Quest','🧭'],
     'grammar/syntax-tree-lab.html':['Syntax Tree Lab','🌳'], 'grammar/tenses.html':['خارطة الأزمنة','⏳'], 'grammar/passive.html':['المبني للمجهول','🔄'], 'kids/index.html':['نادي البراعم','🦁'], 'level/index.html':['قياس المستوى','📈'], 'everyday/basics.html':['محادثات التأسيس','🗣️'], 'idioms/index.html':['ركن التعبيرات','🎨'],

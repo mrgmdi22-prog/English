@@ -21,7 +21,7 @@ body{margin:0;background:radial-gradient(900px 420px at 50% -120px,#fff0c2,trans
   padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);overflow-x:hidden}
 .wrap{max-width:820px;margin:0 auto;padding:64px 16px 64px;display:flex;flex-direction:column}
 /* order: board first, then my card and race, last week's stars, rules. A new visitor sees the registration card first. */
-.wrap>header{order:0}#boardSec{order:2}#mePanel{order:3}#race{order:4}#starsP{order:5}#rulesP{order:6}.wrap>footer{order:7}
+.wrap>header{order:0}#boardSec{order:2}#mePanel{order:3}#race{order:4}#starsP{order:5}#plusP{order:6}#rulesP{order:7}.wrap>footer{order:8}
 body.gate #mePanel{order:1}
 header{text-align:center}
 .trophy{font-size:3.4rem;line-height:1;display:inline-block;animation:bob 3.4s ease-in-out infinite}
@@ -134,6 +134,9 @@ select:focus{border-color:var(--gold);outline:none}
 .sugg-list button[lang=en]{font-family:var(--en);font-size:.95rem}
 .reg{display:block;font-size:.85rem;font-weight:700;color:var(--muted);line-height:1.4}
 .pl .reg{margin-top:2px}
+.ept{display:inline-block;margin-inline-start:6px;font-size:.8rem;font-weight:800;color:#5b3fd6;background:#f1edff;border:1px solid #ddd3ff;border-radius:999px;padding:0 8px;vertical-align:middle;white-space:nowrap}
+.plus{background:linear-gradient(135deg,#f6f3ff,#fff 70%);border-color:#e3dcff}.plus h2{color:#5b3fd6}
+.plus .go{display:inline-block;margin-top:12px;text-decoration:none;background:#6d55e8;color:#fff;font-weight:800;border-radius:999px;padding:9px 18px}
 .rules{width:100%;border-collapse:collapse;font-size:1.02rem}
 .rules td{padding:9px 6px;border-bottom:1px solid var(--line)}
 .rules tr:last-child td{border-bottom:0}
@@ -180,6 +183,13 @@ footer a{color:var(--muted)}
       <div id="archTop"></div><div id="arch"></div></details>
   </section>
 
+  <section class="panel plus" id="plusP" hidden>
+    <h2>🚀 لوحة النخبة+ (تقييم مستقل)</h2>
+    <p class="note">نقاط النخبة+ لا تدخل هذه اللوحة العامة، فلكل مستوى منافسته العادلة. أبطال النخبة+ يتنافسون في لوحتهم الخاصة، ولهم نجوم أسبوع مستقلون، وتظهر بجانب أسمائهم هنا شارة 🚀.</p>
+    <ol class="list" id="plusL"></ol>
+    <a class="go" href="elite/plus/index.html#board">افتح لوحة النخبة+ ←</a>
+  </section>
+
   <section class="panel" id="rulesP">
     <h2>كيف تُحسب النقاط؟</h2>
     <table class="rules" id="rules"></table>
@@ -188,19 +198,19 @@ footer a{color:var(--muted)}
 
   <footer>إعداد: أ. أحمد بن سالم — نادي اللغة الإنجليزية<br><a href="teacher.html">لوحة التحكم (للمعلم)</a></footer>
 </div>
-<script src="assets/club.js?v=26"></script>
+<script src="assets/club.js?v=27"></script>
 <script type="module">
 const demo = /[?&]demo\b/.test(location.search);
 let H;
 if (demo) {
-  const m = await import('./assets/honor.js?v=20261112a').catch(() => null);
+  const m = await import('./assets/honor.js?v=20261112b').catch(() => null);
   const fake = ['نسر الصحراء','Falcon7','نجم الشمال','Lion King','القمر المضيء','Speedy','بطل العقيق','Eagle Eye','الشهاب','Rocket'].map((n,i)=>({id:'d'+i,nick:n,score:3200-i*270-(i%3)*35,approved:true}));
   let me = null, priv = null;
   H = { ready:true, RULES:m.RULES, DAILY_CAP:m.DAILY_CAP, STARS_N:m.STARS_N, weekNo:m.weekNo, weekLabel:m.weekLabel, FIRST_WEEK:m.FIRST_WEEK, FOUND_WEEK:m.FOUND_WEEK, stars:m.stars, computeScore:m.computeScore, cleanNick:m.cleanNick, nickKey:m.nickKey,
     GRADES:m.GRADES, SUGGESTED:m.SUGGESTED, EXTERNAL:m.EXTERNAL, REGIONS:m.REGIONS, HOME_REGION:m.HOME_REGION, setRegion: async(r)=>{me.region=r}, cleanText:m.cleanText, myPrivate: async()=>priv, savePrivate: async(p)=>{priv=p}, myEntry: async()=>me, join: async(n,r)=>(me={id:'me',nick:m.cleanNick(n),region:r,approved:false,...m.computeScore()}),
     sync: async()=>null, myCode:()=>'', cleanCode:m.cleanCode, ensureAccount: async()=>'', board: async()=>fake, watchBoard: async(cb)=>{cb(fake);return ()=>{};} };
 } else {
-  H = await import('./assets/honor.js?v=20261112a');
+  H = await import('./assets/honor.js?v=20261112b');
 }
 
 const $ = id => document.getElementById(id);
@@ -223,8 +233,8 @@ gateHeader();
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = n => Number(n||0).toLocaleString('en-US');
 /* «تقدّمك في الأقسام»: each section has a ceiling (its content × the points of an answer). Shows what I earned of it and what is left. */
-const SEC_NAME = { wq:'Word Quest', ng:'الكلمات العامة', mg:'ميدان المفردات', cq:'Core Quest', caps:'الكبسولات', tb:'محادثات التأسيس', bf:'Breakfast', aw:'الكلمات الأكاديمية', st:'القصص', lab:'مختبر المحادثة', tn:'خارطة الأزمنة', pv:'المبني للمجهول', im:'التعبيرات', ek:'مسار النخبة', et:'في المدينة' };
-const SEC_ORDER = ['wq','ng','aw','mg','cq','caps','tb','bf','st','lab','tn','pv','im','ek','et'];
+const SEC_NAME = { wq:'Word Quest', ng:'الكلمات العامة', mg:'ميدان المفردات', cq:'Core Quest', caps:'الكبسولات', tb:'محادثات التأسيس', bf:'Breakfast', aw:'الكلمات الأكاديمية', st:'القصص', lab:'مختبر المحادثة', tn:'خارطة الأزمنة', pv:'المبني للمجهول', im:'التعبيرات', ek:'مسار النخبة', et:'في المدينة', wd:'تحدي العوالم', ws:'أختام العوالم' };
+const SEC_ORDER = ['wq','ng','aw','mg','cq','caps','tb','bf','st','lab','tn','pv','im','wd','ws','ek','et'];
 const SEC_EXTRA = ['mb','xb','rt','lv','lvs','sp','ep','ep2','epb','epx','ed'];      // no fixed ceiling worth showing: shown as plain numbers
 function secsHTML(p) {
   const R = {}; H.RULES.forEach(r => { R[r.key] = r; });
@@ -243,7 +253,7 @@ function secsHTML(p) {
     ${extra.length ? `<div class="chips">${extra.join('')}</div>` : ''}</div>`;
 }
 
-$('rules').innerHTML = H.RULES.filter(r => !r.hide).map(r => `<tr><td>${r.icon} ${r.label}</td><td>${r.note || (r.per + ' نقاط')}</td></tr>`).join('') + `<tr><td>⏳ حدّ يومي لنقاط التمارين: بعده تواصل التدريب للتعلّم، ولا تُحسب النقاط حتى الغد (يبدأ اليوم في السادسة صباحاً، وSurprise Me ونقاط التحسّن خارج الحد)</td><td>${H.DAILY_CAP || 750} نقطة</td></tr>` + `<tr><td>🗓️ موسم جديد كل ثلاثاء في السادسة صباحاً: يبدأ الجميع من الصفر، وأفضل ${H.STARS_N || 10} في كل أسبوع يدخلون سجل النجوم، ويُكرَّم في نهاية العام من تكررت نجوميته</td><td>أسبوعياً</td></tr>`;
+$('rules').innerHTML = H.RULES.filter(r => !r.hide).map(r => `<tr><td>${r.icon} ${r.label}</td><td>${r.note || (r.per + ' نقاط')}</td></tr>`).join('') + `<tr><td>⏳ حدّ يومي لنقاط التمارين: بعده تواصل التدريب للتعلّم، ولا تُحسب النقاط حتى الغد (يبدأ اليوم في السادسة صباحاً، وSurprise Me ونقاط التحسّن خارج الحد)</td><td>${H.DAILY_CAP || 750} نقطة</td></tr>` + `<tr><td>🗓️ موسم جديد كل ثلاثاء في السادسة صباحاً: يبدأ الجميع من الصفر، وأفضل ${H.STARS_N || 10} في كل أسبوع يدخلون سجل النجوم، ويُكرَّم في نهاية العام من تكررت نجوميته</td><td>أسبوعياً</td></tr>` + `<tr><td>🚀 النخبة+ لها تقييم مستقل: نقاطها في لوحتها الخاصة ونجومها الأسبوعية، ولا تُضاف إلى هذه اللوحة</td><td>لوحة مستقلة</td></tr>`;
 
 let ME = null, ROWS = [], ALL = [], PRIV = null;
 function seasonNote() {
@@ -335,7 +345,15 @@ function renderRace(myScore) {
 
 
 function regionOpts(sel) { return H.REGIONS.map(x => `<option${sel===x?' selected':''}>${x}</option>`).join(''); }
-function regTag(r) { return r && r.region ? `<small class="reg">📍 ${esc(r.region)}</small>` : ''; }
+function regTag(r) { return (r && r.region ? `<small class="reg">📍 ${esc(r.region)}</small>` : '') + (r && r.parts && (r.parts.epp | 0) > 0 ? '<small class="ept" title="من أبطال النخبة+">🚀 النخبة+</small>' : ''); }
+/* Elite+ has its own board: show its top 5 here (all-time), separate from the main board. */
+function renderPlus() {
+  const rows = ALL.filter(r => r.parts && (r.parts.epp | 0) > 0).sort((a, b) => (b.parts.epp | 0) - (a.parts.epp | 0)).slice(0, 5);
+  const P = $('plusP'); if (!P) return;
+  P.hidden = false; const medals = ['🥇','🥈','🥉'];
+  $('plusL').innerHTML = rows.map((r, i) => `<li class="${ME && r.id===ME.id?'mine':''}"><span class="rk">${medals[i] || i + 1}</span><span class="nm">${esc(r.nick)}</span><span class="sc">${fmt(r.parts.epp | 0)}</span></li>`).join('')
+    || '<li class="empty-board" style="opacity:1;transform:none;border:0;background:none">لا أبطال في النخبة+ بعد.</li>';
+}
 /* A clear reason for a Firebase failure (the code stays visible so the teacher can tell what happened). */
 function whyFail(err) {
   const c = String((err && (err.code || err.message)) || '');
@@ -574,7 +592,7 @@ if (!H.ready) {
     renderMe(); renderBoard(); seasonNote();
     // Keep the ranking live: any student's new points appear without reloading the page.
     H.watchBoard((rows, all) => {
-      ROWS = rows; if (all) { ALL = all; renderStars(); } renderBoard(); drawSugg(false);
+      ROWS = rows; if (all) { ALL = all; renderStars(); renderPlus(); } renderBoard(); drawSugg(false);
       if (ME) { const mine = rows.find(r => r.id === ME.id); if (mine) ME.score = mine.score; renderRace(H.computeScore().score); }
     }).catch(err => console.warn(err));
     // And send my own new points every 30 seconds while this page is open.

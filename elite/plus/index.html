@@ -433,7 +433,8 @@ function answer(right, btn, typed) {
     R.right++; R.streak++; R.best = Math.max(R.best, R.streak);
     if (counts && fresh) {
       O[q.id] = 1; S('ep-ok', O); delete W[q.id]; S('ep-wrong', W); got = ptsOf(q);
-      if (R.streak >= 5) { S('ep-xb', (+J('ep-xb', 0) || 0) + BONUS); got += BONUS; }
+      const OW = J('ep-okw', {}); OW[q.id] = weekNo(); S('ep-okw', OW);   // the week it was solved (Elite+ weekly stars)
+      if (R.streak >= 5) { S('ep-xb', (+J('ep-xb', 0) || 0) + BONUS); got += BONUS; const XW = J('ep-xbw', {}), w = weekNo(); XW[w] = (+XW[w] || 0) + BONUS; S('ep-xbw', XW); }
     }
     if (R.mode === 'boss' && R.counts) { const B = J('ep-boss', {}); B[R.week] = Math.min(10, (+B[R.week] || 0) + 1); S('ep-boss', B); got += BOSS_PER; }
     if (R.streak === 5 || R.streak === 10 || R.streak === 20) { toast(`🔥 ${R.streak} متتالية! ${R.streak >= 5 ? '+5 لكل إجابة جديدة' : ''}`); fireworks(R.streak >= 10 ? 4 : 2); }
@@ -550,7 +551,7 @@ $('qualGo').onclick = () => startRound('qual');
 
 /* ---------- club points + Elite+ board ---------- */
 let H = null;
-async function honor() { if (H) return H; try { H = await import('../../assets/honor.js?v=20261112a'); } catch (e) { H = null; } return H; }
+async function honor() { if (H) return H; try { H = await import('../../assets/honor.js?v=20261112b'); } catch (e) { H = null; } return H; }
 async function syncSoon() { try { const h = await honor(); if (h && h.ready && h.sync) await h.sync(); } catch (e) {} }
 let boardBusy = false;
 async function boardPanel() {
@@ -563,8 +564,18 @@ async function boardPanel() {
     const me = await h.myEntry().catch(() => null), mine = r => me && r.id === me.id;
     if (!rows.length) { el.innerHTML = '<p class="muted" style="text-align:center">🏁 لا أبطال في النخبة+ بعد.<br><b>كن أول اسم هنا!</b></p>'; return; }
     const md = ['🥇', '🥈', '🥉'];
-    el.innerHTML = rows.slice(0, 10).map((r, i) => `<div class="brow ${mine(r) ? 'me' : ''}"><span class="r">${md[i] || i + 1}</span><span>${esc(r.nick)}</span><span class="s">${(r.parts.epp || 0).toLocaleString('en')}</span></div>`).join('')
+    el.innerHTML = '<p class="muted" style="margin:0 0 10px">🚀 لوحة مستقلة: نقاط النخبة+ تُحسب هنا فقط، ولا تدخل لوحة الشرف العامة.</p>'
+      + rows.slice(0, 10).map((r, i) => `<div class="brow ${mine(r) ? 'me' : ''}"><span class="r">${md[i] || i + 1}</span><span>${esc(r.nick)}</span><span class="s">${(r.parts.epp || 0).toLocaleString('en')}</span></div>`).join('')
       + (me && rows.findIndex(mine) >= 10 ? `<p style="margin:10px 0 0">📍 ترتيبك: <b>${rows.findIndex(mine) + 1}</b> من ${rows.length}</p>` : '');
+    if (h.plusStars) {   // this week's race + last week's Elite+ stars
+      const wk = rows.filter(r => h.plusWeek(r) > 0).sort((a, b) => h.plusWeek(b) - h.plusWeek(a)).slice(0, 5);
+      const { weeks, count } = h.plusStars(rows), last = weeks.find(x => x.top.length);
+      el.innerHTML += `<h3 style="margin:18px 0 8px">⚡ سباق هذا الأسبوع</h3>`
+        + (wk.map((r, i) => `<div class="brow ${mine(r) ? 'me' : ''}"><span class="r">${i + 1}</span><span>${esc(r.nick)}</span><span class="s">${h.plusWeek(r).toLocaleString('en')}</span></div>`).join('') || '<p class="muted">لم يجمع أحد نقاطاً هذا الأسبوع بعد.</p>')
+        + `<h3 style="margin:18px 0 8px">🌟 نجوم النخبة+ للأسبوع الماضي</h3>`
+        + (last ? last.top.map((r, i) => `<div class="brow ${mine(r) ? 'me' : ''}"><span class="r">${md[i] || i + 1}</span><span>${esc(r.nick)}${count[r.id] > 1 ? ` <small>🌟×${count[r.id]}</small>` : ''}</span><span class="s">${r.s.toLocaleString('en')}</span></div>`).join('')
+          : '<p class="muted">أول نجوم النخبة+ يُعلنون الثلاثاء القادم في السادسة صباحاً: أفضل 5 في هذا الأسبوع.</p>');
+    }
   } catch (e) { el.innerHTML = '<p class="muted">تعذّر تحميل اللوحة الآن.</p>'; }
   finally { boardBusy = false; }
 }
@@ -574,6 +585,6 @@ home();
 syncSoon();
 })();
 </script>
-<script src="../../assets/club.js?v=26"></script>
+<script src="../../assets/club.js?v=27"></script>
 </body>
 </html>

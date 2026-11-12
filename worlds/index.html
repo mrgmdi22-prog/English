@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<script src="../assets/gate.js?v=9"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>عوالم النادي وجواز السفر · نادي اللغة الإنجليزية</title>
+<meta name="theme-color" content="#f4f7ff">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<style>
+/* عوالم النادي: one journey through all the club's sections. Each world (a capsule theme) has 4 stations taken from
+   different sections (capsule, Word Quest words, a story, a conversation) and a world challenge; passing it with all the
+   stations done stamps the world in the student's passport. The passport also stamps every section visited / completed. */
+:root{color-scheme:light;--paper:#f6f8ff;--card:#fff;--ink:#232c47;--muted:#5a6482;--line:#e3e8f4;--gold:#c99a1c;--ok:#17855c;
+  --ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif;--ease:cubic-bezier(.2,.7,.2,1)}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ar);font-size:20px;line-height:1.7;padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:inherit}
+button{font:inherit}
+a:focus-visible,button:focus-visible{outline:3px solid #4b62e0;outline-offset:3px;border-radius:14px}
+.wrap{max-width:960px;margin:0 auto;padding:16px 16px 80px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.home{text-decoration:none;font-weight:800;background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:6px 16px;font-size:1rem}
+.tabs{display:flex;gap:8px}
+.tabs a{text-decoration:none;font-weight:800;font-size:1.02rem;border-radius:999px;padding:8px 18px;background:#fff;border:1.5px solid var(--line)}
+.tabs a.on{background:#4b62e0;color:#fff;border-color:#4b62e0}
+.hero{margin-top:16px;border-radius:30px;padding:26px 20px;text-align:center;background:linear-gradient(135deg,#eef1ff,#e8f7f1 55%,#fff5e0);border:1px solid #e3e6fa}
+.hero h1{margin:0;font-size:2rem;line-height:1.3;color:#3446c4}
+.hero p{margin:8px auto 0;max-width:640px;color:var(--muted);font-size:1.08rem}
+.stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+.stats span{background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:4px 16px;font-weight:800}
+.howto{margin-top:14px;background:#fff;border:1.5px solid var(--line);border-radius:22px;padding:14px 18px;font-size:1.02rem}
+.howto b{color:#3446c4}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:18px}
+@media (max-width:640px){.grid{grid-template-columns:1fr}}
+.world{position:relative;display:flex;gap:14px;align-items:center;text-align:right;width:100%;cursor:pointer;background:linear-gradient(120deg,var(--t),#fff 78%);
+  border:2px solid var(--line);border-radius:24px;padding:16px;transition:transform .2s var(--ease),box-shadow .2s;color:var(--ink)}
+.world:hover{transform:translateY(-2px);box-shadow:0 14px 30px -24px var(--c)}
+.world .ic{font-size:2.6rem;line-height:1;flex:none;width:64px;height:64px;display:grid;place-items:center;background:#fff;border-radius:20px;border:2px solid var(--t)}
+.world .tx{flex:1;min-width:0}
+.world b{display:block;font-size:1.25rem;color:var(--c)}
+.world small{display:block;color:var(--muted);font-size:.95rem;line-height:1.5}
+.dots{display:flex;gap:6px;margin-top:6px}
+.dots i{width:14px;height:14px;border-radius:50%;background:#e6e9f3;border:2px solid #fff;box-shadow:0 0 0 1px #d9deec}
+.dots i.on{background:var(--c)}
+.world .stamp{flex:none;font-size:2rem}
+.world.locked{cursor:default;opacity:.62;filter:grayscale(.5)}
+.world.locked:hover{transform:none;box-shadow:none}
+.world .lk{position:absolute;top:10px;left:12px;font-size:.88rem;font-weight:800;color:var(--muted);background:#fff;border-radius:999px;padding:0 10px;border:1px solid var(--line)}
+/* world view */
+.whead{margin-top:16px;border-radius:28px;padding:22px 18px;text-align:center;background:linear-gradient(135deg,var(--t),#fff 80%);border:2px solid var(--t)}
+.whead .big{font-size:3.4rem;line-height:1}
+.whead h1{margin:6px 0 0;color:var(--c);font-size:1.9rem}
+.whead p{margin:6px 0 0;color:var(--muted)}
+.prog{height:14px;border-radius:999px;background:#eef0f7;overflow:hidden;margin:14px auto 0;max-width:420px}
+.prog i{display:block;height:100%;background:var(--c);border-radius:999px;transition:width .6s var(--ease)}
+.stations{display:grid;gap:12px;margin-top:18px}
+.st{display:flex;align-items:center;gap:14px;background:#fff;border:2px solid var(--line);border-radius:22px;padding:14px 16px}
+.st.done{border-color:#bfe5d3;background:linear-gradient(120deg,#effaf4,#fff 70%)}
+.st .n{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:var(--t);color:var(--c);font-size:1.15rem}
+.st.done .n{background:var(--ok);color:#fff}
+.st .tx{flex:1;min-width:0}
+.st b{display:block;font-size:1.15rem}
+.st small{display:block;color:var(--muted);font-size:.95rem;line-height:1.55}
+.st .en{font-family:var(--en);direction:ltr;unicode-bidi:isolate}
+.st .go{flex:none;text-decoration:none;font-weight:800;border-radius:999px;padding:9px 16px;background:var(--c);color:#fff;white-space:nowrap;border:0;cursor:pointer}
+.st.done .go{background:#fff;color:var(--ok);border:2px solid #bfe5d3}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chips a{text-decoration:none;font-family:var(--en);font-size:.88rem;border-radius:999px;padding:1px 10px;background:var(--t);color:var(--c);border:1px solid transparent;direction:ltr}
+.chips a.ok{background:#e6f6ee;color:var(--ok)}
+.final{margin-top:16px;border-radius:24px;padding:18px;text-align:center;border:2px dashed var(--c);background:#fff}
+.final h2{margin:0;color:var(--c);font-size:1.4rem}
+.final p{margin:6px 0 0;color:var(--muted)}
+.btn{display:inline-block;margin-top:12px;font-weight:800;font-size:1.1rem;border:0;border-radius:999px;padding:12px 26px;cursor:pointer;background:var(--c,#4b62e0);color:#fff;text-decoration:none}
+.btn.soft{background:#fff;color:var(--c,#4b62e0);border:2px solid var(--c,#4b62e0)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.back{display:inline-block;margin-top:14px;text-decoration:none;font-weight:800;color:var(--muted)}
+/* quiz */
+.qbox{margin-top:16px;background:#fff;border:2px solid var(--line);border-radius:26px;padding:20px}
+.qtop{display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:800;color:var(--muted)}
+.qbar{height:10px;border-radius:999px;background:#eef0f7;overflow:hidden;margin:10px 0 16px}
+.qbar i{display:block;height:100%;background:var(--c);transition:width .4s}
+.qa{font-weight:800;color:var(--c);font-size:1.05rem}
+.qq{font-size:1.4rem;font-weight:700;margin:8px 0 14px;line-height:1.6}
+.qq.en{font-family:var(--en);direction:ltr;text-align:left}
+.say{border:0;background:var(--t);color:var(--c);border-radius:999px;padding:4px 14px;font-weight:800;cursor:pointer;font-size:1rem}
+.opts{display:grid;gap:10px}
+.opt{text-align:start;background:#fbfcff;border:2px solid var(--line);border-radius:18px;padding:12px 16px;font-size:1.15rem;cursor:pointer;color:var(--ink);line-height:1.55}
+.opt.en{font-family:var(--en);direction:ltr;text-align:left}
+.opt:hover{border-color:var(--c)}
+.opt.right{background:#e9f8f0;border-color:#5cc497}
+.opt.wrong{background:#fdeeee;border-color:#ef9a9a}
+.opt[disabled]{cursor:default}
+.why{margin-top:12px;font-size:1rem;color:var(--muted)}
+.next{display:flex;justify-content:flex-end;margin-top:10px;direction:ltr}   /* Next on the right, like all English navigation */
+.result{text-align:center}
+.result .big{font-size:4rem;line-height:1}
+.result h2{margin:6px 0 0;color:var(--c)}
+/* passport */
+.pass{margin-top:16px;border-radius:30px;padding:22px 18px;background:linear-gradient(160deg,#fff9ea,#fff 60%);border:2px solid #f0dfaa}
+.pass h1{margin:0;text-align:center;color:#8a6a10;font-size:1.9rem}
+.pass .sub{text-align:center;color:var(--muted);margin:6px 0 0}
+.ph{margin:22px 0 10px;font-size:1.25rem;color:#8a6a10}
+.stamps{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+@media (max-width:640px){.stamps{grid-template-columns:repeat(3,1fr)}}
+.stp{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;text-align:center;color:var(--ink)}
+.stp .c{width:78px;height:78px;border-radius:50%;display:grid;place-items:center;font-size:2.1rem;border:3px dashed #d9dcea;background:#fff;position:relative}
+.stp.v .c{border:3px solid #9fb2ea;background:#f0f4ff}
+.stp.g .c{border:3px solid var(--gold);background:radial-gradient(circle,#fff8dc,#ffe9a6);box-shadow:0 8px 18px -10px #c99a1c;transform:rotate(-8deg)}
+.stp.e .c{filter:grayscale(1);opacity:.45}
+.stp .c em{position:absolute;bottom:-4px;left:-4px;font-style:normal;font-size:1.1rem}
+.stp span{font-size:.92rem;font-weight:700;line-height:1.35}
+.stp small{font-size:.8rem;color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:center;margin-top:16px;font-size:.95rem;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#232c47;color:#fff;border-radius:16px;padding:10px 18px;font-weight:700;z-index:50;max-width:92vw;text-align:center}
+canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:40}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<canvas id="fx"></canvas>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../index.html">🏠 الرئيسية</a>
+    <nav class="tabs"><a href="#" id="tMap">🌍 العوالم</a><a href="#passport" id="tPass">🛂 جواز سفري</a></nav>
+  </div>
+  <main id="app"><p style="text-align:center;margin-top:40px">جارٍ التحميل…</p></main>
+</div>
+<div class="toast hide" id="toast" role="status" aria-live="polite"></div>
+<script src="../surprise/bank.js?v=1"></script>
+<script>
+(function(){
+'use strict';
+/* ---------- the worlds: one capsule theme each, with stations from the other sections ---------- */
+// wq = Word Quest units on the theme, st = a story (stories/#id), lab = a conversation lab week
+const WORLDS = [
+  { k:'space',     ar:'عالم الفضاء',    en:'Space',     ic:'🚀', c:'#5b4bd6', t:'#efebff', wq:[3,2],          st:['wind-sun','The North Wind and the Sun'], lab:[19,'An Invention That Changed Us'] },
+  { k:'nature',    ar:'عالم الطبيعة',   en:'Nature',    ic:'🌿', c:'#1d7a50', t:'#e4f5ec', wq:[17,25,37,38],  st:['crow-pitcher','The Crow and the Pitcher'], lab:[7,'Weather Through the Seasons'] },
+  { k:'life',      ar:'عالم الحياة',    en:'Life',      ic:'🏡', c:'#7d47c4', t:'#f3ebff', wq:[4,31,35],      st:['town-country-mouse','The Town Mouse and the Country Mouse'], lab:[1,'Meet My Family'] },
+  { k:'flavor',    ar:'عالم النكهات',   en:'Flavor',    ic:'🍲', c:'#c25a20', t:'#fff0e4', wq:[32,18],        st:['stone-soup','Stone Soup'], lab:[5,'How to Make Kabsa'] },
+  { k:'sports',    ar:'عالم الرياضة',   en:'Sports',    ic:'⚽', c:'#1f8a4c', t:'#e4f6ea', wq:[20,23,24,42],  st:['tortoise-hare','The Tortoise and the Hare'], lab:[8,'The New Team Captain'] },
+  { k:'health',    ar:'عالم الصحة',     en:'Health',    ic:'🩺', c:'#13807f', t:'#e2f5f4', wq:[21,33,45],     st:['ant-grasshopper','The Ant and the Grasshopper'], lab:[11,'A New Healthy Habit'] },
+  { k:'adventure', ar:'عالم المغامرة',  en:'Adventure', ic:'🧭', c:'#2477b5', t:'#e6f3fc', wq:[9,16,26,27],   st:['lion-mouse','The Lion and the Mouse'], lab:[6,'A Trip to Remember'] },
+  { k:'emotion',   ar:'عالم المشاعر',   en:'Emotions',  ic:'💜', c:'#8a4fb0', t:'#f6ecfb', wq:[48,34,43],     st:['bundle-sticks','The Bundle of Sticks'], lab:[14,'How I Beat Math Stress'] },
+  { k:'tech',      ar:'عالم التقنية',   en:'Technology',ic:'🤖', c:'#3f51c9', t:'#e9ecfd', wq:[39,46,22],     st:['king-midas','King Midas and the Golden Touch'], lab:[9,'My Phone Is Dead'] },
+  { k:'career',    ar:'عالم المهن',     en:'Careers',   ic:'💼', c:'#2f5fa8', t:'#e8effb', wq:[40,49,47],     st:['elves-shoemaker','The Elves and the Shoemaker'], lab:[17,'My Dream Job'] }
+];
+const OPEN_START = 3;      // the first 3 worlds are open; every stamp opens one more
+const PASS = 7;            // the world challenge: 7 of 10 to pass
+const QN = 10;
+
+const $ = id => document.getElementById(id);
+const J = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } };
+const S = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+const N = k => { try { return +(localStorage.getItem(k) || 0) || 0; } catch (e) { return 0; } };
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const sfx = n => { try { window.clubSfx && window.clubSfx(n); } catch (e) {} };
+function toast(m, ms) { const t = $('toast'); t.textContent = m; t.classList.remove('hide'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.add('hide'), ms || 3500); }
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+/* ---------- progress, read from what each section saved ---------- */
+function stations(W) {
+  const capStars = J('cap2-' + W.k + '-stars', {}), capN = Object.keys(capStars).filter(k => (+capStars[k] || 0) >= 1).length;
+  const wqBest = W.wq.map(n => N('wq-best-' + n)), wqOk = wqBest.some(b => b >= 7);
+  const stBest = N('st-best-' + W.st[0]), labBest = N('cl-q-' + W.lab[0]);
+  return [
+    { ic:'🎧', ar:'كبسولة ' + W.ar.replace('عالم ', ''), what:'أنجز مرحلتين على الأقل في كبسولة هذا العالم (نجمة في كل مرحلة).', now: capN + ' من 2 مراحل', done: capN >= 2, href:'../capsules/' + W.k + '.html', go: capN ? 'تابع' : 'ابدأ' },
+    { ic:'🔤', ar:'كلمات العالم', what:'اختبر نفسك في وحدة من وحدات Word Quest على هذا الموضوع، واحصل على 7 من 10.', now: 'أفضل نتيجة: ' + Math.max(0, ...wqBest) + ' من 10', done: wqOk,
+      href:'../journey/word-quest.html#u' + (W.wq.find(n => N('wq-best-' + n) < 7) || W.wq[0]), go: wqOk ? 'راجع' : 'ابدأ', units: W.wq },
+    { ic:'📖', ar:'قصة العالم', what:'اقرأ القصة وأجب عن أسئلتها: سؤالان صحيحان من 3 على الأقل.', en: W.st[1], now: 'أفضل نتيجة: ' + stBest + ' من 3', done: stBest >= 2, href:'../stories/index.html#' + W.st[0], go: stBest ? 'أعد' : 'اقرأ' },
+    { ic:'💬', ar:'حوار العالم', what:'تدرّب على الحوار في مختبر المحادثة، ثم أجب عن أسئلته: 3 من 5 على الأقل.', en: W.lab[1], now: 'أفضل نتيجة: ' + labBest + ' من 5', done: labBest >= 3, href:'../journey/conversation-lab.html#w' + W.lab[0], go: labBest ? 'أعد' : 'ابدأ' }
+  ];
+}
+const best = () => J('wd-best', {});
+const stamps = () => J('wd-stamp', {});
+function worldState(W) {
+  const s = stations(W), n = s.filter(x => x.done).length, b = +best()[W.k] || 0;
+  return { s, n, b, passed: b >= PASS, stamped: !!stamps()[W.k], canTry: n >= 3 };
+}
+// A stamp: all 4 stations done and the challenge passed (in any order). Saved once, never taken back.
+function checkStamps() {
+  const st = stamps(), got = [];
+  WORLDS.forEach(W => { const x = worldState(W); if (!st[W.k] && x.n === 4 && x.passed) { st[W.k] = Date.now(); got.push(W); } });
+  if (got.length) S('wd-stamp', st);
+  return got;
+}
+const stampCount = () => Object.keys(stamps()).length;
+const isOpen = i => i < OPEN_START + stampCount() || !!stamps()[WORLDS[i].k] || (+best()[WORLDS[i].k] || 0) > 0;
+
+/* ---------- views ---------- */
+function setTab(t) { $('tMap').classList.toggle('on', t === 'map'); $('tPass').classList.toggle('on', t === 'pass'); }
+function viewMap() {
+  setTab('map');
+  const sc = stampCount(), totalSt = WORLDS.reduce((t, W) => t + worldState(W).n, 0);
+  $('app').innerHTML = `
+  <section class="hero">
+    <h1>🌍 عوالم النادي</h1>
+    <p>رحلة واحدة تجمع أقسام النادي: في كل عالم كبسولة وكلمات وقصة وحوار على الموضوع نفسه، ثم تحدٍّ ختامي يمنحك ختم العالم في جواز سفرك.</p>
+    <div class="stats"><span>🛂 ${sc} من ${WORLDS.length} أختام</span><span>✅ ${totalSt} من ${WORLDS.length * 4} محطات</span></div>
+  </section>
+  <div class="howto">🗺️ <b>كيف تلعب؟</b> ادخل عالماً وأنجز محطاته الأربع من أقسامها (نتيجتك فيها تُحسب تلقائياً)، ثم خض <b>تحدي العالم</b>: 10 أسئلة، تحتاج 7 لتنجح.
+    كل ختم = <b>50 نقطة</b> في لوحة الشرف، ويفتح لك عالماً جديداً.</div>
+  <div class="grid">${WORLDS.map((W, i) => {
+    const x = worldState(W), open = isOpen(i);
+    return `<button class="world ${open ? '' : 'locked'}" data-i="${i}" style="--c:${W.c};--t:${W.t}" ${open ? '' : 'aria-disabled="true"'}>
+      ${open ? '' : '<span class="lk">🔒 يُفتح بختم جديد</span>'}
+      <span class="ic" aria-hidden="true">${W.ic}</span>
+      <span class="tx"><b>${W.ar}</b><small>${x.stamped ? 'مختوم في جواز سفرك 🎉' : x.n === 4 ? (x.passed ? '' : 'المحطات مكتملة: التحدي ينتظرك!') : x.n + ' من 4 محطات' + (x.b ? ' · أفضل نتيجة في التحدي ' + x.b + '/10' : '')}</small>
+        <span class="dots" aria-hidden="true">${x.s.map(s => `<i class="${s.done ? 'on' : ''}"></i>`).join('')}<i class="${x.passed ? 'on' : ''}" style="border-radius:4px"></i></span></span>
+      <span class="stamp" aria-hidden="true">${x.stamped ? '🏅' : ''}</span>
+    </button>`; }).join('')}</div>`;
+  document.querySelectorAll('.world').forEach(b => b.onclick = () => {
+    const i = +b.dataset.i; if (!isOpen(i)) { toast('🔒 احصل على ختم عالم آخر ليُفتح هذا العالم.'); sfx('bad'); return; }
+    location.hash = 'w-' + WORLDS[i].k; });
+}
+
+function viewWorld(W) {
+  setTab('map');
+  const x = worldState(W), pct = Math.round((x.n + (x.passed ? 1 : 0)) / 5 * 100);
+  document.body.style.setProperty('--c', W.c); document.body.style.setProperty('--t', W.t);
+  $('app').innerHTML = `
+  <section class="whead" style="--c:${W.c};--t:${W.t}">
+    <div class="big" aria-hidden="true">${W.ic}</div>
+    <h1>${W.ar}</h1>
+    <p>${x.stamped ? '🏅 ختمت هذا العالم! يمكنك إعادة التحدي للتدريب، ويُحسب أفضل ما حققته.' : 'أنجز المحطات الأربع ثم التحدي، لتحصل على ختم ' + W.ar + '.'}</p>
+    <div class="prog" aria-label="التقدم ${pct}%"><i style="width:${pct}%"></i></div>
+  </section>
+  <div class="stations" style="--c:${W.c};--t:${W.t}">${x.s.map((s, i) => `
+    <div class="st ${s.done ? 'done' : ''}">
+      <span class="n">${s.done ? '✓' : i + 1}</span>
+      <span class="tx"><b>${s.ic} ${s.ar}</b>${s.en ? `<small class="en">${esc(s.en)}</small>` : ''}<small>${s.what}</small><small><b style="display:inline;font-size:.95rem">${s.now}</b></small>
+        ${s.units ? `<span class="chips">${s.units.map(n => `<a class="${N('wq-best-' + n) >= 7 ? 'ok' : ''}" href="../journey/word-quest.html#u${n}">Unit ${n} · ${N('wq-best-' + n)}/10</a>`).join('')}</span>` : ''}</span>
+      <a class="go" href="${s.href}">${s.go} ←</a>
+    </div>`).join('')}
+  </div>
+  <section class="final" style="--c:${W.c};--t:${W.t}">
+    <h2>🏁 تحدي ${W.ar}</h2>
+    <p>10 أسئلة من جمل هذا العالم: معاني الجمل وترتيبها. تحتاج ${PASS} لتنجح، وكل إجابة صحيحة في أفضل محاولة = 5 نقاط.</p>
+    <p>${x.b ? 'أفضل نتيجة لك: <b>' + x.b + ' من 10</b>' + (x.passed ? ' ✅' : '') : ''}</p>
+    ${x.canTry ? `<button class="btn" id="goQ">${x.b ? 'أعد التحدي' : 'ابدأ التحدي'}</button>` : `<button class="btn" disabled>🔒 يُفتح بعد 3 محطات (أنجزت ${x.n})</button>`}
+  </section>
+  <a class="back" href="#">→ كل العوالم</a>`;
+  const g = $('goQ'); if (g) g.onclick = () => startQuiz(W);
+}
+
+/* ---------- the world challenge ---------- */
+let Q = null;
+function pool(W) {
+  const B = (window.SURPRISE_BANK || []).filter(it => (it[0] === 'caps' || it[0] === 'sx') && it[5] === W.k);
+  const caps = shuffle(B.filter(it => it[0] === 'caps')), sx = shuffle(B.filter(it => it[0] === 'sx'));
+  const out = []; while (out.length < QN && (caps.length || sx.length)) { if (caps.length) out.push(caps.pop()); if (sx.length && out.length < QN) out.push(sx.pop()); }
+  return shuffle(out);
+}
+function startQuiz(W) {
+  const items = pool(W);
+  if (items.length < QN) { toast('تعذّر تحميل أسئلة التحدي. تأكد من اتصالك ثم حاول مرة أخرى.'); return; }
+  Q = { W, items, i: 0, right: 0 };
+  history.pushState(null, '', '#q-' + W.k);
+  drawQ();
+}
+const isEn = t => /^[\x00-\x7F“”’‘—–…]+$/.test(String(t).replace(/[«»]/g, ''));
+function speak(t) { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = 'en-US'; u.rate = .85; speechSynthesis.speak(u); } catch (e) {} }
+function drawQ() {
+  const { W, items, i } = Q, it = items[i], opts = shuffle(it[2].map((o, k) => ({ o, ok: k === 0 })));
+  const en = isEn(it[1]);
+  $('app').innerHTML = `<section class="qbox" style="--c:${W.c};--t:${W.t}">
+    <div class="qtop"><span>${W.ic} تحدي ${W.ar}</span><span>${i + 1} / ${QN} · ✅ ${Q.right}</span></div>
+    <div class="qbar"><i style="width:${i / QN * 100}%"></i></div>
+    <div class="qa">${esc(it[4])}</div>
+    <div class="qq ${en ? 'en' : ''}">${esc(it[1])} ${en ? '<button class="say" id="say" type="button" aria-label="استمع">🔊</button>' : ''}</div>
+    <div class="opts">${opts.map((x, k) => `<button class="opt ${isEn(x.o) ? 'en' : ''}" data-k="${k}">${esc(x.o)}</button>`).join('')}</div>
+    <div id="after"></div>
+  </section>
+  <a class="back" href="#w-${W.k}">→ خروج من التحدي</a>`;
+  if (en) { $('say').onclick = () => speak(it[1]); }
+  document.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+    const x = opts[+b.dataset.k];
+    document.querySelectorAll('.opt').forEach((o, k) => { o.disabled = true; if (opts[k].ok) o.classList.add('right'); });
+    if (x.ok) { Q.right++; sfx('good'); } else { b.classList.add('wrong'); sfx('bad'); }
+    if (en) speak(it[1]); else { const r = opts.find(o => o.ok); if (isEn(r.o)) speak(r.o); }
+    $('after').innerHTML = `${it[3] ? `<div class="why">💡 ${esc(it[3])}</div>` : ''}<div class="next"><button class="btn" id="nx">${Q.i + 1 < QN ? 'التالي →' : 'النتيجة 🏁'}</button></div>`;
+    $('nx').onclick = () => { Q.i++; if (Q.i < QN) drawQ(); else endQuiz(); };
+    $('nx').focus({ preventScroll: true });
+  });
+}
+function endQuiz() {
+  const { W, right } = Q, B = best(), prev = +B[W.k] || 0;
+  if (right > prev) { B[W.k] = right; S('wd-best', B); }
+  const got = checkStamps(), pass = right >= PASS, x = worldState(W);
+  const gain = Math.max(0, right - prev) * 5;
+  sfx(pass ? 'win' : 'tap'); if (pass) fireworks(got.length ? 5 : 2);
+  $('app').innerHTML = `<section class="qbox result" style="--c:${W.c};--t:${W.t}">
+    <div class="big">${got.length ? '🏅' : pass ? '🎉' : '💪'}</div>
+    <h2>${right} من ${QN}</h2>
+    <p>${got.length ? 'مبروك! حصلت على <b>ختم ' + W.ar + '</b> في جواز سفرك (+50 نقطة)، وفُتح لك عالم جديد.'
+      : pass ? (x.n < 4 ? 'نجحت في التحدي! أكمل المحطة الباقية لتحصل على الختم.' : 'نجحت في التحدي! 🎉')
+      : 'تحتاج ' + PASS + ' لتنجح. راجع محطات العالم ثم حاول مرة أخرى.'}</p>
+    ${gain ? `<p>⭐ +${gain} نقطة من التحدي (أفضل محاولة)</p>` : right <= prev && prev ? `<p>أفضل نتيجة لك ما زالت ${prev} من 10.</p>` : ''}
+    <button class="btn" id="again">أعد التحدي</button> <a class="btn soft" href="#w-${W.k}">العودة إلى العالم</a>
+    ${got.length ? '<div><a class="btn soft" href="#passport" style="margin-top:12px">🛂 افتح جواز سفري</a></div>' : ''}
+  </section>`;
+  $('again').onclick = () => startQuiz(W);
+  history.replaceState(null, '', '#r-' + W.k);
+  syncPoints();
+}
+
+/* ---------- the passport ---------- */
+// Every section of the club: visited (any points) = blue stamp, completed (its whole points ceiling) = gold stamp.
+const SECS = [
+  ['wq','🗺️','Word Quest','../journey/word-quest.html'], ['ng','🌍','الكلمات العامة','../words/ngsl.html'], ['aw','🎓','الكلمات الأكاديمية','../words/awl.html'],
+  ['mg','🏟️','ميدان المفردات','../vocab/mega-goal-1.html'], ['cq','🧭','Core Quest','../words/core2000.html'], ['caps','🌟','الكبسولات','../capsules/index.html'],
+  ['tb','🗣️','محادثات التأسيس','../everyday/basics.html'], ['bf','🍳','Breakfast','../everyday/breakfast.html'], ['st','📖','ركن القصص','../stories/index.html'],
+  ['lab','💬','مختبر المحادثة','../journey/conversation-lab.html'], ['tn','⏳','خارطة الأزمنة','../grammar/tenses.html'], ['pv','🔄','المبني للمجهول','../grammar/passive.html'],
+  ['im','🎨','التعبيرات','../idioms/index.html'], ['mb','🎁','Surprise Me','../surprise/index.html'], ['lvt','📈','قياس المستوى','../level/index.html']
+];
+const ELITE = [['ek','💎','مسار النخبة','../elite/index.html'], ['et','🏙️','في المدينة','../elite/town/index.html']];
+let H = null;
+async function honor() { if (H) return H; try { H = await import('../assets/honor.js?v=20261112b'); } catch (e) { H = null; } return H; }
+async function syncPoints() { try { const h = await honor(); if (h && h.ready && h.sync) await h.sync(); } catch (e) {} }
+async function viewPass() {
+  setTab('pass'); document.body.style.removeProperty('--c');
+  const h = await honor(); let p = {}, R = {};
+  try { if (h) { p = h.computeScore().parts; h.RULES.forEach(r => { R[r.key] = r; }); } } catch (e) {}
+  const lr = J('lv-results', {});
+  const state = k => {
+    if (k === 'lvt') return lr && lr.post ? 'g' : lr && lr.pre ? 'v' : 'e';
+    if (k === 'mb') return Object.keys(J('mb-days', {})).length >= 7 ? 'g' : Object.keys(J('mb-days', {})).length ? 'v' : 'e';
+    const r = R[k], v = p[k] || 0;
+    if (!r) return 'e'; return v >= r.max ? 'g' : v > 0 ? 'v' : 'e';
+  };
+  const secs = SECS.concat(p.el ? ELITE : []);
+  const cnt = secs.reduce((o, s) => { o[state(s[0])]++; return o; }, { e: 0, v: 0, g: 0 });
+  const sc = stampCount();
+  $('app').innerHTML = `<section class="pass">
+    <h1>🛂 جواز سفري</h1>
+    <p class="sub">كل قسم تزوره يُختم في جوازك، وكل قسم تكمله يصير ختمه ذهبياً. الخانات الرمادية أقسام لم تزرها بعد: اضغط عليها وابدأ!</p>
+    <div class="stats"><span>🌍 ${sc} من ${WORLDS.length} عوالم</span><span>🔵 ${cnt.v + cnt.g} من ${secs.length} أقسام زرتها</span><span>🏅 ${cnt.g} مكتملة</span></div>
+    <h2 class="ph">🌍 أختام العوالم</h2>
+    <div class="stamps">${WORLDS.map(W => { const s = !!stamps()[W.k], x = worldState(W);
+      return `<a class="stp ${s ? 'g' : x.n || x.b ? 'v' : 'e'}" href="#w-${W.k}"><span class="c">${W.ic}${s ? '<em>✅</em>' : ''}</span><span>${W.ar.replace('عالم ', '')}</span><small>${s ? 'مختوم' : x.n + '/4 محطات'}</small></a>`; }).join('')}</div>
+    <h2 class="ph">🏛️ أختام الأقسام</h2>
+    <div class="stamps">${secs.map(s => { const st = state(s[0]);
+      return `<a class="stp ${st}" href="${s[3]}"><span class="c">${s[1]}${st === 'g' ? '<em>🏅</em>' : ''}</span><span>${s[2]}</span><small>${st === 'g' ? 'مكتمل' : st === 'v' ? 'زرته' : 'لم تزره بعد'}</small></a>`; }).join('')}</div>
+    <div class="legend"><span>⚪ لم تزره بعد</span><span>🔵 زرته وجمعت فيه نقاطاً</span><span>🟡 أكملته</span></div>
+  </section>`;
+}
+
+/* ---------- fireworks ---------- */
+function fireworks(n) {
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c = $('fx'), x = c.getContext('2d'), w = c.width = innerWidth, h = c.height = innerHeight, P = [];
+  const cols = ['#f5b82e', '#6d4aff', '#1c8a5a', '#e2572b', '#2f9e9e', '#e05a8a'];
+  for (let b = 0; b < n; b++) { const cx = w * (.2 + Math.random() * .6), cy = h * (.2 + Math.random() * .3);
+    for (let i = 0; i < 40; i++) { const a = Math.random() * 6.28, s = 2 + Math.random() * 5; P.push({ x: cx, y: cy, vx: Math.cos(a) * s, vy: Math.sin(a) * s, c: cols[(b + i) % 6], l: 60 + Math.random() * 30, d: b * 12 }); } }
+  let f = 0; (function step() { x.clearRect(0, 0, w, h); let alive = 0;
+    P.forEach(p => { if (p.d > 0) { p.d--; alive++; return; } if (p.l <= 0) return; alive++; p.l--; p.x += p.vx; p.y += p.vy; p.vy += .08; p.vx *= .98; x.globalAlpha = Math.min(1, p.l / 30); x.fillStyle = p.c; x.beginPath(); x.arc(p.x, p.y, 3, 0, 6.28); x.fill(); });
+    if (alive && ++f < 400) requestAnimationFrame(step); else x.clearRect(0, 0, w, h); })();
+}
+
+/* ---------- routing: every view is a history entry, so the phone's back button stays inside ---------- */
+function route() {
+  window.scrollTo(0, 0);
+  const h = location.hash.slice(1);
+  const got = checkStamps(); if (got.length) { toast('🏅 حصلت على ختم ' + got.map(W => W.ar).join(' و') + '!'); fireworks(3); syncPoints(); }
+  if (h === 'passport') return viewPass();
+  let m = /^(?:w|q|r)-([a-z]+)$/.exec(h), W = m && WORLDS.find(x => x.k === m[1]);
+  if (W && /^q-/.test(h) && Q && Q.W === W && Q.i < QN) return drawQ();
+  if (W && isOpen(WORLDS.indexOf(W))) return viewWorld(W);
+  document.body.style.removeProperty('--c');
+  viewMap();
+}
+addEventListener('hashchange', route);
+route();
+syncPoints();
+})();
+</script>
+<script src="../assets/club.js?v=27"></script>
+</body>
+</html>

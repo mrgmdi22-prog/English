@@ -28,15 +28,19 @@ export const RULES = [
   { key: 'sp',   label: 'سؤال ستيب أجبته صحيحاً (مرة واحدة لكل سؤال)', icon: '📝', per: 7, max: 2600 },
   { key: 'ek',   label: 'إجابة صحيحة في مسار النخبة (B1 فأعلى)', icon: '💎', per: 10, max: 400 },
   { key: 'et',   label: 'إجابة صحيحة في «في المدينة» بمسار النخبة (أفضل محاولة)', icon: '🏙️', per: 10, max: 125 },
-  { key: 'ep',   label: 'سؤال جديد حللته في النخبة+ (لا يتكرر، وخارج السقف اليومي)', icon: '🚀', per: 15, max: 2000 },
-  { key: 'ep2',  label: 'سؤال جديد حللته في قمة C2 بالنخبة+ (خارج السقف اليومي)', icon: '🏔️', per: 25, max: 1000 },
-  { key: 'epb',  label: 'إجابة صحيحة ضد زعيم الأسبوع في النخبة+ (المحاولة الأولى)', icon: '👹', per: 25, max: 2000 },
-  { key: 'epx',  label: 'مكافأة السلسلة في النخبة+: +5 من الإجابة الخامسة المتتالية', icon: '🔥', per: 1, max: 1000000, unit: 'نقطة' },
+  { key: 'ep',   label: 'سؤال جديد حللته في النخبة+ (لوحة النخبة+ المستقلة فقط)', icon: '🚀', per: 15, max: 2000 },
+  { key: 'ep2',  label: 'سؤال جديد حللته في قمة C2 بالنخبة+ (لوحة النخبة+ فقط)', icon: '🏔️', per: 25, max: 1000 },
+  { key: 'epb',  label: 'إجابة صحيحة ضد زعيم الأسبوع في النخبة+ (لوحة النخبة+ فقط)', icon: '👹', per: 25, max: 2000 },
+  { key: 'epx',  label: 'مكافأة السلسلة في النخبة+: +5 من الإجابة الخامسة المتتالية (لوحة النخبة+ فقط)', icon: '🔥', per: 1, max: 1000000, unit: 'نقطة' },
   { key: 'ed',   label: 'إجابة صحيحة في تحدي النخبة اليومي (أول محاولة)', icon: '⚡', per: 10, max: 1500 },
   { key: 'xb',   label: 'مكافأة التسلسل: 3 صحيحة متتالية ×1.5، و5 فأكثر ×2', icon: '🔥', per: 1, max: 1000000, note: 'حتى ضعف النقاط', unit: 'نقطة' },
   { key: 'mb',   label: 'Surprise Me — ثلاثة صناديق في اليوم', icon: '🎁', per: 1, max: 1000000, note: 'حتى 150 للصندوق', unit: 'نقطة' },
   { key: 'lv',   label: 'كل مستوى تتقدّمه بين الاختبار القبلي وأفضل اختبار بعدي', icon: '📈', per: 500, max: 4, note: '500 نقطة' },
   { key: 'lvs',  label: 'كل إجابة صحيحة تزيدها في الاختبار البعدي عن القبلي', icon: '📊', per: 10, max: 32 },
+  // عوالم النادي (worlds/): a themed journey through the sections; the world challenge counts its best attempt,
+  // and a world's stamp (all its stations + the challenge passed) is worth 50.
+  { key: 'wd',   label: 'إجابة صحيحة في تحدي العالم بعوالم النادي (أفضل محاولة لكل عالم)', icon: '🌍', per: 5, max: 100 },
+  { key: 'ws',   label: 'ختم عالم في جواز السفر (أنهيت محطاته ونجحت في تحديه)', icon: '🛂', per: 50, max: 10, note: '50 نقطة' },
   { key: 'rt',   label: 'كلمة ثبتت في ذاكرتك بالمراجعة المتباعدة (Word Quest والكلمات العامة والأكاديمية)', icon: '🧠', per: 3, max: 1500 }
 ];
 const RATES_V = 2;   // rates version: when it changes, points already earned stay as they were and the new rates apply from then on
@@ -53,6 +57,11 @@ export const weekNo = t => Math.floor((dayNo(t) - 5) / 7);                      
 /** The Tuesday a season starts, as d/m (Gregorian). */
 export function weekLabel(w) { const d = new Date((w * 7 + 5) * 864e5); return d.getUTCDate() + '/' + (d.getUTCMonth() + 1); }
 const FREE = new Set(['mb', 'lv', 'lvs', 'rt', 'ep', 'ep2', 'epb', 'epx']);   // النخبة+ (elite/plus) has no daily cap
+/* النخبة+ has its own, separate evaluation (12 Nov 2026): its points (parts.epp) rank students only on the Elite+ board
+   and its own weekly stars, and are NOT added to the club's main score, so students at lower levels are not discouraged. */
+const EPK = new Set(['ep', 'ep2', 'epb', 'epx']);
+export const EP_FIRST_WEEK = 2966;   // Elite+ weekly points are recorded from the season that started Tue 10 Nov 2026
+export const EP_STARS_N = 5;
 const CAPS = ['space', 'flavor', 'life', 'adventure', 'emotion', 'career', 'nature', 'health', 'sports', 'tech'];
 
 function J(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
@@ -141,18 +150,32 @@ export function computeScore() {
     const eb = J('ep-boss') || {}; Object.keys(eb).forEach(k => { epb += Math.max(0, Math.min(10, +eb[k] || 0)); });
     epx = Math.max(0, Math.min((ep + ep2) * 5, +J('ep-xb') || 0));
   }
+  // Elite+ points per season (for its own weekly stars): questions solved in that week (ep-okw = {id: week}),
+  // the boss of that week, and the streak bonus earned that week (ep-xbw = {week: points}). Last 12 weeks.
+  const epw = {};
+  if (elite && J('ep-pass')) {
+    const ow = J('ep-okw') || {}, eo = J('ep-ok') || {}, eb = J('ep-boss') || {}, xw = J('ep-xbw') || {};
+    Object.keys(ow).forEach(id => { if (!eo[id]) return; const w = +ow[id] | 0; epw[w] = (epw[w] || 0) + (id[0] === 'c' ? 25 : 15); });
+    Object.keys(eb).forEach(w => { if (+w >= EP_FIRST_WEEK) epw[w] = (epw[w] || 0) + Math.max(0, Math.min(10, +eb[w] || 0)) * 25; });
+    Object.keys(xw).forEach(w => { epw[w] = (epw[w] || 0) + Math.max(0, Math.min(5000, +xw[w] || 0)); });
+    Object.keys(epw).map(Number).sort((a, b) => b - a).forEach((w, i) => { if (i >= 12 || w < EP_FIRST_WEEK) delete epw[w]; });
+  }
+  // عوالم النادي: best right answers of each world's challenge (wd-best = {world: 0..10}) and the stamps (wd-stamp = {world: 1}).
+  let wd = 0; const wdb = J('wd-best') || {}; Object.keys(wdb).forEach(k => { wd += Math.max(0, Math.min(10, +wdb[k] || 0)); });
+  const ws = Math.max(0, Math.min(10, Object.keys(J('wd-stamp') || {}).length));
   // Streak bonus (combo.js): xb = {section: {unit: half-answers}}; each half-answer is worth half that section's rate.
   const PER = {}; RULES.forEach(r => { PER[r.key] = r.per; }); PER.cq = 5;
   let xb = 0; const xbo = J('xb') || {};
   Object.keys(xbo).forEach(sec => { if ((sec === 'ek' || sec === 'ed' || sec === 'et') && !elite) return; const u = xbo[sec] || {};
     Object.keys(u).forEach(k => { xb += Math.max(0, Math.min(k === '*' ? 100000 : 14, +u[k] || 0)) * (PER[sec] || 5) / 2; }); });
   xb = Math.round(xb);
-  const parts = { caps, capsg, wq, lab, mg, bf, ng, aw, st, cq, tn, pv, im, tb, sp, xb, mb, lv, lvs, rt, ek: elite ? ek : 0, ed: elite ? ed : 0, et: elite ? et : 0, ep, ep2, epb, epx, epp: ep * 15 + ep2 * 25 + epb * 25 + epx, el: elite, wqx: wqStats() };
+  const parts = { caps, capsg, wq, lab, mg, bf, ng, aw, st, cq, tn, pv, im, tb, sp, xb, mb, lv, lvs, rt, ek: elite ? ek : 0, ed: elite ? ed : 0, et: elite ? et : 0, ep, ep2, epb, epx, epp: ep * 15 + ep2 * 25 + epb * 25 + epx, epw, wd, ws, el: elite, wqx: wqStats() };
   // Practice points count at most DAILY_CAP a day (Saudi day). Practice after that is for learning only:
   // the extra points are not counted, then or later. Surprise Me and the level/retention rewards are outside the cap.
   const pts = r => Math.min(parts[r.key], r.max) * r.per;
   const raw = RULES.filter(r => !FREE.has(r.key)).reduce((t, r) => t + pts(r), 0);
-  const free = RULES.filter(r => FREE.has(r.key)).reduce((t, r) => t + pts(r), 0);
+  const free = RULES.filter(r => FREE.has(r.key) && !EPK.has(r.key)).reduce((t, r) => t + pts(r), 0);   // Elite+ is not in the main score
+  const epAll = RULES.filter(r => EPK.has(r.key)).reduce((t, r) => t + pts(r), 0);
   const day = dayNo(), week = weekNo();   // the points day starts at 6 am Saudi time, like Surprise Me
   let L = J('pts-day');
   if (!L || typeof L !== 'object' || !(L.seen >= 0)) L = { d: day, seen: raw, got: raw, t: 0 }; // existing points are kept
@@ -182,6 +205,9 @@ export function computeScore() {
   parts.act = activity(sec, day, week);
   // total = all points since the start; score = this season's points (since Tuesday 6 am).
   const total = L.got + free;
+  // One-time switch (12 Nov 2026): Elite+ points leave the main score. The season baseline drops by the same amount,
+  // so this season's score of other sections is unchanged; from next Tuesday the main board has no Elite+ points at all.
+  if (!L.eps) { L.eps = 1; if (L.w0 >= 0) L.w0 = Math.max(0, L.w0 - epAll); if (L.last >= 0) L.last = Math.max(0, L.last - epAll); }
   if (!(L.w0 >= 0)) { L.w = week; L.w0 = total; }                 // the first season starts from zero for everyone
   if (L.w !== week) { L.w = week; L.w0 = Math.min(total, L.last >= 0 ? L.last : total); }
   L.last = total;
@@ -351,7 +377,8 @@ export async function sync(force) {
   if (loc.week <= FOUND_WEEK) score = Math.min(10000, score + (was.base | 0));
   const wsig = JSON.stringify([parts.wqx, parts.act]);
   if (was.score !== score || was.week !== season.week || was.total !== season.total || JSON.stringify([(was.parts || {}).wqx || null, (was.parts || {}).act || null]) !== wsig
-      || !!(was.parts || {}).el !== !!parts.el || ((was.parts || {}).ek | 0) !== (parts.ek | 0) || ((was.parts || {}).ed | 0) !== (parts.ed | 0) || ((was.parts || {}).et | 0) !== (parts.et | 0) || ((was.parts || {}).epp | 0) !== (parts.epp | 0)) {
+      || !!(was.parts || {}).el !== !!parts.el || ((was.parts || {}).ek | 0) !== (parts.ek | 0) || ((was.parts || {}).ed | 0) !== (parts.ed | 0) || ((was.parts || {}).et | 0) !== (parts.et | 0) || ((was.parts || {}).epp | 0) !== (parts.epp | 0)
+      || JSON.stringify((was.parts || {}).epw || {}) !== JSON.stringify(parts.epw || {}) || ((was.parts || {}).ws | 0) !== (parts.ws | 0)) {
     try { await fs.updateDoc(ref, { score, parts, ...season, updatedAt: fs.serverTimestamp() }); }
     catch (e) { if (!/permission/i.test(e && (e.code || e.message) || '')) throw e; await fs.updateDoc(ref, { score, parts, updatedAt: fs.serverTimestamp() }); }
   }
@@ -410,6 +437,7 @@ function mergePtsDay(local, cloud) {
   ['d', 'seen', 'got', 'rv', 'last', 'comp'].forEach(mx);
   const wa = +a.w || 0, wb = +b.w || 0;                      // season baseline: from the later season, the larger one within it
   if (wa !== wb) { const n = wa > wb ? a : b; o.w = n.w; o.w0 = n.w0; } else { o.w = a.w != null ? a.w : b.w; mx('w0'); }
+  if (!!a.eps !== !!b.eps) { const n = a.eps ? a : b; o.eps = 1; if (wa === wb) o.w0 = n.w0; if (n.last != null) o.last = n.last; }   // Elite+ switch: the switched copy wins
   const ta = a.tt, tb = b.tt;                                // counted today: only from the same (or the later) day
   if (ta && tb) o.tt = ta.d === tb.d ? { d: ta.d, v: Math.max(+ta.v || 0, +tb.v || 0) } : (ta.d > tb.d ? ta : tb); else o.tt = ta || tb;
   delete o.t;
@@ -574,6 +602,18 @@ export async function eliteBoard() {
   const rows = await board();
   return rows.filter(r => r.parts && r.parts.el === 1);
 }
+/** Elite+ weekly stars: the top EP_STARS_N of every finished week (by parts.epw), newest first, and how often each was a star. */
+export function plusStars(rows) {
+  const cur = weekNo(), weeks = [], count = {};
+  for (let w = cur - 1; w >= EP_FIRST_WEEK; w--) {
+    const top = (rows || []).map(r => ({ ...r, s: ((r.parts || {}).epw || {})[w] | 0 })).filter(r => r.s > 0).sort((a, b) => b.s - a.s).slice(0, EP_STARS_N);
+    top.forEach(r => { count[r.id] = (count[r.id] || 0) + 1; });
+    weeks.push({ w, top });
+  }
+  return { weeks, count };
+}
+/** This week's Elite+ points of a player. */
+export const plusWeek = r => (((r || {}).parts || {}).epw || {})[weekNo()] | 0;
 /** The Elite+ board (النخبة+): approved players ranked by all their Elite+ points (parts.epp). */
 export async function plusBoard() {
   const all = await boardAll();

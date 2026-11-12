@@ -1909,7 +1909,8 @@ function hear(word,btn,cb){
 }
 
 renderHome();
+{const m=/^#u(\d+)$/.exec(location.hash);if(m){const u=UNITS.find(x=>x.n===+m[1]);if(u)openUnit(u)}}   // deep link from عوالم النادي
 })();
 </script>
 
-<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=26"></script>
+<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=27"></script>
