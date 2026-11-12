@@ -31,6 +31,11 @@ h1{font-size:2rem;margin:0 0 4px;font-weight:800}
 .real.miss{color:#a35a00}
 .item .sc{color:var(--gold);font-weight:800;min-width:110px;font-variant-numeric:tabular-nums}
 .item .acts{display:flex;gap:6px;flex-wrap:wrap}
+.dup{display:block;margin-top:4px;font-weight:700;font-size:.98rem;color:#b25400;background:#fff1e0;border:1px solid #f5cf9f;border-radius:10px;padding:3px 10px}
+.item:has(.dup){background:#fffaf2;border-inline-start:5px solid #f0a64a;padding-inline-start:10px;border-radius:8px}
+.btn.dupb{background:#f0a64a;color:#fff}
+.sortbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:4px 0 8px;font-weight:700}
+.duphint{margin:4px 0 10px;background:#fff1e0;border:1px solid #f5cf9f;border-radius:14px;padding:10px 14px;font-size:1.02rem;line-height:1.7}
 .empty{color:var(--muted);padding:8px 0}
 .top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 .err{color:var(--bad);font-weight:700;margin-top:10px}
@@ -111,10 +116,19 @@ async function load() {
   let priv = {}; try { priv = await H.allPrivate(); } catch (e) { console.warn(e); }
   let codes = {}; try { codes = await H.allCodes(); } catch (e) { console.warn('recovery codes', e); }
   let lv = {}, lvCfg = {}, lvErr = ''; try { [lv, lvCfg] = await Promise.all([H.allLevels(), H.teacherLevelsConfig()]); } catch (e) { console.warn('levels', e); lvErr = (e && (e.code || e.message) || 'error') + ''; }
+  // Sorting by the student's real name (default) puts duplicate accounts of the same student next to each other.
+  const nkey = id => String((priv[id] || {}).name || '').replace(/[\u0640\u064B-\u065F]/g, '').replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').replace(/\s+/g, ' ').trim();
+  const sortKey = r => nkey(r.id) || '\uffff' + H.cleanNick(r.nick);   // students without a real name go last
+  let SORT = 'name'; try { SORT = sessionStorage.getItem('t-sort') || 'name'; } catch (e) {}
+  const byName = (a, b) => sortKey(a).localeCompare(sortKey(b), 'ar') || tot(b) - tot(a);
+  const dups = {}; rows.forEach(r => { const k = nkey(r.id); if (k) (dups[k] = dups[k] || []).push(r); });
+  const twins = r => { const k = nkey(r.id); return k && dups[k].length > 1 ? dups[k].filter(x => x.id !== r.id) : []; };
+  const nDup = Object.values(dups).filter(g => g.length > 1).length;
   const pend = rows.filter(r => !r.approved), ok = rows.filter(r => r.approved);
-  const item = (r, pending) => `<div class="item" data-id="${r.id}"><span class="nm">${esc(r.nick)}${priv[r.id] ? `<small class="real">👤 ${esc(priv[r.id].name)} · ${priv[r.id].grade === H.EXTERNAL ? '🌐 من خارج المدرسة: ' + esc(priv[r.id].school || 'لم يذكر الجهة') : esc(priv[r.id].grade) + ' · الشعبة ' + esc(priv[r.id].section)}</small>` : '<small class="real miss">⚠️ لم يكتب بياناته الحقيقية بعد</small>'}</span><span class="sc">${(r.week ?? H.FOUND_WEEK) === H.weekNo() ? fmt(r.score) : 0}<small class="real">هذا الأسبوع · المجموع ${fmt(tot(r))}${nS(r.id) ? ' · 🌟×' + nS(r.id) : ''}</small><small class="real">${ago(r.updatedAt)}</small>${codes[r.id] ? `<small class="real" dir="ltr" style="font-family:Lexend,monospace;letter-spacing:1px">🔑 ${esc(codes[r.id])}</small>` : ''}</span><span class="acts">
+  if (SORT === 'name') { pend.sort(byName); ok.sort(byName); }
+  const item = (r, pending) => `<div class="item" data-id="${r.id}"><span class="nm">${esc(r.nick)}${priv[r.id] ? `<small class="real">👤 ${esc(priv[r.id].name)} · ${priv[r.id].grade === H.EXTERNAL ? '🌐 من خارج المدرسة: ' + esc(priv[r.id].school || 'لم يذكر الجهة') : esc(priv[r.id].grade) + ' · الشعبة ' + esc(priv[r.id].section)}</small>` : '<small class="real miss">⚠️ لم يكتب بياناته الحقيقية بعد</small>'}${twins(r).length ? `<small class="dup">🔁 الاسم نفسه في حساب آخر: ${twins(r).map(t => `«${esc(t.nick)}» (${fmt(tot(t))} نقطة${t.approved ? '' : '، بانتظار الموافقة'})`).join('، ')}</small>` : ''}<small class="real">${esc(ago(r.updatedAt))}</small></span><span class="sc">${(r.week ?? H.FOUND_WEEK) === H.weekNo() ? fmt(r.score) : 0}<small class="real">هذا الأسبوع · المجموع ${fmt(tot(r))}${nS(r.id) ? ' · 🌟×' + nS(r.id) : ''}</small><small class="real">${ago(r.updatedAt)}</small>${codes[r.id] ? `<small class="real" dir="ltr" style="font-family:Lexend,monospace;letter-spacing:1px">🔑 ${esc(codes[r.id])}</small>` : ''}</span><span class="acts">
     ${pending ? '<button class="btn ok" data-a="ok">✓ موافقة</button>' : '<button class="btn soft" data-a="hide">إخفاء</button>'}
-    <button class="btn soft" data-a="ren">تعديل الاسم</button><button class="btn soft" data-a="reg">📍 ${r.region ? esc(r.region) : "المنطقة"}</button><button class="btn soft" data-a="merge">🔗 ضمّ حساب قديم</button><button class="btn bad" data-a="del">حذف</button></span></div>`;
+    <button class="btn soft" data-a="ren">تعديل الاسم</button><button class="btn soft" data-a="reg">📍 ${r.region ? esc(r.region) : "المنطقة"}</button>${twins(r).map(t => `<button class="btn dupb" data-a="mergeid" data-from="${t.id}">🔗 ضمّ «${esc(t.nick)}» إلى هذا</button>`).join('')}<button class="btn soft" data-a="merge">🔗 ضمّ حساب قديم</button><button class="btn bad" data-a="del">حذف</button></span></div>`;
   const nickOf = id => (rows.find(r => r.id === id) || {}).nick || '';
   const pc = r => r ? Math.round(r.score / r.max * 100) : null;
   const lvIds = Object.keys(lv).filter(id => lv[id].pre || lv[id].post).sort((a, b) => ((priv[a] || {}).name || nickOf(a)).localeCompare((priv[b] || {}).name || nickOf(b), 'ar'));
@@ -182,9 +196,11 @@ async function load() {
       ${idle.length ? `<details class="acIdle"><summary>لم ينشطوا (${idle.length})</summary>${idle.map(x => `<div class="ac"><span>${nm(x.r)}</span><button class="btn soft rp" data-rp="${x.r.id}">📋 تقرير الطالب</button>${x.a ? '' : '<small class="real">لم يصل منه نشاط بعد (يظهر بعد أول دخول له بعد هذا التحديث)</small>'}</div>`).join('')}</details>` : ''}`;
   };
   const actPanel = `<div class="panel" id="acPanel"><h2>📊 نشاط الطلاب</h2><p class="note">النقاط التي جمعها كل طالب في كل قسم (قبل الحد اليومي)، ويبدأ اليوم في السادسة صباحاً والأسبوع يوم الثلاثاء. يُحدَّث حين يفتح الطالب الموقع.</p><div id="acBody">${acHTML()}</div></div>`;
-  $('main').innerHTML = actPanel + `<div class="panel"><h2>بانتظار الموافقة <span class="count">${pend.length}</span></h2>${pend.map(r => item(r, true)).join('') || '<div class="empty">لا توجد أسماء جديدة.</div>'}</div>` + newPanel + starsPanel + levelPanel + wqPanel + `
+  const sortBar = `<div class="sortbar"><span>الترتيب:</span><button class="btn ${SORT === 'name' ? 'ok' : 'soft'}" data-sort="name">🔤 حسب الاسم الحقيقي</button><button class="btn ${SORT === 'pts' ? 'ok' : 'soft'}" data-sort="pts">🏆 حسب النجومية والنقاط</button></div>
+    ${nDup ? `<p class="duphint">🔁 يوجد <b>${nDup}</b> ${nDup === 1 ? 'اسم مكرر' : nDup === 2 ? 'اسمان مكرران' : 'أسماء مكررة'} (الاسم الحقيقي نفسه في أكثر من حساب). ${SORT === 'name' ? 'تظهر متجاورة بلون برتقالي.' : 'اختر «حسب الاسم» لتظهر متجاورة.'} اضغط «ضمّ … إلى هذا» في الحساب الذي يستخدمه الطالب الآن (الأحدث نشاطاً)، فتنتقل إليه نقاط الآخر ويُحذف الآخر.</p>` : ''}`;
+  $('main').innerHTML = actPanel + `<div class="panel"><h2>بانتظار الموافقة <span class="count">${pend.length}</span></h2>${pend.length > 1 ? sortBar : ''}${pend.map(r => item(r, true)).join('') || '<div class="empty">لا توجد أسماء جديدة.</div>'}</div>` + newPanel + starsPanel + levelPanel + wqPanel + `
     <div class="panel"><h2>قائمة التكريم</h2><p class="note">ملف فيه الترتيب (حسب مرات النجومية ثم المجموع) والاسم الحقيقي والصف والشعبة والاسم المستعار وأسابيع النجومية والنقاط، يُفتح في Excel.</p><p style="margin-top:12px"><button class="btn ok" id="csv">⬇️ تنزيل قائمة التكريم</button></p></div>
-    <div class="panel"><h2>ظاهرون في اللوحة <span class="count" style="background:var(--ok-soft);color:var(--ok)">${ok.length}</span></h2>${ok.map(r => item(r, false)).join('') || '<div class="empty">لا أحد بعد.</div>'}</div>`;
+    <div class="panel" id="okP"><h2>ظاهرون في اللوحة <span class="count" style="background:var(--ok-soft);color:var(--ok)">${ok.length}</span></h2>${sortBar}${ok.map(r => item(r, false)).join('') || '<div class="empty">لا أحد بعد.</div>'}</div>`;
   const acWire = () => {
     $('acBody').querySelectorAll('[data-ac]').forEach(b => b.onclick = () => { AC.mode = b.dataset.ac; acSave(); });
     $('acG').onchange = e => { AC.g = e.target.value; acSave(); };
@@ -296,6 +312,7 @@ async function load() {
     const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'نتائج-قياس-المستوى.csv'; document.body.appendChild(a); a.click(); a.remove();
   };
+  $('main').querySelectorAll('button[data-sort]').forEach(b => b.onclick = () => { try { sessionStorage.setItem('t-sort', b.dataset.sort); } catch (e) {} const y = scrollY; load().then(() => scrollTo(0, y)); });
   $('main').querySelectorAll('button[data-a]').forEach(b => b.onclick = async () => {
     const id = b.closest('.item').dataset.id, a = b.dataset.a, r = rows.find(x => x.id === id);
     b.disabled = true;
@@ -309,12 +326,18 @@ async function load() {
         if (k >= 1 && k <= H.REGIONS.length) await H.setRegionFor(id, H.REGIONS[k - 1]);
         else if (v) alert('رقم غير صحيح.');
       }
+      if (a === 'mergeid') {
+        const f = rows.find(x => x.id === b.dataset.from), pn = (priv[id] || {}).name || '';
+        if (f && confirm('ضمّ الحسابين المكررين' + (pn ? ' لـ «' + pn + '»' : '') + ':\n\nتُضاف ' + fmt(tot(f)) + ' نقطة من «' + f.nick + '» إلى «' + r.nick + '»، ثم يُحذف «' + f.nick + '» نهائياً.\n\nهل تتابع؟')) {
+          const add = await H.mergeInto(id, f.id); alert('تم ✓ أُضيفت ' + fmt(add) + ' نقطة إلى «' + r.nick + '».');
+        }
+      }
       if (a === 'merge') {
         const n = prompt('ضمّ نقاط حساب قديم إلى «' + r.nick + '»\n(لطالب ضاع جهازه القديم فسجّل من جديد)\n\nاكتب الاسم المستعار للحساب القديم كما يظهر في القائمة:', '');
         if (n) {
           const old = rows.filter(x => x.id !== id && H.cleanNick(x.nick) === H.cleanNick(n));
           if (old.length !== 1) alert(old.length ? 'يوجد أكثر من حساب بهذا الاسم؛ عدّل اسم أحدهما أولاً.' : 'لم أجد حساباً بهذا الاسم.');
-          else if (confirm('تُضاف ' + fmt(old[0].score) + ' نقطة من «' + old[0].nick + '» إلى «' + r.nick + '»، ثم يُحذف «' + old[0].nick + '». هل تتابع؟')) {
+          else if (confirm('تُضاف ' + fmt(tot(old[0])) + ' نقطة من «' + old[0].nick + '» إلى «' + r.nick + '»، ثم يُحذف «' + old[0].nick + '». هل تتابع؟')) {
             const add = await H.mergeInto(id, old[0].id); alert('تم ✓ أُضيفت ' + fmt(add) + ' نقطة إلى «' + r.nick + '».');
           }
         }
