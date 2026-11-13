@@ -117,6 +117,50 @@ a:focus-visible,button:focus-visible{outline:3px solid #4b62e0;outline-offset:3p
 .legend{display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:center;margin-top:16px;font-size:.95rem;color:var(--muted)}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#232c47;color:#fff;border-radius:16px;padding:10px 18px;font-weight:700;z-index:50;max-width:92vw;text-align:center}
 canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:40}
+
+/* ---------- mission path (13 Nov 2026): one clear step at a time ---------- */
+.now{margin-top:16px;position:relative;border-radius:26px;padding:18px;background:linear-gradient(140deg,var(--t),#fff 75%);border:3px solid var(--c);box-shadow:0 18px 34px -26px var(--c)}
+.now .tag{display:inline-block;background:var(--c);color:#fff;font-weight:800;font-size:.95rem;border-radius:999px;padding:3px 14px}
+.now h2{margin:8px 0 2px;font-size:1.45rem;color:var(--ink);line-height:1.4}
+.now h2 .en{font-family:var(--en);font-size:1rem;color:var(--c);display:block;direction:ltr;text-align:right}
+.now .goal{margin:4px 0 0;color:var(--muted);font-size:1.05rem}
+.how{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:8px}
+.how li{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:8px 12px;font-size:1.05rem;line-height:1.5}
+.how li i{font-style:normal;flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--t);color:var(--c);font-weight:800;font-size:.95rem}
+.how li.back i{background:var(--ok);color:#fff}
+.now .act{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px}
+.now .big-go{flex:1;min-width:220px;text-align:center;text-decoration:none;font-weight:800;font-size:1.2rem;border:0;cursor:pointer;border-radius:999px;padding:14px 20px;background:var(--c);color:#fff;box-shadow:0 10px 20px -12px var(--c)}
+.now .score{font-weight:800;color:var(--c);background:#fff;border-radius:999px;padding:6px 14px;border:1.5px solid var(--line)}
+.cele{margin-top:16px;border-radius:22px;padding:14px 16px;background:linear-gradient(120deg,#e9f8f0,#fff 80%);border:2px solid #9fdcbf;font-size:1.1rem;font-weight:700;color:#17603f;animation:pop .5s var(--ease)}
+@keyframes pop{0%{transform:scale(.92);opacity:0}100%{transform:none;opacity:1}}
+.trail{position:relative;list-style:none;margin:18px 0 0;padding:0;display:grid;gap:10px}
+.trail::before{content:"";position:absolute;top:26px;bottom:26px;right:27px;width:4px;border-radius:4px;background:repeating-linear-gradient(to bottom,#d6dcea 0 8px,transparent 8px 14px)}
+.trail li{position:relative;display:flex;align-items:center;gap:12px;background:#fff;border:2px solid var(--line);border-radius:20px;padding:10px 12px;text-decoration:none;color:var(--ink)}
+.trail .n{position:relative;z-index:1;flex:none;width:34px;height:34px;margin-inline:-2px 0;border-radius:50%;display:grid;place-items:center;font-weight:800;background:#eef0f7;color:var(--muted);font-size:1rem;border:3px solid #fff;box-shadow:0 0 0 2px #e1e6f2}
+.trail .tx{flex:1;min-width:0}
+.trail b{display:block;font-size:1.08rem;line-height:1.4}
+.trail small{display:block;color:var(--muted);font-size:.92rem;line-height:1.45}
+.trail .lnk{flex:none;text-decoration:none;font-weight:800;font-size:.95rem;color:var(--c);background:var(--t);border-radius:999px;padding:6px 12px;white-space:nowrap;border:0;cursor:pointer}
+.trail li.done{border-color:#bfe5d3;background:linear-gradient(120deg,#effaf4,#fff 70%)}
+.trail li.done .n{background:var(--ok);color:#fff;box-shadow:0 0 0 2px #9fdcbf}
+.trail li.cur{border-color:var(--c);box-shadow:0 0 0 3px var(--t)}
+.trail li.cur .n{background:var(--c);color:#fff;box-shadow:0 0 0 2px var(--c);animation:beat 1.6s ease-in-out infinite}
+@keyframes beat{50%{transform:scale(1.15)}}
+.trail li.cur b::after{content:"  ← أنت هنا";font-size:.9rem;color:var(--c)}
+.trail li.lock{opacity:.7}
+.trail li.goal{border-style:dashed}
+.trail li.goal.done{border-style:solid}
+.nextw{display:flex;align-items:center;gap:12px;margin-top:12px;text-decoration:none;color:var(--ink);background:#fff;border:2px solid var(--line);border-radius:20px;padding:12px 14px}
+.nextw .ic{font-size:2rem}
+.nextw b{color:var(--c2,#4b62e0)}
+.mission{display:flex;align-items:center;gap:12px;margin-top:14px;text-decoration:none;color:var(--ink);background:linear-gradient(120deg,var(--t),#fff 80%);border:3px solid var(--c);border-radius:24px;padding:14px 16px}
+.mission .ic{font-size:2.4rem;flex:none}
+.mission .tx{flex:1;min-width:0}
+.mission small{display:block;color:var(--muted);font-size:.95rem}
+.mission b{display:block;font-size:1.15rem;line-height:1.45}
+.mission .go{flex:none;background:var(--c);color:#fff;font-weight:800;border-radius:999px;padding:9px 16px;white-space:nowrap}
+@media (max-width:560px){.mission{flex-wrap:wrap}.mission .go{width:100%;text-align:center}}
+@media (prefers-reduced-motion:reduce){.trail li.cur .n,.cele{animation:none}}
 .hide{display:none!important}
 </style>
 </head>
@@ -167,11 +211,11 @@ function stations(W) {
   const wqBest = W.wq.map(n => N('wq-best-' + n)), wqOk = wqBest.some(b => b >= 7);
   const stBest = N('st-best-' + W.st[0]), labBest = N('cl-q-' + W.lab[0]);
   return [
-    { ic:'🎧', ar:'كبسولة ' + W.ar.replace('عالم ', ''), what:'أنجز مرحلتين على الأقل في كبسولة هذا العالم (نجمة في كل مرحلة).', now: capN + ' من 2 مراحل', done: capN >= 2, href:'../capsules/' + W.k + '.html', go: capN ? 'تابع' : 'ابدأ' },
-    { ic:'🔤', ar:'كلمات العالم', what:'اختبر نفسك في وحدة من وحدات Word Quest على هذا الموضوع، واحصل على 7 من 10.', now: 'أفضل نتيجة: ' + Math.max(0, ...wqBest) + ' من 10', done: wqOk,
+    { ic:'🎧', ar:'كبسولة ' + W.ar.replace('عالم ', ''), goal:'نجمة في مرحلتين من الكبسولة', how:['افتح الكبسولة واستمع للجمل', 'رتّب جمل المرحلة الأولى حتى تنال نجمة ⭐', 'أكمل المرحلة الثانية بنجمة ⭐'], spec:{t:'cap', keys:['cap2-' + W.k + '-stars'], min:2}, what:'أنجز مرحلتين على الأقل في كبسولة هذا العالم (نجمة في كل مرحلة).', now: capN + ' من 2 مراحل', done: capN >= 2, href:'../capsules/' + W.k + '.html', go: capN ? 'تابع' : 'ابدأ' },
+    { ic:'🔤', ar:'كلمات العالم', goal:'7 من 10 في اختبار وحدة', how:['افتح الوحدة وتعرّف على الكلمات ونطقها', 'تدرّب عليها بالأنشطة', 'خض اختبار الوحدة واحصل على 7 من 10'], spec:{t:'n', keys:W.wq.map(n => 'wq-best-' + n), min:7}, what:'اختبر نفسك في وحدة من وحدات Word Quest على هذا الموضوع، واحصل على 7 من 10.', now: 'أفضل نتيجة: ' + Math.max(0, ...wqBest) + ' من 10', done: wqOk,
       href:'../journey/word-quest.html#u' + (W.wq.find(n => N('wq-best-' + n) < 7) || W.wq[0]), go: wqOk ? 'راجع' : 'ابدأ', units: W.wq },
-    { ic:'📖', ar:'قصة العالم', what:'اقرأ القصة وأجب عن أسئلتها: سؤالان صحيحان من 3 على الأقل.', en: W.st[1], now: 'أفضل نتيجة: ' + stBest + ' من 3', done: stBest >= 2, href:'../stories/index.html#' + W.st[0], go: stBest ? 'أعد' : 'اقرأ' },
-    { ic:'💬', ar:'حوار العالم', what:'تدرّب على الحوار في مختبر المحادثة، ثم أجب عن أسئلته: 3 من 5 على الأقل.', en: W.lab[1], now: 'أفضل نتيجة: ' + labBest + ' من 5', done: labBest >= 3, href:'../journey/conversation-lab.html#w' + W.lab[0], go: labBest ? 'أعد' : 'ابدأ' }
+    { ic:'📖', ar:'قصة العالم', goal:'سؤالان صحيحان من 3', how:['اقرأ القصة صفحة صفحة', 'استمع لها بصوت القارئ 🔊', 'أجب عن الأسئلة: 2 من 3 على الأقل'], spec:{t:'n', keys:['st-best-' + W.st[0]], min:2}, what:'اقرأ القصة وأجب عن أسئلتها: سؤالان صحيحان من 3 على الأقل.', en: W.st[1], now: 'أفضل نتيجة: ' + stBest + ' من 3', done: stBest >= 2, href:'../stories/index.html#' + W.st[0], go: stBest ? 'أعد' : 'اقرأ' },
+    { ic:'💬', ar:'حوار العالم', goal:'3 من 5 في أسئلة الحوار', how:['استمع للحوار وافهمه', 'مثّل الدور وسجّل صوتك 🎙️', 'أجب عن الأسئلة: 3 من 5 على الأقل'], spec:{t:'n', keys:['cl-q-' + W.lab[0]], min:3}, what:'تدرّب على الحوار في مختبر المحادثة، ثم أجب عن أسئلته: 3 من 5 على الأقل.', en: W.lab[1], now: 'أفضل نتيجة: ' + labBest + ' من 5', done: labBest >= 3, href:'../journey/conversation-lab.html#w' + W.lab[0], go: labBest ? 'أعد' : 'ابدأ' }
   ];
 }
 const best = () => J('wd-best', {});
@@ -192,6 +236,15 @@ const isOpen = i => i < OPEN_START + stampCount() || !!stamps()[WORLDS[i].k] || 
 
 /* ---------- views ---------- */
 function setTab(t) { $('tMap').classList.toggle('on', t === 'map'); $('tPass').classList.toggle('on', t === 'pass'); }
+function mission() {
+  // the world in progress (most steps done, not stamped yet), or the first open one
+  let pick = null, bestN = -1;
+  WORLDS.forEach((W, i) => { if (!isOpen(i) || stamps()[W.k]) return; const x = worldState(W), d = x.n + (x.passed ? 1 : 0); if (d > bestN) { bestN = d; pick = W; } });
+  if (!pick) return '';
+  const x = worldState(pick), st = nextStep(x), nm = st < 4 ? x.s[st].ic + ' ' + x.s[st].ar : '🏁 تحدي العالم';
+  return `<a class="mission" href="#w-${pick.k}" style="--c:${pick.c};--t:${pick.t}"><span class="ic" aria-hidden="true">${pick.ic}</span>
+    <span class="tx"><small>${bestN ? 'تابع مهمتك' : 'ابدأ مهمتك الأولى'} · ${pick.ar} · الخطوة ${Math.min(st, 4) + 1} من 5</small><b>${nm}</b></span><span class="go">${bestN ? 'تابع' : 'ابدأ'} ←</span></a>`;
+}
 function viewMap() {
   setTab('map');
   const sc = stampCount(), totalSt = WORLDS.reduce((t, W) => t + worldState(W).n, 0);
@@ -201,6 +254,7 @@ function viewMap() {
     <p>رحلة واحدة تجمع أقسام النادي: في كل عالم كبسولة وكلمات وقصة وحوار على الموضوع نفسه، ثم تحدٍّ ختامي يمنحك ختم العالم في جواز سفرك.</p>
     <div class="stats"><span>🛂 ${sc} من ${WORLDS.length} أختام</span><span>✅ ${totalSt} من ${WORLDS.length * 4} محطات</span></div>
   </section>
+  ${mission()}
   <div class="howto">🗺️ <b>كيف تلعب؟</b> ادخل عالماً وأنجز محطاته الأربع من أقسامها (نتيجتك فيها تُحسب تلقائياً)، ثم خض <b>تحدي العالم</b>: 10 أسئلة، تحتاج 7 لتنجح.
     كل ختم = <b>50 نقطة</b> في لوحة الشرف، ويفتح لك عالماً جديداً.</div>
   <div class="grid">${WORLDS.map((W, i) => {
@@ -217,33 +271,83 @@ function viewMap() {
     location.hash = 'w-' + WORLDS[i].k; });
 }
 
+// Which step is next: the first station not done, then the challenge, then «done».
+function nextStep(x) { const i = x.s.findIndex(t => !t.done); return i >= 0 ? i : x.passed ? 5 : 4; }
+// Leaving for a station: remember it, so the other pages can show «ارجع إلى العالم» (club.js) and say when it is done.
+function leaveFor(W, i) {
+  const t = worldState(W).s[i];
+  S('wd-go', { k: W.k, ar: W.ar, ic: W.ic, c: W.c, i, name: t.ar, spec: t.spec, until: Date.now() + 4 * 3600e3 });
+}
+// What changed since the last visit to this world (a station finished in another section, or the challenge passed).
+function newlyDone(W, x) {
+  const seen = J('wd-seen', {}), was = seen[W.k] || [], now = x.s.map(t => t.done ? 1 : 0).concat(x.passed ? 1 : 0);
+  const fresh = now.map((v, i) => v && !was[i] ? i : -1).filter(i => i >= 0 && was.length);
+  seen[W.k] = now; S('wd-seen', seen);
+  return fresh;
+}
+function nextWorld(W) {
+  const i = WORLDS.indexOf(W);
+  for (let j = 1; j <= WORLDS.length; j++) { const k = (i + j) % WORLDS.length, V = WORLDS[k]; if (isOpen(k) && !stamps()[V.k]) return V; }
+  return null;
+}
 function viewWorld(W) {
   setTab('map');
-  const x = worldState(W), pct = Math.round((x.n + (x.passed ? 1 : 0)) / 5 * 100);
+  const x = worldState(W), step = nextStep(x), doneN = x.n + (x.passed ? 1 : 0), pct = Math.round(doneN / 5 * 100);
+  const fresh = newlyDone(W, x), names = x.s.map(t => t.ar).concat('تحدي العالم');
   document.body.style.setProperty('--c', W.c); document.body.style.setProperty('--t', W.t);
+  try { const g = J('wd-go', null); if (g && g.k === W.k) localStorage.removeItem('wd-go'); } catch (e) {}
+
+  // the card for the step to do now
+  let now;
+  if (x.stamped || (x.n === 4 && x.passed)) {
+    const V = nextWorld(W);
+    now = `<section class="now" style="--c:var(--ok);--t:#e6f6ee"><span class="tag">🏅 المهمة مكتملة</span>
+      <h2>ختمت ${W.ar} في جواز سفرك!</h2><p class="goal">أنجزت الخطوات الخمس كلها. يمكنك إعادة أي محطة أو التحدي للتدريب.</p>
+      <div class="act">${V ? `<a class="big-go" href="#w-${V.k}" style="background:${V.c}">${V.ic} انتقل إلى ${V.ar} ←</a>` : '<a class="big-go" href="#passport">🛂 افتح جواز سفري</a>'}</div></section>`;
+  } else if (step < 4) {
+    const t = x.s[step];
+    now = `<section class="now"><span class="tag">الخطوة ${step + 1} من 5 · مهمتك الآن</span>
+      <h2>${t.ic} ${t.ar}${t.en ? `<span class="en">${esc(t.en)}</span>` : ''}</h2>
+      <p class="goal">🎯 المطلوب: <b>${t.goal}</b></p>
+      <ol class="how">${t.how.map((h, k) => `<li><i>${k + 1}</i>${h}</li>`).join('')}<li class="back"><i>↩</i>ارجع إلى هنا: يظهر لك زر «ارجع إلى ${W.ar}» أسفل الصفحة</li></ol>
+      ${t.units ? `<span class="chips">${t.units.map(n => `<a class="${N('wq-best-' + n) >= 7 ? 'ok' : ''}" data-go="1" href="../journey/word-quest.html#u${n}">Unit ${n} · ${N('wq-best-' + n)}/10</a>`).join('')}</span>` : ''}
+      <div class="act"><a class="big-go" data-go="${step}" href="${t.href}">اذهب إلى المحطة ←</a><span class="score">${t.now}</span></div></section>`;
+  } else {
+    now = `<section class="now"><span class="tag">الخطوة 5 من 5 · الخطوة الأخيرة</span>
+      <h2>🏁 تحدي ${W.ar}</h2>
+      <p class="goal">🎯 المطلوب: <b>${PASS} من 10</b> في أسئلة جمل هذا العالم (معانيها وترتيبها).</p>
+      <ol class="how"><li><i>1</i>اقرأ الجملة واستمع لها 🔊</li><li><i>2</i>اختر الإجابة الصحيحة واقرأ التوضيح 💡</li><li><i>3</i>انجح بـ${PASS} من 10 لتنال الختم 🏅 (+50 نقطة)</li></ol>
+      <div class="act"><button class="big-go" id="goQ">${x.b ? 'أعد التحدي' : 'ابدأ التحدي'} ←</button>${x.b ? `<span class="score">أفضل نتيجة: ${x.b} من 10</span>` : ''}</div></section>`;
+  }
+
+  // the trail: all five steps, the current one highlighted
+  const trail = x.s.map((t, i) => `<li class="${t.done ? 'done' : i === step ? 'cur' : ''}">
+      <span class="n">${t.done ? '✓' : i + 1}</span>
+      <span class="tx"><b>${t.ic} ${t.ar}</b><small>${t.done ? '✅ ' + t.now : '🎯 ' + t.goal + ' · ' + t.now}</small></span>
+      ${i === step ? '' : `<a class="lnk" data-go="${i}" href="${t.href}">${t.done ? 'أعد' : 'ابدأ'}</a>`}</li>`).join('')
+    + `<li class="goal ${x.passed ? 'done' : step === 4 ? 'cur' : 'lock'}">
+      <span class="n">${x.passed ? '✓' : x.canTry ? 5 : '🔒'}</span>
+      <span class="tx"><b>🏁 تحدي العالم</b><small>${x.passed ? '✅ نجحت: ' + x.b + ' من 10' : x.canTry ? '🎯 ' + PASS + ' من 10' + (x.b ? ' · أفضل نتيجة ' + x.b : '') : '🔒 يُفتح بعد 3 محطات (أنجزت ' + x.n + ')'}</small></span>
+      ${x.canTry && step !== 4 ? `<button class="lnk" id="goQ2">${x.b ? 'أعد' : 'ابدأ'}</button>` : ''}</li>`;
+
   $('app').innerHTML = `
   <section class="whead" style="--c:${W.c};--t:${W.t}">
     <div class="big" aria-hidden="true">${W.ic}</div>
     <h1>${W.ar}</h1>
-    <p>${x.stamped ? '🏅 ختمت هذا العالم! يمكنك إعادة التحدي للتدريب، ويُحسب أفضل ما حققته.' : 'أنجز المحطات الأربع ثم التحدي، لتحصل على ختم ' + W.ar + '.'}</p>
+    <p>${x.stamped ? '🏅 مختوم في جواز سفرك' : 'مهمتك: 5 خطوات، واحدة بعد الأخرى، حتى تنال ختم العالم 🛂'}</p>
     <div class="prog" aria-label="التقدم ${pct}%"><i style="width:${pct}%"></i></div>
+    <p style="font-weight:800;color:${W.c}">${doneN} من 5 خطوات</p>
   </section>
-  <div class="stations" style="--c:${W.c};--t:${W.t}">${x.s.map((s, i) => `
-    <div class="st ${s.done ? 'done' : ''}">
-      <span class="n">${s.done ? '✓' : i + 1}</span>
-      <span class="tx"><b>${s.ic} ${s.ar}</b>${s.en ? `<small class="en">${esc(s.en)}</small>` : ''}<small>${s.what}</small><small><b style="display:inline;font-size:.95rem">${s.now}</b></small>
-        ${s.units ? `<span class="chips">${s.units.map(n => `<a class="${N('wq-best-' + n) >= 7 ? 'ok' : ''}" href="../journey/word-quest.html#u${n}">Unit ${n} · ${N('wq-best-' + n)}/10</a>`).join('')}</span>` : ''}</span>
-      <a class="go" href="${s.href}">${s.go} ←</a>
-    </div>`).join('')}
+  ${fresh.length ? `<div class="cele" role="status">🎉 أحسنت! أنجزت «${fresh.map(i => names[i]).join('» و«')}». ${step < 5 && !x.stamped ? 'الخطوة التالية جاهزة 👇' : ''}</div>` : ''}
+  <div style="--c:${W.c};--t:${W.t}">
+    ${now}
+    <h2 class="ph" style="color:${W.c};margin-top:22px">🗺️ مسار المهمة</h2>
+    <ol class="trail">${trail}</ol>
   </div>
-  <section class="final" style="--c:${W.c};--t:${W.t}">
-    <h2>🏁 تحدي ${W.ar}</h2>
-    <p>10 أسئلة من جمل هذا العالم: معاني الجمل وترتيبها. تحتاج ${PASS} لتنجح، وكل إجابة صحيحة في أفضل محاولة = 5 نقاط.</p>
-    <p>${x.b ? 'أفضل نتيجة لك: <b>' + x.b + ' من 10</b>' + (x.passed ? ' ✅' : '') : ''}</p>
-    ${x.canTry ? `<button class="btn" id="goQ">${x.b ? 'أعد التحدي' : 'ابدأ التحدي'}</button>` : `<button class="btn" disabled>🔒 يُفتح بعد 3 محطات (أنجزت ${x.n})</button>`}
-  </section>
   <a class="back" href="#">→ كل العوالم</a>`;
-  const g = $('goQ'); if (g) g.onclick = () => startQuiz(W);
+  document.querySelectorAll('[data-go]').forEach(a => a.addEventListener('click', () => leaveFor(W, a.dataset.go === '1' && a.closest('.chips') ? 1 : +a.dataset.go)));
+  ['goQ', 'goQ2'].forEach(id => { const g = $(id); if (g) g.onclick = () => startQuiz(W); });
+  if (fresh.length) { sfx('win'); fireworks(fresh.includes(4) || x.stamped ? 3 : 1); }
 }
 
 /* ---------- the world challenge ---------- */
@@ -377,6 +481,6 @@ route();
 syncPoints();
 })();
 </script>
-<script src="../assets/club.js?v=27"></script>
+<script src="../assets/club.js?v=28"></script>
 </body>
 </html>

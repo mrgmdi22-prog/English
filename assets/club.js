@@ -64,3 +64,43 @@
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', put); else put();
   }catch(e){}
 })();
+// عوالم النادي 🌍: after the student leaves a world for one of its stations (worlds/index.html saves `wd-go`), every other
+// page shows a small «ارجع إلى العالم» bar; it turns green with «أنجزت المحطة!» as soon as the station's goal is met here.
+(function(){
+  try{
+    var me = document.currentScript && document.currentScript.src;
+    if(!me || /\/worlds\//.test(location.pathname)) return;
+    var g = JSON.parse(localStorage.getItem('wd-go') || 'null');
+    if(!g || !g.k || !(g.until > Date.now())) return;
+    var back = new URL('../worlds/index.html#w-' + g.k, me).href;
+    var met = function(){
+      try{
+        var sp = g.spec || {}, keys = sp.keys || [], min = +sp.min || 1;
+        if(sp.t === 'cap'){ var o = JSON.parse(localStorage.getItem(keys[0]) || '{}') || {}; return Object.keys(o).filter(function(k){ return (+o[k] || 0) >= 1; }).length >= min; }
+        return keys.some(function(k){ return (+(localStorage.getItem(k) || 0) || 0) >= min; });
+      }catch(e){ return false; }
+    };
+    var css = '#clubWd{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(70px + env(safe-area-inset-bottom,0px));z-index:996;display:flex;align-items:center;gap:8px;' +
+      'max-width:calc(100% - 24px);background:#fff;border:2.5px solid ' + (g.c || '#4b62e0') + ';border-radius:999px;padding:6px 6px 6px 14px;box-shadow:0 12px 26px -14px rgba(30,40,90,.55);' +
+      'font:700 16px/1.35 Tajawal,"Segoe UI",system-ui,sans-serif;color:#232c47;direction:rtl}' +
+      '#clubWd a{flex:none;text-decoration:none;color:#fff;background:' + (g.c || '#4b62e0') + ';border-radius:999px;padding:7px 14px;font-weight:800;white-space:nowrap}' +
+      '#clubWd span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}' +
+      '#clubWd button{flex:none;font:inherit;border:0;background:none;color:#8a93ad;cursor:pointer;padding:0 6px}' +
+      '#clubWd.ok{border-color:#17855c;background:#effaf4;animation:clubWdP 1.4s ease-in-out 3}#clubWd.ok a{background:#17855c}' +
+      '@keyframes clubWdP{50%{transform:translateX(-50%) scale(1.05)}}@media (prefers-reduced-motion:reduce){#clubWd.ok{animation:none}}' +
+      'body.reading #clubWd{display:none}@media print{#clubWd{display:none}}';
+    var put = function(){
+      if(!document.body || document.getElementById('clubWd')) return;
+      var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
+      var d = document.createElement('div'); d.id = 'clubWd'; d.setAttribute('role', 'status');
+      var draw = function(ok){
+        d.className = ok ? 'ok' : '';
+        d.innerHTML = '<button type="button" aria-label="إخفاء">✕</button><span>' + (ok ? '✅ أنجزت المحطة!' : (g.ic || '🌍') + ' ' + g.name) + '</span><a href="' + back + '">' + (ok ? 'الخطوة التالية ←' : 'ارجع إلى ' + g.ar) + '</a>';
+        d.querySelector('button').onclick = function(){ d.remove(); clearInterval(t); };
+      };
+      var was = met(); draw(was); document.body.appendChild(d);
+      var t = setInterval(function(){ var ok = met(); if(ok !== was){ was = ok; draw(ok); try{ if(ok && window.clubSfx) window.clubSfx('win'); }catch(e){} } }, 2500);
+    };
+    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', put); else put();
+  }catch(e){}
+})();
