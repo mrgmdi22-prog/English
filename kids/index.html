@@ -292,6 +292,19 @@ footer{text-align:center;color:var(--muted);font-size:.95rem;margin-top:26px}
 .jmodal .bt{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .jmodal button{font:inherit;font-weight:800;font-size:1.15rem;border:3px solid var(--ink);background:#FFD23F;border-radius:999px;padding:8px 20px;cursor:pointer;color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
 .jmodal button.alt{background:#fff}
+
+/* بطاقات التحفيز والشكر والتقدير: name kept on this device only (kd-me), one card per finished station / full station / land */
+.jlinks.top{grid-template-columns:repeat(4,1fr)}
+.nmform{display:grid;gap:12px;text-align:center}
+.nmform input{font:inherit;font-weight:800;font-size:1.5rem;text-align:center;border:3px solid var(--ink);border-radius:18px;padding:10px;width:100%;box-sizing:border-box;background:#FFFBEA;color:var(--ink)}
+.nmform .gg{display:flex;gap:10px;justify-content:center}
+.nmform .gg button{flex:1;background:#fff;font-size:1.2rem}.nmform .gg button[aria-pressed="true"]{background:#FFE27A;outline:3px solid #D99A00}
+.nmform small{color:var(--muted);font-size:1rem;line-height:1.5}
+.kcard img{width:100%;border-radius:18px;border:3px solid var(--ink);display:block;margin:4px 0 12px}
+.jmodal .box.wide{max-width:440px}
+.kcgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:6px 0 14px}
+.kcgrid button{all:unset;cursor:pointer;background:var(--t);border:3px solid var(--ink);border-radius:16px;padding:8px 4px;text-align:center;font-weight:800;font-size:.95rem;line-height:1.3;box-shadow:2px 2px 0 var(--ink)}
+.kcgrid button span{display:block;font-size:2rem}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -1082,11 +1095,11 @@ function journeyMap(){
         <g font-size="18"><text x="300" y="186">🌳</text><text x="40" y="220">🌷</text><text x="340" y="232">🌼</text><text x="208" y="166">🚩</text></g>
       </svg>
       <div class="jttl"><h1>مسيرة البطل</h1><span class="en">Hero Journey</span></div>
-      <div class="jstage"><span class="jlion" aria-hidden="true">🦁</span><div class="jsay"><b>${hi} يا بطل! 👋</b>${allDone?'أنهيت المسيرة كلها! 🏆':done?'هيا نكمل من حيث توقفنا':'هيا نبدأ مغامرة الإنجليزية'}<span class="nx">${c.ic} المحطة ${cur+1}: ${esc(c.ar)}</span></div></div>
+      <div class="jstage"><span class="jlion" aria-hidden="true">🦁</span><div class="jsay"><b>${hi} ${esc(callYa())}! 👋</b>${allDone?'أنهيت المسيرة كلها! 🏆':done?'هيا نكمل من حيث توقفنا':'هيا نبدأ مغامرة الإنجليزية'}<span class="nx">${c.ic} المحطة ${cur+1}: ${esc(c.ar)}</span></div></div>
       <div class="jtrail"><div class="tls">${trail}</div><div class="jstat"><span>🚩 ${done} / ${ST.length}</span><span>⭐ ${STARS}</span><span>🎁 ${stk}</span></div></div>
     </div>
     <button class="jgo" data-go="${cur}"><span>${allDone?'🏆 اجمع ⭐⭐⭐ في كل محطة':done?'تابع المسيرة 🚀':'هيا ننطلق! 🚀'}<small>${LANDS[curL].ic} ${LANDS[curL].ar} · المحطة ${cur+1}</small></span><span class="ic">${c.ic}</span></button>
-    <div class="jlinks top"><button data-x="stk"><span>🎁</span>ملصقاتي</button><button data-x="adv"><span>🚀</span>متقدم؟</button><button data-x="all"><span>🗂️</span>كل الأقسام</button></div>${reviewBox()}`;
+    <div class="jlinks top"><button data-x="crd"><span>💌</span>بطاقاتي</button><button data-x="stk"><span>🎁</span>ملصقاتي</button><button data-x="adv"><span>🚀</span>متقدم؟</button><button data-x="all"><span>🗂️</span>كل الأقسام</button></div>${reviewBox()}`;
   LANDS.forEach((L,li)=>{
     const sts=ST.filter(s=>s.L===li),lp=sts.filter(s=>jCount(s.i)).length;
     const deco=L.deco.map((e,k)=>`<span style="top:${90+k*(sts.length*170)/L.deco.length}px;${k%2?'left':'right'}:${6+(k*7)%14}px">${e}</span>`).join('');
@@ -1106,7 +1119,7 @@ function journeyMap(){
   $('app').querySelectorAll('[data-st]').forEach(b=>b.onclick=()=>{const i=+b.dataset.st;if(jOpen(i))station(i);else jLocked(i);});
   $('app').querySelectorAll('[data-ch]').forEach(b=>b.onclick=()=>chest(+b.dataset.ch));
   $('app').querySelector('[data-go]').onclick=()=>station(cur);
-  $('app').querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>b.dataset.x==='all'?allSections():b.dataset.x==='adv'?jAdvanced():open('stk'));
+  $('app').querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>b.dataset.x==='all'?allSections():b.dataset.x==='adv'?jAdvanced():b.dataset.x==='crd'?myCards():open('stk'));
   $('app').querySelectorAll('[data-rv]').forEach(b=>b.onclick=()=>{const v=b.dataset.rv;
     if(['spl','spl2','ord','grm','opp'].includes(v))return open(v);
     if(v.startsWith('sto:')){const n=+v.slice(4);open('sto');return storyQuiz(n,fixDue('sto').filter(k=>k.split(':')[0]===String(n)).map(k=>+k.split(':')[1]),true);}
@@ -1114,6 +1127,7 @@ function journeyMap(){
   jLines();
   const y=+(sessionStorage.getItem('kd-jy')||-1);
   window.scrollTo(0,y>=0?y:0);
+  if(!ME.ask&&!ME.n)setTimeout(()=>{if(document.querySelector('.jpath')&&!$('jmodal'))askName(()=>journeyMap());},600);
 }
 /* the dotted road between stations; the walked part is coloured */
 function jLines(){
@@ -1146,7 +1160,7 @@ function chest(li){
   if(!landDone(li)){window.clubSfx&&clubSfx('bad');return jModal(last?'🏆':'🎁',last?'كأس الأبطال مقفل':'الكنز مقفل',`أكمل كل محطات «${L.ar}» لتفتح ${last?'الكأس':'الكنز'} 🗝️`,[['حسناً']]);}
   if(JR.c[li])return jModal('🎉','فتحت هذا الكنز من قبل','اجمع ⭐⭐⭐ في كل محطة لتصبح بطلاً حقيقياً!',[['رائع!']]);
   JR.c[li]=1;jSave();addStars(5);window.clubSfx&&clubSfx('win');burst(innerWidth/2,innerHeight/2);setTimeout(()=>burst(innerWidth/2,innerHeight/2-80),250);
-  jModal(last?'🏆':'💎',last?'أنت بطل المسيرة!':`فتحت كنز «${L.ar}»!`,`+5 نجوم ⭐ وملصق جديد في «ملصقاتي» 🎁${last?'':'<br>المرحلة التالية تنتظرك 🚀'}`,[['🎁 ملصقاتي',()=>open('stk')],['أكمل المسيرة',()=>journeyMap(),'alt']]);
+  jModal(last?'🏆':'💎',last?G('أنت بطل المسيرة!','أنتِ بطلة المسيرة!'):`فتحت كنز «${L.ar}»!`,`+5 نجوم ⭐ وملصق جديد في «ملصقاتي» 🎁${last?'':'<br>المرحلة التالية تنتظرك 🚀'}<br>💌 وشهادة تقدير باسمك!`,[['💌 شهادتي',()=>giveCard('land',li)],['🎁 ملصقاتي',()=>open('stk'),'alt'],['أكمل المسيرة',()=>journeyMap(),'alt']]);
   const b=document.querySelector(`[data-ch="${li}"]`);if(b){b.classList.remove('ready');b.querySelector('.ic').textContent='🎉';}
 }
 function station(i){
@@ -1154,7 +1168,8 @@ function station(i){
   JDOOR=null;jBar();jClose();push({v:'st',i},'st-'+(i+1));JSTACK=0;backBtn();
   const n=jCount(i),nx=ST[i+1];let win='';
   if(JUST&&JUST.i===i){win=JUST.next&&nx?`<div class="jwin">🎉 رائع! فتحت المحطة التالية: ${nx.ic} ${esc(nx.ar)}<br><button data-j="next">انطلق إليها 🚀</button></div>`
-    :n===s.doors.length?'<div class="jwin">🏆 ممتاز! جمعت ⭐⭐⭐ في هذه المحطة</div>':'<div class="jwin">⭐ أحسنت! أنجزت مهمة جديدة</div>';JUST=null;}
+    :n===s.doors.length?'<div class="jwin">🏆 ممتاز! جمعت ⭐⭐⭐ في هذه المحطة</div>':'<div class="jwin">⭐ أحسنت! أنجزت مهمة جديدة</div>';win=win.replace('أحسنت!',G('أحسنتَ','أحسنتِ')+' '+esc(callYa())+'!').replace('رائع!','رائع '+esc(callYa())+'!').replace('ممتاز!','ممتاز '+esc(callYa())+'!');
+    const cardT=JUST.full?'full':JUST.first?'st':null;if(cardT)setTimeout(()=>giveCard(cardT,i),700);JUST=null;}
   $('app').innerHTML=`<div class="shead" style="--t:${L.bg};--c:${L.c};background:${L.bg}"><span class="lv">${L.ic} المرحلة ${s.L+1} · المحطة ${i+1} من ${ST.length}</span><span class="bigic" aria-hidden="true">${s.ic}</span><h2>${esc(s.ar)}<span class="en">${esc(s.en)}</span></h2><div class="js">${jStars(i)}</div></div>${win}
     <p class="jpick">اختر مهمتك 👇<small>${n?'أنجز المهام الباقية لتجمع ⭐⭐⭐':'أنجز مهمة واحدة لتفتح المحطة التالية'}</small></p>
     <div class="doors">${s.doors.map((d,k)=>{const D=doorInfo(d),ok=JR.d[i+'.'+k];return `<button class="door${ok?' ok':''}" data-k="${k}" style="--t:${D.t};--c:${L.c}"><span class="dic">${D.ic}</span><span><b>${esc(D.ar)}</b><span class="en">${esc(D.en)}</span><small>${esc(D.sub)}</small></span><span class="dgo">${ok?'✅':'▶️'}</span></button>`;}).join('')}</div>
@@ -1187,8 +1202,113 @@ function jTap(i,n){if(!JDOOR||JDOOR.t!=='learn'||JDOOR.ok)return;JDOOR.taps.add(
 function jWrite(){if(!JDOOR||JDOOR.t!=='write'||JDOOR.ok)return;JDOOR.w++;if(JDOOR.w>=3)jDone();else jBar();}
 function jDone(){
   if(!JDOOR||JDOOR.ok)return;JDOOR.ok=1;const i=JDOOR.i,id=i+'.'+JDOOR.k;
-  if(!JR.d[id]){const before=jCount(i);JR.d[id]=1;jSave();addStars(1);JUST={i,next:before===0&&i+1<ST.length};}
+  if(!JR.d[id]){const before=jCount(i);JR.d[id]=1;jSave();addStars(1);JUST={i,next:before===0&&i+1<ST.length,first:before===0,full:before+1===ST[i].doors.length};}
   jBar();if(JDOOR.t==='learn'||JDOOR.t==='write'){window.clubSfx&&clubSfx('win');burst(innerWidth/2,innerHeight-60);}
+}
+
+/* ---------- اسم البطل + بطاقات التحفيز والشكر والتقدير ----------
+   kd-me {n: first name, g: 'm'|'f', ask: 1 once asked} — stays on this device, never sent anywhere.
+   kd-cards [{t:'st'|'full'|'land', i, d}] — every card the child has earned, to see again in «بطاقاتي». */
+let ME={n:'',g:'m',ask:0};try{const m=JSON.parse(store.get('kd-me')||'null');if(m)ME={n:String(m.n||'').slice(0,20),g:m.g==='f'?'f':'m',ask:m.ask?1:0};}catch(e){}
+const meSave=()=>store.set('kd-me',JSON.stringify(ME));
+const G=(m,f)=>ME.g==='f'?f:m;
+const hero=()=>G('بطل','بطلة');
+const callMe=()=>ME.n?ME.n:G('يا بطل','يا بطلة');
+const callYa=()=>ME.n?'يا '+ME.n:G('يا بطل','يا بطلة');
+let CARDS=[];try{CARDS=JSON.parse(store.get('kd-cards')||'[]')||[];}catch(e){CARDS=[];}
+function askName(after){
+  jModal('🦁','ما اسمك الأول؟','',[]);
+  const box=document.querySelector('#jmodal .box');box.querySelector('p').remove();
+  const bt=box.querySelector('.bt');let g=ME.g;
+  bt.outerHTML=`<div class="nmform"><input id="nmIn" maxlength="20" autocomplete="off" placeholder="اكتب اسمك هنا" value="${esc(ME.n)}">
+    <div class="gg"><button type="button" data-g="m" aria-pressed="${g==='m'}">👦 أنا بطل</button><button type="button" data-g="f" aria-pressed="${g==='f'}">👧 أنا بطلة</button></div>
+    <button type="button" id="nmOk">هيا نبدأ 🚀</button><button type="button" class="alt" id="nmNo">لاحقاً</button>
+    <small>🔒 اسمك يبقى في جهازك فقط، ولا يُرسل إلى أي مكان.</small></div>`;
+  const f=document.querySelector('#jmodal .nmform');
+  f.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{g=b.dataset.g;f.querySelectorAll('[data-g]').forEach(x=>x.setAttribute('aria-pressed',x===b));});
+  const done=save=>{if(save){ME.n=$('nmIn').value.replace(/[<>]/g,'').trim().slice(0,20);ME.g=g;}ME.ask=1;meSave();jClose();if(save&&ME.n){window.clubSfx&&clubSfx('win');say('Hello, '+ME.n+'!');}after&&after();};
+  $('nmOk').onclick=()=>done(true);$('nmNo').onclick=()=>done(false);
+  $('nmIn').onkeydown=e=>{if(e.key==='Enter')done(true);};
+  setTimeout(()=>{try{$('nmIn').focus();}catch(e){}},200);
+}
+const CMSG={
+  st:[['بطاقة تحفيز','أنت تتقدّم بثبات، واصل '+'المسير!','f-أنتِ تتقدّمين بثبات، واصلي المسير!'],
+      ['بطاقة تحفيز','خطوة جديدة نحو القمة، أنا فخور بك!','f-خطوة جديدة نحو القمة، أنا فخور بكِ!'],
+      ['بطاقة تحفيز','كل يوم تتعلّم شيئاً جديداً، رائع!','f-كل يوم تتعلّمين شيئاً جديداً، رائع!'],
+      ['بطاقة تحفيز','إنجليزيتك تكبر معك، استمر!','f-إنجليزيتكِ تكبر معكِ، استمري!'],
+      ['بطاقة تحفيز','عمل جميل! المحطة التالية تنتظرك.','f-عمل جميل! المحطة التالية تنتظركِ.']],
+  full:[['بطاقة شكر','شكراً لاجتهادك، جمعت النجوم الثلاث كلها!','f-شكراً لاجتهادكِ، جمعتِ النجوم الثلاث كلها!'],
+        ['بطاقة شكر','شكراً لأنك لم تتوقف حتى أكملت المهام كلها.','f-شكراً لأنكِ لم تتوقفي حتى أكملتِ المهام كلها.'],
+        ['بطاقة شكر','شكراً على صبرك وحرصك، أنت قدوة!','f-شكراً على صبركِ وحرصكِ، أنتِ قدوة!']],
+  land:[['شهادة تقدير','تقديراً لإنجازك مرحلة كاملة بتميّز.','f-تقديراً لإنجازكِ مرحلة كاملة بتميّز.'],
+        ['شهادة تقدير','أنهيت المرحلة كلها، نفخر بك كثيراً!','f-أنهيتِ المرحلة كلها، نفخر بكِ كثيراً!']]};
+function cardText(c){
+  const pool=CMSG[c.t],m=pool[(c.i*7+3)%pool.length],msg=ME.g==='f'?m[2].slice(2):m[1];
+  const s=c.t==='land'?null:ST[c.i],L=LANDS[c.t==='land'?c.i:s.L];
+  const what=c.t==='land'?(c.i===LANDS.length-1?'أنهيت مسيرة الأبطال كلها 🏆':`أنهيت مرحلة «${L.ar}»`)
+    :c.t==='full'?`جمعت ⭐⭐⭐ في محطة «${s.ar}»`:`أنجزت محطة «${s.ar}»`;
+  return {title:m[0],head:G('أحسنتَ','أحسنتِ')+' '+callYa()+'!',msg,what:ME.g==='f'?what.replace('أنهيت','أنهيتِ').replace('جمعت','جمعتِ').replace('أنجزت','أنجزتِ'):what,
+    ic:c.t==='land'?(c.i===LANDS.length-1?'🏆':'💎'):s.ic,L,big:c.t==='land'?'🏅':c.t==='full'?'🌟':'⭐'};
+}
+/* the card is drawn on a canvas so the child can keep it as a picture or send it to the family */
+async function cardImage(c){
+  const T=cardText(c),W=1080,H=1350,cv=document.createElement('canvas');cv.width=W;cv.height=H;const x=cv.getContext('2d');
+  try{await Promise.race([Promise.all(['800 80px Tajawal','700 50px Tajawal','800 60px "Baloo 2"'].map(f=>document.fonts.load(f))),new Promise(r=>setTimeout(r,1500))]);}catch(e){}
+  const AR='Tajawal,"Segoe UI",Tahoma,sans-serif';
+  x.fillStyle='#FFF9EC';x.fillRect(0,0,W,H);
+  x.fillStyle=T.L.t;for(let i=0;i<70;i++){x.beginPath();x.arc((i*157)%W,(i*263)%H,8+(i%4)*3,0,7);x.fill();}
+  const rr=(a,b,w,h,r)=>{x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath();};
+  x.fillStyle='#2A2440';rr(70,82,W-130,H-150,60);x.fill();
+  x.fillStyle='#fff';rr(60,70,W-130,H-150,60);x.fill();x.lineWidth=8;x.strokeStyle='#2A2440';x.stroke();
+  x.setLineDash([4,22]);x.lineCap='round';x.lineWidth=10;x.strokeStyle=T.L.c;rr(100,110,W-210,H-230,44);x.stroke();x.setLineDash([]);
+  x.textAlign='center';x.direction='rtl';x.textBaseline='middle';const cx=W/2-5;
+  x.fillStyle=T.L.t;rr(cx-250,165,500,96,48);x.fill();x.lineWidth=5;x.strokeStyle='#2A2440';x.stroke();
+  x.fillStyle='#2A2440';x.font='800 58px '+AR;x.fillText(T.title,cx,216);
+  x.font='190px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';x.fillText(T.ic,cx,420);
+  x.font='90px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';x.fillText(T.big,cx-250,400);x.fillText(T.big,cx+250,400);
+  const fit=(t,max,sz,w)=>{let z=sz;do{x.font=w+' '+z+'px '+AR;z-=4;}while(x.measureText(t).width>max&&z>30);};
+  x.fillStyle=T.L.c;fit(T.head,W-260,96,800);x.fillText(T.head,cx,600);
+  x.fillStyle='#2A2440';fit(T.what,W-260,60,800);x.fillText(T.what,cx,720);
+  const words=T.msg.split(' '),lines=[];let ln='';x.font='700 54px '+AR;
+  words.forEach(w=>{const t=ln?ln+' '+w:w;if(x.measureText(t).width>W-300&&ln){lines.push(ln);ln=w;}else ln=t;});lines.push(ln);
+  x.fillStyle='#4B4566';lines.forEach((l,k)=>x.fillText(l,cx,840+k*78));
+  x.fillStyle='#FFF3C4';rr(cx-300,975,600,90,45);x.fill();x.lineWidth=4;x.strokeStyle='#D99A00';x.stroke();
+  x.fillStyle='#2A2440';x.font='800 50px '+AR;x.fillText('⭐ '+STARS+' نجمة',cx,1022);
+  const dt=new Date(c.d||Date.now()).toLocaleDateString('ar-SA',{day:'numeric',month:'long',year:'numeric'});
+  x.fillStyle='#6B6585';x.font='700 40px '+AR;x.fillText(dt,cx,1110);
+  x.font='800 42px '+AR;x.fillText('🦁 نادي البراعم · أ. أحمد بن سالم',cx,1170);
+  return cv;
+}
+function giveCard(t,i){
+  let c=CARDS.find(k=>k.t===t&&k.i===i);
+  if(!c){c={t,i,d:Date.now()};CARDS.push(c);store.set('kd-cards',JSON.stringify(CARDS));}
+  showCard(c,true);
+}
+async function showCard(c,fresh){
+  const T=cardText(c);
+  jModal('','','',[]);const box=document.querySelector('#jmodal .box');box.classList.add('wide','kcard');
+  box.innerHTML=`<p style="margin:0">💌 ${fresh?'وصلتك بطاقة جديدة!':'بطاقتك'}</p><img alt="${esc(T.title)}: ${esc(T.head)}"><div class="bt">
+    <button type="button" data-a="sv">💾 احفظ البطاقة</button><button type="button" data-a="sh">📤 أرسلها لأهلي</button><button type="button" class="alt" data-a="ok">${fresh?'أكمل المسيرة 🚀':'رجوع'}</button></div>`;
+  if(fresh){window.clubSfx&&clubSfx('win');burst(innerWidth/2,innerHeight/3);setTimeout(()=>burst(innerWidth/2,innerHeight/2),250);}
+  const cv=await cardImage(c);const img=box.querySelector('img');if(!img)return;img.src=cv.toDataURL('image/png');
+  const fn='بطاقة-'+(ME.n||'البطل')+'-'+(c.t==='land'?'مرحلة-'+(c.i+1):'محطة-'+(c.i+1))+'.png';
+  const blob=()=>new Promise(r=>cv.toBlob(r,'image/png'));
+  box.querySelector('[data-a="ok"]').onclick=()=>jClose();
+  box.querySelector('[data-a="sv"]').onclick=async()=>{const b=await blob(),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=fn;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);};
+  const sh=box.querySelector('[data-a="sh"]');
+  sh.onclick=async()=>{try{const b=await blob(),f=new File([b],fn,{type:'image/png'});
+    if(navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({files:[f],title:T.title,text:T.head+' '+T.what});
+    else box.querySelector('[data-a="sv"]').click();}catch(e){}};
+}
+function myCards(){
+  jModal('💌','بطاقاتي',CARDS.length?`عندك ${CARDS.length} ${CARDS.length>2&&CARDS.length<11?'بطاقات':'بطاقة'}، اضغط أي بطاقة لتراها`:'أنجز محطة لتصلك أول بطاقة 🚩',[]);
+  const box=document.querySelector('#jmodal .box');box.classList.add('wide');
+  const bt=box.querySelector('.bt');
+  bt.insertAdjacentHTML('beforebegin',CARDS.length?`<div class="kcgrid">${CARDS.slice().reverse().map((c,k)=>{const T=cardText(c);return `<button type="button" data-c="${CARDS.length-1-k}" style="--t:${T.L.t}"><span>${T.ic}</span>${esc(T.title)}</button>`;}).join('')}</div>`:'');
+  bt.innerHTML=`<button type="button" class="alt" data-a="nm">✏️ ${ME.n?'غيّر اسمي ('+esc(ME.n)+')':'أضف اسمي'}</button><button type="button" data-a="x">رجوع</button>`;
+  box.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>showCard(CARDS[+b.dataset.c],false));
+  bt.querySelector('[data-a="nm"]').onclick=()=>askName(()=>journeyMap());
+  bt.querySelector('[data-a="x"]').onclick=()=>jClose();
 }
 
 try{if(history.state&&history.state.v)render(history.state);else{history.replaceState({v:'home'},'',location.pathname+location.search);home();}}catch(e){home();}
