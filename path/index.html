@@ -37,7 +37,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--blue);outline-offse
 .hero p{margin:8px auto 0;max-width:640px;color:var(--muted);font-size:1.1rem}
 .chips{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
 .chips span{background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:3px 14px;font-weight:800;font-size:1rem}
-.card{margin-top:18px;background:#fff;border:1.5px solid var(--line);border-radius:26px;padding:20px 18px}
+.card{overflow:hidden;margin-top:18px;background:#fff;border:1.5px solid var(--line);border-radius:26px;padding:20px 18px}
 .card h2{margin:0 0 6px;font-size:1.45rem;line-height:1.4}
 .card .lead{margin:0;color:var(--muted);font-size:1.06rem}
 .btn{display:inline-block;text-decoration:none;font-weight:800;border:0;border-radius:999px;padding:12px 24px;font-size:1.12rem;background:var(--blue);color:#fff;line-height:1.4}
@@ -47,27 +47,36 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--blue);outline-offse
 .btn:disabled{opacity:.45;cursor:default}
 .center{text-align:center}
 
-/* ---------- the language house ---------- */
-.house{max-width:560px;margin:16px auto 4px;display:grid;gap:8px}
-.roof{position:relative;height:96px;display:grid;place-items:end center;padding-bottom:12px}
-.roof::before{content:"";position:absolute;inset:0;background:linear-gradient(160deg,#c9d6ff,#e6ecff);clip-path:polygon(50% 0,100% 100%,0 100%);border-radius:6px}
-.roof b{position:relative;font-size:1.25rem;color:#2a46b8}
-.roof b .en{font-size:1rem;color:#5a6aa8;margin-inline-start:6px}
-.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.found{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.blk{border-radius:16px;padding:12px 6px;text-align:center;border:2px solid #dbe2f3;background:#f7f9ff;transition:background .4s,border-color .4s}
-.pillars .blk{min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
-.blk .i{font-size:1.9rem;line-height:1.2}
-.blk b{display:block;font-size:1.06rem;line-height:1.35}
-.blk small{display:block;font-size:.85rem;color:var(--muted);font-family:var(--en);direction:ltr}
-.blk .f{display:block;font-size:.95rem;font-weight:800;margin-top:2px}
-.found .blk{background:#f1ede4;border-color:#e2d8c2}
-.blk.r0{background:#fff0ec;border-color:var(--weak)}.blk.r0 .f{color:var(--weak-t)}
-.blk.r1{background:#fff8de;border-color:var(--ok)}.blk.r1 .f{color:var(--ok-t)}
-.blk.r2{background:#e9f8f1;border-color:var(--good)}.blk.r2 .f{color:var(--good-t)}
-.blk.fx{box-shadow:0 0 0 4px #c9d6ff}
-.ground{height:10px;border-radius:999px;background:linear-gradient(90deg,#d9cfb8,#eadfc6,#d9cfb8)}
-@media (max-width:520px){.pillars .blk{min-height:128px}.blk b{font-size:.98rem}.blk .i{font-size:1.6rem}}
+/* ---------- the language house (centred; roof with eaves + chimney, beam, 4 columns, floor slab, brick foundation, grass) ---------- */
+.house{width:100%;max-width:520px;margin:18px auto 6px;padding:0 10px;display:flex;flex-direction:column;align-items:stretch}
+.roof{position:relative;height:118px;margin:0 -10px;display:grid;place-items:end center;padding-bottom:16px}
+.roof::before{content:"";position:absolute;inset:0;background:linear-gradient(170deg,#b9c9ff,#dfe7ff);clip-path:polygon(50% 0,100% 100%,0 100%);z-index:1}
+.roof::after{content:"";position:absolute;top:30px;left:16%;width:30px;height:46px;background:#cdd8fb;border:2px solid #b3c3f5;border-bottom:0;border-radius:4px 4px 0 0;z-index:0}
+.roof .win{z-index:2;position:absolute;top:40px;left:50%;transform:translateX(-50%);width:34px;height:34px;border-radius:50%;background:#fff8dc;border:3px solid #9fb2ee;display:grid;place-items:center;font-size:1rem}
+.roof b{z-index:2;position:relative;font-size:1.25rem;color:#2a46b8;line-height:1.2}
+.roof b .en{font-size:.95rem;color:#5a6aa8;margin-inline-start:6px}
+.beam{height:14px;margin:0 2px;border-radius:4px;background:#c9d4f6;border:1.5px solid #b3c3f5}
+.cap{margin:6px 0 4px;text-align:center;font-size:.92rem;font-weight:800;color:var(--muted)}
+.pillars{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:0 6px}
+.found{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.blk{min-width:0;border-radius:14px;padding:10px 4px;text-align:center;border:2px solid #dbe2f3;background:#f7f9ff;transition:background .4s,border-color .4s}
+.pillars .blk{position:relative;min-height:168px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:6px;
+  border-top-width:7px;border-bottom-width:7px}
+.blk .i{font-size:1.8rem;line-height:1.2}
+.blk b{display:block;font-size:1.02rem;line-height:1.35;overflow-wrap:anywhere}
+.blk small{display:block;font-size:.78rem;color:var(--muted);font-family:var(--en);direction:ltr;overflow-wrap:anywhere;line-height:1.3}
+.blk .f{display:block;font-size:.9rem;font-weight:800;margin-top:2px;line-height:1.3}
+.floor{height:12px;margin:0 -4px;border-radius:4px;background:#cfc3a6}
+.found .blk{border-radius:10px;padding:12px 6px;border-color:#d9c9a3;
+  background:repeating-linear-gradient(0deg,transparent 0 22px,rgba(160,130,80,.16) 22px 24px),#f6efdf}
+.found .blk .i{font-size:1.6rem}
+.blk.r0{background-color:#fff0ec;border-color:var(--weak)}.blk.r0 .f{color:var(--weak-t)}
+.blk.r1{background-color:#fff8de;border-color:var(--ok)}.blk.r1 .f{color:var(--ok-t)}
+.blk.r2{background-color:#e9f8f1;border-color:var(--good)}.blk.r2 .f{color:var(--good-t)}
+.pillars .blk.r0,.pillars .blk.r1,.pillars .blk.r2{background-image:none}
+.blk.fx{box-shadow:0 0 0 4px #9fb2ee}
+.ground{height:12px;margin:2px -14px 0;border-radius:999px;background:linear-gradient(90deg,#bfe3c4,#d6efd8,#bfe3c4)}
+@media (max-width:520px){.house{padding:0 6px}.pillars{gap:6px;padding:0 2px}.pillars .blk{min-height:150px}.blk b{font-size:.92rem}.blk .i{font-size:1.5rem}.blk small{font-size:.7rem}.blk .f{font-size:.82rem}.roof{height:100px}.roof .win{top:34px;width:30px;height:30px}}
 .facts{display:grid;gap:10px;margin-top:14px}
 .fact{display:flex;gap:12px;align-items:flex-start;background:var(--paper);border-radius:18px;padding:12px 14px;font-size:1.05rem}
 .fact .n{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#fff;font-weight:800}
@@ -346,8 +355,10 @@ function taskDone(id, ds){
 function house(r, focus){
   r = r || {}; focus = focus || [];
   var b = function(k){ var c = CK[k], v = r[k]; return '<div class="blk' + (v != null ? ' r' + v : '') + (focus.indexOf(k) >= 0 ? ' fx' : '') + '"><span class="i">' + c.ic + '</span><b>' + c.ar + '</b><small>' + c.en + '</small>' + (v != null ? '<span class="f">' + FACE[v][0] + ' ' + FACE[v][1] + '</span>' : '') + '</div>'; };
-  return '<div class="house" aria-label="بيت اللغة"><div class="roof"><b>اللغة <span class="en">English</span></b></div>'
+  return '<div class="house" aria-label="بيت اللغة"><div class="roof"><span class="win" aria-hidden="true">⭐</span><b>اللغة <span class="en">English</span></b></div>'
+    + '<div class="beam"></div><div class="cap">الأعمدة: المهارات الأربع</div>'
     + '<div class="pillars">' + ['lis','rea','spe','wri'].map(b).join('') + '</div>'
+    + '<div class="floor"></div><div class="cap">الأساس</div>'
     + '<div class="found">' + ['voc','gra'].map(b).join('') + '</div><div class="ground"></div></div>';
 }
 
