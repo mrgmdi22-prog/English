@@ -1,0 +1,2 @@
+/* App edition: things the public app does not have (honor boards, Kids Club, install card). */
+.hline,#kids,.kidsban,#install,.app-gone{display:none!important}

@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<script src="../assets/gate.js?v=9"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>قياس المستوى · Level Check</title>
+<meta name="description" content="English level check before and after: vocabulary, grammar, reading and listening, with a CEFR level estimate.">
+<meta name="theme-color" content="#F4F7FF">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/club.css">
+<style>
+/* Level check: a before test and an after test (parallel forms, same difficulty), one question at a time,
+   no feedback during the test, then the score, the skills and an estimated CEFR level; the after test shows the gain. */
+:root{color-scheme:light;--bg:#F4F7FF;--card:#fff;--ink:#1F2A44;--muted:#5B6685;--line:#E2E8F5;--pri:#3157D5;--pri-soft:#E8EEFF;--ok:#16825D;--ok-soft:#E3F6EE;--warn:#A35A00;--warn-soft:#FFF1DC;
+  --v:#C2416B;--g:#6046E8;--r:#0E7C86;--l:#C2621A;--ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg)}
+body{color:var(--ink);font-family:var(--ar);font-size:20px;line-height:1.7}
+.wrap{max-width:760px;margin:0 auto;padding:68px 16px 80px}
+.en{font-family:var(--en);direction:ltr;unicode-bidi:isolate}
+h1{font-size:clamp(1.9rem,6vw,2.5rem);margin:0;line-height:1.25}
+h1 .en{display:block;font-size:.5em;color:var(--pri);letter-spacing:.06em;font-weight:600}
+.lead{color:var(--muted);margin:8px 0 0}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:24px;padding:20px;margin-top:18px;box-shadow:0 10px 30px -24px rgba(30,40,90,.5)}
+.card h2{margin:0 0 6px;font-size:1.35rem}
+.muted{color:var(--muted)}
+.btn{font:inherit;font-weight:800;border:0;border-radius:999px;padding:12px 24px;cursor:pointer;background:var(--pri);color:#fff;font-size:1.1rem}
+.btn.soft{background:var(--pri-soft);color:var(--pri)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.part{border-radius:16px;padding:10px 12px;background:#F7F9FF;border:1.5px solid var(--line)}
+.part b{display:block;font-size:1.05rem}.part small{color:var(--muted);font-size:.95rem}
+.tests{display:grid;gap:14px;margin-top:18px}
+.test{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:var(--card);border:1.5px solid var(--line);border-radius:22px;padding:16px 18px}
+.test .ic{font-size:2.2rem;line-height:1}
+.test .tx{flex:1;min-width:200px}.test .tx b{font-size:1.2rem;display:block}.test .tx small{color:var(--muted);font-size:1rem;display:block}
+.tag{display:inline-block;border-radius:999px;padding:0 12px;font-size:.95rem;font-weight:800}
+.tag.ok{background:var(--ok-soft);color:var(--ok)}.tag.new{background:var(--pri-soft);color:var(--pri);white-space:normal}.tag.wait{background:var(--warn-soft);color:var(--warn)}
+/* test */
+.bar{height:12px;background:var(--line);border-radius:999px;overflow:hidden;margin:6px 0 14px}
+.bar i{display:block;height:100%;background:var(--pri);border-radius:999px;transition:width .3s}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:800;color:var(--muted);font-size:1rem}
+.sec{border-radius:999px;padding:2px 14px;color:#fff;font-size:.95rem}
+.passage{background:#F7F9FF;border:1.5px solid var(--line);border-radius:18px;padding:14px 16px;font-family:var(--en);direction:ltr;text-align:left;font-size:1.12rem;line-height:1.75;margin:10px 0 14px}
+.qtext{font-family:var(--en);direction:ltr;text-align:left;font-size:1.3rem;font-weight:600;margin:10px 0 4px;line-height:1.5}
+.qar{color:var(--muted);font-size:1rem;margin:0 0 12px}
+.opts{display:grid;gap:10px}
+.opt{font:inherit;font-family:var(--en);direction:ltr;text-align:left;font-size:1.15rem;font-weight:500;background:#fff;border:2px solid var(--line);border-radius:16px;padding:12px 16px;cursor:pointer;color:var(--ink);display:flex;gap:12px;align-items:center}
+.opt .k{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--pri-soft);color:var(--pri);font-weight:700;font-size:1rem}
+.opt[aria-pressed=true]{border-color:var(--pri);background:var(--pri-soft)}
+.opt[aria-pressed=true] .k{background:var(--pri);color:#fff}
+.listen{display:flex;align-items:center;gap:12px;margin:8px 0 14px;flex-wrap:wrap}
+.nav{direction:ltr;display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+/* result */
+.big{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.ring{--p:0;width:130px;height:130px;border-radius:50%;background:conic-gradient(var(--pri) calc(var(--p)*1%),var(--line) 0);display:grid;place-items:center;flex:none}
+.ring span{width:100px;height:100px;border-radius:50%;background:#fff;display:grid;place-items:center;font-family:var(--en);font-weight:700;font-size:1.7rem;direction:ltr}
+.lvl{font-family:var(--en);font-weight:700;font-size:2rem;color:var(--pri);direction:ltr;display:inline-block}
+.skill{margin:12px 0}
+.skill .row{display:flex;justify-content:space-between;font-weight:700;font-size:1rem}
+.skill .bar{margin:4px 0 0;height:14px}
+.cmp{width:100%;border-collapse:collapse;margin-top:10px;font-size:1rem}
+.cmp th,.cmp td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:center}
+.cmp th:first-child,.cmp td:first-child{text-align:right}
+.up{color:var(--ok);font-weight:800}.down{color:#B3261E;font-weight:800}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:12px;font-size:.95rem}
+.scale div{border-radius:12px;padding:6px;text-align:center;background:#F2F4FA;color:var(--muted)}
+.scale div.on{background:var(--pri);color:#fff;font-weight:800}
+.scale b{display:block;font-family:var(--en);direction:ltr}
+.note{background:var(--warn-soft);color:#6b3d00;border-radius:16px;padding:10px 14px;margin-top:14px;font-size:1rem}
+[hidden]{display:none!important}
+</style>
+<link rel="stylesheet" href="../assets/app.css?v=1"><script src="../assets/app.js?v=1"></script>
+</head>
+<body>
+<a class="club-home" href="../index.html">🏠 الرئيسية</a>
+<div class="wrap" id="app"></div>
+<script src="../assets/club.js?v=28"></script>
+<script type="module">
+/* ---------- the two forms (version 2, harder): same skills, same difficulty, different questions ----------
+   item: [skill, band, question, Arabic help, right answer, wrong, wrong, wrong]   skill v g r l · band 1=A1 2=A2 3=B1 4=B2
+   Each form: A1 ×2, A2 ×10, B1 ×10, B2 ×10. Every pre item has a twin in the post form at the same place,
+   testing the same point at the same level, so the gain between them is fair.
+   reading items point to a passage (p), listening items carry the sentence to hear (say). */
+const FORMS = {
+ pre: { passages: [
+  "Last summer, Majed spent two weeks with his grandparents in a small village near Al-Baha. At first he was bored, because there was no internet and none of his friends were there. But soon his grandfather started taking him on long walks in the mountains early in the morning, before the heat. They watched baboons, picked wild figs and talked about the old days. By the end of the holiday, Majed didn't want to leave. \"I thought I would miss my phone,\" he said, \"but in the end I missed the mountains more.\"",
+  "For centuries, sailors crossed the oceans without any maps on a screen. Instead, they relied on the stars. In the northern half of the world, the Pole Star stays almost in the same place all night, so it always shows the direction of north. By measuring how high this star was above the horizon, a navigator could even work out how far north his ship was. Arab sailors became famous for this skill, and some of the instruments they improved, such as the astrolabe, were later adopted by European explorers. Today, satellites have largely replaced the stars, yet many navy schools still teach star navigation in case modern systems fail."],
+  items: [
+  ['v',1,'My brother is ill, so he is in ___ today.','اختر الكلمة المناسبة','hospital','library','kitchen','garden'],
+  ['v',2,"The shop is ___ on Friday mornings, so we can't buy anything.",'اختر الكلمة المناسبة','closed','cheap','near','full'],
+  ['v',2,'Please ___ the light when you leave the room.','اختر الكلمة المناسبة','turn off','turn on','take off','put on'],
+  ['v',2,"I'm very ___ in history; I read about it every day.",'اختر الكلمة المناسبة','interested','tired','afraid','proud'],
+  ['v',3,"We need to ___ water; there isn't much left in the tank.",'اختر الكلمة المناسبة','save','spend','waste','pour'],
+  ['v',3,'The meeting was ___ because the manager was ill.','اختر الكلمة المناسبة','cancelled','celebrated','invented','repeated'],
+  ['v',3,'He apologised ___ being late.','اختر الكلمة المناسبة','for','about','of','to'],
+  ['v',4,'The new factory will have a huge ___ on the environment.','اختر الكلمة المناسبة','impact','access','income','origin'],
+  ['v',4,"It's ___ to drive without a licence; you could go to prison.",'اختر الكلمة المناسبة','illegal','illiterate','irregular','impatient'],
+  ['v',4,"I can't ___ this noise any longer!",'اختر الكلمة المناسبة','put up with','put off','put out','put on'],
+  ['g',1,'My sister and I ___ at home now.','اختر الصيغة الصحيحة','are','is','am','be'],
+  ['g',2,'While I ___ TV, the phone rang.','اختر الصيغة الصحيحة','was watching','am watching','have watched','watch'],
+  ['g',2,'She has lived in Riyadh ___ she was a child.','اختر الصيغة الصحيحة','since','for','ago','during'],
+  ['g',2,"You ___ wear a seatbelt in the car; it's the law.",'اختر الصيغة الصحيحة','must','mustn\'t','don\'t have to','needn\'t'],
+  ['g',3,'If I ___ you, I would study harder.','اختر الصيغة الصحيحة','were','am','will be','have been'],
+  ['g',3,'The museum, ___ was built in 1990, is very popular.','اختر الصيغة الصحيحة','which','who','where','what'],
+  ['g',3,'These cars ___ in Japan.','اختر الصيغة الصحيحة','are made','make','are making','have make'],
+  ['g',4,'If we had left earlier, we ___ the train.','اختر الصيغة الصحيحة','would have caught','would catch','will catch','had caught'],
+  ['g',4,'He asked me where ___.','اختر الصيغة الصحيحة','I lived','did I live','do I live','lived I'],
+  ['g',4,'By the time we arrived, the film ___.','اختر الصيغة الصحيحة','had already started','has already started','is already starting','already starts'],
+  ['r',2,'Why was Majed bored at first?','لماذا شعر ماجد بالملل في البداية؟','There was no internet and his friends were not there.','His grandparents were always busy.','The weather was too hot to go out.','He had too much homework.',{p:0}],
+  ['r',2,'When did Majed and his grandfather go walking?','متى كان ماجد وجده يمشيان؟','Early in the morning','In the evening','At midday','At night',{p:0}],
+  ['r',3,'What does Majed mean in the last sentence?','ماذا يقصد ماجد في الجملة الأخيرة؟','He enjoyed nature more than he expected.','He lost his phone in the mountains.','He wanted to go home early.','He still prefers his phone to walking.',{p:0}],
+  ['r',3,'Why was the Pole Star useful to sailors?','لماذا كان نجم القطب مفيداً للبحارة؟','It always shows the direction of north.','It is the brightest star in the sky.','It can only be seen in summer.','It moves to show the time.',{p:1}],
+  ['r',4,'In the text, the word "adopted" is closest in meaning to ___.','أقرب معنى لكلمة adopted في النص','started to use','sold','refused','broke',{p:1}],
+  ['r',4,'Why do some navy schools still teach star navigation?','لماذا ما زالت بعض المدارس البحرية تعلّم الملاحة بالنجوم؟','In case modern systems stop working','Because it is more exact than satellites','Because satellites are too expensive','Because only Arab sailors use it',{p:1}],
+  ['l',2,'When does the shop open on Fridays?','استمع، ثم أجب: متى يفتح المحل يوم الجمعة؟','4:00 pm','9:30 am','9:00 am','4:30 pm',{say:'The shop opens at half past nine, but on Fridays it opens at four in the afternoon.'}],
+  ['l',2,'How did the speaker go to school today?','استمع، ثم أجب: كيف ذهب المتحدث إلى المدرسة اليوم؟','By car','By bus','On foot','By bike',{say:'I usually go to school by bus, but today I missed it, so my father drove me.'}],
+  ['l',3,'How much does a ten-year-old child pay?','استمع، ثم أجب: كم يدفع طفل عمره عشر سنوات؟','25 riyals','50 riyals','12 riyals','15 riyals',{say:'Tickets cost fifty riyals for adults, but children under twelve pay half price.'}],
+  ['l',3,'Will the speaker go to the party?','استمع، ثم أجب: هل سيحضر المتحدث الحفلة؟','Probably not','Yes, definitely','Yes, after his exam','He was not invited',{say:"I'd love to come to your party, but I've got an important exam the next morning."}],
+  ['l',4,'What happened to the speaker?','استمع، ثم أجب: ماذا حدث للمتحدث؟','He took a closed road and now he is late.','He knew the road was closed.','He arrived early.','He took the other road.',{say:"If I'd known the road was closed, I'd have taken the other way, and I wouldn't be so late now."}],
+  ['l',4,'How does the speaker feel about the hotel?','استمع، ثم أجب: ما شعور المتحدث تجاه الفندق؟','Disappointed','Impressed','Excited','Thankful',{say:'Honestly, the hotel looked much better in the photos than it did in real life.'}]
+ ]},
+ post: { passages: [
+  "Last winter, Rayan joined a volunteer team that cleans the beaches of Jeddah every Friday morning. At first he only went because his cousin asked him to, and he found the work tiring. But after a few weeks he started to notice how much plastic people left behind, and how it hurt sea turtles and birds. Now he is the one who calls his friends every Thursday night to remind them to come. \"I came for my cousin,\" he says, \"but in the end I stayed for the sea.\"",
+  "For thousands of years, people in dry lands have struggled to find enough fresh water. In the past, families in desert towns depended on wells, and on rain that might not come for months. Today, Saudi Arabia produces much of its drinking water by desalination: removing the salt from sea water. The most common method pushes sea water through very fine filters at high pressure, so that the salt stays behind. The process uses a great deal of energy, which is why engineers are now connecting new plants to solar power. Even so, experts warn that saving water at home remains just as important as producing more of it."],
+  items: [
+  ['v',1,'I am hungry. Can I have some ___?','اختر الكلمة المناسبة','bread','paper','soap','shoes'],
+  ['v',2,'The bus was ___, so I had to stand all the way.','اختر الكلمة المناسبة','crowded','empty','late','quiet'],
+  ['v',2,"Can you ___ the TV? I can't hear it.",'اختر الكلمة المناسبة','turn up','turn down','turn off','put out'],
+  ['v',2,'My little brother is ___ of the dark.','اختر الكلمة المناسبة','afraid','interested','worried','bored'],
+  ['v',3,"Turn off the tap while you brush your teeth, so you don't ___ water.",'اختر الكلمة المناسبة','waste','save','keep','collect'],
+  ['v',3,'The flight was ___ for three hours because of the storm.','اختر الكلمة المناسبة','delayed','landed','booked','arrived'],
+  ['v',3,'She succeeded ___ passing the exam.','اختر الكلمة المناسبة','in','on','at','for'],
+  ['v',4,'Regular exercise can ___ the risk of heart disease.','اختر الكلمة المناسبة','reduce','remain','refuse','reveal'],
+  ['v',4,'His excuse was so ___ that nobody believed it.','اختر الكلمة المناسبة','unconvincing','unemployed','uncomfortable','unconscious'],
+  ['v',4,'We had to ___ the trip until next week because of the rain.','اختر الكلمة المناسبة','put off','put up with','put out','put on'],
+  ['g',1,'___ your father a doctor?','اختر الصيغة الصحيحة','Is','Are','Do','Does'],
+  ['g',2,'The lights went out while we ___ dinner.','اختر الصيغة الصحيحة','were having','are having','have had','have'],
+  ['g',2,"I haven't seen him ___ three months.",'اختر الصيغة الصحيحة','for','since','ago','during'],
+  ['g',2,"You ___ talk on the phone in the library; it's not allowed.",'اختر الصيغة الصحيحة','mustn\'t','must','don\'t have to','needn\'t'],
+  ['g',3,'What would you do if you ___ a million riyals?','اختر الصيغة الصحيحة','won','win','will win','have won'],
+  ['g',3,'The teacher ___ taught me English now lives in Abha.','اختر الصيغة الصحيحة','who','which','where','whose'],
+  ['g',3,'The letters ___ every morning.','اختر الصيغة الصحيحة','are delivered','deliver','are delivering','have deliver'],
+  ['g',4,'If you had told me, I ___ you.','اختر الصيغة الصحيحة','would have helped','would help','will help','had helped'],
+  ['g',4,'Can you tell me what time ___?','اختر الصيغة الصحيحة','the museum opens','does the museum open','opens the museum','do the museum open'],
+  ['g',4,'When I got to the station, the train ___.','اختر الصيغة الصحيحة','had already left','has already left','is already leaving','already leaves'],
+  ['r',2,'Why did Rayan join the team at first?','لماذا انضم ريان إلى الفريق في البداية؟','His cousin asked him to.','He wanted to see sea turtles.','His school made him go.','He lives next to the beach.',{p:0}],
+  ['r',2,'When does the team clean the beaches?','متى ينظّف الفريق الشواطئ؟','On Friday mornings','On Thursday nights','Every evening','On Friday evenings',{p:0}],
+  ['r',3,'What does Rayan mean in the last sentence?','ماذا يقصد ريان في الجملة الأخيرة؟','He now cares about the sea itself.','He wants to live by the sea.','His cousin stopped coming.','He still goes only to please his cousin.',{p:0}],
+  ['r',3,'What is desalination?','ما المقصود بتحلية المياه في النص؟','Removing the salt from sea water','Collecting rain water in wells','Cleaning water with sunlight','Moving water from the mountains to towns',{p:1}],
+  ['r',4,'In the text, the word "struggled" is closest in meaning to ___.','أقرب معنى لكلمة struggled في النص','found it difficult','refused','found it easy','forgot',{p:1}],
+  ['r',4,'Why are engineers connecting new plants to solar power?','لماذا يربط المهندسون المحطات الجديدة بالطاقة الشمسية؟','Because desalination uses a lot of energy','Because solar power makes water cleaner','Because sea water is too salty','Because families asked them to',{p:1}],
+  ['l',2,'When does the library close during the exams?','استمع، ثم أجب: متى تُغلق المكتبة أيام الاختبارات؟','10:00 pm','8:00 pm','9:00 pm','10:30 pm',{say:'The library closes at eight, but during the exams it stays open until ten.'}],
+  ['l',2,'How did the speaker get to the gym?','استمع، ثم أجب: كيف وصل المتحدث إلى النادي الرياضي؟','By taxi','On foot','By bus','By bike',{say:'I normally walk to the gym, but it was raining, so I took a taxi.'}],
+  ['l',3,'How much do two large pizzas cost on Tuesday?','استمع، ثم أجب: كم سعر بيتزا كبيرتين يوم الثلاثاء؟','40 riyals','80 riyals','20 riyals','60 riyals',{say:'A large pizza costs forty riyals, but on Tuesdays you get two for the price of one.'}],
+  ['l',3,'What does the speaker do?','استمع، ثم أجب: ماذا يفعل المتحدث؟','He says no to the job.','He accepts the job.','He asks for more time.','He asks for more money.',{say:"Thanks for offering me the job, but I've already accepted another one."}],
+  ['l',4,'What do we learn about the speaker?','استمع، ثم أجب: ماذا نفهم عن المتحدث؟','His brother helped him finish on time.','He did not finish the project.','He helped his brother.','He finished the project late.',{say:"If my brother hadn't helped me, I would never have finished the project on time."}],
+  ['l',4,'How did the speaker feel about the film?','استمع، ثم أجب: ما شعور المتحدث تجاه الفيلم؟','Pleasantly surprised','Bored','Disappointed','Angry',{say:"I expected the film to be boring, but it turned out to be one of the best I've seen."}]
+ ]}
+};
+const SK = { v:['المفردات','Vocabulary','--v'], g:['القواعد','Grammar','--g'], r:['القراءة','Reading','--r'], l:['الاستماع','Listening','--l'] };
+const CNT = { v:10, g:10, r:6, l:6 };
+const LEVELS = [['Pre-A1','مبتدئ'],['A1','أساسي'],['A2','ما قبل المتوسط'],['B1','متوسط'],['B2','فوق المتوسط']];
+/* results taken before this moment belong to the old, easier forms (version 1): the student takes the new before test again */
+const NEW_AT = 1793547780000;
+const isNew = r => !!r && +r.at >= NEW_AT;
+const DRAFT = k => 'lv2-draft-' + k;
+try { localStorage.removeItem('lv-draft-pre'); localStorage.removeItem('lv-draft-post'); } catch(e){}
+const NAME = { pre:'الاختبار القبلي', post:'الاختبار البعدي' };
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const store = { get(k){ try { return JSON.parse(localStorage.getItem(k)); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const fmtDate = t => { try { return new Date(t).toLocaleDateString('ar-SA-u-ca-gregory-nu-latn', { year:'numeric', month:'long', day:'numeric' }); } catch(e){ return ''; } };
+
+/* voice */
+let voices = []; const loadV = () => { try { voices = speechSynthesis.getVoices() || []; } catch(e){} };
+if ('speechSynthesis' in window) { loadV(); speechSynthesis.onvoiceschanged = loadV; }
+function say(t){ if (!('speechSynthesis' in window)) return false; try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = 'en-US'; u.rate = .88;
+  const v = voices.find(v => v.lang === 'en-US') || voices.find(v => (v.lang||'').replace('_','-').startsWith('en')); if (v) u.voice = v; speechSynthesis.speak(u); return true; } catch(e){ return false; } }
+
+/* scoring: per skill, per band, and the level (bands 1+2 = basic, 3 = B1, 4 = B2) */
+function score(form, answers){
+  const items = FORMS[form].items, sk = { v:0, g:0, r:0, l:0 }, band = { 1:[0,0], 2:[0,0], 3:[0,0], 4:[0,0] }; let total = 0;
+  items.forEach((it, i) => { const ok = answers[i] === it[4]; band[it[1]][1]++; if (ok) { total++; sk[it[0]]++; band[it[1]][0]++; } });
+  const pc = b => band[b][0] / band[b][1], basic = (band[1][0] + band[2][0]) / (band[1][1] + band[2][1]);
+  let lv = 0; if (basic >= .5) lv = 1; if (lv === 1 && basic >= .75) lv = 2; if (lv === 2 && pc(3) >= .6) lv = 3; if (lv === 3 && pc(3) >= .75 && pc(4) >= .6) lv = 4;
+  return { score: total, max: items.length, level: LEVELS[lv][0], v: sk.v, g: sk.g, r: sk.r, l: sk.l, at: Date.now() };
+}
+
+/* saved results: on this device always, and in the club database when the student is registered */
+let H = null, cloud = {}, postOpen = false, online = false, OLD = null;
+async function loadAll(){
+  const local = store.get('lv-results') || {};
+  try {
+    H = await import('../assets/honor.js?v=20261112b');
+    if (H.ready) {
+      const t = new Promise((_, no) => setTimeout(() => no(new Error('timeout')), 8000));
+      const [mine, cfg] = await Promise.race([Promise.all([H.myLevels(), H.levelsConfig()]), t]);
+      cloud = mine || {}; postOpen = !!(cfg && cfg.postOpen); online = true;
+      // a result saved only on this device (no connection at the time) is sent now
+      for (const k of ['pre', 'post']) if (isNew(local[k]) && !isNew(cloud[k]) && (k === 'pre' || isNew(cloud.pre))) { try { await H.saveLevel(k, local[k]); cloud[k] = local[k]; } catch(e){} }
+      // a newer after test taken on this device without a connection
+      if (isNew(local.post) && isNew(cloud.post) && +local.post.at > +cloud.post.at) { try { await H.saveLevel('post', local.post); cloud.prev = (cloud.prev || []).concat([cloud.post]); cloud.post = local.post; } catch(e){} }
+    }
+  } catch(e) { console.warn('level check offline', e); }
+  const pick = k => [cloud[k], local[k]].find(isNew) || null;
+  const newest = [cloud.post, local.post].filter(isNew).sort((a, b) => b.at - a.at)[0] || null;
+  const prev = (cloud.prev && cloud.prev.length >= (local.prev || []).length ? cloud.prev : local.prev || []).filter(isNew);
+  const res = { pre: pick('pre'), post: newest, prev };
+  OLD = [cloud.pre, local.pre, store.get('lv-old')].find(r => r && !isNew(r)) || null;
+  if (OLD) store.set('lv-old', OLD);
+  if (online) { const s = {}; ['pre', 'post'].forEach(k => { if (isNew(cloud[k])) s[k] = true; }); try { localStorage.setItem('lv-synced', JSON.stringify(s)); } catch(e){} }
+  store.set('lv-results', res);
+  return res;
+}
+async function save(kind, r){
+  const res = store.get('lv-results') || {};
+  if (kind === 'post' && res.post) res.prev = (res.prev || []).concat([res.post]);   // the earlier after test is kept
+  res[kind] = r; if (kind === 'pre') { delete res.post; delete res.prev; } store.set('lv-results', res);
+  try { const s = JSON.parse(localStorage.getItem('lv-synced') || '{}'); delete s[kind]; localStorage.setItem('lv-synced', JSON.stringify(s)); } catch(e){}
+  if (H && H.ready) { try { await H.saveLevel(kind, r); try { const s = JSON.parse(localStorage.getItem('lv-synced') || '{}'); s[kind] = true; localStorage.setItem('lv-synced', JSON.stringify(s)); } catch(e){} return true; } catch(e){ console.warn(e); } }
+  return false;
+}
+
+/* ---------- screens ---------- */
+let RES = { pre:null, post:null, prev:[] };
+/* The after test opens by itself 4 weeks after the before test (or earlier if the teacher opens it),
+   and a new after test can be taken every 4 weeks after that. After tests alternate between the two forms. */
+const WAIT_DAYS = 28;
+const postsDone = () => (RES.prev || []).length + (RES.post ? 1 : 0);
+const nextForm = () => postsDone() % 2 === 0 ? 'post' : 'pre';
+const draftKey = () => postsDone() ? 'post' + postsDone() : 'post';
+function nextPostIn(){   // days until the next after test can be taken (0 = now)
+  if (!RES.pre) return Infinity;
+  const from = RES.post ? RES.post.at : RES.pre.at;
+  if (!RES.post && online && postOpen) return 0;
+  return Math.max(0, Math.ceil(WAIT_DAYS - (Date.now() - from) / 864e5));
+}
+const dayWord = n => n === 1 ? 'يوم واحد' : n === 2 ? 'يومين' : n <= 10 ? n + ' أيام' : n + ' يوماً';
+async function home(){
+  $('app').innerHTML = `<h1>قياس المستوى<span class="en">LEVEL CHECK</span></h1><p class="lead">جاري التحميل…</p>`;
+  RES = await loadAll();
+  const wait = nextPostIn(), postReady = wait === 0;
+  const row = (k, ic, sub) => {
+    const r = RES[k], again = k === 'post' && r;
+    const status = (r ? `<span class="tag ok">✓ ${again && postsDone() > 1 ? 'آخر بعدي' : 'أنجزته'}: ${Math.round(r.score / r.max * 100)}٪ · <span class="en">${r.level}</span></span>` : '')
+      + (k === 'post' && RES.pre && !postReady ? `<span class="tag wait">🔒 ${r ? 'الاختبار البعدي التالي' : 'يُفتح تلقائياً'} بعد ${dayWord(wait)}</span>`
+      : k === 'post' && r && postReady ? `<span class="tag new">🆕 حان موعد اختبار بعدي جديد لقياس تقدّمك</span>` : '')
+      + (
+      !r && k === 'pre' && OLD ? `<span class="tag new">🆕 نسخة جديدة أقوى: أعد الاختبار ليُقاس مستواك بدقة</span>` : '');
+    const go = `<button class="btn" data-go="${k}" ${k === 'post' && !postReady ? 'disabled' : ''}>${store.get(DRAFT(k === 'post' ? draftKey() : k)) ? 'أكمل الاختبار' : r ? 'ابدأ الجديد' : 'ابدأ'}</button>`;
+    const btn = r && !(k === 'post' && postReady) ? `<button class="btn soft" data-show="${k}">النتيجة</button>`
+      : r ? `<span style="display:grid;gap:6px">${go}<button class="btn soft" data-show="${k}">النتيجة السابقة</button></span>` : go;
+    return `<div class="test"><span class="ic" aria-hidden="true">${ic}</span><span class="tx"><b>${NAME[k]}</b><small>${sub}</small>${status}</span>${btn}</div>`;
+  };
+  $('app').innerHTML = `<h1>قياس المستوى<span class="en">LEVEL CHECK</span></h1>
+    <p class="lead">اختبار يقيس مستواك في الإنجليزية الآن، ثم اختبار بعدي يُفتح تلقائياً بعد 4 أسابيع، ويتكرر كل 4 أسابيع لترى كم تحسّنت.</p>
+    <div class="card"><h2>🏆 نقاط التحسّن</h2><p style="margin:0">لكل مستوى تتقدّمه <b>500 نقطة</b>، ولكل إجابة صحيحة تزيدها عن القبلي <b>10 نقاط</b>. تُحسب أفضل نتيجة بعدية لك، ولا تُخصم نقاط أبداً إن قلّت النتيجة.</p></div>
+    <div class="card"><h2>عن الاختبار</h2>
+      <div class="parts">${Object.entries(SK).map(([k, s]) => `<div class="part" style="border-color:var(${s[2]})"><b style="color:var(${s[2]})">${s[0]}</b><small class="en">${s[1]} · ${CNT[k]} questions</small></div>`).join('')}</div>
+      <p class="muted" style="margin:0">32 سؤالاً في نحو 25 دقيقة. الأسئلة تبدأ سهلة وتصعب تدريجياً حتى المستوى <span class="en">B2</span>، فلا تقلق إن لم تعرف بعضها. أجب وحدك ودون مساعدة، لتكون النتيجة صادقة. يحتاج قسم الاستماع إلى الصوت 🔊.</p></div>
+    <div class="tests">
+      ${row('pre', '📝', 'في بداية الفترة: يحدد مستواك الآن.')}
+      ${row('post', '🏁', 'بعد 4 أسابيع، ثم كل 4 أسابيع: أسئلة مختلفة بالصعوبة نفسها، لقياس تحسّنك.')}
+    </div>
+    ${RES.pre && RES.post ? `<div class="card" id="cmpBox"></div>` : ''}
+    ${!online && H && H.ready ? `<p class="note">لم يتصل الاختبار بقاعدة النادي الآن، فستُحفظ نتيجتك على هذا الجهاز وتُرسل للمعلم عند الاتصال.</p>` : ''}`;
+  $('app').querySelectorAll('[data-go]').forEach(b => b.onclick = () => start(b.dataset.go));
+  $('app').querySelectorAll('[data-show]').forEach(b => b.onclick = () => result(b.dataset.show));
+  if (RES.pre && RES.post) $('cmpBox').innerHTML = compare();
+  window.scrollTo(0, 0);
+}
+
+function start(kind){
+  const form = kind === 'post' ? nextForm() : 'pre', dk = kind === 'post' ? draftKey() : kind;
+  const F = FORMS[form], N = F.items.length;
+  // answer order is shuffled once per student and kept with the draft, so leaving and coming back changes nothing
+  let d = store.get(DRAFT(dk));
+  if (!d || !d.order || d.order.length !== N) d = { i: 0, ans: {}, order: F.items.map(it => shuffle(it.slice(4, 8))), plays: {} };
+  const keep = () => store.set(DRAFT(dk), d);
+  keep();
+  function q(){
+    const i = d.i, it = F.items[i], ex = it[8] || {}, s = SK[it[0]];
+    const firstOf = i === 0 || F.items[i - 1][0] !== it[0];
+    const plays = d.plays[i] || 0;
+    $('app').innerHTML = `<div class="card">
+      <div class="qhead"><span class="sec" style="background:var(${s[2]})">${s[0]} · <span class="en">${s[1]}</span></span><span class="en">${i + 1} / ${N}</span></div>
+      <div class="bar"><i style="width:${i / N * 100}%"></i></div>
+      ${firstOf && it[0] === 'l' ? `<p class="note" style="margin:0 0 8px">🎧 في هذا القسم تستمع إلى جملة، ثم تجيب. يمكنك الاستماع مرتين فقط لكل سؤال.</p>` : ''}
+      ${ex.p !== undefined ? `<div class="passage">${esc(F.passages[ex.p])}</div>` : ''}
+      ${ex.say ? `<div class="listen"><button class="btn" id="play" ${plays >= 2 ? 'disabled' : ''}>🔊 استمع</button><span class="muted" id="pl">${plays >= 2 ? 'انتهت مرات الاستماع' : plays === 1 ? 'باقي مرة واحدة' : 'تستطيع الاستماع مرتين'}</span></div>` : ''}
+      <p class="qtext">${esc(it[2])}</p><p class="qar">${esc(it[3])}</p>
+      <div class="opts">${d.order[i].map((o, k) => `<button class="opt" data-o="${esc(o)}" aria-pressed="${d.ans[i] === o}"><span class="k">${'ABCD'[k]}</span><span>${esc(o)}</span></button>`).join('')}</div>
+      <div class="nav" dir="ltr"><button class="btn soft" id="back" ${i === 0 ? 'disabled' : ''}><bdi>←</bdi> <bdi>السابق</bdi></button><button class="btn" id="next" ${d.ans[i] ? '' : 'disabled'}>${i === N - 1 ? '<bdi>إنهاء الاختبار</bdi> ✓' : '<bdi>التالي</bdi> <bdi>→</bdi>'}</button></div></div>
+      <p class="muted" style="text-align:center;font-size:1rem">تُحفظ إجاباتك أولاً بأول، فإن خرجت تستطيع أن تكمل من حيث توقفت.</p>`;
+    if (ex.say) $('play').onclick = () => { if ((d.plays[i] || 0) >= 2) return; if (!say(ex.say)) { $('pl').textContent = 'الصوت غير متاح على هذا الجهاز'; return; } d.plays[i] = (d.plays[i] || 0) + 1; keep();
+      const left = 2 - d.plays[i]; $('pl').textContent = left ? 'باقي مرة واحدة' : 'انتهت مرات الاستماع'; if (!left) $('play').disabled = true; };
+    $('app').querySelectorAll('.opt').forEach(b => b.onclick = () => { d.ans[i] = b.dataset.o; keep();
+      $('app').querySelectorAll('.opt').forEach(x => x.setAttribute('aria-pressed', x === b)); $('next').disabled = false; });
+    $('back').onclick = () => { d.i--; keep(); q(); };
+    $('next').onclick = async () => {
+      if (i < N - 1) { d.i++; keep(); q(); window.scrollTo(0, 0); return; }
+      const missing = F.items.findIndex((_, k) => !d.ans[k]); if (missing >= 0) { d.i = missing; keep(); q(); return; }
+      if (!confirm('هل تريد إنهاء الاختبار وإرسال إجاباتك؟ لا يمكن إعادته بعد ذلك.')) return;
+      $('next').disabled = true; $('next').textContent = 'جاري الحفظ…';
+      const r = score(form, F.items.map((_, k) => d.ans[k]));
+      const sent = await save(kind, r); store.del(DRAFT(dk));
+      if (kind === 'post' && RES.post) RES.prev = (RES.prev || []).concat([RES.post]);
+      RES[kind] = r; result(kind, true, sent);
+    };
+    window.scrollTo(0, 0);
+  }
+  q();
+}
+
+function levelScale(lv){ return `<div class="scale">${LEVELS.map(L => `<div class="${L[0] === lv ? 'on' : ''}"><b>${L[0]}</b>${L[1]}</div>`).join('')}</div>`; }
+function result(kind, fresh, sent){
+  const r = RES[kind], pc = Math.round(r.score / r.max * 100), L = LEVELS.find(x => x[0] === r.level) || LEVELS[0];
+  const tip = { 'Pre-A1':'ابدأ بقسم «التأسيس»: الحروف والأصوات ومحادثات التأسيس وقاموس الألف كلمة.', 'A1':'ركّز على «قوائم الكلمات» العامة و«خارطة الأزمنة» البسيطة، واقرأ قصة كل أسبوع.',
+    'A2':'تابع «English Word Quest» و«ركن القصص» و«مختبر المحادثة»، وتدرّب على الأزمنة التامة.', 'B1':'مستوى رائع! جرّب الكلمات الأكاديمية و«Syntax Tree Lab» و«المكتبة الإثرائية».',
+    'B2':'مستوى متقدم! اقرأ نصوصاً حقيقية في «المكتبة الإثرائية»، وأتقن الكلمات الأكاديمية والتعبيرات، وساعد زملاءك.' }[r.level];
+  $('app').innerHTML = `<h1>${fresh ? 'انتهى الاختبار 🎉' : 'نتيجتك'}<span class="en">${NAME[kind] === NAME.pre ? 'BEFORE TEST' : 'AFTER TEST'}</span></h1>
+    <p class="lead">${NAME[kind]} · ${fmtDate(r.at)}</p>
+    <div class="card"><div class="big"><div class="ring" style="--p:${pc}"><span>${pc}%</span></div>
+      <div><div class="muted">مستواك التقريبي</div><div class="lvl">${r.level}</div><div style="font-weight:800">${L[1]}</div><div class="muted en" style="font-size:1rem">${r.score} / ${r.max}</div></div></div>
+      ${levelScale(r.level)}</div>
+    <div class="card"><h2>المهارات</h2>${Object.entries(SK).map(([k, s]) => `<div class="skill"><div class="row"><span style="color:var(${s[2]})">${s[0]}</span><span class="en">${r[k]} / ${CNT[k]}</span></div><div class="bar"><i style="width:${r[k] / CNT[k] * 100}%;background:var(${s[2]})"></i></div></div>`).join('')}</div>
+    ${kind === 'post' && RES.pre ? `<div class="card">${compare()}</div>` : ''}
+    <div class="card"><h2>💡 خطوتك التالية</h2><p style="margin:0">${tip}</p></div>
+    ${fresh && sent === false && H && H.ready ? `<p class="note">حُفظت النتيجة على جهازك، وستصل للمعلم عندما تفتح هذه الصفحة وأنت متصل بالإنترنت.</p>` : ''}
+    <p style="text-align:center;margin-top:18px"><button class="btn soft" id="bk" dir="ltr"><bdi>←</bdi> <bdi>العودة</bdi></button></p>`;
+  $('bk').onclick = home; window.scrollTo(0, 0);
+  if (fresh && window.clubSfx) clubSfx('win');
+}
+function compare(){
+  const a = RES.pre, b = RES.post, d = (x, y, u = '') => { const v = y - x; return v > 0 ? `<span class="up">+${v}${u} ▲</span>` : v < 0 ? `<span class="down">${v}${u} ▼</span>` : '<span class="muted">=</span>'; };
+  const pa = Math.round(a.score / a.max * 100), pb = Math.round(b.score / b.max * 100);
+  return `<h2>📈 تحسّنك</h2><table class="cmp"><thead><tr><th></th><th>القبلي</th><th>البعدي</th><th>التغيّر</th></tr></thead><tbody>
+    <tr><td><b>النتيجة</b></td><td class="en">${pa}%</td><td class="en">${pb}%</td><td>${d(pa, pb, '٪')}</td></tr>
+    <tr><td><b>المستوى</b></td><td class="en">${a.level}</td><td class="en">${b.level}</td><td>${a.level === b.level ? '<span class="muted">=</span>' : LEVELS.findIndex(x => x[0] === b.level) > LEVELS.findIndex(x => x[0] === a.level) ? '<span class="up">ارتفع ▲</span>' : '<span class="down">انخفض ▼</span>'}</td></tr>
+    ${Object.entries(SK).map(([k, s]) => `<tr><td>${s[0]}</td><td class="en">${a[k]}/${CNT[k]}</td><td class="en">${b[k]}/${CNT[k]}</td><td>${d(a[k], b[k])}</td></tr>`).join('')}</tbody></table>`;
+}
+home();
+</script>
+</body>
+</html>

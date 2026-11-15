@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<script src="../assets/gate.js?v=9"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Surprise Me 🎁 · صندوق المفاجآت</title>
+<meta name="description" content="A new surprise box every day: 15 quick challenges from all over the English Club, with big points and fireworks.">
+<meta name="theme-color" content="#F3F8FF">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/club.css">
+<style>
+/* Surprise Me: one surprise box a day, the same for every student. 15 questions drawn from the whole site,
+   most of them from the sections students visit least. Fireworks when the box opens, on every right answer
+   and at the end. Each question shows its section, and the result links back to it. */
+:root{color-scheme:light;--bg:#F3F8FF;--card:#fff;--ink:#1B2A41;--muted:#55657E;--line:#DCE8F5;
+  --pink:#F26B1D;--vio:#1E78D2;--teal:#0FA3A3;--sky:#1FB5E8;--sun:#FFB21E;--ok:#139B6B;--ok-s:#E2F7EE;--bad:#D63F55;--bad-s:#FFE9EE;
+  --ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif;--ease:cubic-bezier(.2,.7,.2,1)}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{color:var(--ink);font-family:var(--ar);font-size:20px;line-height:1.7;padding-bottom:env(safe-area-inset-bottom,0px);
+  background:radial-gradient(circle at 15% 8%,#DDEEFF 0,transparent 38%),radial-gradient(circle at 90% 18%,#DDF6F2 0,transparent 40%),radial-gradient(circle at 50% 100%,#FFF2D2 0,transparent 45%),var(--bg);background-attachment:fixed;min-height:100vh}
+[hidden]{display:none!important}
+.en{font-family:var(--en);direction:ltr;unicode-bidi:isolate}
+.wrap{max-width:720px;margin:0 auto;padding:72px 16px 90px;position:relative}
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1000}
+
+/* floating sparkles in the background */
+.sky{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.sky i{position:absolute;font-style:normal;opacity:.55;animation:float 9s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-22px) rotate(14deg)}}
+main{position:relative;z-index:1}
+
+h1{margin:0;text-align:center;font:800 clamp(2.5rem,11vw,3.6rem)/1.1 var(--en);direction:ltr}
+h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--vio));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+@keyframes shine{to{background-position:300% 0}}
+.sub-ar{text-align:center;font-weight:800;font-size:1.15rem;color:var(--vio);margin-top:2px}
+.lead{margin:10px auto 0;text-align:center;color:var(--muted);font-size:1.15rem;max-width:30em}
+.lead b{color:var(--ink)}
+.card{background:rgba(255,255,255,.92);border:2px solid var(--line);border-radius:28px;padding:22px 18px;margin-top:20px;box-shadow:0 22px 46px -34px rgba(30,90,160,.55)}
+
+/* ----- the gift ----- */
+.gift-wrap{display:grid;place-items:center;text-align:center;gap:6px}
+.stage{position:relative;width:240px;height:230px;margin:6px auto 0}
+.glow{position:absolute;inset:20px;border-radius:50%;background:conic-gradient(from 0deg,#CFE6FF,#CDF3EE,#FFEFC7,#CFE6FF);filter:blur(18px);opacity:.9;animation:spin 7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gift{all:unset;cursor:pointer;position:absolute;left:30px;top:24px;width:180px;height:180px;animation:hop 1.8s ease-in-out infinite}
+@keyframes hop{0%,62%,100%{transform:translateY(0) rotate(0)}70%{transform:translateY(-16px) rotate(-6deg)}78%{transform:translateY(0) rotate(5deg)}86%{transform:translateY(-6px) rotate(-2deg)}}
+.gift:focus-visible{outline:4px solid var(--vio);outline-offset:8px;border-radius:24px}
+.gift .bx{position:absolute;inset:66px 14px 0;border-radius:20px;background:linear-gradient(150deg,#5DB0F2,#1E78D2);border:3px solid #1562B0}
+.gift .lid{position:absolute;left:2px;right:2px;top:40px;height:40px;border-radius:14px;background:linear-gradient(150deg,#8CCBF7,#3E95E6);border:3px solid #1562B0;transform-origin:15% 100%;transition:transform .45s var(--ease)}
+.gift .rv{position:absolute;top:40px;bottom:0;left:50%;width:28px;margin-left:-14px;background:linear-gradient(#FFE07A,#FFB21E);border-left:3px solid #E59A00;border-right:3px solid #E59A00}
+.gift .rh{position:absolute;left:14px;right:14px;top:112px;height:24px;background:linear-gradient(90deg,#FFE07A,#FFB21E);border-top:3px solid #E59A00;border-bottom:3px solid #E59A00}
+.gift .bow{position:absolute;top:-4px;left:50%;margin-left:-29px;font-size:52px;line-height:1;transition:transform .45s var(--ease)}
+.gift .qm{position:absolute;left:0;right:0;top:142px;text-align:center;font:800 26px/1 var(--en);color:#fff;text-shadow:0 2px 0 #0F4E8C}
+.gift.open{animation:none}
+.gift.open .lid{transform:translateY(-60px) rotate(-38deg)}
+.gift.open .bow{transform:translateY(-90px) rotate(-30deg) scale(.6)}
+.gift.shake{animation:shake .5s ease-in-out}
+@keyframes shake{0%,100%{transform:rotate(0)}20%{transform:rotate(-10deg) scale(1.05)}40%{transform:rotate(10deg) scale(1.08)}60%{transform:rotate(-8deg) scale(1.1)}80%{transform:rotate(6deg) scale(1.12)}}
+.tap{font:800 1rem var(--en);letter-spacing:.2em;color:var(--pink);animation:blink 1.4s ease-in-out infinite}
+@keyframes blink{50%{opacity:.35}}
+.facts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:6px}
+.facts span{border-radius:999px;padding:5px 14px;font-weight:800;font-size:1rem}
+.facts .f1{background:#E3F0FF;color:#1559A6}.facts .f2{background:#DDF6F2;color:#0B6F68}.facts .f3{background:#FFF1CF;color:#8A5A00}
+.btn{font:inherit;font-weight:800;font-size:1.2rem;border:0;border-radius:999px;padding:13px 30px;cursor:pointer;color:#fff;text-decoration:none;display:inline-block;
+  background:linear-gradient(90deg,var(--vio),var(--teal));box-shadow:0 12px 24px -12px rgba(20,100,190,.75);transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.soft{background:#E3F0FF;color:#1559A6;box-shadow:none}
+.btn:focus-visible{outline:3px solid #0F3566;outline-offset:3px}
+.note{color:var(--muted);font-size:1.02rem;margin:4px 0 0}
+
+/* ----- a question ----- */
+.top{display:flex;align-items:center;gap:10px;direction:ltr}
+.dots{display:flex;gap:6px;flex:1}
+.dots i{flex:1;height:10px;border-radius:9px;background:var(--line)}
+.dots i.ok{background:var(--ok)}.dots i.no{background:var(--bad)}.dots i.cur{background:linear-gradient(90deg,var(--vio),var(--teal))}
+.count{font:800 1rem var(--en);color:var(--muted)}
+.combo{font:800 1rem var(--en);color:#C9561A;background:#FFF0DD;border-radius:999px;padding:2px 10px}
+.tag{display:inline-flex;align-items:center;gap:6px;margin-top:14px;border-radius:999px;padding:4px 14px;font-weight:800;font-size:1rem}
+.qa{margin:10px 0 2px;color:var(--muted);font-size:1.05rem;font-weight:700}
+.qtext{margin:4px 0 12px;font-size:1.45rem;font-weight:700;line-height:1.55;white-space:pre-line}
+.qtext.en{text-align:left}
+.qline{display:flex;gap:10px;align-items:flex-start}
+.qline .qtext{flex:1}
+.say{all:unset;cursor:pointer;flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:#E3F0FF;font-size:1.3rem;margin-top:6px}
+.say:focus-visible{outline:3px solid var(--vio);outline-offset:2px}
+.opts{display:grid;gap:10px}
+.opt{all:unset;box-sizing:border-box;cursor:pointer;width:100%;border:2px solid var(--line);background:#fff;border-radius:18px;padding:12px 16px;font-size:1.2rem;font-weight:700;line-height:1.5;transition:border-color .15s,background .15s,transform .15s}
+.opt[dir=ltr]{font-family:var(--en);text-align:left}
+.opt:hover:not([disabled]){border-color:#9CC7F0;transform:translateY(-1px)}
+.opt:focus-visible{outline:3px solid var(--vio);outline-offset:2px}
+.opt.right{border-color:var(--ok);background:var(--ok-s);animation:pop .35s var(--ease)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-s);animation:nope .35s}
+@keyframes pop{50%{transform:scale(1.04)}}
+@keyframes nope{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.opt[disabled]{cursor:default}
+.why{margin-top:12px;border-radius:16px;padding:10px 14px;font-size:1.05rem;background:#FFF4D9;color:#6B4A00}
+.why:empty{display:none}
+.why .en{text-align:left}
+.plus{position:fixed;z-index:1001;pointer-events:none;font:800 1.6rem var(--en);color:var(--pink);text-shadow:0 2px 0 #fff;animation:up 1s ease-out forwards}
+@keyframes up{from{opacity:1;transform:translate(-50%,0) scale(.8)}to{opacity:0;transform:translate(-50%,-70px) scale(1.3)}}
+.nav{display:flex;justify-content:flex-end;direction:ltr;margin-top:16px}
+
+/* ----- result ----- */
+.score{text-align:center}
+.score .big{font:800 3.6rem/1.1 var(--en);background:linear-gradient(90deg,var(--vio),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
+.score .msg{font-weight:800;font-size:1.25rem}
+.score .pts{display:inline-block;margin-top:8px;background:linear-gradient(90deg,#FFF1CF,#E3F0FF);color:#8A3A00;border-radius:999px;padding:6px 18px;font-weight:800;font-size:1.15rem}
+.score .bonus{display:block;margin-top:6px;color:#C25A00;font-weight:800}
+.rows{display:grid;gap:10px;margin-top:16px}
+.row{display:flex;align-items:center;gap:12px;border:2px solid var(--line);border-radius:18px;padding:10px 12px;background:#fff}
+.row .ic{font-size:1.6rem;width:48px;height:48px;border-radius:14px;display:grid;place-items:center;flex:none}
+.row .nm{flex:1;min-width:0}
+.row .nm b{display:block;font-size:1.1rem}
+.row .nm small{color:var(--muted);font-size:.98rem}
+.row a{white-space:nowrap;text-decoration:none;font-weight:800;font-size:1rem;color:#4F2BC0;background:#F1EAFF;border-radius:999px;padding:6px 14px}
+@media (max-width:520px){.row{flex-wrap:wrap}.row a{width:100%;text-align:center}}
+.week{display:flex;gap:6px;justify-content:center;margin-top:10px}
+.week span{width:38px;height:38px;flex:none;border-radius:12px;display:grid;place-items:center;font-size:1.2rem;background:#fff;border:2px dashed var(--line)}
+.week span.on{border:2px solid var(--vio);background:#E3F0FF}
+.ranks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.rank{border:2px solid var(--line);border-radius:18px;padding:8px 4px;text-align:center;background:#fff;opacity:.55}
+.rank.got{opacity:1;border-color:var(--sun);background:linear-gradient(160deg,#FFF6DB,#E3F0FF)}
+.rank .e{font-size:1.9rem;line-height:1.2}
+.rank b{display:block;font-size:1rem}
+.rank small{color:var(--muted);font-size:.9rem}
+.sign{text-align:center;color:var(--muted);font-size:.95rem;margin-top:26px}
+@media (prefers-reduced-motion:reduce){.gift,.glow,.sky i,h1,.tap{animation:none!important}.gift .lid,.gift .bow{transition:none}}
+</style>
+<link rel="stylesheet" href="../assets/app.css?v=1"><script src="../assets/app.js?v=1"></script>
+</head>
+<body>
+<a class="club-home" href="../index.html">🏠 الرئيسية</a>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="sky" aria-hidden="true">
+  <i style="left:6%;top:14%;font-size:22px">✨</i><i style="left:88%;top:10%;font-size:26px;animation-delay:-3s">⭐</i>
+  <i style="left:80%;top:62%;font-size:20px;animation-delay:-5s">🎉</i><i style="left:4%;top:70%;font-size:24px;animation-delay:-2s">💎</i>
+  <i style="left:48%;top:92%;font-size:18px;animation-delay:-6s">✨</i>
+</div>
+<main class="wrap">
+  <h1><span class="gt">Surprise Me</span> <span aria-hidden="true">🎁</span></h1>
+  <div class="sub-ar">صندوق المفاجآت</div>
+  <p class="lead">هل أنت مستعد؟ كل يوم <b>ثلاثة صناديق</b> جديدة، وما بداخلها <b>سرّ</b> لا يعرفه أحد! 15 تحدياً خاطفاً من كل أركان النادي: <b>7</b> إجابات صحيحة = <b>70 نقطة</b>، و<b>11</b> = <b>100</b>، و<b>13</b> فأكثر = <b>150 نقطة</b>… ركّز، فالدقة تربح أكثر من السرعة! تُفتح الصناديق في <b>السادسة صباحاً</b> وتُغلق في <b>العاشرة مساءً</b> ⏰</p>
+
+  <!-- from 10 pm to 6 am (Saudi time) the box is closed -->
+  <section class="card" id="vClosed" hidden style="text-align:center">
+    <div style="font-size:4rem;line-height:1.2">🔒</div>
+    <p style="font-weight:800;font-size:1.3rem;margin:6px 0 0">أُغلق صندوق اليوم في العاشرة مساءً</p>
+    <p class="note" id="closedNote"></p>
+    <a class="btn" href="../index.html" style="margin-top:14px">🏠 العودة إلى النادي</a>
+  </section>
+
+  <!-- closed gift -->
+  <section class="card" id="vStart">
+    <div class="gift-wrap">
+      <div class="stage">
+        <span class="glow"></span>
+        <button class="gift" id="giftBtn" type="button" aria-label="افتح صندوق المفاجآت">
+          <span class="bx"></span><span class="rv"></span><span class="rh"></span><span class="lid"></span><span class="qm">???</span><span class="bow" aria-hidden="true">⭐</span>
+        </button>
+      </div>
+      <div class="tap" id="tap">TAP TO OPEN</div>
+      <div class="facts"><span class="f1">🎯 15 تحدياً</span><span class="f2">🧩 كلمات · قواعد · قراءة · محادثة</span><span class="f3">⭐ حتى 150 نقطة</span></div>
+      <p class="note" id="startNote">7 صحيحة = <b>70</b> · 11 = <b>100</b> · 13 فأكثر = <b>150</b> 🎯</p>
+      <button class="btn" id="openBtn" type="button">🎁 افتح المفاجأة</button>
+    </div>
+  </section>
+
+  <!-- a question -->
+  <section class="card" id="vQ" hidden>
+    <div class="top"><div class="dots" id="dots"></div><span class="combo" id="combo" hidden></span><span class="count" id="count"></span></div>
+    <span class="tag" id="tag"></span>
+    <p class="qa" id="qa"></p>
+    <div class="qline"><p class="qtext" id="qtext"></p><button class="say" id="say" type="button" aria-label="استمع" hidden>🔊</button></div>
+    <div class="opts" id="opts"></div>
+    <div class="why" id="why"></div>
+    <div class="nav"><button class="btn" id="next" type="button" hidden>Next →</button></div>
+  </section>
+
+  <!-- result -->
+  <section class="card" id="vEnd" hidden>
+    <div class="score">
+      <div class="big en" id="sBig"></div>
+      <div class="msg" id="sMsg"></div>
+      <span class="pts" id="sPts"></span>
+      <span class="bonus" id="sBonus"></span>
+    </div>
+    <h2 style="font-size:1.2rem;margin:20px 0 0">نتيجتك حسب القسم</h2>
+    <div class="rows" id="rows"></div>
+    <h2 style="font-size:1.2rem;margin:22px 0 0;text-align:center">صناديقك في آخر 7 أيام</h2>
+    <div class="week" id="week"></div>
+    <div class="ranks" id="ranks"></div>
+    <p class="note" style="text-align:center;margin-top:12px" id="rankNote"></p>
+    <p class="note" style="text-align:center;margin-top:6px" id="nextNote"></p>
+    <div style="text-align:center;margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn soft" id="again" type="button">العب مرة أخرى للتدريب</button>
+      <a class="btn" href="../honor.html">🏆 لوحة الشرف</a>
+    </div>
+  </section>
+
+  <p class="sign">أ. أحمد بن سالم</p>
+</main>
+
+<script src="bank.js?v=3"></script>
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var store = { get:function(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }, set:function(k,v){ try{ localStorage.setItem(k,v); }catch(e){} } };
+  var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- fireworks ---------- */
+  var cv = $('fx'), cx = cv.getContext('2d'), parts = [], rockets = [], running = false, DPR = Math.min(2, window.devicePixelRatio || 1);
+  var COLS = ['#1E78D2', '#0FA3A3', '#4FC3F7', '#FFB21E', '#22C58B', '#F26B1D', '#FFD84D'];
+  function size(){ cv.width = innerWidth * DPR; cv.height = innerHeight * DPR; }
+  size(); addEventListener('resize', size);
+  function burst(x, y, n, big){
+    var c1 = COLS[Math.floor(Math.random() * COLS.length)], c2 = COLS[Math.floor(Math.random() * COLS.length)];
+    for (var i = 0; i < n; i++){ var a = Math.random() * Math.PI * 2, s = (big ? 3 : 2) + Math.random() * (big ? 6 : 4);
+      parts.push({ x:x, y:y, vx:Math.cos(a) * s, vy:Math.sin(a) * s, life:1, d:.012 + Math.random() * .012, c:i % 2 ? c1 : c2, r:(big ? 3 : 2.4) + Math.random() * 2, star:Math.random() < .25 }); }
+    crack(big ? .9 : .5); loop();
+  }
+  function rocket(x, ty){ rockets.push({ x:x, y:innerHeight + 10, vy:-(9 + Math.random() * 3), ty:ty }); loop(); }
+  function show(n){ if (still) return; for (var i = 0; i < n; i++) setTimeout(function(){ rocket(innerWidth * (.15 + Math.random() * .7), innerHeight * (.12 + Math.random() * .3)); }, i * 260); }
+  function loop(){ if (running) return; running = true; requestAnimationFrame(step); }
+  function step(){
+    cx.setTransform(DPR, 0, 0, DPR, 0, 0); cx.clearRect(0, 0, innerWidth, innerHeight);
+    rockets = rockets.filter(function(r){ r.y += r.vy; r.vy += .12; cx.fillStyle = '#FFB21E'; cx.beginPath(); cx.arc(r.x, r.y, 3, 0, 7); cx.fill();
+      cx.fillStyle = 'rgba(255,178,30,.35)'; cx.fillRect(r.x - 1, r.y, 2, 16);
+      if (r.y <= r.ty || r.vy >= 0){ burst(r.x, r.y, 70, true); return false; } return true; });
+    parts = parts.filter(function(p){ p.x += p.vx; p.y += p.vy; p.vx *= .975; p.vy = p.vy * .975 + .07; p.life -= p.d;
+      cx.globalAlpha = Math.max(0, p.life); cx.fillStyle = p.c;
+      if (p.star){ cx.save(); cx.translate(p.x, p.y); cx.rotate(p.life * 8); cx.fillRect(-p.r, -p.r / 3, p.r * 2, p.r * .66); cx.fillRect(-p.r / 3, -p.r, p.r * .66, p.r * 2); cx.restore(); }
+      else { cx.beginPath(); cx.arc(p.x, p.y, p.r, 0, 7); cx.fill(); }
+      return p.life > 0; });
+    cx.globalAlpha = 1;
+    if (parts.length || rockets.length) requestAnimationFrame(step); else { running = false; cx.clearRect(0, 0, innerWidth, innerHeight); }
+  }
+  // a soft "pop" for each firework (muted with the site's 🔊 switch, which sfx.js handles)
+  var ac = null;
+  function crack(v){
+    try { if (!ac){ var C = window.AudioContext || window.webkitAudioContext; if (!C) return; ac = new C(); } if (ac.state === 'suspended') ac.resume();
+      var len = .35, b = ac.createBuffer(1, ac.sampleRate * len, ac.sampleRate), d = b.getChannelData(0);
+      for (var i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 3) * (Math.random() < .08 ? 1 : .35);
+      var s = ac.createBufferSource(), g = ac.createGain(), f = ac.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 2400;
+      s.buffer = b; g.gain.value = .12 * v; s.connect(f); f.connect(g); g.connect(ac.destination); s.start();
+    } catch(e){}
+  }
+  function at(el, n, big){ if (still) return; var r = el.getBoundingClientRect(); burst(r.left + r.width / 2, r.top + r.height / 2, n, big); }
+
+  /* ---------- sections ---------- */
+  // The 15 kinds of question in every box (see SLOTS below).
+  var SEC = {
+    ng:  { ar:'الكلمات العامة',        ic:'🌍', c:'#E6F1FF', href:'../words/ngsl.html' },
+    aw:  { ar:'الكلمات الأكاديمية',    ic:'🎓', c:'#E8EEFF', href:'../words/awl.html' },
+    gr:  { ar:'القواعد',               ic:'🛠️', c:'#E3F0FF', href:'../grammar/tenses.html' },
+    tn:  { ar:'خارطة الأزمنة',         ic:'⏳', c:'#E6EFFF', href:'../grammar/tenses.html' },
+    pv:  { ar:'المبني للمجهول',        ic:'🔄', c:'#E3F6F4', href:'../grammar/passive.html' },
+    sx:  { ar:'تراكيب الجمل',          ic:'🧱', c:'#FFF1D6', href:'../grammar/syntax-tree-lab.html' },
+    rd:  { ar:'القراءة',               ic:'📰', c:'#E7F7EF', href:'../stories/index.html' },
+    ev:  { ar:'المحادثة',              ic:'🗣️', c:'#E3F3FA', href:'../everyday/basics.html' },
+    caps:{ ar:'الكبسولات',             ic:'🌟', c:'#FFF6D6', href:'../capsules/index.html' }
+  };
+  var CAPN = { space:'الفضاء', flavor:'النكهة', life:'الحياة', adventure:'المغامرة', emotion:'المشاعر', career:'المهن', nature:'الطبيعة', health:'الصحة', sports:'الرياضة', tech:'التقنية' };
+  var N_ALL = 15, TOTAL = 150;
+  // reward levels by right answers: 7–10 → 70, 11–12 → 100, 13–15 → 150; under 7 → 0
+  var TIERS = [ { n:13, p:150 }, { n:11, p:100 }, { n:7, p:70 } ];
+  // weekly ranks (boxes opened in the last 7 days)
+  var RANKS = [ { n:3, e:'🧭', ar:'مستكشف المفاجآت' }, { n:5, e:'💎', ar:'صيّاد الكنوز' }, { n:7, e:'👑', ar:'أسطورة المفاجآت' } ];
+
+  function today(){ return Math.floor((Date.now() + 3 * 3600e3 - 6 * 3600e3) / 864e5); }   // Saudi day (UTC+3) that starts at 6 am
+  function rng(seed){ var h = seed >>> 0; return function(){ h = (h * 1664525 + 1013904223) >>> 0; return h / 4294967296; }; }
+  function shuffle(a, r){ a = a.slice(); for (var i = a.length - 1; i > 0; i--){ var j = Math.floor(r() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+
+  var BANK = window.SURPRISE_BANK || [], BY = {};
+  BANK.forEach(function(x){ (BY[x[0]] = BY[x[0]] || []).push(x); });
+
+  /** The day's box: the same 15 questions (and option order) for every student. `extra` makes a practice box.
+      One question from each slot: general words, academic words, words (either), grammar ×3, sentence structure ×2,
+      reading, reading or conversation, conversation, capsules. Each question is answerable from the screen alone. */
+  var SLOTS = [['ng'], ['aw'], ['ng', 'aw'], ['ng', 'aw'], ['gr', 'tn', 'pv'], ['gr', 'tn'], ['gr', 'pv'], ['sx'], ['sx'], ['rd'], ['rd'], ['rd', 'ev'], ['ev'], ['caps'], ['caps']];
+  function makeBox(day, extra){
+    var r = rng(day * 7919 + (extra || 0) * 104729 + 17), used = [];
+    var qs = SLOTS.map(function(sl){
+      var ks = sl.filter(function(k){ return BY[k] && BY[k].length; }); if (!ks.length) return null;
+      var k = ks[Math.floor(r() * ks.length)], it, n = 0;
+      do { it = BY[k][Math.floor(r() * BY[k].length)]; } while (used.indexOf(it) >= 0 && ++n < 20);
+      used.push(it);
+      var opts = shuffle(it[2].map(function(t, i){ return { t:t, ok:i === 0 }; }), r);
+      return { s:k, q:it[1], qa:it[4], w:it[3], x:it[5], o:opts };
+    }).filter(Boolean);
+    return qs;
+  }
+  function getDays(){ try { return JSON.parse(store.get('mb-days') || '{}') || {}; } catch(e){ return {}; } }
+  function isEn(t){ return /[A-Za-z]/.test(t) && !/[؀-ۿ]/.test(t); }
+  function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]; }); }
+  function sfx(n){ try { window.clubSfx && window.clubSfx(n); } catch(e){} }
+  function say(t){ try { var u = new SpeechSynthesisUtterance(t.replace(/_+/g, ' blank ').replace(/[📖💬❓“”«»]/g, '')); u.lang = 'en-US'; u.rate = .9; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch(e){} }
+  function secName(q){ return SEC[q.s].ar + ((q.s === 'caps' || q.s === 'sx') && CAPN[q.x] ? ' · ' + CAPN[q.x] : ''); }
+  function secHref(q){
+    if (q.s === 'caps' && CAPN[q.x]) return '../capsules/' + q.x + '.html';
+    return SEC[q.s].href;
+  }
+  // The box opens at 6 am and closes at 10 pm, Saudi time; from 10 pm to 6 am it is closed.
+  var OPEN = 6 * 3600e3, CLOSE = 22 * 3600e3;
+  function nowMs(){ return (Date.now() + 3 * 3600e3) % 864e5; }
+  function isClosed(){ var t = nowMs(); return t >= CLOSE || t < OPEN; }
+  function span(ms){ var h = Math.floor(ms / 3600e3), m = Math.floor(ms % 3600e3 / 60000);
+    if (h === 1) return 'ساعة'; if (h === 2) return 'ساعتين'; if (h > 2 && h < 11) return h + ' ساعات'; if (h) return h + ' ساعة';
+    return m <= 1 ? 'دقيقة' : m === 2 ? 'دقيقتين' : m < 11 ? m + ' دقائق' : m + ' دقيقة'; }
+  function left(){ var t = nowMs(); return span(t < OPEN ? OPEN - t : 864e5 - t + OPEN); }   // until the next box (6 am)
+  function toClose(){ return span(CLOSE - nowMs()); }        // until today's box closes (10 pm)
+  function pts(right){ for (var t = 0; t < TIERS.length; t++) if (right >= TIERS[t].n) return TIERS[t].p; return 0; }
+  function nextTier(right){ for (var t = TIERS.length - 1; t >= 0; t--) if (right < TIERS[t].n) return TIERS[t]; return null; }
+  function getPts(){ try { return JSON.parse(store.get('mb-pts') || '{}') || {}; } catch(e){ return {}; } }
+  // Boxes 2 and 3 of the day: mb-x = {'<day>-2': points, '<day>-3': points}. Boxes after the third are practice.
+  var MAXB = 3;
+  function getX(){ try { return JSON.parse(store.get('mb-x') || '{}') || {}; } catch(e){ return {}; } }
+  function nDone(){ var x = getX(), n = getDays()[day] !== undefined ? 1 : 0; for (var b = 2; b <= MAXB; b++) if (x[day + '-' + b] !== undefined) n++; return n; }
+  function dayPts(){ var x = getX(), t = +getPts()[day] || 0; for (var b = 2; b <= MAXB; b++) t += +x[day + '-' + b] || 0; return t; }
+  var counted = false, extraP = 0;
+  function newBox(){ var n = nDone(); counted = n < MAXB; box = makeBox(day, counted ? n : MAXB + (extraP++)); i = 0; res = []; streak = 0; }
+  function boxWord(n, nom){ return n === 1 ? (nom ? 'صندوق واحد' : 'صندوقاً واحداً') : n === 2 ? (nom ? 'صندوقان' : 'صندوقين') : n + ' صناديق'; }
+
+  var day = today(), box = null, i = 0, res = [], practice = 0, streak = 0;
+  var done = getDays()[day];
+
+  function startView(){
+    if (isClosed()) {
+      $('vStart').hidden = true; $('vClosed').hidden = false;
+      $('closedNote').innerHTML = 'يُفتح صندوق جديد في السادسة صباحاً (بعد ' + left() + ') — كن أول من يفتحه! 🚀';
+      return;
+    }
+    if (done === undefined) $('startNote').innerHTML += '<br>⏰ يُغلق الصندوق بعد <b>' + toClose() + '</b>';
+    if (done !== undefined) {
+      var nd = nDone();
+      if (nd < MAXB) {
+        $('startNote').innerHTML = 'فتحت ' + boxWord(nd) + ' من ' + MAXB + ' اليوم وحصدت <b>' + dayPts() + '</b> نقطة. بقي لك ' + boxWord(MAXB - nd, 1) + ' بنقاط 🎯<br>⏰ تُغلق الصناديق بعد <b>' + toClose() + '</b>';
+        $('openBtn').textContent = '🎁 افتح الصندوق ' + (nd + 1) + ' من ' + MAXB;
+      } else {
+        $('startNote').innerHTML = 'فتحت صناديق اليوم الثلاثة وحصدت <b>' + dayPts() + '</b> نقطة. صناديق جديدة في السادسة صباحاً (بعد ' + left() + ').';
+        $('openBtn').textContent = '🎁 صندوق تدريب (بلا نقاط)';
+      }
+    }
+  }
+  function open(){
+    var g = $('giftBtn'); if (g.classList.contains('open')) return;
+    g.classList.add('shake'); sfx('tap');
+    setTimeout(function(){
+      g.classList.remove('shake'); g.classList.add('open'); sfx('win'); $('tap').style.visibility = 'hidden';
+      at(g, 110, true); show(5);
+      newBox();
+      setTimeout(function(){ $('vStart').hidden = true; $('vQ').hidden = false; render(); }, 1300);
+    }, 520);
+  }
+  $('giftBtn').onclick = open; $('openBtn').onclick = open;
+
+  function render(){
+    var q = box[i], s = SEC[q.s];
+    $('dots').innerHTML = box.map(function(_, k){ return '<i class="' + (k < res.length ? (res[k] ? 'ok' : 'no') : k === i ? 'cur' : '') + '"></i>'; }).join('');
+    $('count').textContent = (i + 1) + ' / ' + box.length;
+    var cb = $('combo'); cb.hidden = streak < 2; cb.textContent = '🔥 x' + streak;
+    var tag = $('tag'); tag.textContent = s.ic + ' مفاجأة من: ' + secName(q); tag.style.background = s.c;
+    $('qa').textContent = q.qa || '';
+    var t = $('qtext'); t.textContent = q.q; var en = isEn(q.q);
+    t.className = 'qtext' + (en ? ' en' : ''); t.dir = en ? 'ltr' : 'auto';
+    $('say').hidden = !en;
+    $('opts').innerHTML = q.o.map(function(o, k){ return '<button class="opt" type="button" data-k="' + k + '" dir="' + (isEn(o.t) ? 'ltr' : 'rtl') + '">' + esc(o.t) + '</button>'; }).join('');
+    $('opts').querySelectorAll('.opt').forEach(function(b){ b.onclick = function(){ answer(+b.dataset.k, b); }; });
+    $('why').textContent = ''; $('next').hidden = true;
+    $('next').textContent = i === box.length - 1 ? 'See my result →' : 'Next →';
+    $('vQ').scrollIntoView({ block:'start', behavior:'smooth' });
+  }
+  $('say').onclick = function(){ say(box[i].q.split('\n').pop()); };
+
+  function answer(k, btn){
+    var q = box[i], ok = q.o[k].ok;
+    $('opts').querySelectorAll('.opt').forEach(function(b, n){ b.disabled = true; if (q.o[n].ok) b.classList.add('right'); else if (n === k) b.classList.add('wrong'); });
+    res.push(ok); streak = ok ? streak + 1 : 0; sfx(ok ? 'good' : 'bad');
+    if (ok){
+      at(btn, 40 + streak * 10, streak >= 3);
+      var nr = res.filter(Boolean).length;
+      if (counted && pts(nr) > pts(nr - 1)){ show(6); var r = btn.getBoundingClientRect(), p = document.createElement('span'); p.className = 'plus'; p.textContent = '🔓 ' + pts(nr);
+        p.style.left = (r.left + r.width / 2) + 'px'; p.style.top = (r.top - 10) + 'px'; document.body.appendChild(p); setTimeout(function(){ p.remove(); }, 1000); }
+      if (streak >= 3) show(1);
+    }
+    var right = q.o.filter(function(o){ return o.ok; })[0].t;
+    var cheer = ['✓ أحسنت!', '✓ ممتاز!', '✓ رائع!', '✓ ضربة معلّم!', '✓ لا توقّف!'][Math.min(4, Math.max(0, streak - 1))];
+    // each part on its own line, in its own direction, so Arabic and English never get mixed up
+    var line = function(t, cls){ return '<div dir="' + (isEn(t) ? 'ltr' : 'rtl') + '"' + (isEn(t) ? ' class="en"' : '') + (cls ? ' style="' + cls + '"' : '') + '>' + esc(t) + '</div>'; };
+    $('why').innerHTML = (ok ? line(cheer, 'font-weight:800') : line('✗ الإجابة الصحيحة:', 'font-weight:800') + line(right, 'font-weight:800')) + (q.w ? line(q.w) : '');
+    var cb = $('combo'); cb.hidden = streak < 2; cb.textContent = '🔥 x' + streak;
+    $('next').hidden = false; $('next').focus({ preventScroll:true });
+  }
+  $('next').onclick = function(){ if (++i < box.length) render(); else finish(); };
+
+  function finish(){
+    var right = res.filter(Boolean).length, first = counted && nDone() < MAXB, num = nDone() + 1;
+    if (first && num === 1) { var d = getDays(); d[day] = right; store.set('mb-days', JSON.stringify(d)); done = right;
+      var dp = getPts(); dp[day] = pts(right); store.set('mb-pts', JSON.stringify(dp)); }
+    else if (first) { var x = getX(); x[day + '-' + num] = pts(right); store.set('mb-x', JSON.stringify(x)); }
+    counted = false;
+    var more = MAXB - nDone();
+    $('again').textContent = more > 0 ? '🎁 افتح الصندوق ' + (MAXB - more + 1) + ' من ' + MAXB : 'العب مرة أخرى للتدريب';
+    sfx('win');
+    $('vQ').hidden = true; $('vEnd').hidden = false;
+    $('sBig').textContent = pts(right) + ' نقطة';
+    $('sMsg').textContent = right === box.length ? 'صندوق كامل! أنت أسطورة 🎉' : right >= 13 ? 'أداء ناري 🔥 حصدت الجائزة الكبرى!' : right >= 7 ? 'جيد! والأقسام أدناه تخبّئ لك المزيد.' : 'لا بأس، أخطاؤك خطواتك نحو الإتقان 💪';
+    $('sPts').textContent = first ? ('✓ ' + right + ' من ' + box.length + ' إجابة صحيحة · +' + pts(right) + ' نقطة · الصندوق ' + num + ' من ' + MAXB) : 'جولة تدريب (النقاط تُحسب لأول ' + MAXB + ' صناديق في اليوم)';
+    var nt = nextTier(right);
+    $('sBonus').textContent = !first ? '' : nt ? '🎯 كان ينقصك ' + (nt.n - right) + ' للوصول إلى ' + nt.p + ' نقطة. ' + (more > 0 ? 'جرّب الصندوق التالي!' : 'جرّب غداً!') : '🏆 حصدت أعلى جائزة في الصندوق!';
+    show(right === box.length ? 12 : right >= 13 ? 9 : right >= 11 ? 6 : right >= 7 ? 4 : 2);
+    // one row per section (two questions from the same section are merged)
+    var groups = [], seen = {};
+    box.forEach(function(q, k){ var key = q.s + (q.s === 'caps' ? q.x : ''); if (!seen[key]) { seen[key] = { q:q, n:0, ok:0 }; groups.push(seen[key]); } seen[key].n++; if (res[k]) seen[key].ok++; });
+    $('rows').innerHTML = groups.map(function(g){ var s = SEC[g.q.s], all = g.ok === g.n;
+      return '<div class="row"><span class="ic" style="background:' + s.c + '">' + s.ic + '</span><span class="nm"><b>' + esc(secName(g.q)) + '</b><small>' +
+        (g.n > 1 ? (all ? '✓ ' : g.ok ? '' : '✗ ') + g.ok + ' من ' + g.n + ' صحيحة' : all ? '✓ أجبت صحيحاً' : '✗ تحتاج مراجعة') + '</small></span>' +
+        '<a href="' + secHref(g.q) + '">جرّب القسم كاملاً ←</a></div>'; }).join('');
+    var d2 = getDays(), n = 0, cells = [];
+    for (var j = 6; j >= 0; j--) { var on = d2[day - j] !== undefined; if (on) n++; cells.push('<span class="' + (on ? 'on' : '') + '">' + (on ? '🎁' : '') + '</span>'); }
+    var w = $('week'); w.innerHTML = cells.join(''); w.dir = 'ltr';
+    $('ranks').innerHTML = RANKS.map(function(r){ return '<div class="rank' + (n >= r.n ? ' got' : '') + '"><div class="e">' + r.e + '</div><b>' + r.ar + '</b><small>' + r.n + ' صناديق</small></div>'; }).join('');
+    var nx = RANKS.filter(function(r){ return n < r.n; })[0], got = RANKS.filter(function(r){ return n >= r.n; }).pop();
+    $('rankNote').innerHTML = (got ? 'لقبك هذا الأسبوع: <b>' + got.e + ' ' + got.ar + '</b>. ' : '') +
+      (nx ? 'افتح ' + (nx.n - n === 1 ? 'صندوقاً واحداً آخر' : nx.n - n === 2 ? 'صندوقين آخرين' : (nx.n - n) + ' صناديق أخرى') + ' لتصبح <b>' + nx.e + ' ' + nx.ar + '</b>.' : 'وصلت إلى القمة! 👑');
+    $('nextNote').textContent = more > 0 ? 'بقي لك اليوم ' + boxWord(more, 1) + ' بنقاط.' : 'صناديق جديدة بعد ' + left() + '.';
+    $('vEnd').scrollIntoView({ block:'start', behavior:'smooth' });
+  }
+  $('again').onclick = function(){ newBox(); $('vEnd').hidden = true; $('vQ').hidden = false; render(); };
+
+  startView();
+})();
+</script>
+<script src="../assets/club.js?v=28"></script>
+</body>
+</html>

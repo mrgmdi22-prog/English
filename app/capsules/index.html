@@ -1,0 +1,583 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<script src="../assets/gate.js?v=9"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>بوابة الكبسولات · نادي اللغة الإنجليزية</title>
+<meta name="theme-color" content="#f6f4ff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="../assets/club.css">
+<style>
+/* Capsules portal, light edition: white cards with bright illustrated scenes, per-capsule progress from saved stars. */
+:root{color-scheme:light;--paper:#f8f9fe;--card:#fff;--ink:#232c47;--muted:#5a6482;--line:#e4e8f3;--violet:#6046e8;--ease:cubic-bezier(.2,.7,.2,1);
+  --ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ar);font-size:19px;line-height:1.7;overflow-x:hidden;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a:focus-visible{outline:3px solid var(--violet);outline-offset:3px;border-radius:26px}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:16px;padding-block:64px 64px}
+header{text-align:center;margin-bottom:26px}
+.eyebrow{display:inline-block;background:#efebff;color:var(--violet);font-weight:800;font-size:.95rem;padding:5px 18px;border-radius:999px;border:1px solid #ddd5ff}
+h1{font-size:clamp(2.1rem,7vw,3.2rem);font-weight:800;margin:12px 0 6px;line-height:1.2;text-wrap:balance}
+header p{color:var(--muted);font-size:1.12rem;margin:0 auto;max-width:34em;text-wrap:balance}
+.summary{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+.summary div{background:#fff;border:1px solid var(--line);border-radius:18px;padding:8px 12px;min-width:98px;flex:0 1 auto}
+.summary b{display:block;font-size:1.5rem;font-weight:800;line-height:1.25}
+.summary span{font-size:.95rem;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
+.capsule{display:flex;flex-direction:column;background:var(--card);border:1.5px solid var(--line);border-radius:28px;overflow:hidden;text-decoration:none;color:inherit;
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s}
+.capsule:hover{transform:translateY(-5px);border-color:color-mix(in srgb,var(--c) 40%,white);box-shadow:0 22px 40px -26px color-mix(in srgb,var(--c) 75%,black)}
+.capsule:active{transform:translateY(-1px)}
+.scene{position:relative;aspect-ratio:16/9;background:linear-gradient(150deg,var(--g1),var(--g2));overflow:hidden}
+.scene canvas{position:absolute;inset:0;width:100%;height:100%;display:block;transition:transform .6s var(--ease)}
+.capsule:hover .scene canvas{transform:scale(1.05)}
+.done-badge{position:absolute;top:12px;right:12px;background:#fff;color:var(--c);font-weight:800;font-size:.9rem;border-radius:999px;padding:3px 12px}
+.body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.top{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.name{margin:0;font-size:1.35rem;font-weight:800;line-height:1.3}
+.en{font-family:var(--en);font-weight:600;font-size:.9rem;color:var(--c);direction:ltr}
+.tagline{margin:0;color:var(--muted);font-size:1rem;line-height:1.7;flex:1}
+.prog{display:flex;align-items:center;gap:10px}
+.bar{flex:1;height:9px;border-radius:99px;background:#eef0f6;overflow:hidden}
+.bar i{display:block;height:100%;width:0;border-radius:99px;background:var(--c);transition:width .9s var(--ease)}
+.ptxt{font-size:.92rem;color:var(--muted);white-space:nowrap}
+.cta{margin-top:6px;text-align:center;border-radius:999px;padding:11px 18px;font-weight:800;font-size:1.05rem;background:var(--t);color:var(--c);transition:background .2s,color .2s}
+.capsule:hover .cta{background:var(--c);color:#fff}
+footer{text-align:center;color:var(--muted);font-size:1rem;margin-top:40px;line-height:1.9}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+<link rel="stylesheet" href="../assets/app.css?v=1"><script src="../assets/app.js?v=1"></script>
+</head>
+<body>
+<a class="club-home" href="../index.html">🏠 الرئيسية</a>
+<div class="wrap">
+  <header class="reveal">
+    <span class="eyebrow">🎓 كبسولات اللغة الإنجليزية</span>
+    <h1>اختر كبسولتك</h1>
+    <p>تدرّب على الجمل الإنجليزية ومعانيها: استمع، واختر، ورتّب، واجمع النجوم في كل مرحلة.</p>
+    <div class="summary">
+      <div><b id="sStars">0</b><span>نجمة ⭐</span></div>
+      <div><b id="sStages">0</b><span>مرحلة أنجزتها</span></div>
+      <div><b id="sStreak">0</b><span>أيام متتالية 🔥</span></div>
+    </div>
+  </header>
+  <div class="grid">
+    <a class="capsule reveal" href="space.html" data-cap="space" data-stages="16" style="--c:#5b4bd6;--t:#efebff;--g1:#7b6cf0;--g2:#a99bff">
+      <div class="scene"><canvas id="spaceCanvas"></canvas><span class="done-badge" hidden>✓ مكتملة</span></div>
+      <div class="body">
+        <div class="top"><h2 class="name">كبسولة الفضاء <span aria-hidden="true">🚀</span></h2><span class="en">Space</span></div>
+        <p class="tagline">جمل عن رواد الفضاء والمركبات والمجرات: رحلة استكشاف بين النجوم.</p>
+        <div class="prog"><div class="bar"><i></i></div><span class="ptxt">16 مرحلة</span></div>
+        <span class="cta">ابدأ الرحلة ←</span>
+      </div>
+    </a>
+    <a class="capsule reveal" href="flavor.html" data-cap="flavor" data-stages="23" style="--c:#c25a20;--t:#fff0e4;--g1:#f08a3c;--g2:#ffbe7a">
+      <div class="scene"><canvas id="flavorCanvas"></canvas><span class="done-badge" hidden>✓ مكتملة</span></div>
+      <div class="body">
+        <div class="top"><h2 class="name">كبسولة النكهة <span aria-hidden="true">🍊</span></h2><span class="en">Flavor</span></div>
+        <p class="tagline">جمل عن الطعام والمطاعم والطبخ والتذوق: تراكيب من الحياة اليومية.</p>
+        <div class="prog"><div class="bar"><i></i></div><span class="ptxt">23 مرحلة</span></div>
+        <span class="cta">ابدأ التذوق ←</span>
+      </div>
+    </a>
+    <a class="capsule reveal" href="life.html" data-cap="life" data-stages="16" style="--c:#7d47c4;--t:#f3ebff;--g1:#9873e0;--g2:#c9b0ff">
+      <div class="scene"><canvas id="lifeCanvas"></canvas><span class="done-badge" hidden>✓ مكتملة</span></div>
+      <div class="body">
+        <div class="top"><h2 class="name">كبسولة الحياة <span aria-hidden="true">🦋</span></h2><span class="en">Life</span></div>
+        <p class="tagline">جمل عن العائلة والأصدقاء والحياة والميلاد: رحلة إنسانية دافئة.</p>
+        <div class="prog"><div class="bar"><i></i></div><span class="ptxt">16 مرحلة</span></div>
+        <span class="cta">ابدأ الرحلة ←</span>
+      </div>
+    </a>
+    <a class="capsule reveal" href="adventure.html" data-cap="adventure" data-stages="16" style="--c:#2477b5;--t:#e6f3fc;--g1:#3f9ad8;--g2:#8fd0f2">
+      <div class="scene"><canvas id="advCanvas"></canvas><span class="done-badge" hidden>✓ مكتملة</span></div>
+      <div class="body">
+        <div class="top"><h2 class="name">كبسولة المغامرة <span aria-hidden="true">🎈</span></h2><span class="en">Adventure</span></div>
+        <p class="tagline">جمل عن السفر والطيران والتخييم والكشافة: رحلة مليئة بالإثارة.</p>
+        <div class="prog"><div class="bar"><i></i></div><span class="ptxt">16 مرحلة</span></div>
+        <span class="cta">انطلق بالمغامرة ←</span>
+      </div>
+    </a>
+    <a class="capsule reveal" href="emotion.html" data-cap="emotion" data-stages="17" style="--c:#8a4fb0;--t:#f6ecfb;--g1:#a070d0;--g2:#e4b5ea">
+      <div class="scene"><canvas id="emotionCanvas"></canvas><span class="done-badge" hidden>✓ مكتملة</span></div>
+      <div class="body">
+        <div class="top"><h2 class="name">كبسولة المشاعر <span aria-hidden="true">💛</span></h2><span class="en">Emotions</span></div>
+        <p class="tagline">جمل عن المشاعر والانفعالات والتعبير عنها: رحلة داخل عالم العواطف.</p>
+        <div class="prog"><div class="bar"><i></i></div><span class="ptxt">17 مرحلة</span></div>
+        <span class="cta">استكشف مشاعرك ←</span>
+      </div>
+    </a>
+    <a class="capsule reveal" href="career.html" data-cap="career" data-stages="17" style="--c:#2f5fa8;--t:#e8effb;--g1:#4a84c8;--g2:#9cc4ec">
+      <div class="scene"><canvas id="careerCanvas"></canvas><span class="done-badge" hidden>✓ مكتملة</span></div>
+      <div class="body">
+        <div class="top"><h2 class="name">كبسولة المسيرة <span aria-hidden="true">🎓</span></h2><span class="en">Career</span></div>
+        <p class="tagline">جمل عن التعلم والعمل والوظائف والتقاعد: رحلة مهنية متكاملة.</p>
+        <div class="prog"><div class="bar"><i></i></div><span class="ptxt">17 مرحلة</span></div>
+        <span class="cta">ابدأ المسيرة ←</span>
+      </div>
+    </a>
+    <a class="capsule reveal" href="nature.html" data-cap="nature" data-stages="16" style="--c:#1d7a50;--t:#e4f5ec;--g1:#34a874;--g2:#8fdcb1">
+      <div class="scene"><canvas id="natureCanvas"></canvas><span class="done-badge" hidden>✓ مكتملة</span></div>
+      <div class="body">
+        <div class="top"><h2 class="name">كبسولة الطبيعة <span aria-hidden="true">🌍</span></h2><span class="en">Nature</span></div>
+        <p class="tagline">جمل عن الطبيعة والحيوانات والبيئة وتغيّر المناخ: رحلة خضراء لحماية كوكبنا.</p>
+        <div class="prog"><div class="bar"><i></i></div><span class="ptxt">16 مرحلة</span></div>
+        <span class="cta">استكشف الطبيعة ←</span>
+      </div>
+    </a>
+    <a class="capsule reveal" href="health.html" data-cap="health" data-stages="16" style="--c:#13807f;--t:#e2f5f4;--g1:#2eaaa8;--g2:#8edcd8">
+      <div class="scene"><canvas id="healthCanvas"></canvas><span class="done-badge" hidden>✓ مكتملة</span></div>
+      <div class="body">
+        <div class="top"><h2 class="name">كبسولة التعافي <span aria-hidden="true">🩺</span></h2><span class="en">Health</span></div>
+        <p class="tagline">جمل عن الصحة والمستشفيات والأطباء والدواء والعافية: رحلة نحو التعافي.</p>
+        <div class="prog"><div class="bar"><i></i></div><span class="ptxt">16 مرحلة</span></div>
+        <span class="cta">اعتنِ بصحتك ←</span>
+      </div>
+    </a>
+    <a class="capsule reveal" href="sports.html" data-cap="sports" data-stages="16" style="--c:#1f8a4c;--t:#e4f6ea;--g1:#2fae5f;--g2:#9fd8ff">
+      <div class="scene"><canvas id="sportsCanvas"></canvas><span class="done-badge" hidden>✓ مكتملة</span></div>
+      <div class="body">
+        <div class="top"><h2 class="name">كبسولة الرياضة <span aria-hidden="true">🏆</span></h2><span class="en">Sports</span></div>
+        <p class="tagline">جمل عن المباريات والملاعب والمنافسة والبطولات وكأس العالم: انزل إلى الملعب وسجّل أهدافك.</p>
+        <div class="prog"><div class="bar"><i></i></div><span class="ptxt">16 مرحلة</span></div>
+        <span class="cta">ادخل الملعب ←</span>
+      </div>
+    </a>
+    <a class="capsule reveal" href="tech.html" data-cap="tech" data-stages="16" style="--c:#3f51c9;--t:#e9ecfd;--g1:#5d79d8;--g2:#2c3a8c">
+      <div class="scene"><canvas id="techCanvas"></canvas><span class="done-badge" hidden>✓ مكتملة</span></div>
+      <div class="body">
+        <div class="top"><h2 class="name">كبسولة التقنية <span aria-hidden="true">💻</span></h2><span class="en">Tech</span></div>
+        <p class="tagline">جمل عن الحاسوب والجوالات والتطبيقات والبرمجة والذكاء الاصطناعي والأمن السيبراني: برمج مستقبلك بأمان.</p>
+        <div class="prog"><div class="bar"><i></i></div><span class="ptxt">16 مرحلة</span></div>
+        <span class="cta">شغّل الكبسولة ←</span>
+      </div>
+    </a>
+  </div>
+  <footer>إعداد: أ. أحمد بن سالم — معلم اللغة الإنجليزية</footer>
+</div>
+<script>
+(function(){
+  function mulberry32(a){
+    return function(){
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function fit(canvas){
+    var w = canvas.clientWidth, h = canvas.clientHeight;
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = w*dpr; canvas.height = h*dpr;
+    var ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    return {ctx:ctx, w:w, h:h};
+  }
+
+  function drawSpace(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h;
+    var rand = mulberry32(42);
+    for (var i=0;i<60;i++){
+      var x = rand()*w, y = rand()*h*0.85, r = rand()*1.6+0.3;
+      ctx.globalAlpha = 0.35 + rand()*0.6;
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    var px = w*0.32, py = h*0.62, pr = Math.min(w,h)*0.24;
+    var grad = ctx.createRadialGradient(px-pr*0.3,py-pr*0.3,pr*0.15,px,py,pr);
+    grad.addColorStop(0,"#c9a8ff");
+    grad.addColorStop(1,"#5a2f9e");
+    ctx.fillStyle = grad;
+    ctx.beginPath(); ctx.arc(px,py,pr,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle = "rgba(255,255,255,.35)";
+    ctx.lineWidth = pr*0.07;
+    ctx.beginPath();
+    ctx.ellipse(px,py,pr*1.5,pr*0.35, -0.3, 0, Math.PI*2);
+    ctx.stroke();
+    var sx = w*0.74, sy = h*0.28;
+    ctx.fillStyle = "rgba(255,255,255,.9)";
+    ctx.beginPath();
+    ctx.moveTo(sx-13,sy); ctx.lineTo(sx+13,sy); ctx.lineTo(sx,sy-15);
+    ctx.closePath(); ctx.fill();
+  }
+
+  function drawFlavor(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h;
+    var rand = mulberry32(7);
+    for (var i=0;i<20;i++){
+      var x = rand()*w, y = rand()*h*0.9, r = rand()*2+0.6;
+      ctx.globalAlpha = 0.25 + rand()*0.4;
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    var cx = w*0.3, cy = h*0.64, cr = Math.min(w,h)*0.26;
+    ctx.fillStyle = "#f3c26b";
+    ctx.beginPath(); ctx.arc(cx,cy,cr,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = "#d9531f";
+    ctx.beginPath(); ctx.arc(cx,cy,cr*0.82,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = "rgba(255,247,225,.92)";
+    ctx.beginPath(); ctx.arc(cx,cy,cr*0.68,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle = "rgba(232,98,44,.55)";
+    ctx.lineWidth = Math.max(1, cr*0.05);
+    for (var s=0; s<8; s++){
+      var ang = (Math.PI*2/8)*s;
+      ctx.beginPath();
+      ctx.moveTo(cx,cy);
+      ctx.lineTo(cx + Math.cos(ang)*cr*0.65, cy + Math.sin(ang)*cr*0.65);
+      ctx.stroke();
+    }
+    var bx = w*0.74, by = h*0.3, br = Math.min(w,h)*0.2;
+    ctx.fillStyle = "rgba(255,255,255,.92)";
+    ctx.beginPath();
+    ctx.ellipse(bx, by+br*0.35, br, br*0.55, 0, 0, Math.PI, false);
+    ctx.fill();
+    ctx.fillStyle = "rgba(224,150,70,.6)";
+    ctx.beginPath();
+    ctx.ellipse(bx, by, br*0.82, br*0.28, 0, 0, Math.PI*2);
+    ctx.fill();
+  }
+
+  function drawLife(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h;
+    var rand = mulberry32(19);
+
+    var mx = w*0.72, my = h*0.28, mr = Math.min(w,h)*0.22;
+    var moonGlow = ctx.createRadialGradient(mx,my,mr*0.2,mx,my,mr*2.1);
+    moonGlow.addColorStop(0,'rgba(255,250,235,.5)');
+    moonGlow.addColorStop(1,'rgba(255,250,235,0)');
+    ctx.fillStyle = moonGlow;
+    ctx.beginPath(); ctx.arc(mx,my,mr*2.1,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,251,240,.92)';
+    ctx.beginPath(); ctx.arc(mx,my,mr,0,Math.PI*2); ctx.fill();
+
+    for (var i=0;i<26;i++){
+      var x = rand()*w, y = rand()*h*0.9, r = rand()*2+0.7;
+      ctx.globalAlpha = 0.3 + rand()*0.55;
+      ctx.fillStyle = "#ffe9a8";
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    var bx = w*0.3, by = h*0.66, bs = Math.min(w,h)*0.2;
+    ctx.save();
+    ctx.translate(bx,by);
+    ctx.rotate(-0.12);
+    var wingGrad = ctx.createRadialGradient(0,0,bs*0.05,0,0,bs);
+    wingGrad.addColorStop(0,'rgba(200,170,255,.9)');
+    wingGrad.addColorStop(1,'rgba(140,110,210,.4)');
+    ctx.fillStyle = wingGrad;
+    ctx.beginPath();
+    ctx.ellipse(-bs*0.55, -bs*0.15, bs*0.55, bs*0.4, -0.4, 0, Math.PI*2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(-bs*0.4, bs*0.35, bs*0.4, bs*0.28, 0.3, 0, Math.PI*2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(bs*0.55, -bs*0.15, bs*0.55, bs*0.4, 0.4, 0, Math.PI*2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(bs*0.4, bs*0.35, bs*0.4, bs*0.28, -0.3, 0, Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,.85)';
+    ctx.beginPath();
+    ctx.ellipse(0,0, bs*0.06, bs*0.42, 0, 0, Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawAdventure(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h;
+    var rand = mulberry32(31);
+
+    for (var c=0;c<3;c++){
+      var cx = rand()*w, cy = h*(0.1+rand()*0.3), cr = Math.min(w,h)*(0.09+rand()*0.05);
+      ctx.globalAlpha = 0.55 + rand()*0.25;
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath(); ctx.ellipse(cx,cy,cr*1.4,cr*0.7,0,0,Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(cx-cr*0.9,cy+cr*0.15,cr*0.9,cr*0.55,0,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    var hx = w*0.34, hy = h*0.7, hs = Math.min(w,h)*0.22;
+    var colors = ["#e2572b","#f0a83c","#2f9e8f","#e2572b","#f0d24a"];
+    var strands = 5;
+    for (var i=0;i<strands;i++){
+      var ang = -Math.PI/2 + (i - (strands-1)/2)*0.24;
+      var bx = hx + Math.cos(ang)*hs*1.5;
+      var by = hy - hs*0.6 + Math.sin(ang)*hs*1.5;
+      ctx.strokeStyle = "rgba(255,255,255,.55)";
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(bx, by + hs*0.3);
+      ctx.lineTo(hx, hy - hs*0.15);
+      ctx.stroke();
+      ctx.fillStyle = colors[i % colors.length];
+      ctx.beginPath();
+      ctx.ellipse(bx, by, hs*0.28, hs*0.35, 0, 0, Math.PI*2);
+      ctx.fill();
+    }
+    ctx.fillStyle = "#fdf3e2";
+    ctx.fillRect(hx - hs*0.45, hy - hs*0.15, hs*0.9, hs*0.6);
+    ctx.fillStyle = "#c14a45";
+    ctx.beginPath();
+    ctx.moveTo(hx - hs*0.55, hy - hs*0.15);
+    ctx.lineTo(hx + hs*0.55, hy - hs*0.15);
+    ctx.lineTo(hx, hy - hs*0.5);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  function drawEmotion(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h;
+    var rand = mulberry32(58);
+    var colors = ["#f0d24a","#4a90d2","#e0473f","#8a5ce0","#4ab06a"];
+    var count = 5;
+    for (var i=0;i<count;i++){
+      var ox = w*(0.14 + (i/(count-1))*0.72 + (rand()-0.5)*0.04);
+      var oy = h*(0.34 + rand()*0.3);
+      var or = Math.min(w,h)*(0.11 + rand()*0.03);
+      var glow = ctx.createRadialGradient(ox,oy,or*0.1,ox,oy,or*1.8);
+      glow.addColorStop(0, colors[i] + 'cc');
+      glow.addColorStop(1, colors[i] + '00');
+      ctx.fillStyle = glow;
+      ctx.beginPath(); ctx.arc(ox,oy,or*1.8,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = colors[i];
+      ctx.beginPath(); ctx.arc(ox,oy,or,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = 'rgba(255,255,255,.55)';
+      ctx.beginPath(); ctx.arc(ox-or*0.3,oy-or*0.3,or*0.26,0,Math.PI*2); ctx.fill();
+    }
+    for (var i=0;i<14;i++){
+      var x = rand()*w, y = rand()*h*0.9, r = rand()*1.4+0.4;
+      ctx.globalAlpha = 0.2 + rand()*0.4;
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawCareer(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h;
+    var rand = mulberry32(66);
+
+    var sx = w*0.78, sy = h*0.22, sr = Math.min(w,h)*0.18;
+    var sunGlow = ctx.createRadialGradient(sx,sy,sr*0.1,sx,sy,sr*2.2);
+    sunGlow.addColorStop(0,'rgba(255,220,150,.4)');
+    sunGlow.addColorStop(1,'rgba(255,220,150,0)');
+    ctx.fillStyle = sunGlow;
+    ctx.beginPath(); ctx.arc(sx,sy,sr*2.2,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,230,180,.85)';
+    ctx.beginPath(); ctx.arc(sx,sy,sr*0.5,0,Math.PI*2); ctx.fill();
+
+    var steps = 4;
+    var baseY = h*0.9, stepH = h*0.1, stepW = w*0.2;
+    for (var i=0;i<steps;i++){
+      var sxp = w*0.08 + i*stepW*0.9;
+      var syp = baseY - i*stepH;
+      ctx.fillStyle = i===steps-1 ? 'rgba(217,164,65,.55)' : 'rgba(255,255,255,.14)';
+      ctx.fillRect(sxp, syp, stepW, h - syp);
+    }
+
+    var cx1 = w*0.08 + stepW*0.46, cy1 = baseY - stepH - 12;
+    ctx.fillStyle = 'rgba(20,25,35,.85)';
+    ctx.beginPath();
+    ctx.moveTo(cx1-12, cy1); ctx.lineTo(cx1+12, cy1); ctx.lineTo(cx1, cy1-7);
+    ctx.closePath(); ctx.fill();
+    ctx.fillRect(cx1-5, cy1-1, 10, 6);
+
+    var cx2 = w*0.08 + stepW*2*0.9 + stepW*0.46, cy2 = baseY - 2*stepH - 16;
+    ctx.fillStyle = 'rgba(47,127,176,.85)';
+    ctx.fillRect(cx2-12, cy2, 24, 16);
+    ctx.strokeStyle = 'rgba(255,255,255,.6)';
+    ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.moveTo(cx2-5,cy2); ctx.lineTo(cx2-5,cy2-5); ctx.lineTo(cx2+5,cy2-5); ctx.lineTo(cx2+5,cy2); ctx.stroke();
+
+    for (var i=0;i<14;i++){
+      var x = rand()*w, y = rand()*h*0.6, r = rand()*1.4+0.4;
+      ctx.globalAlpha = 0.2 + rand()*0.4;
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawNature(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h;
+    var rand = mulberry32(77);
+
+    var sx = w*0.76, sy = h*0.24, sr = Math.min(w,h)*0.16;
+    var sunGlow = ctx.createRadialGradient(sx,sy,sr*0.1,sx,sy,sr*2.4);
+    sunGlow.addColorStop(0,'rgba(255,230,160,.45)');
+    sunGlow.addColorStop(1,'rgba(255,230,160,0)');
+    ctx.fillStyle = sunGlow;
+    ctx.beginPath(); ctx.arc(sx,sy,sr*2.4,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,236,180,.9)';
+    ctx.beginPath(); ctx.arc(sx,sy,sr*0.55,0,Math.PI*2); ctx.fill();
+
+    ctx.fillStyle = 'rgba(255,255,255,.10)';
+    ctx.beginPath();
+    ctx.moveTo(0,h*0.72);
+    ctx.quadraticCurveTo(w*0.25,h*0.6, w*0.55,h*0.74);
+    ctx.quadraticCurveTo(w*0.8,h*0.85, w,h*0.7);
+    ctx.lineTo(w,h); ctx.lineTo(0,h); ctx.closePath(); ctx.fill();
+
+    var tx = w*0.26, ty = h*0.8;
+    ctx.fillStyle = 'rgba(30,20,10,.6)';
+    ctx.fillRect(tx-3, ty-24, 6, 24);
+    ctx.fillStyle = 'rgba(40,140,90,.9)';
+    ctx.beginPath(); ctx.arc(tx, ty-32, 17, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(tx-12, ty-24, 11, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(tx+12, ty-24, 11, 0, Math.PI*2); ctx.fill();
+
+    for (var i=0;i<12;i++){
+      var x = rand()*w, y = h*0.5 + rand()*h*0.4, r = rand()*1.3+0.4;
+      ctx.globalAlpha = 0.2 + rand()*0.4;
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawHealth(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h;
+    var rand = mulberry32(88);
+
+    var cx = w*0.5, cy = h*0.42, cr = Math.min(w,h)*0.5;
+    var glow = ctx.createRadialGradient(cx,cy,cr*0.1,cx,cy,cr);
+    glow.addColorStop(0,'rgba(255,255,255,.12)');
+    glow.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle = glow;
+    ctx.beginPath(); ctx.arc(cx,cy,cr,0,Math.PI*2); ctx.fill();
+
+    var mx = w*0.74, my = h*0.26, ms = Math.min(w,h)*0.1;
+    var crossGlow = ctx.createRadialGradient(mx,my,ms*0.1,mx,my,ms*2.2);
+    crossGlow.addColorStop(0,'rgba(220,255,250,.35)');
+    crossGlow.addColorStop(1,'rgba(220,255,250,0)');
+    ctx.fillStyle = crossGlow;
+    ctx.beginPath(); ctx.arc(mx,my,ms*2.2,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,.9)';
+    ctx.fillRect(mx-ms*0.2, my-ms*0.55, ms*0.4, ms*1.1);
+    ctx.fillRect(mx-ms*0.55, my-ms*0.2, ms*1.1, ms*0.4);
+
+    var py = h*0.64;
+    ctx.strokeStyle = 'rgba(255,255,255,.55)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, py);
+    ctx.lineTo(w*0.35, py);
+    ctx.lineTo(w*0.45, py - h*0.14);
+    ctx.lineTo(w*0.55, py + h*0.18);
+    ctx.lineTo(w*0.65, py - h*0.06);
+    ctx.lineTo(w, py);
+    ctx.stroke();
+
+    for (var i=0;i<10;i++){
+      var x = rand()*w, y = rand()*h*0.9, r = rand()*1.3+0.4;
+      ctx.globalAlpha = 0.2 + rand()*0.4;
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function drawSports(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h;
+    var rand = mulberry32(77), standTop = h*0.28, pitchTop = h*0.56;
+    [[w*0.1,h*0.1],[w*0.9,h*0.1]].forEach(function(p){
+      var g = ctx.createRadialGradient(p[0],p[1],2,p[0],p[1],Math.min(w,h)*0.4);
+      g.addColorStop(0,'rgba(255,250,220,.8)'); g.addColorStop(1,'rgba(255,250,220,0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p[0],p[1],Math.min(w,h)*0.4,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#fffbe6'; ctx.fillRect(p[0]-10,p[1]-5,20,8);
+    });
+    ctx.fillStyle = 'rgba(30,50,80,.55)'; ctx.fillRect(0,standTop,w,pitchTop-standTop);
+    var cols = ['#ffffff','#2fb45a','#ffd23f','#ff6b6b','#7fc8f8'];
+    for (var y = standTop+4; y < pitchTop-2; y += 6) for (var x = 3+(Math.round(y)%2)*3; x < w; x += 6){
+      ctx.fillStyle = cols[Math.floor(rand()*cols.length)]; ctx.globalAlpha = .5+rand()*.5; ctx.beginPath(); ctx.arc(x,y,1.8,0,Math.PI*2); ctx.fill(); }
+    ctx.globalAlpha = 1;
+    for (var i = 0; i < 8; i++){ ctx.fillStyle = i%2 ? '#3fae5c' : '#36a052'; ctx.fillRect(i*w/8, pitchTop, w/8+1, h-pitchTop); }
+    ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(w*.5,pitchTop); ctx.lineTo(w*.5,h); ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(w*.5,pitchTop+(h-pitchTop)*.55,w*.09,(h-pitchTop)*.28,0,0,Math.PI*2); ctx.stroke();
+    var bx = w*.62, by = pitchTop+(h-pitchTop)*.5, br = Math.min(w,h)*.06;
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(bx,by,br,0,Math.PI*2); ctx.fill(); ctx.strokeStyle = '#1a1a1a'; ctx.lineWidth = 1.4; ctx.stroke();
+    ctx.fillStyle = '#1a1a1a'; ctx.beginPath(); for (var k = 0; k < 5; k++){ var a = -Math.PI/2+k*2*Math.PI/5, px = bx+Math.cos(a)*br*.4, py = by+Math.sin(a)*br*.4; k ? ctx.lineTo(px,py) : ctx.moveTo(px,py); } ctx.closePath(); ctx.fill();
+  }
+
+  function drawTech(canvas){
+    if(!canvas) return;
+    var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h, S = Math.min(w,h);
+    var rand = mulberry32(31);
+    ctx.lineWidth = 1.4;
+    for (var i = 0; i < 8; i++){ var x = rand()*w, y = rand()*h*.9, l = S*(.2+rand()*.25);
+      ctx.strokeStyle = 'rgba(255,255,255,.25)'; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+l,y); ctx.lineTo(x+l*1.3,y+l*.3); ctx.stroke();
+      ctx.fillStyle = 'rgba(160,255,230,.85)'; ctx.beginPath(); ctx.arc(x,y,2.4,0,Math.PI*2); ctx.fill(); }
+    var lx = w*.42, ly = h*.86, lw = S*.7, lh = S*.42;
+    ctx.fillStyle = '#20264f'; ctx.fillRect(lx-lw/2, ly-lh, lw, lh);
+    ctx.fillStyle = '#0f1430'; ctx.fillRect(lx-lw/2+6, ly-lh+6, lw-12, lh-12);
+    var cc = ['#ff7ab6','#7fd1ff','#ffd56b','#8ef0b3'];
+    for (var k = 0; k < 5; k++){ ctx.fillStyle = cc[k%4]; ctx.fillRect(lx-lw/2+16+(k===2||k===3?12:0), ly-lh+16+k*((lh-36)/5), (lw-50)*(.3+rand()*.5), 4); }
+    ctx.fillStyle = '#c9cfee'; ctx.fillRect(lx-lw*.6, ly, lw*1.2, S*.04);
+    var sx = w*.84, sy = h*.3, ss = S*.14;
+    ctx.fillStyle = '#2fbf8f'; ctx.beginPath(); ctx.moveTo(sx,sy-ss); ctx.lineTo(sx+ss*.85,sy-ss*.6); ctx.quadraticCurveTo(sx+ss*.8,sy+ss*.6,sx,sy+ss); ctx.quadraticCurveTo(sx-ss*.8,sy+ss*.6,sx-ss*.85,sy-ss*.6); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.fillRect(sx-ss*.3, sy-ss*.05, ss*.6, ss*.45); ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(sx, sy-ss*.05, ss*.2, Math.PI, 0); ctx.stroke();
+  }
+
+  function drawAll(){
+    drawSpace(document.getElementById('spaceCanvas'));
+    drawFlavor(document.getElementById('flavorCanvas'));
+    drawLife(document.getElementById('lifeCanvas'));
+    drawAdventure(document.getElementById('advCanvas'));
+    drawEmotion(document.getElementById('emotionCanvas'));
+    drawCareer(document.getElementById('careerCanvas'));
+    drawNature(document.getElementById('natureCanvas'));
+    drawHealth(document.getElementById('healthCanvas'));
+    drawSports(document.getElementById('sportsCanvas'));
+    drawTech(document.getElementById('techCanvas'));
+  }
+  drawAll();
+  window.addEventListener('resize', drawAll);
+})();
+</script>
+<script>
+(function(){
+  function get(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } }
+  var tS=0,tD=0,best=0,today=Math.floor((Date.now()-new Date().getTimezoneOffset()*6e4)/864e5);
+  document.querySelectorAll('[data-cap]').forEach(function(a){
+    var cap=a.dataset.cap,n=+a.dataset.stages,st=get('cap2-'+cap+'-stars')||{},d=0,s=0;
+    Object.keys(st).forEach(function(k){var v=+st[k]||0;if(v>0){d++;s+=v;}});
+    tS+=s;tD+=d;
+    var dl=get('cap2-'+cap+'-daily'); if(dl&&dl.count&&today-dl.last<=1) best=Math.max(best,dl.count);
+    if(d) a.querySelector('.ptxt').textContent=d+' / '+n+' · ⭐ '+s;
+    if(d>=n) a.querySelector('.done-badge').hidden=false;
+    var pct=Math.min(100,Math.round(d/n*100));
+    requestAnimationFrame(function(){a.querySelector('.bar i').style.width=pct+'%';});
+  });
+  document.getElementById('sStars').textContent=tS;
+  document.getElementById('sStages').textContent=tD;
+  document.getElementById('sStreak').textContent=best;
+  var els=document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -6% 0px'});
+    els.forEach(function(el,i){el.style.transitionDelay=(i%4)*70+'ms';io.observe(el);});
+  } else els.forEach(function(el){el.classList.add('in');});
+})();
+</script>
+</body>
+</html>
