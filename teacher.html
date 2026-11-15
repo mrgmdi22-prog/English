@@ -234,6 +234,9 @@ async function load() {
     const srs = k => { const o = O(k), w = Object.keys(o); return [w.length, w.filter(x => ((o[x] || [])[0] || 0) >= 3).length]; };
     const [wqK, wqM] = srs('wq-srs'), [ngK, ngM] = srs('ng-srs'), [awK, awM] = srs('aw-srs');
     const lr = O('lv-results'), lvTxt = lr.pre ? `قبلي ${esc(lr.pre.level || '')}` + (lr.post ? ` ← بعدي ${esc(lr.post.level || '')}` : '') : 'لم يختبر بعد';
+    // «خارطة طريقي» (path/): the student's own goal, self-rating and current stage.
+    const mp = O('my-path'), MPA = {voc:'المفردات', gra:'التراكيب', lis:'الاستماع', rea:'القراءة', spe:'التحدث', wri:'الكتابة'}, MPG = {school:'التفوق المدرسي', step:'ستيب', talk:'المحادثة', fun:'المتعة وتطوير الذات'};
+    const mpTxt = mp && mp.stages ? `هدفه: ${MPG[mp.goal] || ''} · يركّز على: ${mp.stages.map(x => MPA[x.k]).join(' ← ')} · ${mp.stage < mp.stages.length ? 'في المرحلة ' + (mp.stage + 1) : 'أنهى المراحل'} · ${mp.time} دقيقة يومياً · أيام أنجز فيها مهمته: ${Object.keys(mp.days || {}).length}` : 'لم يرسم خارطته بعد';
     const rows = [
       ['🗺️ Word Quest', wq.t, `${wq.t} من 50 وحدة · شارة في ${wq.b}`, wq.t ? `متوسط ${wq.avg.toFixed(1)}/10` : ''],
       ['🌍 الكلمات العامة', ng.t, `${ng.t} من 50 وحدة · شارة في ${ng.b}`, ng.t ? `متوسط ${ng.avg.toFixed(1)}/10` : ''],
@@ -269,6 +272,7 @@ async function load() {
     const p = priv[r.id] || {};
     return `<div class="sheet" role="dialog" aria-modal="true"><button class="x" id="rpX">✕ إغلاق</button>
       <h2>📋 ${esc(p.name || r.nick)}</h2><p class="note">${esc(r.nick)}${gradeOf(r.id) ? ' · ' + esc(gradeOf(r.id)) : ''} · المستوى: ${lvTxt} · المجموع ${fmt(tot(r))} نقطة</p>
+      <p class="note">🗺️ خارطة طريقه: ${mpTxt}</p>
       <ul class="rpSum">${sum.map(x => `<li>${x}</li>`).join('')}</ul>
       <h3>🎯 أين يركّز؟ (توزيع نقاطه على الأقسام)</h3>
       ${F.length ? F.slice(0, 8).map(x => bar(`${ICON[x.k] || ''} ${esc(SEC_AR[x.k] || x.k)}`, x.v, F[0].v, `${pct(x.v, fT)}٪`)).join('') : '<p class="note">لا نقاط بعد.</p>'}

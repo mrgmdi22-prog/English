@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<script src="../assets/gate.js?v=9"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>خارطة طريقي · نادي اللغة الإنجليزية</title>
+<meta name="theme-color" content="#f5f8ff">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<style>
+/* خارطة طريقي (15 Nov 2026): a student who feels lost among the many sections draws his own road map.
+   1) Awareness: a language is a house — vocabulary + structures are the foundation, the four skills are the pillars.
+   2) Four questions: goal, level (from the level test when there is one), a self-rating of the six parts, daily time.
+   3) The map: 3 stages (the three parts that need most work, foundation first on a tie), each with 2–3 stations
+      chosen from the club's sections for his level and goal, a daily mission sized to his time, and a check-in
+      every two weeks / after the post test that redraws the map. Progress is read from the honor points (parts),
+      measured from the moment the map was drawn; stations without points are ticked by the student.
+   Saved in localStorage `my-path` (backed up with the rest of the progress) and `mp-day` (today's snapshot). */
+:root{color-scheme:light;--paper:#f5f8ff;--card:#fff;--ink:#232c47;--muted:#5a6482;--line:#e3e8f4;
+  --blue:#3157d5;--blue-soft:#e8eeff;--teal:#11826a;--teal-soft:#e3f6ef;--sun:#a26f00;--sun-soft:#fff4d6;--coral:#c2452a;--coral-soft:#ffece4;--violet:#6046e8;--violet-soft:#efebff;
+  --weak:#f6b5a6;--weak-t:#9e3a22;--ok:#ffe08a;--ok-t:#7a5600;--good:#a8e3c8;--good-t:#0e6b52;
+  --ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif;--ease:cubic-bezier(.2,.7,.2,1)}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ar);font-size:20px;line-height:1.75;padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:inherit}button{font:inherit;cursor:pointer}
+a:focus-visible,button:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:14px}
+.wrap{max-width:900px;margin:0 auto;padding:16px 16px 90px}
+.en{font-family:var(--en);direction:ltr;unicode-bidi:isolate}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.pill{text-decoration:none;font-weight:800;background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:6px 16px;font-size:1rem}
+.hero{margin-top:16px;border-radius:30px;padding:26px 20px;text-align:center;background:linear-gradient(135deg,#e8eeff,#e9f8f2 55%,#fff6e0);border:1px solid #e1e6f8}
+.hero .big{font-size:3.2rem;line-height:1}
+.hero h1{margin:6px 0 0;font-size:2.1rem;line-height:1.3;color:#2a46b8}
+.hero p{margin:8px auto 0;max-width:640px;color:var(--muted);font-size:1.1rem}
+.chips{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.chips span{background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:3px 14px;font-weight:800;font-size:1rem}
+.card{margin-top:18px;background:#fff;border:1.5px solid var(--line);border-radius:26px;padding:20px 18px}
+.card h2{margin:0 0 6px;font-size:1.45rem;line-height:1.4}
+.card .lead{margin:0;color:var(--muted);font-size:1.06rem}
+.btn{display:inline-block;text-decoration:none;font-weight:800;border:0;border-radius:999px;padding:12px 24px;font-size:1.12rem;background:var(--blue);color:#fff;line-height:1.4}
+.btn.soft{background:var(--blue-soft);color:var(--blue)}
+.btn.teal{background:var(--teal)}
+.btn.ghost{background:#fff;color:var(--muted);border:1.5px solid var(--line)}
+.btn:disabled{opacity:.45;cursor:default}
+.center{text-align:center}
+
+/* ---------- the language house ---------- */
+.house{max-width:560px;margin:16px auto 4px;display:grid;gap:8px}
+.roof{position:relative;height:96px;display:grid;place-items:end center;padding-bottom:12px}
+.roof::before{content:"";position:absolute;inset:0;background:linear-gradient(160deg,#c9d6ff,#e6ecff);clip-path:polygon(50% 0,100% 100%,0 100%);border-radius:6px}
+.roof b{position:relative;font-size:1.25rem;color:#2a46b8}
+.roof b .en{font-size:1rem;color:#5a6aa8;margin-inline-start:6px}
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.found{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.blk{border-radius:16px;padding:12px 6px;text-align:center;border:2px solid #dbe2f3;background:#f7f9ff;transition:background .4s,border-color .4s}
+.pillars .blk{min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.blk .i{font-size:1.9rem;line-height:1.2}
+.blk b{display:block;font-size:1.06rem;line-height:1.35}
+.blk small{display:block;font-size:.85rem;color:var(--muted);font-family:var(--en);direction:ltr}
+.blk .f{display:block;font-size:.95rem;font-weight:800;margin-top:2px}
+.found .blk{background:#f1ede4;border-color:#e2d8c2}
+.blk.r0{background:#fff0ec;border-color:var(--weak)}.blk.r0 .f{color:var(--weak-t)}
+.blk.r1{background:#fff8de;border-color:var(--ok)}.blk.r1 .f{color:var(--ok-t)}
+.blk.r2{background:#e9f8f1;border-color:var(--good)}.blk.r2 .f{color:var(--good-t)}
+.blk.fx{box-shadow:0 0 0 4px #c9d6ff}
+.ground{height:10px;border-radius:999px;background:linear-gradient(90deg,#d9cfb8,#eadfc6,#d9cfb8)}
+@media (max-width:520px){.pillars .blk{min-height:128px}.blk b{font-size:.98rem}.blk .i{font-size:1.6rem}}
+.facts{display:grid;gap:10px;margin-top:14px}
+.fact{display:flex;gap:12px;align-items:flex-start;background:var(--paper);border-radius:18px;padding:12px 14px;font-size:1.05rem}
+.fact .n{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#fff;font-weight:800}
+.fact b{color:#2a46b8}
+
+/* ---------- wizard ---------- */
+.steps{display:flex;gap:6px;justify-content:center;margin:16px 0 4px;direction:ltr}
+.steps i{width:40px;height:9px;border-radius:999px;background:#dfe5f2}
+.steps i.on{background:var(--blue)}
+.qh{font-size:1.5rem;margin:6px 0 4px;line-height:1.45}
+.opts{display:grid;gap:10px;margin-top:14px}
+.opts.two{grid-template-columns:1fr 1fr}
+@media (max-width:560px){.opts.two{grid-template-columns:1fr}}
+.opt{display:flex;align-items:center;gap:14px;text-align:right;width:100%;background:#fff;border:2px solid var(--line);border-radius:22px;padding:14px 16px;color:var(--ink);transition:border-color .2s,background .2s,transform .15s}
+.opt:hover{border-color:#b9c7f2}
+.opt .i{flex:none;font-size:2.1rem;width:56px;height:56px;display:grid;place-items:center;background:var(--paper);border-radius:18px}
+.opt b{display:block;font-size:1.16rem;line-height:1.4}
+.opt small{display:block;color:var(--muted);font-size:.96rem;line-height:1.5}
+.opt[aria-pressed="true"]{border-color:var(--blue);background:var(--blue-soft)}
+.opt[aria-pressed="true"] .i{background:#fff}
+.note{margin-top:12px;background:var(--sun-soft);border:1.5px solid #f2dc97;border-radius:18px;padding:10px 14px;font-size:1.02rem;color:#6b4a00}
+.note a{color:#2a46b8;font-weight:800}
+.rate{background:#fff;border:2px solid var(--line);border-radius:22px;padding:12px 14px}
+.rate.set{border-color:#cfd9f6}
+.rate .top{display:flex;align-items:center;gap:10px}
+.rate .top .i{font-size:1.8rem}
+.rate .top b{font-size:1.15rem}
+.rate .top small{font-family:var(--en);direction:ltr;color:var(--muted);font-size:.9rem}
+.rate p{margin:4px 0 8px;color:var(--muted);font-size:1rem;line-height:1.6}
+.faces{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.faces button{border:2px solid var(--line);background:#fff;border-radius:16px;padding:8px 4px;font-weight:800;font-size:1rem;color:var(--ink);line-height:1.4}
+.faces button span{display:block;font-size:1.6rem}
+.faces button[aria-pressed="true"].f0{background:#fff0ec;border-color:#e9907b}
+.faces button[aria-pressed="true"].f1{background:#fff8de;border-color:#e8c44c}
+.faces button[aria-pressed="true"].f2{background:#e9f8f1;border-color:#6fc7a0}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:20px;direction:ltr}
+.nav .btn{min-width:130px;text-align:center}
+
+/* ---------- map ---------- */
+.today{background:linear-gradient(135deg,#eef3ff,#fff 70%);border-color:#d3ddfa}
+.today .hd{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.today .hd h2{flex:1;margin:0}
+.streak{font-weight:800;background:#fff4d6;color:#8a5d00;border:1.5px solid #f2dc97;border-radius:999px;padding:2px 12px;font-size:1rem}
+.tasks{display:grid;gap:10px;margin-top:12px}
+.task{display:flex;align-items:center;gap:12px;background:#fff;border:2px solid var(--line);border-radius:20px;padding:12px 14px}
+.task.done{border-color:#bfe5d3;background:linear-gradient(120deg,#effaf4,#fff 70%)}
+.task .i{flex:none;font-size:1.9rem;width:52px;height:52px;display:grid;place-items:center;background:var(--paper);border-radius:16px}
+.task .tx{flex:1;min-width:0}
+.task b{display:block;font-size:1.12rem;line-height:1.4}
+.task small{display:block;color:var(--muted);font-size:.95rem;line-height:1.5}
+.task .acts{display:flex;flex-direction:column;gap:6px;flex:none}
+.go{text-decoration:none;font-weight:800;border-radius:999px;padding:8px 16px;background:var(--blue);color:#fff;white-space:nowrap;border:0;text-align:center;font-size:1rem}
+.tick{font-weight:800;border-radius:999px;padding:6px 12px;background:#fff;color:var(--teal);border:1.5px solid #bfe5d3;white-space:nowrap;font-size:.95rem}
+.task.done .tick,.stn.done .tick{background:var(--teal);color:#fff;border-color:var(--teal)}
+.alldone{margin-top:12px;text-align:center;font-weight:800;color:var(--teal);font-size:1.12rem}
+.trail{position:relative;margin-top:22px;padding-inline-start:34px}
+.trail::before{content:"";position:absolute;top:10px;bottom:10px;right:15px;width:5px;border-radius:5px;background:repeating-linear-gradient(180deg,#c9d4f3 0 12px,transparent 12px 20px)}
+.stage{position:relative;margin-bottom:18px}
+.stage .dot{position:absolute;right:-34px;top:14px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:#fff;border:3px solid #c9d4f3;color:var(--muted);font-size:1rem}
+.stage.cur .dot{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 0 0 6px #dbe4ff;animation:pulse 2.4s ease-in-out infinite}
+.stage.fin .dot{background:var(--teal);border-color:var(--teal);color:#fff}
+@keyframes pulse{50%{box-shadow:0 0 0 11px rgba(49,87,213,.12)}}
+.sbox{background:#fff;border:2px solid var(--line);border-radius:24px;padding:16px}
+.stage.cur .sbox{border-color:#b9c7f2;box-shadow:0 18px 36px -30px #3157d5}
+.stage.later .sbox{background:#fbfcff}
+.stage .hd{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.stage .hd h3{margin:0;font-size:1.3rem;flex:1;line-height:1.4}
+.stage .tag{font-size:.92rem;font-weight:800;border-radius:999px;padding:2px 12px;background:var(--paper);color:var(--muted)}
+.stage.cur .tag{background:var(--blue-soft);color:var(--blue)}
+.stage.fin .tag{background:var(--teal-soft);color:var(--teal)}
+.stage .why{margin:6px 0 0;color:var(--muted);font-size:1rem}
+.stns{display:grid;gap:10px;margin-top:12px}
+.stn{display:flex;align-items:center;gap:12px;border:2px solid var(--line);border-radius:18px;padding:12px}
+.stn.done{border-color:#bfe5d3;background:#f3fbf7}
+.stn .i{flex:none;font-size:1.7rem;width:48px;height:48px;display:grid;place-items:center;background:var(--paper);border-radius:14px}
+.stn .tx{flex:1;min-width:0}
+.stn b{display:block;font-size:1.08rem;line-height:1.4}
+.stn small{display:block;color:var(--muted);font-size:.93rem;line-height:1.5}
+.bar{height:10px;border-radius:999px;background:#eef0f7;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--teal);border-radius:999px;transition:width .6s var(--ease)}
+.stn .acts{display:flex;flex-direction:column;gap:6px;flex:none}
+.next{margin-top:12px;text-align:center}
+.flag{display:flex;align-items:center;gap:12px;background:linear-gradient(120deg,#fff6e0,#fff 70%);border:2px dashed #f0d48a;border-radius:24px;padding:16px}
+.flag .i{font-size:2.2rem}
+.flag b{display:block;font-size:1.18rem;color:#8a5d00}
+.flag small{display:block;color:var(--muted);font-size:.98rem}
+.checkin{background:linear-gradient(135deg,#fff8e1,#fff 70%);border-color:#f2dc97}
+.checkin .rate{margin-top:10px}
+.tools{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:22px}
+.foot{margin-top:28px;text-align:center;color:var(--muted);font-size:.98rem}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#232c47;color:#fff;font-weight:800;border-radius:999px;padding:10px 22px;z-index:50;font-size:1.02rem;max-width:calc(100% - 30px);text-align:center;transition:opacity .3s}
+.toast.hide{opacity:0;pointer-events:none}
+canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:40}
+@media (max-width:560px){.hero h1{font-size:1.8rem}.task,.stn{flex-wrap:wrap}.task .acts,.stn .acts{flex-direction:row;width:100%}.task .acts>*,.stn .acts>*{flex:1}}
+@media (prefers-reduced-motion:reduce){.stage.cur .dot{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a class="pill" href="../index.html">🏠 الرئيسية</a>
+    <a class="pill" href="../guide.html">🧭 دليل المتعلم</a>
+  </div>
+  <main id="app"><p class="center" style="margin-top:40px">جارٍ التحميل…</p></main>
+</div>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="toast hide" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+/* ================= data ================= */
+// The six parts of a language. Foundation first (vocabulary, structures), then receptive skills, then productive ones.
+var C = [
+  {k:'voc', ar:'المفردات', en:'Vocabulary', ic:'🧱', base:1, q:'هل تفهم معاني أغلب الكلمات في كتابك المدرسي؟', why:'الكلمات هي الطوب: بلا كلمات لا فهم ولا كلام.'},
+  {k:'gra', ar:'التراكيب', en:'Grammar', ic:'🔩', base:1, q:'هل ترتّب كلمات الجملة صحيحة، وتعرف متى تستعمل كل زمن؟', why:'التراكيب هي الإسمنت الذي يربط الكلمات في جمل صحيحة.'},
+  {k:'lis', ar:'الاستماع', en:'Listening', ic:'🎧', q:'هل تفهم جملة قصيرة حين تسمعها دون أن تراها مكتوبة؟', why:'تسمع قبل أن تتكلم: الأذن تفتح الطريق للسان.'},
+  {k:'rea', ar:'القراءة', en:'Reading', ic:'📖', q:'هل تقرأ فقرة قصيرة وتفهم فكرتها العامة؟', why:'القراءة تزيد كلماتك وتريك التراكيب في مكانها.'},
+  {k:'spe', ar:'التحدث', en:'Speaking', ic:'🗣️', q:'هل تعرّف بنفسك وتجيب عن سؤال بسيط بالإنجليزية بصوتك؟', why:'التحدث يحوّل ما تعرفه إلى لغة حيّة تستعملها.'},
+  {k:'wri', ar:'الكتابة', en:'Writing', ic:'✍️', q:'هل تكتب جملة صحيحة من تأليفك دون نسخ؟', why:'الكتابة تثبّت الكلمات والتراكيب في ذاكرتك.'}
+];
+var CK = {}; C.forEach(function(c, i){ c.i = i; CK[c.k] = c; });
+var FACE = [['😟','ضعيف'],['🙂','مقبول'],['😎','قوي']];
+
+var GOALS = [
+  {k:'school', ic:'🏫', b:'التفوّق في مادة الإنجليزي بالمدرسة', s:'درجات أعلى في الاختبارات والكتاب المدرسي', w:{voc:-3, gra:-3, rea:-2}},
+  {k:'step', ic:'📝', b:'الاستعداد لاختبار ستيب (STEP)', s:'قراءة وقواعد واستماع بأسلوب الاختبار', w:{rea:-4, gra:-4, voc:-2, lis:-2}},
+  {k:'talk', ic:'💬', b:'أن أتحدث وأفهم من يكلّمني', s:'محادثة وثقة في السفر والحياة اليومية', w:{spe:-6, lis:-5}},
+  {k:'fun', ic:'🌟', b:'المتعة وتطوير نفسي', s:'قصص وتعبيرات وتحديات بلا ضغط', w:{rea:-3, lis:-2, voc:-1}}
+];
+var GK = {}; GOALS.forEach(function(g){ GK[g.k] = g; });
+var LVL = [
+  {ic:'🌱', b:'مبتدئ', s:'أعرف الحروف وكلمات قليلة'},
+  {ic:'🌿', b:'متوسط', s:'أفهم جملاً بسيطة وأكوّن بعضها'},
+  {ic:'🌳', b:'متقدّم', s:'أقرأ نصوصاً وأتحدث بثقة نسبياً'}
+];
+var TIMES = [{m:10, ic:'⏱️', b:'10 دقائق', s:'مهمة واحدة في اليوم'}, {m:20, ic:'⏰', b:'20 دقيقة', s:'مهمتان: تعلّم + مراجعة', rec:1}, {m:30, ic:'🔥', b:'30 دقيقة', s:'ثلاث مهام: انطلاقة قوية'}];
+
+// Club sections as stations. key = honor points part (progress measured since the map was drawn); t = target in that part's
+// units; no key = the student ticks it. lv = [min,max] level band (0 beginner, 1 middle, 2 advanced); el = needs B1 by the test.
+var T = {
+  lvl:  {n:'قياس المستوى', ic:'📈', h:'../level/index.html', c:[], lv:[0,2], how:'اختبار قصير يحدد مستواك، فتُبنى خارطتك عليه'},
+  core: {n:'Core Quest', en:1, ic:'🧭', h:'../words/core2000.html', key:'cq', t:3, c:['voc'], lv:[0,1], how:'أنهِ 3 مجموعات: تعلّم ← اختر ← اكتب'},
+  dict: {n:'قاموس الألف كلمة', ic:'📖', h:'../journey/dictionary.html', c:['voc'], lv:[0,0], how:'تصفّح 20 كلمة وانطقها بصوتك'},
+  wq:   {n:'English Word Quest', en:1, ic:'🗺️', h:'../journey/word-quest.html', key:'wq', t:30, c:['voc'], lv:[0,1], how:'أكمل 3 وحدات بدرجة 8 من 10 فأكثر'},
+  mg:   {n:'ميدان المفردات (كتابك المدرسي)', ic:'🏟️', h:'../vocab/mega-goal-1.html', key:'mg', t:40, c:['voc'], lv:[0,2], how:'اختر كتاب صفّك وأتقن 40 كلمة'},
+  ng:   {n:'الكلمات العامة', ic:'🌍', h:'../words/ngsl.html', key:'ng', t:30, c:['voc'], lv:[1,1], how:'أكمل 3 وحدات وراجع كلمات اليوم'},
+  aw:   {n:'الكلمات الأكاديمية', ic:'🎓', h:'../words/awl.html', key:'aw', t:30, c:['voc','rea'], lv:[2,2], how:'أكمل 3 وحدات من القوائم الأكاديمية'},
+  im:   {n:'ركن التعبيرات', ic:'🎨', h:'../idioms/index.html', key:'im', t:15, c:['voc','spe'], lv:[1,2], how:'تعلّم التعبيرات وأجب عن 15 سؤالاً صحيحاً'},
+  caps: {n:'الكبسولات', ic:'🌟', h:'../capsules/index.html', key:'caps', t:25, c:['gra','lis','wri'], lv:[0,1], how:'استمع ورتّب الجمل: 5 مراحل بنجمة فأكثر'},
+  tn:   {n:'خارطة الأزمنة', ic:'⏳', h:'../grammar/tenses.html', key:'tn', t:15, c:['gra'], lv:[1,2], how:'افهم الأزمنة وأجب عن 15 سؤالاً صحيحاً'},
+  pv:   {n:'المبني للمجهول', ic:'🔄', h:'../grammar/passive.html', key:'pv', t:15, c:['gra','wri'], lv:[1,2], how:'تعلّم القاعدة وحوّل الجمل، ثم 15 إجابة صحيحة'},
+  syn:  {n:'Syntax Tree Lab', en:1, ic:'🌳', h:'../grammar/syntax-tree-lab.html', c:['gra','wri'], lv:[1,2], how:'حلّل 5 جمل وافهم أجزاءها'},
+  let:  {n:'ميدان الحروف والأصوات', ic:'🔤', h:'../letters/letters-sounds.html', c:['lis','rea','wri'], lv:[0,0], how:'تدرّب على الحروف وأصواتها حتى تقرأ الكلمات بسهولة'},
+  tb:   {n:'محادثات التأسيس', ic:'🗣️', h:'../everyday/basics.html', key:'tb', t:20, c:['spe','lis'], lv:[0,0], how:'استمع للحوارات وردّدها، وأجب عن 20 سؤالاً'},
+  st:   {n:'ركن القصص', ic:'📚', h:'../stories/index.html', key:'st', t:9, c:['rea','lis'], lv:[0,1], how:'اقرأ 3 قصص واستمع لها، وأجب عن أسئلتها'},
+  lab:  {n:'مختبر المحادثة', ic:'💬', h:'../journey/conversation-lab.html', key:'lab', t:15, c:['spe','lis'], lv:[1,2], how:'3 محادثات: استمع، وسجّل صوتك، وصحّح نطقك'},
+  bf:   {n:'Breakfast Challenge', en:1, ic:'🍳', h:'../everyday/breakfast.html', key:'bf', t:8, c:['rea','voc'], lv:[0,1], how:'اقرأ وأجب: 8 إجابات صحيحة'},
+  cal:  {n:'ورشة الخط الإنجليزي', ic:'✒️', h:'../calligraphy/index.html', c:['wri'], lv:[0,1], how:'اكتب 10 كلمات بخط واضح على السطور'},
+  note: {n:'دفتري الصغير', ic:'📓', c:['wri','voc'], lv:[0,2], how:'اكتب في دفترك 3 جمل من تأليفك بكلمات تعلّمتها، ثم اقرأها بصوتك'},
+  talk: {n:'تحدّث مع نفسك', ic:'🎙️', c:['spe'], lv:[0,2], how:'سجّل بجوالك دقيقة تتحدث فيها عن يومك بالإنجليزية، ثم استمع لها'},
+  town: {n:'في المدينة', ic:'🏙️', h:'../elite/town/index.html', key:'et', t:15, c:['spe','lis'], lv:[2,2], el:1, how:'3 محطات: استمع، وأدِّ الدور بصوتك، وأجب'},
+  elite:{n:'مسار النخبة', ic:'💎', h:'../elite/index.html', key:'ek', t:30, c:['voc','gra','rea'], lv:[2,2], el:1, how:'3 وحدات بنجمة فأكثر'},
+  cls:  {n:'مكتبة النخبة', ic:'📜', h:'../elite/classics/index.html', c:['rea'], lv:[2,2], el:1, how:'اقرأ فصلاً من قصة أمريكية كلاسيكية'},
+  links:{n:'المكتبة الإثرائية', ic:'🌐', h:'../links.html', c:['lis','rea'], lv:[2,2], how:'اختر موقعاً واحداً واستمع أو اقرأ فيه 15 دقيقة'},
+  step: {n:'مِران ستيب', ic:'📝', h:'https://step.ahmedchoices.com/drill/', c:['rea','gra','lis','voc'], lv:[0,2], goal:'step', how:'حلّ 20 سؤالاً بأسلوب الاختبار'},
+  wd:   {n:'عوالم النادي', ic:'🌍', h:'../worlds/index.html', key:'ws', t:1, c:['voc','rea','lis','spe'], lv:[0,2], goal:'fun', how:'أنجز محطات عالم واحد واحصل على ختمه'},
+  mb:   {n:'Surprise Me', en:1, ic:'🎁', h:'../surprise/index.html', c:[], lv:[0,2], how:'صندوق اليوم: مراجعة سريعة من كل الأقسام'}
+};
+Object.keys(T).forEach(function(id){ T[id].id = id; });
+// Station preference per part (first = most fitting); goal favourites move to the front.
+var ORDER = {
+  voc:['core','wq','mg','ng','dict','aw','im','elite','bf','note'],
+  gra:['caps','tn','pv','syn','elite','step','note'],
+  lis:['let','caps','tb','st','lab','town','links','step'],
+  rea:['let','st','bf','aw','cls','elite','links','step'],
+  spe:['tb','lab','town','im','talk'],
+  wri:['cal','caps','pv','syn','note','let']
+};
+var FAV = {school:['mg','tn','st'], step:['step','tn','aw'], talk:['tb','lab','town','talk'], fun:['wd','st','im','cls']};
+
+/* ================= storage & helpers ================= */
+var J = function(k, d){ try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } };
+var S = function(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+var dayNo = function(t){ return Math.floor(((t || Date.now()) + 3 * 3600e3 - 6 * 3600e3) / 864e5); };
+var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+var app = document.getElementById('app');
+var PARTS = null;           // honor points per part (filled when honor.js loads)
+var LVN = ['Pre-A1','A1','A2','B1','B2'], LV_NEW = 1793547780000;
+
+function testLevel(){
+  var lr = J('lv-results', {}) || {};
+  var all = [lr.pre].concat(lr.post || [], Array.isArray(lr.prev) ? lr.prev : []).filter(function(r){ return r && LVN.indexOf(r.level) >= 0; });
+  if (!all.length) return null;
+  var best = all.reduce(function(m, r){ return LVN.indexOf(r.level) > LVN.indexOf(m.level) ? r : m; });
+  var i = LVN.indexOf(best.level), cur = all.filter(function(r){ return +r.at >= LV_NEW; });
+  return { name: best.level, band: i <= 1 ? 0 : i === 2 ? 1 : 2, b1: cur.some(function(r){ return LVN.indexOf(r.level) >= 3; }), at: Math.max.apply(null, all.map(function(r){ return +r.at || 0; })) };
+}
+function nm(t){ return t.en ? '<span class="en">' + esc(t.n) + '</span>' : esc(t.n); }
+function toast(t){ var e = document.getElementById('toast'); e.textContent = t; e.classList.remove('hide'); clearTimeout(toast.h); toast.h = setTimeout(function(){ e.classList.add('hide'); }, 2600); }
+function sfx(ok){ try { window.clubSfx && window.clubSfx(ok ? 'right' : 'wrong'); } catch (e) {} }
+
+/* ================= plan building ================= */
+function priority(r, goal){
+  var w = (GK[goal] || {}).w || {};
+  return C.map(function(c){ return { k: c.k, p: (r[c.k] == null ? 1 : r[c.k]) * 10 + (w[c.k] || 0) + c.i * .1 }; })
+          .sort(function(a, b){ return a.p - b.p; }).map(function(x){ return x.k; });
+}
+function fits(t, band, b1, goal){
+  if (t.goal && t.goal !== goal) return false;
+  if (t.el && !b1) return false;
+  return band >= t.lv[0] && band <= t.lv[1];
+}
+function build(a){
+  var tl = testLevel(), band = tl ? tl.band : a.lvl, b1 = !!(tl && tl.b1);
+  var focus = priority(a.r, a.goal).slice(0, 3), used = {}, fav = FAV[a.goal] || [];
+  var stages = focus.map(function(k){
+    var list = ORDER[k].filter(function(id){ return fits(T[id], band, b1, a.goal); });
+    var top = ORDER[k].filter(function(id){ return fits(T[id], band, b1, a.goal); })[0];
+    list.sort(function(x, y){
+      var fx = fav.indexOf(x) >= 0 ? 0 : 1, fy = fav.indexOf(y) >= 0 ? 0 : 1;
+      var ux = used[x] && x !== top ? 1 : 0, uy = used[y] && y !== top ? 1 : 0;
+      return ux - uy || fx - fy || ORDER[k].indexOf(x) - ORDER[k].indexOf(y);
+    });
+    // a station already used by an earlier stage comes back only if it is this part's best fit
+    var pick = list.filter(function(id){ return !used[id] || id === top; }).slice(0, 3);
+    if (pick.length < 2) pick = list.slice(0, 3);
+    pick.forEach(function(id){ used[id] = 1; });
+    return { k: k, s: pick };
+  });
+  var p = { v: 1, at: Date.now(), goal: a.goal, lvl: band, lvSrc: tl ? 'test' : 'self', lvName: tl ? tl.name : '', r: a.r, time: a.time,
+            stages: stages, stage: 0, base: {}, done: {}, days: {}, ci: 0, redrawn: (a.redrawn || 0) };
+  if (!tl) p.needTest = 1;
+  if (PARTS) p.base = snap();
+  return p;
+}
+function snap(){ var o = {}; Object.keys(T).forEach(function(id){ var k = T[id].key; if (k && PARTS) o[k] = PARTS[k] || 0; }); return o; }
+
+/* ================= progress ================= */
+function prog(plan, id){
+  var t = T[id];
+  if (plan.done[id]) return 1;
+  if (id === 'lvl') return testLevel() ? 1 : 0;
+  if (!t.key || !PARTS) return 0;
+  var got = (PARTS[t.key] || 0) - (plan.base[t.key] || 0);
+  return Math.max(0, Math.min(1, got / t.t));
+}
+function stageIds(plan, i){ var s = plan.stages[i].s.slice(); if (i === 0 && plan.needTest && !testLevel()) s.unshift('lvl'); return s; }
+function stageDone(plan, i){ return stageIds(plan, i).every(function(id){ return prog(plan, id) >= 1; }); }
+
+// Today's missions: stage stations not finished yet, rotating day by day; plus Surprise Me as daily review (20+ min).
+function todayTasks(plan){
+  var d = dayNo(), st = Math.min(plan.stage, plan.stages.length - 1);
+  var open = stageIds(plan, st).filter(function(id){ return prog(plan, id) < 1; });
+  if (!open.length) open = stageIds(plan, st);
+  var n = plan.time >= 30 ? 2 : 1, out = [];
+  if (open.indexOf('lvl') >= 0) { out.push('lvl'); open = open.filter(function(x){ return x !== 'lvl'; }); }
+  for (var i = 0; out.length < n && i < open.length; i++) out.push(open[(d + i) % open.length]);
+  if (plan.time >= 20) out.push('mb');
+  return out.filter(function(x, i, a){ return a.indexOf(x) === i; });
+}
+function dayState(){
+  var d = dayNo(), s = J('mp-day', null);
+  if (!s || s.d !== d) { s = { d: d, b: PARTS ? snap() : null, ok: {} }; S('mp-day', s); }
+  else if (!s.b && PARTS) { s.b = snap(); S('mp-day', s); }
+  return s;
+}
+function taskDone(id, ds){
+  if (ds.ok[id]) return true;
+  if (id === 'mb') { var md = J('mb-days', {}) || {}; return md[dayNo()] !== undefined; }
+  if (id === 'lvl') return !!testLevel();
+  var k = T[id].key; return !!(k && PARTS && ds.b && (PARTS[k] || 0) > (ds.b[k] || 0));
+}
+
+/* ================= views ================= */
+function house(r, focus){
+  r = r || {}; focus = focus || [];
+  var b = function(k){ var c = CK[k], v = r[k]; return '<div class="blk' + (v != null ? ' r' + v : '') + (focus.indexOf(k) >= 0 ? ' fx' : '') + '"><span class="i">' + c.ic + '</span><b>' + c.ar + '</b><small>' + c.en + '</small>' + (v != null ? '<span class="f">' + FACE[v][0] + ' ' + FACE[v][1] + '</span>' : '') + '</div>'; };
+  return '<div class="house" aria-label="بيت اللغة"><div class="roof"><b>اللغة <span class="en">English</span></b></div>'
+    + '<div class="pillars">' + ['lis','rea','spe','wri'].map(b).join('') + '</div>'
+    + '<div class="found">' + ['voc','gra'].map(b).join('') + '</div><div class="ground"></div></div>';
+}
+
+function vIntro(){
+  var has = !!J('my-path', null);
+  app.innerHTML = '<section class="hero"><div class="big">🗺️</div><h1>خارطة طريقي</h1>'
+    + '<p>كثرة الأقسام لا تعني أن تجرّبها كلها! ارسم في دقيقتين مساراً يناسبك أنت: هدفك، ومستواك، ووقتك.</p></section>'
+    + '<section class="card"><h2>🏠 اللغة بيت… فمن أين تبدأ البناء؟</h2><p class="lead">كل قسم في النادي يبني جزءاً من هذا البيت:</p>'
+    + house()
+    + '<div class="facts">'
+    + '<div class="fact"><span class="n">1</span><div><b>الأساس: المفردات والتراكيب.</b> الكلمات طوب، والتراكيب إسمنت يربطها في جمل. إن كان الأساس ضعيفاً اهتزّت المهارات كلها.</div></div>'
+    + '<div class="fact"><span class="n">2</span><div><b>الأعمدة: أربع مهارات.</b> مهارتا <b>استقبال</b> (الاستماع والقراءة) ومهارتا <b>إنتاج</b> (التحدث والكتابة). الاستقبال يسبق الإنتاج: تسمع وتقرأ كثيراً، ثم تتكلم وتكتب.</div></div>'
+    + '<div class="fact"><span class="n">3</span><div><b>لا تبنِ كل شيء معاً.</b> ركّز على الجزء الأضعف أولاً، ثم انتقل للتالي. هذا ما ترسمه خارطتك: 3 مراحل واضحة، ومهمة صغيرة كل يوم.</div></div>'
+    + '</div><div class="center" style="margin-top:18px"><button class="btn" id="go">✏️ ' + (has ? 'أعد رسم خارطتي' : 'ارسم خارطتي الآن') + '</button>'
+    + (has ? ' <a class="btn soft" href="#map">خارطتي الحالية ←</a>' : '') + '</div></section>';
+  document.getElementById('go').onclick = function(){ A = freshAnswers(); step = 0; location.hash = '#q'; };
+}
+
+var A = null, step = 0;
+function freshAnswers(){
+  var p = J('my-path', null) || {};
+  return { goal: p.goal || null, lvl: p.lvSrc === 'self' ? p.lvl : null, r: Object.assign({}, p.r || {}), time: p.time || null, redrawn: p.v ? (p.redrawn || 0) + 1 : 0 };
+}
+function vWizard(){
+  if (!A) A = freshAnswers();
+  var tl = testLevel(), N = tl ? 3 : 4, idx = tl && step >= 1 ? step + 1 : step;  // idx: 0 goal, 1 level, 2 rating, 3 time
+  var h = '<div class="steps">' + Array.apply(null, Array(N)).map(function(_, i){ return '<i class="' + (i <= step ? 'on' : '') + '"></i>'; }).join('') + '</div><section class="card">';
+  var ok = false;
+  if (idx === 0) {
+    h += '<div class="qh">🎯 ما هدفك الأول من تعلّم الإنجليزية؟</div><p class="lead">اختر هدفاً واحداً الآن، وتستطيع تغييره متى شئت.</p><div class="opts">'
+      + GOALS.map(function(g){ return '<button class="opt" data-g="' + g.k + '" aria-pressed="' + (A.goal === g.k) + '"><span class="i">' + g.ic + '</span><span><b>' + g.b + '</b><small>' + g.s + '</small></span></button>'; }).join('') + '</div>';
+    ok = !!A.goal;
+  } else if (idx === 1) {
+    h += '<div class="qh">📈 كيف ترى مستواك الآن؟</div><p class="lead">لم تختبر مستواك بعد، فاختر ما يصفك أقرب وصف.</p><div class="opts">'
+      + LVL.map(function(l, i){ return '<button class="opt" data-l="' + i + '" aria-pressed="' + (A.lvl === i) + '"><span class="i">' + l.ic + '</span><span><b>' + l.b + '</b><small>' + l.s + '</small></span></button>'; }).join('')
+      + '</div><div class="note">💡 الأدق أن تختبر مستواك: <a href="../level/index.html">قياس المستوى ←</a> (ستكون أول محطة في خارطتك إن لم تختبر).</div>';
+    ok = A.lvl != null;
+  } else if (idx === 2) {
+    h += '<div class="qh">🔍 قيّم نفسك بصدق في الأجزاء الستة</div><p class="lead">' + (tl ? 'مستواك حسب الاختبار: <b class="en">' + esc(tl.name) + '</b>. ' : '') + 'لا أحد يرى إجاباتك؛ الصدق يرسم لك خارطة أنفع.</p><div class="opts two">'
+      + C.map(function(c){ var v = A.r[c.k]; return '<div class="rate' + (v != null ? ' set' : '') + '"><div class="top"><span class="i">' + c.ic + '</span><b>' + c.ar + '</b><small>' + c.en + '</small></div><p>' + c.q + '</p><div class="faces">'
+        + FACE.map(function(f, i){ return '<button class="f' + i + '" data-c="' + c.k + '" data-v="' + i + '" aria-pressed="' + (v === i) + '"><span>' + f[0] + '</span>' + f[1] + '</button>'; }).join('') + '</div></div>'; }).join('') + '</div>';
+    ok = C.every(function(c){ return A.r[c.k] != null; });
+    if (!ok) h += '<p class="lead center" style="margin-top:10px">بقي ' + C.filter(function(c){ return A.r[c.k] == null; }).length + ' من 6</p>';
+  } else {
+    h += '<div class="qh">⏳ كم دقيقة تستطيع كل يوم؟</div><p class="lead">القليل الدائم أنفع من الكثير المنقطع.</p><div class="opts">'
+      + TIMES.map(function(t){ return '<button class="opt" data-t="' + t.m + '" aria-pressed="' + (A.time === t.m) + '"><span class="i">' + t.ic + '</span><span><b>' + t.b + (t.rec ? ' <small style="display:inline;color:#11826a;font-weight:800">· ننصح بها</small>' : '') + '</b><small>' + t.s + '</small></span></button>'; }).join('') + '</div>';
+    ok = !!A.time;
+  }
+  var last = step === N - 1;
+  // English-style navigation: previous on the left, next on the right.
+  h += '<div class="nav"><button class="btn ghost" id="prev">← السابق</button><button class="btn' + (last ? ' teal' : '') + '" id="next"' + (ok ? '' : ' disabled') + '>' + (last ? 'ارسم خارطتي 🗺️' : 'التالي →') + '</button></div></section>';
+  app.innerHTML = h;
+  app.querySelectorAll('[data-g]').forEach(function(b){ b.onclick = function(){ A.goal = b.dataset.g; vWizard(); }; });
+  app.querySelectorAll('[data-l]').forEach(function(b){ b.onclick = function(){ A.lvl = +b.dataset.l; vWizard(); }; });
+  app.querySelectorAll('[data-t]').forEach(function(b){ b.onclick = function(){ A.time = +b.dataset.t; vWizard(); }; });
+  app.querySelectorAll('[data-c]').forEach(function(b){ b.onclick = function(){ var y = window.scrollY; A.r[b.dataset.c] = +b.dataset.v; vWizard(); window.scrollTo(0, y); }; });
+  document.getElementById('prev').onclick = function(){ if (step === 0) { location.hash = J('my-path', null) ? '#map' : ''; vRoute(); } else { step--; vWizard(); window.scrollTo(0, 0); } };
+  document.getElementById('next').onclick = function(){
+    if (!ok) return;
+    if (!last) { step++; vWizard(); window.scrollTo(0, 0); return; }
+    var old = J('my-path', null), p = build(A);
+    if (old && old.days) p.days = old.days;                 // keep the streak of daily missions
+    S('my-path', p); A = null; step = 0; fresh = 1;
+    location.hash = '#map';
+  };
+}
+
+var fresh = 0;
+function vMap(){
+  var plan = J('my-path', null);
+  if (!plan) { location.hash = ''; return; }
+  // the stage moves on by itself once all its stations are done
+  var moved = false;
+  while (plan.stage < plan.stages.length && stageDone(plan, plan.stage)) { plan.stage++; moved = true; }
+  if (moved) S('my-path', plan);
+  var g = GK[plan.goal] || {}, tl = testLevel(), cur = plan.stage, ds = dayState(), d = dayNo();
+  var focus = plan.stages.map(function(s){ return s.k; });
+  var tasks = cur < plan.stages.length ? todayTasks(plan) : ['mb'];
+  var nDone = tasks.filter(function(id){ return taskDone(id, ds); }).length;
+  if (nDone === tasks.length && tasks.length && !plan.days[d]) { plan.days[d] = 1; S('my-path', plan); }
+  var streak = 0, x = plan.days[d] ? d : d - 1; while (plan.days[x] && streak < 400) { streak++; x--; }
+  var age = Math.floor((Date.now() - plan.at) / 864e5);
+
+  var h = '<section class="hero"><div class="big">🗺️</div><h1>خارطة طريقي</h1>'
+    + '<div class="chips"><span>' + (g.ic || '🎯') + ' ' + esc(g.b || '') + '</span><span>📈 ' + (plan.lvSrc === 'test' ? '<span class="en">' + esc(plan.lvName) + '</span>' : LVL[plan.lvl].b + ' (تقديرك)') + '</span><span>⏳ ' + plan.time + ' دقيقة يومياً</span></div></section>';
+
+  if (fresh) h += '<section class="card center" style="background:linear-gradient(135deg,#e9f8f1,#fff 70%);border-color:#bfe5d3"><h2>🎉 رُسمت خارطتك!</h2><p class="lead">ركّز أولاً على <b>' + CK[focus[0]].ar + '</b>، ثم <b>' + CK[focus[1]].ar + '</b>، ثم <b>' + CK[focus[2]].ar + '</b>. ابدأ بمهمة اليوم بالأسفل، وكل الأقسام الأخرى تبقى مفتوحة لك متى شئت.</p></section>';
+
+  // check-in: after the post test, or every 14 days
+  var newTest = tl && tl.at > plan.at;
+  if (newTest) h += '<section class="card checkin"><h2>📈 اختبرت مستواك من جديد!</h2><p class="lead">نتيجتك الآن <b class="en">' + esc(tl.name) + '</b>. أعد رسم خارطتك لتناسب مستواك الجديد.</p><div class="center" style="margin-top:12px"><a class="btn" href="#intro" id="redraw1">✏️ أعد رسم خارطتي</a></div></section>';
+  else if (age >= 14 && (plan.ci || 0) < Math.floor(age / 14)) {
+    var ck = focus[Math.min(cur, 2)];
+    h += '<section class="card checkin"><h2>⏰ مرّ أسبوعان على خارطتك</h2><p class="lead">كيف تشعر الآن في <b>' + CK[ck].ar + '</b>؟</p><div class="rate"><div class="faces">'
+      + FACE.map(function(f, i){ return '<button class="f' + i + '" data-ci="' + i + '" data-k="' + ck + '"><span>' + f[0] + '</span>' + f[1] + '</button>'; }).join('') + '</div></div></section>';
+  }
+
+  // today's mission
+  h += '<section class="card today"><div class="hd"><h2>☀️ مهمة اليوم</h2>' + (streak ? '<span class="streak">🔥 ' + streak + (streak === 1 ? ' يوم' : streak === 2 ? ' يومان' : streak <= 10 ? ' أيام' : ' يوماً') + '</span>' : '') + '</div>'
+    + '<p class="lead">' + (cur < plan.stages.length ? 'على قدر وقتك (' + plan.time + ' دقيقة). اضغط «ابدأ»، ثم ارجع هنا.' : 'أنهيت مراحل خارطتك! حافظ على المراجعة اليومية، ثم اختبر مستواك وأعد الرسم.') + '</p><div class="tasks">'
+    + tasks.map(function(id){ var t = T[id], dn = taskDone(id, ds); return '<div class="task' + (dn ? ' done' : '') + '"><span class="i">' + t.ic + '</span><div class="tx"><b>' + nm(t) + '</b><small>' + esc(t.how) + '</small></div><div class="acts">'
+      + (t.h ? '<a class="go" href="' + t.h + '"' + (/^https/.test(t.h) ? ' target="_blank" rel="noopener"' : '') + '>ابدأ ←</a>' : '')
+      + ((!t.key && id !== 'mb' && id !== 'lvl') || dn ? '<button class="tick" data-tk="' + id + '"' + (dn ? ' disabled' : '') + '>' + (dn ? '✓ أُنجزت' : 'أنجزتها ✓') + '</button>' : '') + '</div></div>'; }).join('')
+    + '</div>' + (nDone === tasks.length ? '<div class="alldone">🌟 أحسنت! أنهيت مهمة اليوم. نلتقي غداً.</div>' : '') + '</section>';
+
+  // the house coloured by the student's own rating
+  h += '<section class="card"><h2>🏠 بيت لغتك</h2><p class="lead">هكذا قيّمت نفسك. الإطار الأزرق = ما تركّز عليه خارطتك.</p>' + house(plan.r, cur < focus.length ? [focus[cur]] : []) + '</section>';
+
+  // the trail
+  h += '<section class="card"><h2>🧭 مسارك</h2><p class="lead">3 مراحل، لكل مرحلة قرابة أسبوعين. تنتقل تلقائياً حين تنهي محطاتها.</p><div class="trail">';
+  plan.stages.forEach(function(s, i){
+    var c = CK[s.k], ids = stageIds(plan, i), fin = i < cur, isCur = i === cur;
+    h += '<div class="stage ' + (fin ? 'fin' : isCur ? 'cur' : 'later') + '"><span class="dot">' + (fin ? '✓' : i + 1) + '</span><div class="sbox"><div class="hd"><h3>' + c.ic + ' المرحلة ' + (i + 1) + ': ' + c.ar + ' <span class="en" style="font-size:.95rem;color:var(--muted)">' + c.en + '</span></h3><span class="tag">' + (fin ? 'أنجزتها' : isCur ? 'أنت هنا' : 'لاحقاً') + '</span></div>'
+      + '<p class="why">' + c.why + '</p><div class="stns">'
+      + ids.map(function(id){ var t = T[id], p = prog(plan, id), dn = p >= 1; return '<div class="stn' + (dn ? ' done' : '') + '"><span class="i">' + t.ic + '</span><div class="tx"><b>' + nm(t) + '</b><small>' + esc(t.how) + '</small>'
+        + (t.key || id === 'lvl' ? '<div class="bar"><i style="width:' + Math.round(p * 100) + '%"></i></div>' : '') + '</div><div class="acts">'
+        + (t.h ? '<a class="go" href="' + t.h + '"' + (/^https/.test(t.h) ? ' target="_blank" rel="noopener"' : '') + '>' + (dn ? 'تدرّب' : 'ابدأ') + ' ←</a>' : '')
+        + (id !== 'lvl' ? '<button class="tick" data-st="' + id + '"' + (dn ? ' disabled' : '') + '>' + (dn ? '✓ أنجزتها' : 'أنجزتها ✓') + '</button>' : '') + '</div></div>'; }).join('')
+      + '</div>' + (isCur ? '<div class="next"><button class="btn ghost" id="skip">أتقنت هذا الجزء؟ انتقل للمرحلة التالية</button></div>' : '') + '</div></div>';
+  });
+  h += '<div class="stage ' + (cur >= plan.stages.length ? 'cur' : 'later') + '"><span class="dot">🏁</span><div class="flag"><span class="i">📈</span><div><b>قِس تحسّنك وأعد الرسم</b><small>بعد 4 أسابيع من الاختبار القبلي يُفتح الاختبار البعدي. اختبر، ثم ارسم خارطة جديدة على مستواك الجديد.</small></div></div></div>';
+  h += '</div></section>';
+
+  h += '<div class="tools"><a class="btn soft" href="#intro">✏️ عدّل خارطتي</a><a class="btn ghost" href="../index.html#sections">🗂️ كل أقسام النادي</a></div>'
+    + '<p class="foot">خارطتك محفوظة في حسابك، وتراها في أي جهاز تدخل منه برمزك.<br>إعداد: <b>أ. أحمد بن سالم</b></p>';
+  app.innerHTML = h;
+  if (fresh) { fresh = 0; fireworks(); }
+
+  app.querySelectorAll('[data-tk]').forEach(function(b){ b.onclick = function(){ var s = dayState(); s.ok[b.dataset.tk] = 1; S('mp-day', s); sfx(1); vMap(); }; });
+  app.querySelectorAll('[data-st]').forEach(function(b){ b.onclick = function(){
+    var t = T[b.dataset.st];
+    if (t.key && prog(plan, t.id) < .5 && !confirm('هل أنهيت فعلاً «' + t.n + '»؟ تقدّمك فيها يُحسب تلقائياً من تدريبك.')) return;
+    var before = plan.stage; plan.done[b.dataset.st] = 1; S('my-path', plan); sfx(1);
+    var s = dayState(); s.ok[b.dataset.st] = 1; S('mp-day', s);
+    vMap(); if (stageDone(plan, before)) { fireworks(); toast('🎉 أنهيت المرحلة ' + (before + 1) + '! انطلق للمرحلة التالية'); } }; });
+  var sk = document.getElementById('skip');
+  if (sk) sk.onclick = function(){ if (!confirm('ستنتقل إلى المرحلة التالية، وتبقى محطات هذه المرحلة مفتوحة لك. هل أنت متأكد؟')) return;
+    stageIds(plan, plan.stage).forEach(function(id){ if (id !== 'lvl') plan.done[id] = 1; }); S('my-path', plan); fireworks(); vMap(); window.scrollTo(0, 0); };
+  app.querySelectorAll('[data-ci]').forEach(function(b){ b.onclick = function(){
+    var k = b.dataset.k, v = +b.dataset.ci;
+    plan.ci = Math.floor((Date.now() - plan.at) / 864e5 / 14); plan.r[k] = v; S('my-path', plan);
+    if (v === 2 && plan.stage < plan.stages.length && plan.stages[plan.stage].k === k) { stageIds(plan, plan.stage).forEach(function(id){ if (id !== 'lvl') plan.done[id] = 1; }); S('my-path', plan); fireworks(); toast('💪 رائع! انتقلت للمرحلة التالية'); }
+    else toast(v === 0 ? 'لا بأس، الاستمرار هو السر. واصل مهمتك اليومية' : 'تقدّم جميل! واصل');
+    vMap(); }; });
+}
+
+function vRoute(){
+  var hs = location.hash, has = !!J('my-path', null);
+  if (hs === '#q') vWizard();
+  else if (hs === '#intro' || !has) vIntro();
+  else vMap();
+  window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', vRoute);
+window.addEventListener('pageshow', function(e){ if (e.persisted) vRoute(); });
+document.addEventListener('visibilitychange', function(){ if (!document.hidden && location.hash !== '#q') load().then(vRoute); });
+
+/* ================= fireworks ================= */
+function fireworks(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var cv = document.getElementById('fx'), x = cv.getContext('2d'), W = cv.width = innerWidth, H = cv.height = innerHeight, ps = [], cols = ['#3157d5','#11826a','#f2b53a','#e8607a','#8a6cf0'];
+  for (var b = 0; b < 4; b++) { var cx = W * (.2 + .6 * Math.random()), cy = H * (.2 + .3 * Math.random()); for (var i = 0; i < 40; i++) { var a = Math.random() * 6.28, s = 2 + Math.random() * 4; ps.push({ x: cx, y: cy, vx: Math.cos(a) * s, vy: Math.sin(a) * s, l: 60 + Math.random() * 30, c: cols[(b + i) % 5] }); } }
+  (function f(){ x.clearRect(0, 0, W, H); ps = ps.filter(function(p){ return p.l-- > 0; }); ps.forEach(function(p){ p.x += p.vx; p.y += p.vy; p.vy += .06; x.globalAlpha = Math.min(1, p.l / 30); x.fillStyle = p.c; x.fillRect(p.x, p.y, 4, 4); }); if (ps.length) requestAnimationFrame(f); else x.clearRect(0, 0, W, H); })();
+}
+
+/* ================= start ================= */
+function load(){
+  return import('../assets/honor.js?v=20261112b').then(function(H){
+    PARTS = H.computeScore().parts || {};
+    var p = J('my-path', null);
+    if (p && (!p.base || !Object.keys(p.base).length)) { p.base = snap(); S('my-path', p); }   // map drawn before the points loaded
+  }).catch(function(){});
+}
+vRoute();
+load().then(function(){ if (location.hash !== '#q') vRoute(); });
+})();
+</script>
+<script src="../assets/club.js?v=28"></script>
+</body>
+</html>
