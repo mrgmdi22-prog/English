@@ -152,7 +152,7 @@ DATA.forEach((d, i) => {
   main.appendChild(el);
 });
 const end = document.createElement('div'); end.className='end'; end.textContent='The End · تمّت'; main.appendChild(end);
-end.insertAdjacentHTML('afterend', "<div class=\"storynav wrap\" style=\"padding:0\"><a href=\"rip-van-winkle.html\">\u2190 Rip Van Winkle</a><a href=\"marjorie-daw.html\">Marjorie Daw \u2192</a></div>");
+end.insertAdjacentHTML('afterend', "<div class=\"storynav wrap\" style=\"padding:0\"><a href=\"purloined-letter.html\">\u2190 The Purloined Letter</a><a href=\"marjorie-daw.html\">Marjorie Daw \u2192</a></div>");
 
 const store = { get(k){try{return localStorage.getItem(k)}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}} };
 function setMode(m){
