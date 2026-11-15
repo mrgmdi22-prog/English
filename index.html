@@ -251,6 +251,14 @@ body.searching .totop{display:none}
 }
 #clubSfxBtn{bottom:calc(92px + env(safe-area-inset-bottom,0px))!important}
 @media print{.tabbar{display:none}}
+
+/* ---------- 15 Nov 2026: honor board = one small line (full entry is the tab bar's الشرف) ---------- */
+.hline{display:flex;align-items:center;gap:10px;margin-top:14px;text-decoration:none;color:#8a5d00;font-weight:800;font-size:1.08rem;
+  background:#fff8e1;border:1.5px solid #f2dc97;border-radius:999px;padding:9px 16px;line-height:1.5}
+.hline .ht{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hline .ht bdi{color:#5b3d00}
+.hline .hg{flex:none;font-size:1.1rem}
+.hline:hover{background:#fff1c4}
 </style>
 </head>
 <body>
@@ -276,11 +284,8 @@ body.searching .totop{display:none}
     <span class="go">أكمل ←</span>
   </a>
 
-  <a class="honor reveal" href="honor.html">
-    <span class="tro" aria-hidden="true">🏆</span>
-    <span class="txt"><b>لوحة الشرف</b><small id="hSub">تنافس مع زملائك: كل نجمة وإجابة صحيحة تمنحك نقاطاً.</small>
-      <span class="top3" id="top3"></span></span>
-    <span class="go">ادخل ←</span>
+  <a class="hline" href="honor.html" aria-label="لوحة الشرف">
+    <span aria-hidden="true">🏆</span><span class="ht" id="hLine">لوحة الشرف · نجوم الأسبوع</span><span class="hg">←</span>
   </a>
 
   <section class="quick" id="quick" aria-labelledby="hq">
@@ -570,14 +575,14 @@ body.searching .totop{display:none}
 import('./assets/honor.js?v=20261112b').then(async H => {
   const s = H.computeScore().score;
   const mp = document.getElementById('myPts'); if (mp) mp.textContent = s.toLocaleString('en-US');
-  if (s > 0) document.getElementById('hSub').textContent = 'نقاطك هذا الأسبوع: ' + s.toLocaleString('en-US') + ' نقطة — موسم جديد كل ثلاثاء، تنافس لتكون من نجوم الأسبوع 🌟';
   if (!H.ready) return;
-  const m = ['🥇','🥈','🥉'], t = document.getElementById('top3');
-  // Live top three: updates by itself when the ranking changes.
+  const line = document.getElementById('hLine');
+  // Live: this week's leader, updates by itself when the ranking changes.
   await H.watchBoard(rows => {
-    t.querySelectorAll('span[data-top]').forEach(e => e.remove());
-    rows.forEach((r, i) => { const e = document.createElement('span'); e.dataset.top = '1'; e.textContent = m[i] + ' ' + r.nick; t.appendChild(e); });
-  }, 3);
+    if (!rows.length) return;
+    line.textContent = 'نجم الأسبوع: 🥇 ';
+    const b = document.createElement('bdi'); b.textContent = rows[0].nick; line.appendChild(b);
+  }, 1);
 }).catch(() => {});
 </script>
 <script>
