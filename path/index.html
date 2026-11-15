@@ -443,7 +443,8 @@ function vMap(){
   var age = Math.floor((Date.now() - plan.at) / 864e5);
 
   var h = '<section class="hero"><div class="big">🗺️</div><h1>خارطة طريقي</h1>'
-    + '<div class="chips"><span>' + (g.ic || '🎯') + ' ' + esc(g.b || '') + '</span><span>📈 ' + (plan.lvSrc === 'test' ? '<span class="en">' + esc(plan.lvName) + '</span>' : LVL[plan.lvl].b + ' (تقديرك)') + '</span><span>⏳ ' + plan.time + ' دقيقة يومياً</span></div></section>';
+    + '<div class="chips"><span>' + (g.ic || '🎯') + ' ' + esc(g.b || '') + '</span><span>📈 ' + (plan.lvSrc === 'test' ? '<span class="en">' + esc(plan.lvName) + '</span>' : LVL[plan.lvl].b + ' (تقديرك)') + '</span><span>⏳ ' + plan.time + ' دقيقة يومياً</span></div>'
+    + '<div style="margin-top:14px"><button class="btn soft" data-new>🔄 ارسم خارطة جديدة</button></div></section>';
 
   if (fresh) h += '<section class="card center" style="background:linear-gradient(135deg,#e9f8f1,#fff 70%);border-color:#bfe5d3"><h2>🎉 رُسمت خارطتك!</h2><p class="lead">ركّز أولاً على <b>' + CK[focus[0]].ar + '</b>، ثم <b>' + CK[focus[1]].ar + '</b>، ثم <b>' + CK[focus[2]].ar + '</b>. ابدأ بمهمة اليوم بالأسفل، وكل الأقسام الأخرى تبقى مفتوحة لك متى شئت.</p></section>';
 
@@ -482,7 +483,7 @@ function vMap(){
   h += '<div class="stage ' + (cur >= plan.stages.length ? 'cur' : 'later') + '"><span class="dot">🏁</span><div class="flag"><span class="i">📈</span><div><b>قِس تحسّنك وأعد الرسم</b><small>بعد 4 أسابيع من الاختبار القبلي يُفتح الاختبار البعدي. اختبر، ثم ارسم خارطة جديدة على مستواك الجديد.</small></div></div></div>';
   h += '</div></section>';
 
-  h += '<div class="tools"><a class="btn soft" href="#intro">✏️ عدّل خارطتي</a><a class="btn ghost" href="../index.html#sections">🗂️ كل أقسام النادي</a></div>'
+  h += '<div class="tools"><button class="btn" data-new>🔄 ارسم خارطة جديدة</button><a class="btn soft" href="#intro">✏️ عدّل خارطتي</a><a class="btn ghost" href="../index.html#sections">🗂️ كل أقسام النادي</a></div>'
     + '<p class="foot">خارطتك محفوظة في حسابك، وتراها في أي جهاز تدخل منه برمزك.<br>إعداد: <b>أ. أحمد بن سالم</b></p>';
   app.innerHTML = h;
   if (fresh) { fresh = 0; fireworks(); }
@@ -494,6 +495,10 @@ function vMap(){
     var before = plan.stage; plan.done[b.dataset.st] = 1; S('my-path', plan); sfx(1);
     var s = dayState(); s.ok[b.dataset.st] = 1; S('mp-day', s);
     vMap(); if (stageDone(plan, before)) { fireworks(); toast('🎉 أنهيت المرحلة ' + (before + 1) + '! انطلق للمرحلة التالية'); } }; });
+  // A brand-new map from scratch (empty answers); the old one is replaced only when the new one is drawn, and the 🔥 days stay.
+  app.querySelectorAll('[data-new]').forEach(function(b){ b.onclick = function(){
+    if (!confirm('ستصمّم خارطة جديدة من البداية بإجابات جديدة، وتحلّ محل خارطتك الحالية حين تنتهي منها. أيام إنجازك 🔥 تبقى محفوظة. هل تريد البدء؟')) return;
+    A = { goal: null, lvl: null, r: {}, time: null, redrawn: (plan.redrawn || 0) + 1 }; step = 0; location.hash = '#q'; }; });
   var sk = document.getElementById('skip');
   if (sk) sk.onclick = function(){ if (!confirm('ستنتقل إلى المرحلة التالية، وتبقى محطات هذه المرحلة مفتوحة لك. هل أنت متأكد؟')) return;
     stageIds(plan, plan.stage).forEach(function(id){ if (id !== 'lvl') plan.done[id] = 1; }); S('my-path', plan); fireworks(); vMap(); window.scrollTo(0, 0); };
