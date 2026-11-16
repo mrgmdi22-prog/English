@@ -618,7 +618,7 @@ body.new .q-worlds .qn{display:none}
     var dots = '<span class="dots">' + p.stages.map(function(x, i){ return '<i class="' + (i < st ? 'ok' : i === st ? 'on' : '') + '"></i>'; }).join('') + '</span>';
     var rows = st < n
       ? '<span class="row"><span class="k">🚧</span><span>تبني الآن: <b>' + AR[p.stages[st].k] + '</b> · المرحلة ' + (st + 1) + ' من ' + n + '</span>' + dots + '</span>'
-        + '<span class="row' + (doneToday ? ' done' : '') + '"><span class="k">📋</span><span>أمر عمل اليوم (' + p.time + ' دقيقة): <b>' + (doneToday ? 'أنجزته ✓' : 'بانتظارك') + '</b></span></span>'
+        + '<span class="row' + (doneToday ? ' done' : '') + '"><span class="k">📋</span><span>أمر عمل اليوم (' + p.time + (p.time <= 10 ? ' دقائق' : ' دقيقة') + '): <b>' + (doneToday ? 'أنجزته ✓' : 'بانتظارك') + '</b></span></span>'
       : '<span class="row done"><span class="k">🏁</span><span><b>اكتمل بناء مخططك!</b> اختبر مستواك وصمّم مخططاً أعلى.</span>' + dots + '</span>';
     document.getElementById('mpS').textContent = 'خطتك الشخصية لبناء لغتك جزءاً بعد جزء: كل يوم أمر عمل صغير يرفع الجزء الأضعف في بيتك.';
     document.getElementById('mpHow').hidden = true;
