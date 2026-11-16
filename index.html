@@ -263,38 +263,38 @@ body.searching .totop{display:none}
 /* ---------- «هندسة مساري» card (path/; 15 Nov 2026, made clearer 16 Nov 2026): name + what it is always visible,
    then the student's status in plain rows (part being built, stage dots, today's work order), full-width button. ---------- */
 .mypath{position:relative;display:block;margin-top:16px;text-decoration:none;color:var(--ink);overflow:hidden;isolation:isolate;
-  background:linear-gradient(125deg,#fff1e6 0%,#fff8d9 28%,#e9fbef 55%,#e6f3ff 78%,#f3ecff 100%);border:2px solid #ffd9b8;border-radius:28px;padding:18px 16px 16px;
-  box-shadow:0 14px 30px -26px #e0803c;transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+  background:linear-gradient(125deg,#e4f1ff 0%,#e8f8ff 40%,#e3f8ef 100%);border:2px solid #9fcdf2;border-radius:28px;padding:18px 16px 16px;
+  box-shadow:0 14px 30px -26px #1d6fd1;transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
 .mypath::before,.mypath::after{content:"";position:absolute;z-index:-1;border-radius:50%;pointer-events:none}
-.mypath::before{width:150px;height:150px;top:-60px;left:-40px;background:radial-gradient(circle,#ffd3e2 0 55%,transparent 56%);opacity:.55}
-.mypath::after{width:110px;height:110px;bottom:-50px;right:-30px;background:radial-gradient(circle,#c9f0dc 0 55%,transparent 56%);opacity:.7}
-.mypath:hover{transform:translateY(-3px);box-shadow:0 20px 34px -24px #e0803c}
+.mypath::before{width:150px;height:150px;top:-60px;left:-40px;background:radial-gradient(circle,#bfe0ff 0 55%,transparent 56%);opacity:.6}
+.mypath::after{width:110px;height:110px;bottom:-50px;right:-30px;background:radial-gradient(circle,#bdeed6 0 55%,transparent 56%);opacity:.7}
+.mypath:hover{transform:translateY(-3px);box-shadow:0 20px 34px -24px #1d6fd1}
 .mypath .hd{display:flex;align-items:center;gap:12px}
 .mypath .ic{flex:none;font-size:2.1rem;width:60px;height:60px;display:grid;place-items:center;border-radius:20px;
-  background:linear-gradient(140deg,#fff 0%,#fff3c4 100%);border:2px solid #ffd77a;transform:rotate(-6deg);box-shadow:0 8px 16px -12px #d99a00}
+  background:#fff;border:2px solid #9fcdf2;transform:rotate(-6deg);box-shadow:0 8px 16px -12px #1d6fd1}
 .mypath .tx{flex:1;min-width:0}
-.mypath .tx b{display:block;font-size:1.36rem;line-height:1.35;color:#c2410c}
-.mypath .tx b .sp{color:#2a46b8}
-.mypath .tx small{display:block;color:#5a5470;font-size:1.03rem;line-height:1.65}
+.mypath .tx b{display:block;font-size:1.36rem;line-height:1.35;color:#1e3a8a}
+.mypath .tx b .sp{color:#0f766e}
+.mypath .tx small{display:block;color:#475569;font-size:1.03rem;line-height:1.65}
 .mypath .rows{display:grid;gap:8px;margin-top:14px}
-.mypath .row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.85);border:2px solid #ffd9b8;border-radius:18px;padding:9px 12px;font-size:1.05rem;line-height:1.5}
-.mypath .row .k{flex:none;width:40px;height:40px;display:grid;place-items:center;border-radius:14px;font-size:1.3rem;background:#fff1d6}
-.mypath .row.r2{border-color:#c7dcff}.mypath .row.r2 .k{background:#e3eeff}
+.mypath .row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.88);border:2px solid #f6c48a;border-radius:18px;padding:9px 12px;font-size:1.05rem;line-height:1.5}
+.mypath .row .k{flex:none;width:40px;height:40px;display:grid;place-items:center;border-radius:14px;font-size:1.3rem;background:#fff1dc}
+.mypath .row.r2{border-color:#9fcdf2}.mypath .row.r2 .k{background:#e1efff}
 .mypath .row span{flex:1;min-width:0}
-.mypath .row .sm{display:block;font-size:.92rem;color:#8a7a68;line-height:1.4}
-.mypath .row b{color:#c2410c}.mypath .row.r2 b{color:#2a46b8}
+.mypath .row .sm{display:block;font-size:.92rem;color:#64748b;line-height:1.4}
+.mypath .row b{color:#c2410c}.mypath .row.r2 b{color:#1d4ed8}
 .mypath .row.done{border-color:#a9e4c6;background:rgba(236,251,243,.92)}.mypath .row.done .k{background:#d3f4e3}.mypath .row.done b{color:#0f7a5c}
 .mypath .dots{display:flex;gap:5px;flex:none;direction:rtl}
-.mypath .dots i{width:20px;height:9px;border-radius:99px;background:#efe4d6}
-.mypath .dots i.on{background:#ff9f43}.mypath .dots i.ok{background:#34c38f}
+.mypath .dots i{width:20px;height:9px;border-radius:99px;background:#dbe5ef}
+.mypath .dots i.on{background:#f59e0b}.mypath .dots i.ok{background:#10b981}
 .mypath .how{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
 .mypath .how span{border-radius:999px;padding:4px 13px;font-size:1rem;font-weight:800;border:1.5px solid}
-.mypath .how span:nth-child(1){background:#ffe9ef;border-color:#ffc2d1;color:#b0325a}
-.mypath .how span:nth-child(2){background:#fff4cf;border-color:#ffdf85;color:#8a5d00}
-.mypath .how span:nth-child(3){background:#e3f8ec;border-color:#a9e4c6;color:#0f7a5c}
-.mypath .how span:nth-child(4){background:#e6f0ff;border-color:#bcd3ff;color:#2a46b8}
+.mypath .how span:nth-child(1){background:#fff3dc;border-color:#f6c48a;color:#9a4a00}
+.mypath .how span:nth-child(2){background:#e1efff;border-color:#9fcdf2;color:#1d4ed8}
+.mypath .how span:nth-child(3){background:#ddf6ef;border-color:#8fdcc4;color:#0f766e}
+.mypath .how span:nth-child(4){background:#e9f7dc;border-color:#b5e08a;color:#3f6212}
 .mypath .go{display:block;margin-top:14px;text-align:center;color:#fff;font-weight:800;border-radius:999px;padding:12px 16px;font-size:1.12rem;
-  background:linear-gradient(90deg,#ff8a5c,#ff6f91 45%,#8a6cf0);box-shadow:0 10px 20px -14px #ff6f91;text-shadow:0 1px 0 rgba(0,0,0,.12)}
+  background:linear-gradient(90deg,#0d9488,#1d6fd1);box-shadow:0 10px 20px -14px #1d6fd1;text-shadow:0 1px 0 rgba(0,0,0,.12)}
 .mypath .qn{position:absolute;top:8px;left:10px;display:none;place-items:center;width:30px;height:30px;border-radius:50%;background:#11826a;color:#fff;font-weight:800;font-size:.95rem}
 .mypath [hidden]{display:none}
 body.new .mypath .qn{display:grid}
@@ -332,7 +332,7 @@ body.new .q-worlds .qn{display:none}
   <a class="mypath" id="mypath" href="path/index.html">
     <span class="qn">3</span>
     <span class="hd"><span class="ic" aria-hidden="true">📐</span>
-      <span class="tx"><b>هندسة <span class="sp">مساري</span> ✨</b><small id="mpS">خطة شخصية لك وحدك: تجيب عن 4 أسئلة، فيُصمَّم لك مخطط يبني لغتك جزءاً بعد جزء، يبدأ بالأضعف.</small></span></span>
+      <span class="tx"><b>هندسة <span class="sp">مساري</span></b><small id="mpS">خطة شخصية لك وحدك: تجيب عن 4 أسئلة، فيُصمَّم لك مخطط يبني لغتك جزءاً بعد جزء، يبدأ بالأضعف.</small></span></span>
     <span class="how" id="mpHow"><span>🎯 هدفك</span><span>📈 مستواك</span><span>🔍 تقييمك لنفسك</span><span>⏳ وقتك</span></span>
     <span class="rows" id="mpRows" hidden></span>
     <span class="go" id="mpG">📐 صمّم مساري في دقيقتين ←</span>
