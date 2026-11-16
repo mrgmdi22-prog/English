@@ -167,7 +167,7 @@ body.gate #jb{width:100%;min-height:60px;font-size:1.3rem}
 @media (max-width:520px){.podium{gap:6px}.pl .nm{font-size:1.15rem}.pl .medal{font-size:2.8rem}.me .pts{width:100%}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pl,.list li{opacity:1;transform:none}}
 </style>
-<link rel="stylesheet" href="assets/brand.css?v=1"><script src="assets/brand.js?v=1"></script>
+<link rel="stylesheet" href="assets/brand.css?v=2"><script src="assets/brand.js?v=2"></script>
 </head>
 <body class="b-honor">
 <a class="club-home" id="homeLink" href="index.html">🏠 الرئيسية</a>
@@ -184,15 +184,15 @@ body.gate #jb{width:100%;min-height:60px;font-size:1.3rem}
   <section class="panel race" id="race" hidden aria-live="polite"></section>
 
   <section aria-labelledby="topH" id="boardSec">
-    <h2 id="topH" style="text-align:center;margin:34px 0 0;font-size:1.7rem">🏆 أوائل هذا الأسبوع</h2>
+    <h2 id="topH" class="bh2" style="text-align:center;margin:34px 0 0;font-size:1.7rem"><span data-bi="trophy" data-bs="52"></span>أوائل هذا الأسبوع</h2>
     <p class="note" id="seasonNote" style="text-align:center;margin-top:6px"></p>
-    <div style="text-align:center;margin-top:10px"><button class="btn soft" id="rb" type="button">🔄 حدّث الترتيب</button><div class="note" id="rbNote" style="margin-top:6px;font-size:.95rem" aria-live="polite"></div></div>
+    <div style="text-align:center;margin-top:10px"><button class="btn soft" id="rb" type="button">حدّث الترتيب</button><div class="note" id="rbNote" style="margin-top:6px;font-size:.95rem" aria-live="polite"></div></div>
     <div class="podium" id="podium"></div>
     <ol class="list" id="list"></ol>
   </section>
 
   <section class="panel stars" id="starsP" hidden>
-    <h2>🌟 نجوم الأسبوع الماضي</h2>
+    <h2 class="bh2"><span data-bi="star" data-bs="46"></span>نجوم الأسبوع الماضي</h2>
     <p class="note" id="starsSub"></p>
     <ol class="list" id="starsL"></ol>
     <details class="arch" id="archD" hidden><summary>📜 سجل النجوم في كل الأسابيع</summary>
@@ -200,7 +200,7 @@ body.gate #jb{width:100%;min-height:60px;font-size:1.3rem}
   </section>
 
   <section class="panel plus" id="plusP" hidden>
-    <h2>🚀 لوحة النخبة+ (تقييم مستقل)</h2>
+    <h2 class="bh2"><span data-bi="bolt" data-bs="46"></span>لوحة النخبة+ (تقييم مستقل)</h2>
     <p class="note">نقاط النخبة+ لا تدخل هذه اللوحة العامة، فلكل مستوى منافسته العادلة. أبطال النخبة+ يتنافسون في لوحتهم الخاصة، ولهم نجوم أسبوع مستقلون، وتظهر بجانب أسمائهم هنا شارة 🚀.</p>
     <ol class="list" id="plusL"></ol>
     <a class="go" href="elite/plus/index.html#board">افتح لوحة النخبة+ ←</a>
@@ -285,7 +285,7 @@ function renderStars() {
   const last = weeks[0];
   P.hidden = false;
   $('starsSub').textContent = 'أفضل ' + H.STARS_N + ' في ' + (last.w === H.FOUND_WEEK ? 'الموسم التأسيسي (كل النقاط حتى 3/11)' : 'موسم ' + H.weekLabel(last.w)) + '. يبقى اسمهم هنا حتى يُعلن نجوم الأسبوع القادم، ويُحفظ في سجل النجوم.';
-  const medals = ['🥇','🥈','🥉'];
+  const medals = window.Brand ? [1, 2, 3].map(n => window.Brand.medal(n)) : ['🥇','🥈','🥉'];
   $('starsL').innerHTML = last.top.map((r, i) => `<li class="${ME && r.id===ME.id?'mine':''}"><span class="rk">${medals[i] || i + 1}</span><span class="nm">${esc(r.nick)}${regTag(r)}${count[r.id] > 1 ? ` <small style="color:var(--gold)">🌟×${count[r.id]}</small>` : ''}</span><span class="sc">${fmt(r.s)}</span></li>`).join('') || '<li class="empty-board" style="opacity:1;transform:none;border:0;background:none">لم يجمع أحد نقاطاً في ذلك الأسبوع.</li>';
   const ids = Object.keys(count).sort((a, b) => count[b] - count[a]).slice(0, 10), byId = {}; ALL.forEach(r => { byId[r.id] = r; });
   $('archD').hidden = false;
@@ -295,7 +295,7 @@ function renderStars() {
 
 function renderBoard() {
   const top = ROWS.slice(0, 3), rest = ROWS.slice(3, 50);
-  const order = [1, 0, 2], medals = ['🥇','🥈','🥉'];
+  const order = [1, 0, 2], medals = window.Brand ? [1, 2, 3].map(n => window.Brand.medal(n)) : ['🥇','🥈','🥉'];
   $('podium').innerHTML = order.map(i => {
     const r = top[i];
     return r ? `<div class="pl g${i+1}"><div class="medal">${medals[i]}</div><div class="nm">${esc(r.nick)}</div>${regTag(r)}<div class="sc">${fmt(r.score)} نقطة</div><div class="block">${i+1}</div></div>`
@@ -366,7 +366,7 @@ function regTag(r) { return (r && r.region ? `<small class="reg">📍 ${esc(r.re
 function renderPlus() {
   const rows = ALL.filter(r => r.parts && (r.parts.epp | 0) > 0).sort((a, b) => (b.parts.epp | 0) - (a.parts.epp | 0)).slice(0, 5);
   const P = $('plusP'); if (!P) return;
-  P.hidden = false; const medals = ['🥇','🥈','🥉'];
+  P.hidden = false; const medals = window.Brand ? [1, 2, 3].map(n => window.Brand.medal(n)) : ['🥇','🥈','🥉'];
   $('plusL').innerHTML = rows.map((r, i) => `<li class="${ME && r.id===ME.id?'mine':''}"><span class="rk">${medals[i] || i + 1}</span><span class="nm">${esc(r.nick)}</span><span class="sc">${fmt(r.parts.epp | 0)}</span></li>`).join('')
     || '<li class="empty-board" style="opacity:1;transform:none;border:0;background:none">لا أبطال في النخبة+ بعد.</li>';
 }
@@ -540,7 +540,7 @@ function renderMe(msg) {
   }
   const rk = rankOf(ME.id, ME.score);
   const p = local.parts;
-  P.innerHTML = `<div class="me"><span class="av" aria-hidden="true">🏅</span>
+  P.innerHTML = `<div class="me"><span class="av" aria-hidden="true">${window.Brand ? window.Brand.chip("medal", 56) : "🏅"}</span>
       <div class="who"><b>${esc(ME.nick)}</b>
         <span class="status ${ME.approved?'ok':'wait'}">${ME.approved?'✓ ظاهر في اللوحة · المركز '+rk:'⏳ بانتظار موافقة المعلم'}</span></div>
       <div class="pts"><b>${fmt(local.score)}</b><span>نقطة هذا الأسبوع</span></div></div>
@@ -595,7 +595,7 @@ $('rb').onclick = async () => {
     if (ME) renderRace(H.computeScore().score);
     n.textContent = '✓ تم التحديث الساعة ' + new Date().toLocaleTimeString('ar-SA-u-nu-latn', { hour: 'numeric', minute: '2-digit' });
   } catch (err) { console.error(err); n.textContent = 'تعذّر التحديث، تأكد من الاتصال بالإنترنت.'; }
-  b.disabled = false; b.textContent = '🔄 حدّث الترتيب';
+  b.disabled = false; b.textContent = 'حدّث الترتيب';
 };
 
 if (!H.ready) {

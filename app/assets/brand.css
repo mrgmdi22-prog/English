@@ -103,3 +103,32 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--b-sky);outline-offs
 .b-honor .onb span.on{background:var(--b-ink)!important;border-color:var(--b-ink)!important}
 .b-honor header h1{color:var(--b-ink)}
 .b-welcome .f .b-chip{display:inline-flex}
+
+/* ---- sections: drawn card icons ---- */
+.card .ic{background:none;font-size:0;width:auto;height:auto;margin-bottom:0;align-self:flex-start}
+.card .arrow{background:#fff;border:2px solid var(--b-edge);color:var(--b-ink)}
+.capchip{background:#fff;border:2px solid var(--b-edge);color:var(--b-ink)}
+.capchip>span.b-host{font-size:0;height:34px}
+.lmodes a{border:2px solid var(--b-edge);background:#f8fbff;color:var(--b-ink)}
+.hcaps{border:2px solid var(--b-edge)}
+
+/* ---- honor board inside ---- */
+.b-honor{--gold:#b9480a;--gold-soft:#fff6d8;--line:#d5e2f3}
+.b-medal{display:block;margin:0 auto}
+.b-honor .pl .medal{line-height:0}
+.b-honor .pl .medal .b-medal{width:64px;height:auto}
+.b-honor .list .rk .b-medal{width:32px;height:auto}
+.b-honor .pl .block{color:var(--b-ink);border:2px solid var(--b-ink);border-bottom:0;border-radius:16px 16px 0 0}
+.b-honor .pl.g1 .block{background:var(--b-sun)}
+.b-honor .pl.g2 .block{background:#dbe6f5}
+.b-honor .pl.g3 .block{background:#ffd3b8}
+.b-honor .pl .sc,.b-honor .list .sc{color:var(--b-ink)}
+.b-honor .list li{border:2px solid var(--b-edge);border-radius:16px}
+.b-honor .list li.top10{background:#fffbe9;border-color:#f6dc8a}
+.b-honor .list li.mine{border-color:var(--b-sky);background:#e9f2ff}
+.b-honor .list .rk{background:#eef4fb;color:var(--b-ink)}
+.b-honor .list li.top10 .rk{background:#fff1bf;color:var(--b-ink)}
+.b-honor .bh2{display:flex;align-items:center;justify-content:center;gap:8px}
+.b-honor .panel h2.bh2{justify-content:flex-start}
+.b-honor .me .av{font-size:0;background:none}
+.b-honor .arch .wk span{background:#fff;border:1.5px solid var(--b-edge)}
