@@ -571,6 +571,9 @@ function vMap(){
 
   if (fresh) h += '<section class="card center" style="background:linear-gradient(135deg,#e3f8ef,#fff 70%);border-color:#a9e4c6"><h2>🎉 رُسم مخطط بيتك!</h2><p class="lead">تبني أولاً <b>' + CK[focus[0]].ar + '</b>، ثم <b>' + CK[focus[1]].ar + '</b>، ثم <b>' + CK[focus[2]].ar + '</b>. ابدأ بأمر عمل اليوم، وكل أقسام النادي تبقى مفتوحة لك.</p></section>';
 
+  var onb = ''; try { onb = sessionStorage.getItem('club-onb') || ''; } catch (e) {}
+  if (onb) h += '<section class="card center" style="border-color:#a9d3f5;background:#eaf3fd"><h2>✅ مسارك جاهز!</h2><p class="lead">الخطوة الأخيرة: ادخل الموقع وابدأ أول مهمة.</p><a class="cta" href="' + esc(onb) + '" onclick="try{sessionStorage.removeItem(\'club-onb\')}catch(e){}">🏠 ادخل الموقع ←</a></section>';
+
   var newTest = tl && tl.at > plan.at;
   if (newTest) h += '<section class="card checkin"><h2>📈 اختبرت مستواك من جديد!</h2><p class="lead">نتيجتك الآن <b class="en">' + esc(tl.name) + '</b>. صمّم مخططاً جديداً لبيت أعلى.</p><div class="center" style="margin-top:12px"><a class="btn" href="#intro" id="redraw1">📐 مخطط جديد</a></div></section>';
   else if (age >= 14 && (plan.ci || 0) < Math.floor(age / 14)) {

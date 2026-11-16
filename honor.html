@@ -150,6 +150,20 @@ footer a{color:var(--muted)}
 .codebox{margin-top:14px;background:#fff8e3;border:2px dashed #e0b84a;border-radius:18px;padding:14px;text-align:center}
 .codebox .cd{font-family:var(--en);font-size:1.9rem;font-weight:600;letter-spacing:3px;color:#7a5200;margin:4px 0}
 .codebox p{margin:4px 0;font-size:1rem;color:var(--muted)}
+/* Gate mode (first visit): one calm card — only the needed fields, no board, no rules, no long notes. */
+.onb{display:none}
+body.gate .onb{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:14px 0 0;font-weight:800;font-size:1rem}
+body.gate .onb span{background:#fff;border:1.5px solid #d5e6f3;color:#35516d;border-radius:999px;padding:4px 14px}
+body.gate .onb span.on{background:#1d6fd1;border-color:#1d6fd1;color:#fff}
+body.gate #boardSec,body.gate #race,body.gate #starsP,body.gate #plusP,body.gate #rulesP,body.gate .wrap>footer,body.gate #mePanel .sugg + .note,body.gate #mePanel>.note,body.gate #mePanel #jf .note{display:none}
+body.gate #mePanel{display:flex;flex-direction:column}
+body.gate #mePanel .restore{order:9;background:none;border:0;padding:0;margin:20px 0 0;text-align:center}
+body.gate #mePanel .restore>b{font-size:1rem;font-weight:600;color:#35516d}
+body.gate #mePanel .restore>.note{display:none}
+body.gate .idbox{background:none;border:0;padding:0}
+body.gate .idbox>.lock{font-size:.9rem}
+body.gate #mePanel input[type=text],body.gate #mePanel select{font-size:1.2rem;min-height:54px}
+body.gate #jb{width:100%;min-height:60px;font-size:1.3rem}
 @media (max-width:520px){.podium{gap:6px}.pl .nm{font-size:1.15rem}.pl .medal{font-size:2.8rem}.me .pts{width:100%}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pl,.list li{opacity:1;transform:none}}
 </style>
@@ -161,6 +175,7 @@ footer a{color:var(--muted)}
     <span class="trophy" aria-hidden="true">🏆</span>
     <h1 id="hTitle">لوحة الشرف</h1>
     <p id="hSub">كل نجمة وكل إجابة صحيحة في أدوات النادي تمنحك نقاطاً. تدرّب، واصعد إلى القمة!</p>
+    <div class="onb" aria-hidden="true"><span class="on">١ التسجيل</span><span>٢ التعريف</span><span>٣ هندسة مساري</span></div>
   </header>
 
   <section class="panel" id="mePanel"><div class="skeleton">جارٍ التحميل…</div></section>
@@ -224,7 +239,7 @@ function gateHeader() {
   const g = !demo && !isReg();
   $('homeLink').style.display = g ? 'none' : '';
   $('hTitle').textContent = g ? 'لوحة التسجيل' : HEAD0[0];
-  $('hSub').textContent = g ? 'أهلاً بك في نادي اللغة الإنجليزية 👋 سجّل مرة واحدة فقط لتفتح جميع أدوات النادي وتدخل سباق لوحة الشرف.' : HEAD0[1];
+  $('hSub').textContent = g ? 'أهلاً بك في نادي اللغة الإنجليزية 👋 سجّل مرة واحدة فقط.' : HEAD0[1];
   document.body.classList.toggle('gate', g);
   document.title = (g ? 'لوحة التسجيل' : 'لوحة الشرف') + ' · نادي اللغة الإنجليزية';
   const tr = document.querySelector('.trophy'); if (tr) tr.textContent = g ? '📝' : '🏆';
@@ -494,6 +509,7 @@ function renderMe(msg) {
     wireId(); wireSugg(); wireRestore();
     $('jf').onsubmit = async e => {
       e.preventDefault();
+      const first = !isReg();
       const n = H.cleanNick($('nk').value);
       const id = readId();
       if (id.err) { showMsg(id.err, false, id.f); return; }
@@ -506,8 +522,9 @@ function renderMe(msg) {
       const region = id.region; delete id.region;
       try { await timed(H.savePrivate(id), 25000); PRIV = id; step = 'player'; ME = await timed(H.join(n, region), 25000); markReg(); gateHeader();
         await timed(H.ensureAccount(), 15000).catch(() => {});
-        renderMe({t: NEXT ? 'تم التسجيل! جارٍ فتح الصفحة التي طلبتها…' : (ME.approved ? 'تم التسجيل! فُتحت لك جميع الأدوات، واسمك ظاهر الآن في لوحة الشرف 🎉' : 'تم التسجيل! فُتحت لك جميع الأدوات، وسيظهر اسمك في اللوحة بعد موافقة المعلم.')});
-        if (NEXT) setTimeout(() => location.replace(NEXT), H.myCode() ? 6000 : 1400);
+        renderMe({t: first ? 'تم التسجيل! ننتقل إلى التعريف بالنادي…' : NEXT ? 'تم التسجيل! جارٍ فتح الصفحة التي طلبتها…' : (ME.approved ? 'تم التسجيل! فُتحت لك جميع الأدوات، واسمك ظاهر الآن في لوحة الشرف 🎉' : 'تم التسجيل! فُتحت لك جميع الأدوات، وسيظهر اسمك في اللوحة بعد موافقة المعلم.')});
+        if (first) setTimeout(() => location.replace('welcome.html' + (NEXT ? '?next=' + encodeURIComponent(NEXT) : '')), 900);
+        else if (NEXT) setTimeout(() => location.replace(NEXT), H.myCode() ? 6000 : 1400);
         else { const a = document.createElement('a'); a.href = 'index.html'; a.className = 'btn'; a.style.cssText = 'display:inline-block;margin-top:12px;text-decoration:none'; a.textContent = 'ابدأ الآن ← الصفحة الرئيسية'; $('mePanel').appendChild(a); } }
       catch (err) {
         console.error(err);

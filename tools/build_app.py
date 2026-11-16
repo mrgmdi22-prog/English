@@ -16,7 +16,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'app')
 
 SKIP_DIRS = {'.git', '.github', 'app', 'tools', 'kids', 'mystery', '.claude', 'node_modules'}
-SKIP_PATHS = {'teacher.html', 'honor.html', 'copy-rules.html', 'install.html', 'sounds.html', 'firestore.rules',
+SKIP_PATHS = {'teacher.html', 'honor.html', 'welcome.html', 'copy-rules.html', 'install.html', 'sounds.html', 'firestore.rules',
               'CLAUDE.md', 'words/core2000.html', 'elite/step', 'CNAME', 'README.md'}
 
 # Every page links here instead of the pages the app does not have.

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>تعرّف على النادي · نادي اللغة الإنجليزية</title>
+<meta name="theme-color" content="#f2f8fc">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<style>
+:root{color-scheme:light;--ink:#1b3550;--muted:#35516d;--blue:#1d6fd1;--line:#d5e6f3;--ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:#f2f8fc;color:var(--ink);font-family:var(--ar);font-size:20px;line-height:1.7;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+.wrap{max-width:560px;margin:0 auto;padding:26px 18px 40px;display:flex;flex-direction:column;gap:18px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .lg{width:52px;height:52px;border-radius:16px;background:var(--blue);display:flex;align-items:center;justify-content:center}
+.brand b{font-size:1.3rem;font-weight:800;display:block;line-height:1.25}
+.brand small{font-family:var(--en);font-size:1rem;color:var(--muted);font-weight:600}
+.steps{display:flex;gap:8px;flex-wrap:wrap;font-weight:800;font-size:1rem}
+.steps span{background:#fff;border:1.5px solid var(--line);color:var(--muted);border-radius:999px;padding:4px 14px}
+.steps span.on{background:var(--blue);border-color:var(--blue);color:#fff}
+h1{margin:0;font-size:2rem;font-weight:800;line-height:1.35}
+.lead{margin:0;font-size:1.2rem;color:var(--muted)}
+.card{background:#fff;border:2px solid var(--line);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:18px}
+.f{display:flex;gap:14px;align-items:flex-start}
+.f .i{flex:none;width:54px;height:54px;border-radius:16px;background:#eaf3fd;display:flex;align-items:center;justify-content:center;font-size:1.7rem}
+.f b{font-size:1.2rem}
+.f span{display:block;color:var(--muted);font-size:1.05rem}
+.code{background:#fff6dc;border:2px dashed #e0b84a;border-radius:20px;padding:16px;text-align:center}
+.code b{font-size:1.15rem}
+.code .cd{font-family:var(--en);font-size:2rem;font-weight:600;letter-spacing:3px;color:#7a5200;margin:4px 0}
+.code p{margin:4px 0;font-size:1rem;color:var(--muted)}
+.btn{display:block;width:100%;min-height:64px;border:0;border-radius:20px;background:var(--blue);color:#fff;font:800 1.4rem var(--ar);text-align:center;text-decoration:none;padding:14px;cursor:pointer}
+.btn.soft{background:#fff;color:#134a96;border:2px solid var(--blue);min-height:48px;font-size:1.05rem;border-radius:14px;margin-top:8px}
+.skip{text-align:center;font-size:1.05rem}
+.skip a{color:#1b5fbf;font-weight:700}
+a:focus-visible,button:focus-visible{outline:3px solid #ffc94d;outline-offset:2px}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="brand"><div class="lg"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v10H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg></div>
+    <div><b>نادي اللغة الإنجليزية</b><small>English Club</small></div></div>
+  <div class="steps" aria-hidden="true"><span>١ التسجيل</span><span class="on">٢ التعريف</span><span>٣ هندسة مساري</span></div>
+  <div><h1>تعرّف على النادي</h1><p class="lead">مكانك لتتعلم الإنجليزية بالتمرين واللعب.</p></div>
+  <section class="card">
+    <div class="f"><div class="i" aria-hidden="true">🏆</div><div><b>نقاطك ولوحة الشرف</b><span>كل تمرين تحله يرفع ترتيبك بين زملائك.</span></div></div>
+    <div class="f"><div class="i" aria-hidden="true">🎁</div><div><b>مفاجأة يومية</b><span>صندوق أسئلة جديد كل يوم بجوائز نقاط.</span></div></div>
+    <div class="f"><div class="i" aria-hidden="true">📐</div><div><b>مسار يخصّك</b><span>أنت ترسم طريقك فلا تضيع بين الأقسام.</span></div></div>
+  </section>
+  <div class="code" id="codeBox" hidden><b>🔑 رمز حسابك</b><div class="cd" id="cd" dir="ltr"></div>
+    <p>به تفتح حسابك ونقاطك من أي جهاز. صوّره أو اكتبه في دفترك، ولا تعطه لأحد.</p>
+    <button class="btn soft" type="button" id="cp">📋 انسخ الرمز</button></div>
+  <a class="btn" id="go" href="path/index.html#q">هيّا نصمّم مسارك ←</a>
+  <p class="skip"><a id="skip" href="index.html">ادخل الموقع مباشرة</a></p>
+</main>
+<script>
+(function(){
+  var next = '';
+  try { var n = new URLSearchParams(location.search).get('next') || ''; next = /^\/(?!\/)/.test(n) ? n : ''; } catch (e) {}
+  try { sessionStorage.setItem('club-onb', next || 'index.html'); } catch (e) {}
+  if (next) document.getElementById('skip').href = next;
+  var c = ''; try { c = localStorage.getItem('club-code') || ''; } catch (e) {}
+  if (c) {
+    document.getElementById('cd').textContent = c;
+    document.getElementById('codeBox').hidden = false;
+    try { localStorage.setItem('club-code-seen', '1'); } catch (e) {}
+    document.getElementById('cp').onclick = function(){
+      var b = this;
+      (navigator.clipboard ? navigator.clipboard.writeText(c) : Promise.reject()).then(function(){ b.textContent = '✓ نُسخ الرمز'; }).catch(function(){ prompt('انسخ رمزك:', c); });
+    };
+  }
+  document.getElementById('skip').onclick = function(){ try { sessionStorage.removeItem('club-onb'); } catch (e) {} };
+})();
+</script>
+</body>
+</html>
