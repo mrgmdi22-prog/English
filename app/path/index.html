@@ -138,6 +138,28 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--blue);outline-offse
 .sdet .stn{background:#fff}
 .endl{margin-top:12px;text-align:center;color:#64748b;font-size:.98rem}
 @media (max-width:560px){.olist li{flex-wrap:wrap}.olist .acts{flex-direction:row;width:100%}.olist .acts>*{flex:1}.top h1{font-size:1.5rem}.top .ic{width:56px;height:56px;font-size:1.9rem}}
+/* ---------- intro story (16 Nov 2026): the language is a house; each part of the language is a building material ---------- */
+.story{margin-top:18px;background:#fff;border:2px solid #9fcdf2;border-radius:26px;padding:20px 18px;position:relative;overflow:hidden}
+.story::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;background:linear-gradient(90deg,#0d9488,#1d6fd1,#f59e0b)}
+.story h2{margin:4px 0 6px;font-size:1.5rem;color:#1e3a8a;line-height:1.4}
+.story .lead{font-size:1.1rem;color:#334155;line-height:1.85}
+.mats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:16px}
+.mat{border-radius:20px;padding:14px 12px;border:2px solid;background:#fff;min-width:0}
+.mat .e{font-size:2rem;line-height:1.1}
+.mat b{display:block;font-size:1.1rem;line-height:1.35;margin-top:4px}
+.mat b em{font-style:normal;font-weight:500;font-size:.95rem;color:#64748b}
+.mat p{margin:4px 0 0;font-size:.98rem;line-height:1.6;color:#475569}
+.mat.m1{border-color:#f6c48a;background:#fffaf2}.mat.m1 b{color:#9a4a00}
+.mat.m2{border-color:#9fcdf2;background:#f5faff}.mat.m2 b{color:#1d4ed8}
+.mat.m3{border-color:#8fdcc4;background:#f3fcf8}.mat.m3 b{color:#0f766e}
+.mat.m4{border-color:#b5e08a;background:#f8fdf1}.mat.m4 b{color:#3f6212}
+.mat.m5{border-color:#cbd5e1;background:#f8fafc}.mat.m5 b{color:#334155}
+.mat.wide{grid-column:1/-1;display:flex;gap:12px;align-items:center}.mat.wide .e{flex:none}
+.eng{margin-top:14px;display:flex;gap:12px;align-items:center;background:linear-gradient(120deg,#e4f1ff,#e3f8ef);border-radius:20px;padding:14px}
+.eng .e{flex:none;font-size:2.2rem}.eng b{display:block;font-size:1.15rem;color:#1e3a8a}.eng p{margin:2px 0 0;color:#475569;font-size:1rem;line-height:1.6}
+.quote{margin:16px 0 0;text-align:center;font-weight:800;color:#0f766e;font-size:1.12rem}
+.top .go2{display:inline-block;margin-top:8px;text-decoration:none;font-weight:800;background:#1d6fd1;color:#fff;border-radius:999px;padding:7px 16px;font-size:1rem}
+@media (max-width:420px){.mats{grid-template-columns:1fr}.mat{display:flex;gap:12px;align-items:center}.mat .e{flex:none}}
 .facts{display:grid;gap:10px;margin-top:14px}
 .fact{display:flex;gap:12px;align-items:flex-start;background:var(--paper);border-radius:18px;padding:12px 14px;font-size:1.05rem}
 .fact .n{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#fff;font-weight:800}
@@ -446,21 +468,34 @@ function bpHouse(plan){
 
 function vIntro(){
   var has = !!J('my-path', null);
-  app.innerHTML = '<section class="top"><span class="ic" aria-hidden="true">📐</span><div class="tx"><h1>هندسة <span>مساري</span></h1><p>خطة شخصية لك وحدك، تبني لغتك جزءاً بعد جزء.</p></div></section>'
-    + '<section class="card"><h2>كيف تعمل؟</h2><ol class="how3">'
+  app.innerHTML = '<section class="top"><span class="ic" aria-hidden="true">📐</span><div class="tx"><h1>هندسة <span>مساري</span></h1><p>خطة شخصية لك وحدك، تبني لغتك جزءاً بعد جزء.</p><a class="go2" href="#how">' + (has ? 'أعد تصميم مساري' : 'صمّم مساري') + ' ↓</a></div></section>'
+
+    // the story: the language is a house
+    + '<section class="story"><h2>🏠 اللغة بيت… وأنت مهندسه</h2>'
+    + '<p class="lead">لا أحد يتعلّم الإنجليزية دفعة واحدة، كما لا يُبنى البيت في يوم. البيت يُبنى من مواد مختلفة، لكل مادة دورها، وإن نقصت واحدة ظهر الخلل في البناء كله. واللغة كذلك:</p>'
+    + '<div class="mats">'
+    + '<div class="mat m1"><div class="e">🧱</div><div><b>المفردات <em>= الطوب</em></b><p>كل كلمة تتعلمها طوبة. كلما كثر طوبك اتّسع بيتك، وقلت ما تريد.</p></div></div>'
+    + '<div class="mat m2"><div class="e">🔩</div><div><b>التراكيب <em>= الإسمنت والحديد</em></b><p>القواعد وترتيب الجملة. بها تتماسك الكلمات، وبدونها يبقى الطوب كومة.</p></div></div>'
+    + '<div class="mat m3"><div class="e">🔊</div><div><b>الأصوات <em>= الكهرباء</em></b><p>نطق الحروف والكلمات. لا تراها لكنها تُشغّل البيت: بها تفهم ما تسمع، ويفهمك من تكلّمه.</p></div></div>'
+    + '<div class="mat m4"><div class="e">🏛️</div><div><b>المهارات الأربع <em>= الأعمدة</em></b><p>استماع وقراءة (تستقبل بهما)، وتحدث وكتابة (تنتج بهما). الاستقبال يسبق الإنتاج.</p></div></div>'
+    + '<div class="mat m5 wide"><div class="e">🪟</div><div><b>التعبيرات والقصص <em>= النوافذ</em></b><p>منها تطلّ على أهل اللغة: كيف يمزحون ويصفون ويعبّرون. تجعل لغتك حيّة لا محفوظة.</p></div></div>'
+    + '</div>'
+    + '<div class="eng"><span class="e">👷</span><div><b>وأنت المهندس</b><p>لكل متعلم بيته؛ بيتك ليس كبيت زميلك. «هندسة مساري» تفحص بيتك، وتعرف أين النقص، ثم ترسم لك خطة البناء على قدر وقتك.</p></div></div>'
+    + '<p class="quote">طوبة كل يوم… تبني بيتاً متيناً 💪</p></section>'
+
+    // the house itself (design unchanged)
+    + '<section class="card"><h2>🏗️ هكذا يبدو بيت اللغة</h2><p class="lead">الأساس من المفردات والتراكيب، وفوقه أعمدة المهارات الأربع. وكل قسم في النادي يبني جزءاً منه:</p>'
+    + house() + '</section>'
+
+    // how it works + start
+    + '<section class="card" id="how"><h2>📐 كيف تصمّم مسارك؟</h2><ol class="how3">'
     + '<li><span class="n">🧭<i>1</i></span><span><b>أجب عن 4 أسئلة</b><small>هدفك، ومستواك، وتقييمك لنفسك، ووقتك اليومي. دقيقتان فقط.</small></span></li>'
     + '<li><span class="n">🏗️<i>2</i></span><span><b>يُرسم مخطط بيتك</b><small>3 مراحل بناء تبدأ بالجزء الأضعف عندك، من أقسام النادي المناسبة لمستواك.</small></span></li>'
     + '<li><span class="n">📋<i>3</i></span><span><b>نفّذ أمر عمل كل يوم</b><small>مهمة أو مهمتان على قدر وقتك، وترى بيتك يرتفع يوماً بعد يوم.</small></span></li>'
     + '</ol><button class="cta" id="go">📐 ' + (has ? 'أعد تصميم مساري' : 'صمّم مساري الآن') + '</button>'
-    + (has ? '<div class="center" style="margin-top:10px"><a class="btn soft" href="#map">مخططي الحالي ←</a></div>' : '') + '</section>'
-    + '<section class="card"><h2>🏠 اللغة بيت… فمن أين تبدأ البناء؟</h2><p class="lead">كل قسم في النادي يبني جزءاً من هذا البيت:</p>'
-    + house()
-    + '<div class="facts">'
-    + '<div class="fact"><span class="n">1</span><div><b>الأساس: المفردات والتراكيب.</b> الكلمات طوب، والتراكيب إسمنت يربطها في جمل. إن كان الأساس ضعيفاً اهتزّت المهارات كلها.</div></div>'
-    + '<div class="fact"><span class="n">2</span><div><b>الأعمدة: أربع مهارات.</b> مهارتا <b>استقبال</b> (الاستماع والقراءة) ومهارتا <b>إنتاج</b> (التحدث والكتابة). الاستقبال يسبق الإنتاج: تسمع وتقرأ كثيراً، ثم تتكلم وتكتب.</div></div>'
-    + '<div class="fact"><span class="n">3</span><div><b>لكل متعلم بيته.</b> بيتك ليس كبيت زميلك، ولذلك يُصمَّم مخططك على قدرك أنت.</div></div>'
-    + '</div></section>';
+    + (has ? '<div class="center" style="margin-top:10px"><a class="btn soft" href="#map">مخططي الحالي ←</a></div>' : '') + '</section>';
   document.getElementById('go').onclick = function(){ A = freshAnswers(); step = 0; location.hash = '#q'; };
+  var g2 = app.querySelector('.go2'); if (g2) g2.onclick = function(e){ e.preventDefault(); document.getElementById('how').scrollIntoView({ behavior: 'smooth' }); };
 }
 
 var A = null, step = 0;
