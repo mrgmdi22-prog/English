@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="assets/icons/apple-180.png?v=2"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<script src="assets/gate.js?v=9"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>الأقسام · نادي اللغة الإنجليزية</title>
+<meta name="description" content="ألعاب ومنصات تعلّم ذاتي للغة الإنجليزية: بوابة الكبسولات، ورحلة التعلّم الذاتي، وميدان المفردات.">
+<meta name="theme-color" content="#f6f4ff">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@500;600&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="assets/club.css">
+<style>
+/* Home of the English Club site: airy pastel hero with a slow "orbit" motif, a continue-where-you-left-off card,
+   then three shelves of cards. Everything light; text sizes generous for phones. */
+:root{
+  color-scheme:light;
+  --paper:#f8f9fe; --card:#ffffff; --ink:#232c47; --muted:#5a6482; --line:#e4e8f3;
+  --violet:#6046e8; --violet-soft:#efebff;
+  --teal:#11826a;  --teal-soft:#e3f6ef;
+  --sun:#a26f00;   --sun-soft:#fff4d6;
+  --coral:#c2452a; --coral-soft:#ffece4;
+  --ar:"Tajawal","Segoe UI",Tahoma,sans-serif; --en:"Lexend","Segoe UI",system-ui,sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box}
+html{background:var(--paper);scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ar);font-size:19px;line-height:1.7;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);overflow-x:hidden}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:3px solid var(--violet);outline-offset:3px;border-radius:16px}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:16px;padding-block:18px 64px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;border-radius:32px;padding:44px 22px 40px;text-align:center;
+  background:linear-gradient(135deg,#efeaff 0%,#e6f6f1 52%,#fff2dc 100%);border:1px solid #e7e2fb}
+.hero .orbits{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero .orbits ellipse{fill:none;stroke:rgba(96,70,232,.16);stroke-width:1.4}
+.hero .orbits circle{transform-box:view-box;transform-origin:500px 210px}
+.o1{animation:spin 26s linear infinite}.o2{animation:spin 38s linear infinite reverse}.o3{animation:spin 50s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero > *:not(.orbits){position:relative}
+.chip{display:inline-block;background:rgba(255,255,255,.85);color:var(--violet);font-weight:800;font-size:.95rem;border-radius:999px;padding:5px 18px;border:1px solid #ddd5ff}
+h1{font-size:clamp(2.2rem,8vw,3.6rem);font-weight:800;line-height:1.15;margin:14px 0 8px;letter-spacing:-.5px;text-wrap:balance}
+h1 .en{display:block;font-family:var(--en);font-weight:600;font-size:.38em;letter-spacing:2px;color:var(--violet);margin-top:8px;direction:ltr}
+.sub{margin:0 auto;color:var(--muted);font-size:1.15rem;max-width:32em;text-wrap:balance}
+.capchips{grid-column:1/-1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:-4px}
+.capchip{text-decoration:none;color:var(--c);background:var(--t);border:1.5px solid transparent;border-radius:16px;padding:10px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;font-weight:800;font-size:.98rem;transition:transform .18s,border-color .18s}
+.capchip span{font-size:1.6rem;line-height:1.2}
+.capchip:hover{transform:translateY(-2px);border-color:var(--c)}
+@media (max-width:760px){.capchips{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}.capchip{font-size:.85rem;padding:8px 2px}.capchip span{font-size:1.35rem}}
+.hcaps{max-width:860px;margin:12px auto 0;background:rgba(255,255,255,.92);border:1.5px solid #ddd5ff;border-radius:22px;padding:12px;text-align:right}
+.hcaps-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap;text-decoration:none;color:var(--violet);margin:0 4px 10px}
+.hcaps-h b{font-size:1.12rem;font-weight:800}
+.hcaps-h small{color:var(--muted);font-size:.92rem}
+.hcaps-h .all{margin-inline-start:auto;background:var(--violet);color:#fff;font-weight:800;font-size:.9rem;border-radius:999px;padding:4px 14px}
+.hcaps .capchips{margin:0}
+.lcard{display:flex;flex-direction:column;gap:10px}
+.lcard .lmain{text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:2px}
+.lmodes{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.lmodes a small{font-weight:600;opacity:.8}
+.lmodes a{line-height:1.35;text-decoration:none;color:var(--c);background:var(--t);border-radius:12px;padding:6px 8px;font-weight:800;font-size:.92rem;text-align:center}
+.lmodes a:hover{outline:1.5px solid var(--c)}
+.lvban{display:flex;align-items:center;gap:14px;margin:14px 0 0;text-decoration:none;color:var(--ink);background:linear-gradient(120deg,#E8EEFF,#fff 75%);border:1.5px solid #CCD8FA;border-radius:22px;padding:12px 16px;transition:transform .2s}
+.lvban:hover{transform:translateY(-2px)}.lvban .ki{font-size:2.4rem;line-height:1;flex:none}.lvban .txt{flex:1;min-width:0}.lvban b{display:block;font-size:1.15rem;color:#3157D5}.lvban small{color:var(--muted);font-size:.95rem;line-height:1.5;display:block}
+.lvban .go{background:#3157D5;color:#fff;font-weight:800;border-radius:999px;padding:8px 16px;white-space:nowrap}
+.gdban{display:flex;align-items:center;gap:14px;margin:14px 0 0;text-decoration:none;color:var(--ink);background:linear-gradient(120deg,#E3F6EF,#fff 75%);border:1.5px solid #BFE6D6;border-radius:22px;padding:12px 16px;transition:transform .2s}
+.gdban:hover{transform:translateY(-2px)}.gdban .ki{font-size:2.4rem;line-height:1;flex:none}.gdban .txt{flex:1;min-width:0}.gdban b{display:block;font-size:1.15rem;color:#11826a}.gdban small{color:var(--muted);font-size:.95rem;line-height:1.5;display:block}
+.wdban{display:flex;align-items:center;gap:14px;margin:14px 0 0;text-decoration:none;color:var(--ink);background:linear-gradient(120deg,#FFF3DA,#fff 75%);border:1.5px solid #F2D79A;border-radius:22px;padding:12px 16px;transition:transform .2s}
+.wdban:hover{transform:translateY(-2px)}.wdban .ki{font-size:2.4rem;line-height:1;flex:none}.wdban .txt{flex:1;min-width:0}.wdban b{display:block;font-size:1.15rem;color:#9a6400}.wdban small{color:var(--muted);font-size:.95rem;line-height:1.5;display:block}
+.wdban .go{background:#b57800;color:#fff;font-weight:800;border-radius:999px;padding:8px 16px;white-space:nowrap}
+.gdban .go{background:#11826a;color:#fff;font-weight:800;border-radius:999px;padding:8px 16px;white-space:nowrap}
+.kidsban{display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px;margin:14px 0 0;text-decoration:none;color:var(--ink);background:linear-gradient(120deg,#FFF3C4,#FFE3EF 80%);border:1.5px solid #F5D98A;border-radius:22px;padding:12px 16px;transition:transform .2s}
+.kidsban:hover{transform:translateY(-2px)}
+.kidsban .ki{font-size:2.6rem;line-height:1;flex:none}
+.kidsban .txt{flex:1;min-width:0}.kidsban b{display:block;font-size:1.15rem;color:#C2560E}.kidsban small{color:var(--muted);font-size:.95rem;line-height:1.5;display:block}
+.kidsban .en{font-family:var(--en);direction:ltr}
+.kidsban .go{flex-basis:100%;text-align:center;background:#FF7A1A;color:#fff;font-weight:800;border-radius:999px;padding:10px 16px;font-size:1.08rem;white-space:nowrap}
+.paths{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:26px auto 0;max-width:860px}
+.path{text-decoration:none;color:var(--ink);background:rgba(255,255,255,.92);border:1.5px solid var(--line);border-radius:22px;padding:14px 10px 12px;display:flex;flex-direction:column;align-items:center;gap:2px;
+  transition:transform .2s var(--ease),border-color .2s,box-shadow .2s}
+.path:hover{transform:translateY(-3px);border-color:var(--pc);box-shadow:0 14px 26px -18px rgba(40,40,100,.45)}
+.path .pi{width:54px;height:54px;border-radius:18px;background:var(--pb);display:grid;place-items:center;font-size:1.7rem;margin-bottom:4px}
+.path b{font-size:1.12rem;font-weight:800;color:var(--pc);line-height:1.3}
+.path small{font-size:.92rem;color:var(--muted);line-height:1.35}
+.me-strip{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;margin-top:16px;background:rgba(255,255,255,.85);border:1px solid var(--line);border-radius:999px;padding:7px 20px;font-size:1rem;color:var(--muted)}
+.me-strip b{color:var(--ink);font-weight:800;font-variant-numeric:tabular-nums}
+@media (max-width:640px){.paths{grid-template-columns:1fr 1fr;gap:10px}.me-strip{border-radius:18px}}
+.stats{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:24px}
+.stat{background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:18px;padding:10px 18px;min-width:118px}
+.stat b{display:block;font-size:1.6rem;font-weight:800;line-height:1.2;font-variant-numeric:tabular-nums}
+.stat span{font-size:.95rem;color:var(--muted)}
+
+/* ---------- continue ---------- */
+.resume{display:none;margin-top:16px;align-items:center;gap:14px;background:var(--card);border:2px solid #d9d1ff;border-radius:22px;padding:14px 18px;text-decoration:none;
+  box-shadow:0 14px 30px -22px rgba(96,70,232,.6);transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+.resume.on{display:flex}
+.resume:hover{transform:translateY(-2px);box-shadow:0 18px 34px -20px rgba(96,70,232,.6)}
+.resume .ic{font-size:2rem;width:58px;height:58px;display:grid;place-items:center;background:var(--violet-soft);border-radius:18px;flex:none}
+.resume small{display:block;color:var(--muted);font-size:.95rem}
+.resume b{font-size:1.25rem}
+.resume .go{margin-inline-start:auto;background:var(--violet);color:#fff;font-weight:800;border-radius:999px;padding:9px 18px;white-space:nowrap;font-size:1rem}
+
+/* ---------- honor board entry ---------- */
+.honor{display:flex;align-items:center;gap:14px;margin-top:14px;text-decoration:none;border-radius:24px;padding:16px 18px;
+  background:linear-gradient(120deg,#fff6d6,#fffdf5 70%);border:2px solid #f2dc97;transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+.honor:hover{transform:translateY(-2px);box-shadow:0 18px 32px -22px rgba(178,122,0,.7)}
+.honor .tro{font-size:2.4rem;width:64px;height:64px;display:grid;place-items:center;background:#fff;border-radius:20px;border:1.5px solid #f2dc97;flex:none}
+.honor .txt{flex:1;min-width:0}
+.honor b{display:block;font-size:1.35rem;color:#8a5d00}
+.honor small{display:block;color:var(--muted);font-size:1rem;line-height:1.6}
+.top3{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.top3:empty{display:none}
+.top3 span{background:#fff;border:1px solid #f2dc97;border-radius:999px;padding:1px 10px;font-size:.95rem;font-weight:700}
+.honor .go{background:#b27a00;color:#fff;font-weight:800;border-radius:999px;padding:9px 18px;white-space:nowrap;font-size:1rem}
+@media (max-width:600px){.honor{flex-wrap:wrap}.honor .go{width:100%;text-align:center}}
+
+/* ---------- jump nav ---------- */
+.jump{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:26px 0 4px}
+.jump a{text-decoration:none;font-weight:700;font-size:1rem;padding:8px 16px;border-radius:999px;background:var(--card);border:1.5px solid var(--line);transition:border-color .2s,background .2s}
+.jump a:hover{border-color:currentColor}
+
+/* ---------- shelves ---------- */
+.shelf{margin-top:34px;scroll-margin-top:16px}
+.shelf-head{display:flex;align-items:center;gap:14px;margin:0 0 14px}
+.shelf-head .badge{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:1.7rem;flex:none}
+.shelf-head h2{margin:0;font-size:1.65rem;font-weight:800;line-height:1.25}
+.shelf-head p{margin:0;color:var(--muted);font-size:1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.grid.caps{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+
+.card{--c:var(--violet);--t:var(--violet-soft);position:relative;display:flex;flex-direction:column;gap:6px;text-decoration:none;background:var(--card);
+  border:1.5px solid var(--line);border-radius:24px;padding:18px;transition:transform .22s var(--ease),box-shadow .22s var(--ease),border-color .22s}
+.card:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--c) 45%,white);box-shadow:0 18px 34px -24px color-mix(in srgb,var(--c) 70%,black)}
+.card:active{transform:translateY(-1px)}
+.card .ic{width:56px;height:56px;border-radius:18px;background:var(--t);display:grid;place-items:center;font-size:1.9rem;margin-bottom:4px;transition:transform .3s var(--ease)}
+.card:hover .ic{transform:scale(1.08) rotate(-4deg)}
+.card b{font-size:1.25rem;font-weight:800;color:var(--ink);line-height:1.35}
+.card .en{font-family:var(--en);font-size:.92rem;color:var(--c);direction:ltr;text-align:right;font-weight:600}
+.card p{margin:0;font-size:1rem;color:var(--muted);line-height:1.65}
+.card .arrow{position:absolute;top:18px;left:18px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--t);color:var(--c);font-weight:800;
+  transition:transform .22s var(--ease),background .22s,color .22s}
+.card:hover .arrow{transform:translateX(-4px);background:var(--c);color:#fff}
+.bar{height:8px;border-radius:99px;background:#eef0f6;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;width:0;border-radius:99px;background:var(--c);transition:width .8s var(--ease)}
+.prog{font-size:.9rem;color:var(--muted);margin-top:2px}
+
+.portal{grid-column:1/-1;flex-direction:row;align-items:center;gap:16px;background:linear-gradient(120deg,#f3efff,#ffffff 70%)}
+.portal .ic{width:68px;height:68px;font-size:2.4rem;margin:0;background:#fff;border:1.5px solid #e2dbff}
+.portal .txt{flex:1}
+.portal .go{background:var(--violet);color:#fff;font-weight:800;border-radius:999px;padding:10px 20px;white-space:nowrap;font-size:1rem}
+.portal .arrow{display:none}
+
+.secnav{margin-top:34px;background:var(--card);border:1.5px solid var(--line);border-radius:26px;padding:16px}
+.secnav h2{margin:0 4px 12px;font-size:1.35rem;font-weight:800}
+.secnav .paths{grid-template-columns:repeat(4,minmax(0,1fr));margin:0;max-width:none}
+@media (max-width:640px){.secnav .paths{grid-template-columns:1fr 1fr}}
+.hcaps{max-width:none;margin:0}
+.hcaps-all{display:block;margin-top:10px;text-align:center;text-decoration:none;background:#9a6a00;color:#fff;font-weight:800;border-radius:999px;padding:10px 18px}
+#kids{scroll-margin-top:16px}
+footer{margin-top:48px;text-align:center;color:var(--muted);font-size:1rem;line-height:1.9}
+footer b{color:var(--ink)}
+
+/* ---------- motion ---------- */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media (max-width:600px){
+  .hero{padding:34px 16px 30px;border-radius:26px}
+  .portal{flex-wrap:wrap}.portal .go{width:100%;text-align:center}
+  .resume{flex-wrap:wrap}.resume .go{width:100%;text-align:center;margin:0}
+  .grid.caps{grid-template-columns:1fr 1fr;gap:10px}
+  .grid.caps .card{padding:14px}
+  .grid.caps .card .arrow{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+}
+
+/* ---------- 13 Nov 2026: quick access, search, back-to-sections, install at the end, bottom tab bar ---------- */
+body{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+.hero{padding:34px 20px 28px}
+.me-strip{margin-top:12px}
+.honor{margin-top:16px}
+.quick{margin-top:22px;scroll-margin-top:12px}
+.qh{margin:0 4px 10px;font-size:1.35rem;font-weight:800}
+.newbie{background:#E3F6EF;border:1.5px solid #BFE6D6;border-radius:18px;padding:10px 14px;margin:0 0 12px;font-size:1.02rem;line-height:1.9}
+.newbie b{color:#11826a}
+.newbie .n,.qt .qn{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#11826a;color:#fff;font-weight:800;font-size:.95rem;vertical-align:middle}
+.qgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.qt{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-height:170px;padding:14px 14px 12px;border-radius:24px;
+  text-decoration:none;color:var(--ink);background:linear-gradient(155deg,var(--qs),#fff 85%);border:2px solid var(--qb);transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+.qt:hover{transform:translateY(-3px);box-shadow:0 16px 30px -22px var(--qc)}
+.qt .bx{font-size:2.3rem;line-height:1;width:58px;height:58px;display:grid;place-items:center;background:#fff;border-radius:18px;border:1.5px solid var(--qb);margin-bottom:4px}
+.qt b{font-size:1.2rem;font-weight:800;color:var(--qc);line-height:1.3}
+.qt small{font-size:.95rem;color:var(--muted);line-height:1.5}
+.qt .st{font-size:.92rem;font-weight:700;color:#1559A6;line-height:1.5}
+.qt .st:empty{display:none}
+.qt .go{margin-top:auto;align-self:stretch;text-align:center;background:var(--qc);color:#fff;font-weight:800;border-radius:999px;padding:7px 12px;font-size:1rem}
+.qt .qn{position:absolute;top:10px;left:10px;display:none}
+body.new .qt .qn{display:inline-grid}
+body.new .q-guide{order:-3;box-shadow:0 0 0 4px #c8eedd}
+body.new .q-level{order:-2}
+body.new .q-worlds{order:-1}
+.mbox::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.75) 50%,transparent 70%);transform:translateX(-100%);animation:mbShine 3.5s ease-in-out infinite;pointer-events:none}
+@keyframes mbShine{60%,100%{transform:translateX(100%)}}
+.mbox .mbt{font:800 1.3rem/1.3 Lexend,Tajawal,system-ui,sans-serif;background:linear-gradient(90deg,#1E78D2,#0FA3A3);-webkit-background-clip:text;background-clip:text;color:transparent;direction:ltr}
+.mbox .go{position:relative;z-index:1;background:linear-gradient(90deg,#1E78D2,#0FA3A3)}
+@keyframes mbw{0%,60%,100%{transform:translateY(0) rotate(0)}70%{transform:translateY(-8px) rotate(-10deg)}80%{transform:translateY(0) rotate(8deg)}}
+.mbox.closed .bx{animation:mbw 2s ease-in-out infinite}
+.mbox.shut{cursor:default}.mbox.shut .go{background:#8a93ad}
+@media (max-width:760px){.qgrid{grid-template-columns:1fr 1fr;gap:10px}.qt{min-height:0;padding:12px}.qt .bx{width:50px;height:50px;font-size:2rem}.qt b{font-size:1.12rem}}
+
+.find{display:flex;align-items:center;gap:8px;background:var(--paper);border:2px solid var(--line);border-radius:999px;padding:4px 8px 4px 16px;margin:0 0 14px;transition:border-color .2s}
+.find:focus-within{border-color:var(--violet);background:#fff}
+.find span{font-size:1.2rem}
+.find input{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:1.08rem;color:var(--ink);padding:8px 0;outline:none}
+.find input::-webkit-search-cancel-button{display:none}
+.find button{font:inherit;font-weight:800;border:0;background:var(--violet-soft);color:var(--violet);width:36px;height:36px;border-radius:50%;cursor:pointer}
+.nores{margin:12px 4px 0;color:var(--muted);font-size:1.05rem}
+body.searching .paths{display:none}
+body.searching .reveal{opacity:1;transform:none}
+.hide{display:none!important}
+.shelf-head > div{flex:1;min-width:0}
+.totop{flex:none;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;text-decoration:none;font-weight:800;font-size:1.2rem;color:var(--muted);background:var(--card);border:1.5px solid var(--line)}
+.totop:hover{color:var(--violet);border-color:var(--violet)}
+body.searching .totop{display:none}
+
+.install{display:flex;align-items:center;gap:14px;margin:26px 0 0;background:linear-gradient(120deg,#efebff,#fff 70%);border:2px dashed #cfc4ff;border-radius:24px;padding:16px 18px}
+.install[hidden]{display:none}
+.install img{border-radius:16px;flex:none;width:64px;height:64px}
+.install .txt{flex:1;min-width:0}.install b{display:block;font-size:1.15rem;color:var(--violet)}.install small{color:var(--muted);font-size:1rem;line-height:1.6;display:block}
+.install .go{font:inherit;font-weight:800;border:0;border-radius:999px;padding:10px 18px;background:var(--violet);color:#fff;cursor:pointer;white-space:nowrap;text-decoration:none}
+@media (max-width:520px){.install{flex-wrap:wrap}.install .go{width:100%;text-align:center}}
+
+.tabbar{position:fixed;z-index:997;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom,0px));width:min(560px,calc(100% - 20px));
+  display:grid;grid-template-columns:repeat(5,1fr);gap:2px;padding:6px;background:rgba(255,255,255,.96);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border:1.5px solid #dfe5f1;border-radius:24px;box-shadow:0 14px 34px -16px rgba(40,50,90,.5)}
+.tabbar a{position:relative;display:flex;flex-direction:column;align-items:center;gap:1px;text-decoration:none;color:var(--muted);font-weight:800;font-size:.86rem;line-height:1.3;padding:6px 2px;border-radius:18px}
+.tabbar a span{font-size:1.5rem;line-height:1.1}
+.tabbar a.on{background:var(--violet-soft);color:var(--violet)}
+.tabbar .dot{position:absolute;top:4px;right:calc(50% - 20px);width:11px;height:11px;border-radius:50%;background:#e8483b;border:2px solid #fff}
+.tabbar .dot[hidden]{display:none}
+@media (max-width:600px){
+  .hero{padding:24px 14px 20px}.hero h1{font-size:2.15rem;margin-top:4px}.sub{font-size:1.02rem}
+  .resume,.honor{flex-wrap:nowrap;padding:12px 14px;gap:12px}
+  .resume .ic,.honor .tro{width:52px;height:52px;font-size:1.9rem;border-radius:16px}
+  .resume .go,.honor .go{width:auto;margin:0;padding:8px 14px;flex:none}
+  .honor b{font-size:1.2rem}.honor small{font-size:.95rem;line-height:1.5}
+}
+#clubSfxBtn{bottom:calc(92px + env(safe-area-inset-bottom,0px))!important}
+@media print{.tabbar{display:none}}
+
+/* ---------- 15 Nov 2026: honor board = one small line (full entry is the tab bar's الشرف) ---------- */
+.hline{display:flex;align-items:center;gap:10px;margin-top:14px;text-decoration:none;color:#8a5d00;font-weight:800;font-size:1.08rem;
+  background:#fff8e1;border:1.5px solid #f2dc97;border-radius:999px;padding:9px 16px;line-height:1.5}
+.hline .ht{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hline .ht bdi{color:#5b3d00}
+.hline .hg{flex:none;font-size:1.1rem}
+.hline:hover{background:#fff1c4}
+
+/* ---------- «هندسة مساري» card (path/; 15 Nov 2026, made clearer 16 Nov 2026): name + what it is always visible,
+   then the student's status in plain rows (part being built, stage dots, today's work order), full-width button. ---------- */
+.mypath{position:relative;display:block;margin-top:16px;text-decoration:none;color:var(--ink);overflow:hidden;isolation:isolate;
+  background:linear-gradient(125deg,#e4f1ff 0%,#e8f8ff 40%,#e3f8ef 100%);border:2px solid #9fcdf2;border-radius:28px;padding:18px 16px 16px;
+  box-shadow:0 14px 30px -26px #1d6fd1;transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+.mypath::before,.mypath::after{content:"";position:absolute;z-index:-1;border-radius:50%;pointer-events:none}
+.mypath::before{width:150px;height:150px;top:-60px;left:-40px;background:radial-gradient(circle,#bfe0ff 0 55%,transparent 56%);opacity:.6}
+.mypath::after{width:110px;height:110px;bottom:-50px;right:-30px;background:radial-gradient(circle,#bdeed6 0 55%,transparent 56%);opacity:.7}
+.mypath:hover{transform:translateY(-3px);box-shadow:0 20px 34px -24px #1d6fd1}
+.mypath .hd{display:flex;align-items:center;gap:12px}
+.mypath .ic{flex:none;font-size:2.1rem;width:60px;height:60px;display:grid;place-items:center;border-radius:20px;
+  background:#fff;border:2px solid #9fcdf2;transform:rotate(-6deg);box-shadow:0 8px 16px -12px #1d6fd1}
+.mypath .tx{flex:1;min-width:0}
+.mypath .tx b{display:block;font-size:1.36rem;line-height:1.35;color:#1e3a8a}
+.mypath .tx b .sp{color:#0f766e}
+.mypath .tx small{display:block;color:#475569;font-size:1.03rem;line-height:1.65}
+.mypath .rows{display:grid;gap:8px;margin-top:14px}
+.mypath .row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.88);border:2px solid #f6c48a;border-radius:18px;padding:9px 12px;font-size:1.05rem;line-height:1.5}
+.mypath .row .k{flex:none;width:40px;height:40px;display:grid;place-items:center;border-radius:14px;font-size:1.3rem;background:#fff1dc}
+.mypath .row.r2{border-color:#9fcdf2}.mypath .row.r2 .k{background:#e1efff}
+.mypath .row span{flex:1;min-width:0}
+.mypath .row .sm{display:block;font-size:.92rem;color:#64748b;line-height:1.4}
+.mypath .row b{color:#c2410c}.mypath .row.r2 b{color:#1d4ed8}
+.mypath .row.done{border-color:#a9e4c6;background:rgba(236,251,243,.92)}.mypath .row.done .k{background:#d3f4e3}.mypath .row.done b{color:#0f7a5c}
+.mypath .dots{display:flex;gap:5px;flex:none;direction:rtl}
+.mypath .dots i{width:20px;height:9px;border-radius:99px;background:#dbe5ef}
+.mypath .dots i.on{background:#f59e0b}.mypath .dots i.ok{background:#10b981}
+.mypath .how{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.mypath .how span{border-radius:999px;padding:4px 13px;font-size:1rem;font-weight:800;border:1.5px solid}
+.mypath .how span:nth-child(1){background:#fff3dc;border-color:#f6c48a;color:#9a4a00}
+.mypath .how span:nth-child(2){background:#e1efff;border-color:#9fcdf2;color:#1d4ed8}
+.mypath .how span:nth-child(3){background:#ddf6ef;border-color:#8fdcc4;color:#0f766e}
+.mypath .how span:nth-child(4){background:#e9f7dc;border-color:#b5e08a;color:#3f6212}
+.mypath .go{display:block;margin-top:14px;text-align:center;color:#fff;font-weight:800;border-radius:999px;padding:12px 16px;font-size:1.12rem;
+  background:linear-gradient(90deg,#0d9488,#1d6fd1);box-shadow:0 10px 20px -14px #1d6fd1;text-shadow:0 1px 0 rgba(0,0,0,.12)}
+.mypath .qn{position:absolute;top:8px;left:10px;display:none;place-items:center;width:30px;height:30px;border-radius:50%;background:#11826a;color:#fff;font-weight:800;font-size:.95rem}
+.mypath [hidden]{display:none}
+body.new .mypath .qn{display:grid}
+body.new .q-worlds .qn{display:none}
+@media (max-width:600px){.mypath{padding:16px 14px 14px}.mypath .ic{width:52px;height:52px;font-size:1.8rem}.mypath .tx b{font-size:1.26rem}}
+.sechd{text-align:center;padding:56px 8px 0}.sechd h1{margin:0;font-size:2rem;font-weight:800}.sechd p{margin:4px 0 0;color:var(--muted);font-size:1.1rem}
+#clubMB{display:none!important}   /* the 🎁 tab is already on this page */
+</style>
+</head>
+<body>
+<div class="wrap" id="top">
+
+  <a class="club-home" href="index.html">🏠 الرئيسية</a>
+  <header class="sechd"><h1>🗂️ أقسام النادي</h1><p>كل أدوات النادي في مكان واحد. ابحث، أو اختر قسماً.</p></header>
+
+  <nav class="secnav reveal" id="sections" aria-labelledby="hnav">
+    <h2 id="hnav">🗂️ الأقسام</h2>
+    <div class="find">
+      <span aria-hidden="true">🔍</span>
+      <input id="q" type="search" placeholder="ابحث عن أداة: قصص، أزمنة، كلمات، Grammar…" aria-label="ابحث في أقسام النادي" autocomplete="off" enterkeyhint="search">
+      <button type="button" id="qx" aria-label="مسح البحث" hidden>✕</button>
+    </div>
+    <div class="paths" id="paths">
+      <a class="path" href="#f1" style="--pc:#2B78C2;--pb:#E3EFFA"><span class="pi" aria-hidden="true">🌱</span><b>التأسيس</b><small>الحروف وعبارات الحياة</small></a>
+      <a class="path" href="#f2" style="--pc:#b8336a;--pb:#fdeef3"><span class="pi" aria-hidden="true">📚</span><b>المفردات</b><small>أكثر من 3000 كلمة</small></a>
+      <a class="path" href="#f3" style="--pc:#6046e8;--pb:#efebff"><span class="pi" aria-hidden="true">🧩</span><b>القواعد</b><small>الأزمنة وتركيب الجملة</small></a>
+      <a class="path" href="#f5" style="--pc:#9a6a00;--pb:#fff4d6"><span class="pi" aria-hidden="true">🌟</span><b>الكبسولات</b><small>10 كبسولات للجمل</small></a>
+      <a class="path" href="#f4" style="--pc:#c4532f;--pb:#fdece5"><span class="pi" aria-hidden="true">💬</span><b>القراءة والمحادثة</b><small>18 قصة و20 محادثة</small></a>
+      <a class="path" href="#f6" style="--pc:#7a4bd8;--pb:#f1ecff"><span class="pi" aria-hidden="true">💎</span><b>مسار النخبة</b><small>للمتقدمين B1+</small></a>
+      <a class="path" href="#s7" style="--pc:#2563c9;--pb:#e8f0fd"><span class="pi" aria-hidden="true">🌐</span><b>مواقع إضافية</b><small>مكتبة إثرائية و IELTS</small></a>
+      <a class="path" href="#kids" style="--pc:#C2560E;--pb:#FFF3C4"><span class="pi" aria-hidden="true">🦁</span><b>نادي البراعم</b><small>للمرحلة الابتدائية</small></a>
+    </div>
+    <p class="nores" id="nores" hidden>لم أجد أداة بهذا الاسم 🤔 جرّب كلمة أخرى، مثل: قصص، كلمات، قواعد، محادثة.</p>
+  </nav>
+
+  <section class="shelf" id="f1" aria-labelledby="hf1" data-k="تأسيس مبتدئ foundations basics">
+    <div class="shelf-head reveal">
+      <span class="badge" style="background:#DCEBF8" aria-hidden="true">🌱</span>
+      <div><h2 id="hf1" style="color:#2B78C2">التأسيس</h2><p>Foundations · الحروف والأصوات وعبارات الحياة اليومية وأول ألف كلمة</p></div>
+      <a class="totop" href="#sections" aria-label="العودة إلى الأقسام">↑</a>
+    </div>
+    <div class="grid">
+      <div class="card reveal lcard" style="--c:#2B78C2;--t:#E3EFFA" data-k="phonics alphabet abc كتابة نطق"><a class="lmain" href="letters/letters-sounds.html"><span class="ic" aria-hidden="true">🔤</span><b>ميدان الحروف والأصوات</b><span class="en">Letters &amp; Sounds</span><p>اكتب الحروف بإصبعك، واسمع أصواتها، وكوّن منها الكلمات.</p></a>
+        <div class="lmodes"><a href="letters/letters-sounds.html#trace">✍️ تتبّع الحروف</a><a href="letters/letters-sounds.html#phonics">🔊 أصوات الحروف</a><a href="letters/letters-sounds.html#flower">🌸 زهرة الكلمات</a><a href="letters/letters-sounds.html#builder">🧩 كوّن الكلمات</a></div></div>
+      <a class="card reveal" href="everyday/basics.html" style="--c:#2B78C2;--t:#E3EFFA" data-k="محادثة حوار تحية conversation"><span class="arrow">←</span><span class="ic" aria-hidden="true">🗣️</span><b>محادثات التأسيس</b><span class="en">Everyday Talk</span><p>التحية والوداع والطلب والقبول والرفض والاعتذار والشكر والدعوات والاجتماعات: عبارات وردودها ومحادثات مسموعة.</p></a>
+      <a class="card reveal" href="journey/dictionary.html" style="--c:#11826a;--t:#e3f6ef" data-k="dictionary كلمات مفردات معاني words"><span class="arrow">←</span><span class="ic" aria-hidden="true">📖</span><b>قاموس الألف كلمة</b><span class="en">1000-Word Dictionary</span><p>المعنى والنوع والنطق وأمثلة لكل كلمة، مرتّبة بالأسبوع واليوم.</p></a>
+      <a class="card reveal" href="calligraphy/index.html" style="--c:#8a5a12;--t:#fff1d6" data-k="خط كتابة handwriting"><span class="arrow">←</span><span class="ic" aria-hidden="true">✒️</span><b>ورشة الخط الإنجليزي</b><span class="en">Calligraphy Studio</span><p>سبورة وأقلام: رصاص ومدبّب ومسطّح وفرشاة، مع ورقة بسطرين، وتتبّع النماذج والطباعة.</p></a>
+    </div>
+  </section>
+
+  <section class="shelf" id="f2" aria-labelledby="hf2" data-k="مفردات كلمات vocabulary words">
+    <div class="shelf-head reveal">
+      <span class="badge" style="background:#fdeef3" aria-hidden="true">📚</span>
+      <div><h2 id="hf2" style="color:#b8336a">المفردات</h2><p>Vocabulary · كلمات عامة وأكاديمية ومفردات المنهج والعبارات الاصطلاحية</p></div>
+      <a class="totop" href="#sections" aria-label="العودة إلى الأقسام">↑</a>
+    </div>
+    <div class="grid">
+      <a class="card reveal" href="words/core2000.html" style="--c:#0f7f93;--t:#e0f4f7" data-k="كلمات مفردات عبارات"><span class="arrow">←</span><span class="ic" aria-hidden="true">🧭</span><b>Core Quest</b><span class="en">2000 Core Words</span><p>أكثر من 1600 كلمة وعبارة شائعة في مجموعات من 10: تعلّم، ثم اختر، ثم اكتب. 50 نقطة لكل مجموعة تنهيها.</p></a>
+      <a class="card reveal" href="journey/word-quest.html" style="--c:#2f6fd6;--t:#e8f0fd" data-k="كلمات مفردات 4000 مراجعة"><span class="arrow">←</span><span class="ic" aria-hidden="true">🗺️</span><b>English Word Quest</b><span class="en">50 units</span><p>50 وحدة: تعرّف على الكلمات، وتدرّب، واقرأ القصة، واختبر نفسك.</p></a>
+      <div class="card reveal lcard" style="--c:#b8336a;--t:#fdeef3" data-k="ngsl awl كلمات عامة اكاديمية academic"><div class="lmain"><span class="ic" aria-hidden="true">📚</span><b>قوائم الكلمات</b><span class="en">Word Lists · NGSL &amp; AWL</span><p>بطاقات وجمل وقصص واختبارات لأهم الكلمات العامة والأكاديمية.</p></div>
+        <div class="lmodes"><a href="words/ngsl.html">🌍 الكلمات العامة<br><small>1000 كلمة</small></a><a href="words/awl.html">🎓 الكلمات الأكاديمية<br><small>569 كلمة</small></a></div></div>
+      <div class="card reveal lcard" style="--c:#a26f00;--t:#fff4d6" data-k="منهج كتاب المدرسة megagoal mega goal"><div class="lmain"><span class="ic" aria-hidden="true">🏟️</span><b>ميدان المفردات</b><span class="en">Mega Goal</span><p>مفردات كتب المنهج في تحديات سريعة.</p></div>
+        <div class="lmodes"><a href="vocab/mega-goal-1.html">🏟️ Mega Goal 1.1</a><a href="vocab/mega-goal-2.html">🏆 Mega Goal 2.1</a><a href="vocab/mega-goal-3.html" style="grid-column:1/-1">🥇 Mega Goal 3.1</a></div></div>
+      <a class="card reveal" href="idioms/index.html" style="--c:#E2573B;--t:#FDECE6" data-k="تعبيرات اصطلاحية idioms"><span class="arrow">←</span><span class="ic" aria-hidden="true">🎨</span><b>ركن التعبيرات</b><span class="en">Idioms · العبارات الاصطلاحية</span><p>26 عبارة اصطلاحية برسومات كرتونية: المعنى الحرفي المضحك، والمعنى الحقيقي، وما يقابله بالعربية.</p></a>
+    </div>
+  </section>
+
+  <section class="shelf" id="f3" aria-labelledby="hf3" data-k="قواعد نحو grammar">
+    <div class="shelf-head reveal">
+      <span class="badge" style="background:var(--violet-soft)" aria-hidden="true">🧩</span>
+      <div><h2 id="hf3" style="color:var(--violet)">القواعد</h2><p>Grammar · افهم الأزمنة والمبني للمجهول وتركيب الجملة</p></div>
+      <a class="totop" href="#sections" aria-label="العودة إلى الأقسام">↑</a>
+    </div>
+    <div class="grid">
+      <a class="card reveal" href="grammar/tenses.html" style="--c:#5B47D6;--t:#EEEBFD" data-k="ازمنة زمن tenses"><span class="arrow">←</span><span class="ic" aria-hidden="true">⏳</span><b>خارطة الأزمنة</b><span class="en">The 12 English tenses</span><p>الأزمنة الاثنا عشر: القاعدة والخط الزمني وأمثلة لكل زمن، وجدول تصريف لأي فعل، واختبار سريع.</p></a>
+      <a class="card reveal" href="grammar/passive.html" style="--c:#0F8A7A;--t:#E2F5F1" data-k="مجهول passive"><span class="arrow">←</span><span class="ic" aria-hidden="true">🔄</span><b>المبني للمجهول</b><span class="en">Passive Voice</span><p>القاعدة وخطوات التحويل الأربع في كل الأزمنة، مع محوّل للجمل ولعبة ترتيب واختبار سريع.</p></a>
+      <a class="card reveal" href="grammar/syntax-tree-lab.html" style="--c:#3A5BD0;--t:#ECEFFC" data-k="جملة تركيب شجرة"><span class="arrow">←</span><span class="ic" aria-hidden="true">🌳</span><b>Syntax Tree Lab</b><span class="en">See how a sentence is built</span><p>شجرة تُظهر أجزاء الجملة الإنجليزية ونوع كل كلمة، مع شرح لكل جزء.</p></a>
+    </div>
+  </section>
+
+  <section class="shelf" id="f5" aria-labelledby="hf5" data-k="كبسولات جمل capsules sentences">
+    <div class="shelf-head reveal">
+      <span class="badge" style="background:#fff4d6" aria-hidden="true">🌟</span>
+      <div><h2 id="hf5" style="color:#9a6a00">الكبسولات</h2><p>Sentence Capsules · <span id="capProg">رتّب الجمل وافهم معانيها</span></p></div>
+      <a class="totop" href="#sections" aria-label="العودة إلى الأقسام">↑</a>
+    </div>
+    <div class="hcaps reveal">
+      <div class="capchips">
+        <a class="capchip" href="capsules/space.html" style="--c:#6046e8;--t:#efebff" data-k="space"><span aria-hidden="true">🚀</span>الفضاء</a>
+        <a class="capchip" href="capsules/flavor.html" style="--c:#c25a20;--t:#fff0e4" data-k="flavor food"><span aria-hidden="true">🍊</span>النكهة</a>
+        <a class="capchip" href="capsules/life.html" style="--c:#7d47c4;--t:#f3ebff" data-k="life"><span aria-hidden="true">🦋</span>الحياة</a>
+        <a class="capchip" href="capsules/adventure.html" style="--c:#2477b5;--t:#e6f3fc" data-k="adventure"><span aria-hidden="true">🎈</span>المغامرة</a>
+        <a class="capchip" href="capsules/emotion.html" style="--c:#9a6a00;--t:#fff6d8" data-k="emotion feelings"><span aria-hidden="true">💛</span>المشاعر</a>
+        <a class="capchip" href="capsules/career.html" style="--c:#2f5fa8;--t:#e8effb" data-k="career jobs"><span aria-hidden="true">🎓</span>المسيرة</a>
+        <a class="capchip" href="capsules/nature.html" style="--c:#1d7a50;--t:#e4f5ec" data-k="nature"><span aria-hidden="true">🌍</span>الطبيعة</a>
+        <a class="capchip" href="capsules/health.html" style="--c:#13807f;--t:#e2f5f4" data-k="health صحة"><span aria-hidden="true">🩺</span>التعافي</a>
+        <a class="capchip" href="capsules/sports.html" style="--c:#1f8a4c;--t:#e4f6ea" data-k="sports"><span aria-hidden="true">🏆</span>الرياضة</a>
+        <a class="capchip" href="capsules/tech.html" style="--c:#3f51c9;--t:#e9ecfd" data-k="technology"><span aria-hidden="true">💻</span>التقنية</a>
+      </div>
+      <a class="hcaps-all" href="capsules/index.html">كل الكبسولات ←</a>
+    </div>
+  </section>
+
+  <section class="shelf" id="f4" aria-labelledby="hf4" data-k="قراءة محادثة reading speaking">
+    <div class="shelf-head reveal">
+      <span class="badge" style="background:var(--coral-soft)" aria-hidden="true">💬</span>
+      <div><h2 id="hf4" style="color:var(--coral)">القراءة والمحادثة</h2><p>Reading &amp; Speaking · قصص ومحادثات ومواقف من الحياة اليومية</p></div>
+      <a class="totop" href="#sections" aria-label="العودة إلى الأقسام">↑</a>
+    </div>
+    <div class="grid">
+      <a class="card reveal" href="stories/index.html" style="--c:#6a4bd8;--t:#efeaff" data-k="قصص قصة قراءة stories"><span class="arrow">←</span><span class="ic" aria-hidden="true">📖</span><b>ركن القصص</b><span class="en">Story Corner</span><p>18 قصة مصوّرة من حكايات إيسوب والقصص العالمية: اقرأ واستمع، ثم أجب عن الأسئلة.</p></a>
+      <a class="card reveal" href="journey/conversation-lab.html" style="--c:#c4532f;--t:#fdece5" data-k="محادثة حوار تسجيل صوت conversation"><span class="arrow">←</span><span class="ic" aria-hidden="true">💬</span><b>مختبر المحادثة</b><span class="en">Conversation Lab</span><p>20 محادثة: استمع، وأجب، واقرأ النص، ثم مثّل الدور وسجّل صوتك.</p></a>
+      <a class="card reveal" href="everyday/breakfast.html" style="--c:#c2452a;--t:#ffece4" data-k="افطار طعام اكل food"><span class="arrow">←</span><span class="ic" aria-hidden="true">🍳</span><b>Breakfast Challenge</b><span class="en">Power up with breakfast!</span><p>ابنِ إفطارك، وتعلّم أسماء الأطعمة ونطقها، وخض تحدي الكلمات.</p></a>
+    </div>
+  </section>
+
+  <section class="shelf" id="f6" aria-labelledby="hf6" data-k="نخبة متقدم elite">
+    <div class="shelf-head reveal">
+      <span class="badge" style="background:#f1ecff" aria-hidden="true">💎</span>
+      <div><h2 id="hf6" style="color:#7a4bd8">مسار النخبة</h2><p>Elite Track · للمتقدمين (<bdi dir="ltr">B1+</bdi>)</p></div>
+      <a class="totop" href="#sections" aria-label="العودة إلى الأقسام">↑</a>
+    </div>
+    <div class="grid">
+      <a class="card portal reveal" href="elite/index.html" style="--c:#7a4bd8;--t:#f1ecff;background:linear-gradient(120deg,#f1ecff,#fff7e0 85%)" data-k="نخبة elite">
+        <span class="ic" aria-hidden="true">💎</span>
+        <span class="txt"><b>مسار النخبة <bdi dir="ltr" style="font-family:var(--en);color:#7a4bd8">B1+</bdi></b><p>رحلة في قمتين: <bdi dir="ltr">B1</bdi> و<bdi dir="ltr">B2</bdi>: مفردات وقواعد وجمل ومحادثات ونصوص، وتحدٍّ يومي ⚡، ونقاط أعلى ولوحة شرف خاصة.</p></span>
+        <span class="go" style="background:#7a4bd8">ادخل المسار ←</span>
+      </a>
+      <a class="card reveal" href="elite/plus/index.html" style="--c:#c4532f;--t:#ffe9e0" data-k="نخبة تحدي c1 c2"><span class="arrow">←</span><span class="ic" aria-hidden="true">🚀</span><b>النخبة+</b><span class="en">Elite+ · Challenge</span><p>للمتفوقين: أسئلة لا تتكرر، بلا تلميحات، ولها تقييم ولوحة خاصة بها. الدخول باختبار تأهيل.</p></a>
+      <a class="card reveal" href="elite/town/index.html" style="--c:#11826a;--t:#e3f6ef" data-k="محادثة مدينة حوار town"><span class="arrow">←</span><span class="ic" aria-hidden="true">🏙️</span><b>في المدينة</b><span class="en">Around Town · B1+</span><p>25 محادثة يومية من المتجر إلى المطار، و213 تعبيراً: استمع، ومثّل الدور، وسجّل صوتك.</p></a>
+      <a class="card reveal" href="elite/classics/index.html" style="--c:#a26f00;--t:#fff4d6" data-k="قصص ادب العقاد classics stories"><span class="arrow">←</span><span class="ic" aria-hidden="true">📚</span><b>مكتبة النخبة</b><span class="en">Elite Classics</span><p>قصص من الأدب الأمريكي بنصّها الإنجليزي الأصلي مع ترجمة العقاد، تبدأ بريب فان ونكل.</p></a>
+    </div>
+  </section>
+
+  <section class="shelf" id="s7" aria-labelledby="h7s" data-k="مواقع روابط اضافية links">
+    <div class="shelf-head reveal">
+      <span class="badge" style="background:#e8f0fd" aria-hidden="true">🌐</span>
+      <div><h2 id="h7s" style="color:#2563c9">مواقع إضافية</h2><p>مواقع عالمية مختارة للتدرّب أكثر، والتحضير لآيلتس</p></div>
+      <a class="totop" href="#sections" aria-label="العودة إلى الأقسام">↑</a>
+    </div>
+    <div class="grid">
+      <a class="card portal reveal" href="links.html" style="--c:#2563c9;--t:#e8f0fd;background:linear-gradient(120deg,#e8f0fd,#ffffff 70%)" data-k="مكتبة مواقع استماع">
+        <span class="ic" aria-hidden="true">🌐</span>
+        <span class="txt"><b>المكتبة الإثرائية</b><p>Study Zone و ManyThings و LearnEnglish Teens وغيرها: استماع وقراءة وقواعد وقواميس.</p></span>
+        <span class="go" style="background:#2563c9">تصفّح المواقع ←</span>
+      </a>
+      <a class="card portal reveal" href="ielts.html" style="--c:#2563c9;--t:#e8f0fd;background:linear-gradient(120deg,#e8f0fd,#ffffff 70%)" data-k="ايلتس اختبار ielts">
+        <span class="ic" aria-hidden="true">🎓</span>
+        <span class="txt"><b>التحضير لاختبار <bdi dir="ltr">IELTS</bdi></b><p>مصادر مجانية لكل مهارة، وخطة ثمانية أسابيع وجدول أسبوعي للطالب المستعد للاختبار.</p></span>
+        <span class="go" style="background:#2563c9">افتح الخطة ←</span>
+      </a>
+    </div>
+  </section>
+
+  <a class="kidsban reveal" id="kids" href="kids/index.html" data-k="براعم اطفال صغار ابتدائي kids">
+    <img class="ki" src="assets/icons/kids-192.png?v=2" alt="" width="64" height="64" style="width:64px;height:64px;border-radius:16px;box-shadow:0 6px 14px -8px rgba(0,0,0,.4)">
+    <span class="txt"><b>نادي البراعم <span class="en">Kids</span></b><small>لطلاب المرحلة الابتدائية: الحروف وكتابتها، و16 موضوعاً من الكلمات بالصور، وجمل وقصص قصيرة وألعاب، بالصوت.</small></span>
+    <span class="go">ادخل ←</span>
+  </a>
+
+  <footer>إعداد: <b>أ. أحمد بن سالم</b> — معلم اللغة الإنجليزية</footer>
+</div>
+
+<nav class="tabbar" id="tabbar" aria-label="التنقّل السريع">
+  <a href="index.html" data-t="home"><span aria-hidden="true">🏠</span>الرئيسية</a>
+  <a href="#sections" data-t="sec" class="on"><span aria-hidden="true">🗂️</span>الأقسام</a>
+  <a href="surprise/index.html" data-t="mb" id="tbMb"><span aria-hidden="true">🎁</span>المفاجأة<i class="dot" id="tbDot" hidden></i></a>
+  <a href="honor.html"><span aria-hidden="true">🏆</span>نقاطي</a>
+  <a href="path/index.html"><span aria-hidden="true">📐</span>مساري</a>
+</nav>
+
+
+
+<script>
+// 🎁 tab: red dot while a counted box is still waiting today (6 am–10 pm Saudi time).
+(function(){
+  try {
+    var day = Math.floor((Date.now() + 3 * 3600e3 - 6 * 3600e3) / 864e5), d = JSON.parse(localStorage.getItem('mb-days') || '{}') || {}, x = JSON.parse(localStorage.getItem('mb-x') || '{}') || {};
+    var now = (Date.now() + 3 * 3600e3) % 864e5;
+    if (now >= 22 * 3600e3 || now < 6 * 3600e3) return;
+    var n = (d[day] !== undefined) + (x[day + '-2'] !== undefined) + (x[day + '-3'] !== undefined);
+    if (n < 3) document.getElementById('tbDot').hidden = false;
+  } catch (e) {}
+})();
+</script>
+<script>
+// Search over every tool on the page + the bottom tab bar's active tab.
+(function(){
+  var q = document.getElementById('q'), qx = document.getElementById('qx'), nores = document.getElementById('nores');
+  var norm = function(t){ return (t || '').toLowerCase().replace(/[ً-ْـ]/g, '').replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').replace(/\s+/g, ' '); };
+  var shelves = [].slice.call(document.querySelectorAll('.shelf')), kids = document.getElementById('kids');
+  var itemsOf = function(sh){ return [].slice.call(sh.querySelectorAll('.card, .capchip')); };
+  var txt = function(el){ return norm(el.textContent + ' ' + (el.dataset.k || '')); };
+  function run(){
+    var v = norm(q.value.trim()), any = false, words = v.split(' ').filter(Boolean);
+    var hit = function(t){ return words.every(function(w){ return t.indexOf(w) >= 0; }); };
+    qx.hidden = !v; document.body.classList.toggle('searching', !!v);
+    shelves.forEach(function(sh){
+      var head = txt(sh.querySelector('.shelf-head')) + ' ' + norm(sh.dataset.k), all = v && hit(head), n = 0;
+      itemsOf(sh).forEach(function(el){ var ok = !v || all || hit(txt(el)); el.classList.toggle('hide', !ok); if (ok) n++; });
+      var ca = sh.querySelector('.hcaps-all'); if (ca) ca.classList.toggle('hide', !!v && !all && !n);
+      var hc = sh.querySelector('.hcaps'); if (hc) hc.classList.toggle('hide', !!v && !n);
+      sh.classList.toggle('hide', !!v && !n); if (v && n) any = true;
+    });
+    var k = !v || hit(txt(kids)); kids.classList.toggle('hide', !k); if (v && k) any = true;
+    nores.hidden = !v || any;
+  }
+  q.addEventListener('input', run);
+  q.addEventListener('keydown', function(e){ if (e.key === 'Enter') { e.preventDefault(); q.blur(); var f = document.querySelector('.shelf:not(.hide), #kids:not(.hide)'); if (f) f.scrollIntoView({ behavior: 'smooth', block: 'start' }); } });
+  qx.onclick = function(){ q.value = ''; run(); q.focus(); };
+
+})();
+</script>
+
+<script>window._last = null; try { window._last = localStorage.getItem('club-last'); } catch (e) {}</script>
+<script src="assets/club.js?v=28"></script>
+<script>/* a list page is not «where you left off»: keep the last tool the student opened */
+try { if (window._last) localStorage.setItem('club-last', window._last); else localStorage.removeItem('club-last'); } catch (e) {}</script>
+
+<script>
+(function(){
+  function get(k){ try{ return JSON.parse(localStorage.getItem(k)); }catch(e){ return null; } }
+
+  // Progress over all eight capsules (each saves cap2-<name>-stars = {stage: 1..3})
+  var CAPS = {space:16, flavor:23, life:16, adventure:16, emotion:17, career:17, nature:16, health:16, sports:16, tech:16};
+  var total = 0, doneAll = 0, stagesAll = 0;
+  Object.keys(CAPS).forEach(function(c){
+    var st = get('cap2-' + c + '-stars') || {};
+    stagesAll += CAPS[c];
+    Object.keys(st).forEach(function(k){ var v = +st[k] || 0; if(v > 0){ doneAll++; total += v; } });
+  });
+  var cp = document.getElementById('capProg');
+  if (cp) {
+    cp.textContent = doneAll ? ('أنجزت ' + doneAll + ' من ' + stagesAll + ' مرحلة · ⭐ ' + total) : ('رتّب الجمل وافهم معانيها · ' + stagesAll + ' مرحلة');
+  }
+  var ms = document.getElementById('myStars'); if (ms) ms.textContent = total;
+
+  // Gentle reveal on scroll
+  var els = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {rootMargin:'0px 0px -6% 0px'});
+    els.forEach(function(el, i){ el.style.transitionDelay = Math.min(i % 9, 8) * 45 + 'ms'; io.observe(el); });
+  } else { els.forEach(function(el){ el.classList.add('in'); }); }
+})();
+</script>
+</body>
+</html>

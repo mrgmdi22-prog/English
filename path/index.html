@@ -268,6 +268,7 @@ canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:40}
 <canvas id="fx" aria-hidden="true"></canvas>
 <div class="toast hide" id="toast" role="status" aria-live="polite"></div>
 
+<script src="../assets/path-core.js?v=1"></script>
 <script>
 (function(){
 'use strict';
@@ -298,66 +299,13 @@ var LVL = [
 ];
 var TIMES = [{m:10, ic:'⏱️', b:'10 دقائق', s:'مهمة واحدة في اليوم'}, {m:20, ic:'⏰', b:'20 دقيقة', s:'مهمتان: تعلّم + مراجعة', rec:1}, {m:30, ic:'🔥', b:'30 دقيقة', s:'ثلاث مهام: انطلاقة قوية'}];
 
-// Club sections as stations. key = honor points part (progress measured since the map was drawn); t = target in that part's
-// units; no key = the student ticks it. lv = [min,max] level band (0 beginner, 1 middle, 2 advanced); el = needs B1 by the test.
-var T = {
-  lvl:  {n:'قياس المستوى', ic:'📈', h:'../level/index.html', c:[], lv:[0,2], how:'اختبار قصير يحدد مستواك، فيُبنى مخططك عليه'},
-  core: {n:'Core Quest', en:1, ic:'🧭', h:'../words/core2000.html', key:'cq', t:3, c:['voc'], lv:[0,1], how:'أنهِ 3 مجموعات: تعلّم ← اختر ← اكتب'},
-  dict: {n:'قاموس الألف كلمة', ic:'📖', h:'../journey/dictionary.html', c:['voc'], lv:[0,0], how:'تصفّح 20 كلمة وانطقها بصوتك'},
-  wq:   {n:'English Word Quest', en:1, ic:'🗺️', h:'../journey/word-quest.html', key:'wq', t:30, c:['voc'], lv:[0,1], how:'أكمل 3 وحدات بدرجة 8 من 10 فأكثر'},
-  mg:   {n:'ميدان المفردات (كتابك المدرسي)', ic:'🏟️', h:'../vocab/mega-goal-1.html', key:'mg', t:40, c:['voc'], lv:[0,2], how:'اختر كتاب صفّك وأتقن 40 كلمة'},
-  ng:   {n:'الكلمات العامة', ic:'🌍', h:'../words/ngsl.html', key:'ng', t:30, c:['voc'], lv:[1,1], how:'أكمل 3 وحدات وراجع كلمات اليوم'},
-  aw:   {n:'الكلمات الأكاديمية', ic:'🎓', h:'../words/awl.html', key:'aw', t:30, c:['voc','rea'], lv:[2,2], how:'أكمل 3 وحدات من القوائم الأكاديمية'},
-  im:   {n:'ركن التعبيرات', ic:'🎨', h:'../idioms/index.html', key:'im', t:15, c:['voc','spe'], lv:[1,2], how:'تعلّم التعبيرات وأجب عن 15 سؤالاً صحيحاً'},
-  caps: {n:'الكبسولات', ic:'🌟', h:'../capsules/index.html', key:'caps', t:25, c:['gra','lis','wri'], lv:[0,1], how:'استمع ورتّب الجمل: 5 مراحل بنجمة فأكثر'},
-  tn:   {n:'خارطة الأزمنة', ic:'⏳', h:'../grammar/tenses.html', key:'tn', t:15, c:['gra'], lv:[1,2], how:'افهم الأزمنة وأجب عن 15 سؤالاً صحيحاً'},
-  pv:   {n:'المبني للمجهول', ic:'🔄', h:'../grammar/passive.html', key:'pv', t:15, c:['gra','wri'], lv:[1,2], how:'تعلّم القاعدة وحوّل الجمل، ثم 15 إجابة صحيحة'},
-  syn:  {n:'Syntax Tree Lab', en:1, ic:'🌳', h:'../grammar/syntax-tree-lab.html', c:['gra','wri'], lv:[1,2], how:'حلّل 5 جمل وافهم أجزاءها'},
-  let:  {n:'ميدان الحروف والأصوات', ic:'🔤', h:'../letters/letters-sounds.html', c:['lis','rea','wri'], lv:[0,0], how:'تدرّب على الحروف وأصواتها حتى تقرأ الكلمات بسهولة'},
-  tb:   {n:'محادثات التأسيس', ic:'🗣️', h:'../everyday/basics.html', key:'tb', t:20, c:['spe','lis'], lv:[0,0], how:'استمع للحوارات وردّدها، وأجب عن 20 سؤالاً'},
-  st:   {n:'ركن القصص', ic:'📚', h:'../stories/index.html', key:'st', t:9, c:['rea','lis'], lv:[0,1], how:'اقرأ 3 قصص واستمع لها، وأجب عن أسئلتها'},
-  lab:  {n:'مختبر المحادثة', ic:'💬', h:'../journey/conversation-lab.html', key:'lab', t:15, c:['spe','lis'], lv:[1,2], how:'3 محادثات: استمع، وسجّل صوتك، وصحّح نطقك'},
-  bf:   {n:'Breakfast Challenge', en:1, ic:'🍳', h:'../everyday/breakfast.html', key:'bf', t:8, c:['rea','voc'], lv:[0,1], how:'اقرأ وأجب: 8 إجابات صحيحة'},
-  cal:  {n:'ورشة الخط الإنجليزي', ic:'✒️', h:'../calligraphy/index.html', c:['wri'], lv:[0,1], how:'اكتب 10 كلمات بخط واضح على السطور'},
-  note: {n:'دفتري الصغير', ic:'📓', c:['wri','voc'], lv:[0,2], how:'اكتب في دفترك 3 جمل من تأليفك بكلمات تعلّمتها، ثم اقرأها بصوتك'},
-  talk: {n:'تحدّث مع نفسك', ic:'🎙️', c:['spe'], lv:[0,2], how:'سجّل بجوالك دقيقة تتحدث فيها عن يومك بالإنجليزية، ثم استمع لها'},
-  town: {n:'في المدينة', ic:'🏙️', h:'../elite/town/index.html', key:'et', t:15, c:['spe','lis'], lv:[2,2], el:1, how:'3 محطات: استمع، وأدِّ الدور بصوتك، وأجب'},
-  elite:{n:'مسار النخبة', ic:'💎', h:'../elite/index.html', key:'ek', t:30, c:['voc','gra','rea'], lv:[2,2], el:1, how:'3 وحدات بنجمة فأكثر'},
-  cls:  {n:'مكتبة النخبة', ic:'📜', h:'../elite/classics/index.html', c:['rea'], lv:[2,2], el:1, how:'اقرأ فصلاً من قصة أمريكية كلاسيكية'},
-  links:{n:'المكتبة الإثرائية', ic:'🌐', h:'../links.html', c:['lis','rea'], lv:[2,2], how:'اختر موقعاً واحداً واستمع أو اقرأ فيه 15 دقيقة'},
-  step: {n:'مِران ستيب', ic:'📝', h:'https://step.ahmedchoices.com/drill/', c:['rea','gra','lis','voc'], lv:[0,2], goal:'step', how:'حلّ 20 سؤالاً بأسلوب الاختبار'},
-  wd:   {n:'عوالم النادي', ic:'🌍', h:'../worlds/index.html', key:'ws', t:1, c:['voc','rea','lis','spe'], lv:[0,2], goal:'fun', how:'أنجز محطات عالم واحد واحصل على ختمه'},
-  mb:   {n:'Surprise Me', en:1, ic:'🎁', h:'../surprise/index.html', c:[], lv:[0,2], how:'صندوق اليوم: مراجعة سريعة من كل الأقسام'}
-};
-Object.keys(T).forEach(function(id){ T[id].id = id; });
-// Station preference per part (first = most fitting); goal favourites move to the front.
-var ORDER = {
-  voc:['core','wq','mg','ng','dict','aw','im','elite','bf','note'],
-  gra:['caps','tn','pv','syn','elite','step','note'],
-  lis:['let','caps','tb','st','lab','town','links','step'],
-  rea:['let','st','bf','aw','cls','elite','links','step'],
-  spe:['tb','lab','town','im','talk'],
-  wri:['cal','caps','pv','syn','note','let']
-};
-var FAV = {school:['mg','tn','st'], step:['step','tn','aw'], talk:['tb','lab','town','talk'], fun:['wd','st','im','cls']};
+var PC = window.PathCore, T = PC.T, ORDER = PC.ORDER, FAV = PC.FAV, J = PC.J, S = PC.S, dayNo = PC.dayNo, testLevel = PC.testLevel, snap = PC.snap,
+    prog = PC.prog, stageIds = PC.stageIds, stageDone = PC.stageDone, todayTasks = PC.todayTasks, dayState = PC.dayState, taskDone = PC.taskDone;
 
 /* ================= storage & helpers ================= */
-var J = function(k, d){ try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } };
-var S = function(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
-var dayNo = function(t){ return Math.floor(((t || Date.now()) + 3 * 3600e3 - 6 * 3600e3) / 864e5); };
 var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
 var app = document.getElementById('app');
-var PARTS = null;           // honor points per part (filled when honor.js loads)
-var LVN = ['Pre-A1','A1','A2','B1','B2'], LV_NEW = 1793547780000;
 
-function testLevel(){
-  var lr = J('lv-results', {}) || {};
-  var all = [lr.pre].concat(lr.post || [], Array.isArray(lr.prev) ? lr.prev : []).filter(function(r){ return r && LVN.indexOf(r.level) >= 0; });
-  if (!all.length) return null;
-  var best = all.reduce(function(m, r){ return LVN.indexOf(r.level) > LVN.indexOf(m.level) ? r : m; });
-  var i = LVN.indexOf(best.level), cur = all.filter(function(r){ return +r.at >= LV_NEW; });
-  return { name: best.level, band: i <= 1 ? 0 : i === 2 ? 1 : 2, b1: cur.some(function(r){ return LVN.indexOf(r.level) >= 3; }), at: Math.max.apply(null, all.map(function(r){ return +r.at || 0; })) };
-}
 function nm(t){ return t.en ? '<span class="en">' + esc(t.n) + '</span>' : esc(t.n); }
 function toast(t){ var e = document.getElementById('toast'); e.textContent = t; e.classList.remove('hide'); clearTimeout(toast.h); toast.h = setTimeout(function(){ e.classList.add('hide'); }, 2600); }
 function sfx(ok){ try { window.clubSfx && window.clubSfx(ok ? 'right' : 'wrong'); } catch (e) {} }
@@ -391,48 +339,13 @@ function build(a){
     return { k: k, s: pick };
   });
   var p = { v: 1, at: Date.now(), goal: a.goal, lvl: band, lvSrc: tl ? 'test' : 'self', lvName: tl ? tl.name : '', r: a.r, time: a.time,
-            stages: stages, stage: 0, base: {}, done: {}, days: {}, ci: 0, redrawn: (a.redrawn || 0) };
+            stages: stages, stage: 0, base: {}, done: {}, days: {}, ci: 0, redrawn: (a.redrawn || 0), b1: b1, tlAt: tl ? tl.at : 0 };
   if (!tl) p.needTest = 1;
-  if (PARTS) p.base = snap();
+  if (PC.parts()) p.base = snap();
   return p;
 }
-function snap(){ var o = {}; Object.keys(T).forEach(function(id){ var k = T[id].key; if (k && PARTS) o[k] = PARTS[k] || 0; }); return o; }
 
 /* ================= progress ================= */
-function prog(plan, id){
-  var t = T[id];
-  if (plan.done[id]) return 1;
-  if (id === 'lvl') return testLevel() ? 1 : 0;
-  if (!t.key || !PARTS) return 0;
-  var got = (PARTS[t.key] || 0) - (plan.base[t.key] || 0);
-  return Math.max(0, Math.min(1, got / t.t));
-}
-function stageIds(plan, i){ var s = plan.stages[i].s.slice(); if (i === 0 && plan.needTest && !testLevel()) s.unshift('lvl'); return s; }
-function stageDone(plan, i){ return stageIds(plan, i).every(function(id){ return prog(plan, id) >= 1; }); }
-
-// Today's missions: stage stations not finished yet, rotating day by day; plus Surprise Me as daily review (20+ min).
-function todayTasks(plan){
-  var d = dayNo(), st = Math.min(plan.stage, plan.stages.length - 1);
-  var open = stageIds(plan, st).filter(function(id){ return prog(plan, id) < 1; });
-  if (!open.length) open = stageIds(plan, st);
-  var n = plan.time >= 30 ? 2 : 1, out = [];
-  if (open.indexOf('lvl') >= 0) { out.push('lvl'); open = open.filter(function(x){ return x !== 'lvl'; }); }
-  for (var i = 0; out.length < n && i < open.length; i++) out.push(open[(d + i) % open.length]);
-  if (plan.time >= 20) out.push('mb');
-  return out.filter(function(x, i, a){ return a.indexOf(x) === i; });
-}
-function dayState(){
-  var d = dayNo(), s = J('mp-day', null);
-  if (!s || s.d !== d) { s = { d: d, b: PARTS ? snap() : null, ok: {} }; S('mp-day', s); }
-  else if (!s.b && PARTS) { s.b = snap(); S('mp-day', s); }
-  return s;
-}
-function taskDone(id, ds){
-  if (ds.ok[id]) return true;
-  if (id === 'mb') { var md = J('mb-days', {}) || {}; return md[dayNo()] !== undefined; }
-  if (id === 'lvl') return !!testLevel();
-  var k = T[id].key; return !!(k && PARTS && ds.b && (PARTS[k] || 0) > (ds.b[k] || 0));
-}
 
 /* ================= views ================= */
 function house(r, focus){
@@ -547,10 +460,20 @@ function vWizard(){
   };
 }
 
-var fresh = 0, openSt = null;
+var fresh = 0, openSt = null, lvKeep = 0;   // lvKeep: the «plan updated after your test» note stays until the page is left
 function vMap(){
   var plan = J('my-path', null);
   if (!plan) { location.hash = ''; return; }
+  // a level test taken after the plan was drawn updates the plan by itself (no questions asked again)
+  var lvNote = 0, tl0 = testLevel();
+  if (tl0 && tl0.at > (plan.tlAt || plan.at)) {
+    if (tl0.band !== plan.lvl || (tl0.b1 && !plan.b1)) {
+      var np = build({ goal: plan.goal, lvl: plan.lvl, r: plan.r || {}, time: plan.time, redrawn: (plan.redrawn || 0) + 1 });
+      np.days = plan.days || {}; plan = np; lvNote = 2; openSt = null;
+    } else { plan.lvSrc = 'test'; plan.lvName = tl0.name; plan.tlAt = tl0.at; delete plan.needTest; lvNote = 1; }
+    S('my-path', plan); lvKeep = lvNote;
+  }
+  lvNote = lvKeep;
   // the stage moves on by itself once all its stations are done
   var moved = false;
   while (plan.stage < plan.stages.length && stageDone(plan, plan.stage)) { plan.stage++; moved = true; }
@@ -574,8 +497,8 @@ function vMap(){
   var onb = ''; try { onb = sessionStorage.getItem('club-onb') || ''; } catch (e) {}
   if (onb) h += '<section class="card center" style="border-color:#a9d3f5;background:#eaf3fd"><h2>✅ مسارك جاهز!</h2><p class="lead">الخطوة الأخيرة: ادخل الموقع وابدأ أول مهمة.</p><a class="cta" href="' + esc(onb) + '" onclick="try{sessionStorage.removeItem(\'club-onb\')}catch(e){}">🏠 ادخل الموقع ←</a></section>';
 
-  var newTest = tl && tl.at > plan.at;
-  if (newTest) h += '<section class="card checkin"><h2>📈 اختبرت مستواك من جديد!</h2><p class="lead">نتيجتك الآن <b class="en">' + esc(tl.name) + '</b>. صمّم مخططاً جديداً لبيت أعلى.</p><div class="center" style="margin-top:12px"><a class="btn" href="#intro" id="redraw1">📐 مخطط جديد</a></div></section>';
+  var newTest = lvNote > 0;
+  if (newTest) h += '<section class="card checkin"><h2>📈 حُدِّث مخططك حسب اختبارك</h2><p class="lead">مستواك الآن <b class="en">' + esc(tl.name) + '</b>. ' + (lvNote === 2 ? 'أعدنا اختيار محطاتك لتناسب مستواك، دون أسئلة جديدة.' : 'محطاتك مناسبة لمستواك، فواصل كما أنت.') + '</p></section>';
   else if (age >= 14 && (plan.ci || 0) < Math.floor(age / 14)) {
     var ck = focus[Math.min(cur, 2)];
     h += '<section class="card checkin"><h2>⏰ مرّ أسبوعان على مخططك</h2><p class="lead">كيف تشعر الآن في <b>' + CK[ck].ar + '</b>؟</p><div class="rate"><div class="faces">'
@@ -591,6 +514,7 @@ function vMap(){
     + (streak ? '<span class="fire">🔥 ' + streak + '</span>' : '') + '</div><ol class="olist">'
     + tasks.map(function(id, n){ var t = T[id], dn = taskDone(id, ds); return '<li class="' + (dn ? 'done' : '') + '"><span class="bx">' + (dn ? '✓' : n + 1) + '</span><span class="i">' + t.ic + '</span><div class="tx"><b>' + nm(t) + '</b><small>' + esc(t.how) + '</small></div><div class="acts">'
       + (t.h ? '<a class="go" href="' + t.h + '"' + (/^https/.test(t.h) ? ' target="_blank" rel="noopener"' : '') + '>' + (dn ? 'تدرّب' : 'ابدأ') + ' ←</a>' : '')
+      + (id === 'lvl' && !dn ? '<button class="tick" data-skiplv>تخطَّ (اختياري)</button>' : '')
       + ((!t.key && id !== 'mb' && id !== 'lvl') || dn ? '<button class="tick" data-tk="' + id + '"' + (dn ? ' disabled' : '') + '>' + (dn ? '✓ أُنجزت' : 'أنجزتها ✓') + '</button>' : '') + '</div></li>'; }).join('')
     + '</ol>' + (!left && tasks.length ? '<div class="yay">🌟 أحسنت! بيتك ارتفع اليوم. نلتقي غداً.</div>' : '') + '</div></section>';
 
@@ -620,6 +544,7 @@ function vMap(){
   if (fresh) { fresh = 0; fireworks(); }
   app.querySelectorAll('[data-os]').forEach(function(b){ b.onclick = function(){ openSt = +b.dataset.os; var y = window.scrollY; vMap(); window.scrollTo(0, y); }; });
 
+  app.querySelectorAll('[data-skiplv]').forEach(function(b){ b.onclick = function(){ plan.skipTest = 1; S('my-path', plan); vMap(); }; });
   app.querySelectorAll('[data-tk]').forEach(function(b){ b.onclick = function(){ var s = dayState(); s.ok[b.dataset.tk] = 1; S('mp-day', s); sfx(1); vMap(); }; });
   app.querySelectorAll('[data-st]').forEach(function(b){ b.onclick = function(){
     var t = T[b.dataset.st];
@@ -664,7 +589,7 @@ function fireworks(){
 /* ================= start ================= */
 function load(){
   return import('../assets/honor.js?v=20261112b').then(function(H){
-    PARTS = H.computeScore().parts || {};
+    PC.setParts(H.computeScore().parts || {});
     var p = J('my-path', null);
     if (p && (!p.base || !Object.keys(p.base).length)) { p.base = snap(); S('my-path', p); }   // map drawn before the points loaded
   }).catch(function(){});

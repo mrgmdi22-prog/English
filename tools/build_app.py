@@ -231,12 +231,13 @@ def inject_every_page():
 def page_edits():
     # ---- home
     # app: no honor board, so its tab becomes the learner's guide (مساري already has its own tab)
-    sub('index.html', '<a href="honor.html"><span aria-hidden="true">🏆</span>نقاطي</a>',
-        '<a href="guide.html"><span aria-hidden="true">🧭</span>الدليل</a>')
+    for pg in ('index.html', 'sections.html'):
+        sub(pg, '<a href="honor.html"><span aria-hidden="true">🏆</span>نقاطي</a>',
+            '<a href="guide.html"><span aria-hidden="true">🧭</span>الدليل</a>')
     sub('guide.html', '🏆 نقاطي · 📐 مساري (أمر عمل اليوم)', '🧭 الدليل · 📐 مساري (أمر عمل اليوم)', need=False)
-    sub('index.html', '<a href="vocab/mega-goal-1.html">🏟️ Mega Goal 1.1</a><a href="vocab/mega-goal-2.html">🏆 Mega Goal 2.1</a><a href="vocab/mega-goal-3.html" style="grid-column:1/-1">🥇 Mega Goal 3.1</a>',
+    sub('sections.html', '<a href="vocab/mega-goal-1.html">🏟️ Mega Goal 1.1</a><a href="vocab/mega-goal-2.html">🏆 Mega Goal 2.1</a><a href="vocab/mega-goal-3.html" style="grid-column:1/-1">🥇 Mega Goal 3.1</a>',
         '<a href="vocab/mega-goal-1.html">🏟️ المستوى 1</a><a href="vocab/mega-goal-2.html">🏆 المستوى 2</a><a href="vocab/mega-goal-3.html" style="grid-column:1/-1">🥇 المستوى 3</a>')
-    sub('index.html', r'Mega Goal', 'ميدان المفردات', count=0, need=False)
+    sub('sections.html', r'Mega Goal', 'ميدان المفردات', count=0, need=False)
     sub('index.html', '<footer>إعداد: <b>أ. أحمد بن سالم</b> — معلم اللغة الإنجليزية</footer>',
         '<footer>إعداد: <b>أ. أحمد بن سالم</b> — معلم اللغة الإنجليزية<br><small>تقدّمك محفوظ على جهازك فقط · <a href="privacy.html">سياسة الخصوصية</a></small></footer>')
     sub('index.html', 'نقطة هذا الأسبوع', 'نقطة', need=False)
@@ -264,8 +265,8 @@ def page_edits():
     sub(g, 'Mega Goal', 'ميدان المفردات', count=0, need=False)
     # ---- worlds passport + my road map: no Core Quest station
     sub('worlds/index.html', "['cq','🧭','Core Quest','../words/core2000.html'], ", '')
-    sub('path/index.html', r"\n\s*core: \{n:'Core Quest'[^\n]*\},?", '', regex=True)
-    sub('path/index.html', "voc:['core',", "voc:[")
+    sub('assets/path-core.js', r"\n\s*core: \{n:'Core Quest'[^\n]*\},?", '', regex=True)
+    sub('assets/path-core.js', "voc:['core',", "voc:[")
 
 
 def check():

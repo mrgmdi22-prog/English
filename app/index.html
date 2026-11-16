@@ -300,6 +300,32 @@ body.searching .totop{display:none}
 body.new .mypath .qn{display:grid}
 body.new .q-worlds .qn{display:none}
 @media (max-width:600px){.mypath{padding:16px 14px 14px}.mypath .ic{width:52px;height:52px;font-size:1.8rem}.mypath .tx b{font-size:1.26rem}}
+
+/* ---------- today's work order (home = today's task + points + Surprise Me; the shelves live in sections.html) ---------- */
+.today{margin-top:16px;background:#fff;border:2px solid #b7d6f5;border-radius:26px;padding:18px;box-shadow:0 16px 30px -26px #1d6fd1}
+.today .thd{display:flex;align-items:center;gap:12px}
+.today .thd .ic{flex:none;width:58px;height:58px;border-radius:18px;background:#e1efff;display:grid;place-items:center;font-size:2rem}
+.today .thd .tx{flex:1;min-width:0}
+.today h2{margin:0;font-size:1.5rem;font-weight:800;color:#1e3a8a;line-height:1.3}
+.today .thd small{display:block;color:var(--muted);font-size:1.02rem;line-height:1.5}
+.today .ring{flex:none;min-width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:1.1rem;color:#0f766e;background:#ddf6ef;border:2px solid #8fdcc4;padding:0 8px}
+.today .ring[hidden],.today [hidden]{display:none}
+.tlist{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.tlist li{display:flex;align-items:center;gap:10px;background:#f6faff;border:1.5px solid #d5e6f7;border-radius:18px;padding:10px 12px}
+.tlist li.done{background:#ecfbf3;border-color:#a9e4c6}
+.tlist .n{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#1d6fd1;color:#fff;font-weight:800}
+.tlist li.done .n{background:#10b981}
+.tlist .i{flex:none;font-size:1.6rem}
+.tlist .t{flex:1;min-width:0}
+.tlist .t b{display:block;font-size:1.15rem;line-height:1.4}
+.tlist .t small{display:block;color:var(--muted);font-size:.98rem;line-height:1.5}
+.tlist a.st{flex:none;text-decoration:none;background:#1d6fd1;color:#fff;font-weight:800;border-radius:999px;padding:9px 16px;font-size:1.02rem;white-space:nowrap}
+.tlist li.done a.st{background:#fff;color:#0f766e;border:1.5px solid #8fdcc4}
+.tnew p{margin:12px 0 0;font-size:1.1rem;line-height:1.7;color:var(--ink)}
+.today>.go{display:block;margin-top:14px;text-align:center;text-decoration:none;color:#fff;font-weight:800;border-radius:999px;padding:13px 16px;font-size:1.15rem;background:linear-gradient(90deg,#0d9488,#1d6fd1)}
+.today>.go.soft{background:#fff;color:#1d4ed8;border:2px solid #b7d6f5;padding:9px 16px;font-size:1.02rem}
+.hline.help{color:#0f766e;background:#e9f8f2;border-color:#bfe6d6}
+@media (max-width:520px){.tlist li{flex-wrap:wrap}.tlist a.st{width:100%;text-align:center}}
 </style>
 <link rel="stylesheet" href="assets/app.css?v=1"><script src="assets/app.js?v=1"></script>
 </head>
@@ -316,8 +342,17 @@ body.new .q-worlds .qn{display:none}
       <circle class="o3" cx="500" cy="90" r="8" fill="#ffc46b"/>
     </svg>
     <h1>نادي اللغة الإنجليزية<span class="en">ENGLISH CLUB</span></h1>
-    <p class="sub">تعلّم الإنجليزية بنفسك: الحروف والمفردات والقواعد والقصص والمحادثة. العب، وتعلّم، واجمع النجوم.</p>
+    <p class="sub">مهمة صغيرة كل يوم، ونقاط ترفعك.</p>
     <div class="me-strip"><span>⭐ <b id="myStars">0</b> نجمة</span><span>🏅 <b id="myPts">0</b> نقطة</span><span id="myLv" hidden>📈 <b dir="ltr"></b></span></div>
+  </section>
+
+  <section class="today" id="today" aria-labelledby="hToday">
+    <div class="thd"><span class="ic" aria-hidden="true">📋</span><div class="tx"><h2 id="hToday">أمر عمل اليوم</h2><small id="tdSub">خطتك الشخصية: مهمة صغيرة كل يوم.</small></div><span class="ring" id="tdRing" hidden></span></div>
+    <ol class="tlist" id="tdList" hidden></ol>
+    <div class="tnew" id="tdNew">
+      <p>لم تصمّم مسارك بعد. أجب عن أسئلة قصيرة، فيُجهَّز لك كل يوم أمر عمل يناسبك، ولا تحتار من أين تبدأ.</p>
+    </div>
+    <a class="go" id="tdGo" href="path/index.html">📐 صمّم مساري في دقيقتين ←</a>
   </section>
 
   <a class="resume" id="resume" href="#">
@@ -326,22 +361,8 @@ body.new .q-worlds .qn{display:none}
     <span class="go">أكمل ←</span>
   </a>
 
-  <a class="hline" href="honor.html" aria-label="لوحة الشرف">
-    <span aria-hidden="true">🏆</span><span class="ht" id="hLine">لوحة الشرف · نجوم الأسبوع</span><span class="hg">←</span>
-  </a>
-
-  <a class="mypath" id="mypath" href="path/index.html">
-    <span class="qn">3</span>
-    <span class="hd"><span class="ic" aria-hidden="true">📐</span>
-      <span class="tx"><b>هندسة <span class="sp">مساري</span></b><small id="mpS">خطة شخصية لك وحدك: تجيب عن 4 أسئلة، فيُصمَّم لك مخطط يبني لغتك جزءاً بعد جزء، يبدأ بالأضعف.</small></span></span>
-    <span class="how" id="mpHow"><span>🎯 هدفك</span><span>📈 مستواك</span><span>🔍 تقييمك لنفسك</span><span>⏳ وقتك</span></span>
-    <span class="rows" id="mpRows" hidden></span>
-    <span class="go" id="mpG">📐 صمّم مساري في دقيقتين ←</span>
-  </a>
-
   <section class="quick" id="quick" aria-labelledby="hq">
-    <div class="newbie" id="newbie" hidden>👋 <b>جديد في النادي؟</b> ابدأ بالخطوات المرقّمة: <span class="n">1</span> الدليل ← <span class="n">2</span> قياس المستوى ← <span class="n">3</span> هندسة مساري</div>
-    <h2 id="hq" class="qh">⚡ وصول سريع</h2>
+    <h2 id="hq" class="qh">⚡ أيضاً في النادي</h2>
     <div class="qgrid">
       <a class="qt mbox" id="mbox" href="surprise/index.html" style="--qc:#1E78D2;--qs:#E3F0FF;--qb:#A9CFF2">
         <span class="bx" aria-hidden="true">🎁</span>
@@ -350,171 +371,33 @@ body.new .q-worlds .qn{display:none}
         <span class="st" id="mbSt"></span>
         <span class="go" id="mbGo">افتح ←</span>
       </a>
+      <a class="qt" href="sections.html" style="--qc:#6046e8;--qs:#efebff;--qb:#cfc4ff">
+        <span class="bx" aria-hidden="true">🗂️</span>
+        <b>كل الأقسام</b>
+        <small>المفردات والقواعد والقصص والمحادثة وكل الأدوات</small>
+        <span class="go">تصفّح ←</span>
+      </a>
       <a class="qt q-worlds" href="worlds/index.html" style="--qc:#9a6400;--qs:#FFF3DA;--qb:#F2D79A">
-        <span class="qn">3</span><span class="bx" aria-hidden="true">🌍</span>
+        <span class="bx" aria-hidden="true">🌍</span>
         <b>عوالم النادي</b>
         <small id="wdSub">10 عوالم وجواز سفر بالأختام</small>
         <span class="go">انطلق ←</span>
       </a>
       <a class="qt q-level" href="level/index.html" style="--qc:#3157D5;--qs:#E8EEFF;--qb:#CCD8FA">
-        <span class="qn">2</span><span class="bx" aria-hidden="true">📈</span>
-        <b>قياس المستوى</b>
+        <span class="bx" aria-hidden="true">📈</span>
+        <b>قياس المستوى <small style="display:inline;font-weight:700">(اختياري)</small></b>
         <small id="lvSub">اعرف مستواك الآن، ثم قِس تحسّنك</small>
         <span class="go">ابدأ ←</span>
       </a>
-      <a class="qt q-guide" href="guide.html" style="--qc:#11826a;--qs:#E3F6EF;--qb:#BFE6D6">
-        <span class="qn">1</span><span class="bx" aria-hidden="true">🧭</span>
-        <b>دليل المتعلم</b>
-        <small>من أين أبدأ؟ وخطتي اليومية</small>
-        <span class="go">اقرأ ←</span>
-      </a>
     </div>
   </section>
 
-  <nav class="secnav reveal" id="sections" aria-labelledby="hnav">
-    <h2 id="hnav">🗂️ الأقسام</h2>
-    <div class="find">
-      <span aria-hidden="true">🔍</span>
-      <input id="q" type="search" placeholder="ابحث عن أداة: قصص، أزمنة، كلمات، Grammar…" aria-label="ابحث في أقسام النادي" autocomplete="off" enterkeyhint="search">
-      <button type="button" id="qx" aria-label="مسح البحث" hidden>✕</button>
-    </div>
-    <div class="paths" id="paths">
-      <a class="path" href="#f1" style="--pc:#2B78C2;--pb:#E3EFFA"><span class="pi" aria-hidden="true">🌱</span><b>التأسيس</b><small>الحروف وعبارات الحياة</small></a>
-      <a class="path" href="#f2" style="--pc:#b8336a;--pb:#fdeef3"><span class="pi" aria-hidden="true">📚</span><b>المفردات</b><small>أكثر من 3000 كلمة</small></a>
-      <a class="path" href="#f3" style="--pc:#6046e8;--pb:#efebff"><span class="pi" aria-hidden="true">🧩</span><b>القواعد</b><small>الأزمنة وتركيب الجملة</small></a>
-      <a class="path" href="#f5" style="--pc:#9a6a00;--pb:#fff4d6"><span class="pi" aria-hidden="true">🌟</span><b>الكبسولات</b><small>10 كبسولات للجمل</small></a>
-      <a class="path" href="#f4" style="--pc:#c4532f;--pb:#fdece5"><span class="pi" aria-hidden="true">💬</span><b>القراءة والمحادثة</b><small>18 قصة و20 محادثة</small></a>
-      <a class="path" href="#f6" style="--pc:#7a4bd8;--pb:#f1ecff"><span class="pi" aria-hidden="true">💎</span><b>مسار النخبة</b><small>للمتقدمين B1+</small></a>
-      <a class="path" href="#s7" style="--pc:#2563c9;--pb:#e8f0fd"><span class="pi" aria-hidden="true">🌐</span><b>مواقع إضافية</b><small>مكتبة إثرائية و IELTS</small></a>
-      <a class="path" href="#kids" style="--pc:#C2560E;--pb:#FFF3C4"><span class="pi" aria-hidden="true">🦁</span><b>نادي البراعم</b><small>للمرحلة الابتدائية</small></a>
-    </div>
-    <p class="nores" id="nores" hidden>لم أجد أداة بهذا الاسم 🤔 جرّب كلمة أخرى، مثل: قصص، كلمات، قواعد، محادثة.</p>
-  </nav>
-
-  <section class="shelf" id="f1" aria-labelledby="hf1" data-k="تأسيس مبتدئ foundations basics">
-    <div class="shelf-head reveal">
-      <span class="badge" style="background:#DCEBF8" aria-hidden="true">🌱</span>
-      <div><h2 id="hf1" style="color:#2B78C2">التأسيس</h2><p>Foundations · الحروف والأصوات وعبارات الحياة اليومية وأول ألف كلمة</p></div>
-      <a class="totop" href="#sections" aria-label="العودة إلى الأقسام">↑</a>
-    </div>
-    <div class="grid">
-      <div class="card reveal lcard" style="--c:#2B78C2;--t:#E3EFFA" data-k="phonics alphabet abc كتابة نطق"><a class="lmain" href="letters/letters-sounds.html"><span class="ic" aria-hidden="true">🔤</span><b>ميدان الحروف والأصوات</b><span class="en">Letters &amp; Sounds</span><p>اكتب الحروف بإصبعك، واسمع أصواتها، وكوّن منها الكلمات.</p></a>
-        <div class="lmodes"><a href="letters/letters-sounds.html#trace">✍️ تتبّع الحروف</a><a href="letters/letters-sounds.html#phonics">🔊 أصوات الحروف</a><a href="letters/letters-sounds.html#flower">🌸 زهرة الكلمات</a><a href="letters/letters-sounds.html#builder">🧩 كوّن الكلمات</a></div></div>
-      <a class="card reveal" href="everyday/basics.html" style="--c:#2B78C2;--t:#E3EFFA" data-k="محادثة حوار تحية conversation"><span class="arrow">←</span><span class="ic" aria-hidden="true">🗣️</span><b>محادثات التأسيس</b><span class="en">Everyday Talk</span><p>التحية والوداع والطلب والقبول والرفض والاعتذار والشكر والدعوات والاجتماعات: عبارات وردودها ومحادثات مسموعة.</p></a>
-      <a class="card reveal" href="journey/dictionary.html" style="--c:#11826a;--t:#e3f6ef" data-k="dictionary كلمات مفردات معاني words"><span class="arrow">←</span><span class="ic" aria-hidden="true">📖</span><b>قاموس الألف كلمة</b><span class="en">1000-Word Dictionary</span><p>المعنى والنوع والنطق وأمثلة لكل كلمة، مرتّبة بالأسبوع واليوم.</p></a>
-      <a class="card reveal" href="calligraphy/index.html" style="--c:#8a5a12;--t:#fff1d6" data-k="خط كتابة handwriting"><span class="arrow">←</span><span class="ic" aria-hidden="true">✒️</span><b>ورشة الخط الإنجليزي</b><span class="en">Calligraphy Studio</span><p>سبورة وأقلام: رصاص ومدبّب ومسطّح وفرشاة، مع ورقة بسطرين، وتتبّع النماذج والطباعة.</p></a>
-    </div>
-  </section>
-
-  <section class="shelf" id="f2" aria-labelledby="hf2" data-k="مفردات كلمات vocabulary words">
-    <div class="shelf-head reveal">
-      <span class="badge" style="background:#fdeef3" aria-hidden="true">📚</span>
-      <div><h2 id="hf2" style="color:#b8336a">المفردات</h2><p>Vocabulary · كلمات عامة وأكاديمية ومفردات المنهج والعبارات الاصطلاحية</p></div>
-      <a class="totop" href="#sections" aria-label="العودة إلى الأقسام">↑</a>
-    </div>
-    <div class="grid">
-      <a class="card reveal" href="words/core2000.html" style="--c:#0f7f93;--t:#e0f4f7" data-k="كلمات مفردات عبارات"><span class="arrow">←</span><span class="ic" aria-hidden="true">🧭</span><b>Core Quest</b><span class="en">2000 Core Words</span><p>أكثر من 1600 كلمة وعبارة شائعة في مجموعات من 10: تعلّم، ثم اختر، ثم اكتب. 50 نقطة لكل مجموعة تنهيها.</p></a>
-      <a class="card reveal" href="journey/word-quest.html" style="--c:#2f6fd6;--t:#e8f0fd" data-k="كلمات مفردات مراجعة"><span class="arrow">←</span><span class="ic" aria-hidden="true">🗺️</span><b>English Word Quest</b><span class="en">50 units</span><p>50 وحدة: تعرّف على الكلمات، وتدرّب، واقرأ القصة، واختبر نفسك.</p></a>
-      <div class="card reveal lcard" style="--c:#b8336a;--t:#fdeef3" data-k="ngsl awl كلمات عامة اكاديمية academic"><div class="lmain"><span class="ic" aria-hidden="true">📚</span><b>قوائم الكلمات</b><span class="en">Word Lists · NGSL &amp; AWL</span><p>بطاقات وجمل وقصص واختبارات لأهم الكلمات العامة والأكاديمية.</p></div>
-        <div class="lmodes"><a href="words/ngsl.html">🌍 الكلمات العامة<br><small>1000 كلمة</small></a><a href="words/awl.html">🎓 الكلمات الأكاديمية<br><small>569 كلمة</small></a></div></div>
-      <div class="card reveal lcard" style="--c:#a26f00;--t:#fff4d6" data-k="منهج كتاب المدرسة منهج"><div class="lmain"><span class="ic" aria-hidden="true">🏟️</span><b>ميدان المفردات</b><span class="en">ميدان المفردات</span><p>مفردات كتب المنهج في تحديات سريعة.</p></div>
-        <div class="lmodes"><a href="vocab/mega-goal-1.html">🏟️ المستوى 1</a><a href="vocab/mega-goal-2.html">🏆 المستوى 2</a><a href="vocab/mega-goal-3.html" style="grid-column:1/-1">🥇 المستوى 3</a></div></div>
-      <a class="card reveal" href="idioms/index.html" style="--c:#E2573B;--t:#FDECE6" data-k="تعبيرات اصطلاحية idioms"><span class="arrow">←</span><span class="ic" aria-hidden="true">🎨</span><b>ركن التعبيرات</b><span class="en">Idioms · العبارات الاصطلاحية</span><p>26 عبارة اصطلاحية برسومات كرتونية: المعنى الحرفي المضحك، والمعنى الحقيقي، وما يقابله بالعربية.</p></a>
-    </div>
-  </section>
-
-  <section class="shelf" id="f3" aria-labelledby="hf3" data-k="قواعد نحو grammar">
-    <div class="shelf-head reveal">
-      <span class="badge" style="background:var(--violet-soft)" aria-hidden="true">🧩</span>
-      <div><h2 id="hf3" style="color:var(--violet)">القواعد</h2><p>Grammar · افهم الأزمنة والمبني للمجهول وتركيب الجملة</p></div>
-      <a class="totop" href="#sections" aria-label="العودة إلى الأقسام">↑</a>
-    </div>
-    <div class="grid">
-      <a class="card reveal" href="grammar/tenses.html" style="--c:#5B47D6;--t:#EEEBFD" data-k="ازمنة زمن tenses"><span class="arrow">←</span><span class="ic" aria-hidden="true">⏳</span><b>خارطة الأزمنة</b><span class="en">The 12 English tenses</span><p>الأزمنة الاثنا عشر: القاعدة والخط الزمني وأمثلة لكل زمن، وجدول تصريف لأي فعل، واختبار سريع.</p></a>
-      <a class="card reveal" href="grammar/passive.html" style="--c:#0F8A7A;--t:#E2F5F1" data-k="مجهول passive"><span class="arrow">←</span><span class="ic" aria-hidden="true">🔄</span><b>المبني للمجهول</b><span class="en">Passive Voice</span><p>القاعدة وخطوات التحويل الأربع في كل الأزمنة، مع محوّل للجمل ولعبة ترتيب واختبار سريع.</p></a>
-      <a class="card reveal" href="grammar/syntax-tree-lab.html" style="--c:#3A5BD0;--t:#ECEFFC" data-k="جملة تركيب شجرة"><span class="arrow">←</span><span class="ic" aria-hidden="true">🌳</span><b>Syntax Tree Lab</b><span class="en">See how a sentence is built</span><p>شجرة تُظهر أجزاء الجملة الإنجليزية ونوع كل كلمة، مع شرح لكل جزء.</p></a>
-    </div>
-  </section>
-
-  <section class="shelf" id="f5" aria-labelledby="hf5" data-k="كبسولات جمل capsules sentences">
-    <div class="shelf-head reveal">
-      <span class="badge" style="background:#fff4d6" aria-hidden="true">🌟</span>
-      <div><h2 id="hf5" style="color:#9a6a00">الكبسولات</h2><p>Sentence Capsules · <span id="capProg">رتّب الجمل وافهم معانيها</span></p></div>
-      <a class="totop" href="#sections" aria-label="العودة إلى الأقسام">↑</a>
-    </div>
-    <div class="hcaps reveal">
-      <div class="capchips">
-        <a class="capchip" href="capsules/space.html" style="--c:#6046e8;--t:#efebff" data-k="space"><span aria-hidden="true">🚀</span>الفضاء</a>
-        <a class="capchip" href="capsules/flavor.html" style="--c:#c25a20;--t:#fff0e4" data-k="flavor food"><span aria-hidden="true">🍊</span>النكهة</a>
-        <a class="capchip" href="capsules/life.html" style="--c:#7d47c4;--t:#f3ebff" data-k="life"><span aria-hidden="true">🦋</span>الحياة</a>
-        <a class="capchip" href="capsules/adventure.html" style="--c:#2477b5;--t:#e6f3fc" data-k="adventure"><span aria-hidden="true">🎈</span>المغامرة</a>
-        <a class="capchip" href="capsules/emotion.html" style="--c:#9a6a00;--t:#fff6d8" data-k="emotion feelings"><span aria-hidden="true">💛</span>المشاعر</a>
-        <a class="capchip" href="capsules/career.html" style="--c:#2f5fa8;--t:#e8effb" data-k="career jobs"><span aria-hidden="true">🎓</span>المسيرة</a>
-        <a class="capchip" href="capsules/nature.html" style="--c:#1d7a50;--t:#e4f5ec" data-k="nature"><span aria-hidden="true">🌍</span>الطبيعة</a>
-        <a class="capchip" href="capsules/health.html" style="--c:#13807f;--t:#e2f5f4" data-k="health صحة"><span aria-hidden="true">🩺</span>التعافي</a>
-        <a class="capchip" href="capsules/sports.html" style="--c:#1f8a4c;--t:#e4f6ea" data-k="sports"><span aria-hidden="true">🏆</span>الرياضة</a>
-        <a class="capchip" href="capsules/tech.html" style="--c:#3f51c9;--t:#e9ecfd" data-k="technology"><span aria-hidden="true">💻</span>التقنية</a>
-      </div>
-      <a class="hcaps-all" href="capsules/index.html">كل الكبسولات ←</a>
-    </div>
-  </section>
-
-  <section class="shelf" id="f4" aria-labelledby="hf4" data-k="قراءة محادثة reading speaking">
-    <div class="shelf-head reveal">
-      <span class="badge" style="background:var(--coral-soft)" aria-hidden="true">💬</span>
-      <div><h2 id="hf4" style="color:var(--coral)">القراءة والمحادثة</h2><p>Reading &amp; Speaking · قصص ومحادثات ومواقف من الحياة اليومية</p></div>
-      <a class="totop" href="#sections" aria-label="العودة إلى الأقسام">↑</a>
-    </div>
-    <div class="grid">
-      <a class="card reveal" href="stories/index.html" style="--c:#6a4bd8;--t:#efeaff" data-k="قصص قصة قراءة stories"><span class="arrow">←</span><span class="ic" aria-hidden="true">📖</span><b>ركن القصص</b><span class="en">Story Corner</span><p>18 قصة مصوّرة من حكايات إيسوب والقصص العالمية: اقرأ واستمع، ثم أجب عن الأسئلة.</p></a>
-      <a class="card reveal" href="journey/conversation-lab.html" style="--c:#c4532f;--t:#fdece5" data-k="محادثة حوار تسجيل صوت conversation"><span class="arrow">←</span><span class="ic" aria-hidden="true">💬</span><b>مختبر المحادثة</b><span class="en">Conversation Lab</span><p>20 محادثة: استمع، وأجب، واقرأ النص، ثم مثّل الدور وسجّل صوتك.</p></a>
-      <a class="card reveal" href="everyday/breakfast.html" style="--c:#c2452a;--t:#ffece4" data-k="افطار طعام اكل food"><span class="arrow">←</span><span class="ic" aria-hidden="true">🍳</span><b>Breakfast Challenge</b><span class="en">Power up with breakfast!</span><p>ابنِ إفطارك، وتعلّم أسماء الأطعمة ونطقها، وخض تحدي الكلمات.</p></a>
-    </div>
-  </section>
-
-  <section class="shelf" id="f6" aria-labelledby="hf6" data-k="نخبة متقدم elite">
-    <div class="shelf-head reveal">
-      <span class="badge" style="background:#f1ecff" aria-hidden="true">💎</span>
-      <div><h2 id="hf6" style="color:#7a4bd8">مسار النخبة</h2><p>Elite Track · للمتقدمين (<bdi dir="ltr">B1+</bdi>)</p></div>
-      <a class="totop" href="#sections" aria-label="العودة إلى الأقسام">↑</a>
-    </div>
-    <div class="grid">
-      <a class="card portal reveal" href="elite/index.html" style="--c:#7a4bd8;--t:#f1ecff;background:linear-gradient(120deg,#f1ecff,#fff7e0 85%)" data-k="نخبة elite">
-        <span class="ic" aria-hidden="true">💎</span>
-        <span class="txt"><b>مسار النخبة <bdi dir="ltr" style="font-family:var(--en);color:#7a4bd8">B1+</bdi></b><p>رحلة في قمتين: <bdi dir="ltr">B1</bdi> و<bdi dir="ltr">B2</bdi>: مفردات وقواعد وجمل ومحادثات ونصوص، وتحدٍّ يومي ⚡، ونقاط أعلى ولوحة شرف خاصة.</p></span>
-        <span class="go" style="background:#7a4bd8">ادخل المسار ←</span>
-      </a>
-      <a class="card reveal" href="elite/plus/index.html" style="--c:#c4532f;--t:#ffe9e0" data-k="نخبة تحدي c1 c2"><span class="arrow">←</span><span class="ic" aria-hidden="true">🚀</span><b>النخبة+</b><span class="en">Elite+ · Challenge</span><p>للمتفوقين: أسئلة لا تتكرر، بلا تلميحات، ولها تقييم ولوحة خاصة بها. الدخول باختبار تأهيل.</p></a>
-      <a class="card reveal" href="elite/town/index.html" style="--c:#11826a;--t:#e3f6ef" data-k="محادثة مدينة حوار town"><span class="arrow">←</span><span class="ic" aria-hidden="true">🏙️</span><b>في المدينة</b><span class="en">Around Town · B1+</span><p>25 محادثة يومية من المتجر إلى المطار، و213 تعبيراً: استمع، ومثّل الدور، وسجّل صوتك.</p></a>
-      <a class="card reveal" href="elite/classics/index.html" style="--c:#a26f00;--t:#fff4d6" data-k="قصص ادب العقاد classics stories"><span class="arrow">←</span><span class="ic" aria-hidden="true">📚</span><b>مكتبة النخبة</b><span class="en">Elite Classics</span><p>قصص من الأدب الأمريكي بنصّها الإنجليزي الأصلي مع ترجمة العقاد، تبدأ بريب فان ونكل.</p></a>
-    </div>
-  </section>
-
-  <section class="shelf" id="s7" aria-labelledby="h7s" data-k="مواقع روابط اضافية links">
-    <div class="shelf-head reveal">
-      <span class="badge" style="background:#e8f0fd" aria-hidden="true">🌐</span>
-      <div><h2 id="h7s" style="color:#2563c9">مواقع إضافية</h2><p>مواقع عالمية مختارة للتدرّب أكثر، والتحضير لآيلتس</p></div>
-      <a class="totop" href="#sections" aria-label="العودة إلى الأقسام">↑</a>
-    </div>
-    <div class="grid">
-      <a class="card portal reveal" href="links.html" style="--c:#2563c9;--t:#e8f0fd;background:linear-gradient(120deg,#e8f0fd,#ffffff 70%)" data-k="مكتبة مواقع استماع">
-        <span class="ic" aria-hidden="true">🌐</span>
-        <span class="txt"><b>المكتبة الإثرائية</b><p>Study Zone و ManyThings و LearnEnglish Teens وغيرها: استماع وقراءة وقواعد وقواميس.</p></span>
-        <span class="go" style="background:#2563c9">تصفّح المواقع ←</span>
-      </a>
-      <a class="card portal reveal" href="ielts.html" style="--c:#2563c9;--t:#e8f0fd;background:linear-gradient(120deg,#e8f0fd,#ffffff 70%)" data-k="ايلتس اختبار ielts">
-        <span class="ic" aria-hidden="true">🎓</span>
-        <span class="txt"><b>التحضير لاختبار <bdi dir="ltr">IELTS</bdi></b><p>مصادر مجانية لكل مهارة، وخطة ثمانية أسابيع وجدول أسبوعي للطالب المستعد للاختبار.</p></span>
-        <span class="go" style="background:#2563c9">افتح الخطة ←</span>
-      </a>
-    </div>
-  </section>
-
-  <a class="kidsban reveal" id="kids" href="kids/index.html" data-k="براعم اطفال صغار ابتدائي kids">
-    <img class="ki" src="assets/icons/kids-192.png?v=2" alt="" width="64" height="64" style="width:64px;height:64px;border-radius:16px;box-shadow:0 6px 14px -8px rgba(0,0,0,.4)">
-    <span class="txt"><b>نادي البراعم <span class="en">Kids</span></b><small>لطلاب المرحلة الابتدائية: الحروف وكتابتها، و16 موضوعاً من الكلمات بالصور، وجمل وقصص قصيرة وألعاب، بالصوت.</small></span>
-    <span class="go">ادخل ←</span>
+  <a class="hline" href="honor.html" aria-label="لوحة الشرف">
+    <span aria-hidden="true">🏆</span><span class="ht" id="hLine">لوحة الشرف · نجوم الأسبوع</span><span class="hg">←</span>
   </a>
+
+
+  <a class="hline help" href="guide.html"><span aria-hidden="true">🧭</span><span class="ht">محتار؟ افتح دليل المتعلم</span><span class="hg">←</span></a>
 
   <section class="install" id="install" aria-labelledby="hins">
     <img src="assets/icons/icon-192.png?v=2" alt="" width="64" height="64">
@@ -527,7 +410,7 @@ body.new .q-worlds .qn{display:none}
 
 <nav class="tabbar" id="tabbar" aria-label="التنقّل السريع">
   <a href="#top" data-t="home" class="on"><span aria-hidden="true">🏠</span>الرئيسية</a>
-  <a href="#sections" data-t="sec"><span aria-hidden="true">🗂️</span>الأقسام</a>
+  <a href="sections.html" data-t="sec"><span aria-hidden="true">🗂️</span>الأقسام</a>
   <a href="surprise/index.html" data-t="mb" id="tbMb"><span aria-hidden="true">🎁</span>المفاجأة<i class="dot" id="tbDot" hidden></i></a>
   <a href="guide.html"><span aria-hidden="true">🧭</span>الدليل</a>
   <a href="path/index.html"><span aria-hidden="true">📐</span>مساري</a>
@@ -554,7 +437,7 @@ body.new .q-worlds .qn{display:none}
 })();
 </script>
 <script>
-// Level tile + hero chip; "new student" mode (no level test and no page visited yet) numbers the start steps.
+// Level tile + hero chip.
 (function(){
   var lr = {}, last = null;
   try { lr = JSON.parse(localStorage.getItem('lv-results') || '{}') || {}; last = JSON.parse(localStorage.getItem('club-last') || 'null'); } catch (e) {}
@@ -564,9 +447,6 @@ body.new .q-worlds .qn{display:none}
     var c = document.getElementById('myLv'); c.querySelector('b').textContent = r.level; c.hidden = false;
   }
   try { var ws = Object.keys(JSON.parse(localStorage.getItem('wd-stamp') || '{}') || {}).length; if (ws) document.getElementById('wdSub').textContent = '🛂 في جوازك ' + ws + ' من 10 أختام'; } catch (e) {}
-  if (!r && !(last && last.p)) { document.body.classList.add('new'); document.getElementById('newbie').hidden = false;
-    // new student: «هندسة مساري» is step 3, so it comes after steps 1–2 (quick access), not above them
-    var q = document.getElementById('quick'), mp = document.getElementById('mypath'); if (q && mp) q.parentNode.insertBefore(mp, q.nextSibling); }
 })();
 </script>
 <script>
@@ -587,60 +467,33 @@ body.new .q-worlds .qn{display:none}
 })();
 </script>
 <script>
-// Search over every tool on the page + the bottom tab bar's active tab.
-(function(){
-  var q = document.getElementById('q'), qx = document.getElementById('qx'), nores = document.getElementById('nores');
-  var norm = function(t){ return (t || '').toLowerCase().replace(/[ً-ْـ]/g, '').replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').replace(/\s+/g, ' '); };
-  var shelves = [].slice.call(document.querySelectorAll('.shelf')), kids = document.getElementById('kids');
-  var itemsOf = function(sh){ return [].slice.call(sh.querySelectorAll('.card, .capchip')); };
-  var txt = function(el){ return norm(el.textContent + ' ' + (el.dataset.k || '')); };
-  function run(){
-    var v = norm(q.value.trim()), any = false, words = v.split(' ').filter(Boolean);
-    var hit = function(t){ return words.every(function(w){ return t.indexOf(w) >= 0; }); };
-    qx.hidden = !v; document.body.classList.toggle('searching', !!v);
-    shelves.forEach(function(sh){
-      var head = txt(sh.querySelector('.shelf-head')) + ' ' + norm(sh.dataset.k), all = v && hit(head), n = 0;
-      itemsOf(sh).forEach(function(el){ var ok = !v || all || hit(txt(el)); el.classList.toggle('hide', !ok); if (ok) n++; });
-      var ca = sh.querySelector('.hcaps-all'); if (ca) ca.classList.toggle('hide', !!v && !all && !n);
-      var hc = sh.querySelector('.hcaps'); if (hc) hc.classList.toggle('hide', !!v && !n);
-      sh.classList.toggle('hide', !!v && !n); if (v && n) any = true;
-    });
-    var k = !v || hit(txt(kids)); kids.classList.toggle('hide', !k); if (v && k) any = true;
-    nores.hidden = !v || any;
-  }
-  q.addEventListener('input', run);
-  q.addEventListener('keydown', function(e){ if (e.key === 'Enter') { e.preventDefault(); q.blur(); var f = document.querySelector('.shelf:not(.hide), #kids:not(.hide)'); if (f) f.scrollIntoView({ behavior: 'smooth', block: 'start' }); } });
-  qx.onclick = function(){ q.value = ''; run(); q.focus(); };
-
-  // Tab bar: «الأقسام» lights up while the sections are on screen, «الرئيسية» near the top.
-  var tabs = document.querySelectorAll('#tabbar a[data-t]'), sec = document.getElementById('sections');
-  function mark(){
-    var y = sec.getBoundingClientRect().top, t = y < window.innerHeight * .5 ? 'sec' : 'home';
-    tabs.forEach(function(a){ a.classList.toggle('on', a.dataset.t === t); });
-  }
-  window.addEventListener('scroll', mark, { passive: true }); mark();
-  document.querySelector('#tabbar a[data-t="home"]').addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
-})();
+// Tab bar: «الرئيسية» scrolls to the top (the sections now live in sections.html).
+document.querySelector('#tabbar a[data-t="home"]').addEventListener('click', function(e){ e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
 </script>
+<script src="assets/path-core.js?v=1"></script>
 <script>
-// «هندسة مساري» card: invite to design the plan, or show the current stage and today's mission progress.
-(function(){
+// «أمر عمل اليوم»: today's tasks from the student's plan (assets/path-core.js, shared with path/index.html), or an invitation to design it.
+window.renderToday = function(){
   try {
-    var p = JSON.parse(localStorage.getItem('my-path') || 'null'); if (!p || !p.stages) return;
-    var AR = {voc:'المفردات', gra:'التراكيب', lis:'الاستماع', rea:'القراءة', spe:'التحدث', wri:'الكتابة'};
-    var day = Math.floor((Date.now() + 3 * 3600e3 - 6 * 3600e3) / 864e5), st = p.stage || 0;
-    var n = p.stages.length, doneToday = !!(p.days && p.days[day]);
-    var dots = '<span class="dots">' + p.stages.map(function(x, i){ return '<i class="' + (i < st ? 'ok' : i === st ? 'on' : '') + '"></i>'; }).join('') + '</span>';
-    var rows = st < n
-      ? '<span class="row"><span class="k">🚧</span><span>تبني الآن: <b>' + AR[p.stages[st].k] + '</b><small class="sm">المرحلة ' + (st + 1) + ' من ' + n + '</small></span>' + dots + '</span>'
-        + '<span class="row r2' + (doneToday ? ' done' : '') + '"><span class="k">📋</span><span>أمر عمل اليوم (' + p.time + (p.time <= 10 ? ' دقائق' : ' دقيقة') + '): <b>' + (doneToday ? 'أنجزته ✓' : 'بانتظارك') + '</b></span></span>'
-      : '<span class="row done"><span class="k">🏁</span><span><b>اكتمل بناء مخططك!</b> اختبر مستواك وصمّم مخططاً أعلى.</span>' + dots + '</span>';
-    document.getElementById('mpS').textContent = 'خطتك الشخصية لبناء لغتك جزءاً بعد جزء: كل يوم أمر عمل صغير يرفع الجزء الأضعف في بيتك.';
-    document.getElementById('mpHow').hidden = true;
-    var R = document.getElementById('mpRows'); R.innerHTML = rows; R.hidden = false;
-    document.getElementById('mpG').textContent = st >= n ? '📐 صمّم مخططاً جديداً ←' : doneToday ? '🏗️ افتح مخطط بيتي ←' : '📋 ابدأ أمر عمل اليوم ←';
+    var PC = window.PathCore, p = PC.J('my-path', null); if (!p || !p.stages) return;
+    var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+    var $ = function(id){ return document.getElementById(id); }, n = p.stages.length, go = $('tdGo');
+    $('tdNew').hidden = true;
+    if ((p.stage || 0) >= n) { $('tdSub').textContent = '🏁 اكتمل بناء مخططك! صمّم مخططاً أعلى.'; go.textContent = '📐 صمّم مخططاً جديداً ←'; return; }
+    var ds = PC.dayState(), tasks = PC.todayTasks(p), done = 0;
+    $('tdList').innerHTML = tasks.map(function(id, i){
+      var t = PC.T[id], dn = PC.taskDone(id, ds); if (dn) done++;
+      var href = /^https/.test(t.h) ? t.h : t.h.replace(/^\.\.\//, '');
+      return '<li class="' + (dn ? 'done' : '') + '"><span class="n">' + (dn ? '✓' : i + 1) + '</span><span class="i" aria-hidden="true">' + t.ic + '</span><div class="t"><b' + (t.en ? ' dir="ltr" style="font-family:var(--en);text-align:right"' : '') + '>' + esc(t.n) + '</b><small>' + esc(t.how) + '</small></div>'
+        + '<a class="st" href="' + esc(href) + '"' + (/^https/.test(t.h) ? ' target="_blank" rel="noopener"' : '') + '>' + (dn ? 'تدرّب' : 'ابدأ') + ' ←</a></li>'; }).join('');
+    $('tdList').hidden = false;
+    var r = $('tdRing'); r.textContent = done + '/' + tasks.length; r.hidden = false;
+    var left = tasks.length - done;
+    $('tdSub').textContent = !left ? 'أنجزت أمر اليوم 👏 نلتقي غداً.' : left === 1 ? 'بقيت لك مهمة واحدة اليوم.' : 'بقيت لك ' + left + ' مهام اليوم.';
+    go.textContent = '🏗️ افتح مخطط مساري ←'; go.classList.add('soft');
   } catch (e) {}
-})();
+};
+window.renderToday();
 </script>
 <script src="assets/club.js?v=28"></script>
 <script type="module">
@@ -648,6 +501,7 @@ body.new .q-worlds .qn{display:none}
 import('./assets/honor.js?v=20261112b').then(async H => {
   const s = H.computeScore().score;
   const mp = document.getElementById('myPts'); if (mp) mp.textContent = s.toLocaleString('en-US');
+  try { window.PathCore.setParts(H.computeScore().parts || {}); window.renderToday(); } catch (e) {}
   if (!H.ready) return;
   const line = document.getElementById('hLine');
   // Live: this week's leader, updates by itself when the ranking changes.
