@@ -260,19 +260,33 @@ body.searching .totop{display:none}
 .hline .hg{flex:none;font-size:1.1rem}
 .hline:hover{background:#fff1c4}
 
-/* ---------- 15 Nov 2026: «هندسة مساري» (was خارطة طريقي) card (path/) — each student draws his own road map ---------- */
-.mypath{position:relative;display:flex;align-items:center;gap:14px;margin-top:16px;text-decoration:none;color:var(--ink);
-  background:linear-gradient(120deg,#e8eeff,#e9f8f2 60%,#fff);border:2px solid #c9d6ff;border-radius:24px;padding:14px 16px;transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+/* ---------- «هندسة مساري» card (path/; 15 Nov 2026, made clearer 16 Nov 2026): name + what it is always visible,
+   then the student's status in plain rows (part being built, stage dots, today's work order), full-width button. ---------- */
+.mypath{position:relative;display:block;margin-top:16px;text-decoration:none;color:var(--ink);
+  background:linear-gradient(120deg,#e8eeff,#e9f8f2 60%,#fff);border:2px solid #c9d6ff;border-radius:24px;padding:16px;transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
 .mypath:hover{transform:translateY(-2px);box-shadow:0 16px 30px -24px #3157d5}
-.mypath .ic{flex:none;font-size:2.3rem;width:62px;height:62px;display:grid;place-items:center;background:#fff;border-radius:18px;border:1.5px solid #c9d6ff}
+.mypath .hd{display:flex;align-items:center;gap:12px}
+.mypath .ic{flex:none;font-size:2.1rem;width:58px;height:58px;display:grid;place-items:center;background:#fff;border-radius:18px;border:1.5px solid #c9d6ff}
 .mypath .tx{flex:1;min-width:0}
-.mypath b{display:block;font-size:1.22rem;color:#2a46b8;line-height:1.35}
-.mypath small{display:block;color:var(--muted);font-size:1rem;line-height:1.55}
-.mypath .go{flex:none;background:#3157d5;color:#fff;font-weight:800;border-radius:999px;padding:9px 16px;white-space:nowrap}
+.mypath .tx b{display:block;font-size:1.3rem;color:#2a46b8;line-height:1.35}
+.mypath .tx small{display:block;color:var(--muted);font-size:1.02rem;line-height:1.6}
+.mypath .rows{display:grid;gap:8px;margin-top:12px}
+.mypath .row{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid #dfe6fb;border-radius:16px;padding:9px 12px;font-size:1.05rem;line-height:1.5}
+.mypath .row .k{flex:none;font-size:1.4rem}
+.mypath .row span{flex:1;min-width:0}
+.mypath .row b{color:#2a46b8}
+.mypath .row.done{border-color:#bfe5d3;background:#f1fbf6}.mypath .row.done b{color:#11826a}
+.mypath .dots{display:flex;gap:5px;flex:none;direction:rtl}
+.mypath .dots i{width:22px;height:8px;border-radius:99px;background:#dfe5f2}
+.mypath .dots i.on{background:#3157d5}.mypath .dots i.ok{background:#11826a}
+.mypath .how{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.mypath .how span{background:#fff;border:1.5px solid #dfe6fb;border-radius:999px;padding:3px 12px;font-size:.98rem;font-weight:800;color:#3a4566}
+.mypath .go{display:block;margin-top:12px;text-align:center;background:#3157d5;color:#fff;font-weight:800;border-radius:999px;padding:11px 16px;font-size:1.1rem}
 .mypath .qn{position:absolute;top:-10px;right:-6px;display:none;place-items:center;width:30px;height:30px;border-radius:50%;background:#11826a;color:#fff;font-weight:800;font-size:.95rem}
+.mypath [hidden]{display:none}
 body.new .mypath .qn{display:grid}
 body.new .q-worlds .qn{display:none}
-@media (max-width:600px){.mypath{padding:12px 14px;gap:12px}.mypath .ic{width:52px;height:52px;font-size:1.9rem}.mypath b{font-size:1.12rem}.mypath .go{padding:8px 12px}}
+@media (max-width:600px){.mypath{padding:14px}.mypath .ic{width:50px;height:50px;font-size:1.8rem}.mypath .tx b{font-size:1.2rem}}
 </style>
 </head>
 <body>
@@ -303,9 +317,12 @@ body.new .q-worlds .qn{display:none}
   </a>
 
   <a class="mypath" id="mypath" href="path/index.html">
-    <span class="qn">3</span><span class="ic" aria-hidden="true">📐</span>
-    <span class="tx"><b id="mpT">هندسة مساري</b><small id="mpS">تشعر بالتوهان بين الأقسام؟ صمّم طريقك الخاص وابنِ بيت لغتك في دقيقتين</small></span>
-    <span class="go" id="mpG">صمّم مساري ←</span>
+    <span class="qn">3</span>
+    <span class="hd"><span class="ic" aria-hidden="true">📐</span>
+      <span class="tx"><b>هندسة مساري</b><small id="mpS">خطة شخصية لك وحدك: تجيب عن 4 أسئلة، فيُصمَّم لك مخطط يبني لغتك جزءاً بعد جزء، يبدأ بالأضعف.</small></span></span>
+    <span class="how" id="mpHow"><span>🎯 هدفك</span><span>📈 مستواك</span><span>🔍 تقييمك لنفسك</span><span>⏳ وقتك</span></span>
+    <span class="rows" id="mpRows" hidden></span>
+    <span class="go" id="mpG">📐 صمّم مساري في دقيقتين ←</span>
   </a>
 
   <section class="quick" id="quick" aria-labelledby="hq">
@@ -590,15 +607,22 @@ body.new .q-worlds .qn{display:none}
 })();
 </script>
 <script>
-// «خارطة طريقي» card: invite to draw the map, or show the current stage and today's mission progress.
+// «هندسة مساري» card: invite to design the plan, or show the current stage and today's mission progress.
 (function(){
   try {
     var p = JSON.parse(localStorage.getItem('my-path') || 'null'); if (!p || !p.stages) return;
     var AR = {voc:'المفردات', gra:'التراكيب', lis:'الاستماع', rea:'القراءة', spe:'التحدث', wri:'الكتابة'};
     var day = Math.floor((Date.now() + 3 * 3600e3 - 6 * 3600e3) / 864e5), st = p.stage || 0;
-    document.getElementById('mpT').textContent = st < p.stages.length ? '🏗️ قيد البناء: المرحلة ' + (st + 1) + ' — ' + AR[p.stages[st].k] : '🏗️ اكتمل بناء مخططك!';
-    document.getElementById('mpS').textContent = p.days && p.days[day] ? '✓ أنجزت أمر عمل اليوم — أحسنت' : (st < p.stages.length ? '📋 أمر عمل اليوم بانتظارك (' + p.time + ' دقيقة)' : 'اختبر مستواك وصمّم مخططاً أعلى');
-    document.getElementById('mpG').textContent = p.days && p.days[day] ? 'مخططي ←' : 'أمر العمل ←';
+    var n = p.stages.length, doneToday = !!(p.days && p.days[day]);
+    var dots = '<span class="dots">' + p.stages.map(function(x, i){ return '<i class="' + (i < st ? 'ok' : i === st ? 'on' : '') + '"></i>'; }).join('') + '</span>';
+    var rows = st < n
+      ? '<span class="row"><span class="k">🚧</span><span>تبني الآن: <b>' + AR[p.stages[st].k] + '</b> · المرحلة ' + (st + 1) + ' من ' + n + '</span>' + dots + '</span>'
+        + '<span class="row' + (doneToday ? ' done' : '') + '"><span class="k">📋</span><span>أمر عمل اليوم (' + p.time + ' دقيقة): <b>' + (doneToday ? 'أنجزته ✓' : 'بانتظارك') + '</b></span></span>'
+      : '<span class="row done"><span class="k">🏁</span><span><b>اكتمل بناء مخططك!</b> اختبر مستواك وصمّم مخططاً أعلى.</span>' + dots + '</span>';
+    document.getElementById('mpS').textContent = 'خطتك الشخصية لبناء لغتك جزءاً بعد جزء: كل يوم أمر عمل صغير يرفع الجزء الأضعف في بيتك.';
+    document.getElementById('mpHow').hidden = true;
+    var R = document.getElementById('mpRows'); R.innerHTML = rows; R.hidden = false;
+    document.getElementById('mpG').textContent = st >= n ? '📐 صمّم مخططاً جديداً ←' : doneToday ? '🏗️ افتح مخطط بيتي ←' : '📋 ابدأ أمر عمل اليوم ←';
   } catch (e) {}
 })();
 </script>
