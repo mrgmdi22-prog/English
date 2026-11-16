@@ -260,7 +260,7 @@ body.searching .totop{display:none}
 .hline .hg{flex:none;font-size:1.1rem}
 .hline:hover{background:#fff1c4}
 
-/* ---------- 15 Nov 2026: «خارطة طريقي» card (path/) — each student draws his own road map ---------- */
+/* ---------- 15 Nov 2026: «هندسة مساري» (was خارطة طريقي) card (path/) — each student draws his own road map ---------- */
 .mypath{position:relative;display:flex;align-items:center;gap:14px;margin-top:16px;text-decoration:none;color:var(--ink);
   background:linear-gradient(120deg,#e8eeff,#e9f8f2 60%,#fff);border:2px solid #c9d6ff;border-radius:24px;padding:14px 16px;transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
 .mypath:hover{transform:translateY(-2px);box-shadow:0 16px 30px -24px #3157d5}
@@ -304,13 +304,13 @@ body.new .q-worlds .qn{display:none}
   </a>
 
   <a class="mypath" id="mypath" href="path/index.html">
-    <span class="qn">3</span><span class="ic" aria-hidden="true">🗺️</span>
-    <span class="tx"><b id="mpT">خارطة طريقي</b><small id="mpS">تشعر بالتوهان بين الأقسام؟ ارسم مسارك الخاص في دقيقتين</small></span>
-    <span class="go" id="mpG">ارسمها ←</span>
+    <span class="qn">3</span><span class="ic" aria-hidden="true">📐</span>
+    <span class="tx"><b id="mpT">هندسة مساري</b><small id="mpS">تشعر بالتوهان بين الأقسام؟ صمّم طريقك الخاص وابنِ بيت لغتك في دقيقتين</small></span>
+    <span class="go" id="mpG">صمّم مساري ←</span>
   </a>
 
   <section class="quick" id="quick" aria-labelledby="hq">
-    <div class="newbie" id="newbie" hidden>👋 <b>جديد في النادي؟</b> ابدأ بالخطوات المرقّمة: <span class="n">1</span> الدليل ← <span class="n">2</span> قياس المستوى ← <span class="n">3</span> خارطة طريقي</div>
+    <div class="newbie" id="newbie" hidden>👋 <b>جديد في النادي؟</b> ابدأ بالخطوات المرقّمة: <span class="n">1</span> الدليل ← <span class="n">2</span> قياس المستوى ← <span class="n">3</span> هندسة مساري</div>
     <h2 id="hq" class="qh">⚡ وصول سريع</h2>
     <div class="qgrid">
       <a class="qt mbox" id="mbox" href="surprise/index.html" style="--qc:#1E78D2;--qs:#E3F0FF;--qb:#A9CFF2">
@@ -499,7 +499,7 @@ body.new .q-worlds .qn{display:none}
   <a href="#top" data-t="home" class="on"><span aria-hidden="true">🏠</span>الرئيسية</a>
   <a href="#sections" data-t="sec"><span aria-hidden="true">🗂️</span>الأقسام</a>
   <a href="surprise/index.html" data-t="mb" id="tbMb"><span aria-hidden="true">🎁</span>المفاجأة<i class="dot" id="tbDot" hidden></i></a>
-  <a href="path/index.html"><span aria-hidden="true">🗺️</span>خارطتي</a>
+  <a href="path/index.html"><span aria-hidden="true">📐</span>مساري</a>
   <a href="guide.html"><span aria-hidden="true">🧭</span>الدليل</a>
 </nav>
 
@@ -597,9 +597,9 @@ body.new .q-worlds .qn{display:none}
     var p = JSON.parse(localStorage.getItem('my-path') || 'null'); if (!p || !p.stages) return;
     var AR = {voc:'المفردات', gra:'التراكيب', lis:'الاستماع', rea:'القراءة', spe:'التحدث', wri:'الكتابة'};
     var day = Math.floor((Date.now() + 3 * 3600e3 - 6 * 3600e3) / 864e5), st = p.stage || 0;
-    document.getElementById('mpT').textContent = st < p.stages.length ? '🗺️ خارطتي: المرحلة ' + (st + 1) + ' — ' + AR[p.stages[st].k] : '🗺️ أنهيت مراحل خارطتك!';
-    document.getElementById('mpS').textContent = p.days && p.days[day] ? '✓ أنجزت مهمة اليوم — أحسنت' : (st < p.stages.length ? '☀️ مهمة اليوم بانتظارك (' + p.time + ' دقيقة)' : 'اختبر مستواك وأعد رسم خارطتك');
-    document.getElementById('mpG').textContent = p.days && p.days[day] ? 'خارطتي ←' : 'مهمة اليوم ←';
+    document.getElementById('mpT').textContent = st < p.stages.length ? '🏗️ قيد البناء: المرحلة ' + (st + 1) + ' — ' + AR[p.stages[st].k] : '🏗️ اكتمل بناء مخططك!';
+    document.getElementById('mpS').textContent = p.days && p.days[day] ? '✓ أنجزت أمر عمل اليوم — أحسنت' : (st < p.stages.length ? '📋 أمر عمل اليوم بانتظارك (' + p.time + ' دقيقة)' : 'اختبر مستواك وصمّم مخططاً أعلى');
+    document.getElementById('mpG').textContent = p.days && p.days[day] ? 'مخططي ←' : 'أمر العمل ←';
   } catch (e) {}
 })();
 </script>
@@ -642,7 +642,7 @@ import('./assets/honor.js?v=20261112b').then(async H => {
     'capsules/space.html':['كبسولة الفضاء','🚀'], 'capsules/flavor.html':['كبسولة النكهة','🍊'], 'capsules/life.html':['كبسولة الحياة','🦋'],
     'capsules/adventure.html':['كبسولة المغامرة','🎈'], 'capsules/emotion.html':['كبسولة المشاعر','💛'], 'capsules/career.html':['كبسولة المسيرة','🎓'],
     'capsules/nature.html':['كبسولة الطبيعة','🌍'], 'capsules/health.html':['كبسولة التعافي','🩺'], 'capsules/sports.html':['كبسولة الرياضة','🏆'], 'capsules/tech.html':['كبسولة التقنية','💻'],
-    'journey/word-quest.html':['English Word Quest','🗺️'], 'journey/dictionary.html':['قاموس الألف كلمة','📖'], 'journey/conversation-lab.html':['مختبر المحادثة','💬'], 'elite/index.html':['مسار النخبة','💎'], 'elite/plus/index.html':['النخبة+','🚀'], 'elite/town/index.html':['في المدينة','🏙️'], 'elite/classics/index.html':['مكتبة النخبة','📚'], 'words/ngsl.html':['الكلمات العامة','🌍'], 'words/awl.html':['الكلمات الأكاديمية','🎓'], 'stories/index.html':['ركن القصص','📖'], 'capsules/index.html':['بوابة الكبسولات','🌟'], 'guide.html':['دليل المتعلم','🧭'], 'worlds/index.html':['عوالم النادي','🌍'], 'path/index.html':['خارطة طريقي','🗺️'],
+    'journey/word-quest.html':['English Word Quest','🗺️'], 'journey/dictionary.html':['قاموس الألف كلمة','📖'], 'journey/conversation-lab.html':['مختبر المحادثة','💬'], 'elite/index.html':['مسار النخبة','💎'], 'elite/plus/index.html':['النخبة+','🚀'], 'elite/town/index.html':['في المدينة','🏙️'], 'elite/classics/index.html':['مكتبة النخبة','📚'], 'words/ngsl.html':['الكلمات العامة','🌍'], 'words/awl.html':['الكلمات الأكاديمية','🎓'], 'stories/index.html':['ركن القصص','📖'], 'capsules/index.html':['بوابة الكبسولات','🌟'], 'guide.html':['دليل المتعلم','🧭'], 'worlds/index.html':['عوالم النادي','🌍'], 'path/index.html':['هندسة مساري','📐'],
     'vocab/mega-goal-1.html':['ميدان المفردات 1','🏟️'], 'vocab/mega-goal-2.html':['ميدان المفردات 2','🏆'], 'vocab/mega-goal-3.html':['ميدان المفردات 3','🥇'],
     'everyday/breakfast.html':['Breakfast Challenge','🍳'], 'words/core2000.html':['Core Quest','🧭'],
     'grammar/syntax-tree-lab.html':['Syntax Tree Lab','🌳'], 'grammar/tenses.html':['خارطة الأزمنة','⏳'], 'grammar/passive.html':['المبني للمجهول','🔄'], 'kids/index.html':['نادي البراعم','🦁'], 'level/index.html':['قياس المستوى','📈'], 'everyday/basics.html':['محادثات التأسيس','🗣️'], 'idioms/index.html':['ركن التعبيرات','🎨'],

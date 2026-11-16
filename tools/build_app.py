@@ -129,7 +129,7 @@ MANIFEST = """{
   ],
   "shortcuts": [
     {"name": "صندوق المفاجآت", "url": "./surprise/index.html", "icons": [{"src": "assets/icons/icon-192.png?v=2", "sizes": "192x192"}]},
-    {"name": "خارطة طريقي", "url": "./path/index.html", "icons": [{"src": "assets/icons/icon-192.png?v=2", "sizes": "192x192"}]},
+    {"name": "هندسة مساري", "url": "./path/index.html", "icons": [{"src": "assets/icons/icon-192.png?v=2", "sizes": "192x192"}]},
     {"name": "الكبسولات", "url": "./capsules/index.html", "icons": [{"src": "assets/icons/icon-192.png?v=2", "sizes": "192x192"}]}
   ]
 }
@@ -231,7 +231,7 @@ def inject_every_page():
 def page_edits():
     # ---- home
     sub('index.html', '<a href="honor.html"><span aria-hidden="true">🏆</span>نقاطي</a>',
-        '<a href="path/index.html"><span aria-hidden="true">🗺️</span>خارطتي</a>')
+        '<a href="path/index.html"><span aria-hidden="true">📐</span>مساري</a>')
     sub('index.html', '<a href="vocab/mega-goal-1.html">🏟️ Mega Goal 1.1</a><a href="vocab/mega-goal-2.html">🏆 Mega Goal 2.1</a><a href="vocab/mega-goal-3.html" style="grid-column:1/-1">🥇 Mega Goal 3.1</a>',
         '<a href="vocab/mega-goal-1.html">🏟️ المستوى 1</a><a href="vocab/mega-goal-2.html">🏆 المستوى 2</a><a href="vocab/mega-goal-3.html" style="grid-column:1/-1">🥇 المستوى 3</a>')
     sub('index.html', r'Mega Goal', 'ميدان المفردات', count=0, need=False)

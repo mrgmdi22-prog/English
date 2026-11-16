@@ -19,7 +19,7 @@
   ],
   "shortcuts": [
     {"name": "صندوق المفاجآت", "url": "./surprise/index.html", "icons": [{"src": "assets/icons/icon-192.png?v=2", "sizes": "192x192"}]},
-    {"name": "خارطة طريقي", "url": "./path/index.html", "icons": [{"src": "assets/icons/icon-192.png?v=2", "sizes": "192x192"}]},
+    {"name": "هندسة مساري", "url": "./path/index.html", "icons": [{"src": "assets/icons/icon-192.png?v=2", "sizes": "192x192"}]},
     {"name": "الكبسولات", "url": "./capsules/index.html", "icons": [{"src": "assets/icons/icon-192.png?v=2", "sizes": "192x192"}]}
   ]
 }

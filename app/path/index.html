@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <script src="../assets/gate.js?v=9"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>خارطة طريقي · نادي اللغة الإنجليزية</title>
+<title>هندسة مساري · نادي اللغة الإنجليزية</title>
 <meta name="theme-color" content="#f5f8ff">
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Lexend:wght@500;600&display=swap" media="print" onload="this.media='all'">
 <style>
-/* خارطة طريقي (15 Nov 2026): a student who feels lost among the many sections draws his own road map.
+/* هندسة مساري — مخطط بيتي (renamed 16 Nov 2026 from «خارطة طريقي», 15 Nov 2026): a student who feels lost among the many sections draws his own road map.
    1) Awareness: a language is a house — vocabulary + structures are the foundation, the four skills are the pillars.
    2) Four questions: goal, level (from the level test when there is one), a self-rating of the six parts, daily time.
    3) The map: 3 stages (the three parts that need most work, foundation first on a tie), each with 2–3 stations
@@ -77,6 +77,21 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--blue);outline-offse
 .blk.fx{box-shadow:0 0 0 4px #9fb2ee}
 .ground{height:12px;margin:2px -14px 0;border-radius:999px;background:linear-gradient(90deg,#bfe3c4,#d6efd8,#bfe3c4)}
 @media (max-width:520px){.house{padding:0 6px}.pillars{gap:6px;padding:0 2px}.pillars .blk{min-height:150px}.blk b{font-size:.92rem}.blk .i{font-size:1.5rem}.blk small{font-size:.7rem}.blk .f{font-size:.82rem}.roof{height:100px}.roof .win{top:34px;width:30px;height:30px}}
+/* ---------- مخطط بيتي (16 Nov 2026): the same house, each part filled to the student's level; scaffold sign on the part he builds now ---------- */
+.house.bp .blk{position:relative;background:linear-gradient(to top,var(--fc) var(--lv),#fbfcff var(--lv))}
+.house.bp .found .blk{background:linear-gradient(to left,var(--fc) var(--lv),#fbfcff var(--lv))}
+.house.bp .blk.r0{--fc:#ffd9cf}.house.bp .blk.r1{--fc:#ffeaa6}.house.bp .blk.r2{--fc:#c4ecd9}
+.house.bp .blk .pc{display:block;font-family:var(--en);font-weight:600;font-size:.9rem;color:#2a46b8}
+.house.bp .pillars{margin-top:16px}
+.house.bp .blk.wip{border-style:dashed;border-color:#e9907b;box-shadow:none}
+.house.bp .blk .sign{position:absolute;top:-16px;left:50%;transform:translateX(-50%);white-space:nowrap;background:#fff4d6;color:#8a5d00;border:1.5px solid #f2c94c;border-radius:999px;padding:0 8px;font-size:.78rem;font-weight:800;line-height:1.7;z-index:2}
+.house.bp .blk .ok{position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-size:1.05rem}
+.bphd{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.bphd h2{flex:1;margin:0}
+.bpno{font-weight:800;background:var(--blue-soft);color:var(--blue);border-radius:999px;padding:2px 12px;font-size:.95rem}
+.legend{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:.92rem;font-weight:800;color:var(--muted)}
+.legend span{background:var(--paper);border-radius:999px;padding:2px 12px}
+@media (max-width:520px){.house.bp .blk .sign{font-size:.7rem;padding:0 6px}}
 .facts{display:grid;gap:10px;margin-top:14px}
 .fact{display:flex;gap:12px;align-items:flex-start;background:var(--paper);border-radius:18px;padding:12px 14px;font-size:1.05rem}
 .fact .n{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#fff;font-weight:800}
@@ -179,7 +194,7 @@ canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:40}
 <div class="wrap">
   <div class="topbar">
     <a class="pill" href="../index.html">🏠 الرئيسية</a>
-    <a class="pill" href="../guide.html">🧭 دليل المتعلم</a>
+    <a class="pill" href="../guide.html">📘 دليل المتعلم</a>
   </div>
   <main id="app"><p class="center" style="margin-top:40px">جارٍ التحميل…</p></main>
 </div>
@@ -219,7 +234,7 @@ var TIMES = [{m:10, ic:'⏱️', b:'10 دقائق', s:'مهمة واحدة في 
 // Club sections as stations. key = honor points part (progress measured since the map was drawn); t = target in that part's
 // units; no key = the student ticks it. lv = [min,max] level band (0 beginner, 1 middle, 2 advanced); el = needs B1 by the test.
 var T = {
-  lvl:  {n:'قياس المستوى', ic:'📈', h:'../level/index.html', c:[], lv:[0,2], how:'اختبار قصير يحدد مستواك، فتُبنى خارطتك عليه'},
+  lvl:  {n:'قياس المستوى', ic:'📈', h:'../level/index.html', c:[], lv:[0,2], how:'اختبار قصير يحدد مستواك، فيُبنى مخططك عليه'},
   dict: {n:'قاموس الألف كلمة', ic:'📖', h:'../journey/dictionary.html', c:['voc'], lv:[0,0], how:'تصفّح 20 كلمة وانطقها بصوتك'},
   wq:   {n:'English Word Quest', en:1, ic:'🗺️', h:'../journey/word-quest.html', key:'wq', t:30, c:['voc'], lv:[0,1], how:'أكمل 3 وحدات بدرجة 8 من 10 فأكثر'},
   mg:   {n:'ميدان المفردات (كتابك المدرسي)', ic:'🏟️', h:'../vocab/mega-goal-1.html', key:'mg', t:40, c:['voc'], lv:[0,2], how:'اختر كتاب صفّك وأتقن 40 كلمة'},
@@ -362,18 +377,40 @@ function house(r, focus){
     + '<div class="found">' + ['voc','gra'].map(b).join('') + '</div><div class="ground"></div></div>';
 }
 
+// The student's own house: each part filled to his level (self-rating, raised by the stations he finishes);
+// the part he builds now carries a 🚧 sign, finished stages a ✅.
+function bpHouse(plan){
+  var cur = plan.stage, idx = {}; plan.stages.forEach(function(s, i){ idx[s.k] = i; });
+  var BASE = [22, 50, 78];
+  var b = function(k){
+    var c = CK[k], v = plan.r[k] != null ? plan.r[k] : 1, lv = BASE[v], i = idx[k], tag = '';
+    if (i != null) {
+      var ids = stageIds(plan, i).filter(function(id){ return id !== 'lvl'; }), pr = ids.length ? ids.reduce(function(a, id){ return a + prog(plan, id); }, 0) / ids.length : 0;
+      if (i < cur) pr = 1;
+      lv = Math.round(lv + (96 - lv) * pr);
+      tag = i === cur ? '<span class="sign">🚧 قيد البناء</span>' : i < cur ? '<span class="ok">✅</span>' : '';
+    }
+    return '<div class="blk r' + v + (i === cur ? ' wip' : '') + '" style="--lv:' + lv + '%">' + tag + '<span class="i">' + c.ic + '</span><b>' + c.ar + '</b><small>' + c.en + '</small><span class="pc">' + lv + '%</span></div>'; };
+  return '<div class="house bp" aria-label="بيتي"><div class="roof"><span class="win" aria-hidden="true">⭐</span><b>بيتي <span class="en">English</span></b></div>'
+    + '<div class="beam"></div><div class="cap">الأعمدة: المهارات الأربع</div>'
+    + '<div class="pillars">' + ['lis','rea','spe','wri'].map(b).join('') + '</div>'
+    + '<div class="floor"></div><div class="cap">الأساس</div>'
+    + '<div class="found">' + ['voc','gra'].map(b).join('') + '</div><div class="ground"></div></div>';
+}
+
 function vIntro(){
   var has = !!J('my-path', null);
-  app.innerHTML = '<section class="hero"><div class="big">🗺️</div><h1>خارطة طريقي</h1>'
-    + '<p>كثرة الأقسام لا تعني أن تجرّبها كلها! ارسم في دقيقتين مساراً يناسبك أنت: هدفك، ومستواك، ووقتك.</p></section>'
+  app.innerHTML = '<section class="hero"><div class="big">📐</div><h1>هندسة مساري</h1>'
+    + '<p style="font-weight:800;color:#11826a">صمّم طريقك وابنِ بيت لغتك</p>'
+    + '<p>كثرة الأقسام لا تعني أن تجرّبها كلها! أجب عن أسئلة قصيرة في دقيقتين، فتصمّم مخطط بيتك أنت: يبدأ بالجزء الأضعف، على قدر هدفك ومستواك ووقتك.</p></section>'
     + '<section class="card"><h2>🏠 اللغة بيت… فمن أين تبدأ البناء؟</h2><p class="lead">كل قسم في النادي يبني جزءاً من هذا البيت:</p>'
     + house()
     + '<div class="facts">'
     + '<div class="fact"><span class="n">1</span><div><b>الأساس: المفردات والتراكيب.</b> الكلمات طوب، والتراكيب إسمنت يربطها في جمل. إن كان الأساس ضعيفاً اهتزّت المهارات كلها.</div></div>'
     + '<div class="fact"><span class="n">2</span><div><b>الأعمدة: أربع مهارات.</b> مهارتا <b>استقبال</b> (الاستماع والقراءة) ومهارتا <b>إنتاج</b> (التحدث والكتابة). الاستقبال يسبق الإنتاج: تسمع وتقرأ كثيراً، ثم تتكلم وتكتب.</div></div>'
-    + '<div class="fact"><span class="n">3</span><div><b>لا تبنِ كل شيء معاً.</b> ركّز على الجزء الأضعف أولاً، ثم انتقل للتالي. هذا ما ترسمه خارطتك: 3 مراحل واضحة، ومهمة صغيرة كل يوم.</div></div>'
-    + '</div><div class="center" style="margin-top:18px"><button class="btn" id="go">✏️ ' + (has ? 'أعد رسم خارطتي' : 'ارسم خارطتي الآن') + '</button>'
-    + (has ? ' <a class="btn soft" href="#map">خارطتي الحالية ←</a>' : '') + '</div></section>';
+    + '<div class="fact"><span class="n">3</span><div><b>لكل متعلم بيته.</b> بيتك ليس كبيت زميلك. هندسة مساري ترسم مخطط بيتك أنت، وتضع «🚧 قيد البناء» على الجزء الأضعف، ثم تعطيك «أمر عمل» صغيراً كل يوم يرفع البناء أمام عينيك.</div></div>'
+    + '</div><div class="center" style="margin-top:18px"><button class="btn" id="go">📐 ' + (has ? 'أعد تصميم مساري' : 'صمّم مساري') + '</button>'
+    + (has ? ' <a class="btn soft" href="#map">مخططي الحالي ←</a>' : '') + '</div></section>';
   document.getElementById('go').onclick = function(){ A = freshAnswers(); step = 0; location.hash = '#q'; };
 }
 
@@ -394,10 +431,10 @@ function vWizard(){
   } else if (idx === 1) {
     h += '<div class="qh">📈 كيف ترى مستواك الآن؟</div><p class="lead">لم تختبر مستواك بعد، فاختر ما يصفك أقرب وصف.</p><div class="opts">'
       + LVL.map(function(l, i){ return '<button class="opt" data-l="' + i + '" aria-pressed="' + (A.lvl === i) + '"><span class="i">' + l.ic + '</span><span><b>' + l.b + '</b><small>' + l.s + '</small></span></button>'; }).join('')
-      + '</div><div class="note">💡 الأدق أن تختبر مستواك: <a href="../level/index.html">قياس المستوى ←</a> (ستكون أول محطة في خارطتك إن لم تختبر).</div>';
+      + '</div><div class="note">💡 الأدق أن تختبر مستواك: <a href="../level/index.html">قياس المستوى ←</a> (ستكون أول محطة في مخططك إن لم تختبر).</div>';
     ok = A.lvl != null;
   } else if (idx === 2) {
-    h += '<div class="qh">🔍 قيّم نفسك بصدق في الأجزاء الستة</div><p class="lead">' + (tl ? 'مستواك حسب الاختبار: <b class="en">' + esc(tl.name) + '</b>. ' : '') + 'لا أحد يرى إجاباتك؛ الصدق يرسم لك خارطة أنفع.</p><div class="opts two">'
+    h += '<div class="qh">🔍 قيّم نفسك بصدق في الأجزاء الستة</div><p class="lead">' + (tl ? 'مستواك حسب الاختبار: <b class="en">' + esc(tl.name) + '</b>. ' : '') + 'لا أحد يرى إجاباتك؛ الصدق يرسم لك مخططاً أنفع.</p><div class="opts two">'
       + C.map(function(c){ var v = A.r[c.k]; return '<div class="rate' + (v != null ? ' set' : '') + '"><div class="top"><span class="i">' + c.ic + '</span><b>' + c.ar + '</b><small>' + c.en + '</small></div><p>' + c.q + '</p><div class="faces">'
         + FACE.map(function(f, i){ return '<button class="f' + i + '" data-c="' + c.k + '" data-v="' + i + '" aria-pressed="' + (v === i) + '"><span>' + f[0] + '</span>' + f[1] + '</button>'; }).join('') + '</div></div>'; }).join('') + '</div>';
     ok = C.every(function(c){ return A.r[c.k] != null; });
@@ -409,7 +446,7 @@ function vWizard(){
   }
   var last = step === N - 1;
   // English-style navigation: previous on the left, next on the right.
-  h += '<div class="nav"><button class="btn ghost" id="prev">← السابق</button><button class="btn' + (last ? ' teal' : '') + '" id="next"' + (ok ? '' : ' disabled') + '>' + (last ? 'ارسم خارطتي 🗺️' : 'التالي →') + '</button></div></section>';
+  h += '<div class="nav"><button class="btn ghost" id="prev">← السابق</button><button class="btn' + (last ? ' teal' : '') + '" id="next"' + (ok ? '' : ' disabled') + '>' + (last ? 'صمّم مساري 📐' : 'التالي →') + '</button></div></section>';
   app.innerHTML = h;
   app.querySelectorAll('[data-g]').forEach(function(b){ b.onclick = function(){ A.goal = b.dataset.g; vWizard(); }; });
   app.querySelectorAll('[data-l]').forEach(function(b){ b.onclick = function(){ A.lvl = +b.dataset.l; vWizard(); }; });
@@ -442,34 +479,37 @@ function vMap(){
   var streak = 0, x = plan.days[d] ? d : d - 1; while (plan.days[x] && streak < 400) { streak++; x--; }
   var age = Math.floor((Date.now() - plan.at) / 864e5);
 
-  var h = '<section class="hero"><div class="big">🗺️</div><h1>خارطة طريقي</h1>'
+  var h = '<section class="hero"><div class="big">📐</div><h1>هندسة مساري</h1>'
     + '<div class="chips"><span>' + (g.ic || '🎯') + ' ' + esc(g.b || '') + '</span><span>📈 ' + (plan.lvSrc === 'test' ? '<span class="en">' + esc(plan.lvName) + '</span>' : LVL[plan.lvl].b + ' (تقديرك)') + '</span><span>⏳ ' + plan.time + ' دقيقة يومياً</span></div>'
-    + '<div style="margin-top:14px"><button class="btn soft" data-new>🔄 ارسم خارطة جديدة</button></div></section>';
+    + '<div style="margin-top:14px"><button class="btn soft" data-new>📐 مخطط جديد</button></div></section>';
 
-  if (fresh) h += '<section class="card center" style="background:linear-gradient(135deg,#e9f8f1,#fff 70%);border-color:#bfe5d3"><h2>🎉 رُسمت خارطتك!</h2><p class="lead">ركّز أولاً على <b>' + CK[focus[0]].ar + '</b>، ثم <b>' + CK[focus[1]].ar + '</b>، ثم <b>' + CK[focus[2]].ar + '</b>. ابدأ بمهمة اليوم بالأسفل، وكل الأقسام الأخرى تبقى مفتوحة لك متى شئت.</p></section>';
+  if (fresh) h += '<section class="card center" style="background:linear-gradient(135deg,#e9f8f1,#fff 70%);border-color:#bfe5d3"><h2>🎉 رُسم مخطط بيتك!</h2><p class="lead">تبني أولاً <b>' + CK[focus[0]].ar + '</b>، ثم <b>' + CK[focus[1]].ar + '</b>، ثم <b>' + CK[focus[2]].ar + '</b>. ابدأ بأمر عمل اليوم بالأسفل، وكل الأقسام الأخرى تبقى مفتوحة لك متى شئت.</p></section>';
 
   // check-in: after the post test, or every 14 days
   var newTest = tl && tl.at > plan.at;
-  if (newTest) h += '<section class="card checkin"><h2>📈 اختبرت مستواك من جديد!</h2><p class="lead">نتيجتك الآن <b class="en">' + esc(tl.name) + '</b>. أعد رسم خارطتك لتناسب مستواك الجديد.</p><div class="center" style="margin-top:12px"><a class="btn" href="#intro" id="redraw1">✏️ أعد رسم خارطتي</a></div></section>';
+  if (newTest) h += '<section class="card checkin"><h2>📈 اختبرت مستواك من جديد!</h2><p class="lead">نتيجتك الآن <b class="en">' + esc(tl.name) + '</b>. ارسم مخططاً جديداً لبيت أعلى.</p><div class="center" style="margin-top:12px"><a class="btn" href="#intro" id="redraw1">📐 مخطط جديد</a></div></section>';
   else if (age >= 14 && (plan.ci || 0) < Math.floor(age / 14)) {
     var ck = focus[Math.min(cur, 2)];
-    h += '<section class="card checkin"><h2>⏰ مرّ أسبوعان على خارطتك</h2><p class="lead">كيف تشعر الآن في <b>' + CK[ck].ar + '</b>؟</p><div class="rate"><div class="faces">'
+    h += '<section class="card checkin"><h2>⏰ مرّ أسبوعان على مخططك</h2><p class="lead">كيف تشعر الآن في <b>' + CK[ck].ar + '</b>؟</p><div class="rate"><div class="faces">'
       + FACE.map(function(f, i){ return '<button class="f' + i + '" data-ci="' + i + '" data-k="' + ck + '"><span>' + f[0] + '</span>' + f[1] + '</button>'; }).join('') + '</div></div></section>';
   }
 
+  h += '<section class="card"><div class="bphd"><h2>🏗️ مخطط بيتي</h2><span class="bpno">المخطط ' + ((plan.redrawn || 0) + 1) + '</span></div>'
+    + '<p class="lead">كل جزء ممتلئ بقدر إتقانك، ويرتفع كلما أنجزت محطاته.</p>' + bpHouse(plan)
+    + '<div class="legend"><span>🚧 تبنيه الآن</span><span>✅ اكتمل</span><span>⬜ الفراغ = ما بقي لك</span></div></section>';
+
   // today's mission
-  h += '<section class="card today"><div class="hd"><h2>☀️ مهمة اليوم</h2>' + (streak ? '<span class="streak">🔥 ' + streak + (streak === 1 ? ' يوم' : streak === 2 ? ' يومان' : streak <= 10 ? ' أيام' : ' يوماً') + '</span>' : '') + '</div>'
-    + '<p class="lead">' + (cur < plan.stages.length ? 'على قدر وقتك (' + plan.time + ' دقيقة). اضغط «ابدأ»، ثم ارجع هنا.' : 'أنهيت مراحل خارطتك! حافظ على المراجعة اليومية، ثم اختبر مستواك وأعد الرسم.') + '</p><div class="tasks">'
+  h += '<section class="card today"><div class="hd"><h2>📋 أمر عمل اليوم</h2>' + (streak ? '<span class="streak">🔥 ' + streak + (streak === 1 ? ' يوم' : streak === 2 ? ' يومان' : streak <= 10 ? ' أيام' : ' يوماً') + '</span>' : '') + '</div>'
+    + '<p class="lead">' + (cur < plan.stages.length ? 'على قدر وقتك (' + plan.time + ' دقيقة). اضغط «ابدأ»، ثم ارجع هنا.' : 'اكتمل بناء مخططك! حافظ على المراجعة اليومية، ثم اختبر مستواك وارسم مخططاً جديداً.') + '</p><div class="tasks">'
     + tasks.map(function(id){ var t = T[id], dn = taskDone(id, ds); return '<div class="task' + (dn ? ' done' : '') + '"><span class="i">' + t.ic + '</span><div class="tx"><b>' + nm(t) + '</b><small>' + esc(t.how) + '</small></div><div class="acts">'
       + (t.h ? '<a class="go" href="' + t.h + '"' + (/^https/.test(t.h) ? ' target="_blank" rel="noopener"' : '') + '>ابدأ ←</a>' : '')
       + ((!t.key && id !== 'mb' && id !== 'lvl') || dn ? '<button class="tick" data-tk="' + id + '"' + (dn ? ' disabled' : '') + '>' + (dn ? '✓ أُنجزت' : 'أنجزتها ✓') + '</button>' : '') + '</div></div>'; }).join('')
     + '</div>' + (nDone === tasks.length ? '<div class="alldone">🌟 أحسنت! أنهيت مهمة اليوم. نلتقي غداً.</div>' : '') + '</section>';
 
   // the house coloured by the student's own rating
-  h += '<section class="card"><h2>🏠 بيت لغتك</h2><p class="lead">هكذا قيّمت نفسك. الإطار الأزرق = ما تركّز عليه خارطتك.</p>' + house(plan.r, cur < focus.length ? [focus[cur]] : []) + '</section>';
 
   // the trail
-  h += '<section class="card"><h2>🧭 مسارك</h2><p class="lead">3 مراحل، لكل مرحلة قرابة أسبوعين. تنتقل تلقائياً حين تنهي محطاتها.</p><div class="trail">';
+  h += '<section class="card"><h2>🧱 مراحل البناء</h2><p class="lead">3 مراحل، لكل مرحلة قرابة أسبوعين. تنتقل تلقائياً حين تنهي محطاتها.</p><div class="trail">';
   plan.stages.forEach(function(s, i){
     var c = CK[s.k], ids = stageIds(plan, i), fin = i < cur, isCur = i === cur;
     h += '<div class="stage ' + (fin ? 'fin' : isCur ? 'cur' : 'later') + '"><span class="dot">' + (fin ? '✓' : i + 1) + '</span><div class="sbox"><div class="hd"><h3>' + c.ic + ' المرحلة ' + (i + 1) + ': ' + c.ar + ' <span class="en" style="font-size:.95rem;color:var(--muted)">' + c.en + '</span></h3><span class="tag">' + (fin ? 'أنجزتها' : isCur ? 'أنت هنا' : 'لاحقاً') + '</span></div>'
@@ -480,11 +520,11 @@ function vMap(){
         + (id !== 'lvl' ? '<button class="tick" data-st="' + id + '"' + (dn ? ' disabled' : '') + '>' + (dn ? '✓ أنجزتها' : 'أنجزتها ✓') + '</button>' : '') + '</div></div>'; }).join('')
       + '</div>' + (isCur ? '<div class="next"><button class="btn ghost" id="skip">أتقنت هذا الجزء؟ انتقل للمرحلة التالية</button></div>' : '') + '</div></div>';
   });
-  h += '<div class="stage ' + (cur >= plan.stages.length ? 'cur' : 'later') + '"><span class="dot">🏁</span><div class="flag"><span class="i">📈</span><div><b>قِس تحسّنك وأعد الرسم</b><small>بعد 4 أسابيع من الاختبار القبلي يُفتح الاختبار البعدي. اختبر، ثم ارسم خارطة جديدة على مستواك الجديد.</small></div></div></div>';
+  h += '<div class="stage ' + (cur >= plan.stages.length ? 'cur' : 'later') + '"><span class="dot">🏁</span><div class="flag"><span class="i">📈</span><div><b>قِس تحسّنك وارسم مخططاً أعلى</b><small>بعد 4 أسابيع من الاختبار القبلي يُفتح الاختبار البعدي. اختبر، ثم ارسم مخططاً جديداً على مستواك الجديد.</small></div></div></div>';
   h += '</div></section>';
 
-  h += '<div class="tools"><button class="btn" data-new>🔄 ارسم خارطة جديدة</button><a class="btn soft" href="#intro">✏️ عدّل خارطتي</a><a class="btn ghost" href="../index.html#sections">🗂️ كل أقسام النادي</a></div>'
-    + '<p class="foot">خارطتك محفوظة في حسابك، وتراها في أي جهاز تدخل منه برمزك.<br>إعداد: <b>أ. أحمد بن سالم</b></p>';
+  h += '<div class="tools"><button class="btn" data-new>📐 مخطط جديد</button><a class="btn soft" href="#intro">✏️ عدّل إجاباتي</a><a class="btn ghost" href="../index.html#sections">🗂️ كل أقسام النادي</a></div>'
+    + '<p class="foot">مخططك محفوظ في حسابك، وتراها في أي جهاز تدخل منه برمزك.<br>إعداد: <b>أ. أحمد بن سالم</b></p>';
   app.innerHTML = h;
   if (fresh) { fresh = 0; fireworks(); }
 
@@ -497,7 +537,7 @@ function vMap(){
     vMap(); if (stageDone(plan, before)) { fireworks(); toast('🎉 أنهيت المرحلة ' + (before + 1) + '! انطلق للمرحلة التالية'); } }; });
   // A brand-new map from scratch (empty answers); the old one is replaced only when the new one is drawn, and the 🔥 days stay.
   app.querySelectorAll('[data-new]').forEach(function(b){ b.onclick = function(){
-    if (!confirm('ستصمّم خارطة جديدة من البداية بإجابات جديدة، وتحلّ محل خارطتك الحالية حين تنتهي منها. أيام إنجازك 🔥 تبقى محفوظة. هل تريد البدء؟')) return;
+    if (!confirm('سترسم مخططاً جديداً من البداية بإجابات جديدة، ويحلّ محل مخططك الحالي حين تنتهي منه. أيام إنجازك 🔥 تبقى محفوظة. هل تريد البدء؟')) return;
     A = { goal: null, lvl: null, r: {}, time: null, redrawn: (plan.redrawn || 0) + 1 }; step = 0; location.hash = '#q'; }; });
   var sk = document.getElementById('skip');
   if (sk) sk.onclick = function(){ if (!confirm('ستنتقل إلى المرحلة التالية، وتبقى محطات هذه المرحلة مفتوحة لك. هل أنت متأكد؟')) return;

@@ -272,7 +272,7 @@ async function load() {
     const p = priv[r.id] || {};
     return `<div class="sheet" role="dialog" aria-modal="true"><button class="x" id="rpX">✕ إغلاق</button>
       <h2>📋 ${esc(p.name || r.nick)}</h2><p class="note">${esc(r.nick)}${gradeOf(r.id) ? ' · ' + esc(gradeOf(r.id)) : ''} · المستوى: ${lvTxt} · المجموع ${fmt(tot(r))} نقطة</p>
-      <p class="note">🗺️ خارطة طريقه: ${mpTxt}</p>
+      <p class="note">📐 مساره: ${mpTxt}</p>
       <ul class="rpSum">${sum.map(x => `<li>${x}</li>`).join('')}</ul>
       <h3>🎯 أين يركّز؟ (توزيع نقاطه على الأقسام)</h3>
       ${F.length ? F.slice(0, 8).map(x => bar(`${ICON[x.k] || ''} ${esc(SEC_AR[x.k] || x.k)}`, x.v, F[0].v, `${pct(x.v, fT)}٪`)).join('') : '<p class="note">لا نقاط بعد.</p>'}
