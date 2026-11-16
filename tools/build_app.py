@@ -230,8 +230,10 @@ def inject_every_page():
 
 def page_edits():
     # ---- home
+    # app: no honor board, so its tab becomes the learner's guide (مساري already has its own tab)
     sub('index.html', '<a href="honor.html"><span aria-hidden="true">🏆</span>نقاطي</a>',
-        '<a href="path/index.html"><span aria-hidden="true">📐</span>مساري</a>')
+        '<a href="guide.html"><span aria-hidden="true">🧭</span>الدليل</a>')
+    sub('guide.html', '🏆 نقاطي · 📐 مساري (أمر عمل اليوم)', '🧭 الدليل · 📐 مساري (أمر عمل اليوم)', need=False)
     sub('index.html', '<a href="vocab/mega-goal-1.html">🏟️ Mega Goal 1.1</a><a href="vocab/mega-goal-2.html">🏆 Mega Goal 2.1</a><a href="vocab/mega-goal-3.html" style="grid-column:1/-1">🥇 Mega Goal 3.1</a>',
         '<a href="vocab/mega-goal-1.html">🏟️ المستوى 1</a><a href="vocab/mega-goal-2.html">🏆 المستوى 2</a><a href="vocab/mega-goal-3.html" style="grid-column:1/-1">🥇 المستوى 3</a>')
     sub('index.html', r'Mega Goal', 'ميدان المفردات', count=0, need=False)
