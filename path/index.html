@@ -92,6 +92,52 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--blue);outline-offse
 .legend{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:.92rem;font-weight:800;color:var(--muted)}
 .legend span{background:var(--paper);border-radius:999px;padding:2px 12px}
 @media (max-width:520px){.house.bp .blk .sign{font-size:.7rem;padding:0 6px}}
+/* ---------- v3 (16 Nov 2026): one clear screen — header, today's work order (clipboard), 3-stage stepper, the house ---------- */
+.top{display:flex;align-items:center;gap:14px;margin-top:16px;background:linear-gradient(120deg,#e4f1ff,#e3f8ef);border:2px solid #9fcdf2;border-radius:26px;padding:16px}
+.top .ic{flex:none;font-size:2.2rem;width:66px;height:66px;background:#fff;border-radius:20px;display:grid;place-items:center;border:2px solid #9fcdf2;transform:rotate(-6deg)}
+.top .tx{flex:1;min-width:0}
+.top h1{margin:0;font-size:1.75rem;line-height:1.3;color:#1e3a8a}.top h1 span{color:#0d9488}
+.top p{margin:2px 0 0;color:#475569;font-size:1.04rem;line-height:1.6}
+.top .chips{justify-content:flex-start;margin-top:8px}.top .chips span{font-size:.92rem;padding:2px 12px;border-color:#cfe0f5}
+.cta{display:block;width:100%;margin-top:16px;background:linear-gradient(90deg,#0d9488,#1d6fd1);color:#fff;border:0;border-radius:999px;padding:15px;font-size:1.25rem;font-weight:800;text-align:center;text-decoration:none}
+.how3{list-style:none;padding:0;margin:16px 0 0;display:grid;gap:12px}
+.how3 li{display:flex;gap:12px;align-items:center;background:#fff;border:2px solid #e3e8f4;border-radius:20px;padding:12px 14px}
+.how3 .n{flex:none;position:relative;width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:1.6rem}
+.how3 .n i{position:absolute;top:-8px;right:-8px;width:24px;height:24px;border-radius:50%;background:#1e3a8a;color:#fff;font-style:normal;font-size:.8rem;font-weight:800;display:grid;place-items:center}
+.how3 li:nth-child(1) .n{background:#e1efff}.how3 li:nth-child(2) .n{background:#fff1dc}.how3 li:nth-child(3) .n{background:#ddf6ef}
+.how3 b{display:block;font-size:1.15rem;color:#1e3a8a;line-height:1.4}.how3 small{display:block;color:#64748b;font-size:1rem;line-height:1.55}
+.order{margin-top:18px;background:#fff;border:2px solid #9fcdf2;border-radius:26px;overflow:hidden}
+.order .clip{display:flex;justify-content:space-between;align-items:center;gap:8px;background:linear-gradient(90deg,#0d9488,#1d6fd1);color:#fff;padding:12px 16px;font-weight:800;font-size:1.2rem}
+.order .clip .dt{font-size:.95rem;font-weight:500}
+.order .ob{padding:16px}
+.ohd{display:flex;align-items:center;gap:14px}
+.ring{flex:none;width:74px;height:74px;border-radius:50%;background:conic-gradient(#10b981 var(--p),#e5edf5 0);display:grid;place-items:center}
+.ring b{width:58px;height:58px;border-radius:50%;background:#fff;display:grid;place-items:center;font-family:var(--en);font-size:1.2rem;color:#1e3a8a;direction:ltr}
+.ohd .t{flex:1;min-width:0}.ohd .t b{display:block;font-size:1.25rem;color:#1e3a8a;line-height:1.4}.ohd .t small{display:block;color:#64748b;font-size:1rem}
+.ohd .fire{flex:none;font-weight:800;background:#fff3dc;color:#9a4a00;border:1.5px solid #f6c48a;border-radius:999px;padding:2px 12px;font-size:.98rem}
+.olist{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:10px}
+.olist li{display:flex;align-items:center;gap:12px;border:2px solid #e3e8f4;border-radius:18px;padding:12px}
+.olist .bx{flex:none;width:34px;height:34px;border-radius:11px;border:2.5px solid #9fcdf2;display:grid;place-items:center;font-weight:800;color:#1d6fd1;font-family:var(--en)}
+.olist .i{flex:none;font-size:1.7rem}
+.olist .tx{flex:1;min-width:0}.olist .tx b{display:block;font-size:1.1rem;line-height:1.4}.olist .tx small{display:block;color:#64748b;font-size:.94rem;line-height:1.5}
+.olist .acts{display:flex;flex-direction:column;gap:6px;flex:none}
+.olist li.done{background:#effaf5;border-color:#a9e4c6}.olist li.done .bx{background:#10b981;border-color:#10b981;color:#fff}
+.order .go,.sdet .go{background:#1d6fd1}
+.yay{margin-top:12px;text-align:center;font-weight:800;color:#0f766e;font-size:1.12rem;background:#e3f8ef;border-radius:16px;padding:10px}
+.steps3{position:relative;display:flex;justify-content:space-between;margin:18px 0 4px}
+.steps3 .ln,.steps3 .ln2{position:absolute;top:29px;right:16.6%;height:5px;border-radius:5px}
+.steps3 .ln{left:16.6%;background:#e3e8f4}.steps3 .ln2{background:#10b981}
+.sn{position:relative;z-index:1;flex:1;min-width:0;text-align:center;background:none;border:0;padding:0;color:var(--ink);font:inherit;cursor:pointer}
+.sn .c{width:62px;height:62px;margin:0 auto;border-radius:50%;display:grid;place-items:center;font-size:1.7rem;background:#fff;border:3px solid #dbe3ef}
+.sn.fin .c{border-color:#10b981;background:#e9f9f1}.sn.cur .c{border-color:#f59e0b;background:#fff6e5;box-shadow:0 0 0 6px #fdebc8}
+.sn b{display:block;font-size:1.02rem;margin-top:6px;line-height:1.3}.sn small{display:block;font-size:.84rem;color:#64748b;font-weight:800}
+.sn.cur small{color:#b45309}.sn.fin small{color:#0f766e}
+.sn.sel .c{outline:3px solid #1d6fd1;outline-offset:3px}
+.sdet{margin-top:16px;background:#f6f9fe;border:2px solid #e3e8f4;border-radius:22px;padding:14px}
+.sdet h3{margin:0;font-size:1.22rem;color:#1e3a8a;line-height:1.4}.sdet .why{margin:4px 0 0;color:#64748b;font-size:1rem}
+.sdet .stn{background:#fff}
+.endl{margin-top:12px;text-align:center;color:#64748b;font-size:.98rem}
+@media (max-width:560px){.olist li{flex-wrap:wrap}.olist .acts{flex-direction:row;width:100%}.olist .acts>*{flex:1}.top h1{font-size:1.5rem}.top .ic{width:56px;height:56px;font-size:1.9rem}}
 .facts{display:grid;gap:10px;margin-top:14px}
 .fact{display:flex;gap:12px;align-items:flex-start;background:var(--paper);border-radius:18px;padding:12px 14px;font-size:1.05rem}
 .fact .n{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#fff;font-weight:800}
@@ -400,17 +446,20 @@ function bpHouse(plan){
 
 function vIntro(){
   var has = !!J('my-path', null);
-  app.innerHTML = '<section class="hero"><div class="big">📐</div><h1>هندسة مساري</h1>'
-    + '<p style="font-weight:800;color:#11826a">صمّم طريقك وابنِ بيت لغتك</p>'
-    + '<p>كثرة الأقسام لا تعني أن تجرّبها كلها! أجب عن أسئلة قصيرة في دقيقتين، فتصمّم مخطط بيتك أنت: يبدأ بالجزء الأضعف، على قدر هدفك ومستواك ووقتك.</p></section>'
+  app.innerHTML = '<section class="top"><span class="ic" aria-hidden="true">📐</span><div class="tx"><h1>هندسة <span>مساري</span></h1><p>خطة شخصية لك وحدك، تبني لغتك جزءاً بعد جزء.</p></div></section>'
+    + '<section class="card"><h2>كيف تعمل؟</h2><ol class="how3">'
+    + '<li><span class="n">🧭<i>1</i></span><span><b>أجب عن 4 أسئلة</b><small>هدفك، ومستواك، وتقييمك لنفسك، ووقتك اليومي. دقيقتان فقط.</small></span></li>'
+    + '<li><span class="n">🏗️<i>2</i></span><span><b>يُرسم مخطط بيتك</b><small>3 مراحل بناء تبدأ بالجزء الأضعف عندك، من أقسام النادي المناسبة لمستواك.</small></span></li>'
+    + '<li><span class="n">📋<i>3</i></span><span><b>نفّذ أمر عمل كل يوم</b><small>مهمة أو مهمتان على قدر وقتك، وترى بيتك يرتفع يوماً بعد يوم.</small></span></li>'
+    + '</ol><button class="cta" id="go">📐 ' + (has ? 'أعد تصميم مساري' : 'صمّم مساري الآن') + '</button>'
+    + (has ? '<div class="center" style="margin-top:10px"><a class="btn soft" href="#map">مخططي الحالي ←</a></div>' : '') + '</section>'
     + '<section class="card"><h2>🏠 اللغة بيت… فمن أين تبدأ البناء؟</h2><p class="lead">كل قسم في النادي يبني جزءاً من هذا البيت:</p>'
     + house()
     + '<div class="facts">'
     + '<div class="fact"><span class="n">1</span><div><b>الأساس: المفردات والتراكيب.</b> الكلمات طوب، والتراكيب إسمنت يربطها في جمل. إن كان الأساس ضعيفاً اهتزّت المهارات كلها.</div></div>'
     + '<div class="fact"><span class="n">2</span><div><b>الأعمدة: أربع مهارات.</b> مهارتا <b>استقبال</b> (الاستماع والقراءة) ومهارتا <b>إنتاج</b> (التحدث والكتابة). الاستقبال يسبق الإنتاج: تسمع وتقرأ كثيراً، ثم تتكلم وتكتب.</div></div>'
-    + '<div class="fact"><span class="n">3</span><div><b>لكل متعلم بيته.</b> بيتك ليس كبيت زميلك. هندسة مساري ترسم مخطط بيتك أنت، وتضع «🚧 قيد البناء» على الجزء الأضعف، ثم تعطيك «أمر عمل» صغيراً كل يوم يرفع البناء أمام عينيك.</div></div>'
-    + '</div><div class="center" style="margin-top:18px"><button class="btn" id="go">📐 ' + (has ? 'أعد تصميم مساري' : 'صمّم مساري') + '</button>'
-    + (has ? ' <a class="btn soft" href="#map">مخططي الحالي ←</a>' : '') + '</div></section>';
+    + '<div class="fact"><span class="n">3</span><div><b>لكل متعلم بيته.</b> بيتك ليس كبيت زميلك، ولذلك يُصمَّم مخططك على قدرك أنت.</div></div>'
+    + '</div></section>';
   document.getElementById('go').onclick = function(){ A = freshAnswers(); step = 0; location.hash = '#q'; };
 }
 
@@ -458,12 +507,12 @@ function vWizard(){
     if (!last) { step++; vWizard(); window.scrollTo(0, 0); return; }
     var old = J('my-path', null), p = build(A);
     if (old && old.days) p.days = old.days;                 // keep the streak of daily missions
-    S('my-path', p); A = null; step = 0; fresh = 1;
+    S('my-path', p); A = null; step = 0; fresh = 1; openSt = null;
     location.hash = '#map';
   };
 }
 
-var fresh = 0;
+var fresh = 0, openSt = null;
 function vMap(){
   var plan = J('my-path', null);
   if (!plan) { location.hash = ''; return; }
@@ -479,54 +528,59 @@ function vMap(){
   var streak = 0, x = plan.days[d] ? d : d - 1; while (plan.days[x] && streak < 400) { streak++; x--; }
   var age = Math.floor((Date.now() - plan.at) / 864e5);
 
-  var h = '<section class="hero"><div class="big">📐</div><h1>هندسة مساري</h1>'
-    + '<div class="chips"><span>' + (g.ic || '🎯') + ' ' + esc(g.b || '') + '</span><span>📈 ' + (plan.lvSrc === 'test' ? '<span class="en">' + esc(plan.lvName) + '</span>' : LVL[plan.lvl].b + ' (تقديرك)') + '</span><span>⏳ ' + plan.time + ' دقيقة يومياً</span></div>'
-    + '<div style="margin-top:14px"><button class="btn soft" data-new>📐 مخطط جديد</button></div></section>';
+  var DT = ''; try { DT = new Date().toLocaleDateString('ar-SA-u-ca-gregory-nu-latn', { weekday: 'long', day: 'numeric', month: 'long' }); } catch (e) {}
+  var N = plan.stages.length;
+  if (openSt == null || openSt >= N) openSt = Math.min(cur, N - 1);
+  var h = '<section class="top"><span class="ic" aria-hidden="true">📐</span><div class="tx"><h1>هندسة <span>مساري</span></h1>'
+    + '<div class="chips"><span>' + (g.ic || '🎯') + ' ' + esc(g.b || '') + '</span><span>📈 ' + (plan.lvSrc === 'test' ? '<span class="en">' + esc(plan.lvName) + '</span>' : LVL[plan.lvl].b) + '</span><span>⏳ ' + plan.time + (plan.time <= 10 ? ' دقائق' : ' دقيقة') + '</span></div></div></section>';
 
-  if (fresh) h += '<section class="card center" style="background:linear-gradient(135deg,#e9f8f1,#fff 70%);border-color:#bfe5d3"><h2>🎉 رُسم مخطط بيتك!</h2><p class="lead">تبني أولاً <b>' + CK[focus[0]].ar + '</b>، ثم <b>' + CK[focus[1]].ar + '</b>، ثم <b>' + CK[focus[2]].ar + '</b>. ابدأ بأمر عمل اليوم بالأسفل، وكل الأقسام الأخرى تبقى مفتوحة لك متى شئت.</p></section>';
+  if (fresh) h += '<section class="card center" style="background:linear-gradient(135deg,#e3f8ef,#fff 70%);border-color:#a9e4c6"><h2>🎉 رُسم مخطط بيتك!</h2><p class="lead">تبني أولاً <b>' + CK[focus[0]].ar + '</b>، ثم <b>' + CK[focus[1]].ar + '</b>، ثم <b>' + CK[focus[2]].ar + '</b>. ابدأ بأمر عمل اليوم، وكل أقسام النادي تبقى مفتوحة لك.</p></section>';
 
-  // check-in: after the post test, or every 14 days
   var newTest = tl && tl.at > plan.at;
-  if (newTest) h += '<section class="card checkin"><h2>📈 اختبرت مستواك من جديد!</h2><p class="lead">نتيجتك الآن <b class="en">' + esc(tl.name) + '</b>. ارسم مخططاً جديداً لبيت أعلى.</p><div class="center" style="margin-top:12px"><a class="btn" href="#intro" id="redraw1">📐 مخطط جديد</a></div></section>';
+  if (newTest) h += '<section class="card checkin"><h2>📈 اختبرت مستواك من جديد!</h2><p class="lead">نتيجتك الآن <b class="en">' + esc(tl.name) + '</b>. صمّم مخططاً جديداً لبيت أعلى.</p><div class="center" style="margin-top:12px"><a class="btn" href="#intro" id="redraw1">📐 مخطط جديد</a></div></section>';
   else if (age >= 14 && (plan.ci || 0) < Math.floor(age / 14)) {
     var ck = focus[Math.min(cur, 2)];
     h += '<section class="card checkin"><h2>⏰ مرّ أسبوعان على مخططك</h2><p class="lead">كيف تشعر الآن في <b>' + CK[ck].ar + '</b>؟</p><div class="rate"><div class="faces">'
       + FACE.map(function(f, i){ return '<button class="f' + i + '" data-ci="' + i + '" data-k="' + ck + '"><span>' + f[0] + '</span>' + f[1] + '</button>'; }).join('') + '</div></div></section>';
   }
 
+  // 1) today's work order — the first thing on the screen
+  var left = tasks.length - nDone, pc = tasks.length ? Math.round(nDone / tasks.length * 100) : 0;
+  h += '<section class="order"><div class="clip"><span>📋 أمر عمل اليوم</span><span class="dt">' + esc(DT) + '</span></div><div class="ob">'
+    + '<div class="ohd"><div class="ring" style="--p:' + pc + '%"><b>' + nDone + '/' + tasks.length + '</b></div><div class="t"><b>'
+    + (cur >= N ? 'اكتمل بناء مخططك! 🏁' : !left ? 'أنجزت أمر اليوم 👏' : left === 1 ? 'بقيت لك مهمة واحدة' : 'بقيت لك ' + left + ' مهام')
+    + '</b><small>' + (cur >= N ? 'حافظ على المراجعة، ثم اختبر مستواك وصمّم مخططاً أعلى.' : 'اضغط «ابدأ»، وتدرّب، ثم ارجع إلى هنا.') + '</small></div>'
+    + (streak ? '<span class="fire">🔥 ' + streak + '</span>' : '') + '</div><ol class="olist">'
+    + tasks.map(function(id, n){ var t = T[id], dn = taskDone(id, ds); return '<li class="' + (dn ? 'done' : '') + '"><span class="bx">' + (dn ? '✓' : n + 1) + '</span><span class="i">' + t.ic + '</span><div class="tx"><b>' + nm(t) + '</b><small>' + esc(t.how) + '</small></div><div class="acts">'
+      + (t.h ? '<a class="go" href="' + t.h + '"' + (/^https/.test(t.h) ? ' target="_blank" rel="noopener"' : '') + '>' + (dn ? 'تدرّب' : 'ابدأ') + ' ←</a>' : '')
+      + ((!t.key && id !== 'mb' && id !== 'lvl') || dn ? '<button class="tick" data-tk="' + id + '"' + (dn ? ' disabled' : '') + '>' + (dn ? '✓ أُنجزت' : 'أنجزتها ✓') + '</button>' : '') + '</div></li>'; }).join('')
+    + '</ol>' + (!left && tasks.length ? '<div class="yay">🌟 أحسنت! بيتك ارتفع اليوم. نلتقي غداً.</div>' : '') + '</div></section>';
+
+  // 2) the three stages as a stepper; tap a stage to see its stations
+  var lnW = Math.round(Math.min(cur, N - 1) / (N - 1) * 66.8);
+  h += '<section class="card"><h2>🧱 مراحل البناء</h2><div class="steps3"><span class="ln"></span><span class="ln2" style="width:' + lnW + '%"></span>'
+    + plan.stages.map(function(s, i){ var c = CK[s.k], st = i < cur ? 'fin' : i === cur ? 'cur' : 'later';
+      return '<button class="sn ' + st + (i === openSt ? ' sel' : '') + '" data-os="' + i + '"><span class="c">' + (i < cur ? '✅' : c.ic) + '</span><b>' + c.ar + '</b><small>' + (i < cur ? 'اكتملت' : i === cur ? '🚧 تبنيها الآن' : 'المرحلة ' + (i + 1)) + '</small></button>'; }).join('')
+    + '</div>';
+  var os = plan.stages[openSt], oc = CK[os.k], oCur = openSt === cur;
+  h += '<div class="sdet"><h3>' + oc.ic + ' المرحلة ' + (openSt + 1) + ': ' + oc.ar + ' <span class="en" style="font-size:.9rem;color:#64748b">' + oc.en + '</span></h3><p class="why">' + oc.why + '</p><div class="stns">'
+    + stageIds(plan, openSt).map(function(id){ var t = T[id], p = prog(plan, id), dn = p >= 1; return '<div class="stn' + (dn ? ' done' : '') + '"><span class="i">' + t.ic + '</span><div class="tx"><b>' + nm(t) + '</b><small>' + esc(t.how) + '</small>'
+      + (t.key || id === 'lvl' ? '<div class="bar"><i style="width:' + Math.round(p * 100) + '%"></i></div>' : '') + '</div><div class="acts">'
+      + (t.h ? '<a class="go" href="' + t.h + '"' + (/^https/.test(t.h) ? ' target="_blank" rel="noopener"' : '') + '>' + (dn ? 'تدرّب' : 'ابدأ') + ' ←</a>' : '')
+      + (id !== 'lvl' ? '<button class="tick" data-st="' + id + '"' + (dn ? ' disabled' : '') + '>' + (dn ? '✓ أنجزتها' : 'أنجزتها ✓') + '</button>' : '') + '</div></div>'; }).join('')
+    + '</div>' + (oCur ? '<div class="next"><button class="btn ghost" id="skip">أتقنت هذا الجزء؟ انتقل للمرحلة التالية</button></div>' : '') + '</div>'
+    + '<p class="endl">🏁 بعد المراحل الثلاث: اختبر مستواك، وصمّم مخططاً أعلى.</p></section>';
+
+  // 3) the house — the big picture
   h += '<section class="card"><div class="bphd"><h2>🏗️ مخطط بيتي</h2><span class="bpno">المخطط ' + ((plan.redrawn || 0) + 1) + '</span></div>'
     + '<p class="lead">كل جزء ممتلئ بقدر إتقانك، ويرتفع كلما أنجزت محطاته.</p>' + bpHouse(plan)
     + '<div class="legend"><span>🚧 تبنيه الآن</span><span>✅ اكتمل</span><span>⬜ الفراغ = ما بقي لك</span></div></section>';
 
-  // today's mission
-  h += '<section class="card today"><div class="hd"><h2>📋 أمر عمل اليوم</h2>' + (streak ? '<span class="streak">🔥 ' + streak + (streak === 1 ? ' يوم' : streak === 2 ? ' يومان' : streak <= 10 ? ' أيام' : ' يوماً') + '</span>' : '') + '</div>'
-    + '<p class="lead">' + (cur < plan.stages.length ? 'على قدر وقتك (' + plan.time + ' دقيقة). اضغط «ابدأ»، ثم ارجع هنا.' : 'اكتمل بناء مخططك! حافظ على المراجعة اليومية، ثم اختبر مستواك وارسم مخططاً جديداً.') + '</p><div class="tasks">'
-    + tasks.map(function(id){ var t = T[id], dn = taskDone(id, ds); return '<div class="task' + (dn ? ' done' : '') + '"><span class="i">' + t.ic + '</span><div class="tx"><b>' + nm(t) + '</b><small>' + esc(t.how) + '</small></div><div class="acts">'
-      + (t.h ? '<a class="go" href="' + t.h + '"' + (/^https/.test(t.h) ? ' target="_blank" rel="noopener"' : '') + '>ابدأ ←</a>' : '')
-      + ((!t.key && id !== 'mb' && id !== 'lvl') || dn ? '<button class="tick" data-tk="' + id + '"' + (dn ? ' disabled' : '') + '>' + (dn ? '✓ أُنجزت' : 'أنجزتها ✓') + '</button>' : '') + '</div></div>'; }).join('')
-    + '</div>' + (nDone === tasks.length ? '<div class="alldone">🌟 أحسنت! أنهيت مهمة اليوم. نلتقي غداً.</div>' : '') + '</section>';
-
-  // the house coloured by the student's own rating
-
-  // the trail
-  h += '<section class="card"><h2>🧱 مراحل البناء</h2><p class="lead">3 مراحل، لكل مرحلة قرابة أسبوعين. تنتقل تلقائياً حين تنهي محطاتها.</p><div class="trail">';
-  plan.stages.forEach(function(s, i){
-    var c = CK[s.k], ids = stageIds(plan, i), fin = i < cur, isCur = i === cur;
-    h += '<div class="stage ' + (fin ? 'fin' : isCur ? 'cur' : 'later') + '"><span class="dot">' + (fin ? '✓' : i + 1) + '</span><div class="sbox"><div class="hd"><h3>' + c.ic + ' المرحلة ' + (i + 1) + ': ' + c.ar + ' <span class="en" style="font-size:.95rem;color:var(--muted)">' + c.en + '</span></h3><span class="tag">' + (fin ? 'أنجزتها' : isCur ? 'أنت هنا' : 'لاحقاً') + '</span></div>'
-      + '<p class="why">' + c.why + '</p><div class="stns">'
-      + ids.map(function(id){ var t = T[id], p = prog(plan, id), dn = p >= 1; return '<div class="stn' + (dn ? ' done' : '') + '"><span class="i">' + t.ic + '</span><div class="tx"><b>' + nm(t) + '</b><small>' + esc(t.how) + '</small>'
-        + (t.key || id === 'lvl' ? '<div class="bar"><i style="width:' + Math.round(p * 100) + '%"></i></div>' : '') + '</div><div class="acts">'
-        + (t.h ? '<a class="go" href="' + t.h + '"' + (/^https/.test(t.h) ? ' target="_blank" rel="noopener"' : '') + '>' + (dn ? 'تدرّب' : 'ابدأ') + ' ←</a>' : '')
-        + (id !== 'lvl' ? '<button class="tick" data-st="' + id + '"' + (dn ? ' disabled' : '') + '>' + (dn ? '✓ أنجزتها' : 'أنجزتها ✓') + '</button>' : '') + '</div></div>'; }).join('')
-      + '</div>' + (isCur ? '<div class="next"><button class="btn ghost" id="skip">أتقنت هذا الجزء؟ انتقل للمرحلة التالية</button></div>' : '') + '</div></div>';
-  });
-  h += '<div class="stage ' + (cur >= plan.stages.length ? 'cur' : 'later') + '"><span class="dot">🏁</span><div class="flag"><span class="i">📈</span><div><b>قِس تحسّنك وارسم مخططاً أعلى</b><small>بعد 4 أسابيع من الاختبار القبلي يُفتح الاختبار البعدي. اختبر، ثم ارسم مخططاً جديداً على مستواك الجديد.</small></div></div></div>';
-  h += '</div></section>';
-
   h += '<div class="tools"><button class="btn" data-new>📐 مخطط جديد</button><a class="btn soft" href="#intro">✏️ عدّل إجاباتي</a><a class="btn ghost" href="../index.html#sections">🗂️ كل أقسام النادي</a></div>'
-    + '<p class="foot">مخططك محفوظ في حسابك، وتراها في أي جهاز تدخل منه برمزك.<br>إعداد: <b>أ. أحمد بن سالم</b></p>';
+    + '<p class="foot">مخططك محفوظ في حسابك، وتراه في أي جهاز تدخل منه برمزك.<br>إعداد: <b>أ. أحمد بن سالم</b></p>';
   app.innerHTML = h;
   if (fresh) { fresh = 0; fireworks(); }
+  app.querySelectorAll('[data-os]').forEach(function(b){ b.onclick = function(){ openSt = +b.dataset.os; var y = window.scrollY; vMap(); window.scrollTo(0, y); }; });
 
   app.querySelectorAll('[data-tk]').forEach(function(b){ b.onclick = function(){ var s = dayState(); s.ok[b.dataset.tk] = 1; S('mp-day', s); sfx(1); vMap(); }; });
   app.querySelectorAll('[data-st]').forEach(function(b){ b.onclick = function(){
