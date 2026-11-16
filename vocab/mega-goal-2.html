@@ -300,13 +300,13 @@ const UNITS = [
     ['preserve','يحافظ على'],
     ['commercial','تجاري / دعائي'],['cozy','مريح'],['lush','خصب'],['remote (adj)','نائي / بعيد'],
     ['pristine','نقي / بحالته الأصلية'],['stunning','مذهل'],['undisturbed','بدون إزعاج'],['widespread','واسع الانتشار'],
-    ['absolutely','إطلاقا'],['almost','تقريبًا (تكاد)'],['barely','بالكاد'],['completely','تمام'],['enough','كفاية'],
+    ['absolutely','إطلاقا'],['almost','تقريباً (تكاد)'],['barely','بالكاد'],['completely','تمام'],['enough','كفاية'],
     ['extremely','أبعد حد'],['hardly','بكل صعوبة'],['just','فقط / بالكاد'],
-    ['nearly','على وشك / يقارب'],['quite','إلى حد ما'],['rather','بالأحرى / نوعًا ما'],['relatively','بشكل نسبي'],['scarcely','بشق الأنفس'],
+    ['nearly','على وشك / يقارب'],['quite','إلى حد ما'],['rather','بالأحرى / نوعاً ما'],['relatively','بشكل نسبي'],['scarcely','بشق الأنفس'],
     ['so','إلى هذا الحد / كثيرا'],['too','للغاية'],['very','جدا'],
     ['Do you think it would be possible...?','هل يمكنك أن...؟'],["I'm afraid (we) can't",'مع الأسف لا يمكن'],
     ["That won't be possible",'لا يمكن / ذلك مستحيل'],['The problem is','المشكلة أنه'],
-    ['a drag','إحباط / خذلان'],['awesome!','رائع جدًا!'],['crummy','سيء'],["don't get it",'ألم تفهم'],['red eye','طوال الليل'],
+    ['a drag','إحباط / خذلان'],['awesome!','رائع جداً!'],['crummy','سيء'],["don't get it",'ألم تفهم'],['red eye','طوال الليل'],
   ]},
   { id:'u4', ar:'الوحدة الرابعة', en:'TV Around the World', color:'#7B3FA0', words:[
     ['acclaim','إشادة / استحسان'],['affluence','ترف'],['contestant','متسابق'],
@@ -352,7 +352,7 @@ const UNITS = [
     ['bold','شجاع / عريض'],['committed','ملتزم'],['enormous','ضخم'],['glossy','لامع'],['harsh','خشن / قاسي'],
     ['organic','عضوي'],['reusable','قابلة لإعادة الاستخدام'],
     ['How about...?','ما رأيك بـ...؟'],
-    ['a hassle','أمر مزعج / متعب'],['a no-brainer','قرار بديهي جدًا / واضح تمامًا'],['a piece of cake','سهل جدا'],
+    ['a hassle','أمر مزعج / متعب'],['a no-brainer','قرار بديهي جداً / واضح تماماً'],['a piece of cake','سهل جدا'],
     ['chuck','يرمي / يتخلص من'],['I guess','أعتقد'],['lame','مخيب للآمال / غير رائع'],
   ]},
   { id:'exp', ar:'الوحدات الموسعة', en:'Expansion Units', color:'#7B3FA0', words:[
@@ -367,7 +367,7 @@ const UNITS = [
 const LEVELS = [
   { n:1, ar:'مبتدئ', en:'Beginner', desc:'أنت في بداية الطريق! ركّز على المفردات الأساسية والقواعد البسيطة، وستتقدم بسرعة.' },
   { n:2, ar:'مبتدئ أعلى', en:'High Beginner', desc:'أساس جيد يتكوّن لديك! استمر بالتدريب على الجمل والمحادثات اليومية.' },
-  { n:3, ar:'متوسط', en:'Intermediate', desc:'مستوى متوسط قوي! يمكنك التوسّع في القواعد الأكثر تعقيدًا والمحادثة الحرة.' },
+  { n:3, ar:'متوسط', en:'Intermediate', desc:'مستوى متوسط قوي! يمكنك التوسّع في القواعد الأكثر تعقيداً والمحادثة الحرة.' },
   { n:4, ar:'متوسط أعلى', en:'High Intermediate', desc:'أداء متميز! ركّز الآن على التراكيب المتقدمة والتعبير الدقيق.' },
   { n:5, ar:'متقدم', en:'Advanced', desc:'مستوى متقدم رائع! يمكنك تطوير الطلاقة والدقة الأكاديمية في اللغة.' },
   { n:6, ar:'متقدم أعلى', en:'High Advanced', desc:'مستوى قريب من الطلاقة الكاملة! تميّز حقيقي في اللغة الإنجليزية.' },
@@ -1030,7 +1030,7 @@ function renderGameOver(){
   }
 
   const actions = el('div','action-row');
-  const again = el('button','start-btn','حاول مجددًا 🔁');
+  const again = el('button','start-btn','حاول مجدداً 🔁');
   again.style.flex = '1';
   again.onclick = () => { state.retryQueue = null; startGame(); };
   const change = el('button','ghost-btn','تغيير الوحدة');

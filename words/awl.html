@@ -327,7 +327,7 @@ details.note:not([open]){padding:8px 14px}
         <div class="hctas" id="hctas"></div>
       </div>
     </section>
-    <details class="note ar"><summary><span class="lbl">كيف أستخدم المنصة؟</span></summary>اختر وحدة، ثم سِر في مراحلها الأربع بالترتيب: <b>تعرّف</b> على الكلمات، ثم <b>تدرّب</b> عليها، ثم <b>اقرأ</b> القصة، ثم <b>اختبر نفسك</b>. كل إجابة تُصحَّح لك فورًا مع الشرح. المستوى <b>الأساسي</b> يعرض معاني الكلمات بالعربي، و<b>المتقدم</b> يعرض التعريفات الإنجليزية فقط. وكل يوم افتح <b>مراجعتي اليومية</b> لتعود إليك الكلمات قبل أن تنساها، وحافظ على سلسلة أيامك 🔥.</details>
+    <details class="note ar"><summary><span class="lbl">كيف أستخدم المنصة؟</span></summary>اختر وحدة، ثم سِر في مراحلها الأربع بالترتيب: <b>تعرّف</b> على الكلمات، ثم <b>تدرّب</b> عليها، ثم <b>اقرأ</b> القصة، ثم <b>اختبر نفسك</b>. كل إجابة تُصحَّح لك فوراً مع الشرح. المستوى <b>الأساسي</b> يعرض معاني الكلمات بالعربي، و<b>المتقدم</b> يعرض التعريفات الإنجليزية فقط. وكل يوم افتح <b>مراجعتي اليومية</b> لتعود إليك الكلمات قبل أن تنساها، وحافظ على سلسلة أيامك 🔥.</details>
     <div class="finder"><label for="q" class="ar">ابحث عن كلمة لتعرف وحدتها</label><input id="q" type="search" placeholder="Type a word… مثال: falcon" autocomplete="off" autocapitalize="off" spellcheck="false"><div class="fres" id="fres" aria-live="polite"></div></div>
     <div id="units"></div>
   </main>
@@ -613,7 +613,7 @@ function pMatch(){const ws=shuffle(U.words.map(W)).slice(0,5);const Z=$("pz");
     b.onclick=()=>{if(b.classList.contains("done"))return;$("mL").querySelectorAll(".tile").forEach(t=>t.classList.remove("sel"));b.classList.add("sel");sel=b;sayWord(x.w)};$("mL").appendChild(b)});
   shuffle(ws).forEach(x=>{const b=document.createElement("button");b.className="tile"+(basic()?" artxt big":"");b.textContent=basic()?x.ar:x.def;b.dataset.k=x.w;
     b.onclick=()=>{if(b.classList.contains("done"))return;
-      if(!sel){$("fb").textContent="Choose an English word first · اختر كلمة إنجليزية أولًا";$("fb").className="fb bad";return}
+      if(!sel){$("fb").textContent="Choose an English word first · اختر كلمة إنجليزية أولاً";$("fb").className="fb bad";return}
       if(sel.dataset.k===b.dataset.k){mark(sel.dataset.k,!b.dataset.miss);addDaily(1);sel.classList.remove("sel");sel.classList.add("done");b.classList.add("done");sel=null;left--;$("fb").textContent="Correct!";$("fb").className="fb good";
         if(left===0){sfx("win");tally.t+=5+miss;tally.r+=5;showTally();$("fb").textContent=miss?`All matched with ${miss} mistake${miss>1?"s":""}.`:"Perfect round! جولة كاملة بدون أخطاء";$("nx").hidden=false}}
       else{miss++;mark(sel.dataset.k,false);b.classList.add("oops");$("fb").textContent="Try again · حاول مرة أخرى";$("fb").className="fb bad";setTimeout(()=>b.classList.remove("oops"),500)}};

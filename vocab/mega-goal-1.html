@@ -330,7 +330,7 @@ const UNITS = [
     ['injured','مصاب'],['rude','وقح'],['severe','شديد'],['unconscious','فاقد الوعي'],
     ['herself','بنفسها'],['himself','بنفسه'],['itself','بذاته (لغير العاقل)'],['myself','بنفسي'],
     ['ourselves','بأنفسنا'],['themselves','بأنفسهم / بأنفسهن'],['yourself','بنفسك'],['yourselves','بأنفسكم'],
-    ['because','لأن'],['so','لذلك / وأنا أيضًا (كذلك فعلت)'],
+    ['because','لأن'],['so','لذلك / وأنا أيضاً (كذلك فعلت)'],
     ['I guess','أعتقد'],['look at it this way','انظر للموضوع من هذا الجانب'],
     ['lucky day','يوم جميل / سعيد'],['stuck in','عالق في'],
   ]},
@@ -360,7 +360,7 @@ const UNITS = [
 const LEVELS = [
   { n:1, ar:'مبتدئ', en:'Beginner', desc:'أنت في بداية الطريق! ركّز على المفردات الأساسية والقواعد البسيطة، وستتقدم بسرعة.' },
   { n:2, ar:'مبتدئ أعلى', en:'High Beginner', desc:'أساس جيد يتكوّن لديك! استمر بالتدريب على الجمل والمحادثات اليومية.' },
-  { n:3, ar:'متوسط', en:'Intermediate', desc:'مستوى متوسط قوي! يمكنك التوسّع في القواعد الأكثر تعقيدًا والمحادثة الحرة.' },
+  { n:3, ar:'متوسط', en:'Intermediate', desc:'مستوى متوسط قوي! يمكنك التوسّع في القواعد الأكثر تعقيداً والمحادثة الحرة.' },
   { n:4, ar:'متوسط أعلى', en:'High Intermediate', desc:'أداء متميز! ركّز الآن على التراكيب المتقدمة والتعبير الدقيق.' },
   { n:5, ar:'متقدم', en:'Advanced', desc:'مستوى متقدم رائع! يمكنك تطوير الطلاقة والدقة الأكاديمية في اللغة.' },
   { n:6, ar:'متقدم أعلى', en:'High Advanced', desc:'مستوى قريب من الطلاقة الكاملة! تميّز حقيقي في اللغة الإنجليزية.' },
@@ -1023,7 +1023,7 @@ function renderGameOver(){
   }
 
   const actions = el('div','action-row');
-  const again = el('button','start-btn','حاول مجددًا 🔁');
+  const again = el('button','start-btn','حاول مجدداً 🔁');
   again.style.flex = '1';
   again.onclick = () => { state.retryQueue = null; startGame(); };
   const change = el('button','ghost-btn','تغيير الوحدة');
