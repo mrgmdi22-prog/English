@@ -232,8 +232,8 @@ def page_edits():
     # ---- home
     # app: no honor board, so its tab becomes the learner's guide (مساري already has its own tab)
     for pg in ('index.html', 'sections.html'):
-        sub(pg, '<a href="honor.html"><span aria-hidden="true">🏆</span>نقاطي</a>',
-            '<a href="guide.html"><span aria-hidden="true">🧭</span>الدليل</a>')
+        sub(pg, '<a href="honor.html"><span data-bicon="trophy" data-bc="white" data-bs="26"></span>نقاطي</a>',
+            '<a href="guide.html"><span data-bicon="guide" data-bc="white" data-bs="26"></span>الدليل</a>')
     sub('guide.html', '🏆 نقاطي · 📐 مساري (أمر عمل اليوم)', '🧭 الدليل · 📐 مساري (أمر عمل اليوم)', need=False)
     sub('sections.html', '<a href="vocab/mega-goal-1.html">🏟️ Mega Goal 1.1</a><a href="vocab/mega-goal-2.html">🏆 Mega Goal 2.1</a><a href="vocab/mega-goal-3.html" style="grid-column:1/-1">🥇 Mega Goal 3.1</a>',
         '<a href="vocab/mega-goal-1.html">🏟️ المستوى 1</a><a href="vocab/mega-goal-2.html">🏆 المستوى 2</a><a href="vocab/mega-goal-3.html" style="grid-column:1/-1">🥇 المستوى 3</a>')

@@ -167,8 +167,9 @@ body.gate #jb{width:100%;min-height:60px;font-size:1.3rem}
 @media (max-width:520px){.podium{gap:6px}.pl .nm{font-size:1.15rem}.pl .medal{font-size:2.8rem}.me .pts{width:100%}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pl,.list li{opacity:1;transform:none}}
 </style>
+<link rel="stylesheet" href="assets/brand.css?v=1"><script src="assets/brand.js?v=1"></script>
 </head>
-<body>
+<body class="b-honor">
 <a class="club-home" id="homeLink" href="index.html">🏠 الرئيسية</a>
 <div class="wrap">
   <header>
@@ -242,7 +243,7 @@ function gateHeader() {
   $('hSub').textContent = g ? 'أهلاً بك في نادي اللغة الإنجليزية 👋 سجّل مرة واحدة فقط.' : HEAD0[1];
   document.body.classList.toggle('gate', g);
   document.title = (g ? 'لوحة التسجيل' : 'لوحة الشرف') + ' · نادي اللغة الإنجليزية';
-  const tr = document.querySelector('.trophy'); if (tr) tr.textContent = g ? '📝' : '🏆';
+  const tr = document.querySelector('.trophy'); if (tr) { if (window.Brand) tr.innerHTML = window.Brand.chip(g ? 'pen' : 'trophy', 88); else tr.textContent = g ? '📝' : '🏆'; }
 }
 gateHeader();
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

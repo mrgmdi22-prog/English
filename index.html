@@ -327,31 +327,30 @@ body.new .q-worlds .qn{display:none}
 .hline.help{color:#0f766e;background:#e9f8f2;border-color:#bfe6d6}
 @media (max-width:520px){.tlist li{flex-wrap:wrap}.tlist a.st{width:100%;text-align:center}}
 </style>
+<link rel="stylesheet" href="assets/brand.css?v=1"><script src="assets/brand.js?v=1"></script>
 </head>
 <body>
 <div class="wrap" id="top">
 
-  <section class="hero reveal">
-    <svg class="orbits" viewBox="0 0 1000 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <ellipse cx="500" cy="210" rx="430" ry="120"/>
-      <ellipse cx="500" cy="210" rx="430" ry="120" transform="rotate(30 500 210)"/>
-      <ellipse cx="500" cy="210" rx="430" ry="120" transform="rotate(-30 500 210)"/>
-      <circle class="o1" cx="930" cy="210" r="9" fill="#a996ff"/>
-      <circle class="o2" cx="70" cy="210" r="7" fill="#6fd0b3"/>
-      <circle class="o3" cx="500" cy="90" r="8" fill="#ffc46b"/>
-    </svg>
-    <h1>نادي اللغة الإنجليزية<span class="en">ENGLISH CLUB</span></h1>
-    <p class="sub">مهمة صغيرة كل يوم، ونقاط ترفعك في لوحة الشرف.</p>
-    <div class="me-strip"><span>⭐ <b id="myStars">0</b> نجمة</span><span>🏅 <b id="myPts">0</b> نقطة هذا الأسبوع</span><span id="myLv" hidden>📈 <b dir="ltr"></b></span></div>
+  <section class="bhero">
+    <div class="bh-top">
+      <div class="bh-t"><span class="b-tag">LEVEL UP</span><h1 data-bunder="coral" data-bw="190">جاهز لتحدي اليوم؟</h1></div>
+      <div class="bh-chips">
+        <span class="b-pill" title="نجوم الكبسولات"><span data-bicon="star" data-bs="22"></span><b id="myStars">0</b></span>
+        <span class="b-pill coral" title="نقاطك هذا الأسبوع"><span data-bicon="flame" data-bs="22"></span><b id="myPts">0</b> نقطة هذا الأسبوع</span>
+        <span class="b-pill sky" id="myLv" hidden><span data-bicon="chart" data-bs="22"></span><b dir="ltr"></b></span>
+      </div>
+    </div>
+    <div data-bscene></div>
   </section>
 
-  <section class="today" id="today" aria-labelledby="hToday">
-    <div class="thd"><span class="ic" aria-hidden="true">📋</span><div class="tx"><h2 id="hToday">أمر عمل اليوم</h2><small id="tdSub">خطتك الشخصية: مهمة صغيرة كل يوم.</small></div><span class="ring" id="tdRing" hidden></span></div>
+  <section class="today" id="today" aria-labelledby="hToday" data-bcorner="sky">
+    <div class="thd"><span class="ic" data-bi="clip" data-bs="60"></span><div class="tx"><span class="b-tag">DAILY MISSION</span><h2 id="hToday" data-bunder="sun" data-bw="120">مهمة اليوم</h2><small id="tdSub">خطتك الشخصية: مهمة صغيرة كل يوم.</small></div><span id="tdRing" hidden></span></div>
     <ol class="tlist" id="tdList" hidden></ol>
     <div class="tnew" id="tdNew">
       <p>لم تصمّم مسارك بعد. أجب عن أسئلة قصيرة، فيُجهَّز لك كل يوم أمر عمل يناسبك، ولا تحتار من أين تبدأ.</p>
     </div>
-    <a class="go" id="tdGo" href="path/index.html">📐 صمّم مساري في دقيقتين ←</a>
+    <a class="go" id="tdGo" href="path/index.html">صمّم مساري في دقيقتين ←</a>
   </section>
 
   <a class="resume" id="resume" href="#">
@@ -360,43 +359,42 @@ body.new .q-worlds .qn{display:none}
     <span class="go">أكمل ←</span>
   </a>
 
+  <a class="bsurp mbox" id="mbox" href="surprise/index.html" data-bcorner="coral">
+    <span data-bi="gift" data-bs="64"></span>
+    <span class="tx"><b class="mbt">Surprise Me</b><small>3 صناديق يومياً · حتى 150 نقطة للصندوق</small><span class="st" id="mbSt"></span></span>
+    <span class="go" id="mbGo">افتح ←</span>
+  </a>
+
   <section class="quick" id="quick" aria-labelledby="hq">
     <h2 id="hq" class="qh">⚡ أيضاً في النادي</h2>
     <div class="qgrid">
-      <a class="qt mbox" id="mbox" href="surprise/index.html" style="--qc:#1E78D2;--qs:#E3F0FF;--qb:#A9CFF2">
-        <span class="bx" aria-hidden="true">🎁</span>
-        <b class="mbt">Surprise Me</b>
-        <small>3 صناديق يومياً · حتى 150 نقطة للصندوق</small>
-        <span class="st" id="mbSt"></span>
-        <span class="go" id="mbGo">افتح ←</span>
-      </a>
-      <a class="qt" href="sections.html" style="--qc:#6046e8;--qs:#efebff;--qb:#cfc4ff">
-        <span class="bx" aria-hidden="true">🗂️</span>
+      <a class="qt" data-bcorner="turq" href="sections.html" style="--qc:#6046e8;--qs:#efebff;--qb:#cfc4ff">
+        <span class="bx" data-bi="grid" data-bs="60"></span>
         <b>كل الأقسام</b>
         <small>المفردات والقواعد والقصص والمحادثة وكل الأدوات</small>
         <span class="go">تصفّح ←</span>
       </a>
-      <a class="qt q-worlds" href="worlds/index.html" style="--qc:#9a6400;--qs:#FFF3DA;--qb:#F2D79A">
-        <span class="bx" aria-hidden="true">🌍</span>
+      <a class="qt q-worlds" data-bcorner="leaf" href="worlds/index.html" style="--qc:#9a6400;--qs:#FFF3DA;--qb:#F2D79A">
+        <span class="bx" data-bi="globe" data-bs="60"></span>
         <b>عوالم النادي</b>
         <small id="wdSub">10 عوالم وجواز سفر بالأختام</small>
         <span class="go">انطلق ←</span>
       </a>
-      <a class="qt q-level" href="level/index.html" style="--qc:#3157D5;--qs:#E8EEFF;--qb:#CCD8FA">
-        <span class="bx" aria-hidden="true">📈</span>
+      <a class="qt q-level" data-bcorner="sky" href="level/index.html" style="--qc:#3157D5;--qs:#E8EEFF;--qb:#CCD8FA">
+        <span class="bx" data-bi="chart" data-bs="60"></span>
         <b>قياس المستوى <small style="display:inline;font-weight:700">(اختياري)</small></b>
         <small id="lvSub">اعرف مستواك الآن، ثم قِس تحسّنك</small>
         <span class="go">ابدأ ←</span>
       </a>
+      <a class="qt" href="honor.html" data-bcorner="sun" style="--qc:#8a5d00;--qs:#fff6d8;--qb:#f2dc97">
+        <span class="bx" data-bi="trophy" data-bs="60"></span>
+        <b>لوحة الشرف</b>
+        <small id="hLine">نافس على القمة</small>
+      </a>
     </div>
   </section>
 
-  <a class="hline" href="honor.html" aria-label="لوحة الشرف">
-    <span aria-hidden="true">🏆</span><span class="ht" id="hLine">لوحة الشرف · نجوم الأسبوع</span><span class="hg">←</span>
-  </a>
-
-
-  <a class="hline help" href="guide.html"><span aria-hidden="true">🧭</span><span class="ht">محتار؟ افتح دليل المتعلم</span><span class="hg">←</span></a>
+  <a class="hline help" href="guide.html"><span data-bicon="guide" data-bs="26"></span><span class="ht">محتار؟ افتح دليل المتعلم</span><span class="hg">←</span></a>
 
   <section class="install" id="install" aria-labelledby="hins">
     <img src="assets/icons/icon-192.png?v=2" alt="" width="64" height="64">
@@ -408,11 +406,11 @@ body.new .q-worlds .qn{display:none}
 </div>
 
 <nav class="tabbar" id="tabbar" aria-label="التنقّل السريع">
-  <a href="#top" data-t="home" class="on"><span aria-hidden="true">🏠</span>الرئيسية</a>
-  <a href="sections.html" data-t="sec"><span aria-hidden="true">🗂️</span>الأقسام</a>
-  <a href="surprise/index.html" data-t="mb" id="tbMb"><span aria-hidden="true">🎁</span>المفاجأة<i class="dot" id="tbDot" hidden></i></a>
-  <a href="honor.html"><span aria-hidden="true">🏆</span>نقاطي</a>
-  <a href="path/index.html"><span aria-hidden="true">📐</span>مساري</a>
+  <a href="#top" data-t="home" class="on"><span data-bi="home" data-bs="40"></span>الرئيسية</a>
+  <a href="sections.html" data-t="sec"><span data-bicon="grid" data-bc="white" data-bs="26"></span>الأقسام</a>
+  <a href="surprise/index.html" data-t="mb" id="tbMb"><span data-bicon="gift" data-bc="white" data-bs="26"></span>المفاجأة<i class="dot" id="tbDot" hidden></i></a>
+  <a href="honor.html"><span data-bicon="trophy" data-bc="white" data-bs="26"></span>نقاطي</a>
+  <a href="path/index.html"><span data-bicon="path" data-bc="white" data-bs="26"></span>مساري</a>
 </nav>
 
 <script>
@@ -478,18 +476,19 @@ window.renderToday = function(){
     var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
     var $ = function(id){ return document.getElementById(id); }, n = p.stages.length, go = $('tdGo');
     $('tdNew').hidden = true;
-    if ((p.stage || 0) >= n) { $('tdSub').textContent = '🏁 اكتمل بناء مخططك! صمّم مخططاً أعلى.'; go.textContent = '📐 صمّم مخططاً جديداً ←'; return; }
+    if ((p.stage || 0) >= n) { $('tdSub').textContent = 'اكتمل بناء مخططك! صمّم مخططاً أعلى.'; go.textContent = 'صمّم مخططاً جديداً ←'; return; }
     var ds = PC.dayState(), tasks = PC.todayTasks(p), done = 0;
+    var BK = {voc:'book', gra:'gram', lis:'ear', rea:'book', spe:'chat', wri:'pen'}, BI = {lvl:'chart', mb:'gift', wd:'globe', elite:'gem', town:'chat', lab:'chat'};
     $('tdList').innerHTML = tasks.map(function(id, i){
       var t = PC.T[id], dn = PC.taskDone(id, ds); if (dn) done++;
       var href = /^https/.test(t.h) ? t.h : t.h.replace(/^\.\.\//, '');
-      return '<li class="' + (dn ? 'done' : '') + '"><span class="n">' + (dn ? '✓' : i + 1) + '</span><span class="i" aria-hidden="true">' + t.ic + '</span><div class="t"><b' + (t.en ? ' dir="ltr" style="font-family:var(--en);text-align:right"' : '') + '>' + esc(t.n) + '</b><small>' + esc(t.how) + '</small></div>'
+      return '<li class="' + (dn ? 'done' : '') + '"><span class="n">' + (dn ? '✓' : i + 1) + '</span><span class="i">' + window.Brand.chip(BI[id] || BK[(t.c || [])[0]] || 'star', 50) + '</span><div class="t"><b' + (t.en ? ' dir="ltr" style="font-family:var(--en);text-align:right"' : '') + '>' + esc(t.n) + '</b><small>' + esc(t.how) + '</small></div>'
         + '<a class="st" href="' + esc(href) + '"' + (/^https/.test(t.h) ? ' target="_blank" rel="noopener"' : '') + '>' + (dn ? 'تدرّب' : 'ابدأ') + ' ←</a></li>'; }).join('');
     $('tdList').hidden = false;
-    var r = $('tdRing'); r.textContent = done + '/' + tasks.length; r.hidden = false;
+    var r = $('tdRing'); r.innerHTML = window.Brand.ring(done + '/' + tasks.length, tasks.length ? done / tasks.length : 0); r.hidden = false;
     var left = tasks.length - done;
-    $('tdSub').textContent = !left ? 'أنجزت أمر اليوم 👏 نلتقي غداً.' : left === 1 ? 'بقيت لك مهمة واحدة اليوم.' : 'بقيت لك ' + left + ' مهام اليوم.';
-    go.textContent = '🏗️ افتح مخطط مساري ←'; go.classList.add('soft');
+    $('tdSub').textContent = !left ? 'أنجزت مهمة اليوم! نلتقي غداً.' : left === 1 ? 'بقيت لك مهمة واحدة. أكملها وارفع ترتيبك!' : 'بقيت لك ' + left + ' مهام. أكملها وارفع ترتيبك!';
+    go.textContent = 'افتح مخطط مساري ←'; go.classList.add('soft');
   } catch (e) {}
 };
 window.renderToday();
@@ -506,7 +505,7 @@ import('./assets/honor.js?v=20261112b').then(async H => {
   // Live: this week's leader, updates by itself when the ranking changes.
   await H.watchBoard(rows => {
     if (!rows.length) return;
-    line.textContent = 'نجم الأسبوع: 🥇 ';
+    line.textContent = 'نجم الأسبوع: ';
     const b = document.createElement('bdi'); b.textContent = rows[0].nick; line.appendChild(b);
   }, 1);
 }).catch(() => {});
