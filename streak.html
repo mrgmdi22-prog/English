@@ -51,7 +51,8 @@ h1+.b-under{margin:0 auto}
 .cal .d.l1{background:#ffe7a8;color:var(--ink)}
 .cal .d.l2{background:#ffc067;color:var(--ink)}
 .cal .d.l3{background:#ff8a4c;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.25)}
-.cal .d.sh{background:#e3efff;color:var(--ink)}
+.cal .d.off{background:#eceef1;color:#a3acb9}
+.cal .d.sh{background:#cfe6ff;color:var(--ink);border-color:#9cc9f5}
 .cal .d.sh::after{content:"🛡️";position:absolute;top:-6px;left:-4px;font-size:.9rem}
 .cal .d.l3::after,.cal .d.l2::after{content:"🔥";position:absolute;top:-7px;left:-4px;font-size:.85rem}
 .cal .d.today{border-color:var(--ink);border-style:dashed}
@@ -96,7 +97,7 @@ footer{text-align:center;color:var(--muted);margin-top:30px;font-size:1rem}
     <h2>📅 تقويم أيامك</h2>
     <div class="mhead"><button type="button" id="prev" aria-label="الشهر السابق">→</button><b id="mname"></b><button type="button" id="nxt" aria-label="الشهر التالي">←</button></div>
     <div class="cal" id="cal"></div>
-    <div class="legend"><span><i style="background:#ffe7a8"></i>يوم خفيف</span><span><i style="background:#ffc067"></i>متوسط (150+)</span><span><i style="background:#ff8a4c"></i>قوي (400+)</span><span><i style="background:#e3efff"></i>🛡️ حماه الدرع</span></div>
+    <div class="legend"><span><i style="background:#ffe7a8"></i>يوم خفيف</span><span><i style="background:#ffc067"></i>متوسط (150+)</span><span><i style="background:#ff8a4c"></i>قوي (400+)</span><span><i style="background:#eceef1"></i>شعلة منطفئة</span><span><i style="background:#cfe6ff"></i>🛡️ محميّ بالدرع</span></div>
   </section>
 
   <section class="card">
@@ -149,9 +150,9 @@ function draw() {
   for (let d = a; d < b; d++) {
     const v = +D[d] || 0, on = v >= H.FIRE_MIN, lv = !on ? '' : v >= H.FIRE_LV[2] ? 'l3' : v >= H.FIRE_LV[1] ? 'l2' : 'l1';
     if (on) n++;
-    const cls = ['d', lv, F.shielded[d] ? 'sh' : '', d === today ? 'today' : '', d > today ? 'fut' : ''].join(' ');
+    const cls = ['d', lv, F.shielded[d] ? 'sh' : (!on && d >= firstDay && d < today ? 'off' : ''), d === today ? 'today' : '', d > today ? 'fut' : ''].join(' ');
     const dt = new Date(d * 864e5).getUTCDate();
-    h += `<span class="${cls}" title="${dt} ${MN[md.getUTCMonth()]}${on ? ' · ' + v + ' نقطة' : F.shielded[d] ? ' · حماه الدرع' : ''}">${dt}</span>`;
+    h += `<span class="${cls}" title="${dt} ${MN[md.getUTCMonth()]}${on ? ' · ' + v + ' نقطة' : F.shielded[d] ? ' · محميّ بالدرع' : d >= firstDay && d < today ? ' · شعلة منطفئة' : ''}">${dt}</span>`;
   }
   $('cal').innerHTML = h;
   if (!off) $('tot').textContent = n;
