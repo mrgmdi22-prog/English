@@ -119,7 +119,7 @@ footer{text-align:center;color:var(--muted);margin-top:30px;font-size:1rem}
   <footer>إعداد: <b>أ. أحمد بن سالم</b> — معلم اللغة الإنجليزية</footer>
 </main>
 <script type="module">
-const H = await import('./assets/honor.js?v=20261118');
+const H = await import('./assets/honor.js?v=20261118b');
 H.computeScore();                       // records today's points in the dated log
 const F = H.fireState(), $ = id => document.getElementById(id), D = F.d, today = F.day;
 const unit = n => n >= 3 && n <= 10 ? 'أيام' : n > 10 ? 'يوماً' : 'يوم';
@@ -161,6 +161,6 @@ function draw() {
 $('prev').onclick = () => { off++; draw(); }; $('nxt').onclick = () => { if (off) { off--; draw(); } };
 draw();
 </script>
-<script src="assets/club.js?v=31"></script>
+<script src="assets/club.js?v=32"></script>
 </body>
 </html>

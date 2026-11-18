@@ -518,10 +518,10 @@ window.renderToday = function(){
 };
 window.renderToday();
 </script>
-<script src="assets/club.js?v=31"></script>
+<script src="assets/club.js?v=32"></script>
 <script type="module">
 // Top three on the honor board (only once Firebase is configured)
-import('./assets/honor.js?v=20261118').then(async H => {
+import('./assets/honor.js?v=20261118b').then(async H => {
   const s = H.computeScore().score;
   const mp = document.getElementById('myPts'); if (mp) mp.textContent = s.toLocaleString('en-US');
   // سلسلة الحماس 🔥: days in a row; until today counts, the pill asks the student to keep the streak alive

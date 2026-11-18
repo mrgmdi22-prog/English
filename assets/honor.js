@@ -178,7 +178,9 @@ export function computeScore() {
   let lv = 0, lvs = 0;
   if (lvOk(lr.pre) && posts.length) {
     lv = Math.max(0, Math.min(4, Math.max(...posts.map(p => LV.indexOf(p.level))) - LV.indexOf(lr.pre.level)));
-    lvs = Math.max(0, Math.min(32, Math.max(...posts.map(p => p.score | 0)) - (lr.pre.score | 0)));
+    // since 18 Nov 2026 the test has 20 questions: same length = raw difference; mixed (old 32 / new 20) = percentage gain on a 20-question scale
+    const pm = +lr.pre.max || 32, gain = p => (+p.max || 32) === pm ? (p.score | 0) - (lr.pre.score | 0) : Math.round(((p.score | 0) / (+p.max || 32) - (lr.pre.score | 0) / pm) * 20);
+    lvs = Math.max(0, Math.min(32, Math.max(...posts.map(gain))));
   }
   // Retention: words that reached box 3+ in spaced review (remembered after 1 day and again after 3 days)
   let rt = 0; ['wq-srs', 'ng-srs', 'aw-srs'].forEach(k => { const o = J(k) || {}; Object.keys(o).forEach(w => { if (((o[w] || [])[0] || 0) >= 3) rt++; }); });

@@ -78,7 +78,7 @@ h1 .en{display:block;font-size:.5em;color:var(--pri);letter-spacing:.06em;font-w
 <body>
 <a class="club-home" href="../index.html">🏠 الرئيسية</a>
 <div class="wrap" id="app"></div>
-<script src="../assets/club.js?v=31"></script>
+<script src="../assets/club.js?v=32"></script>
 <script type="module">
 /* ---------- the two forms (version 2, harder): same skills, same difficulty, different questions ----------
    item: [skill, band, question, Arabic help, right answer, wrong, wrong, wrong]   skill v g r l · band 1=A1 2=A2 3=B1 4=B2
@@ -161,8 +161,15 @@ const FORMS = {
   ['l',4,'How did the speaker feel about the film?','استمع، ثم أجب: ما شعور المتحدث تجاه الفيلم؟','Pleasantly surprised','Bored','Disappointed','Angry',{say:"I expected the film to be boring, but it turned out to be one of the best I've seen."}]
  ]}
 };
+/* SHORT FORM (18 Nov 2026): 32 questions were too long for most students, so each form now uses 20 of them,
+   the same 20 places in both forms (twins stay twins): A1 ×2, A2 ×5, B1 ×7, B2 ×6 — vocab 6, grammar 6, reading 4, listening 4.
+   Results keep their own max: old 32-question results stay valid and are compared by percentage. */
+const PICK = [0, 3, 5, 6, 7, 9, 10, 11, 14, 16, 17, 18, 20, 22, 23, 24, 26, 27, 29, 31];
+['pre', 'post'].forEach(f => { FORMS[f].items = PICK.map(i => FORMS[f].items[i]); });
 const SK = { v:['المفردات','Vocabulary','--v'], g:['القواعد','Grammar','--g'], r:['القراءة','Reading','--r'], l:['الاستماع','Listening','--l'] };
-const CNT = { v:10, g:10, r:6, l:6 };
+const CNT = { v:6, g:6, r:4, l:4 };
+const CNT32 = { v:10, g:10, r:6, l:6 };   // results of the long form (before 18 Nov 2026)
+const cnt = r => r && +r.max === 32 ? CNT32 : CNT;
 const LEVELS = [['Pre-A1','مبتدئ'],['A1','أساسي'],['A2','ما قبل المتوسط'],['B1','متوسط'],['B2','فوق المتوسط']];
 /* results taken before this moment belong to the old, easier forms (version 1): the student takes the new before test again */
 const NEW_AT = 1793547780000;
@@ -197,7 +204,7 @@ let H = null, cloud = {}, postOpen = false, online = false, OLD = null;
 async function loadAll(){
   const local = store.get('lv-results') || {};
   try {
-    H = await import('../assets/honor.js?v=20261118');
+    H = await import('../assets/honor.js?v=20261118b');
     if (H.ready) {
       const t = new Promise((_, no) => setTimeout(() => no(new Error('timeout')), 8000));
       const [mine, cfg] = await Promise.race([Promise.all([H.myLevels(), H.levelsConfig()]), t]);
@@ -263,7 +270,7 @@ async function home(){
     <div class="card"><h2>🏆 نقاط التحسّن</h2><p style="margin:0">لكل مستوى تتقدّمه <b>500 نقطة</b>، ولكل إجابة صحيحة تزيدها عن القبلي <b>10 نقاط</b>. تُحسب أفضل نتيجة بعدية لك، ولا تُخصم نقاط أبداً إن قلّت النتيجة.</p></div>
     <div class="card"><h2>عن الاختبار</h2>
       <div class="parts">${Object.entries(SK).map(([k, s]) => `<div class="part" style="border-color:var(${s[2]})"><b style="color:var(${s[2]})">${s[0]}</b><small class="en">${s[1]} · ${CNT[k]} questions</small></div>`).join('')}</div>
-      <p class="muted" style="margin:0">32 سؤالاً في نحو 25 دقيقة. الأسئلة تبدأ سهلة وتصعب تدريجياً حتى المستوى <span class="en">B2</span>، فلا تقلق إن لم تعرف بعضها. أجب وحدك ودون مساعدة، لتكون النتيجة صادقة. يحتاج قسم الاستماع إلى الصوت 🔊.</p></div>
+      <p class="muted" style="margin:0">20 سؤالاً فقط في نحو 15 دقيقة. الأسئلة تبدأ سهلة وتصعب تدريجياً حتى المستوى <span class="en">B2</span>، فلا تقلق إن لم تعرف بعضها. أجب وحدك ودون مساعدة، لتكون النتيجة صادقة. يحتاج قسم الاستماع إلى الصوت 🔊.</p></div>
     <div class="tests">
       ${row('pre', '📝', 'في بداية الفترة: يحدد مستواك الآن.')}
       ${row('post', '🏁', 'بعد 4 أسابيع، ثم كل 4 أسابيع: أسئلة مختلفة بالصعوبة نفسها، لقياس تحسّنك.')}
@@ -329,7 +336,7 @@ function result(kind, fresh, sent){
     <div class="card"><div class="big"><div class="ring" style="--p:${pc}"><span>${pc}%</span></div>
       <div><div class="muted">مستواك التقريبي</div><div class="lvl">${r.level}</div><div style="font-weight:800">${L[1]}</div><div class="muted en" style="font-size:1rem">${r.score} / ${r.max}</div></div></div>
       ${levelScale(r.level)}</div>
-    <div class="card"><h2>المهارات</h2>${Object.entries(SK).map(([k, s]) => `<div class="skill"><div class="row"><span style="color:var(${s[2]})">${s[0]}</span><span class="en">${r[k]} / ${CNT[k]}</span></div><div class="bar"><i style="width:${r[k] / CNT[k] * 100}%;background:var(${s[2]})"></i></div></div>`).join('')}</div>
+    <div class="card"><h2>المهارات</h2>${Object.entries(SK).map(([k, s]) => `<div class="skill"><div class="row"><span style="color:var(${s[2]})">${s[0]}</span><span class="en">${r[k]} / ${cnt(r)[k]}</span></div><div class="bar"><i style="width:${r[k] / cnt(r)[k] * 100}%;background:var(${s[2]})"></i></div></div>`).join('')}</div>
     ${kind === 'post' && RES.pre ? `<div class="card">${compare()}</div>` : ''}
     <div class="card"><h2>💡 خطوتك التالية</h2><p style="margin:0">${tip}</p></div>
     ${fresh && sent === false && H && H.ready ? `<p class="note">حُفظت النتيجة على جهازك، وستصل للمعلم عندما تفتح هذه الصفحة وأنت متصل بالإنترنت.</p>` : ''}
@@ -343,7 +350,8 @@ function compare(){
   return `<h2>📈 تحسّنك</h2><table class="cmp"><thead><tr><th></th><th>القبلي</th><th>البعدي</th><th>التغيّر</th></tr></thead><tbody>
     <tr><td><b>النتيجة</b></td><td class="en">${pa}%</td><td class="en">${pb}%</td><td>${d(pa, pb, '٪')}</td></tr>
     <tr><td><b>المستوى</b></td><td class="en">${a.level}</td><td class="en">${b.level}</td><td>${a.level === b.level ? '<span class="muted">=</span>' : LEVELS.findIndex(x => x[0] === b.level) > LEVELS.findIndex(x => x[0] === a.level) ? '<span class="up">ارتفع ▲</span>' : '<span class="down">انخفض ▼</span>'}</td></tr>
-    ${Object.entries(SK).map(([k, s]) => `<tr><td>${s[0]}</td><td class="en">${a[k]}/${CNT[k]}</td><td class="en">${b[k]}/${CNT[k]}</td><td>${d(a[k], b[k])}</td></tr>`).join('')}</tbody></table>`;
+    ${Object.entries(SK).map(([k, s]) => { const ca = cnt(a)[k], cb = cnt(b)[k], same = ca === cb, x = Math.round(a[k] / ca * 100), y = Math.round(b[k] / cb * 100);
+      return `<tr><td>${s[0]}</td><td class="en">${a[k]}/${ca}</td><td class="en">${b[k]}/${cb}</td><td>${same ? d(a[k], b[k]) : d(x, y, '٪')}</td></tr>`; }).join('')}</tbody></table>`;
 }
 home();
 </script>
