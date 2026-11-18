@@ -14,7 +14,7 @@
 <style>
 /* Idioms corner: a wall of cartoon cards. Each cartoon shows the idiom's literal picture; the card opens to the real
    meaning, an Arabic equivalent and an example. A quiz shows a cartoon and asks which idiom / meaning it is. */
-:root{color-scheme:light;--bg:#FFF9F0;--card:#fff;--ink:#22263A;--muted:#5E6480;--line:#EFE6D6;--acc:#E2573B;--acc-s:#FDECE6;--vio:#6A4FD8;--ok:#1F9D6B;--bad:#D23F4A;
+:root{color-scheme:light;--bg:#FFF9F0;--card:#fff;--ink:#22263A;--muted:#5E6480;--line:#EFE6D6;--acc:#E2573B;--acc-s:#FDECE6;--vio:#4f81d8;--ok:#1F9D6B;--bad:#D23F4A;
   --ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif;--ease:cubic-bezier(.2,.7,.2,1)}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg)}
@@ -92,9 +92,10 @@ footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
 @media (max-width:520px){.grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}.card .id{font-size:1rem}.card .hint{display:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
+<link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
 <link rel="stylesheet" href="../assets/app.css?v=1"><script src="../assets/app.js?v=1"></script>
 </head>
-<body>
+<body class="v-ex" data-xs="f4">
 <a class="club-home" href="../index.html">🏠 الرئيسية</a>
 <div class="wrap">
   <header class="top">
@@ -232,6 +233,6 @@ function drawQ(){
 }
 drawWall();
 </script>
-<script src="../assets/club.js?v=32"></script>
+<script src="../assets/club.js?v=33"></script>
 </body>
 </html>

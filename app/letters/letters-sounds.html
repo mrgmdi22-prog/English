@@ -10,9 +10,10 @@
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 .topnav{max-width:860px;margin:0 auto;padding-block:14px 0;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
 .topnav a{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.05rem}</style>
+<link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
 <link rel="stylesheet" href="../assets/app.css?v=1"><script src="../assets/app.js?v=1"></script>
 </head>
-<body>
+<body class="v-ex" data-xs="f1">
 <title>ميدان الحروف والأصوات</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,7 +24,7 @@
   --bg:#EEF4F9; --paper:#FFFFFF; --ink:#1E3A50; --muted:#5B7389;
   --rule:#A9CBE8; --margin:#E8A0A0; --accent:#2B78C2; --accent-soft:#DCEBF8;
   --good:#2F8F57; --good-soft:#DDF2E4; --bad:#C9533F; --bad-soft:#FBE3DE;
-  --ghost:#DCE7F1; --line:#D3E0EB; --star:#E3A512; --petal:#F6B8CB; --petal-edge:#E58FAA; --stem:#5DA86F; --core:#F5C542;
+  --ghost:#DCE7F1; --line:#D3E0EB; --star:#E3A512; --petal:#f6d1b8; --petal-edge:#e5b18f; --stem:#5DA86F; --core:#F5C542;
   --f-ar:"Baloo Bhaijaan 2", Tahoma, "Segoe UI", sans-serif;
   --f-letter:"Andika", "Segoe UI", Arial, sans-serif;
 }
@@ -31,12 +32,12 @@
   --bg:#13202B; --paper:#1B2B38; --ink:#E6EFF6; --muted:#9DB3C5;
   --rule:#3D6283; --margin:#9A5A5A; --accent:#6FB2EE; --accent-soft:#213F5A;
   --good:#6CCB92; --good-soft:#1D3B2A; --bad:#F08C78; --bad-soft:#43251F;
-  --ghost:#2C4357; --line:#2A3F50; --star:#F2C14E; --petal:#D98AA3; --petal-edge:#B86A84; --stem:#4E9460; --core:#E2B13A; color-scheme:dark}}
+  --ghost:#2C4357; --line:#2A3F50; --star:#F2C14E; --petal:#d9aa8a; --petal-edge:#b8896a; --stem:#4E9460; --core:#E2B13A; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#13202B; --paper:#1B2B38; --ink:#E6EFF6; --muted:#9DB3C5;
   --rule:#3D6283; --margin:#9A5A5A; --accent:#6FB2EE; --accent-soft:#213F5A;
   --good:#6CCB92; --good-soft:#1D3B2A; --bad:#F08C78; --bad-soft:#43251F;
-  --ghost:#2C4357; --line:#2A3F50; --star:#F2C14E; --petal:#D98AA3; --petal-edge:#B86A84; --stem:#4E9460; --core:#E2B13A; color-scheme:dark}
+  --ghost:#2C4357; --line:#2A3F50; --star:#F2C14E; --petal:#d9aa8a; --petal-edge:#b8896a; --stem:#4E9460; --core:#E2B13A; color-scheme:dark}
 
 [hidden]{display:none!important}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-ar);font-size:19px;line-height:1.6}
@@ -879,6 +880,6 @@ if(document.fonts&&document.fonts.load){document.fonts.load('700 100px "Andika"'
 })();
 </script>
 
-<script src="../assets/club.js?v=32"></script>
+<script src="../assets/club.js?v=33"></script>
 </body>
 </html>

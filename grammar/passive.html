@@ -18,7 +18,7 @@
 :root{color-scheme:light;
   --bg:#F7F8FC;--card:#FFFFFF;--ink:#1F2840;--muted:#5B6580;--line:#E3E7F1;
   --main:#0F8A7A;--main-s:#E2F5F1;
-  --ag:#2F67D8;--ag-s:#E7EEFC;--ob:#D9622B;--ob-s:#FDEEE5;--be:#6A4BD8;--be-s:#EFEBFD;--v3:#1F9D6B;--v3-s:#E3F6EE;
+  --ag:#2F67D8;--ag-s:#E7EEFC;--ob:#D9622B;--ob-s:#FDEEE5;--be:#4b7fd8;--be-s:#ebf2fd;--v3:#1F9D6B;--v3-s:#E3F6EE;
   --ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif;--ease:cubic-bezier(.2,.7,.2,1)}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg)}
@@ -165,8 +165,9 @@ footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
   .card{break-inside:avoid;border-width:1px;padding:10px 12px;margin-bottom:8px}
   .sent,.step,.use,table.tt td,.v3grid button{background:#F4F6FA!important}}
 </style>
+<link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
 </head>
-<body>
+<body class="v-ex" data-xs="f3">
 <a class="club-home" href="../index.html">🏠 الرئيسية</a>
 <div class="wrap">
   <header class="top">
@@ -528,6 +529,6 @@ document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>setTab(b.data
 $('printBtn').onclick=()=>window.print();
 const m=location.search.match(/[?&]tab=(learn|conv|build|quiz)/);if(m)setTab(m[1]);
 </script>
-<script src="../assets/club.js?v=32"></script>
+<script src="../assets/club.js?v=33"></script>
 </body>
 </html>

@@ -167,6 +167,7 @@ body.gate #mePanel input[type=text],body.gate #mePanel select{font-size:1.2rem;m
 body.gate #jb{width:100%;min-height:60px;font-size:1.3rem}
 @media (max-width:520px){.podium{gap:6px}.pl .nm{font-size:1.15rem}.pl .medal{font-size:2.8rem}.me .pts{width:100%}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pl,.list li{opacity:1;transform:none}}
+small.wct{display:inline-block;margin-inline-start:6px;background:#fff3c4;color:#8a6100;border-radius:999px;padding:0 8px;font-weight:800;font-size:.8rem}
 </style>
 <link rel="stylesheet" href="assets/brand.css?v=4"><script src="assets/brand.js?v=2"></script>
 <link rel="stylesheet" href="assets/vivid.css?v=7">
@@ -217,23 +218,23 @@ body.gate #jb{width:100%;min-height:60px;font-size:1.3rem}
 
   <footer>إعداد: أ. أحمد بن سالم — نادي اللغة الإنجليزية<br><a href="teacher.html">لوحة التحكم (للمعلم)</a></footer>
 </div>
-<script src="assets/club.js?v=32"></script>
+<script src="assets/club.js?v=33"></script>
 <script type="module">
 const demo = /[?&]demo\b/.test(location.search);
 let H;
 if (demo) {
-  const m = await import('./assets/honor.js?v=20261118b').catch(() => null);
+  const m = await import('./assets/honor.js?v=20261118c').catch(() => null);
   const fake = ['نسر الصحراء','Falcon7','نجم الشمال','Lion King','القمر المضيء','Speedy','بطل العقيق','Eagle Eye','الشهاب','Rocket'].map((n,i)=>({id:'d'+i,nick:n,score:3200-i*270-(i%3)*35,approved:true}));
   let me = null, priv = null;
   H = { ready:true, RULES:m.RULES, DAILY_CAP:m.DAILY_CAP, STARS_N:m.STARS_N, weekNo:m.weekNo, weekLabel:m.weekLabel, FIRST_WEEK:m.FIRST_WEEK, FOUND_WEEK:m.FOUND_WEEK, stars:m.stars, computeScore:m.computeScore, cleanNick:m.cleanNick, nickKey:m.nickKey,
     GRADES:m.GRADES, SUGGESTED:m.SUGGESTED, EXTERNAL:m.EXTERNAL, REGIONS:m.REGIONS, HOME_REGION:m.HOME_REGION, setRegion: async(r)=>{me.region=r}, cleanText:m.cleanText, myPrivate: async()=>priv, savePrivate: async(p)=>{priv=p}, myEntry: async()=>me, join: async(n,r)=>(me={id:'me',nick:m.cleanNick(n),region:r,approved:false,...m.computeScore()}),
     sync: async()=>null, myCode:()=>'', cleanCode:m.cleanCode, ensureAccount: async()=>'', board: async()=>fake, watchBoard: async(cb)=>{cb(fake);return ()=>{};} };
 } else {
-  H = await import('./assets/honor.js?v=20261118b');
+  H = await import('./assets/honor.js?v=20261118c');
 }
 
 const $ = id => document.getElementById(id);
-try { const f = (H.fireState ? H : await import('./assets/honor.js?v=20261118b')).fireState(); $('fireLt').textContent = f.cur ? `سلسلتك: ${f.cur} ${f.cur >= 3 && f.cur <= 10 ? 'أيام' : f.cur > 10 ? 'يوماً' : 'يوم'}${f.today ? ' ✅ يومك محسوب' : ' · أكمل يومك اليوم ⏳'}` : 'ابدأ سلسلتك اليوم: 30 نقطة تكفي'; } catch (e) {}
+try { const f = (H.fireState ? H : await import('./assets/honor.js?v=20261118c')).fireState(); $('fireLt').textContent = f.cur ? `سلسلتك: ${f.cur} ${f.cur >= 3 && f.cur <= 10 ? 'أيام' : f.cur > 10 ? 'يوماً' : 'يوم'}${f.today ? ' ✅ يومك محسوب' : ' · أكمل يومك اليوم ⏳'}` : 'ابدأ سلسلتك اليوم: 30 نقطة تكفي'; } catch (e) {}
 // Registration gate: new visitors land here from any page (assets/gate.js) and go back after registering.
 const REG_KEY = 'club-reg';
 const isReg = () => { try { return !!(localStorage.getItem(REG_KEY) || localStorage.getItem('club-player')); } catch (e) { return true; } };
@@ -280,8 +281,8 @@ gateHeader();
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = n => Number(n||0).toLocaleString('en-US');
 /* «تقدّمك في الأقسام»: each section has a ceiling (its content × the points of an answer). Shows what I earned of it and what is left. */
-const SEC_NAME = { wq:'Word Quest', ng:'الكلمات العامة', mg:'ميدان المفردات', cq:'Core Quest', caps:'الكبسولات', tb:'محادثات التأسيس', bf:'Breakfast', aw:'الكلمات الأكاديمية', st:'القصص', lab:'مختبر المحادثة', tn:'خارطة الأزمنة', pv:'المبني للمجهول', im:'التعبيرات', ek:'مسار النخبة', et:'في المدينة', wd:'تحدي العوالم', ws:'أختام العوالم' };
-const SEC_ORDER = ['wq','ng','aw','mg','cq','caps','tb','bf','st','lab','tn','pv','im','wd','ws','ek','et'];
+const SEC_NAME = { ch:'سلاسل الوحدات 🔗', wq:'Word Quest', ng:'الكلمات العامة', mg:'ميدان المفردات', cq:'Core Quest', caps:'الكبسولات', tb:'محادثات التأسيس', bf:'Breakfast', aw:'الكلمات الأكاديمية', st:'القصص', lab:'مختبر المحادثة', tn:'خارطة الأزمنة', pv:'المبني للمجهول', im:'التعبيرات', ek:'مسار النخبة', et:'في المدينة', wd:'تحدي العوالم', ws:'أختام العوالم' };
+const SEC_ORDER = ['wq','ng','aw','ch','mg','cq','caps','tb','bf','st','lab','tn','pv','im','wd','ws','ek','et'];
 const SEC_EXTRA = ['mb','xb','rt','lv','lvs','sp','ep','ep2','epb','epx','ed'];      // no fixed ceiling worth showing: shown as plain numbers
 function secsHTML(p) {
   const R = {}; H.RULES.forEach(r => { R[r.key] = r; });
@@ -392,7 +393,8 @@ function renderRace(myScore) {
 
 
 function regionOpts(sel) { return H.REGIONS.map(x => `<option${sel===x?' selected':''}>${x}</option>`).join(''); }
-function regTag(r) { return (r && r.region ? `<small class="reg">📍 ${esc(r.region)}</small>` : '') + (r && r.parts && (r.parts.epp | 0) > 0 ? '<small class="ept" title="من أبطال النخبة+">🚀 النخبة+</small>' : ''); }
+function regTag(r) { return (r && r.region ? `<small class="reg">📍 ${esc(r.region)}</small>` : '') + (r && r.parts && (r.parts.epp | 0) > 0 ? '<small class="ept" title="من أبطال النخبة+">🚀 النخبة+</small>' : '')
+  + (r && r.parts && H && H.weekNo && (r.parts.wcw | 0) === H.weekNo() ? '<small class="wct" title="أنجز تحدي الأسبوع">🏅 تحدي الأسبوع</small>' : ''); }
 /* Elite+ has its own board: show its top 5 here (all-time), separate from the main board. */
 function renderPlus() {
   const rows = ALL.filter(r => r.parts && (r.parts.epp | 0) > 0).sort((a, b) => (b.parts.epp | 0) - (a.parts.epp | 0)).slice(0, 5);

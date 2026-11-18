@@ -13,6 +13,8 @@ export const RULES = [
   { key: 'wq',   label: 'إجابة صحيحة في Word Quest (أفضل محاولة لكل وحدة)', icon: '🗺️', per: 5, max: 500 },
   { key: 'ng',   label: 'إجابة صحيحة في الكلمات العامة', icon: '🌍', per: 5, max: 500 },
   { key: 'mg',   label: 'كلمة أتقنتها في ميدان المفردات', icon: '🏟️', per: 5, max: 900 },
+  // 🔗 سلسلة الوحدة (18 Nov 2026): learn → practice → read the unit story in Word Quest / NGSL / AWL = 20 once per unit (wq-chain, ng-chain, aw-chain).
+  { key: 'ch',   label: 'سلسلة وحدة مكتملة في الكلمات: تعرّف ← تدرّب ← اقرأ القصة', icon: '🔗', per: 20, max: 129, note: '20 لكل وحدة' },
   { key: 'cq',   label: 'مجموعة كلمات أنهيتها في Core Quest (10 كلمات)', icon: '🧭', per: 50, max: 170, note: '50 نقطة' },
   { key: 'caps', label: 'مرحلة في الكبسولات: ⭐ 6 · ⭐⭐ 10 · ⭐⭐⭐ 14 (7 أسئلة)', icon: '🌟', per: 2, max: 1183, note: 'حتى 14 للمرحلة' },
   // Points of capsule stages earned before 7 Nov 2026 (rate was 5 per right answer, now 2): kept at the old rate, never lost.
@@ -43,6 +45,8 @@ export const RULES = [
   { key: 'ws',   label: 'ختم عالم في جواز السفر (أنهيت محطاته ونجحت في تحديه)', icon: '🛂', per: 50, max: 10, note: '50 نقطة' },
   // سلسلة الحماس 🔥 (18 Nov 2026): a reward once for each streak title reached (best streak ever): 3, 7, 14, 30, 60 days.
   { key: 'fs',   label: 'ألقاب سلسلة الحماس: 3 أيام 20 · 7 أيام 50 · 14 يوماً 100 · 30 يوماً 200 · 60 يوماً 300', icon: '🔥', per: 1, max: 670, note: 'مرة لكل لقب', unit: 'نقطة' },
+  // 🏅 تحدي الأسبوع (18 Nov 2026): 100 once for each week whose 5 tasks were all done (wk-ch). Outside the daily cap.
+  { key: 'wc',   label: 'تحدي الأسبوع: 5 مهام من 5 أقسام في عالم الأسبوع', icon: '🏅', per: 100, max: 60, note: '100 لكل أسبوع', unit: 'أسبوع' },
   { key: 'rt',   label: 'كلمة ثبتت في ذاكرتك بالمراجعة المتباعدة (Word Quest والكلمات العامة والأكاديمية)', icon: '🧠', per: 3, max: 1500 }
 ];
 const RATES_V = 2;   // rates version: when it changes, points already earned stay as they were and the new rates apply from then on
@@ -58,7 +62,7 @@ export const dayNo = t => Math.floor(((t || Date.now()) + 3 * 3600e3 - 6 * 3600e
 export const weekNo = t => Math.floor((dayNo(t) - 5) / 7);                              // day 5 (mod 7) is a Tuesday
 /** The Tuesday a season starts, as d/m (Gregorian). */
 export function weekLabel(w) { const d = new Date((w * 7 + 5) * 864e5); return d.getUTCDate() + '/' + (d.getUTCMonth() + 1); }
-const FREE = new Set(['fs', 'mb', 'lv', 'lvs', 'rt', 'ep', 'ep2', 'epb', 'epx']);   // النخبة+ (elite/plus) has no daily cap
+const FREE = new Set(['wc', 'fs', 'mb', 'lv', 'lvs', 'rt', 'ep', 'ep2', 'epb', 'epx']);   // النخبة+ (elite/plus) has no daily cap
 /* النخبة+ has its own, separate evaluation (12 Nov 2026): its points (parts.epp) rank students only on the Elite+ board
    and its own weekly stars, and are NOT added to the club's main score, so students at lower levels are not discouraged. */
 const EPK = new Set(['ep', 'ep2', 'epb', 'epx']);
@@ -139,6 +143,25 @@ export function fireState(d, day) {
 export function fireTitle(n) { let t = null; FIRE_TITLES.forEach(x => { if (n >= x.n) t = x; }); return t; }
 export function fireNext(n) { return FIRE_TITLES.find(x => n < x.n) || null; }
 
+/* ---------- 🏅 تحدي الأسبوع (18 Nov 2026) ----------
+   Every season (Tuesday 6 am → next Tuesday) has a theme world: WEEK_WORLDS[week % 10] (the order of WORLDS in worlds/index.html).
+   5 tasks from 5 sections, counted from this week's points per section (the `act` ledger, `w`): capsules, vocabulary, a story,
+   the conversation lab and Surprise Me. All 5 done → `wk-ch` {week: 1} (backed up) → honor rule `wc` (+100) and parts.wcw = week (🏅 on the board). */
+export const WEEK_WORLDS = ['space', 'nature', 'life', 'flavor', 'sports', 'health', 'adventure', 'emotion', 'tech', 'career'];
+export const WEEK_TASKS = [
+  { k: 'caps', keys: ['caps'], need: 20, ic: '🌟', ar: 'كبسولة العالم', how: 'اجمع 20 نقطة في الكبسولات' },
+  { k: 'voc', keys: ['wq', 'ng', 'aw', 'cq', 'mg', 'ch'], need: 50, ic: '📘', ar: 'كلمات العالم', how: 'اجمع 50 نقطة في المفردات' },
+  { k: 'st', keys: ['st'], need: 14, ic: '📖', ar: 'قصة', how: 'أجب عن سؤالين صحيحين في ركن القصص' },
+  { k: 'lab', keys: ['lab'], need: 21, ic: '🎧', ar: 'محادثة', how: 'أجب عن 3 أسئلة صحيحة في مختبر المحادثة' },
+  { k: 'mb', keys: ['mb'], need: 70, ic: '🎁', ar: 'صندوق مفاجأة', how: 'افتح صندوقاً واحصل على جائزة (70 نقطة فأكثر)' }
+];
+export function weekChallenge(w, week) {
+  w = w || {}; week = week == null ? weekNo() : week;
+  const tasks = WEEK_TASKS.map(t => { const v = t.keys.reduce((a, k) => a + (w[k] || 0), 0); return Object.assign({}, t, { v, done: v >= t.need }); });
+  const C = J('wk-ch') || {}, done = tasks.every(t => t.done) || !!C[week];
+  return { week, world: WEEK_WORLDS[((week % 10) + 10) % 10], tasks, done, n: tasks.filter(t => t.done).length };
+}
+
 /** Points earned on this device, with the breakdown. */
 export function computeScore() {
   // Capsules: a stage has 7 questions; its best stars count as right answers: ⭐ 3, ⭐⭐ 5, ⭐⭐⭐ 7 (= 15 / 25 / 35 points).
@@ -215,6 +238,7 @@ export function computeScore() {
   // عوالم النادي: best right answers of each world's challenge (wd-best = {world: 0..10}) and the stamps (wd-stamp = {world: 1}).
   let wd = 0; const wdb = J('wd-best') || {}; Object.keys(wdb).forEach(k => { wd += Math.max(0, Math.min(10, +wdb[k] || 0)); });
   const ws = Math.max(0, Math.min(10, Object.keys(J('wd-stamp') || {}).length));
+  let ch = 0; ['wq', 'ng', 'aw'].forEach(p => { const C = J(p + '-chain') || {}; Object.keys(C).forEach(u => { if (C[u] && C[u].d) ch++; }); }); ch = Math.min(129, ch);
   // Streak bonus (combo.js): xb = {section: {unit: half-answers}}; each half-answer is worth half that section's rate.
   const PER = {}; RULES.forEach(r => { PER[r.key] = r.per; }); PER.cq = 5;
   let xb = 0; const xbo = J('xb') || {};
@@ -224,7 +248,8 @@ export function computeScore() {
   // سلسلة الحماس: titles reached by the best streak so far (from the dated log; today's points are added below).
   const fst = fireState(null, dayNo());
   const fs = FIRE_TITLES.filter(x => fst.best >= x.n).reduce((t, x) => t + x.p, 0);
-  const parts = { fs, caps, capsg, wq, lab, mg, bf, ng, aw, st, cq, tn, pv, im, tb, sp, xb, mb, lv, lvs, rt, ek: elite ? ek : 0, ed: elite ? ed : 0, et: elite ? et : 0, ep, ep2, epb, epx, epp: ep * 15 + ep2 * 25 + epb * 25 + epx, epw, wd, ws, el: elite, wqx: wqStats() };
+  const WC = J('wk-ch') || {}, wcw = Object.keys(WC).filter(k => WC[k]).map(Number);
+  const parts = { ch, wc: wcw.length, wcw: wcw.length ? Math.max(...wcw) : 0, fs, caps, capsg, wq, lab, mg, bf, ng, aw, st, cq, tn, pv, im, tb, sp, xb, mb, lv, lvs, rt, ek: elite ? ek : 0, ed: elite ? ed : 0, et: elite ? et : 0, ep, ep2, epb, epx, epp: ep * 15 + ep2 * 25 + epb * 25 + epx, epw, wd, ws, el: elite, wqx: wqStats() };
   // Practice points count at most DAILY_CAP a day (Saudi day). Practice after that is for learning only:
   // the extra points are not counted, then or later. Surprise Me and the level/retention rewards are outside the cap.
   const pts = r => Math.min(parts[r.key], r.max) * r.per;
@@ -258,6 +283,7 @@ export function computeScore() {
   const sec = {}; RULES.forEach(r => { const v = Math.min(parts[r.key] || 0, r.max) * r.per; if (v > 0) sec[r.key] = v; });
   if (sec.capsg) { sec.caps = (sec.caps || 0) + sec.capsg; delete sec.capsg; }   // one 'capsules' section for the activity report
   parts.act = activity(sec, day, week);
+  { const ch = weekChallenge(parts.act.w, week); if (ch.done && !WC[week]) { WC[week] = 1; try { localStorage.setItem('wk-ch', JSON.stringify(WC)); } catch (e) {} parts.wc = Object.keys(WC).length; parts.wcw = week; } }
   { const fd = fireLog(day, (parts.act.h || {})[day] || 0), f = fireState(fd, day); parts.fire = { c: f.cur, b: f.best, t: f.today ? 1 : 0, sh: f.sh }; }
   // total = all points since the start; score = this season's points (since Tuesday 6 am).
   const total = L.got + free;

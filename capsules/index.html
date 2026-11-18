@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="../assets/club.css">
 <style>
 /* Capsules portal, light edition: white cards with bright illustrated scenes, per-capsule progress from saved stars. */
-:root{color-scheme:light;--paper:#f8f9fe;--card:#fff;--ink:#232c47;--muted:#5a6482;--line:#e4e8f3;--violet:#6046e8;--ease:cubic-bezier(.2,.7,.2,1);
+:root{color-scheme:light;--paper:#f8f9fe;--card:#fff;--ink:#232c47;--muted:#5a6482;--line:#e4e8f3;--violet:#4681e8;--ease:cubic-bezier(.2,.7,.2,1);
   --ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif}
 *{box-sizing:border-box}
 html{background:var(--paper)}
@@ -21,7 +21,7 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ar);fon
 a:focus-visible{outline:3px solid var(--violet);outline-offset:3px;border-radius:26px}
 .wrap{max-width:1240px;margin:0 auto;padding-inline:16px;padding-block:64px 64px}
 header{text-align:center;margin-bottom:26px}
-.eyebrow{display:inline-block;background:#efebff;color:var(--violet);font-weight:800;font-size:.95rem;padding:5px 18px;border-radius:999px;border:1px solid #ddd5ff}
+.eyebrow{display:inline-block;background:#ecf3fd;color:var(--violet);font-weight:800;font-size:.95rem;padding:5px 18px;border-radius:999px;border:1px solid #d8e5fc}
 h1{font-size:clamp(2.1rem,7vw,3.2rem);font-weight:800;margin:12px 0 6px;line-height:1.2;text-wrap:balance}
 header p{color:var(--muted);font-size:1.12rem;margin:0 auto;max-width:34em;text-wrap:balance}
 .summary{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}
@@ -53,8 +53,9 @@ footer{text-align:center;color:var(--muted);font-size:1rem;margin-top:40px;line-
 .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}.reveal{opacity:1;transform:none}}
 </style>
+<link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
 </head>
-<body>
+<body class="v-ex" data-xs="f5">
 <a class="club-home" href="../index.html">🏠 الرئيسية</a>
 <div class="wrap">
   <header class="reveal">
@@ -68,7 +69,7 @@ footer{text-align:center;color:var(--muted);font-size:1rem;margin-top:40px;line-
     </div>
   </header>
   <div class="grid">
-    <a class="capsule reveal" href="space.html" data-cap="space" data-stages="16" style="--c:#5b4bd6;--t:#efebff;--g1:#7b6cf0;--g2:#a99bff">
+    <a class="capsule reveal" href="space.html" data-cap="space" data-stages="16" style="--c:#4b7ed6;--t:#ecf3fd;--g1:#6c9cf0;--g2:#a3c2f7">
       <div class="scene"><canvas id="spaceCanvas"></canvas><span class="done-badge" hidden>✓ مكتملة</span></div>
       <div class="body">
         <div class="top"><h2 class="name">كبسولة الفضاء <span aria-hidden="true">🚀</span></h2><span class="en">Space</span></div>
@@ -86,7 +87,7 @@ footer{text-align:center;color:var(--muted);font-size:1rem;margin-top:40px;line-
         <span class="cta">ابدأ التذوق ←</span>
       </div>
     </a>
-    <a class="capsule reveal" href="life.html" data-cap="life" data-stages="16" style="--c:#7d47c4;--t:#f3ebff;--g1:#9873e0;--g2:#c9b0ff">
+    <a class="capsule reveal" href="life.html" data-cap="life" data-stages="16" style="--c:#4775c4;--t:#ecf3fd;--g1:#739be0;--g2:#b6cff9">
       <div class="scene"><canvas id="lifeCanvas"></canvas><span class="done-badge" hidden>✓ مكتملة</span></div>
       <div class="body">
         <div class="top"><h2 class="name">كبسولة الحياة <span aria-hidden="true">🦋</span></h2><span class="en">Life</span></div>
@@ -104,7 +105,7 @@ footer{text-align:center;color:var(--muted);font-size:1rem;margin-top:40px;line-
         <span class="cta">انطلق بالمغامرة ←</span>
       </div>
     </a>
-    <a class="capsule reveal" href="emotion.html" data-cap="emotion" data-stages="17" style="--c:#8a4fb0;--t:#f6ecfb;--g1:#a070d0;--g2:#e4b5ea">
+    <a class="capsule reveal" href="emotion.html" data-cap="emotion" data-stages="17" style="--c:#4f73b0;--t:#ecf2fb;--g1:#7093d0;--g2:#b5c8ea">
       <div class="scene"><canvas id="emotionCanvas"></canvas><span class="done-badge" hidden>✓ مكتملة</span></div>
       <div class="body">
         <div class="top"><h2 class="name">كبسولة المشاعر <span aria-hidden="true">💛</span></h2><span class="en">Emotions</span></div>
@@ -193,8 +194,8 @@ footer{text-align:center;color:var(--muted);font-size:1rem;margin-top:40px;line-
     ctx.globalAlpha = 1;
     var px = w*0.32, py = h*0.62, pr = Math.min(w,h)*0.24;
     var grad = ctx.createRadialGradient(px-pr*0.3,py-pr*0.3,pr*0.15,px,py,pr);
-    grad.addColorStop(0,"#c9a8ff");
-    grad.addColorStop(1,"#5a2f9e");
+    grad.addColorStop(0,"#afcaf8");
+    grad.addColorStop(1,"#2f589e");
     ctx.fillStyle = grad;
     ctx.beginPath(); ctx.arc(px,py,pr,0,Math.PI*2); ctx.fill();
     ctx.strokeStyle = "rgba(255,255,255,.35)";
@@ -274,8 +275,8 @@ footer{text-align:center;color:var(--muted);font-size:1rem;margin-top:40px;line-
     ctx.translate(bx,by);
     ctx.rotate(-0.12);
     var wingGrad = ctx.createRadialGradient(0,0,bs*0.05,0,0,bs);
-    wingGrad.addColorStop(0,'rgba(200,170,255,.9)');
-    wingGrad.addColorStop(1,'rgba(140,110,210,.4)');
+    wingGrad.addColorStop(0,'rgba(176,203,249,.9)');
+    wingGrad.addColorStop(1,'rgba(110,147,210,.4)');
     ctx.fillStyle = wingGrad;
     ctx.beginPath();
     ctx.ellipse(-bs*0.55, -bs*0.15, bs*0.55, bs*0.4, -0.4, 0, Math.PI*2);
@@ -343,7 +344,7 @@ footer{text-align:center;color:var(--muted);font-size:1rem;margin-top:40px;line-
     if(!canvas) return;
     var f = fit(canvas), ctx = f.ctx, w = f.w, h = f.h;
     var rand = mulberry32(58);
-    var colors = ["#f0d24a","#4a90d2","#e0473f","#8a5ce0","#4ab06a"];
+    var colors = ["#f0d24a","#4a90d2","#e0473f","#5c8ce0","#4ab06a"];
     var count = 5;
     for (var i=0;i<count;i++){
       var ox = w*(0.14 + (i/(count-1))*0.72 + (rand()-0.5)*0.04);
@@ -530,7 +531,7 @@ footer{text-align:center;color:var(--muted);font-size:1rem;margin-top:40px;line-
     var lx = w*.42, ly = h*.86, lw = S*.7, lh = S*.42;
     ctx.fillStyle = '#20264f'; ctx.fillRect(lx-lw/2, ly-lh, lw, lh);
     ctx.fillStyle = '#0f1430'; ctx.fillRect(lx-lw/2+6, ly-lh+6, lw-12, lh-12);
-    var cc = ['#ff7ab6','#7fd1ff','#ffd56b','#8ef0b3'];
+    var cc = ['#f5b184','#7fd1ff','#ffd56b','#8ef0b3'];
     for (var k = 0; k < 5; k++){ ctx.fillStyle = cc[k%4]; ctx.fillRect(lx-lw/2+16+(k===2||k===3?12:0), ly-lh+16+k*((lh-36)/5), (lw-50)*(.3+rand()*.5), 4); }
     ctx.fillStyle = '#c9cfee'; ctx.fillRect(lx-lw*.6, ly, lw*1.2, S*.04);
     var sx = w*.84, sy = h*.3, ss = S*.14;

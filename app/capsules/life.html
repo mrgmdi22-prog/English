@@ -1,19 +1,20 @@
-<!doctype html><html data-theme="light"><head><meta charset=utf8><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=4"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png?v=4"><script src="../assets/gate.js?v=10"></script><script src="../assets/combo.js?v=4"></script><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/app.css?v=1"><script src="../assets/app.js?v=1"></script>
-</head><body>
+<!doctype html><html data-theme="light"><head><meta charset=utf8><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=4"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png?v=4"><script src="../assets/gate.js?v=10"></script><script src="../assets/combo.js?v=4"></script><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
+<link rel="stylesheet" href="../assets/app.css?v=1"><script src="../assets/app.js?v=1"></script>
+</head><body class="v-ex" data-xs="f5">
 <title>كبسولة الحياة</title>
-<meta name="theme-color" content="#241b3a">
+<meta name="theme-color" content="#1b263a">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Life Capsule">
 <style>
   :root{
-    --bg:#f4f1fa;
+    --bg:#f1f4fa;
     --panel:#ffffff;
-    --ink:#241b3a;
+    --ink:#1b263a;
     --ink-soft:#6b5f87;
-    --line:#e6dff5;
-    --accent:#6a4fa0;
+    --line:#dfe7f5;
+    --accent:#4f6da0;
     --accent-ink:#ffffff;
     --teal:#3f8f8a;
     --amber:#d9a441;
@@ -21,49 +22,49 @@
     --good-bg:#e3f5ea;
     --bad:#c14a45;
     --bad-bg:#fbe4e2;
-    --scene-a:#2a2140;
-    --scene-b:#4b3570;
-    --scene-c:#7a5a9e;
-    --subtitle-bg:rgba(36,27,58,.72);
+    --scene-a:#212c40;
+    --scene-b:#354b70;
+    --scene-c:#5a739e;
+    --subtitle-bg:rgba(27,38,58,.72);
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#181228;
-      --panel:#241b3a;
-      --ink:#f1ecfb;
-      --ink-soft:#c3b6e0;
-      --line:#3a2e58;
-      --accent:#a98af0;
-      --accent-ink:#1c1330;
+      --bg:#121a28;
+      --panel:#1b263a;
+      --ink:#ecf2fb;
+      --ink-soft:#b6c5e0;
+      --line:#2e3d58;
+      --accent:#8aaff0;
+      --accent-ink:#131e30;
       --teal:#6fd0c8;
       --amber:#f0c168;
       --good:#7fd7a3;
       --good-bg:#1c3327;
       --bad:#ff9086;
       --bad-bg:#3a1e1c;
-      --scene-a:#120d20;
-      --scene-b:#2c2049;
-      --scene-c:#4a3570;
+      --scene-a:#0d1420;
+      --scene-b:#202f49;
+      --scene-c:#354b70;
       --subtitle-bg:rgba(10,7,20,.78);
     }
   }
   :root[data-theme="dark"]{
-    --bg:#181228;
-    --panel:#241b3a;
-    --ink:#f1ecfb;
-    --ink-soft:#c3b6e0;
-    --line:#3a2e58;
-    --accent:#a98af0;
-    --accent-ink:#1c1330;
+    --bg:#121a28;
+    --panel:#1b263a;
+    --ink:#ecf2fb;
+    --ink-soft:#b6c5e0;
+    --line:#2e3d58;
+    --accent:#8aaff0;
+    --accent-ink:#131e30;
     --teal:#6fd0c8;
     --amber:#f0c168;
     --good:#7fd7a3;
     --good-bg:#1c3327;
     --bad:#ff9086;
     --bad-bg:#3a1e1c;
-    --scene-a:#120d20;
-    --scene-b:#2c2049;
-    --scene-c:#4a3570;
+    --scene-a:#0d1420;
+    --scene-b:#202f49;
+    --scene-c:#354b70;
     --subtitle-bg:rgba(10,7,20,.78);
   }
 
@@ -147,7 +148,7 @@
     border:1px solid var(--line);
     border-radius:20px;
     overflow:hidden;
-    box-shadow:0 10px 30px -18px rgba(40,25,70,.35);
+    box-shadow:0 10px 30px -18px rgba(25,42,70,.35);
   }
 
   .scene{
@@ -654,8 +655,8 @@
     ctx.translate(bx,by);
     ctx.rotate((rand()-0.5)*0.3);
     var wingGrad = ctx.createRadialGradient(0,0,bs*0.05,0,0,bs);
-    wingGrad.addColorStop(0,'rgba(200,170,255,.85)');
-    wingGrad.addColorStop(1,'rgba(140,110,210,.35)');
+    wingGrad.addColorStop(0,'rgba(176,203,249,.85)');
+    wingGrad.addColorStop(1,'rgba(110,147,210,.35)');
     ctx.fillStyle = wingGrad;
     // left wing
     ctx.beginPath();
@@ -845,7 +846,7 @@
   function confetti(){
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; if (reduce) return;
     var c = $('fxCanvas'); var ctx = c.getContext('2d'); var w = c.width = window.innerWidth, h = c.height = window.innerHeight;
-    var cols = ['#f5b82e','#6d4aff','#1c8a5a','#e2572b','#2f9e9e','#e05a8a'], ps = [];
+    var cols = ['#f5b82e','#5890f1','#1c8a5a','#e2572b','#2f9e9e','#e0905a'], ps = [];
     for (var i=0;i<120;i++) ps.push({x: w/2 + (Math.random()-.5)*w*.3, y: h*.35, vx: (Math.random()-.5)*12, vy: -Math.random()*12-4, r: Math.random()*6+4, c: cols[i%cols.length], a: Math.random()*6});
     var t0 = performance.now();
     (function frame(t){ var k = (t - t0)/1000; ctx.clearRect(0,0,w,h); ps.forEach(function(p){ p.x += p.vx; p.y += p.vy; p.vy += .35; p.a += .2; ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.a); ctx.fillStyle = p.c; ctx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2); ctx.restore(); }); if (k < 1.8) requestAnimationFrame(frame); else ctx.clearRect(0,0,w,h); })(t0);
@@ -1017,5 +1018,5 @@
 })();
 </script>
 
-<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=32"></script>
+<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=33"></script>
 </body></html>

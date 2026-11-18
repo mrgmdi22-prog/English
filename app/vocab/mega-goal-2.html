@@ -1,6 +1,7 @@
 <!doctype html><html data-theme="light"><head><meta charset=utf8><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=4"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png?v=4"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><script src="../assets/gate.js?v=10"></script><script src="../assets/combo.js?v=4"></script><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800;900&family=Poppins:ital,wght@0,500;0,600;0,700;1,600&display=swap" media="print" onload="this.media='all'">
-<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/app.css?v=1"><script src="../assets/app.js?v=1"></script>
-</head><body>
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
+<link rel="stylesheet" href="../assets/app.css?v=1"><script src="../assets/app.js?v=1"></script>
+</head><body class="v-ex" data-xs="f2">
 <title>ميدان المفردات</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>
@@ -8,10 +9,10 @@
   --bg:#FBF7F0;
   --surface:#FFFFFF;
   --surface-2:#F1EAE0;
-  --ink:#221C35;
+  --ink:#1c2535;
   --ink-soft:#6a6280;
-  --accent:#7B3FA0;
-  --accent-2:#5C2E80;
+  --accent:#3f63a0;
+  --accent-2:#2e4c80;
   --accent-ink:#FFFFFF;
   --good:#178A70;
   --good-bg:#E3F5EF;
@@ -19,42 +20,42 @@
   --bad-bg:#FBE7E3;
   --gold:#C4860F;
   --border:#E7DFD0;
-  --shadow: 0 10px 30px -12px rgba(34,28,53,.25);
+  --shadow: 0 10px 30px -12px rgba(28,37,53,.25);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#15111F;
-    --surface:#1E1930;
-    --surface-2:#28213D;
-    --ink:#F4EFFB;
-    --ink-soft:#B3A9CC;
-    --accent:#B481D6;
-    --accent-2:#9A63C4;
-    --accent-ink:#1A1226;
+    --bg:#11161f;
+    --surface:#192130;
+    --surface-2:#212b3d;
+    --ink:#eff3fb;
+    --ink-soft:#a9b6cc;
+    --accent:#81a0d6;
+    --accent-2:#6387c4;
+    --accent-ink:#121926;
     --good:#4FD3AE;
     --good-bg:#183B34;
     --bad:#FF8A76;
     --bad-bg:#3E211D;
     --gold:#F0C15C;
-    --border:#362C4D;
+    --border:#2c384d;
     --shadow: 0 10px 30px -12px rgba(0,0,0,.5);
   }
 }
 :root[data-theme="dark"]{
-  --bg:#15111F;
-  --surface:#1E1930;
-  --surface-2:#28213D;
-  --ink:#F4EFFB;
-  --ink-soft:#B3A9CC;
-  --accent:#B481D6;
-  --accent-2:#9A63C4;
-  --accent-ink:#1A1226;
+  --bg:#11161f;
+  --surface:#192130;
+  --surface-2:#212b3d;
+  --ink:#eff3fb;
+  --ink-soft:#a9b6cc;
+  --accent:#81a0d6;
+  --accent-2:#6387c4;
+  --accent-ink:#121926;
   --good:#4FD3AE;
   --good-bg:#183B34;
   --bad:#FF8A76;
   --bad-bg:#3E211D;
   --gold:#F0C15C;
-  --border:#362C4D;
+  --border:#2c384d;
   --shadow: 0 10px 30px -12px rgba(0,0,0,.5);
 }
 
@@ -266,7 +267,7 @@ h1,h2,h3{ text-wrap:balance; margin:0; }
 
 /* ================= DATA ================= */
 const UNITS = [
-  { id:'u1', ar:'الوحدة الأولى', en:'Connected By Technology', color:'#7B3FA0', words:[
+  { id:'u1', ar:'الوحدة الأولى', en:'Connected By Technology', color:'#3f63a0', words:[
     ['acronym','اختصار'],['amusement','تسلية / استمتاع'],['asthma','ربو'],['disbelief','عدم التصديق'],['double','شبيه / نظير'],
     ['hike','ارتفاع / نزهة سير طويلة'],['inhibition','تحفظ / كبح ذاتي (خجل يمنع التصرف بحرية)'],['loner','شخص يفضل العزلة / انطوائي'],['mobility','القدرة على الحركة / التنقل'],
     ['paramedic','أخصائي طب الطوارئ'],['wonder','تساؤل / عجب'],
@@ -282,7 +283,7 @@ const UNITS = [
     ['I get it','لقد فهمت'],['What does that mean?','ما معنى ذلك؟'],
     ['got the hang of it','بدأت أعتاد على ذلك'],['hang out','يقضي وقته مع الأصدقاء'],['Hold on','انتظر / تمهّل'],
   ]},
-  { id:'u2', ar:'الوحدة الثانية', en:"Crime Doesn't Pay", color:'#7B3FA0', words:[
+  { id:'u2', ar:'الوحدة الثانية', en:"Crime Doesn't Pay", color:'#3f63a0', words:[
     ['blunder','خطأ فادح'],['burglar','لص'],['coincidence','صدفة'],['display','عرض'],['fraud','احتيال / تزوير'],
     ['getaway car','سيارة الهروب'],['inmate','نزيل / سجين'],['misdemeanor','جنحة'],['pavement','رصيف'],
     ['pickpocket','نشّال'],['precaution','احتياطات'],['suspect','مشتبه به'],['swarm','عدد كبير / حشد'],['victim','ضحية'],
@@ -293,7 +294,7 @@ const UNITS = [
     ['Are you kidding?','هل تمزح؟'],['by accident','بالصدفة'],['Come on','كن واقعي'],['easy mark','هدف سهل'],
     ["I'm positive",'أنا متأكد'],['let your guard down','تخلَّ عن حذرك'],['nabbed','سرقه'],
   ]},
-  { id:'u3', ar:'الوحدة الثالثة', en:'Far and Away', color:'#7B3FA0', words:[
+  { id:'u3', ar:'الوحدة الثالثة', en:'Far and Away', color:'#3f63a0', words:[
     ['canopy','مظلة / سقف من الأشجار'],['characteristic','صفة / شخصية'],['conservation','المحافظة'],
     ['deforestation','إزالة الغابات'],['ecosystem','النظام البيئي'],['ecotourism','السياحة البيئية'],['igloo','الكوخ الثلجي'],
     ['incentive','حافز / مكافأة'],['reduction','تخفيض'],
@@ -309,7 +310,7 @@ const UNITS = [
     ["That won't be possible",'لا يمكن / ذلك مستحيل'],['The problem is','المشكلة أنه'],
     ['a drag','إحباط / خذلان'],['awesome!','رائع جداً!'],['crummy','سيء'],["don't get it",'ألم تفهم'],['red eye','طوال الليل'],
   ]},
-  { id:'u4', ar:'الوحدة الرابعة', en:'TV Around the World', color:'#7B3FA0', words:[
+  { id:'u4', ar:'الوحدة الرابعة', en:'TV Around the World', color:'#3f63a0', words:[
     ['acclaim','إشادة / استحسان'],['affluence','ترف'],['contestant','متسابق'],
     ['documentary','وثائقي'],['episode','حلقة'],['evolution','تطور'],['host','مضيف'],['inspiring','ملهم / محفز'],['milestone','مَعلَم'],
     ['obstacle','عقبة / عائق'],['course','مسار / دورة'],['patent','براءة الاختراع'],
@@ -326,7 +327,7 @@ const UNITS = [
     ["I'm telling you that",'أنا أقول لك بأن'],["It's obvious that",'يبدو جليا أن'],["There's no question that",'لا شك أن'],
     ['bugs','يزعج'],["c'mon",'هيا'],['couch potato','مدمن التلفاز'],['get a kick out of','يستمتع'],['remote (control)','جهاز التحكم'],
   ]},
-  { id:'u5', ar:'الوحدة الخامسة', en:'Working 9 to 5', color:'#7B3FA0', words:[
+  { id:'u5', ar:'الوحدة الخامسة', en:'Working 9 to 5', color:'#3f63a0', words:[
     ['allergen','مسببات الحساسية'],['alternative','بديل'],['callus','الجلد المتصلب (الكالو)'],['fabric','قماش'],
     ['flair','موهبة / أسلوب مميز'],['income','الدخل / الايرادات'],['infection','عدوى'],['satisfaction','الرضا'],
     ['status','الحالة / المكانة'],['trend','اتجاه / نزعة'],
@@ -343,7 +344,7 @@ const UNITS = [
     ['jump ship','يترك العمل'],['keep it to yourself','لا تخبر أي أحد'],['no kidding?','حقا ما تقول؟'],
     ['take off','يغادر'],['will do','سأفعل'],
   ]},
-  { id:'u6', ar:'الوحدة السادسة', en:'Going Green', color:'#7B3FA0', words:[
+  { id:'u6', ar:'الوحدة السادسة', en:'Going Green', color:'#3f63a0', words:[
     ['bagful','ملئ الحقيبة'],['consumption','استهلاك'],['efficiency','كفاءة'],['impact','تأثير'],
     ['landfill','مكب النفايات'],['perspective','وجهة نظر / منظور'],['pesticides','مبيدات حشرية'],
     ['power outage','انقطاع الكهرباء'],['sacrifice','تضحية'],['self-reliance','الاعتماد على النفس'],
@@ -356,7 +357,7 @@ const UNITS = [
     ['a hassle','أمر مزعج / متعب'],['a no-brainer','قرار بديهي جداً / واضح تماماً'],['a piece of cake','سهل جدا'],
     ['chuck','يرمي / يتخلص من'],['I guess','أعتقد'],['lame','مخيب للآمال / غير رائع'],
   ]},
-  { id:'exp', ar:'الوحدات الموسعة', en:'Expansion Units', color:'#7B3FA0', words:[
+  { id:'exp', ar:'الوحدات الموسعة', en:'Expansion Units', color:'#3f63a0', words:[
     ['armload','حمولة اليد'],['precaution','الاحتياطات'],['truckload','حمولة الشاحنة'],['virus','فايروس'],
     ['download','يحمل'],['infiltrate','يتسلل'],['manipulate','يتلاعب'],['offload','يفرغ'],
     ['overload','يزيد الحمل'],['unleash','يطلق العنان / السراح'],['upload','يرفع'],['urge','يحث'],
@@ -906,7 +907,7 @@ function advanceSoon(){
 function burst(originEl){
   try {
     const rect = originEl.getBoundingClientRect();
-    const colors = ['#7B3FA0','#178A70','#C4860F','#D14432'];
+    const colors = ['#3f63a0','#178A70','#C4860F','#D14432'];
     for (let i=0;i<10;i++){
       const p = document.createElement('div');
       const size = 5 + Math.random()*4;
@@ -1288,5 +1289,5 @@ if (window.claude && window.claude.hot) {
 })();
 </script>
 
-<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=32"></script>
+<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=33"></script>
 </body></html>

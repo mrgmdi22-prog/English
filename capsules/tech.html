@@ -1,4 +1,5 @@
-<!doctype html><html data-theme="light"><head><meta charset=utf8><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=4"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png?v=4"><script src="../assets/gate.js?v=10"></script><script src="../assets/combo.js?v=4"></script><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html data-theme="light"><head><meta charset=utf8><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=4"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png?v=4"><script src="../assets/gate.js?v=10"></script><script src="../assets/combo.js?v=4"></script><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
+</head><body class="v-ex" data-xs="f5">
 <title>كبسولة التقنية</title>
 <meta name="theme-color" content="#3f51c9">
 <meta name="mobile-web-app-capable" content="yes">
@@ -647,7 +648,7 @@
     var lx = w*0.38, ly = h*0.80, lw = S*0.62, lh = S*0.38;
     ctx.fillStyle = '#20264f'; roundRect(ctx, lx - lw/2, ly - lh, lw, lh, 10); ctx.fill();
     ctx.fillStyle = '#0f1430'; roundRect(ctx, lx - lw/2 + 8, ly - lh + 8, lw - 16, lh - 16, 6); ctx.fill();
-    var codeCols = ['#ff7ab6','#7fd1ff','#ffd56b','#8ef0b3','#c8a8ff'];
+    var codeCols = ['#f5b184','#7fd1ff','#ffd56b','#8ef0b3','#afcaf8'];
     for (var k = 0; k < 6; k++){
       var ind = (k === 2 || k === 3) ? 14 : (k === 4 ? 28 : 0);
       var cw = (lw - 40) * (0.3 + rand()*0.5);
@@ -848,7 +849,7 @@
   function confetti(){
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; if (reduce) return;
     var c = $('fxCanvas'); var ctx = c.getContext('2d'); var w = c.width = window.innerWidth, h = c.height = window.innerHeight;
-    var cols = ['#f5b82e','#6d4aff','#1c8a5a','#e2572b','#2f9e9e','#e05a8a'], ps = [];
+    var cols = ['#f5b82e','#5890f1','#1c8a5a','#e2572b','#2f9e9e','#e0905a'], ps = [];
     for (var i=0;i<120;i++) ps.push({x: w/2 + (Math.random()-.5)*w*.3, y: h*.35, vx: (Math.random()-.5)*12, vy: -Math.random()*12-4, r: Math.random()*6+4, c: cols[i%cols.length], a: Math.random()*6});
     var t0 = performance.now();
     (function frame(t){ var k = (t - t0)/1000; ctx.clearRect(0,0,w,h); ps.forEach(function(p){ p.x += p.vx; p.y += p.vy; p.vy += .35; p.a += .2; ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.a); ctx.fillStyle = p.c; ctx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2); ctx.restore(); }); if (k < 1.8) requestAnimationFrame(frame); else ctx.clearRect(0,0,w,h); })(t0);
@@ -1020,5 +1021,5 @@
 })();
 </script>
 
-<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=32"></script>
+<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=33"></script>
 </body></html>

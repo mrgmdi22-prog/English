@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Lexend:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
 <style>
 /* Elite Classics: a short shelf of American classic stories, each a bilingual reader (original English + Al-Aqqad's Arabic). */
-:root{color-scheme:light;--bg:#F6F3FF;--bg2:#FFFBF0;--card:#fff;--ink:#231f3a;--muted:#625d7d;--line:#e6e1f5;--vio:#6B4BD8;--vio-soft:#EEE9FF;--gold:#B87F0A;--gold-soft:#FFF4D6;
+:root{color-scheme:light;--bg:#F6F3FF;--bg2:#FFFBF0;--card:#fff;--ink:#1f293a;--muted:#625d7d;--line:#e1e8f5;--vio:#4b7fd8;--vio-soft:#ebf2fd;--gold:#B87F0A;--gold-soft:#FFF4D6;
   --ar:Tajawal,system-ui,sans-serif;--title:Fraunces,Georgia,serif;--en:Lexend,system-ui,sans-serif}
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -23,7 +23,7 @@ h1{margin:10px 0 0;font-size:clamp(2rem,6vw,2.8rem);line-height:1.25;color:var(-
 h1 small{display:block;font-family:var(--title);font-size:1.15rem;letter-spacing:.08em;color:var(--gold)}
 header p{color:var(--muted);max-width:32em;margin:10px auto 0;text-wrap:balance}
 .books{display:grid;gap:16px;margin-top:24px}
-.book{display:grid;grid-template-columns:96px 1fr;gap:18px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;text-decoration:none;color:inherit;box-shadow:0 6px 18px rgba(80,60,160,.06);transition:transform .15s}
+.book{display:grid;grid-template-columns:96px 1fr;gap:18px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;text-decoration:none;color:inherit;box-shadow:0 6px 18px rgba(60,97,160,.06);transition:transform .15s}
 .book:hover{transform:translateY(-2px)}
 .book:focus-visible{outline:3px solid var(--vio);outline-offset:3px}
 .spine{height:122px;border-radius:6px 14px 14px 6px;display:grid;place-items:center;font-size:2.6rem;box-shadow:inset 8px 0 0 rgba(0,0,0,.08)}
@@ -37,9 +37,10 @@ header p{color:var(--muted);max-width:32em;margin:10px auto 0;text-wrap:balance}
 @media (max-width:520px){.book{grid-template-columns:70px 1fr}.spine{height:96px;font-size:2rem}}
 @media (prefers-reduced-motion:reduce){.book{transition:none}}
 </style>
+<link rel="stylesheet" href="../../assets/vivid-ex.css?v=3">
 <link rel="stylesheet" href="../../assets/app.css?v=1"><script src="../../assets/app.js?v=1"></script>
 </head>
-<body>
+<body class="v-ex" data-xs="f6">
 <div class="wrap">
   <a class="back" href="../index.html">→ مسار النخبة</a>
   <header>
@@ -59,7 +60,7 @@ header p{color:var(--muted);max-width:32em;margin:10px auto 0;text-wrap:balance}
       </div>
     </a>
     <a class="book" href="purloined-letter.html">
-      <div class="spine" style="background:#ece6fb" aria-hidden="true">🔎</div>
+      <div class="spine" style="background:#e6eefb" aria-hidden="true">🔎</div>
       <div>
         <h2>The Purloined Letter</h2>
         <div class="ar">الخطاب المفقود</div>
@@ -77,7 +78,7 @@ header p{color:var(--muted);max-width:32em;margin:10px auto 0;text-wrap:balance}
       </div>
     </a>
     <a class="book" href="marjorie-daw.html">
-      <div class="spine" style="background:#fdebf3" aria-hidden="true">✉️</div>
+      <div class="spine" style="background:#fdf2eb" aria-hidden="true">✉️</div>
       <div>
         <h2>Marjorie Daw</h2>
         <div class="ar">مارجوري داو</div>
@@ -114,6 +115,6 @@ header p{color:var(--muted);max-width:32em;margin:10px auto 0;text-wrap:balance}
     </ol>
   </section>
 </div>
-<script src="../../assets/club.js?v=32"></script>
+<script src="../../assets/club.js?v=33"></script>
 </body>
 </html>

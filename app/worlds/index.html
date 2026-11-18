@@ -162,10 +162,26 @@ canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:40}
 @media (max-width:560px){.mission{flex-wrap:wrap}.mission .go{width:100%;text-align:center}}
 @media (prefers-reduced-motion:reduce){.trail li.cur .n,.cele{animation:none}}
 .hide{display:none!important}
+/* 🏅 تحدي الأسبوع */
+.wkc{background:#fff;border:2px solid var(--c);border-radius:22px;padding:14px 16px;margin:14px 0;box-shadow:0 12px 26px -18px rgba(40,80,150,.5)}
+.wkc.done{background:#effaf4;border-color:#34b77e}
+.wkh{display:flex;align-items:center;gap:10px}
+.wkh .ic{font-size:2rem;width:52px;height:52px;border-radius:16px;background:var(--t);display:grid;place-items:center;flex:none}
+.wkh div{flex:1;min-width:0}.wkh small{display:block;color:#5a6482;font-weight:700}.wkh b{font-size:1.3rem}
+.wkh .cnt{font:800 1.2rem Lexend,system-ui,sans-serif;background:var(--t);border-radius:999px;padding:4px 12px}
+.wkp{margin:8px 0;font-size:1.02rem;line-height:1.7}
+.wkl{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.wkl li{display:flex;align-items:center;gap:10px;background:#f6f9fe;border-radius:16px;padding:8px 10px}
+.wkl li.ok{background:#eaf8f0}
+.wkl .ti{font-size:1.4rem}.wkl .tt{flex:1;min-width:0}.wkl .tt b{display:block;font-size:1.05rem}.wkl .tt small{display:block;color:#5a6482;font-size:.93rem;line-height:1.5}
+.wkl .bar{display:block;height:8px;border-radius:999px;background:#e3eaf5;margin-top:5px;overflow:hidden}.wkl .bar i{display:block;height:100%;background:var(--c);border-radius:999px}
+.wkl li.ok .bar i{background:#34b77e}
+.wkl a{flex:none;background:#ffcf4d;color:#1c2b4a;font-weight:800;text-decoration:none;border-radius:12px;padding:6px 14px;box-shadow:0 3px 0 #e0a92a}
 </style>
+<link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
 <link rel="stylesheet" href="../assets/app.css?v=1"><script src="../assets/app.js?v=1"></script>
 </head>
-<body>
+<body class="v-ex" data-xs="w">
 <canvas id="fx"></canvas>
 <div class="wrap">
   <div class="topbar">
@@ -182,14 +198,14 @@ canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:40}
 /* ---------- the worlds: one capsule theme each, with stations from the other sections ---------- */
 // wq = Word Quest units on the theme, st = a story (stories/#id), lab = a conversation lab week
 const WORLDS = [
-  { k:'space',     ar:'عالم الفضاء',    en:'Space',     ic:'🚀', c:'#5b4bd6', t:'#efebff', wq:[3,2],          st:['wind-sun','The North Wind and the Sun'], lab:[19,'An Invention That Changed Us'] },
+  { k:'space',     ar:'عالم الفضاء',    en:'Space',     ic:'🚀', c:'#4b7ed6', t:'#ecf3fd', wq:[3,2],          st:['wind-sun','The North Wind and the Sun'], lab:[19,'An Invention That Changed Us'] },
   { k:'nature',    ar:'عالم الطبيعة',   en:'Nature',    ic:'🌿', c:'#1d7a50', t:'#e4f5ec', wq:[17,25,37,38],  st:['crow-pitcher','The Crow and the Pitcher'], lab:[7,'Weather Through the Seasons'] },
-  { k:'life',      ar:'عالم الحياة',    en:'Life',      ic:'🏡', c:'#7d47c4', t:'#f3ebff', wq:[4,31,35],      st:['town-country-mouse','The Town Mouse and the Country Mouse'], lab:[1,'Meet My Family'] },
+  { k:'life',      ar:'عالم الحياة',    en:'Life',      ic:'🏡', c:'#4775c4', t:'#ecf3fd', wq:[4,31,35],      st:['town-country-mouse','The Town Mouse and the Country Mouse'], lab:[1,'Meet My Family'] },
   { k:'flavor',    ar:'عالم النكهات',   en:'Flavor',    ic:'🍲', c:'#c25a20', t:'#fff0e4', wq:[32,18],        st:['stone-soup','Stone Soup'], lab:[5,'How to Make Kabsa'] },
   { k:'sports',    ar:'عالم الرياضة',   en:'Sports',    ic:'⚽', c:'#1f8a4c', t:'#e4f6ea', wq:[20,23,24,42],  st:['tortoise-hare','The Tortoise and the Hare'], lab:[8,'The New Team Captain'] },
   { k:'health',    ar:'عالم الصحة',     en:'Health',    ic:'🩺', c:'#13807f', t:'#e2f5f4', wq:[21,33,45],     st:['ant-grasshopper','The Ant and the Grasshopper'], lab:[11,'A New Healthy Habit'] },
   { k:'adventure', ar:'عالم المغامرة',  en:'Adventure', ic:'🧭', c:'#2477b5', t:'#e6f3fc', wq:[9,16,26,27],   st:['lion-mouse','The Lion and the Mouse'], lab:[6,'A Trip to Remember'] },
-  { k:'emotion',   ar:'عالم المشاعر',   en:'Emotions',  ic:'💜', c:'#8a4fb0', t:'#f6ecfb', wq:[48,34,43],     st:['bundle-sticks','The Bundle of Sticks'], lab:[14,'How I Beat Math Stress'] },
+  { k:'emotion',   ar:'عالم المشاعر',   en:'Emotions',  ic:'💛', c:'#4f73b0', t:'#ecf2fb', wq:[48,34,43],     st:['bundle-sticks','The Bundle of Sticks'], lab:[14,'How I Beat Math Stress'] },
   { k:'tech',      ar:'عالم التقنية',   en:'Technology',ic:'🤖', c:'#3f51c9', t:'#e9ecfd', wq:[39,46,22],     st:['king-midas','King Midas and the Golden Touch'], lab:[9,'My Phone Is Dead'] },
   { k:'career',    ar:'عالم المهن',     en:'Careers',   ic:'💼', c:'#2f5fa8', t:'#e8effb', wq:[40,49,47],     st:['elves-shoemaker','The Elves and the Shoemaker'], lab:[17,'My Dream Job'] }
 ];
@@ -255,6 +271,7 @@ function viewMap() {
     <p>رحلة واحدة تجمع أقسام النادي: في كل عالم كبسولة وكلمات وقصة وحوار على الموضوع نفسه، ثم تحدٍّ ختامي يمنحك ختم العالم في جواز سفرك.</p>
     <div class="stats"><span>🛂 ${sc} من ${WORLDS.length} أختام</span><span>✅ ${totalSt} من ${WORLDS.length * 4} محطات</span></div>
   </section>
+  <div id="weekCh"></div>
   ${mission()}
   <div class="howto">🗺️ <b>كيف تلعب؟</b> ادخل عالماً وأنجز محطاته الأربع من أقسامها (نتيجتك فيها تُحسب تلقائياً)، ثم خض <b>تحدي العالم</b>: 10 أسئلة، تحتاج 7 لتنجح.
     كل ختم = <b>50 نقطة</b>، ويفتح لك عالماً جديداً.</div>
@@ -267,9 +284,27 @@ function viewMap() {
         <span class="dots" aria-hidden="true">${x.s.map(s => `<i class="${s.done ? 'on' : ''}"></i>`).join('')}<i class="${x.passed ? 'on' : ''}" style="border-radius:4px"></i></span></span>
       <span class="stamp" aria-hidden="true">${x.stamped ? '🏅' : ''}</span>
     </button>`; }).join('')}</div>`;
+  renderWeek();
   document.querySelectorAll('.world').forEach(b => b.onclick = () => {
     const i = +b.dataset.i; if (!isOpen(i)) { toast('🔒 احصل على ختم عالم آخر ليُفتح هذا العالم.'); sfx('bad'); return; }
     location.hash = 'w-' + WORLDS[i].k; });
+}
+
+/* 🏅 تحدي الأسبوع (18 Nov 2026): the season's theme world (Tuesday → Tuesday, the same for everyone) and 5 tasks from 5 sections,
+   counted from this week's points (honor.js weekChallenge). All 5 → +100 and 🏅 next to the name on the honor board. */
+async function renderWeek() {
+  const box = $('weekCh'); if (!box) return;
+  const h = await honor(); if (!h || !h.weekChallenge) return;
+  let w = {}; try { w = (h.computeScore().parts.act || {}).w || {}; } catch (e) {}
+  const ch = h.weekChallenge(w), W = WORLDS.find(x => x.k === ch.world) || WORLDS[0], st = stations(W);
+  const href = { caps: st[0].href, voc: st[1].href, st: st[2].href, lab: st[3].href, mb: '../surprise/index.html' };
+  const left = 7 - (((h.dayNo() - 5) % 7) + 7) % 7, ends = left <= 1 ? 'ينتهي اليوم' : 'باقٍ ' + (left === 2 ? 'يومان' : left + (left <= 10 ? ' أيام' : ' يوماً'));
+  box.innerHTML = `<section class="wkc${ch.done ? ' done' : ''}" style="--c:${W.c};--t:${W.t}">
+    <div class="wkh"><span class="ic" aria-hidden="true">${W.ic}</span><div><small>🏅 تحدي الأسبوع · ${ends}</small><b>${W.ar}</b></div><span class="cnt" dir="ltr">${ch.done ? '✅' : ch.n + ' / 5'}</span></div>
+    <p class="wkp">${ch.done ? '🎉 أنجزت تحدي هذا الأسبوع! أُضيفت لك <b>100 نقطة</b> ووسام 🏅 بجانب اسمك.' : 'أنجز المهام الخمس من خمسة أقسام قبل يوم الثلاثاء لتربح <b>100 نقطة</b> ووسام 🏅.'}</p>
+    <ol class="wkl">${ch.tasks.map(t => `<li class="${t.done ? 'ok' : ''}"><span class="ti" aria-hidden="true">${t.done ? '✅' : t.ic}</span><span class="tt"><b>${t.ar}</b><small>${t.how}</small>
+      <i class="bar"><i style="width:${Math.min(100, Math.round(t.v / t.need * 100))}%"></i></i></span>${t.done ? '' : `<a href="${href[t.k]}">ابدأ</a>`}</li>`).join('')}</ol>
+  </section>`;
 }
 
 // Which step is next: the first station not done, then the challenge, then «done».
@@ -423,7 +458,7 @@ const SECS = [
 ];
 const ELITE = [['ek','💎','مسار النخبة','../elite/index.html'], ['et','🏙️','في المدينة','../elite/town/index.html']];
 let H = null;
-async function honor() { if (H) return H; try { H = await import('../assets/honor.js?v=20261118b'); } catch (e) { H = null; } return H; }
+async function honor() { if (H) return H; try { H = await import('../assets/honor.js?v=20261118c'); } catch (e) { H = null; } return H; }
 async function syncPoints() { try { const h = await honor(); if (h && h.ready && h.sync) await h.sync(); } catch (e) {} }
 async function viewPass() {
   setTab('pass'); document.body.style.removeProperty('--c');
@@ -457,7 +492,7 @@ async function viewPass() {
 function fireworks(n) {
   if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const c = $('fx'), x = c.getContext('2d'), w = c.width = innerWidth, h = c.height = innerHeight, P = [];
-  const cols = ['#f5b82e', '#6d4aff', '#1c8a5a', '#e2572b', '#2f9e9e', '#e05a8a'];
+  const cols = ['#f5b82e', '#5890f1', '#1c8a5a', '#e2572b', '#2f9e9e', '#e0905a'];
   for (let b = 0; b < n; b++) { const cx = w * (.2 + Math.random() * .6), cy = h * (.2 + Math.random() * .3);
     for (let i = 0; i < 40; i++) { const a = Math.random() * 6.28, s = 2 + Math.random() * 5; P.push({ x: cx, y: cy, vx: Math.cos(a) * s, vy: Math.sin(a) * s, c: cols[(b + i) % 6], l: 60 + Math.random() * 30, d: b * 12 }); } }
   let f = 0; (function step() { x.clearRect(0, 0, w, h); let alive = 0;
@@ -482,6 +517,6 @@ route();
 syncPoints();
 })();
 </script>
-<script src="../assets/club.js?v=32"></script>
+<script src="../assets/club.js?v=33"></script>
 </body>
 </html>

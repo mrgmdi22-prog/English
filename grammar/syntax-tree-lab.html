@@ -119,6 +119,7 @@ svg .node:focus rect,svg .node.sel rect{stroke:var(--sel);stroke-width:3}
   <footer style="text-align:center;color:var(--muted);font-size:16px;padding-top:8px">إعداد: <b>أ. أحمد بن سالم</b> — معلم اللغة الإنجليزية</footer>
 </div>
 
+<link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
 <script>
 const GLOSS={
   S:["Sentence","The whole sentence. It usually splits into a subject (NP) and a predicate (VP)."],
@@ -321,6 +322,7 @@ $("stop").onclick=()=>ctl&&ctl.abort();
 $("sentence").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();$("go").click()}});
 document.fonts&&document.fonts.ready.then(()=>{if(current)drawTree(current.tree)});
 </script>
-<script src="../assets/club.js?v=32"></script>
+<script>document.body.classList.add("v-ex");document.body.dataset.xs="f3";</script>
+<script src="../assets/club.js?v=33"></script>
 </body>
 </html>

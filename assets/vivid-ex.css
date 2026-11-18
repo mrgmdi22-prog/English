@@ -1,0 +1,20 @@
+/* English Club — vivid look for the exercise pages (18 Nov 2026). Loaded last on each exercise page with body.v-ex and data-xs="<shelf>".
+   A soft sky band with the club's mountains behind the page head, tinted by the page's shelf colour (the same colours as sections.html),
+   the club palette (no purple, no pink) and one style for the «🏠 الرئيسية» pill. The page's own layout is kept. */
+body.v-ex{--xa:#3f7fe8;--xt:#e3eeff}
+body.v-ex[data-xs="f2"]{--xa:#34b77e;--xt:#ddf5ea}
+body.v-ex[data-xs="f3"]{--xa:#ff9a4a;--xt:#ffe9d8}
+body.v-ex[data-xs="f5"]{--xa:#f2b632;--xt:#fff1c9}
+body.v-ex[data-xs="f4"]{--xa:#2bb3a6;--xt:#d9f3ef}
+body.v-ex[data-xs="f6"]{--xa:#5a7fd6;--xt:#e3eafb}
+html:has(body.v-ex){background:#f5f9ff}
+body.v-ex{position:relative;isolation:isolate;background-color:transparent!important;background-image:none!important}
+body.v-ex::before{content:"";position:absolute;z-index:-1;left:0;right:0;top:0;height:330px;pointer-events:none;
+  background:
+   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 90' preserveAspectRatio='none'%3E%3Cpath d='M0 90V58l62-34 44 22 66-40 58 34 44-18 66 30 60-24v62z' fill='%23ffffff' opacity='.55'/%3E%3Cpath d='M0 90V74l60-22 50 16 64-26 56 22 46-14 64 20 60-18v38z' fill='%23f5f9ff'/%3E%3C/svg%3E") bottom/100% 90px no-repeat,
+   linear-gradient(180deg,var(--xt) 0%,var(--xt) 55%,#f5f9ff 100%)}
+body.v-ex::after{content:"";position:absolute;z-index:-1;top:0;left:0;width:240px;height:240px;background:radial-gradient(circle at 0 0,var(--xa) 0,transparent 70%);opacity:.16;pointer-events:none}
+/* the home pill */
+.v-ex .club-home,.v-ex a.home,.v-ex .homebtn{background:#fff!important;color:#1c2b4a!important;border:0!important;border-radius:999px!important;box-shadow:0 6px 16px -8px rgba(40,80,150,.45)!important;font-weight:800}
+/* links and focus in the club palette */
+.v-ex :focus-visible{outline-color:var(--xa)}

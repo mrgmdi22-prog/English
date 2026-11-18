@@ -19,11 +19,11 @@
    Single light theme on purpose: the teacher asked for light colours and large type. */
 :root{
   color-scheme:light;
-  --bg:#F6F3FF; --bg2:#FFFBF0; --card:#FFFFFF; --ink:#231f3a; --muted:#5f5a78; --line:#e6e1f5;
-  --vio:#6B4BD8; --vio-soft:#EEE9FF; --gold:#B97F08; --gold-soft:#FFF4D6;
+  --bg:#F6F3FF; --bg2:#FFFBF0; --card:#FFFFFF; --ink:#1f293a; --muted:#5f5a78; --line:#e1e8f5;
+  --vio:#4b7fd8; --vio-soft:#ebf2fd; --gold:#B97F08; --gold-soft:#FFF4D6;
   --ok:#16855F; --ok-soft:#E3F7EE; --bad:#C9472B; --bad-soft:#FDECE7;
   --ar:Tajawal,"Segoe UI",Tahoma,sans-serif; --en:Lexend,"Segoe UI",Arial,sans-serif;
-  --c:#6B4BD8; --t:#EEE9FF;   /* the current district's colour and tint */
+  --c:#4b7fd8; --t:#ebf2fd;   /* the current district's colour and tint */
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -46,7 +46,7 @@ h1,h2,h3{line-height:1.3;margin:0;text-wrap:balance}
 
 /* hero */
 .hero{background:var(--card);border:2px solid var(--line);border-radius:28px;padding:22px 20px 20px;position:relative;overflow:hidden}
-.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:10px;background:linear-gradient(90deg,#d9683f 0 16.6%,#B97F08 16.6% 33.3%,#16855F 33.3% 50%,#6B4BD8 50% 66.6%,#2f6fd6 66.6% 83.3%,#c2416b 83.3%)}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:10px;background:linear-gradient(90deg,#d9683f 0 16.6%,#B97F08 16.6% 33.3%,#16855F 33.3% 50%,#4b7fd8 50% 66.6%,#2f6fd6 66.6% 83.3%,#c27541 83.3%)}
 .eyebrow{display:inline-block;background:var(--vio-soft);color:var(--vio);font-weight:800;font-size:.9rem;border-radius:999px;padding:2px 14px}
 .hero h1{font-size:clamp(2.1rem,8vw,3rem);font-weight:900;margin-top:8px}
 .hero h1 .en{display:block;font-size:.5em;font-weight:600;color:var(--vio);letter-spacing:.02em;text-align:right}
@@ -56,7 +56,7 @@ h1,h2,h3{line-height:1.3;margin:0;text-wrap:balance}
 .stat b{display:block;font-family:var(--en);font-size:1.6rem;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.2}
 .stat span{font-size:.92rem;color:var(--muted);font-weight:700}
 .prog{height:12px;background:var(--line);border-radius:99px;margin-top:14px;overflow:hidden}
-.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--vio),#9a7ff0);border-radius:99px;transition:width .6s}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--vio),#7fa8f0);border-radius:99px;transition:width .6s}
 .cont{display:flex;align-items:center;gap:12px;margin-top:14px;background:var(--gold-soft);border:2px solid #f2d48a;border-radius:18px;padding:10px 14px;text-decoration:none;color:inherit;width:100%;text-align:right}
 .cont .ic{font-size:1.6rem}
 .cont b{display:block;font-size:1.05rem}
@@ -100,7 +100,7 @@ h1,h2,h3{line-height:1.3;margin:0;text-wrap:balance}
 .stop i{font-style:normal;width:44px;height:44px;border-radius:50%;background:var(--card);border:3px solid var(--line);display:grid;place-items:center;font-size:1.25rem;transition:all .2s}
 .stop.seen i{border-color:var(--c)}
 .stop[aria-selected="true"]{color:var(--c)}
-.stop[aria-selected="true"] i{background:var(--c);border-color:var(--c);transform:scale(1.12);box-shadow:0 4px 14px rgba(60,40,120,.18)}
+.stop[aria-selected="true"] i{background:var(--c);border-color:var(--c);transform:scale(1.12);box-shadow:0 4px 14px rgba(40,69,120,.18)}
 .panel{background:var(--card);border:2px solid var(--line);border-radius:24px;padding:18px}
 .ph{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .ph h3{font-size:1.3rem;font-weight:900}
@@ -200,8 +200,9 @@ body.riding #clubMB{bottom:calc(84px + env(safe-area-inset-bottom,0px))!importan
 @media (max-width:560px){body{font-size:19px}.how{grid-template-columns:repeat(3,minmax(0,1fr))}.panel{padding:14px}.stop{font-size:.72rem}.stop i{width:38px;height:38px;font-size:1.1rem}.ride::before{top:18px}.bub{max-width:94%}.cbt{grid-template-columns:1fr 1fr}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
+<link rel="stylesheet" href="../../assets/vivid-ex.css?v=3">
 </head>
-<body>
+<body class="v-ex" data-xs="f6">
 <div class="wrap">
   <div class="strip">
     <a class="crumb" href="../index.html" dir="ltr"><bdi>←</bdi> <bdi>💎 مسار النخبة</bdi></a>
@@ -256,7 +257,7 @@ body.riding #clubMB{bottom:calc(84px + env(safe-area-inset-bottom,0px))!importan
 <script>
 (function(){
 const AT=window.AROUND_TOWN||[];
-const DIST=[["التسوّق والمشتريات","#d9683f","#FDEEE6"],["في المطعم","#B97F08","#FFF4D6"],["الصحة والعلاج","#16855F","#E3F7EE"],["الضيافة والتعارف","#6B4BD8","#EEE9FF"],["السفر والتنقّل","#2f6fd6","#E8F1FF"],["مواقف صعبة","#c2416b","#FDEBF2"]];
+const DIST=[["التسوّق والمشتريات","#d9683f","#FDEEE6"],["في المطعم","#B97F08","#FFF4D6"],["الصحة والعلاج","#16855F","#E3F7EE"],["الضيافة والتعارف","#0e8fa3","#e2f6f9"],["السفر والتنقّل","#2f6fd6","#E8F1FF"],["مواقف صعبة","#4a5a73","#eef2f7"]];
 const STEPS=[["pre","التعابير","📖"],["listen","استمع","🎧"],["quiz","أجب","✅"],["script","النص","📝"],["role","مثّل","🎭"],["talk","تحدّث","🗣️"]];
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -458,6 +459,6 @@ function rTalk(){const P=$("panel");const ans={};
 if(!open){$("lock").hidden=false}else route();
 })();
 </script>
-<link rel="stylesheet" href="../../assets/club.css"><a class="club-home" href="../../index.html">🏠 الرئيسية</a><script src="../../assets/club.js?v=32"></script>
+<link rel="stylesheet" href="../../assets/club.css"><a class="club-home" href="../../index.html">🏠 الرئيسية</a><script src="../../assets/club.js?v=33"></script>
 </body>
 </html>

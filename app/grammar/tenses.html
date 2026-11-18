@@ -17,7 +17,7 @@
 :root{color-scheme:light;
   --bg:#F7F8FC;--card:#FFFFFF;--ink:#1F2840;--muted:#5B6580;--line:#E3E7F1;
   --pr:#1F9D6B;--pr-s:#E3F6EE;--pa:#D9622B;--pa-s:#FDEDE4;--fu:#3268D6;--fu-s:#E6EEFC;
-  --a1:#F08A24;--a2:#16A085;--a3:#2D8CE0;--a4:#8E5BE8;
+  --a1:#F08A24;--a2:#16A085;--a3:#2D8CE0;--a4:#5b8fe8;
   --ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif;--ease:cubic-bezier(.2,.7,.2,1)}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg)}
@@ -28,16 +28,16 @@ body{color:var(--ink);font-family:var(--ar);font-size:19px;line-height:1.7;paddi
 header.top{text-align:center;margin-bottom:22px}
 header.top .kick{display:inline-block;font-family:var(--en);font-weight:700;font-size:.9rem;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
 h1{margin:6px 0 4px;font-size:clamp(2rem,6.5vw,3.1rem);line-height:1.2;font-weight:800}
-h1 .en{color:#5B47D6}
+h1 .en{color:#477bd6}
 header.top p{margin:0 auto;color:var(--muted);max-width:36em;font-size:1.1rem}
 .tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:22px 0 18px}
 .tabs button{font:inherit;font-weight:800;font-size:1.05rem;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:9px 20px;cursor:pointer;transition:all .18s}
-.tabs button[aria-selected=true]{background:#5B47D6;border-color:#5B47D6;color:#fff}
+.tabs button[aria-selected=true]{background:#477bd6;border-color:#477bd6;color:#fff}
 .bar{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:16px;color:var(--muted);font-size:1rem}
 .bar select,.bar .seg button{font:inherit;font-size:1rem;font-weight:700;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:6px 12px;cursor:pointer}
 .seg{display:inline-flex;gap:4px}.seg button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
-.btn{font:inherit;font-weight:800;font-size:1rem;border:0;border-radius:999px;padding:10px 20px;cursor:pointer;background:#5B47D6;color:#fff}
-.btn.soft{background:#EEEBFD;color:#4A37C2}
+.btn{font:inherit;font-weight:800;font-size:1rem;border:0;border-radius:999px;padding:10px 20px;cursor:pointer;background:#477bd6;color:#fff}
+.btn.soft{background:#ebf2fd;color:#376ac2}
 
 /* ---- the map ---- */
 .map{display:grid;grid-template-columns:110px repeat(4,minmax(0,1fr));gap:10px;direction:ltr}
@@ -48,12 +48,12 @@ header.top p{margin:0 auto;color:var(--muted);max-width:36em;font-size:1.1rem}
 .cell{all:unset;box-sizing:border-box;cursor:pointer;border-radius:18px;background:var(--card);border:2px solid var(--line);padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;
   direction:ltr;text-align:left;transition:transform .18s var(--ease),box-shadow .18s,border-color .18s;position:relative;min-height:170px}
 .cell:hover{transform:translateY(-3px);box-shadow:0 14px 28px -20px rgba(30,40,90,.45)}
-.cell:focus-visible{outline:3px solid #5B47D6;outline-offset:2px}
+.cell:focus-visible{outline:3px solid #477bd6;outline-offset:2px}
 .cell .nm{font-family:var(--en);font-weight:700;font-size:1.06rem;line-height:1.25}
 .cell .nmar{font-family:var(--ar);direction:rtl;text-align:right;font-weight:700;font-size:.98rem;color:var(--muted);line-height:1.3}
 .cell .fm{font-family:var(--en);font-size:.9rem;color:var(--muted);line-height:1.35;background:var(--bg);border-radius:10px;padding:6px 8px}
 .cell .ex{font-family:var(--en);font-size:1.02rem;line-height:1.45}
-.cell .ex b,.ex b,.uses b,.conj b{color:var(--tc,#5B47D6)}
+.cell .ex b,.ex b,.uses b,.conj b{color:var(--tc,#477bd6)}
 .cell svg{width:100%;height:auto;margin-top:auto}
 .t-pr{--tc:var(--pr);--ts:var(--pr-s)}.t-pa{--tc:var(--pa);--ts:var(--pa-s)}.t-fu{--tc:var(--fu);--ts:var(--fu-s)}
 .cell{border-top:6px solid var(--tc)}
@@ -92,8 +92,8 @@ header.top p{margin:0 auto;color:var(--muted);max-width:36em;font-size:1.1rem}
 .use{border:2px solid var(--line);border-radius:16px;padding:10px 14px;display:grid;gap:4px}
 .use .why{font-weight:800;color:var(--tc)}
 .use .ex{display:flex;gap:8px;align-items:center;direction:ltr;font-family:var(--en);font-size:1.08rem;line-height:1.5}
-.say{all:unset;cursor:pointer;flex:none;width:36px;height:36px;border-radius:50%;background:var(--ts,#EEEBFD);display:grid;place-items:center;font-size:1.05rem}
-.say:focus-visible{outline:3px solid #5B47D6}
+.say{all:unset;cursor:pointer;flex:none;width:36px;height:36px;border-radius:50%;background:var(--ts,#ebf2fd);display:grid;place-items:center;font-size:1.05rem}
+.say:focus-visible{outline:3px solid #477bd6}
 .sig{display:flex;flex-wrap:wrap;gap:8px;direction:ltr}
 .sig span{font-family:var(--en);background:var(--ts);color:var(--ink);border-radius:999px;padding:4px 14px;font-weight:600;font-size:1rem}
 .note{background:#FFF7E0;border:1.5px solid #F2DDA0;border-radius:14px;padding:10px 14px;font-size:1.02rem;margin-top:12px}
@@ -116,21 +116,21 @@ header.top p{margin:0 auto;color:var(--muted);max-width:36em;font-size:1.1rem}
 .quiz{max-width:720px;margin:0 auto;background:var(--card);border:2px solid var(--line);border-radius:24px;padding:20px}
 .qtop{display:flex;justify-content:space-between;align-items:center;gap:10px;color:var(--muted);font-weight:700}
 .qbar{height:10px;border-radius:99px;background:var(--bg);overflow:hidden;margin:10px 0 16px}
-.qbar i{display:block;height:100%;background:#5B47D6;transition:width .3s}
+.qbar i{display:block;height:100%;background:#477bd6;transition:width .3s}
 .qsent{direction:ltr;text-align:center;font-family:var(--en);font-size:clamp(1.3rem,4.8vw,1.7rem);line-height:1.5;margin:6px 0 4px}
-.qsent b{color:#5B47D6;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:5px}
+.qsent b{color:#477bd6;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:5px}
 .qask{text-align:center;color:var(--muted);margin-bottom:14px}
 .opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .opts button{font:inherit;cursor:pointer;border:2px solid var(--line);background:var(--card);border-radius:16px;padding:10px 12px;text-align:center;line-height:1.35;transition:all .15s}
 .opts button .en{display:block;font-weight:700;font-size:1rem}
 .opts button .a{display:block;font-size:.95rem;color:var(--muted)}
-.opts button:hover:not(:disabled){border-color:#5B47D6}
+.opts button:hover:not(:disabled){border-color:#477bd6}
 .opts button.right{background:#E3F6EE;border-color:#1F9D6B}
 .opts button.wrong{background:#FDECEC;border-color:#D23F4A}
 .qfb{min-height:2.2em;text-align:center;font-weight:800;margin-top:12px}
 .qfb.ok{color:#1F9D6B}.qfb.no{color:#D23F4A}
 .qend{text-align:center}
-.qend .big{font-size:3rem;font-weight:800;color:#5B47D6;line-height:1.2}
+.qend .big{font-size:3rem;font-weight:800;color:#477bd6;line-height:1.2}
 footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
 
 @media (max-width:860px){
@@ -167,9 +167,9 @@ footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
 }
 .cp{font-family:var(--en);color:#1F2840;direction:ltr;-webkit-print-color-adjust:exact;print-color-adjust:exact;width:277mm;height:186mm;overflow:hidden;display:flex;flex-direction:column;gap:2mm;page-break-after:avoid;break-after:avoid}
 .cp-head{display:flex;align-items:stretch;gap:3mm}
-.cp-title{flex:1;border-radius:4mm;padding:2.2mm 4mm;background:linear-gradient(100deg,#EEEBFD,#F7F8FC 70%);border:.35mm solid #DCD6FA;display:flex;flex-direction:column;justify-content:center}
-.cp-title .k{font-size:7.5pt;letter-spacing:.18em;font-weight:700;color:#7A70C9;text-transform:uppercase}
-.cp-title h2{margin:0;font-size:15.5pt;line-height:1.15;color:#3F2FB8;font-weight:700}
+.cp-title{flex:1;border-radius:4mm;padding:2.2mm 4mm;background:linear-gradient(100deg,#ebf2fd,#F7F8FC 70%);border:.35mm solid #d6e3fa;display:flex;flex-direction:column;justify-content:center}
+.cp-title .k{font-size:7.5pt;letter-spacing:.18em;font-weight:700;color:#7091c9;text-transform:uppercase}
+.cp-title h2{margin:0;font-size:15.5pt;line-height:1.15;color:#2f61b8;font-weight:700}
 .cp-title .ar{font-family:var(--ar);font-size:11pt;font-weight:800;color:#5B6580;direction:rtl;text-align:left}
 .cp-verb{border-radius:4mm;padding:2mm 5mm;background:#FFF7E0;border:.35mm solid #F2DDA0;text-align:center;min-width:62mm;display:flex;flex-direction:column;justify-content:center}
 .cp-verb .lb{font-size:7.5pt;font-weight:700;letter-spacing:.14em;color:#A07A10;text-transform:uppercase}
@@ -202,9 +202,10 @@ footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
 .cp-foot{display:flex;justify-content:space-between;font-size:7.5pt;color:#8790A8}
 .cp-foot .ar{font-family:var(--ar);font-weight:700;direction:rtl}
 </style>
+<link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
 <link rel="stylesheet" href="../assets/app.css?v=1"><script src="../assets/app.js?v=1"></script>
 </head>
-<body>
+<body class="v-ex" data-xs="f3">
 <a class="club-home" href="../index.html">🏠 الرئيسية</a>
 <div class="wrap">
   <header class="top">
@@ -376,7 +377,7 @@ $('printBtn').onclick=()=>window.print();
 /* the printed chart: pronoun lines for the affirmative, then the negative and the question */
 function conjSheet(){
   const v=VERBS[+$('verb').value||0],C={pr:'#1F9D6B',pa:'#D9622B',fu:'#3268D6'},S={pr:'#E3F6EE',pa:'#FDEDE4',fu:'#E6EEFC'};
-  const A={s:'#F08A24',c:'#16A085',p:'#2D8CE0',pc:'#8E5BE8'};
+  const A={s:'#F08A24',c:'#16A085',p:'#2D8CE0',pc:'#5b8fe8'};
   const vb=s=>md(s).replace(/<b>/g,'<b class="v">');
   const line=(p,s)=>{const m=s.match(/^(\S+(?: \/ \S+)*) (.*)$/);return `<li><i class="s a">+</i><span><span class="pr">${p}</span>${vb(m?m[2]:s)}</span></li>`;};
   let g='<div></div>'+Object.entries(ASPECTS).map(([k,a])=>`<div class="cp-ch" style="background:${A[k]}">${a[0]}<small>${a[1]}</small></div>`).join('');
@@ -507,7 +508,7 @@ function drawQ(){
 drawMap();drawConj();
 if(/[?&]tab=(conj|quiz)/.test(location.search))setTab(location.search.match(/tab=(\w+)/)[1]);
 </script>
-<script src="../assets/club.js?v=32"></script>
+<script src="../assets/club.js?v=33"></script>
 <div id="conjPrint"></div>
 </body>
 </html>

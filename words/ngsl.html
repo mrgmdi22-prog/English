@@ -1,5 +1,6 @@
 <!doctype html><html data-theme="light" lang="ar"><head><meta charset="utf-8"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=4"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png?v=4"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
-<script src="../assets/gate.js?v=10"></script><script src="../assets/combo.js?v=4"></script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<script src="../assets/gate.js?v=10"></script><script src="../assets/combo.js?v=4"></script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
+</head><body class="v-ex" data-xs="f2">
 <title>General Words Quest</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;700;800&family=Tajawal:wght@400;500;700;800&family=Figtree:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap" media="print" onload="this.media='all'">
@@ -9,7 +10,7 @@
 :root{
   color-scheme:light;
   --bg:#f4f7ff; --surface:#ffffff; --ink:#172340; --muted:#55607d; --line:#d9e0f2;
-  --sky:#2f7cf6; --sun:#ffc531; --coral:#ff6a55; --mint:#12b28a; --grape:#7b5cff;
+  --sky:#2f7cf6; --sun:#ffc531; --coral:#ff6a55; --mint:#12b28a; --grape:#689bf3;
   --good:#0e9b6c; --bad:#e03a4c; --chip:#eaf0ff; --soft:#fff7dc;
   --display:"Baloo Bhaijaan 2","Baloo 2",system-ui,sans-serif; --body:"Figtree","Tajawal",system-ui,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,monospace; --ar:"Tajawal",system-ui,sans-serif;
@@ -440,7 +441,7 @@ setLevel(level);
 
 /* home */
 /* home: a hero with today's progress, then the journey map (units as stops along a winding trail) */
-const STG=[["المستوى 1: الأكثر شيوعاً","Most common","🌱","#FFF4D6","#F5B700"],["المستوى 2: شائعة جداً","Very common","🌿","#E3F7EE","#12B28A"],["المستوى 3: شائعة","Common","🌳","#E6EFFF","#2F7CF6"],["المستوى 4: مهمة","Key words","🌲","#F0EBFF","#7B5CFF"]];
+const STG=[["المستوى 1: الأكثر شيوعاً","Most common","🌱","#FFF4D6","#F5B700"],["المستوى 2: شائعة جداً","Very common","🌿","#E3F7EE","#12B28A"],["المستوى 3: شائعة","Common","🌳","#E6EFFF","#2F7CF6"],["المستوى 4: مهمة","Key words","🌲","#ecf3fd","#689bf3"]];
 const START={};UNITS.reduce((a,u)=>{START[u.n]=a;return a+u.words.length},0);
 const stOf=n=>Math.min(3,Math.floor(START[n]/250));
 const bestOf=n=>+(store.get("ng-best-"+n)||0);
@@ -483,7 +484,7 @@ $("back").onclick=()=>{sfx("page");renderHome()};
 function openUnit(u){U=u;store.set("ng-last",String(u.n));$("home").hidden=true;$("unit").hidden=false;drawUnitHead();setStage("learn");window.scrollTo(0,0)}
 function drawUnitHead(){const u=U;if(!u)return;const b=bestOf(u.n),seen=seenIn(u),S=STG[stOf(u.n)];
   $("uTitle").innerHTML=`<small>Unit ${u.n} · ${S[2]} ${S[1]}</small>${esc(u.title)}`;
-  $("uProg").innerHTML=`<span class="up"><b>${seen}/${u.words.length}</b> كلمة اكتشفتها</span><span class="up"><b>${b}/10</b> أفضل اختبار</span><span class="up ${b>=8?"won":""}">${b>=8?"🏅 حصلت على الشارة":"🎯 8/10 للشارة"}</span>`;
+  $("uProg").innerHTML=`<span class="up"><b>${seen}/${u.words.length}</b> كلمة اكتشفتها</span><span class="up"><b>${b}/10</b> أفضل اختبار</span><span class="up ${b>=8?"won":""}">${b>=8?"🏅 حصلت على الشارة":"🎯 8/10 للشارة"}</span>`+chainChip(u);
   $("unit").style.setProperty("--uc",S[4]);$("unit").style.setProperty("--ub",S[3])}
 document.querySelectorAll(".stage").forEach(b=>b.onclick=()=>{sfx("page");setStage(b.dataset.s)});
 function setStage(s){stage=s;document.querySelectorAll(".stage").forEach(b=>b.setAttribute("aria-selected",b.dataset.s===s));renderStage()}
@@ -578,7 +579,22 @@ function renderPractice(){
   showTally();({match:pMatch,meaning:pMeaning,gap:pGap,spell:pSpell})[pmode]();
 }
 function showTally(){const t=$("tally");if(t)t.textContent=`Correct ${tally.r} / ${tally.t}`}
-function count(ok){tally.t++;if(ok)tally.r++;showTally();addDaily(1)}
+function count(ok){tally.t++;if(ok)tally.r++;showTally();addDaily(1);if(ok)chainPr(1)}
+/* 🔗 سلسلة الوحدة (18 Nov 2026): تعرّف (10 كلمات مكتشفة) ← تدرّب (8 إجابات صحيحة) ← اقرأ (أكمل فراغات القصة) = 20 نقطة مرة واحدة لكل وحدة.
+   Stored in localStorage "ng-chain" {unit: {l, p, r, d}} (backed up) → honor rule ch. */
+const chainGet=()=>{try{return JSON.parse(store.get("ng-chain")||"{}")||{}}catch(e){return {}}};
+let chainPrN={};
+function chainMark(k,quiet){if(!U)return;const C=chainGet(),c=C[U.n]||{};if(c[k])return;c[k]=1;
+  const fin=c.l&&c.p&&c.r&&!c.d;if(fin)c.d=Date.now();C[U.n]=c;store.set("ng-chain",JSON.stringify(C));
+  if(fin){sfx("win");chainToast("🔗 أكملت سلسلة الوحدة! تعرّف ← تدرّب ← اقرأ · +20 نقطة")}
+  if(!quiet)drawUnitHead()}
+function chainPr(n){if(!U)return;chainPrN[U.n]=(chainPrN[U.n]||0)+n;if(chainPrN[U.n]>=8)chainMark("p")}
+function chainToast(t){const d=document.createElement("div");d.textContent=t;d.setAttribute("role","status");
+  d.style.cssText="position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:999;background:#34b77e;color:#fff;font:800 1.05rem Tajawal,system-ui,sans-serif;padding:12px 18px;border-radius:16px;box-shadow:0 12px 24px -10px rgba(0,80,40,.6);max-width:92vw;text-align:center;direction:rtl";
+  document.body.appendChild(d);setTimeout(()=>d.remove(),4200)}
+function chainChip(u){let c=chainGet()[u.n]||{};if(!c.l&&seenIn(u)>=Math.min(10,u.words.length)){chainMark("l",true);c=chainGet()[u.n]||{l:1}}
+  const st=(k,t)=>`<span style="opacity:${c[k]?1:.55}">${c[k]?"✅":"⬜"} ${t}</span>`;
+  return `<span class="up ${c.d?"won":""}" title="أكمل الخطوات الثلاث في هذه الوحدة لتربح 20 نقطة مرة واحدة">🔗 ${c.d?"السلسلة مكتملة +20":"سلسلة الوحدة (+20):"} ${c.d?"":st("l","تعرّف")+" · "+st("p","تدرّب")+" · "+st("r","اقرأ")}</span>`}
 function explainHTML(x){return `<div class="explain"><span><b>${esc(x.w)}</b>${sayBtn(x.w+"||"+x.ex,x.w,"we")}${camLink(x.w,"inl")} (${x.pos}): ${esc(x.def)}</span>${basic()?`<span class="arm">${esc(x.ar)}</span>`:""}<span style="color:#38425e;font-style:italic">${esc(x.ex)}</span></div>`}
 function nextBtn(fn){return Object.assign(document.createElement("div"),{className:"row center",style:"margin-top:14px",innerHTML:'<button class="btn">Next · التالي</button>'}).firstChild.onclick=fn,null}
 function choiceRound(qHTML,ans,pool,after){
@@ -615,7 +631,7 @@ function pMatch(){const ws=shuffle(U.words.map(W)).slice(0,5);const Z=$("pz");
     b.onclick=()=>{if(b.classList.contains("done"))return;
       if(!sel){$("fb").textContent="Choose an English word first · اختر كلمة إنجليزية أولاً";$("fb").className="fb bad";return}
       if(sel.dataset.k===b.dataset.k){mark(sel.dataset.k,!b.dataset.miss);addDaily(1);sel.classList.remove("sel");sel.classList.add("done");b.classList.add("done");sel=null;left--;$("fb").textContent="Correct!";$("fb").className="fb good";
-        if(left===0){sfx("win");tally.t+=5+miss;tally.r+=5;showTally();$("fb").textContent=miss?`All matched with ${miss} mistake${miss>1?"s":""}.`:"Perfect round! جولة كاملة بدون أخطاء";$("nx").hidden=false}}
+        if(left===0){sfx("win");tally.t+=5+miss;tally.r+=5;showTally();chainPr(5);$("fb").textContent=miss?`All matched with ${miss} mistake${miss>1?"s":""}.`:"Perfect round! جولة كاملة بدون أخطاء";$("nx").hidden=false}}
       else{miss++;mark(sel.dataset.k,false);b.classList.add("oops");$("fb").textContent="Try again · حاول مرة أخرى";$("fb").className="fb bad";setTimeout(()=>b.classList.remove("oops"),500)}};
     $("mR").appendChild(b)});
   $("nx").onclick=pMatch}
@@ -633,7 +649,7 @@ function renderRead(){
     b.onclick=()=>{if(b.disabled||gi>=gaps.length)return;const g=gaps[gi];
       if(w===g.dataset.w){g.textContent=w;g.classList.remove("cur");g.classList.add("filled");b.disabled=true;gi++;
         if(gi<gaps.length){gaps[gi].classList.add("cur");$("fb").textContent="Correct!";$("fb").className="fb good"}
-        else{sfx("win");$("fb").textContent="Story complete! أكملت القصة، أجب الآن عن الأسئلة";$("fb").className="fb good";
+        else{sfx("win");chainMark("r");$("fb").textContent="Story complete! أكملت القصة، أجب الآن عن الأسئلة";$("fb").className="fb good";
           {const r=document.createElement("div");r.className="row center";r.style.marginBottom="8px";r.innerHTML=`<button class="btn alt" data-say="${esc(st.x.replace(/\{([^}]+)\}/g,"$1"))}" data-mode="t">Listen to the story · استمع للقصة</button>`;$("fb").after(r)}
           showTF()}}
       else{b.classList.add("shake");setTimeout(()=>b.classList.remove("shake"),450);$("fb").textContent="Not this one. Read the sentence again · اقرأ الجملة مرة أخرى";$("fb").className="fb bad"}};
@@ -809,4 +825,4 @@ renderHome();
 })();
 </script>
 
-<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=32"></script>
+<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=33"></script>

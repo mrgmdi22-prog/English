@@ -15,7 +15,7 @@
 /* Level check: a before test and an after test (parallel forms, same difficulty), one question at a time,
    no feedback during the test, then the score, the skills and an estimated CEFR level; the after test shows the gain. */
 :root{color-scheme:light;--bg:#F4F7FF;--card:#fff;--ink:#1F2A44;--muted:#5B6685;--line:#E2E8F5;--pri:#3157D5;--pri-soft:#E8EEFF;--ok:#16825D;--ok-soft:#E3F6EE;--warn:#A35A00;--warn-soft:#FFF1DC;
-  --v:#C2416B;--g:#6046E8;--r:#0E7C86;--l:#C2621A;--ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif}
+  --v:#c27541;--g:#4681e8;--r:#0E7C86;--l:#C2621A;--ar:"Tajawal","Segoe UI",Tahoma,sans-serif;--en:"Lexend","Segoe UI",system-ui,sans-serif}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg)}
 body{color:var(--ink);font-family:var(--ar);font-size:20px;line-height:1.7}
@@ -73,11 +73,12 @@ h1 .en{display:block;font-size:.5em;color:var(--pri);letter-spacing:.06em;font-w
 .note{background:var(--warn-soft);color:#6b3d00;border-radius:16px;padding:10px 14px;margin-top:14px;font-size:1rem}
 [hidden]{display:none!important}
 </style>
+<link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
 </head>
-<body>
+<body class="v-ex" data-xs="w">
 <a class="club-home" href="../index.html">🏠 الرئيسية</a>
 <div class="wrap" id="app"></div>
-<script src="../assets/club.js?v=32"></script>
+<script src="../assets/club.js?v=33"></script>
 <script type="module">
 /* ---------- the two forms (version 2, harder): same skills, same difficulty, different questions ----------
    item: [skill, band, question, Arabic help, right answer, wrong, wrong, wrong]   skill v g r l · band 1=A1 2=A2 3=B1 4=B2
@@ -203,7 +204,7 @@ let H = null, cloud = {}, postOpen = false, online = false, OLD = null;
 async function loadAll(){
   const local = store.get('lv-results') || {};
   try {
-    H = await import('../assets/honor.js?v=20261118b');
+    H = await import('../assets/honor.js?v=20261118c');
     if (H.ready) {
       const t = new Promise((_, no) => setTimeout(() => no(new Error('timeout')), 8000));
       const [mine, cfg] = await Promise.race([Promise.all([H.myLevels(), H.levelsConfig()]), t]);

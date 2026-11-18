@@ -17,7 +17,7 @@
 :root{
   --bg:#EAF8F4;--bg2:#FFF5EC;--card:#FFFFFF;--ink:#16302c;--muted:#56706b;--line:#d8ebe6;
   --teal:#0E8577;--teal-soft:#DDF4EE;--coral:#E2572F;--coral-soft:#FFE9E0;--gold:#C98A06;--gold-soft:#FFF3D3;
-  --ok:#16855F;--ok-soft:#E3F7EE;--bad:#C9472B;--bad-soft:#FDECE7;--vio:#6B4BD8;--vio-soft:#EEE9FF;
+  --ok:#16855F;--ok-soft:#E3F7EE;--bad:#C9472B;--bad-soft:#FDECE7;--vio:#4b7fd8;--vio-soft:#ebf2fd;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#EAF8F4}}
 :root[data-theme="dark"]{--bg:#EAF8F4}
@@ -75,8 +75,8 @@ h2{font-size:1.45rem;margin:0 0 6px}
 .mode.endless{background:linear-gradient(135deg,#E2F7F1,#fff)}
 .mode.blitz{background:linear-gradient(135deg,#FFF3D3,#fff)}
 .mode.boss{background:linear-gradient(135deg,#FFE9E0,#fff)}
-.mode.fix{background:linear-gradient(135deg,#EEE9FF,#fff)}
-.summit{background:linear-gradient(135deg,#E8F3FF,#F3EEFF);border-color:#d6e2f7}
+.mode.fix{background:linear-gradient(135deg,#ebf2fd,#fff)}
+.summit{background:linear-gradient(135deg,#E8F3FF,#eff5fe);border-color:#d6e2f7}
 
 /* arenas */
 .arena{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px dashed var(--line);cursor:pointer;background:none;border-left:0;border-right:0;border-top:0;width:100%;font:inherit;color:inherit;text-align:right}
@@ -148,8 +148,9 @@ h2{font-size:1.45rem;margin:0 0 6px}
 .sign{text-align:center;color:var(--muted);font-size:1rem;margin-top:24px}
 @media (prefers-reduced-motion:reduce){.hero .gem,.pop{animation:none}}
 </style>
+<link rel="stylesheet" href="../../assets/vivid-ex.css?v=3">
 </head>
-<body>
+<body class="v-ex" data-xs="f6">
 <canvas id="fx" aria-hidden="true"></canvas>
 <div class="toast" id="toast" role="status"></div>
 <main class="wrap">
@@ -330,7 +331,7 @@ function toast(html, ms) { const t = $('toast'); t.innerHTML = html; t.classList
 function pop(txt) { const p = document.createElement('div'); p.className = 'pop'; p.textContent = txt; document.body.appendChild(p); setTimeout(() => p.remove(), 1000); }
 const cv = $('fx'), cx = cv.getContext('2d'), DPR = Math.min(2, window.devicePixelRatio || 1);
 let fx = [], running = false;
-const COLS = ['#0E8577', '#7ED9C6', '#FFC94A', '#E2572F', '#4FC3F7', '#FF8FB1', '#6B4BD8'];
+const COLS = ['#0E8577', '#7ED9C6', '#FFC94A', '#E2572F', '#4FC3F7', '#f7bd97', '#4b7fd8'];
 function size() { cv.width = innerWidth * DPR; cv.height = innerHeight * DPR; }
 size(); addEventListener('resize', size);
 const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -551,7 +552,7 @@ $('qualGo').onclick = () => startRound('qual');
 
 /* ---------- club points + Elite+ board ---------- */
 let H = null;
-async function honor() { if (H) return H; try { H = await import('../../assets/honor.js?v=20261118b'); } catch (e) { H = null; } return H; }
+async function honor() { if (H) return H; try { H = await import('../../assets/honor.js?v=20261118c'); } catch (e) { H = null; } return H; }
 async function syncSoon() { try { const h = await honor(); if (h && h.ready && h.sync) await h.sync(); } catch (e) {} }
 let boardBusy = false;
 async function boardPanel() {
@@ -585,6 +586,6 @@ home();
 syncSoon();
 })();
 </script>
-<script src="../../assets/club.js?v=32"></script>
+<script src="../../assets/club.js?v=33"></script>
 </body>
 </html>

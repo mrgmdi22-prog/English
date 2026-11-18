@@ -1,19 +1,20 @@
-<!doctype html><html data-theme="light"><head><meta charset=utf8><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=4"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png?v=4"><script src="../assets/gate.js?v=10"></script><script src="../assets/combo.js?v=4"></script><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/app.css?v=1"><script src="../assets/app.js?v=1"></script>
-</head><body>
+<!doctype html><html data-theme="light"><head><meta charset=utf8><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=4"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png?v=4"><script src="../assets/gate.js?v=10"></script><script src="../assets/combo.js?v=4"></script><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
+<link rel="stylesheet" href="../assets/app.css?v=1"><script src="../assets/app.js?v=1"></script>
+</head><body class="v-ex" data-xs="f5">
 <title>كبسولة الفضاء</title>
-<meta name="theme-color" content="#100c22">
+<meta name="theme-color" content="#0c1422">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Space Capsule">
 <style>
   :root{
-    --bg:#f4f2fb;
+    --bg:#f2f5fb;
     --panel:#ffffff;
-    --ink:#1c1533;
+    --ink:#152033;
     --ink-soft:#5b5478;
-    --line:#e3ddf5;
-    --accent:#6d4aff;
+    --line:#dde6f5;
+    --accent:#5890f1;
     --accent-ink:#ffffff;
     --teal:#0ea5a0;
     --amber:#e8a33d;
@@ -21,48 +22,48 @@
     --good-bg:#e3f7ec;
     --bad:#c2402f;
     --bad-bg:#fbe6e2;
-    --scene-a:#1a1440;
-    --scene-b:#3a2472;
+    --scene-a:#142440;
+    --scene-b:#244172;
     --stars:#ffffff;
-    --subtitle-bg:rgba(10,8,26,.72);
+    --subtitle-bg:rgba(8,15,26,.72);
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#100c22;
-      --panel:#1a1533;
-      --ink:#f1edff;
-      --ink-soft:#b6adda;
-      --line:#332a5c;
-      --accent:#9c85ff;
-      --accent-ink:#171029;
+      --bg:#0c1422;
+      --panel:#152033;
+      --ink:#eef4fe;
+      --ink-soft:#adbdda;
+      --line:#2a3c5c;
+      --accent:#8eb4f6;
+      --accent-ink:#101929;
       --teal:#37d6cf;
       --amber:#f0b559;
       --good:#4fd393;
       --good-bg:#123527;
       --bad:#ff8b78;
       --bad-bg:#3a1c1c;
-      --scene-a:#0c0a20;
-      --scene-b:#241a4d;
+      --scene-a:#0a1220;
+      --scene-b:#1a2d4d;
       --stars:#ffffff;
       --subtitle-bg:rgba(6,5,16,.78);
     }
   }
   :root[data-theme="dark"]{
-    --bg:#100c22;
-    --panel:#1a1533;
-    --ink:#f1edff;
-    --ink-soft:#b6adda;
-    --line:#332a5c;
-    --accent:#9c85ff;
-    --accent-ink:#171029;
+    --bg:#0c1422;
+    --panel:#152033;
+    --ink:#eef4fe;
+    --ink-soft:#adbdda;
+    --line:#2a3c5c;
+    --accent:#8eb4f6;
+    --accent-ink:#101929;
     --teal:#37d6cf;
     --amber:#f0b559;
     --good:#4fd393;
     --good-bg:#123527;
     --bad:#ff8b78;
     --bad-bg:#3a1c1c;
-    --scene-a:#0c0a20;
-    --scene-b:#241a4d;
+    --scene-a:#0a1220;
+    --scene-b:#1a2d4d;
     --stars:#ffffff;
     --subtitle-bg:rgba(6,5,16,.78);
   }
@@ -245,7 +246,7 @@
     border:1px solid var(--line);
     border-radius:20px;
     overflow:hidden;
-    box-shadow:0 10px 30px -18px rgba(30,20,70,.35);
+    box-shadow:0 10px 30px -18px rgba(20,38,70,.35);
   }
 
   .scene{
@@ -695,7 +696,7 @@
     // planet
     var px = w*(0.22+rand()*0.15), py = h*(0.62+rand()*0.15), pr = Math.min(w,h)*(0.16+rand()*0.05);
     var grad = ctx.createRadialGradient(px-pr*0.3,py-pr*0.3,pr*0.15,px,py,pr);
-    var hues = [["#ffb27a","#a5462a"],["#8fd6ff","#2c5aa5"],["#c9a8ff","#5a2f9e"],["#a8ffcf","#1c7a5c"]];
+    var hues = [["#ffb27a","#a5462a"],["#8fd6ff","#2c5aa5"],["#afcaf8","#2f589e"],["#a8ffcf","#1c7a5c"]];
     var pair = hues[Math.floor(rand()*hues.length)];
     grad.addColorStop(0,pair[0]);
     grad.addColorStop(1,pair[1]);
@@ -896,7 +897,7 @@
   function confetti(){
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; if (reduce) return;
     var c = $('fxCanvas'); var ctx = c.getContext('2d'); var w = c.width = window.innerWidth, h = c.height = window.innerHeight;
-    var cols = ['#f5b82e','#6d4aff','#1c8a5a','#e2572b','#2f9e9e','#e05a8a'], ps = [];
+    var cols = ['#f5b82e','#5890f1','#1c8a5a','#e2572b','#2f9e9e','#e0905a'], ps = [];
     for (var i=0;i<120;i++) ps.push({x: w/2 + (Math.random()-.5)*w*.3, y: h*.35, vx: (Math.random()-.5)*12, vy: -Math.random()*12-4, r: Math.random()*6+4, c: cols[i%cols.length], a: Math.random()*6});
     var t0 = performance.now();
     (function frame(t){ var k = (t - t0)/1000; ctx.clearRect(0,0,w,h); ps.forEach(function(p){ p.x += p.vx; p.y += p.vy; p.vy += .35; p.a += .2; ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.a); ctx.fillStyle = p.c; ctx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2); ctx.restore(); }); if (k < 1.8) requestAnimationFrame(frame); else ctx.clearRect(0,0,w,h); })(t0);
@@ -1070,5 +1071,5 @@
 
 
 
-<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=32"></script>
+<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=33"></script>
 </body></html>

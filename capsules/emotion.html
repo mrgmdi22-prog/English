@@ -1,17 +1,18 @@
-<!doctype html><html data-theme="light"><head><meta charset=utf8><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=4"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png?v=4"><script src="../assets/gate.js?v=10"></script><script src="../assets/combo.js?v=4"></script><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html data-theme="light"><head><meta charset=utf8><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=4"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png?v=4"><script src="../assets/gate.js?v=10"></script><script src="../assets/combo.js?v=4"></script><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
+</head><body class="v-ex" data-xs="f5">
 <title>كبسولة المشاعر</title>
-<meta name="theme-color" content="#241933">
+<meta name="theme-color" content="#192333">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Emotion Capsule">
 <style>
   :root{
-    --bg:#f6f1fb;
+    --bg:#f1f5fb;
     --panel:#ffffff;
-    --ink:#241933;
+    --ink:#192333;
     --ink-soft:#69607e;
-    --line:#e6def5;
+    --line:#dee6f5;
     --accent:#e0994a;
     --accent-ink:#ffffff;
     --teal:#3f9a8f;
@@ -20,49 +21,49 @@
     --good-bg:#e3f5ea;
     --bad:#c14a45;
     --bad-bg:#fbe4e2;
-    --scene-a:#241933;
-    --scene-b:#3d2a5c;
-    --scene-c:#5c3a78;
-    --subtitle-bg:rgba(36,25,51,.72);
+    --scene-a:#192333;
+    --scene-b:#2a3c5c;
+    --scene-c:#3a5178;
+    --subtitle-bg:rgba(25,35,51,.72);
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#171022;
-      --panel:#241933;
-      --ink:#f3edfc;
-      --ink-soft:#c2b6d9;
-      --line:#3a2c54;
+      --bg:#101722;
+      --panel:#192333;
+      --ink:#edf3fc;
+      --ink-soft:#b6c3d9;
+      --line:#2c3b54;
       --accent:#f0b15e;
-      --accent-ink:#1c1330;
+      --accent-ink:#131e30;
       --teal:#6fd0c2;
       --amber:#f0d168;
       --good:#7fd7a3;
       --good-bg:#1c3327;
       --bad:#ff9086;
       --bad-bg:#3a1e1c;
-      --scene-a:#100b1c;
-      --scene-b:#2a1e46;
-      --scene-c:#432b60;
+      --scene-a:#0b111c;
+      --scene-b:#1e2d46;
+      --scene-c:#2b3e60;
       --subtitle-bg:rgba(10,7,18,.78);
     }
   }
   :root[data-theme="dark"]{
-    --bg:#171022;
-    --panel:#241933;
-    --ink:#f3edfc;
-    --ink-soft:#c2b6d9;
-    --line:#3a2c54;
+    --bg:#101722;
+    --panel:#192333;
+    --ink:#edf3fc;
+    --ink-soft:#b6c3d9;
+    --line:#2c3b54;
     --accent:#f0b15e;
-    --accent-ink:#1c1330;
+    --accent-ink:#131e30;
     --teal:#6fd0c2;
     --amber:#f0d168;
     --good:#7fd7a3;
     --good-bg:#1c3327;
     --bad:#ff9086;
     --bad-bg:#3a1e1c;
-    --scene-a:#100b1c;
-    --scene-b:#2a1e46;
-    --scene-c:#432b60;
+    --scene-a:#0b111c;
+    --scene-b:#1e2d46;
+    --scene-c:#2b3e60;
     --subtitle-bg:rgba(10,7,18,.78);
   }
 
@@ -146,7 +147,7 @@
     border:1px solid var(--line);
     border-radius:20px;
     overflow:hidden;
-    box-shadow:0 10px 30px -18px rgba(40,25,70,.35);
+    box-shadow:0 10px 30px -18px rgba(25,42,70,.35);
   }
 
   .scene{
@@ -649,7 +650,7 @@
     ctx.fill();
 
     // floating colorful memory orbs representing joy, sadness, anger, fear, disgust
-    var colors = ["#f0d24a","#4a90d2","#e0473f","#8a5ce0","#4ab06a"];
+    var colors = ["#f0d24a","#4a90d2","#e0473f","#5c8ce0","#4ab06a"];
     var count = 5;
     for (var i=0;i<count;i++){
       var ox = w*(0.12 + (i/(count-1))*0.76 + (rand()-0.5)*0.06);
@@ -842,7 +843,7 @@
   function confetti(){
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; if (reduce) return;
     var c = $('fxCanvas'); var ctx = c.getContext('2d'); var w = c.width = window.innerWidth, h = c.height = window.innerHeight;
-    var cols = ['#f5b82e','#6d4aff','#1c8a5a','#e2572b','#2f9e9e','#e05a8a'], ps = [];
+    var cols = ['#f5b82e','#5890f1','#1c8a5a','#e2572b','#2f9e9e','#e0905a'], ps = [];
     for (var i=0;i<120;i++) ps.push({x: w/2 + (Math.random()-.5)*w*.3, y: h*.35, vx: (Math.random()-.5)*12, vy: -Math.random()*12-4, r: Math.random()*6+4, c: cols[i%cols.length], a: Math.random()*6});
     var t0 = performance.now();
     (function frame(t){ var k = (t - t0)/1000; ctx.clearRect(0,0,w,h); ps.forEach(function(p){ p.x += p.vx; p.y += p.vy; p.vy += .35; p.a += .2; ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.a); ctx.fillStyle = p.c; ctx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2); ctx.restore(); }); if (k < 1.8) requestAnimationFrame(frame); else ctx.clearRect(0,0,w,h); })(t0);
@@ -1014,5 +1015,5 @@
 })();
 </script>
 
-<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=32"></script>
+<link rel="stylesheet" href="../assets/club.css"><a class="club-home" href="../index.html">🏠 الرئيسية</a><script src="../assets/club.js?v=33"></script>
 </body></html>
