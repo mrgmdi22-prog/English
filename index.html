@@ -328,7 +328,7 @@ body.new .q-worlds .qn{display:none}
 @media (max-width:520px){.tlist li{flex-wrap:wrap}.tlist a.st{width:100%;text-align:center}}
 </style>
 <link rel="stylesheet" href="assets/brand.css?v=4"><script src="assets/brand.js?v=2"></script>
-<link rel="stylesheet" href="assets/vivid.css?v=1">
+<link rel="stylesheet" href="assets/vivid.css?v=3">
 </head>
 <body class="v-home">
 <div class="wrap" id="top">
@@ -336,8 +336,17 @@ body.new .q-worlds .qn{display:none}
   <section class="vhero" aria-labelledby="vhH">
     <div class="vh-top">
       <div class="vh-hi"><span class="vh-logo" aria-hidden="true">EN</span><div><small>English Club</small><b id="vNick">أهلاً يا بطل</b></div></div>
-      <a class="vh-fire fire-pill" id="myFire" href="streak.html" title="سلسلة الحماس: أيام متتالية من التعلّم"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1 5 6 6 6 12a6 6 0 0 1-12 0c0-3 1.5-4.5 3-6 0 3 1 4 2.5 4 0-4-1.5-6 .5-10z" fill="#ff6b1a"/></svg><b>0</b> <span class="fl">يوم</span></a>
+      <a class="vh-fire fire-pill" id="myFire" href="streak.html" title="سلسلة الحماس: أيام متتالية من التعلّم" aria-label="سلسلة الحماس"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1 5 6 6 6 12a6 6 0 0 1-12 0c0-3 1.5-4.5 3-6 0 3 1 4 2.5 4 0-4-1.5-6 .5-10z" fill="#ff8a3d"/><path d="M12 11c1 2.5 3.5 3.5 3.5 6a3.5 3.5 0 0 1-7 0c0-1.5.8-2.3 1.6-3 0 1.2.6 1.8 1.4 1.8 0-2-.5-3 .5-4.8z" fill="#ffd25e"/></svg><b>0</b><span class="fl">يوم</span></a>
     </div>
+    <svg class="vh-mt" viewBox="0 0 400 140" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <circle cx="318" cy="40" r="18" fill="#ffe08a"/><circle cx="318" cy="40" r="30" fill="#ffe08a" opacity=".25"/>
+      <path d="M0 140V96l48-30 34 20 52-46 40 34 30-18 46 40 44-30 50 36 56-40v124z" fill="#dcefff" opacity=".45"/>
+      <path d="M0 140V112l70-52 42 32 58-62 52 50 34-24 58 46 46-28 40 26v72z" fill="#c9e6ff"/>
+      <path d="M170 30l-20 21 9 6 11-9 11 10 8-6z" fill="#ffffff"/>
+      <path d="M170 30V6" stroke="#2b4a7a" stroke-width="2.4" stroke-linecap="round"/><path d="M170 6l20 6-20 7z" fill="#ff8a3d"/>
+      <path d="M0 140v-14l60-30 50 22 64-34 56 30 46-20 64 28 60-24v42z" fill="#a8e3d6"/>
+      <path d="M30 130c40-6 70-14 96-30s38-34 44-48" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-dasharray="2 7" stroke-linecap="round" opacity=".9"/>
+    </svg>
     <h1 id="vhH">جاهز لتحدي اليوم؟</h1>
     <p class="vh-sub">مهمة صغيرة كل يوم، ونقاط ترفعك إلى القمة. <span class="vh-lv" id="myLv" hidden>مستواك: <b dir="ltr"></b></span></p>
   </section>
@@ -506,7 +515,8 @@ import('./assets/honor.js?v=20261118').then(async H => {
   try { const f = H.fireState(), el = document.getElementById('myFire');
     if (el) { el.querySelector('b').textContent = f.cur; const t = H.fireTitle(f.cur);
       const u = f.cur >= 3 && f.cur <= 10 ? 'أيام' : f.cur > 10 ? 'يوماً' : 'يوم';
-      el.querySelector('.fl').textContent = f.cur && !f.today ? u + ' · أكمل يومك!' : u + (t ? ' · ' + t.t : ' حماس');
+      el.querySelector('.fl').textContent = u;
+      el.title = f.cur && !f.today ? 'سلسلة الحماس: أكمل يومك لتحافظ عليها' : 'سلسلة الحماس' + (t ? ' · ' + t.t : '');
       el.classList.toggle('due', !!f.cur && !f.today); } } catch (e) {}
   try { if (H.ready && H.myEntry) H.myEntry().then(e => { if (e && e.nick) { const n = document.getElementById('vNick'); n.textContent = 'أهلاً يا ' + e.nick; try { localStorage.setItem('club-nick-c', e.nick); } catch (x) {} } }).catch(() => {}); } catch (e) {}
   try { const vb = document.getElementById('vBest'); if (vb) vb.textContent = H.fireState().best; } catch (e) {}
