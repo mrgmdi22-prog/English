@@ -88,7 +88,7 @@ footer{text-align:center;color:var(--muted);margin-top:30px;font-size:1rem}
       <div class="tx"><div class="t1" id="t1">ابدأ سلسلتك اليوم</div><div class="t2" id="t2">يوم حماس = 30 نقطة في أي قسم، أو صندوق Surprise Me، أو مهمة اليوم كاملة.</div></div>
     </div>
     <div class="state" id="state"></div>
-    <div class="stats"><div><b id="best">0</b>أطول سلسلة</div><div><b id="sh">0</b>دروع 🛡️</div><div><b id="tot">0</b>أيام هذا الشهر</div></div>
+    <div class="stats"><div><b id="best">0</b>رقمك القياسي</div><div title="تحمي سلسلتك إن غبت يوماً"><b id="sh">0</b>دروع الحماية 🛡️<small style="display:block;font-size:.85rem;color:var(--muted);margin-top:2px">تحمي سلسلتك إن غبت يوماً</small></div><div><b id="tot">0</b>حضورك هذا الشهر</div></div>
     <div class="next" id="next"></div>
   </section>
 
@@ -126,7 +126,11 @@ $('cur').textContent = F.cur;
 const t = H.fireTitle(F.cur), nx = H.fireNext(F.cur);
 $('t1').textContent = F.cur ? `${F.cur} ${unit(F.cur)} متتالية${t ? ' · ' + t.ic + ' ' + t.t : ''}` : 'ابدأ سلسلتك اليوم';
 const st = $('state');
-if (F.today) { st.className = 'state ok'; st.textContent = '✅ يومك محسوب! عُد غداً لتكبر شعلتك.'; }
+if (F.today) {
+  const MS = {1: '🌱 بداية رائعة! كل رحلة تبدأ بخطوة.', 3: '✨ ثلاثة أيام متتالية، بدأت العادة تتكوّن!', 7: '🏆 أسبوع كامل من الالتزام، أنت مثال يُحتذى!', 14: '🔥 أسبوعان بلا انقطاع، شعلتك صارت ناراً!', 30: '👑 شهر كامل! أنت الآن من أهل العزيمة.'};
+  const DM = ['🔥 أحسنت! شعلتك اشتعلت اليوم، فلا تدعها تنطفئ غداً.', '✅ أنجزت مهمة اليوم! خطوة صغيرة كل يوم تصنع فرقاً كبيراً.', '🌟 يومٌ جديد يُضاف إلى رصيدك، نلقاك غداً لنكمل المسيرة.', '💪 التزامك اليوم يصنع تميّزك غداً، واصل!', '🏃 ما زلت في السباق، عُد غداً لتحافظ على تقدّمك.'];
+  st.className = 'state ok'; st.textContent = MS[F.cur] || DM[today % DM.length];
+}
 else { const g = (D[today] | 0); st.className = 'state due'; st.textContent = F.cur ? `⏳ لم يُحسب اليوم بعد: ${g} من 30 نقطة. أكمل يومك لتحافظ على سلسلتك.` : `⏳ اليوم: ${g} من 30 نقطة. ابدأ الآن لتبدأ سلسلتك.`; }
 $('best').textContent = F.best; $('sh').textContent = F.sh;
 if (nx) $('next').innerHTML = `<div>اللقب التالي: <b>${nx.ic} ${nx.t}</b> بعد <b>${nx.n - F.cur}</b> ${unit(nx.n - F.cur)} (+${nx.p} نقطة)</div><div class="bar"><i style="width:${Math.max(4, Math.round(F.cur / nx.n * 100))}%"></i></div>`;
