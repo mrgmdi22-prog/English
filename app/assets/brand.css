@@ -163,3 +163,8 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--b-sky);outline-offs
 .b-surprise .btn.soft{background:#fff;color:var(--b-ink);border:2px solid var(--b-edge);border-radius:14px}
 .b-surprise .sub-ar{color:var(--b-sky)}
 .hcaps-all{background:var(--b-sun);color:var(--b-ink);border:2px solid var(--b-ink);border-bottom-width:4px;border-radius:14px}
+/* سلسلة الحماس 🔥 pill on the home hero */
+a.b-pill{text-decoration:none}
+.fire-pill.due{animation:fpulse 1.6s ease-in-out infinite;background:#fff1e8}
+@keyframes fpulse{50%{box-shadow:0 0 0 6px rgba(255,107,53,.22)}}
+@media (prefers-reduced-motion:reduce){.fire-pill.due{animation:none}}

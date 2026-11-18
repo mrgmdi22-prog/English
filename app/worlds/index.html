@@ -423,7 +423,7 @@ const SECS = [
 ];
 const ELITE = [['ek','💎','مسار النخبة','../elite/index.html'], ['et','🏙️','في المدينة','../elite/town/index.html']];
 let H = null;
-async function honor() { if (H) return H; try { H = await import('../assets/honor.js?v=20261112b'); } catch (e) { H = null; } return H; }
+async function honor() { if (H) return H; try { H = await import('../assets/honor.js?v=20261118'); } catch (e) { H = null; } return H; }
 async function syncPoints() { try { const h = await honor(); if (h && h.ready && h.sync) await h.sync(); } catch (e) {} }
 async function viewPass() {
   setTab('pass'); document.body.style.removeProperty('--c');
@@ -482,6 +482,6 @@ route();
 syncPoints();
 })();
 </script>
-<script src="../assets/club.js?v=28"></script>
+<script src="../assets/club.js?v=29"></script>
 </body>
 </html>

@@ -327,7 +327,7 @@ body.new .q-worlds .qn{display:none}
 .hline.help{color:#0f766e;background:#e9f8f2;border-color:#bfe6d6}
 @media (max-width:520px){.tlist li{flex-wrap:wrap}.tlist a.st{width:100%;text-align:center}}
 </style>
-<link rel="stylesheet" href="assets/brand.css?v=3"><script src="assets/brand.js?v=2"></script>
+<link rel="stylesheet" href="assets/brand.css?v=4"><script src="assets/brand.js?v=2"></script>
 </head>
 <body>
 <div class="wrap" id="top">
@@ -337,7 +337,8 @@ body.new .q-worlds .qn{display:none}
       <div class="bh-t"><span class="b-tag">LEVEL UP</span><h1 data-bunder="coral" data-bw="190">جاهز لتحدي اليوم؟</h1></div>
       <div class="bh-chips">
         <span class="b-pill" title="نجوم الكبسولات"><span data-bicon="star" data-bs="22"></span><b id="myStars">0</b></span>
-        <span class="b-pill coral" title="نقاطك هذا الأسبوع"><span data-bicon="flame" data-bs="22"></span><b id="myPts">0</b> نقطة هذا الأسبوع</span>
+        <a class="b-pill coral fire-pill" id="myFire" href="streak.html" title="سلسلة الحماس: أيام متتالية من التعلّم"><span data-bicon="flame" data-bs="22"></span><b>0</b> <span class="fl">يوم حماس</span></a>
+        <span class="b-pill" title="نقاطك هذا الأسبوع"><span data-bicon="bolt" data-bs="22"></span><b id="myPts">0</b> نقطة هذا الأسبوع</span>
         <span class="b-pill sky" id="myLv" hidden><span data-bicon="chart" data-bs="22"></span><b dir="ltr"></b></span>
       </div>
     </div>
@@ -493,12 +494,18 @@ window.renderToday = function(){
 };
 window.renderToday();
 </script>
-<script src="assets/club.js?v=28"></script>
+<script src="assets/club.js?v=29"></script>
 <script type="module">
 // Top three on the honor board (only once Firebase is configured)
-import('./assets/honor.js?v=20261112b').then(async H => {
+import('./assets/honor.js?v=20261118').then(async H => {
   const s = H.computeScore().score;
   const mp = document.getElementById('myPts'); if (mp) mp.textContent = s.toLocaleString('en-US');
+  // سلسلة الحماس 🔥: days in a row; until today counts, the pill asks the student to keep the streak alive
+  try { const f = H.fireState(), el = document.getElementById('myFire');
+    if (el) { el.querySelector('b').textContent = f.cur; const t = H.fireTitle(f.cur);
+      const u = f.cur >= 3 && f.cur <= 10 ? 'أيام' : f.cur > 10 ? 'يوماً' : 'يوم';
+      el.querySelector('.fl').textContent = f.cur && !f.today ? u + ' · أكمل يومك!' : u + (t ? ' · ' + t.t : ' حماس');
+      el.classList.toggle('due', !!f.cur && !f.today); } } catch (e) {}
   try { window.PathCore.setParts(H.computeScore().parts || {}); window.renderToday(); } catch (e) {}
   if (!H.ready) return;
   const line = document.getElementById('hLine');

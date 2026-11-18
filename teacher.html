@@ -76,7 +76,7 @@ h1{font-size:2rem;margin:0 0 4px;font-weight:800}
   <div id="main"></div>
 </div>
 <script type="module">
-import * as H from './assets/honor.js?v=20261112b';
+import * as H from './assets/honor.js?v=20261118';
 const $ = id => document.getElementById(id);
 const LV_NEW_AT = 1793547780000; // same as NEW_AT in level/index.html: start of the harder level-check version
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -183,6 +183,8 @@ async function load() {
   let AC = (() => { try { return JSON.parse(sessionStorage.getItem('t-ac')) || {}; } catch (e) { return {}; } })(); AC = { mode: AC.mode || 'day', g: AC.g || '' };
   const DAYN = ['أحد','إثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
   const dName = d => DAYN[new Date(d * 864e5 + 12 * 3600e3).getUTCDay()];
+  // سلسلة الحماس 🔥: the student's current streak of active days (parts.fire = {c, b, t}).
+  const fireTag = r => { const f = (r.parts || {}).fire; return f && f.c > 0 ? ` <small style="color:#c2410c;font-weight:800;white-space:nowrap" title="سلسلة الحماس: أيام متتالية (أفضلها ${f.b})">🔥${f.c}${f.t ? '' : ' ⏳'}</small>` : ''; };
   const acHTML = () => {
     const list = ok.filter(r => !AC.g || gradeOf(r.id) === AC.g).map(r => ({ r, a: actOf(r, AC.mode) }));
     const act = list.filter(x => x.a && x.a.sum > 0).sort((x, y) => y.a.sum - x.a.sum), idle = list.filter(x => !(x.a && x.a.sum > 0));
@@ -192,7 +194,7 @@ async function load() {
     return `<div class="acTabs"><button class="btn ${AC.mode === 'day' ? 'on' : ''}" data-ac="day">اليوم</button><button class="btn ${AC.mode === 'week' ? 'on' : ''}" data-ac="week">هذا الأسبوع</button>
       <select id="acG"><option value="">كل الصفوف والشعب</option>${acGroups.map(g => `<option ${g === AC.g ? 'selected' : ''}>${esc(g)}</option>`).join('')}</select></div>
       <div class="acSum"><div><b>${act.length}</b>طالباً نشطاً</div><div><b>${idle.length}</b>لم ينشط${AC.mode === 'day' ? ' اليوم' : ' هذا الأسبوع'}</div><div><b>${fmt(total)}</b>مجموع النقاط</div></div>
-      ${act.map(x => `<div class="ac"><div class="h"><span>${nm(x.r)}</span><span class="p">${fmt(x.a.sum)}${AC.mode === 'week' ? `<small class="real" style="font-size:.85rem">نشط ${x.a.active} من 7 أيام</small>` : ''}</span></div><div class="secs">${secs(x.a.o)}</div>${days(x)}<button class="btn soft rp" data-rp="${x.r.id}">📋 تقرير الطالب</button></div>`).join('') || '<div class="empty">لا نشاط مسجّل بعد في هذه الفترة.</div>'}
+      ${act.map(x => `<div class="ac"><div class="h"><span>${nm(x.r)}${fireTag(x.r)}</span><span class="p">${fmt(x.a.sum)}${AC.mode === 'week' ? `<small class="real" style="font-size:.85rem">نشط ${x.a.active} من 7 أيام</small>` : ''}</span></div><div class="secs">${secs(x.a.o)}</div>${days(x)}<button class="btn soft rp" data-rp="${x.r.id}">📋 تقرير الطالب</button></div>`).join('') || '<div class="empty">لا نشاط مسجّل بعد في هذه الفترة.</div>'}
       ${idle.length ? `<details class="acIdle"><summary>لم ينشطوا (${idle.length})</summary>${idle.map(x => `<div class="ac"><span>${nm(x.r)}</span><button class="btn soft rp" data-rp="${x.r.id}">📋 تقرير الطالب</button>${x.a ? '' : '<small class="real">لم يصل منه نشاط بعد (يظهر بعد أول دخول له بعد هذا التحديث)</small>'}</div>`).join('')}</details>` : ''}`;
   };
   const actPanel = `<div class="panel" id="acPanel"><h2>📊 نشاط الطلاب</h2><p class="note">النقاط التي جمعها كل طالب في كل قسم (قبل الحد اليومي)، ويبدأ اليوم في السادسة صباحاً والأسبوع يوم الثلاثاء. يُحدَّث حين يفتح الطالب الموقع.</p><div id="acBody">${acHTML()}</div></div>`;

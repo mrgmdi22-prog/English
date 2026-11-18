@@ -589,7 +589,7 @@ function fireworks(){
 
 /* ================= start ================= */
 function load(){
-  return import('../assets/honor.js?v=20261112b').then(function(H){
+  return import('../assets/honor.js?v=20261118').then(function(H){
     PC.setParts(H.computeScore().parts || {});
     var p = J('my-path', null);
     if (p && (!p.base || !Object.keys(p.base).length)) { p.base = snap(); S('my-path', p); }   // map drawn before the points loaded
@@ -599,6 +599,6 @@ vRoute();
 load().then(function(){ if (location.hash !== '#q') vRoute(); });
 })();
 </script>
-<script src="../assets/club.js?v=28"></script>
+<script src="../assets/club.js?v=29"></script>
 </body>
 </html>

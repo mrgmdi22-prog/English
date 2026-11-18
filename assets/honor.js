@@ -41,6 +41,8 @@ export const RULES = [
   // and a world's stamp (all its stations + the challenge passed) is worth 50.
   { key: 'wd',   label: 'إجابة صحيحة في تحدي العالم بعوالم النادي (أفضل محاولة لكل عالم)', icon: '🌍', per: 5, max: 100 },
   { key: 'ws',   label: 'ختم عالم في جواز السفر (أنهيت محطاته ونجحت في تحديه)', icon: '🛂', per: 50, max: 10, note: '50 نقطة' },
+  // سلسلة الحماس 🔥 (18 Nov 2026): a reward once for each streak title reached (best streak ever): 3, 7, 14, 30, 60 days.
+  { key: 'fs',   label: 'ألقاب سلسلة الحماس: 3 أيام 20 · 7 أيام 50 · 14 يوماً 100 · 30 يوماً 200 · 60 يوماً 300', icon: '🔥', per: 1, max: 670, note: 'مرة لكل لقب', unit: 'نقطة' },
   { key: 'rt',   label: 'كلمة ثبتت في ذاكرتك بالمراجعة المتباعدة (Word Quest والكلمات العامة والأكاديمية)', icon: '🧠', per: 3, max: 1500 }
 ];
 const RATES_V = 2;   // rates version: when it changes, points already earned stay as they were and the new rates apply from then on
@@ -56,7 +58,7 @@ export const dayNo = t => Math.floor(((t || Date.now()) + 3 * 3600e3 - 6 * 3600e
 export const weekNo = t => Math.floor((dayNo(t) - 5) / 7);                              // day 5 (mod 7) is a Tuesday
 /** The Tuesday a season starts, as d/m (Gregorian). */
 export function weekLabel(w) { const d = new Date((w * 7 + 5) * 864e5); return d.getUTCDate() + '/' + (d.getUTCMonth() + 1); }
-const FREE = new Set(['mb', 'lv', 'lvs', 'rt', 'ep', 'ep2', 'epb', 'epx']);   // النخبة+ (elite/plus) has no daily cap
+const FREE = new Set(['fs', 'mb', 'lv', 'lvs', 'rt', 'ep', 'ep2', 'epb', 'epx']);   // النخبة+ (elite/plus) has no daily cap
 /* النخبة+ has its own, separate evaluation (12 Nov 2026): its points (parts.epp) rank students only on the Elite+ board
    and its own weekly stars, and are NOT added to the club's main score, so students at lower levels are not discouraged. */
 const EPK = new Set(['ep', 'ep2', 'epb', 'epx']);
@@ -89,6 +91,54 @@ function activity(sec, day, week) {
   try { localStorage.setItem('act', JSON.stringify(A)); } catch (e) {}
   return { day, week, t, w, h: A.h };
 }
+/* ---------- سلسلة الحماس 🔥 (18 Nov 2026): one streak for the whole club, kept by DATE ----------
+   A day counts («يوم حماس») when the student earns FIRE_MIN points that day (any section, before the daily cap),
+   opens a Surprise Me box, or finishes the daily mission of هندسة مساري. The day starts at 6 am like the rest of the site.
+   Stored in localStorage `fire` = {d: {day: points}, s: 1} (backed up; merged max-wise, so devices add up).
+   No harsh reset: every 7 days in a row earn a shield 🛡️ (2 at most) that covers one missed day by itself. */
+export const FIRE_MIN = 30;
+export const FIRE_LV = [30, 150, 400];   // light / medium / strong day
+export const FIRE_TITLES = [
+  { n: 3,  t: 'شرارة', ic: '✨', p: 20 },
+  { n: 7,  t: 'شعلة', ic: '🔥', p: 50 },
+  { n: 14, t: 'لهب', ic: '☄️', p: 100 },
+  { n: 30, t: 'بركان', ic: '🌋', p: 200 },
+  { n: 60, t: 'أسطورة الحماس', ic: '👑', p: 300 }
+];
+function fireLog(day, todayPts) {
+  let F = J('fire'); if (!F || typeof F !== 'object' || !F.d) F = { d: {} };
+  if (!F.s) {   // first run: the days we already know about (this device's last 14 days, Surprise Me boxes, daily missions)
+    F.s = 1;
+    const A = J('act'); if (A && A.h) Object.keys(A.h).forEach(k => { F.d[k] = Math.max(+F.d[k] || 0, +A.h[k] || 0); });
+  }
+  const mbd = J('mb-days') || {}, mbp = J('mb-pts') || {}, mp = J('my-path') || {}, pd = (mp && mp.days) || {};
+  const mark = (k, v) => { if (+k > day || +k < day - 400) return; F.d[k] = Math.max(+F.d[k] || 0, v); };
+  Object.keys(mbd).forEach(k => mark(k, Math.max(FIRE_MIN, +mbp[k] || 0)));
+  Object.keys(pd).forEach(k => { if (pd[k]) mark(k, FIRE_MIN); });
+  if (todayPts > 0) mark(day, todayPts);
+  Object.keys(F.d).forEach(k => { if (+k < day - 400 || !(+F.d[k] > 0)) delete F.d[k]; });
+  try { localStorage.setItem('fire', JSON.stringify(F)); } catch (e) {}
+  return F.d;
+}
+/** The streak from the dated log: current run, best run, shields, shielded days, today done or not. */
+export function fireState(d, day) {
+  d = d || (J('fire') || {}).d || {}; day = day == null ? dayNo() : day;
+  const ks = Object.keys(d).map(Number).filter(k => k <= day && d[k] >= FIRE_MIN);
+  const out = { cur: 0, best: 0, sh: 0, shielded: {}, today: !!(d[day] >= FIRE_MIN), d, day };
+  if (!ks.length) return out;
+  let run = 0, sh = 0, best = 0;
+  for (let x = Math.min(...ks); x <= day; x++) {
+    if (d[x] >= FIRE_MIN) { run++; if (run % 7 === 0 && sh < 2) sh++; best = Math.max(best, run); }
+    else if (x === day) { /* today is still open */ }
+    else if (sh > 0 && run > 0) { sh--; out.shielded[x] = 1; }
+    else run = 0;
+  }
+  out.cur = run; out.best = best; out.sh = sh;
+  return out;
+}
+export function fireTitle(n) { let t = null; FIRE_TITLES.forEach(x => { if (n >= x.n) t = x; }); return t; }
+export function fireNext(n) { return FIRE_TITLES.find(x => n < x.n) || null; }
+
 /** Points earned on this device, with the breakdown. */
 export function computeScore() {
   // Capsules: a stage has 7 questions; its best stars count as right answers: ⭐ 3, ⭐⭐ 5, ⭐⭐⭐ 7 (= 15 / 25 / 35 points).
@@ -169,7 +219,10 @@ export function computeScore() {
   Object.keys(xbo).forEach(sec => { if ((sec === 'ek' || sec === 'ed' || sec === 'et') && !elite) return; const u = xbo[sec] || {};
     Object.keys(u).forEach(k => { xb += Math.max(0, Math.min(k === '*' ? 100000 : 14, +u[k] || 0)) * (PER[sec] || 5) / 2; }); });
   xb = Math.round(xb);
-  const parts = { caps, capsg, wq, lab, mg, bf, ng, aw, st, cq, tn, pv, im, tb, sp, xb, mb, lv, lvs, rt, ek: elite ? ek : 0, ed: elite ? ed : 0, et: elite ? et : 0, ep, ep2, epb, epx, epp: ep * 15 + ep2 * 25 + epb * 25 + epx, epw, wd, ws, el: elite, wqx: wqStats() };
+  // سلسلة الحماس: titles reached by the best streak so far (from the dated log; today's points are added below).
+  const fst = fireState(null, dayNo());
+  const fs = FIRE_TITLES.filter(x => fst.best >= x.n).reduce((t, x) => t + x.p, 0);
+  const parts = { fs, caps, capsg, wq, lab, mg, bf, ng, aw, st, cq, tn, pv, im, tb, sp, xb, mb, lv, lvs, rt, ek: elite ? ek : 0, ed: elite ? ed : 0, et: elite ? et : 0, ep, ep2, epb, epx, epp: ep * 15 + ep2 * 25 + epb * 25 + epx, epw, wd, ws, el: elite, wqx: wqStats() };
   // Practice points count at most DAILY_CAP a day (Saudi day). Practice after that is for learning only:
   // the extra points are not counted, then or later. Surprise Me and the level/retention rewards are outside the cap.
   const pts = r => Math.min(parts[r.key], r.max) * r.per;
@@ -203,6 +256,7 @@ export function computeScore() {
   const sec = {}; RULES.forEach(r => { const v = Math.min(parts[r.key] || 0, r.max) * r.per; if (v > 0) sec[r.key] = v; });
   if (sec.capsg) { sec.caps = (sec.caps || 0) + sec.capsg; delete sec.capsg; }   // one 'capsules' section for the activity report
   parts.act = activity(sec, day, week);
+  { const fd = fireLog(day, (parts.act.h || {})[day] || 0), f = fireState(fd, day); parts.fire = { c: f.cur, b: f.best, t: f.today ? 1 : 0, sh: f.sh }; }
   // total = all points since the start; score = this season's points (since Tuesday 6 am).
   const total = L.got + free;
   // One-time switch (12 Nov 2026): Elite+ points leave the main score. The season baseline drops by the same amount,
