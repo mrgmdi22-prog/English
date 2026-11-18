@@ -522,7 +522,7 @@ import('./assets/honor.js?v=20261118').then(async H => {
       el.querySelector('.fl').textContent = u;
       el.title = f.cur && !f.today ? 'سلسلة الحماس: أكمل يومك لتحافظ عليها' : 'سلسلة الحماس' + (t ? ' · ' + t.t : '');
       el.classList.toggle('due', !!f.cur && !f.today); } } catch (e) {}
-  try { if (H.ready && H.myEntry) H.myEntry().then(e => { if (e && e.nick) { const n = document.getElementById('vNick'); n.textContent = 'أهلاً يا ' + e.nick; try { localStorage.setItem('club-nick-c', e.nick); } catch (x) {} } }).catch(() => {}); } catch (e) {}
+  try { if (H.ready && H.myEntry) H.myEntry().then(e => { if (e && e.nick) { const n = document.getElementById('vNick'); n.textContent = window.clubHello(e.nick); try { localStorage.setItem('club-nick-c', e.nick); } catch (x) {} } }).catch(() => {}); } catch (e) {}
   try { const vb = document.getElementById('vBest'); if (vb) vb.textContent = H.fireState().best; } catch (e) {}
   try { window.PathCore.setParts(H.computeScore().parts || {}); window.renderToday(); } catch (e) {}
   if (!H.ready) return;
@@ -587,7 +587,9 @@ import('./assets/honor.js?v=20261118').then(async H => {
 </script>
 <script>
 // greeting: the nickname saved the last time the honor board answered (shown at once, before Firebase loads)
-try { var nk = localStorage.getItem('club-nick-c'); if (nk) document.getElementById('vNick').textContent = 'أهلاً يا ' + nk; } catch (e) {}
+// «أهلاً أيها الشهاب» when the nickname starts with «ال», otherwise «أهلاً يا …»
+window.clubHello = function(n){ n = String(n || '').trim(); return (/^ال/.test(n) ? 'أهلاً أيها ' : 'أهلاً يا ') + n; };
+try { var nk = localStorage.getItem('club-nick-c'); if (nk) document.getElementById('vNick').textContent = window.clubHello(nk); } catch (e) {}
 </script>
 </body>
 </html>
