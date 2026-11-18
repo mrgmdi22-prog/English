@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+ <defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+   <stop offset="0" stop-color="#5BC8FF"/><stop offset="1" stop-color="#1E7FE0"/>
+  </linearGradient>
+  <linearGradient id="mL" x1="0" y1="0" x2="0" y2="1">
+   <stop offset="0" stop-color="#1A5FC9"/><stop offset="1" stop-color="#0E3E94"/>
+  </linearGradient>
+  <linearGradient id="mR" x1="0" y1="0" x2="0" y2="1">
+   <stop offset="0" stop-color="#2F7BE6"/><stop offset="1" stop-color="#1655B8"/>
+  </linearGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+   <stop offset="0" stop-color="#FFE45C"/><stop offset="1" stop-color="#FFB915"/>
+  </linearGradient>
+  <linearGradient id="shine" x1="0" y1="0" x2="0" y2="1">
+   <stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+  </linearGradient>
+  <clipPath id="c"><rect width="512" height="512" rx="116"/></clipPath>
+ </defs>
+ <g clip-path="url(#c)">
+  <rect width="512" height="512" fill="url(#sky)"/>
+  <circle cx="420" cy="92" r="120" fill="#fff" opacity=".12"/>
+  <!-- back hills -->
+  <path d="M-10 330 L95 240 L180 320 Z" fill="#7CC4FF" opacity=".55"/>
+  <path d="M330 320 L430 225 L530 315 Z" fill="#7CC4FF" opacity=".55"/>
+  <!-- main mountain -->
+  <path d="M256 118 L-20 520 L256 520 Z" fill="url(#mL)"/>
+  <path d="M256 118 L532 520 L256 520 Z" fill="url(#mR)"/>
+  <!-- snow cap -->
+  <path d="M256 118 L208 188 L232 176 L250 198 L268 174 L290 192 L304 188 Z" fill="#fff"/>
+  <path d="M256 118 L256 194 L268 174 L290 192 L304 188 Z" fill="#E3F1FF"/>
+  <!-- dotted path -->
+  <path d="M150 512 C170 470 300 455 290 420" fill="none" stroke="#FFE45C" stroke-width="9" stroke-linecap="round" stroke-dasharray="2 22" opacity=".9"/>
+  <!-- flag -->
+  <rect x="251" y="40" width="10" height="84" rx="4" fill="#0B2A66"/>
+  <path d="M261 44 C290 34 312 58 344 46 L344 96 C312 108 290 84 261 94 Z" fill="url(#gold)" stroke="#0B2A66" stroke-width="7" stroke-linejoin="round"/>
+  <circle cx="256" cy="38" r="9" fill="#FFE45C" stroke="#0B2A66" stroke-width="5"/>
+  <!-- EN badge -->
+  <rect x="104" y="236" width="304" height="150" rx="40" fill="#0B2A66"/>
+  <rect x="104" y="226" width="304" height="150" rx="40" fill="url(#gold)" stroke="#0B2A66" stroke-width="12"/>
+  <rect x="128" y="242" width="256" height="40" rx="20" fill="url(#shine)"/>
+  <text x="256" y="345" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="118" fill="#0B2A66" letter-spacing="4">EN</text>
+  <!-- ribbon -->
+  <path d="M60 410 L452 410 L436 438 L452 466 L60 466 L76 438 Z" fill="#0B2A66"/>
+  <text x="256" y="452" text-anchor="middle" font-family="DejaVu Sans" font-weight="bold" font-size="40" fill="#fff" letter-spacing="6">LEVEL UP</text>
+ </g>
+</svg>
