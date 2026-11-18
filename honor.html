@@ -242,34 +242,30 @@ const NEXT = (() => { const n = new URLSearchParams(location.search).get('next')
 const HEAD0 = [$('hTitle').textContent, $('hSub').textContent];
 const CUP = `<svg class="cup" viewBox="0 0 220 230" role="img" aria-label="كأس لوحة الشرف">
 <defs>
- <linearGradient id="cg" x1="0" x2="1"><stop offset="0" stop-color="#b8860b"/><stop offset=".28" stop-color="#ffe9a3"/><stop offset=".5" stop-color="#ffd24a"/><stop offset=".75" stop-color="#e3a91c"/><stop offset="1" stop-color="#9a6b06"/></linearGradient>
- <linearGradient id="cg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3c4"/><stop offset="1" stop-color="#d99a12"/></linearGradient>
- <linearGradient id="pb" x1="0" x2="1"><stop offset="0" stop-color="#22355e"/><stop offset=".5" stop-color="#34508a"/><stop offset="1" stop-color="#1c2b4a"/></linearGradient>
- <radialGradient id="gl" cx=".5" cy=".42" r=".55"><stop offset="0" stop-color="#fff6cf" stop-opacity=".95"/><stop offset="1" stop-color="#fff6cf" stop-opacity="0"/></radialGradient>
- <linearGradient id="gem" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9fd8ff"/><stop offset="1" stop-color="#2f74e0"/></linearGradient>
+ <linearGradient id="cg" x1="0" x2="1"><stop offset="0" stop-color="#b07d0a"/><stop offset=".25" stop-color="#ffe7a0"/><stop offset=".45" stop-color="#ffd24a"/><stop offset=".72" stop-color="#e2a71b"/><stop offset="1" stop-color="#9a6b06"/></linearGradient>
+ <linearGradient id="cg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff6d2"/><stop offset="1" stop-color="#e0a51c"/></linearGradient>
+ <linearGradient id="pb" x1="0" x2="1"><stop offset="0" stop-color="#22355e"/><stop offset=".5" stop-color="#3a5896"/><stop offset="1" stop-color="#1c2b4a"/></linearGradient>
+ <radialGradient id="gl" cx=".5" cy=".45" r=".55"><stop offset="0" stop-color="#fff6cf" stop-opacity=".9"/><stop offset="1" stop-color="#fff6cf" stop-opacity="0"/></radialGradient>
+ <linearGradient id="rb" x1="0" x2="1"><stop offset="0" stop-color="#e2531f"/><stop offset=".5" stop-color="#ff8a3d"/><stop offset="1" stop-color="#e2531f"/></linearGradient>
 </defs>
-<g class="rays" opacity=".32"><path d="M110 92L60 0h22zM110 92L138 0h22zM110 92L0 40v20zM110 92l110-52v20zM110 92L18 128l-8-14zM110 92l92 36 8-14z" fill="#fff6cf"/></g>
-<circle cx="110" cy="92" r="96" fill="url(#gl)"/>
-<g class="laurel" fill="#e3a91c" stroke="#9a6b06" stroke-width="1.2">
- <path d="M44 150c-14-22-14-52 4-78" fill="none" stroke="#c48a10" stroke-width="3"/><path d="M176 150c14-22 14-52-4-78" fill="none" stroke="#c48a10" stroke-width="3"/>
- <ellipse cx="38" cy="132" rx="6" ry="12" transform="rotate(-30 38 132)"/><ellipse cx="35" cy="110" rx="6" ry="12" transform="rotate(-10 35 110)"/><ellipse cx="38" cy="88" rx="6" ry="12" transform="rotate(12 38 88)"/>
- <ellipse cx="54" cy="142" rx="5" ry="11" transform="rotate(-62 54 142)"/><ellipse cx="50" cy="118" rx="5" ry="11" transform="rotate(-48 50 118)"/><ellipse cx="51" cy="96" rx="5" ry="11" transform="rotate(-30 51 96)"/>
- <ellipse cx="182" cy="132" rx="6" ry="12" transform="rotate(30 182 132)"/><ellipse cx="185" cy="110" rx="6" ry="12" transform="rotate(10 185 110)"/><ellipse cx="182" cy="88" rx="6" ry="12" transform="rotate(-12 182 88)"/>
- <ellipse cx="166" cy="142" rx="5" ry="11" transform="rotate(62 166 142)"/><ellipse cx="170" cy="118" rx="5" ry="11" transform="rotate(48 170 118)"/><ellipse cx="169" cy="96" rx="5" ry="11" transform="rotate(30 169 96)"/>
-</g>
-<path d="M66 62c-26 0-30 40 6 52" fill="none" stroke="url(#cg)" stroke-width="9" stroke-linecap="round"/>
-<path d="M154 62c26 0 30 40-6 52" fill="none" stroke="url(#cg)" stroke-width="9" stroke-linecap="round"/>
-<path d="M62 44h96v18c0 34-20 62-48 62S62 96 62 62z" fill="url(#cg)" stroke="#8a5d05" stroke-width="2"/>
-<ellipse cx="110" cy="44" rx="48" ry="8" fill="url(#cg2)" stroke="#8a5d05" stroke-width="2"/>
-<path d="M78 56c2 26 10 44 22 54" fill="none" stroke="#fff8dc" stroke-width="5" stroke-linecap="round" opacity=".75"/>
-<path d="M110 70l6 12 13 2-9 9 2 13-12-6-12 6 2-13-9-9 13-2z" fill="#fff4c2" stroke="#b8860b" stroke-width="1.5"/>
-<path d="M102 124h16l4 22h-24z" fill="url(#cg)" stroke="#8a5d05" stroke-width="2"/>
-<rect x="84" y="146" width="52" height="10" rx="4" fill="url(#cg)" stroke="#8a5d05" stroke-width="2"/>
-<path d="M76 156h68l6 34H70z" fill="url(#pb)" stroke="#14233f" stroke-width="2"/>
-<rect x="88" y="166" width="44" height="15" rx="3" fill="url(#cg)" stroke="#8a5d05" stroke-width="1.5"/>
-<text x="110" y="178" text-anchor="middle" font-family="Lexend,system-ui,sans-serif" font-weight="800" font-size="11" fill="#5a3d00">#1</text>
-<path d="M106 150l4-6 4 6-4 4z" fill="url(#gem)"/>
-<g class="spk" fill="#ffffff"><path d="M44 30l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/><path d="M182 24l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/><path d="M196 70l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path d="M24 76l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></g>
+<g class="rays" opacity=".3"><path d="M110 88L64 0h20zM110 88L136 0h20zM110 88L0 36v18zM110 88l110-52v18zM110 88L14 132l-6-14zM110 88l96 44 6-14z" fill="#fff6cf"/></g>
+<circle cx="110" cy="88" r="92" fill="url(#gl)"/>
+<path d="M70 50C44 50 40 70 48 84c6 10 18 16 28 18" fill="none" stroke="#8a5d05" stroke-width="10" stroke-linecap="round"/>
+<path d="M150 50c26 0 30 20 22 34-6 10-18 16-28 18" fill="none" stroke="#8a5d05" stroke-width="10" stroke-linecap="round"/>
+<path d="M70 50C44 50 40 70 48 84c6 10 18 16 28 18" fill="none" stroke="url(#cg)" stroke-width="6" stroke-linecap="round"/>
+<path d="M150 50c26 0 30 20 22 34-6 10-18 16-28 18" fill="none" stroke="url(#cg)" stroke-width="6" stroke-linecap="round"/>
+<path d="M64 36h92v20c0 36-20 66-46 66S64 92 64 56z" fill="url(#cg)" stroke="#8a5d05" stroke-width="2.2"/>
+<ellipse cx="110" cy="36" rx="46" ry="8" fill="url(#cg2)" stroke="#8a5d05" stroke-width="2.2"/>
+<path d="M80 50c2 28 10 46 22 58" fill="none" stroke="#fffbe6" stroke-width="6" stroke-linecap="round" opacity=".7"/>
+<path d="M110 60l7 14 15 2-11 10 3 15-14-7-14 7 3-15-11-10 15-2z" fill="#fff4c2" stroke="#b8860b" stroke-width="1.6"/>
+<path d="M100 121h20l3 10c0 6-5 10-13 10s-13-4-13-10z" fill="url(#cg)" stroke="#8a5d05" stroke-width="2"/>
+<path d="M105 141h10l3 12h-16z" fill="url(#cg)" stroke="#8a5d05" stroke-width="2"/>
+<rect x="82" y="153" width="56" height="9" rx="4" fill="url(#cg)" stroke="#8a5d05" stroke-width="2"/>
+<path d="M74 162h72l6 32H68z" fill="url(#pb)" stroke="#14233f" stroke-width="2"/>
+<path d="M52 176h22l-4 8 4 8H52z" fill="#c84616"/><path d="M168 176h-22l4 8-4 8h22z" fill="#c84616"/>
+<rect x="66" y="172" width="88" height="22" rx="4" fill="url(#rb)" stroke="#a63a10" stroke-width="1.5"/>
+<text x="110" y="188" text-anchor="middle" font-family="Tajawal,system-ui,sans-serif" font-weight="800" font-size="13" fill="#fff">البطل</text>
+<g class="spk" fill="#ffffff"><path d="M40 26l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/><path d="M184 22l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/><path d="M196 104l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path d="M22 110l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></g>
 </svg>`;
 function gateHeader() {
   const g = !demo && !isReg();
