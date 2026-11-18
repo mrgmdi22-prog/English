@@ -132,3 +132,34 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--b-sky);outline-offs
 .b-honor .panel h2.bh2{justify-content:flex-start}
 .b-honor .me .av{font-size:0;background:none}
 .b-honor .arch .wk span{background:#fff;border:1.5px solid var(--b-edge)}
+
+/* ---- v3 polish (18 Nov 2026) ---- */
+/* home: the painting shorter on phones so «مهمة اليوم» shows sooner; bigger points chips */
+@media (max-width:719px){.bhero .b-scene{max-height:175px}}
+.bhero .b-pill{font-size:1.15rem;padding:6px 16px}
+/* sections: portal cards (elite, library, IELTS) — drawn icon, light wash, one yellow button style */
+.portal .ic{background:none;border:0;width:auto;height:auto}
+.card.portal{background:#fff!important;border-color:var(--b-edge)}
+.portal .go{background:var(--b-sun)!important;color:var(--b-ink)!important;border:2px solid var(--b-ink);border-bottom-width:4px;border-radius:14px}
+.kidsban{border:2px solid var(--b-sun)}
+.kidsban .go{background:var(--b-coral);color:var(--b-ink);border:2px solid var(--b-ink);border-bottom-width:4px;border-radius:14px}
+/* learner's guide: no lavender, brand washes and buttons */
+.b-guide .hero{background:#fff;border:2px solid var(--b-edge);border-radius:24px;box-shadow:var(--b-shadow);position:relative;overflow:hidden}
+.b-guide .hero::before{content:"";position:absolute;inset:-30px -40px auto auto;width:220px;height:90px;background:var(--b-sun);opacity:.28;border-radius:40px;transform:rotate(-14deg)}
+.b-guide .hero::after{content:"";position:absolute;inset:auto auto -30px -40px;width:200px;height:80px;background:var(--b-turq);opacity:.2;border-radius:40px;transform:rotate(-14deg)}
+.b-guide .hero>*{position:relative}
+.b-guide .hero h1 .en{color:var(--b-sky)}
+.b-guide .toc a{border:2px solid var(--b-edge);border-radius:16px}
+.b-guide .toc a:hover{border-color:var(--b-sky);background:#f2f8ff}
+@media (max-width:520px){.b-guide .toc a:last-child:nth-child(odd){grid-column:1/-1;justify-content:center}}
+.b-guide .steps li,.b-guide .pick{border:2px solid var(--b-edge)}
+.b-guide .steps .n{background:var(--b-sun);color:var(--b-ink);border:2px solid var(--b-ink)}
+.b-guide .steps a.mini{background:#fff6d8;color:var(--b-ink);border:2px solid var(--b-sun)}
+.b-guide .pick button[aria-pressed="true"]{border-color:var(--b-sky);background:#e9f2ff}
+.b-guide .back{background:var(--b-sun);color:var(--b-ink);border:2px solid var(--b-ink);border-bottom-width:5px;border-radius:14px}
+/* Surprise Me: brand buttons and title colours */
+.b-surprise h1 .gt{background-image:linear-gradient(90deg,var(--b-sky),var(--b-turq),var(--b-coral),var(--b-sky))}
+.b-surprise .btn:not(.soft){background:var(--b-sun);color:var(--b-ink);border:2px solid var(--b-ink);border-bottom-width:5px;border-radius:14px;box-shadow:var(--b-shadow)}
+.b-surprise .btn.soft{background:#fff;color:var(--b-ink);border:2px solid var(--b-edge);border-radius:14px}
+.b-surprise .sub-ar{color:var(--b-sky)}
+.hcaps-all{background:var(--b-sun);color:var(--b-ink);border:2px solid var(--b-ink);border-bottom-width:4px;border-radius:14px}
