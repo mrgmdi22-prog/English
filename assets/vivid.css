@@ -1,0 +1,193 @@
+/* English Club — vivid interface (18 Nov 2026). Ahmed found the watercolour look «باهت ميت» and chose a mix of two mockups:
+   «طاقة» (bright blue→cyan gradients, white cards, solid colour tiles) for the home, the streak page and the guide, and
+   «ملعب» (solid colours, thick ink outlines, offset shadows) for the sections, the honor board and Surprise Me.
+   Loaded AFTER brand.css. Light ground, big text, no pink, no purple, no dark headers. */
+:root{--v-blue:#0a66ff;--v-cyan:#12a8ff;--v-teal:#00c2b8;--v-green:#14c38e;--v-orange:#ff7a1a;--v-sun:#ffd23f;--v-ink:#10213d;--v-muted:#44567a;
+  --v-bg:#eef6ff;--v-card:0 14px 30px -18px rgba(10,80,200,.5);--v-pop:5px 5px 0 #10213d}
+html,body{background:var(--v-bg)}
+body{color:var(--v-ink)}
+/* the watercolour extras are retired on vivid pages */
+.v-home .b-under,.v-home .b-corner,.v-pop .b-corner,.v-soft .b-corner,.v-home .b-tag{display:none}
+.v-home .b-blob,.v-pop .b-blob,.v-soft .b-blob{display:none}
+
+/* ===================== «طاقة»: the home ===================== */
+.v-home .wrap{padding-top:0}
+.vhero{position:relative;overflow:hidden;margin:0 -16px;padding:20px 20px 74px;border-radius:0 0 36px 36px;color:#fff;
+  background:linear-gradient(150deg,#0a66ff 0%,#12a8ff 55%,#00c9c0 100%)}
+.vhero::before,.vhero::after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+.vhero::before{width:230px;height:230px;background:#fff;opacity:.12;top:-90px;left:-70px}
+.vhero::after{width:150px;height:150px;background:var(--v-sun);opacity:.38;bottom:-46px;right:-36px}
+.vhero>*{position:relative;z-index:1}
+.vh-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.vh-hi{display:flex;align-items:center;gap:10px;min-width:0}
+.vh-logo{flex:none;width:50px;height:50px;border-radius:16px;background:var(--v-sun);color:#0a3d91;display:grid;place-items:center;font:800 1.2rem Lexend,system-ui,sans-serif;box-shadow:0 5px 0 rgba(0,40,120,.25)}
+.vh-hi small{display:block;font:600 .9rem Lexend,system-ui,sans-serif;letter-spacing:1px;opacity:.92;white-space:nowrap}
+.vh-hi b{display:block;font-size:1.3rem;font-weight:800;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vh-fire{flex:none;display:inline-flex;align-items:center;gap:5px;background:#fff;color:#d9480f;border-radius:999px;padding:7px 14px;font-weight:800;font-size:1.1rem;text-decoration:none;box-shadow:0 6px 0 rgba(0,40,120,.25)}
+.vh-fire b{font:800 1.25rem Lexend,system-ui,sans-serif}
+.vh-fire .fl{font-size:.98rem}
+.vh-fire.due{background:#fff3c4}
+.vhero h1{margin:20px 0 4px;font-size:clamp(1.9rem,8vw,2.6rem);font-weight:800;line-height:1.25;color:#fff}
+.vh-sub{margin:0;font-size:1.08rem;line-height:1.6;opacity:.96}
+.vh-lv{display:inline-block;background:rgba(255,255,255,.22);border-radius:999px;padding:0 10px;font-weight:800}
+.vh-lv[hidden]{display:none}
+.vstats{position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:-48px 0 0}
+.vstats a{display:block;background:#fff;border-radius:20px;padding:12px 6px;text-align:center;text-decoration:none;box-shadow:var(--v-card);color:var(--v-muted);font-size:.95rem;font-weight:700;line-height:1.35}
+.vstats b{display:block;font:800 1.6rem/1.3 Lexend,system-ui,sans-serif}
+.vstats a:nth-child(1) b{color:var(--v-blue)}.vstats a:nth-child(2) b{color:#e2530b}.vstats a:nth-child(3) b{color:#0b8a5e}
+@media (min-width:720px){.vhero{margin:0;border-radius:0 0 36px 36px}.vstats{margin-inline:20px}}
+
+/* today's mission */
+.v-home .today{margin-top:18px;background:#fff;border:0;border-radius:26px;box-shadow:var(--v-card);padding:18px}
+.v-home .today .thd .ic .b-chip{width:54px!important;height:54px!important;border-radius:18px;background:var(--v-blue)}
+.v-home .today .thd .ic svg.b-ic,.v-home .vt-ic svg.b-ic{stroke:#fff;fill:rgba(255,255,255,.18)}
+.v-home .today h2{font-size:1.5rem;font-weight:800;margin:0}
+.v-home .tlist li{background:#f4f8fd;border:2px solid transparent;border-radius:18px}
+.v-home .tlist li:not(.done){border-color:#cfe0f7}
+.v-home .tlist li:not(.done) ~ li:not(.done){border-color:transparent}
+.v-home .tlist li.done{background:#ecfaf3;border-color:transparent}
+.v-home .tlist li.done b{color:#3b5b4f;text-decoration:line-through;text-decoration-thickness:2px}
+.v-home .tlist .i .b-chip{border-radius:14px;background:var(--v-blue)}
+.v-home .tlist li.done .i .b-chip{background:var(--v-green)}
+.v-home .tlist .i svg.b-ic{stroke:#fff;fill:rgba(255,255,255,.2)}
+.v-home .tlist a.st{background:var(--v-sun);color:var(--v-ink);border:0;border-radius:14px;box-shadow:0 4px 0 #d9a400;font-weight:800}
+.v-home .tlist li.done a.st{background:#fff;box-shadow:none;border:2px solid #bfe8d3}
+.v-home .today>.go{background:var(--v-sun);color:var(--v-ink);border:0;border-radius:16px;box-shadow:0 5px 0 #d9a400;font-weight:800;font-size:1.15rem}
+.v-home .today>.go.soft{background:#fff;border:2px solid #cfe0f7;box-shadow:none}
+.v-home .resume{background:#fff;border:0;border-radius:24px;box-shadow:var(--v-card)}
+.v-home .resume .go{background:var(--v-blue);color:#fff;border:0;border-radius:14px;box-shadow:0 4px 0 #0747b5}
+
+/* Surprise Me: warm gradient */
+.v-home .bsurp{background:linear-gradient(120deg,#ffb300 0%,#ff7a1a 100%);border:0;border-radius:26px;color:#fff;box-shadow:0 14px 28px -14px rgba(230,100,0,.75);padding:16px}
+.v-home .bsurp [data-bi] .b-chip{background:rgba(255,255,255,.26);border-radius:20px}
+.v-home .bsurp svg.b-ic{stroke:#fff;fill:rgba(255,255,255,.2)}
+.v-home .bsurp .mbt{color:#fff;font-size:1.35rem}
+.v-home .bsurp small,.v-home .bsurp .st{color:#fff}
+.v-home .bsurp .go{background:#fff;color:#d9480f;border:0;box-shadow:0 4px 0 rgba(120,50,0,.25)}
+.v-home .bsurp.shut{background:linear-gradient(120deg,#c9d4e4,#aab8cc)}
+.v-home .mbox::after{border-radius:26px}
+
+/* tiles: solid colours, white drawn icons */
+.v-home .qgrid{gap:12px}
+.v-home .qt{border:0;border-radius:24px;min-height:128px;padding:16px;color:#fff;box-shadow:0 12px 24px -16px rgba(10,60,150,.6);justify-content:space-between}
+.v-home .qt:nth-child(1){background:var(--v-blue)}
+.v-home .qt:nth-child(2){background:var(--v-green)}
+.v-home .qt:nth-child(3){background:var(--v-sun);color:var(--v-ink)}
+.v-home .qt:nth-child(4){background:var(--v-orange)}
+.v-home .qt b,.v-home .qt small,.v-home .qt .st{color:inherit}
+.v-home .qt b{font-size:1.25rem}
+.v-home .qt small{opacity:.95;font-size:.98rem}
+.v-home .qt .bx .b-chip{width:46px!important;height:46px!important}
+.v-home .qt svg.b-ic{stroke:#fff;fill:rgba(255,255,255,.18);width:36px;height:36px}
+.v-home .qt:nth-child(3) svg.b-ic{stroke:var(--v-ink);fill:rgba(16,33,61,.08)}
+.v-home .hline.help{background:#fff;border:0;border-radius:18px;box-shadow:var(--v-card)}
+.v-home .install{background:#fff;border:2px dashed #9cc3f5;border-radius:24px}
+.v-home .install .go{background:var(--v-sun);color:var(--v-ink);border:0;border-radius:14px;box-shadow:0 4px 0 #d9a400}
+
+/* tab bar (all vivid pages that have it) */
+.v-home .tabbar,.v-pop .tabbar{background:#fff;border:0;border-radius:26px;box-shadow:0 12px 30px -10px rgba(10,60,150,.45)}
+.v-home .tabbar a,.v-pop .tabbar a{color:var(--v-muted);border-radius:18px}
+.v-home .tabbar a svg.b-ic,.v-pop .tabbar a svg.b-ic{stroke:var(--v-muted);fill:none;width:26px;height:26px}
+.v-home .tabbar a>span[data-bi] .b-chip,.v-pop .tabbar a>span[data-bi] .b-chip{width:30px!important;height:30px!important}
+.v-home .tabbar a.on,.v-pop .tabbar a.on{background:var(--v-blue);color:#fff}
+.v-home .tabbar a.on svg.b-ic,.v-pop .tabbar a.on svg.b-ic{stroke:#fff}
+
+/* ===================== «ملعب»: sections, honor board, Surprise Me ===================== */
+.v-pop{background:#fffaf0}
+html:has(body.v-pop){background:#fffaf0}
+/* sections: chooser tiles in solid colours */
+.v-pop .secnav{background:#fff;border:3px solid var(--v-ink);border-radius:26px;box-shadow:var(--v-pop)}
+.v-pop .find{border:3px solid var(--v-ink);border-radius:16px;background:#fff}
+.v-pop .path{border:3px solid var(--v-ink);border-radius:20px;box-shadow:4px 4px 0 var(--v-ink);color:#fff;transition:transform .12s}
+.v-pop .path:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--v-ink)}
+.v-pop .path b,.v-pop .path small{color:inherit!important}
+.v-pop .path svg.b-ic{stroke:#fff;fill:rgba(255,255,255,.2);width:34px;height:34px}
+.v-pop .path .b-chip{width:42px!important;height:42px!important}
+.v-pop .paths .path:nth-child(1){background:var(--v-blue)}
+.v-pop .paths .path:nth-child(2){background:var(--v-green)}
+.v-pop .paths .path:nth-child(3){background:var(--v-orange)}
+.v-pop .paths .path:nth-child(4){background:var(--v-sun);color:var(--v-ink)}
+.v-pop .paths .path:nth-child(5){background:var(--v-teal)}
+.v-pop .paths .path:nth-child(6){background:#0b4fd1}
+.v-pop .paths .path:nth-child(7){background:var(--v-cyan)}
+.v-pop .paths .path:nth-child(8){background:#ffb300;color:var(--v-ink)}
+.v-pop .paths .path:nth-child(4) svg.b-ic,.v-pop .paths .path:nth-child(8) svg.b-ic{stroke:var(--v-ink);fill:rgba(16,33,61,.08)}
+/* shelf heads: a solid badge per shelf */
+.v-pop .shelf-head .badge .b-chip{width:54px!important;height:54px!important;border:3px solid var(--v-ink);border-radius:16px;box-shadow:3px 3px 0 var(--v-ink)}
+.v-pop .shelf-head .badge svg.b-ic{stroke:#fff;fill:rgba(255,255,255,.2)}
+.v-pop #f1 .shelf-head .badge .b-chip{background:var(--v-blue)}
+.v-pop #f2 .shelf-head .badge .b-chip{background:var(--v-green)}
+.v-pop #f3 .shelf-head .badge .b-chip{background:var(--v-orange)}
+.v-pop #f5 .shelf-head .badge .b-chip{background:var(--v-sun)}
+.v-pop #f5 .shelf-head .badge svg.b-ic{stroke:var(--v-ink)}
+.v-pop #f4 .shelf-head .badge .b-chip{background:var(--v-teal)}
+.v-pop #f6 .shelf-head .badge .b-chip{background:#0b4fd1}
+.v-pop #s7 .shelf-head .badge .b-chip{background:var(--v-cyan)}
+.v-pop .shelf-head h2{color:var(--v-ink)!important;font-weight:800}
+.v-pop .totop{border:3px solid var(--v-ink);background:#fff;color:var(--v-ink)}
+/* cards: white, ink outline, offset shadow; the icon on a coloured tile */
+.v-pop .card{background:#fff;border:3px solid var(--v-ink);border-radius:22px;box-shadow:var(--v-pop);transition:transform .12s,box-shadow .12s}
+.v-pop a.card:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--v-ink)}
+.v-pop .card .ic .b-chip{width:52px!important;height:52px!important;border:2.5px solid var(--v-ink);border-radius:15px;background:var(--c,var(--v-blue))}
+.v-pop .card .ic svg.b-ic{stroke:#fff;fill:rgba(255,255,255,.2)}
+.v-pop .card .en{color:var(--c)!important;font-weight:700}
+.v-pop .card .arrow{border:2.5px solid var(--v-ink);background:var(--v-sun);color:var(--v-ink)}
+.v-pop .card.portal{background:#fff!important}
+.v-pop .portal .go,.v-pop .hcaps-all{background:var(--v-sun)!important;color:var(--v-ink)!important;border:3px solid var(--v-ink);box-shadow:3px 3px 0 var(--v-ink);border-radius:14px}
+.v-pop .capchip{border:2.5px solid var(--v-ink);box-shadow:2px 2px 0 var(--v-ink);background:#fff}
+.v-pop .capchip svg.b-ic{stroke:var(--v-ink)}
+.v-pop .lmodes a{border:2.5px solid var(--v-ink);background:#fff;box-shadow:2px 2px 0 var(--v-ink);font-weight:800}
+.v-pop .kidsban{border:3px solid var(--v-ink);box-shadow:var(--v-pop);background:#fff3c4}
+.v-pop .kidsban .go{background:var(--v-orange);color:#fff;border:3px solid var(--v-ink);box-shadow:3px 3px 0 var(--v-ink)}
+.v-pop .sechd h1{font-weight:800}
+
+/* honor board */
+.v-pop.b-honor .panel{background:#fff;border:3px solid var(--v-ink);border-radius:24px;box-shadow:var(--v-pop)}
+.v-pop.b-honor .btn:not(.soft):not(.link){background:var(--v-sun);color:var(--v-ink);border:3px solid var(--v-ink);border-bottom-width:3px;box-shadow:3px 3px 0 var(--v-ink);border-radius:14px}
+.v-pop.b-honor .btn.soft{border:2.5px solid var(--v-ink);background:#fff}
+.v-pop.b-honor .pl .block{border:3px solid var(--v-ink);border-bottom:0;color:var(--v-ink)}
+.v-pop.b-honor .pl.g1 .block{background:var(--v-sun)}
+.v-pop.b-honor .pl.g2 .block{background:var(--v-cyan);color:#fff}
+.v-pop.b-honor .pl.g3 .block{background:var(--v-orange);color:#fff}
+.v-pop.b-honor .pl.g2 .block .sc,.v-pop.b-honor .pl.g3 .block .sc{color:#fff}
+.v-pop.b-honor .list li{border:2.5px solid var(--v-ink);box-shadow:3px 3px 0 var(--v-ink);background:#fff}
+.v-pop.b-honor .list li.top10{background:#fff8d6}
+.v-pop.b-honor .list li.mine{background:#e3efff;border-color:var(--v-blue);box-shadow:3px 3px 0 var(--v-blue)}
+.v-pop.b-honor .list .rk{background:var(--v-ink);color:#fff}
+.v-pop.b-honor .list li.top10 .rk{background:var(--v-sun);color:var(--v-ink)}
+.v-pop.b-honor header h1{font-weight:800}
+.v-pop.b-honor .firel{background:var(--v-orange);color:#fff}
+.v-pop.b-honor .firel small{color:#fff}
+
+/* Surprise Me */
+.v-pop.b-surprise .card{border:3px solid var(--v-ink);border-radius:26px;box-shadow:var(--v-pop);background:#fff}
+.v-pop.b-surprise .btn:not(.soft){background:var(--v-sun);color:var(--v-ink);border:3px solid var(--v-ink);border-bottom-width:3px;box-shadow:4px 4px 0 var(--v-ink);border-radius:16px}
+.v-pop.b-surprise .btn.soft{border:2.5px solid var(--v-ink)}
+.v-pop.b-surprise .facts span{border:2px solid var(--v-ink)}
+.v-pop.b-surprise .facts .f1{background:#cfe3ff}.v-pop.b-surprise .facts .f2{background:#c8f3e3}.v-pop.b-surprise .facts .f3{background:#ffe89a}
+.v-pop.b-surprise .tap{color:#d9480f}
+.v-pop .club-home{border:2.5px solid var(--v-ink);box-shadow:2px 2px 0 var(--v-ink);background:#fff}
+
+/* ===================== «طاقة» soft: guide, welcome ===================== */
+.v-soft .hero{background:linear-gradient(150deg,#0a66ff 0%,#12a8ff 55%,#00c9c0 100%)!important;color:#fff;border:0!important;box-shadow:var(--v-card)}
+.v-soft .hero::before,.v-soft .hero::after{opacity:.18!important;background:#fff!important}
+.v-soft .hero h1,.v-soft .hero p,.v-soft .hero h1 .en{color:#fff!important}
+.v-soft .hero .toc a{background:#fff;color:var(--v-ink);border:0;box-shadow:0 6px 0 rgba(0,40,120,.18)}
+.v-soft .steps li,.v-soft .pick,.v-soft .card{border:0!important;box-shadow:var(--v-card);border-radius:22px}
+.v-soft .steps .n{background:var(--v-blue)!important;color:#fff!important;border:0!important}
+.v-soft h2.sec .b{background:var(--v-blue)!important;color:#fff}
+.v-soft .btn:not(.soft),.v-soft .back,.v-soft .go{background:var(--v-sun)!important;color:var(--v-ink)!important;border:0!important;box-shadow:0 5px 0 #d9a400;border-radius:16px}
+.v-soft .club-home{border:0;box-shadow:var(--v-card)}
+
+/* streak page: the top card in the «طاقة» gradient */
+.v-streak .card{border:0;box-shadow:var(--v-card)}
+.v-streak main>section.card:first-of-type{background:linear-gradient(150deg,#0a66ff 0%,#12a8ff 55%,#00c9c0 100%);color:#fff}
+.v-streak main>section.card:first-of-type .t2{color:#fff;opacity:.95}
+.v-streak main>section.card:first-of-type .flame b{color:var(--v-ink)}
+.v-streak main>section.card:first-of-type .stats div{background:#fff;border:0;color:var(--v-muted)}
+.v-streak main>section.card:first-of-type .bar{background:rgba(255,255,255,.3);border:0}
+.v-streak main>section.card:first-of-type .state.ok{background:#e7f8ec;color:#0b5a3a;border:0}
+.v-streak main>section.card:first-of-type .state.due{background:#fff3c4;color:#7a3a00;border:0}
+.v-streak h1+.b-under{display:none}
+.v-streak .go{box-shadow:0 5px 0 #d9a400}
+.v-pop.b-surprise h1 .gt{background-image:linear-gradient(90deg,#0a66ff,#12a8ff,#00c2b8,#0a66ff)}

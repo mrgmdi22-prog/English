@@ -328,22 +328,24 @@ body.new .q-worlds .qn{display:none}
 @media (max-width:520px){.tlist li{flex-wrap:wrap}.tlist a.st{width:100%;text-align:center}}
 </style>
 <link rel="stylesheet" href="assets/brand.css?v=4"><script src="assets/brand.js?v=2"></script>
+<link rel="stylesheet" href="assets/vivid.css?v=1">
 </head>
-<body>
+<body class="v-home">
 <div class="wrap" id="top">
 
-  <section class="bhero">
-    <div class="bh-top">
-      <div class="bh-t"><span class="b-tag">LEVEL UP</span><h1 data-bunder="coral" data-bw="190">جاهز لتحدي اليوم؟</h1></div>
-      <div class="bh-chips">
-        <span class="b-pill" title="نجوم الكبسولات"><span data-bicon="star" data-bs="22"></span><b id="myStars">0</b></span>
-        <a class="b-pill coral fire-pill" id="myFire" href="streak.html" title="سلسلة الحماس: أيام متتالية من التعلّم"><span data-bicon="flame" data-bs="22"></span><b>0</b> <span class="fl">يوم حماس</span></a>
-        <span class="b-pill" title="نقاطك هذا الأسبوع"><span data-bicon="bolt" data-bs="22"></span><b id="myPts">0</b> نقطة هذا الأسبوع</span>
-        <span class="b-pill sky" id="myLv" hidden><span data-bicon="chart" data-bs="22"></span><b dir="ltr"></b></span>
-      </div>
+  <section class="vhero" aria-labelledby="vhH">
+    <div class="vh-top">
+      <div class="vh-hi"><span class="vh-logo" aria-hidden="true">EN</span><div><small>English Club</small><b id="vNick">أهلاً يا بطل</b></div></div>
+      <a class="vh-fire fire-pill" id="myFire" href="streak.html" title="سلسلة الحماس: أيام متتالية من التعلّم"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1 5 6 6 6 12a6 6 0 0 1-12 0c0-3 1.5-4.5 3-6 0 3 1 4 2.5 4 0-4-1.5-6 .5-10z" fill="#ff6b1a"/></svg><b>0</b> <span class="fl">يوم</span></a>
     </div>
-    <div data-bscene></div>
+    <h1 id="vhH">جاهز لتحدي اليوم؟</h1>
+    <p class="vh-sub">مهمة صغيرة كل يوم، ونقاط ترفعك إلى القمة. <span class="vh-lv" id="myLv" hidden>مستواك: <b dir="ltr"></b></span></p>
   </section>
+  <div class="vstats">
+    <a href="honor.html"><b id="myPts">0</b><span>نقطة هذا الأسبوع</span></a>
+    <a href="streak.html"><b id="vBest">0</b><span>أطول سلسلة</span></a>
+    <a href="capsules/index.html"><b id="myStars">0</b><span>نجمة كبسولات</span></a>
+  </div>
 
   <section class="today" id="today" aria-labelledby="hToday" data-bcorner="sky">
     <div class="thd"><span class="ic" data-bi="clip" data-bs="60"></span><div class="tx"><span class="b-tag">DAILY MISSION</span><h2 id="hToday" data-bunder="sun" data-bw="120">مهمة اليوم</h2><small id="tdSub">خطتك الشخصية: مهمة صغيرة كل يوم.</small></div><span id="tdRing" hidden></span></div>
@@ -506,6 +508,8 @@ import('./assets/honor.js?v=20261118').then(async H => {
       const u = f.cur >= 3 && f.cur <= 10 ? 'أيام' : f.cur > 10 ? 'يوماً' : 'يوم';
       el.querySelector('.fl').textContent = f.cur && !f.today ? u + ' · أكمل يومك!' : u + (t ? ' · ' + t.t : ' حماس');
       el.classList.toggle('due', !!f.cur && !f.today); } } catch (e) {}
+  try { if (H.ready && H.myEntry) H.myEntry().then(e => { if (e && e.nick) { const n = document.getElementById('vNick'); n.textContent = 'أهلاً يا ' + e.nick; try { localStorage.setItem('club-nick-c', e.nick); } catch (x) {} } }).catch(() => {}); } catch (e) {}
+  try { const vb = document.getElementById('vBest'); if (vb) vb.textContent = H.fireState().best; } catch (e) {}
   try { window.PathCore.setParts(H.computeScore().parts || {}); window.renderToday(); } catch (e) {}
   if (!H.ready) return;
   const line = document.getElementById('hLine');
@@ -566,6 +570,10 @@ import('./assets/honor.js?v=20261118').then(async H => {
     els.forEach(function(el, i){ el.style.transitionDelay = Math.min(i % 9, 8) * 45 + 'ms'; io.observe(el); });
   } else { els.forEach(function(el){ el.classList.add('in'); }); }
 })();
+</script>
+<script>
+// greeting: the nickname saved the last time the honor board answered (shown at once, before Firebase loads)
+try { var nk = localStorage.getItem('club-nick-c'); if (nk) document.getElementById('vNick').textContent = 'أهلاً يا ' + nk; } catch (e) {}
 </script>
 </body>
 </html>
