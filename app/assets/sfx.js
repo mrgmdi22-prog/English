@@ -157,3 +157,89 @@
   function ready(){ watch(); button(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready); else ready();
 })();
+
+// 🐢 Listening speed (18 Nov 2026): one choice for the whole club — 100% · 90% · 80% · 70% — kept in localStorage
+// `club-rate` and applied to every spoken sentence (each page's own rate × the student's choice). A small button sits
+// above the 🔊 switch on pages that speak; its panel also replays the last sentence slowly. Not on the level test
+// (it would change the listening part of the test) or the teacher page.
+(function(){
+  if (window.clubSpeed || !('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') return;
+  var P = location.pathname;
+  if (/\/teacher\.html$/.test(P) || /\/level\//.test(P)) return;
+  var KEY = 'club-rate', STEPS = [1, .9, .8, .7], f = 1, last = null, shown = false;
+  try { f = +localStorage.getItem(KEY) || 1; } catch (e) {}
+  if (STEPS.indexOf(f) < 0) f = 1;
+  window.clubSpeed = function(){ return f; };
+  var proto = window.SpeechSynthesis && SpeechSynthesis.prototype, host = proto && proto.speak ? proto : speechSynthesis, orig = host.speak;
+  host.speak = function(u){
+    try {
+      if (u && !u.__club) {
+        u.__club = 1;
+        var base = u.rate || 1;
+        last = { t: u.text, lang: u.lang, voice: u.voice, base: base, pitch: u.pitch };
+        if (f !== 1) u.rate = Math.max(.1, Math.min(10, base * f));
+      }
+      if (!shown) setTimeout(ui, 0);
+    } catch (e) {}
+    return orig.apply(this, arguments);
+  };
+  function pct(x){ return Math.round(x * 100) + '%'; }
+  var btn, panel;
+  function ui(){
+    if (shown || !document.body) return; shown = true;
+    var st = document.createElement('style');
+    st.textContent =
+      '#clubRate{position:fixed;left:12px;bottom:calc(66px + env(safe-area-inset-bottom,0px));z-index:999;height:46px;min-width:46px;padding:0 10px;border-radius:23px;' +
+      'border:1.5px solid #dfe5f1;background:rgba(255,255,255,.95);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);font:800 16px/1 system-ui,sans-serif;color:#1e3a8a;' +
+      'box-shadow:0 8px 20px -12px rgba(40,50,90,.5);display:flex;align-items:center;gap:4px;cursor:pointer;direction:ltr}' +
+      '#clubRate.slow{background:#e0f2fe;border-color:#7dd3fc}' +
+      '#clubRateP{position:fixed;left:12px;bottom:calc(120px + env(safe-area-inset-bottom,0px));z-index:1000;background:#fff;border:1.5px solid #dfe5f1;border-radius:18px;padding:14px;' +
+      'box-shadow:0 18px 40px -18px rgba(30,40,90,.55);width:min(330px,calc(100vw - 24px));font-family:Cairo,system-ui,sans-serif;direction:rtl}' +
+      '#clubRateP[hidden]{display:none}#clubRateP h4{margin:0 0 4px;font-size:18px;color:#1e3a8a}#clubRateP p{margin:0 0 10px;font-size:15px;color:#5a6482}' +
+      '#clubRateP .r{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;direction:ltr}' +
+      '#clubRateP .r button{height:48px;border-radius:12px;border:1.5px solid #cbd5e1;background:#f8fafc;font:800 17px system-ui,sans-serif;color:#1e293b;cursor:pointer}' +
+      '#clubRateP .r button[aria-pressed=true]{background:#1d6fd1;border-color:#1d6fd1;color:#fff}' +
+      '#clubRateP .again{margin-top:10px;width:100%;height:46px;border-radius:12px;border:0;background:#fef3c7;color:#92400e;font:800 16px Cairo,system-ui,sans-serif;cursor:pointer}' +
+      '#clubRateP .again[disabled]{opacity:.5;cursor:default}' +
+      'body.reading #clubRate,body.reading #clubRateP{display:none}@media print{#clubRate,#clubRateP{display:none!important}}';
+    document.head.appendChild(st);
+    btn = document.createElement('button'); btn.type = 'button'; btn.id = 'clubRate';
+    panel = document.createElement('div'); panel.id = 'clubRateP'; panel.hidden = true;
+    panel.innerHTML = '<h4>🐢 سرعة الصوت</h4><p>اختر سرعة أبطأ إن كان الكلام سريعاً عليك. تبقى سرعتك في كل أقسام النادي.</p>' +
+      '<div class="r">' + STEPS.map(function(x){ return '<button type="button" data-r="' + x + '">' + pct(x) + '</button>'; }).join('') + '</div>' +
+      '<button type="button" class="again">🔁 أعد آخر جملة ببطء <bdi dir="ltr">70%</bdi></button>';
+    btn.onclick = function(e){ e.stopPropagation(); panel.hidden = !panel.hidden; paint(); };
+    panel.onclick = function(e){ e.stopPropagation(); };
+    panel.querySelectorAll('[data-r]').forEach(function(b){ b.onclick = function(){
+      f = +b.dataset.r; try { localStorage.setItem(KEY, String(f)); } catch (e) {} paint();
+      if (last) again(f);
+    }; });
+    panel.querySelector('.again').onclick = function(){ again(.7); };
+    document.addEventListener('click', function(){ if (!panel.hidden) panel.hidden = true; });
+    document.body.appendChild(btn); document.body.appendChild(panel); paint();
+  }
+  function again(x){
+    if (!last) return;
+    try {
+      speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(last.t); u.__club = 1;
+      if (last.lang) u.lang = last.lang; if (last.voice) u.voice = last.voice; if (last.pitch) u.pitch = last.pitch;
+      u.rate = Math.max(.1, last.base * x);
+      orig.call(speechSynthesis, u);
+    } catch (e) {}
+  }
+  function paint(){
+    if (!btn) return;
+    btn.innerHTML = '<span aria-hidden="true">🐢</span><span>' + pct(f) + '</span>';
+    btn.classList.toggle('slow', f < 1);
+    btn.setAttribute('aria-label', 'سرعة الصوت ' + pct(f) + ' — اضغط لتغييرها'); btn.title = 'سرعة الصوت';
+    panel.querySelectorAll('[data-r]').forEach(function(b){ b.setAttribute('aria-pressed', +b.dataset.r === f); });
+    panel.querySelector('.again').disabled = !last;
+  }
+  // pages that speak show the button from the start (inline scripts mention speech); others only after the first sentence
+  function check(){
+    var s = document.scripts, i;
+    for (i = 0; i < s.length; i++) if (!s[i].src && /SpeechSynthesisUtterance/.test(s[i].textContent)) { ui(); return; }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', check); else check();
+})();
