@@ -242,6 +242,9 @@ body.searching .totop{display:none}
 .tabbar a.on{background:var(--violet-soft);color:var(--violet)}
 .tabbar .dot{position:absolute;top:4px;right:calc(50% - 20px);width:11px;height:11px;border-radius:50%;background:#e8483b;border:2px solid #fff}
 .tabbar .dot[hidden]{display:none}
+.tabbar .fn{position:absolute;top:0;right:calc(50% - 30px);min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:#ff9a4a;color:#fff;font:800 13px/22px Lexend,system-ui,sans-serif;font-style:normal;border:2px solid #fff;text-align:center}
+.tabbar .fn[hidden]{display:none}
+.tabbar a.due .fn{background:#fff;color:#d9620f;border-color:#ff9a4a;animation:fpulse 1.8s ease-in-out infinite}
 @media (max-width:600px){
   .hero{padding:24px 14px 20px}.hero h1{font-size:2.15rem;margin-top:4px}.sub{font-size:1.02rem}
   .resume,.honor{flex-wrap:nowrap;padding:12px 14px;gap:12px}
@@ -420,7 +423,7 @@ body.new .q-worlds .qn{display:none}
 <nav class="tabbar" id="tabbar" aria-label="التنقّل السريع">
   <a href="#top" data-t="home" class="on"><span data-bi="home" data-bs="40"></span>الرئيسية</a>
   <a href="sections.html" data-t="sec"><span data-bicon="grid" data-bc="white" data-bs="26"></span>الأقسام</a>
-  <a href="surprise/index.html" data-t="mb" id="tbMb"><span data-bicon="gift" data-bc="white" data-bs="26"></span>المفاجأة<i class="dot" id="tbDot" hidden></i></a>
+  <a href="streak.html" data-t="fire" id="tbFire"><span data-bicon="flame" data-bc="white" data-bs="26"></span>الحماس<i class="fn" id="tbFireN" hidden></i></a>
   <a href="honor.html"><span data-bicon="trophy" data-bc="white" data-bs="26"></span>نقاطي</a>
   <a href="path/index.html"><span data-bicon="path" data-bc="white" data-bs="26"></span>مساري</a>
 </nav>
@@ -466,7 +469,7 @@ body.new .q-worlds .qn{display:none}
     // open from 6 am to 10 pm (Saudi time); closed from 10 pm to 6 am
     var now = (Date.now() + 3 * 3600e3) % 864e5, CLOSE = 22 * 3600e3;
     var fmt = function(ms){ var h = Math.floor(ms / 3600e3); return h < 1 ? 'أقل من ساعة' : h === 1 ? 'ساعة' : h === 2 ? 'ساعتين' : h < 11 ? h + ' ساعات' : h + ' ساعة'; };
-    var c = document.getElementById('mbox'), st = document.getElementById('mbSt'), go = document.getElementById('mbGo'), dot = document.getElementById('tbDot');
+    var c = document.getElementById('mbox'), st = document.getElementById('mbSt'), go = document.getElementById('mbGo'), dot = { hidden: true };
     if (now >= CLOSE || now < 6 * 3600e3) { st.textContent = '🔒 مغلق الآن — يُفتح في السادسة صباحاً'; go.textContent = 'نلتقي غداً'; c.removeAttribute('href'); c.classList.add('shut'); }
     else if (d[day] !== undefined) { var x = JSON.parse(localStorage.getItem('mb-x') || '{}') || {}, n = 1 + (x[day + '-2'] !== undefined) + (x[day + '-3'] !== undefined), t = (+dp[day] || 0) + (+x[day + '-2'] || 0) + (+x[day + '-3'] || 0);
       st.textContent = '✓ فتحت ' + n + ' من 3 اليوم · ' + t + ' نقطة';
@@ -505,7 +508,7 @@ window.renderToday = function(){
 };
 window.renderToday();
 </script>
-<script src="assets/club.js?v=29"></script>
+<script src="assets/club.js?v=30"></script>
 <script type="module">
 // Top three on the honor board (only once Firebase is configured)
 import('./assets/honor.js?v=20261118').then(async H => {

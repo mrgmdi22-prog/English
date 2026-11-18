@@ -242,6 +242,9 @@ body.searching .totop{display:none}
 .tabbar a.on{background:var(--violet-soft);color:var(--violet)}
 .tabbar .dot{position:absolute;top:4px;right:calc(50% - 20px);width:11px;height:11px;border-radius:50%;background:#e8483b;border:2px solid #fff}
 .tabbar .dot[hidden]{display:none}
+.tabbar .fn{position:absolute;top:0;right:calc(50% - 30px);min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:#ff9a4a;color:#fff;font:800 13px/22px Lexend,system-ui,sans-serif;font-style:normal;border:2px solid #fff;text-align:center}
+.tabbar .fn[hidden]{display:none}
+.tabbar a.due .fn{background:#fff;color:#d9620f;border-color:#ff9a4a;animation:fpulse 1.8s ease-in-out infinite}
 @media (max-width:600px){
   .hero{padding:24px 14px 20px}.hero h1{font-size:2.15rem;margin-top:4px}.sub{font-size:1.02rem}
   .resume,.honor{flex-wrap:nowrap;padding:12px 14px;gap:12px}
@@ -301,7 +304,7 @@ body.new .mypath .qn{display:grid}
 body.new .q-worlds .qn{display:none}
 @media (max-width:600px){.mypath{padding:16px 14px 14px}.mypath .ic{width:52px;height:52px;font-size:1.8rem}.mypath .tx b{font-size:1.26rem}}
 .sechd{text-align:center;padding:56px 8px 0}.sechd h1{margin:0;font-size:2rem;font-weight:800}.sechd p{margin:4px 0 0;color:var(--muted);font-size:1.1rem}
-#clubMB{display:none!important}   /* the 🎁 tab is already on this page */
+#clubMB{bottom:calc(92px + env(safe-area-inset-bottom,0px))!important}   /* the floating 🎁 sits above the tab bar */
 </style>
 <link rel="stylesheet" href="assets/brand.css?v=4"><script src="assets/brand.js?v=2"></script>
 <link rel="stylesheet" href="assets/vivid.css?v=6">
@@ -464,7 +467,7 @@ body.new .q-worlds .qn{display:none}
 <nav class="tabbar" id="tabbar" aria-label="التنقّل السريع">
   <a href="index.html" data-t="home"><span data-bicon="home" data-bc="white" data-bs="26"></span>الرئيسية</a>
   <a href="#sections" data-t="sec" class="on"><span data-bi="grid" data-bs="40"></span>الأقسام</a>
-  <a href="surprise/index.html" data-t="mb" id="tbMb"><span data-bicon="gift" data-bc="white" data-bs="26"></span>المفاجأة<i class="dot" id="tbDot" hidden></i></a>
+  <a href="streak.html" data-t="fire" id="tbFire"><span data-bicon="flame" data-bc="white" data-bs="26"></span>الحماس<i class="fn" id="tbFireN" hidden></i></a>
   <a href="guide.html"><span data-bicon="guide" data-bc="white" data-bs="26"></span>الدليل</a>
   <a href="path/index.html"><span data-bicon="path" data-bc="white" data-bs="26"></span>مساري</a>
 </nav>
@@ -472,16 +475,7 @@ body.new .q-worlds .qn{display:none}
 
 
 <script>
-// 🎁 tab: red dot while a counted box is still waiting today (6 am–10 pm Saudi time).
-(function(){
-  try {
-    var day = Math.floor((Date.now() + 3 * 3600e3 - 6 * 3600e3) / 864e5), d = JSON.parse(localStorage.getItem('mb-days') || '{}') || {}, x = JSON.parse(localStorage.getItem('mb-x') || '{}') || {};
-    var now = (Date.now() + 3 * 3600e3) % 864e5;
-    if (now >= 22 * 3600e3 || now < 6 * 3600e3) return;
-    var n = (d[day] !== undefined) + (x[day + '-2'] !== undefined) + (x[day + '-3'] !== undefined);
-    if (n < 3) document.getElementById('tbDot').hidden = false;
-  } catch (e) {}
-})();
+// (the 🎁 tab became 🔥 الحماس on 18 Nov 2026; club.js fills its day count)
 </script>
 <script>
 // Search over every tool on the page + the bottom tab bar's active tab.
@@ -513,7 +507,7 @@ body.new .q-worlds .qn{display:none}
 </script>
 
 <script>window._last = null; try { window._last = localStorage.getItem('club-last'); } catch (e) {}</script>
-<script src="assets/club.js?v=29"></script>
+<script src="assets/club.js?v=30"></script>
 <script>/* a list page is not «where you left off»: keep the last tool the student opened */
 try { if (window._last) localStorage.setItem('club-last', window._last); else localStorage.removeItem('club-last'); } catch (e) {}</script>
 
