@@ -331,7 +331,7 @@ body.new .q-worlds .qn{display:none}
 @media (max-width:520px){.tlist li{flex-wrap:wrap}.tlist a.st{width:100%;text-align:center}}
 </style>
 <link rel="stylesheet" href="assets/brand.css?v=4"><script src="assets/brand.js?v=2"></script>
-<link rel="stylesheet" href="assets/vivid.css?v=6">
+<link rel="stylesheet" href="assets/vivid.css?v=7">
 </head>
 <body class="v-home">
 <div class="wrap" id="top">
@@ -421,12 +421,21 @@ body.new .q-worlds .qn{display:none}
 </div>
 
 <nav class="tabbar" id="tabbar" aria-label="التنقّل السريع">
-  <a href="#top" data-t="home" class="on"><span data-bi="home" data-bs="40"></span>الرئيسية</a>
+  <a href="#top" data-t="home" class="on"><span data-bicon="home" data-bc="white" data-bs="26"></span>الرئيسية</a>
   <a href="sections.html" data-t="sec"><span data-bicon="grid" data-bc="white" data-bs="26"></span>الأقسام</a>
   <a href="streak.html" data-t="fire" id="tbFire"><span data-bicon="flame" data-bc="white" data-bs="26"></span>الحماس<i class="fn" id="tbFireN" hidden></i></a>
   <a href="honor.html"><span data-bicon="trophy" data-bc="white" data-bs="26"></span>نقاطي</a>
   <a href="path/index.html"><span data-bicon="path" data-bc="white" data-bs="26"></span>مساري</a>
 </nav>
+<script>
+// Tab bar v3 (18 Nov 2026): slim docked bar; slides away while reading down, comes back on the first scroll up.
+(function(){ var y = window.scrollY, b = document.body;
+  window.addEventListener('scroll', function(){ var n = window.scrollY, d = n - y;
+    if (Math.abs(d) < 8) return;
+    var end = n + window.innerHeight >= document.documentElement.scrollHeight - 40;
+    b.classList.toggle('tb-hide', d > 0 && n > 140 && !end); y = n; }, { passive: true });
+})();
+</script>
 
 <script>
 // Install card (last on the page): Chrome/Android gets the real install prompt; iPhone gets the Share-menu steps;

@@ -291,3 +291,28 @@ html:has(body.v-pop){background:#fffaf0}
 .v-path .btn.ghost{background:#fff;box-shadow:none}
 .v-path .btn.teal{background:#2bb3a6;box-shadow:0 4px 0 #1d8a80}
 .v-path .cta{background:#ffcf4d;color:#1c2b4a;box-shadow:0 5px 0 #e0a92a}
+
+/* ===================== Tab bar v3 (18 Nov 2026, Ahmed: «بحاجة إلى تصميم جديد ومقاس دقيق بحيث لا يكون وجوده مزعج») =====================
+   Docked to the bottom edge (no floating gap), ~64px instead of ~92px, icon on a small pill when active (no big blue block),
+   slides away while reading down and returns on scroll up; the 🎁 and 🔊 buttons are smaller and follow it. */
+body:has(#tabbar){padding-bottom:calc(78px + env(safe-area-inset-bottom,0px))}
+body .tabbar{left:0;right:0;bottom:0;transform:none;width:auto;margin:0;gap:0;
+  padding:6px max(6px,calc(50% - 290px)) calc(5px + env(safe-area-inset-bottom,0px));
+  background:rgba(255,255,255,.97);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border:0;border-top:1px solid #e3eaf5;border-radius:22px 22px 0 0;box-shadow:0 -8px 24px -14px rgba(20,55,120,.28);
+  transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+body .tabbar a,body .tabbar a.on{background:none!important;border-radius:0;padding:0 0 2px;gap:3px;font-size:13px;font-weight:800;line-height:1.25;color:#5f6b85;-webkit-tap-highlight-color:transparent}
+body .tabbar a>span{width:56px!important;height:30px!important;display:grid;place-items:center;border-radius:999px;font-size:0;transition:background .2s,transform .2s}
+body .tabbar a svg.b-ic{width:23px!important;height:23px!important;stroke:#5f6b85!important;fill:none}
+body .tabbar a:active>span{transform:scale(.92)}
+body .tabbar a.on{color:#2f6fdb!important}
+body .tabbar a.on>span{background:#e2ecff}
+body .tabbar a.on svg.b-ic{stroke:#2f6fdb!important;stroke-width:2.4}
+body .tabbar .fn{top:-3px;right:calc(50% - 30px);min-width:19px;height:19px;padding:0 5px;font-size:11px;line-height:15px}
+body.tb-hide .tabbar{transform:translateY(110%)}
+/* floating buttons: smaller, sit just above the bar, follow it down */
+body:has(#tabbar) #clubMB{width:50px;height:50px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom,0px))!important;border-width:2.5px;transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+body:has(#tabbar) #clubMB b{font-size:25px}
+body:has(#tabbar) #clubMB i{top:-5px;left:-5px;min-width:21px;height:21px;font-size:12px;line-height:17px}
+body:has(#tabbar) #clubSfxBtn{width:40px;height:40px;font-size:18px;left:12px;bottom:calc(80px + env(safe-area-inset-bottom,0px))!important;transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+body.tb-hide #clubMB,body.tb-hide #clubSfxBtn{transform:translateY(64px)}
