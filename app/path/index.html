@@ -256,9 +256,10 @@ canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:40}
 @media (max-width:560px){.hero h1{font-size:1.8rem}.task,.stn{flex-wrap:wrap}.task .acts,.stn .acts{flex-direction:row;width:100%}.task .acts>*,.stn .acts>*{flex:1}}
 @media (prefers-reduced-motion:reduce){.stage.cur .dot{animation:none}}
 </style>
+<link rel="stylesheet" href="../assets/vivid.css?v=6">
 <link rel="stylesheet" href="../assets/app.css?v=1"><script src="../assets/app.js?v=1"></script>
 </head>
-<body>
+<body class="v-path">
 <div class="wrap">
   <div class="topbar">
     <a class="pill" href="../index.html">🏠 الرئيسية</a>
@@ -491,6 +492,7 @@ function vMap(){
   var N = plan.stages.length;
   if (openSt == null || openSt >= N) openSt = Math.min(cur, N - 1);
   var h = '<section class="top"><span class="ic" aria-hidden="true">📐</span><div class="tx"><h1>هندسة <span>مساري</span></h1>'
+    + '<button type="button" class="newtop" data-new>📐 هندس مساراً جديداً</button>'
     + '<div class="chips"><span>' + (g.ic || '🎯') + ' ' + esc(g.b || '') + '</span><span>📈 ' + (plan.lvSrc === 'test' ? '<span class="en">' + esc(plan.lvName) + '</span>' : LVL[plan.lvl].b) + '</span><span>⏳ ' + plan.time + (plan.time <= 10 ? ' دقائق' : ' دقيقة') + '</span></div></div></section>';
 
   if (fresh) h += '<section class="card center" style="background:linear-gradient(135deg,#e3f8ef,#fff 70%);border-color:#a9e4c6"><h2>🎉 رُسم مخطط بيتك!</h2><p class="lead">تبني أولاً <b>' + CK[focus[0]].ar + '</b>، ثم <b>' + CK[focus[1]].ar + '</b>، ثم <b>' + CK[focus[2]].ar + '</b>. ابدأ بأمر عمل اليوم، وكل أقسام النادي تبقى مفتوحة لك.</p></section>';

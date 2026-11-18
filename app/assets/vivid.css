@@ -267,3 +267,27 @@ html:has(body.v-pop){background:#fffaf0}
 .v-pop.b-honor .firel small{color:var(--v-muted)}
 .v-pop.b-honor .firel .fg{background:#ff9a4a;color:#fff;border:2px solid #1c2b4a}
 .v-pop.b-honor .panel{border-width:2px;box-shadow:4px 4px 0 #dfe8f5}
+
+/* ===================== هندسة مساري (18 Nov 2026): blue mountain hero, «هندس مساراً جديداً» at the top, club palette (the house itself untouched) ===================== */
+.v-path .topbar .pill{border:0;box-shadow:0 6px 16px -10px rgba(40,80,150,.5)}
+.v-path .top{position:relative;overflow:hidden;display:block;text-align:right;margin:12px -16px 0;padding:20px 18px 74px;border:0;border-radius:0 0 34px 34px;color:#fff;
+  background:linear-gradient(165deg,#3f7fe8 0%,#4f9ff0 50%,#6cc3e8 100%)}
+.v-path .top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:60px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 70' preserveAspectRatio='none'%3E%3Cpath d='M0 70V44l70-30 46 20 64-30 56 28 46-16 64 26 54-20v48z' fill='%23c9e6ff'/%3E%3Cpath d='M0 70v-8l60-20 50 14 64-22 56 20 46-12 64 18 60-16v26z' fill='%23eef6ff'/%3E%3C/svg%3E") bottom/100% 100% no-repeat}
+.v-path .top>*{position:relative;z-index:1}
+.v-path .top .ic{float:left;width:62px;height:62px;font-size:2rem;background:#ffd25e;border:0;border-radius:18px;box-shadow:0 5px 0 rgba(20,50,110,.2);transform:rotate(-6deg)}
+.v-path .top h1{color:#fff;font-size:clamp(1.8rem,7.5vw,2.3rem)}.v-path .top h1 span{color:#fff3c4}
+.v-path .top p{color:#fff;opacity:.95}
+.v-path .top .chips{margin-top:10px;clear:both}
+.v-path .top .chips span{background:rgba(255,255,255,.2);border:0;color:#fff;font-size:.95rem;line-height:1.5;padding:3px 12px}
+.v-path .top .go2{background:#ffcf4d;color:#1c2b4a;border:0;border-radius:16px;box-shadow:0 5px 0 #e0a92a}
+.v-path .newtop{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font:800 1.08rem var(--ar);background:#ffcf4d;color:#1c2b4a;border:0;border-radius:16px;padding:10px 18px;box-shadow:0 5px 0 #e0a92a;cursor:pointer}
+.v-path .newtop:active{transform:translateY(3px);box-shadow:0 2px 0 #e0a92a}
+@media (min-width:720px){.v-path .top{margin-inline:0;border-radius:30px}}
+.v-path .card,.v-path .order{border:0;box-shadow:0 14px 30px -18px rgba(40,80,150,.5);border-radius:24px}
+.v-path .order .clip{background:linear-gradient(90deg,#3f7fe8,#4fb0ea)}
+.v-path .btn{background:#3f7fe8;box-shadow:0 4px 0 #2b5fbf;border-radius:16px}
+.v-path .btn.soft{background:#eaf2ff;color:#2a5fc2;box-shadow:none}
+.v-path .btn.ghost{background:#fff;box-shadow:none}
+.v-path .btn.teal{background:#2bb3a6;box-shadow:0 4px 0 #1d8a80}
+.v-path .cta{background:#ffcf4d;color:#1c2b4a;box-shadow:0 5px 0 #e0a92a}
