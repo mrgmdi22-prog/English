@@ -187,3 +187,52 @@ html:has(body.v-pop){background:#fffaf0}
 .v-streak h1+.b-under{display:none}
 .v-streak .go{box-shadow:0 5px 0 #d9a400}
 .v-pop.b-surprise h1 .gt{background-image:linear-gradient(90deg,#3f7fe8,#4fb0ea,#2bb3a6,#3f7fe8)}
+
+/* ===================== sections page v2 (18 Nov 2026): same blue hero as the home, one colour per shelf, compact row cards ===================== */
+.v-pop .sechd{position:relative;overflow:hidden;margin:0 -16px;padding:64px 18px 86px;border-radius:0 0 34px 34px;text-align:right;color:#fff;
+  background:linear-gradient(165deg,#3f7fe8 0%,#4f9ff0 50%,#6cc3e8 100%)}
+.v-pop .sechd::before{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:#fff;opacity:.08;top:-100px;left:-70px}
+.v-pop .sechd::after{content:"";position:absolute;left:0;right:0;bottom:0;height:70px;opacity:.9;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 70' preserveAspectRatio='none'%3E%3Cpath d='M0 70V44l70-30 46 20 64-30 56 28 46-16 64 26 54-20v48z' fill='%23c9e6ff'/%3E%3Cpath d='M0 70v-8l60-20 50 14 64-22 56 20 46-12 64 18 60-16v26z' fill='%23a8e3d6'/%3E%3C/svg%3E") bottom/100% 100% no-repeat}
+.v-pop .sechd>*{position:relative;z-index:1}
+.v-pop .sechd h1{color:#fff;font-size:clamp(1.9rem,8vw,2.4rem)}
+.v-pop .sechd .b-under{display:none}
+.v-pop .sechd p{color:#fff;opacity:.95}
+@media (min-width:720px){.v-pop .sechd{margin:0}}
+.v-pop .secnav{position:relative;z-index:2;margin-top:-58px;border-width:2px;border-color:#d7e3f4;box-shadow:0 14px 30px -18px rgba(40,80,150,.5)}
+.v-pop .secnav h2{font-weight:800}
+.v-pop .find{border:2px solid #cfdcf0;background:#f6f9fe}
+.v-pop .club-home{position:fixed;z-index:50}
+
+/* one colour per shelf: chip + English line + arrow share it */
+.v-pop #f1{--sc:#3f7fe8;--st:#e9f1ff;--sd:#2a5fc2}
+.v-pop #f2{--sc:#34b77e;--st:#e6f7ef;--sd:#1d7f55}
+.v-pop #f3{--sc:#ff9a4a;--st:#fff0e4;--sd:#b4561a}
+.v-pop #f5{--sc:#f2b632;--st:#fff6dc;--sd:#8a6100}
+.v-pop #f4{--sc:#2bb3a6;--st:#e3f6f3;--sd:#167a70}
+.v-pop #f6{--sc:#5a7fd6;--st:#ebf0fb;--sd:#3a5bb0}
+.v-pop #s7{--sc:#4fb0ea;--st:#e6f4fc;--sd:#1f6f9e}
+.v-pop .shelf .card .ic .b-chip{background:var(--sc)}
+.v-pop .shelf .card .en{color:var(--sd)!important}
+.v-pop .shelf .card .arrow{background:var(--st);color:var(--sd);border:2px solid var(--sc)}
+.v-pop .shelf-head h2{color:var(--v-ink)!important}
+.v-pop .shelf-head p{font-size:1rem}
+
+/* cards: lighter outline, compact row layout (icon on the right, text beside it) */
+.v-pop .shelf .card{border:2px solid #1c2b4a;box-shadow:3px 3px 0 var(--sc,#1c2b4a);border-radius:20px;padding:14px 14px 14px 56px;gap:0}
+.v-pop .shelf a.card,.v-pop .shelf .lcard .lmain{display:grid;grid-template-columns:52px minmax(0,1fr);column-gap:12px;row-gap:2px;align-items:start}
+.v-pop .shelf a.card>.ic,.v-pop .shelf .lmain>.ic{grid-column:1;grid-row:1/span 3;margin:0}
+.v-pop .shelf a.card>b,.v-pop .shelf a.card>.en,.v-pop .shelf a.card>p,.v-pop .shelf .lmain>b,.v-pop .shelf .lmain>.en,.v-pop .shelf .lmain>p{grid-column:2}
+.v-pop .shelf .card .ic .b-chip{width:52px!important;height:52px!important;border-width:2px}
+.v-pop .shelf .card b{font-size:1.2rem}
+.v-pop .shelf .card p{font-size:.98rem;line-height:1.6;margin-top:2px}
+.v-pop .shelf .card .arrow{top:50%;left:12px;transform:translateY(-50%);width:34px;height:34px}
+.v-pop .shelf .lcard{padding-left:14px}
+.v-pop .shelf .lcard .lmodes{margin-top:10px}
+.v-pop .shelf .lmodes a{border-width:2px;box-shadow:2px 2px 0 var(--sc,#1c2b4a)}
+.v-pop .shelf .card.portal{padding-left:14px;display:flex}
+.v-pop .shelf .card.portal .go{box-shadow:3px 3px 0 #1c2b4a}
+.v-pop .hcaps{border:2px solid #1c2b4a;box-shadow:3px 3px 0 var(--sc);border-radius:20px;background:#fff}
+.v-pop .capchip{border-width:2px;box-shadow:2px 2px 0 #f2b632}
+.v-pop .kidsban{border-width:2px;box-shadow:3px 3px 0 #ff9a4a;background:#fff6dc}
+.v-pop .totop{border-width:2px}
