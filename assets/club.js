@@ -62,7 +62,7 @@
         if (shown || sig() === start) return;
         try { localStorage.setItem('mb-tip', String(day)); } catch(e){}
         var t = document.createElement('div'); t.id = 'clubMBtip'; t.setAttribute('role', 'status');
-        t.innerHTML = 'أحسنت! 👏 صناديق المفاجآت 🎁 ما زالت تنتظرك… 15 تحدياً خاطفاً، وحتى 150 نقطة تنتظرك!<br><a href="' + href + '">افتح المفاجأة ←</a><button type="button">لاحقاً</button>';
+        t.innerHTML = 'أحسنت! 👏 صناديق المفاجآت 🎁 ما زالت تنتظرك… قصة أم سرعة أم استماع؟ افتحها لتعرف، وحتى 150 نقطة للصندوق!<br><a href="' + href + '">افتح المفاجأة ←</a><button type="button">لاحقاً</button>';
         t.querySelector('button').onclick = function(){ t.remove(); };
         document.body.appendChild(t);
       }, 5000);
