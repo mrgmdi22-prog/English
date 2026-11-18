@@ -236,3 +236,34 @@ html:has(body.v-pop){background:#fffaf0}
 .v-pop .capchip{border-width:2px;box-shadow:2px 2px 0 #f2b632}
 .v-pop .kidsban{border-width:2px;box-shadow:3px 3px 0 #ff9a4a;background:#fff6dc}
 .v-pop .totop{border-width:2px}
+
+/* ===================== honor board v2 (18 Nov 2026): blue hero with the luxury gold cup, lighter rows ===================== */
+.v-pop.b-honor:not(.gate) .wrap>header{position:relative;overflow:hidden;margin:-64px -16px 0;padding:58px 18px 78px;border-radius:0 0 34px 34px;color:#fff;
+  background:linear-gradient(165deg,#3f7fe8 0%,#4f9ff0 50%,#6cc3e8 100%)}
+.v-pop.b-honor:not(.gate) .wrap>header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:64px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 70' preserveAspectRatio='none'%3E%3Cpath d='M0 70V44l70-30 46 20 64-30 56 28 46-16 64 26 54-20v48z' fill='%23c9e6ff'/%3E%3Cpath d='M0 70v-8l60-20 50 14 64-22 56 20 46-12 64 18 60-16v26z' fill='%23fffaf0'/%3E%3C/svg%3E") bottom/100% 100% no-repeat}
+.v-pop.b-honor:not(.gate) .wrap>header>*{position:relative;z-index:1}
+.v-pop.b-honor:not(.gate) header h1{color:#fff;text-shadow:0 2px 0 rgba(20,50,110,.15)}
+.v-pop.b-honor:not(.gate) header p{color:#fff;opacity:.95}
+@media (min-width:720px){.v-pop.b-honor:not(.gate) .wrap>header{margin-inline:0}}
+.trophy.lux{display:block;width:220px;height:230px;margin:0 auto -6px;animation:cupFloat 4s ease-in-out infinite}
+.trophy.lux svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 10px 14px rgba(20,40,90,.35))}
+.trophy.lux .rays{transform-origin:110px 92px;animation:cupRays 14s linear infinite}
+.trophy.lux .spk path{animation:cupTw 2.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.trophy.lux .spk path:nth-child(2){animation-delay:.6s}.trophy.lux .spk path:nth-child(3){animation-delay:1.2s}.trophy.lux .spk path:nth-child(4){animation-delay:1.8s}
+@keyframes cupFloat{50%{transform:translateY(-6px)}}
+@keyframes cupRays{to{transform:rotate(360deg)}}
+@keyframes cupTw{0%,100%{opacity:.2;transform:scale(.6)}50%{opacity:1;transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.trophy.lux,.trophy.lux .rays,.trophy.lux .spk path{animation:none}}
+/* board: season note as a soft chip, lighter rows 4–10 */
+.v-pop.b-honor #seasonNote{background:#fff;border:2px solid #dfe8f5;border-radius:16px;padding:8px 12px;font-size:1rem}
+.v-pop.b-honor .list li{border:2px solid #1c2b4a;box-shadow:3px 3px 0 #dfe8f5;background:#fff}
+.v-pop.b-honor .list li.top10{background:#fff;box-shadow:3px 3px 0 #ffcf4d}
+.v-pop.b-honor .list li.mine{background:#eaf2ff;border-color:#3f7fe8;box-shadow:3px 3px 0 #3f7fe8}
+.v-pop.b-honor .list li .sc{font-weight:800;color:#2a5fc2}
+.v-pop.b-honor .pl .block{box-shadow:inset 0 6px 0 rgba(255,255,255,.35)}
+.v-pop.b-honor .pl.g1 .medal{filter:drop-shadow(0 4px 8px rgba(230,170,20,.5))}
+.v-pop.b-honor .firel{background:#fff1e4;color:var(--v-ink);border:2px solid #1c2b4a;box-shadow:3px 3px 0 #ff9a4a}
+.v-pop.b-honor .firel small{color:var(--v-muted)}
+.v-pop.b-honor .firel .fg{background:#ff9a4a;color:#fff;border:2px solid #1c2b4a}
+.v-pop.b-honor .panel{border-width:2px;box-shadow:4px 4px 0 #dfe8f5}
