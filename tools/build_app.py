@@ -117,20 +117,20 @@ MANIFEST = """{
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#F6F3FF",
-  "theme_color": "#5B47D6",
+  "background_color": "#EEF5FE",
+  "theme_color": "#3F7FE8",
   "lang": "ar",
   "dir": "rtl",
   "categories": ["education"],
   "icons": [
-    {"src": "assets/icons/icon-192.png?v=2", "sizes": "192x192", "type": "image/png", "purpose": "any"},
-    {"src": "assets/icons/icon-512.png?v=2", "sizes": "512x512", "type": "image/png", "purpose": "any"},
-    {"src": "assets/icons/maskable-512.png?v=2", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+    {"src": "assets/icons/icon-192.png?v=3", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "assets/icons/icon-512.png?v=3", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "assets/icons/maskable-512.png?v=3", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
   ],
   "shortcuts": [
-    {"name": "صندوق المفاجآت", "url": "./surprise/index.html", "icons": [{"src": "assets/icons/icon-192.png?v=2", "sizes": "192x192"}]},
-    {"name": "هندسة مساري", "url": "./path/index.html", "icons": [{"src": "assets/icons/icon-192.png?v=2", "sizes": "192x192"}]},
-    {"name": "الكبسولات", "url": "./capsules/index.html", "icons": [{"src": "assets/icons/icon-192.png?v=2", "sizes": "192x192"}]}
+    {"name": "صندوق المفاجآت", "url": "./surprise/index.html", "icons": [{"src": "assets/icons/icon-192.png?v=3", "sizes": "192x192"}]},
+    {"name": "هندسة مساري", "url": "./path/index.html", "icons": [{"src": "assets/icons/icon-192.png?v=3", "sizes": "192x192"}]},
+    {"name": "الكبسولات", "url": "./capsules/index.html", "icons": [{"src": "assets/icons/icon-192.png?v=3", "sizes": "192x192"}]}
   ]
 }
 """
@@ -208,7 +208,7 @@ def shared_assets():
     # club.js: never sync to the honor board, never show a recovery code (the app shares storage with the site in Chrome)
     sub('assets/club.js', "if(me && localStorage.getItem('club-player') &&", "if(false && me &&")
     # its own service-worker cache, so the app and the site never mix caches
-    sub('sw.js', "const CACHE = 'club-v4';", "const CACHE = 'club-app-v1';")
+    sub('sw.js', "const CACHE = 'club-v5';", "const CACHE = 'club-app-v2';")
 
 
 def inject_every_page():
