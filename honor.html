@@ -189,7 +189,7 @@ body.gate #jb{width:100%;min-height:60px;font-size:1.3rem}
 .gift .mbar{margin-top:14px;height:8px;border-radius:99px;background:rgba(255,255,255,.35);overflow:hidden;direction:ltr}
 .gift .mbar i{display:block;height:100%;width:0;background:#ffcf4d;border-radius:99px;transition:width .4s linear}
 .gift .mtime{margin-top:6px;font-size:1rem;color:#fff;font-weight:700}
-.gift .yt{width:200px;height:200px;margin:12px auto 0;border-radius:14px;overflow:hidden;border:2px solid #1c2b4a;background:#000}
+.gift .yt{width:56px;height:56px;margin:10px auto 0;border-radius:10px;overflow:hidden;border:1.5px solid #1c2b4a;background:#000;opacity:.85}
 .gift .yt iframe,.gift .yt>div{display:block;width:100%;height:100%;border:0}
 .gift .alt{display:inline-block;margin-top:10px;font-weight:800;color:#ff5500;text-decoration:none;font-size:1.05rem}
 .gift .gm{margin-top:8px;font-size:1.02rem;color:#7a4b00;font-weight:700}
@@ -455,7 +455,7 @@ function loadGift() {
   box.hidden = false; $('mTime').textContent = 'جارٍ تحميل الأغنية…';
   box.innerHTML = '<div id="giftYT"></div>';
   const t = setTimeout(() => { if (!giftReady) giftFail(); }, 12000);
-  const make = () => { giftP = new YT.Player('giftYT', { videoId: GIFT_YT, host: 'https://www.youtube-nocookie.com', width: 200, height: 200,
+  const make = () => { giftP = new YT.Player('giftYT', { videoId: GIFT_YT, host: 'https://www.youtube-nocookie.com', width: 56, height: 56,
     playerVars: { autoplay: 1, playsinline: 1, rel: 0, modestbranding: 1, controls: 0 },
     events: {
       onReady: e => { giftReady = true; clearTimeout(t); msg.textContent = ''; try { e.target.playVideo(); } catch (x) {} giftUI(-1); },
