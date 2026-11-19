@@ -20,7 +20,7 @@
   window.SpellHelp = { skipIcon: SKIP, attach: function(afterEl, input, answer, onSkip){
     var ans = String(answer), max = Math.max(1, Math.ceil(ans.length / 2)), used = 0, off = false;
     var bar = document.createElement('div'); bar.className = 'sh-bar'; bar.dir = 'rtl';
-    bar.innerHTML = '<button type="button" class="sh-h"><span class="sh-ic" aria-hidden="true">💡</span><span>مساعدة</span><span class="sh-n"></span></button><button type="button" class="sh-s"><span>تخطَّ</span>' + SKIP + '</button>';
+    bar.innerHTML = '<button type="button" class="sh-h"><span class="sh-ic" aria-hidden="true">💡</span><span>مساعدة</span><span class="sh-n"></span></button><button type="button" class="sh-s"><span>تخطِّي</span>' + SKIP + '</button>';
     afterEl.after(bar);
     var bh = bar.children[0], bs = bar.children[1], n = bh.querySelector('.sh-n');
     function left(){ n.textContent = max - used; if (used >= max) bh.disabled = true; }
