@@ -230,7 +230,7 @@ small.wct{display:inline-block;margin-inline-start:6px;background:#fff3c4;color:
       <button class="play" id="giftPlay" type="button">▶ شغّل هدية البطل</button>
       <div class="sc" id="giftBox" hidden></div>
       <div class="gm" id="giftMsg" aria-live="polite"></div>
-      <a class="alt" id="giftAlt" href="https://on.soundcloud.com/H94NmOl7JXkLTHVCJt" target="_blank" rel="noopener">اسمعها في ساوند كلاود ↗</a>
+      <a class="alt" id="giftAlt" href="https://soundcloud.com/diaz-music-649271582/i-made-it-kimo-sounds-diaz" target="_blank" rel="noopener">اسمعها في ساوند كلاود ↗</a>
       <div class="lyr"><a href="https://genius.com/search?q=I%20Made%20It%20Kimo%20Sounds" target="_blank" rel="noopener">📝 الكلمات في Genius ↗</a><a href="https://www.musixmatch.com/search?query=I%20Made%20It%20Kimo%20Sounds" target="_blank" rel="noopener">📝 الكلمات في Musixmatch ↗</a></div>
       <div class="lyrn">تُفتح الكلمات في موقع مرخّص؛ اقرأها هناك واستمع هنا.</div>
       <div class="vic">
@@ -398,7 +398,7 @@ function sayEn(t) { try { speechSynthesis.cancel(); const u = new SpeechSynthesi
   ul.innerHTML = VICTORY.map((v, i) => `<li><button type="button" data-say="${i}" aria-label="استمع">🔊</button><span class="tx"><span class="en">${v[0]}</span><span class="ar">${v[1]}</span></span></li>`).join('');
   ul.addEventListener('click', e => { const b = e.target.closest('[data-say]'); if (b) sayEn(VICTORY[+b.dataset.say][0]); });
 })();
-const GIFT_URL = 'https://on.soundcloud.com/H94NmOl7JXkLTHVCJt';
+const GIFT_URL = 'https://soundcloud.com/diaz-music-649271582/i-made-it-kimo-sounds-diaz';
 function renderGift() {
   const g = $('champGift'), c = ROWS[0];
   if (!g) return;
