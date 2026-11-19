@@ -232,7 +232,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     <button class="big-say" id="bigSay" type="button" hidden><span class="w">🔊</span>استمع (يمكنك الإعادة)</button>
     <div class="opts" id="opts"></div>
     <div id="typW" hidden><p class="hint" id="typHint"></p><div class="typ"><input id="typIn" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="اكتب الكلمة"><button class="btn" id="typGo" type="button">تحقّق</button></div></div>
-    <div class="ord" id="ordW" hidden><div class="line" id="ordLine" aria-label="جملتك"></div><div class="bank" id="ordBank"></div><div class="row2"><button class="btn soft" id="ordUndo" type="button">↩ تراجع</button><button class="btn" id="ordGo" type="button">تحقّق</button></div><div class="sh-bar"><button class="sh-s" id="ordSkip" type="button">⏭️ تخطَّ</button></div></div>
+    <div class="ord" id="ordW" hidden><div class="line" id="ordLine" aria-label="جملتك"></div><div class="bank" id="ordBank"></div><div class="row2"><button class="btn soft" id="ordUndo" type="button">↩ تراجع</button><button class="btn" id="ordGo" type="button">تحقّق</button></div><div class="sh-bar" id="ordSkipBar"><button class="sh-s" id="ordSkip" type="button"><span>تخطَّ</span><span class="sh-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 5.5v13L3.5 12z"/><path d="M21 5.5v13L11.5 12z" opacity=".55"/></svg></span></button></div></div>
     <div class="why" id="why"></div>
     <div class="nav"><button class="btn" id="next" type="button" hidden>Next →</button></div>
   </section>
@@ -261,7 +261,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
   <p class="sign">أ. أحمد بن سالم</p>
 </main>
 
-<script src="../assets/spellhelp.js?v=1"></script>
+<script src="../assets/spellhelp.js?v=2"></script>
 <script src="bank.js?v=3"></script>
 <script src="stories.js?v=1"></script>
 <script>
@@ -536,7 +536,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     if (q.k === 'type') { $('typHint').innerHTML = 'المعنى: ' + esc(q.w) + ' · تبدأ بـ <b>' + esc(q.ans[0]) + '</b> · عدد حروفها <b>' + q.ans.length + '</b>';
       var inp = $('typIn'); inp.value = ''; inp.disabled = false; inp.className = ''; $('typGo').disabled = false; setTimeout(function(){ inp.focus(); }, 300);
       if (window.SpellHelp) typHelp = SpellHelp.attach($('typW').querySelector('.typ'), inp, q.ans, function(){ inp.disabled = true; $('typGo').disabled = true; inp.className = 'no'; graded(false, inp, q.ans); }); }
-    if (q.k === 'order') { ordPick = []; $('ordGo').disabled = false; $('ordUndo').disabled = false; $('ordLine').className = 'line'; drawOrd(); $('ordSkip').disabled = false; }
+    if (q.k === 'order') { ordPick = []; $('ordGo').disabled = false; $('ordUndo').disabled = false; $('ordLine').className = 'line'; drawOrd(); $('ordSkip').disabled = false; $('ordSkipBar').hidden = false; }
     $('opts').innerHTML = q.o.map(function(o, k){ return '<button class="opt" type="button" data-k="' + k + '" dir="' + (isEn(o.t) ? 'ltr' : 'rtl') + '">' + esc(o.t) + '</button>'; }).join('');
     $('opts').querySelectorAll('.opt').forEach(function(b){ b.onclick = function(){ answer(+b.dataset.k, b); }; });
     $('why').textContent = ''; $('next').hidden = true;
@@ -557,11 +557,11 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     $('ordLine').querySelectorAll('.w').forEach(function(b){ b.onclick = function(){ if ($('ordGo').disabled) return; ordPick.splice(ordPick.indexOf(+b.dataset.k), 1); drawOrd(); }; });
   }
   $('ordUndo').onclick = function(){ ordPick.pop(); drawOrd(); };
-  $('ordSkip').onclick = function(){ if ($('ordGo').disabled) return; var q = box[i]; $('ordGo').disabled = true; $('ordUndo').disabled = true; $('ordSkip').disabled = true; $('ordLine').classList.add('no'); graded(false, $('ordLine'), q.ans); };
+  $('ordSkip').onclick = function(){ if ($('ordGo').disabled) return; var q = box[i]; $('ordGo').disabled = true; $('ordUndo').disabled = true; $('ordSkip').disabled = true; $('ordSkipBar').hidden = true; $('ordLine').classList.add('no'); graded(false, $('ordLine'), q.ans); };
   $('ordGo').onclick = function(){
     var q = box[i]; if (ordPick.length < q.words.length) { $('ordLine').classList.add('no'); setTimeout(function(){ $('ordLine').classList.remove('no'); }, 500); return; }
     var ok = ordPick.map(function(k){ return q.words[k]; }).join(' ') === q.ans;
-    $('ordGo').disabled = true; $('ordUndo').disabled = true; $('ordLine').classList.add(ok ? 'ok' : 'no');
+    $('ordGo').disabled = true; $('ordUndo').disabled = true; $('ordSkipBar').hidden = true; $('ordLine').classList.add(ok ? 'ok' : 'no');
     graded(ok, $('ordLine'), q.ans);
   };
   function norm(t){ return String(t).toLowerCase().replace(/[^a-z]/g, ''); }
