@@ -1,5 +1,5 @@
 <!doctype html><html data-theme="light" lang="ar"><head><meta charset="utf-8"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=5"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png?v=5"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
-<script src="../assets/gate.js?v=10"></script><script src="../assets/combo.js?v=4"></script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
+<script src="../assets/gate.js?v=10"></script><script src="../assets/combo.js?v=4"></script><script src="../assets/spellhelp.js?v=1"></script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
 </head><body class="v-ex" data-xs="f2">
 <title>General Words Quest</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -617,10 +617,11 @@ function pSpell(){const ws=U.words.map(W),x=ws[Math.floor(Math.random()*ws.lengt
    <form class="spell" id="sf"><input id="sp" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Type the word"><button class="btn">Check</button></form>
    <div class="fb" id="fb"></div><div id="ex"></div><div class="row center" style="margin-top:14px"><button class="btn" id="nx" hidden>Next · التالي</button></div>`;
   let tries=0,done=false;$("sp").focus();if($("lis"))$("lis").onclick=()=>speak([[x.w,.7]]);
+  const help=window.SpellHelp?SpellHelp.attach($("sf"),$("sp"),x.w,()=>{done=true;count(false);mark(x.w,false);$("sp").disabled=true;$("fb").textContent="The correct spelling is: "+x.w;$("fb").className="fb bad";$("ex").innerHTML=explainHTML(x);$("nx").hidden=false}):null;
   $("sf").onsubmit=e=>{e.preventDefault();if(done)return;const v=$("sp").value.trim().toLowerCase();if(!v)return;tries++;
-    if(v===x.w){done=true;count(true);mark(x.w,true);sfx("good");sayWord(x.w);$("fb").textContent="Correct spelling! أحسنت";$("fb").className="fb good";$("ex").innerHTML=explainHTML(x);$("nx").hidden=false}
+    if(v===x.w){done=true;help&&help.off();count(true);mark(x.w,true);sfx("good");sayWord(x.w);$("fb").textContent="Correct spelling! أحسنت";$("fb").className="fb good";$("ex").innerHTML=explainHTML(x);$("nx").hidden=false}
     else if(tries<2){sfx("bad");$("fb").textContent="Not quite. Check the letters and try once more · راجع الحروف وحاول مرة أخرى";$("fb").className="fb bad"}
-    else{done=true;count(false);mark(x.w,false);sfx("bad");$("fb").textContent="The correct spelling is: "+x.w;$("fb").className="fb bad";$("ex").innerHTML=explainHTML(x);$("nx").hidden=false}};
+    else{done=true;help&&help.off();count(false);mark(x.w,false);sfx("bad");$("fb").textContent="The correct spelling is: "+x.w;$("fb").className="fb bad";$("ex").innerHTML=explainHTML(x);$("nx").hidden=false}};
   $("nx").onclick=pSpell}
 function pMatch(){const ws=shuffle(U.words.map(W)).slice(0,5);const Z=$("pz");
   Z.innerHTML=`<div class="match"><div class="col" id="mL"></div><div class="col" id="mR"></div></div><div class="fb" id="fb"></div><div class="row center"><button class="btn" id="nx" hidden>New round · جولة جديدة</button></div>`;
@@ -742,10 +743,11 @@ function startReview(){
       P.innerHTML=head+`<div class="q"><span class="k">Listen and write the word · استمع واكتب الكلمة</span></div><div class="row center"><button class="btn alt" id="rl">🔊 Listen · استمع</button></div>
         <p class="hint ar" style="text-align:center">${esc(x.ar)}</p><form class="spell" id="rsf"><input id="rsp" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Type the word"><button class="btn">Check</button></form>`+tail;
       $("rl").onclick=()=>speak([[x.w,.7]]);setTimeout(()=>speak([[x.w,.7]]),300);$("rsp").focus();let tries=0,fin=false;
+      const help=window.SpellHelp?SpellHelp.attach($("rsf"),$("rsp"),x.w,()=>{fin=true;$("rsp").disabled=true;$("rsp").classList.add("wrong");$("rfb").textContent="The word is: "+x.w;$("rfb").className="fb bad";$("rex").innerHTML=explainHTML(x);done(false,x)}):null;
       $("rsf").onsubmit=e=>{e.preventDefault();if(fin)return;const v=$("rsp").value.trim().toLowerCase();if(!v)return;tries++;
-        if(v===x.w){fin=true;$("rsp").classList.add("right");$("rfb").textContent="Correct! أحسنت";$("rfb").className="fb good";$("rex").innerHTML=explainHTML(x);done(true,x)}
+        if(v===x.w){fin=true;help&&help.off();$("rsp").classList.add("right");$("rfb").textContent="Correct! أحسنت";$("rfb").className="fb good";$("rex").innerHTML=explainHTML(x);done(true,x)}
         else if(tries<2){{const el=$("rsp");el.classList.add("shake");setTimeout(()=>el.classList.remove("shake"),450)}$("rfb").textContent="Try once more · حاول مرة أخرى";$("rfb").className="fb bad"}
-        else{fin=true;$("rsp").classList.add("wrong");$("rfb").textContent="The word is: "+x.w;$("rfb").className="fb bad";$("rex").innerHTML=explainHTML(x);done(false,x)}};
+        else{fin=true;help&&help.off();$("rsp").classList.add("wrong");$("rfb").textContent="The word is: "+x.w;$("rfb").className="fb bad";$("rex").innerHTML=explainHTML(x);done(false,x)}};
     }else if(it.k==="say"){
       P.innerHTML=head+`<div class="q"><span class="k">Say the word · انطق الكلمة</span><span style="font-size:2.2rem">${esc(x.w)}</span></div><p class="hint ar" style="text-align:center">${esc(x.ar)}</p>
         <p class="ar" style="text-align:center;color:var(--muted)">استمع، ثم سجّل صوتك، وقارن بين النطقين.</p>

@@ -232,7 +232,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     <button class="big-say" id="bigSay" type="button" hidden><span class="w">🔊</span>استمع (يمكنك الإعادة)</button>
     <div class="opts" id="opts"></div>
     <div id="typW" hidden><p class="hint" id="typHint"></p><div class="typ"><input id="typIn" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="اكتب الكلمة"><button class="btn" id="typGo" type="button">تحقّق</button></div></div>
-    <div class="ord" id="ordW" hidden><div class="line" id="ordLine" aria-label="جملتك"></div><div class="bank" id="ordBank"></div><div class="row2"><button class="btn soft" id="ordUndo" type="button">↩ تراجع</button><button class="btn" id="ordGo" type="button">تحقّق</button></div></div>
+    <div class="ord" id="ordW" hidden><div class="line" id="ordLine" aria-label="جملتك"></div><div class="bank" id="ordBank"></div><div class="row2"><button class="btn soft" id="ordUndo" type="button">↩ تراجع</button><button class="btn" id="ordGo" type="button">تحقّق</button></div><div class="sh-bar"><button class="sh-s" id="ordSkip" type="button">⏭️ تخطَّ</button></div></div>
     <div class="why" id="why"></div>
     <div class="nav"><button class="btn" id="next" type="button" hidden>Next →</button></div>
   </section>
@@ -261,6 +261,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
   <p class="sign">أ. أحمد بن سالم</p>
 </main>
 
+<script src="../assets/spellhelp.js?v=1"></script>
 <script src="bank.js?v=3"></script>
 <script src="stories.js?v=1"></script>
 <script>
@@ -524,6 +525,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     var cb = $('combo'); cb.hidden = streak < 2; cb.textContent = '🔥 x' + streak;
     var tag = $('tag'); tag.textContent = (box.type === 'classic' ? s.ic + ' مفاجأة من: ' + secName(q) : TYPES[box.type].ic + ' ' + TYPES[box.type].ar + (q.b ? ' · ' + q.b : '')); tag.style.background = s.c;
     $('qa').textContent = (q.qa || '').replace(/^(A1|A2|B1|B2) · /, '');
+    if (typHelp) { typHelp.el.remove(); typHelp = null; }
     var t = $('qtext'), shown = q.k === 'listen' ? '' : q.k === 'type' ? q.q.replace(/_{3,}/, ' _____ ') : q.q, en = isEn(shown);
     t.textContent = shown; t.hidden = !shown;
     t.className = 'qtext' + (en ? ' en' : ''); t.dir = en ? 'ltr' : 'auto';
@@ -532,8 +534,9 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     $('opts').hidden = q.k === 'type' || q.k === 'order';
     $('typW').hidden = q.k !== 'type'; $('ordW').hidden = q.k !== 'order';
     if (q.k === 'type') { $('typHint').innerHTML = 'المعنى: ' + esc(q.w) + ' · تبدأ بـ <b>' + esc(q.ans[0]) + '</b> · عدد حروفها <b>' + q.ans.length + '</b>';
-      var inp = $('typIn'); inp.value = ''; inp.disabled = false; inp.className = ''; $('typGo').disabled = false; setTimeout(function(){ inp.focus(); }, 300); }
-    if (q.k === 'order') { ordPick = []; $('ordGo').disabled = false; $('ordUndo').disabled = false; $('ordLine').className = 'line'; drawOrd(); }
+      var inp = $('typIn'); inp.value = ''; inp.disabled = false; inp.className = ''; $('typGo').disabled = false; setTimeout(function(){ inp.focus(); }, 300);
+      if (window.SpellHelp) typHelp = SpellHelp.attach($('typW').querySelector('.typ'), inp, q.ans, function(){ inp.disabled = true; $('typGo').disabled = true; inp.className = 'no'; graded(false, inp, q.ans); }); }
+    if (q.k === 'order') { ordPick = []; $('ordGo').disabled = false; $('ordUndo').disabled = false; $('ordLine').className = 'line'; drawOrd(); $('ordSkip').disabled = false; }
     $('opts').innerHTML = q.o.map(function(o, k){ return '<button class="opt" type="button" data-k="' + k + '" dir="' + (isEn(o.t) ? 'ltr' : 'rtl') + '">' + esc(o.t) + '</button>'; }).join('');
     $('opts').querySelectorAll('.opt').forEach(function(b){ b.onclick = function(){ answer(+b.dataset.k, b); }; });
     $('why').textContent = ''; $('next').hidden = true;
@@ -544,7 +547,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
   $('say').onclick = function(){ say(box[i].k === 'type' ? box[i].q.replace(/_{3,}/, box[i].ans) : box[i].q.split('\n').pop()); };
   $('bigSay').onclick = function(){ say(box[i].q); };
   // ✍️ typing and 🧱 ordering
-  var ordPick = [];
+  var ordPick = [], typHelp = null;
   function drawOrd(){
     var q = box[i], used = {};
     ordPick.forEach(function(k){ used[k] = 1; });
@@ -554,6 +557,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     $('ordLine').querySelectorAll('.w').forEach(function(b){ b.onclick = function(){ if ($('ordGo').disabled) return; ordPick.splice(ordPick.indexOf(+b.dataset.k), 1); drawOrd(); }; });
   }
   $('ordUndo').onclick = function(){ ordPick.pop(); drawOrd(); };
+  $('ordSkip').onclick = function(){ if ($('ordGo').disabled) return; var q = box[i]; $('ordGo').disabled = true; $('ordUndo').disabled = true; $('ordSkip').disabled = true; $('ordLine').classList.add('no'); graded(false, $('ordLine'), q.ans); };
   $('ordGo').onclick = function(){
     var q = box[i]; if (ordPick.length < q.words.length) { $('ordLine').classList.add('no'); setTimeout(function(){ $('ordLine').classList.remove('no'); }, 500); return; }
     var ok = ordPick.map(function(k){ return q.words[k]; }).join(' ') === q.ans;
@@ -564,7 +568,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
   $('typGo').onclick = function(){
     var q = box[i], inp = $('typIn'); if (!inp.value.trim()) { inp.focus(); return; }
     var ok = norm(inp.value) === norm(q.ans);
-    inp.disabled = true; $('typGo').disabled = true; inp.className = ok ? 'ok' : 'no';
+    inp.disabled = true; $('typGo').disabled = true; inp.className = ok ? 'ok' : 'no'; if (typHelp) typHelp.off();
     graded(ok, inp, q.ans);
   };
   $('typIn').addEventListener('keydown', function(e){ if (e.key === 'Enter') { e.preventDefault(); $('typGo').click(); } });

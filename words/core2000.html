@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr" data-theme="light">
 <head>
 <meta charset="utf-8"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=5"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png?v=5">
-<script src="../assets/gate.js?v=10"></script><script src="../assets/combo.js?v=4"></script>
+<script src="../assets/gate.js?v=10"></script><script src="../assets/combo.js?v=4"></script><script src="../assets/spellhelp.js?v=1"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Core Quest · English Club</title>
 <style>
@@ -121,11 +121,12 @@ function spell(){
   shell(`<div class="count">${S.q.length} left</div><div class="sent">${blank(w)}</div><div>Type the missing word:</div>
   <div class="hint">${esc(hint(w))}</div><div style="margin-top:14px"><input class="t" id="inp" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
   <div class="row"><button class="btn" id="chk" onclick="check()">Check</button><button class="btn ghost" onclick="speak(S.q[0].s.replace(S.q[0].a,'blank'))">🔊 Listen</button></div><div class="msg" id="msg"></div>`);
-  const i=$('inp');i.focus();i.addEventListener('keydown',e=>{if(e.key==='Enter')check()})}
+  const i=$('inp');i.focus();i.addEventListener('keydown',e=>{if(e.key==='Enter')check()});
+  if(window.SpellHelp)S.help=SpellHelp.attach(i.parentNode,i,w.a,()=>{if(lock)return;lock=true;if(window.clubCombo)clubCombo.hit(false);i.disabled=true;$('msg').className='msg bad';$('msg').innerHTML='Answer: <b>'+esc(w.a)+'</b>. We will ask it again.';S.miss++;S.q.push(S.q.shift());setTimeout(()=>{lock=false;spell()},2200)})}
 let lock=false;
 function check(){
   if(lock)return;const w=S.q[0],v=$('inp').value.trim().toLowerCase().replace(/’/g,"'");
-  if(!v)return;
+  if(!v)return;if(S.help)S.help.off();
   if(v===w.a.toLowerCase().replace(/’/g,"'")){lock=true;if(window.clubCombo)clubCombo.hit(true);$('msg').className='msg good';$('msg').textContent='Perfect! ✔ '+w.a;speak(w.s);S.q.shift();setTimeout(()=>{lock=false;spell()},1400)}
   else{lock=true;if(window.clubCombo)clubCombo.hit(false);$('msg').className='msg bad';$('msg').innerHTML='Answer: <b>'+esc(w.a)+'</b>. We will ask it again.';S.miss++;S.q.push(S.q.shift());setTimeout(()=>{lock=false;spell()},2200)}}
 function finish(){
