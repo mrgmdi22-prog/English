@@ -181,12 +181,9 @@ body.gate #jb{width:100%;min-height:60px;font-size:1.3rem}
 .gift .sc{aspect-ratio:16/9}.gift .sc iframe,.gift .sc>div{display:block;width:100%;height:100%;border:0}
 .gift .alt{display:inline-block;margin-top:10px;font-weight:800;color:#ff5500;text-decoration:none;font-size:1.05rem}
 .gift .gm{margin-top:8px;font-size:1.02rem;color:#7a4b00;font-weight:700}
-.gift .lyr{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}
-.gift .lyr a{font-weight:800;font-size:1.02rem;text-decoration:none;color:#1c2b4a;background:#fff;border:2px solid #1c2b4a;border-radius:999px;padding:7px 16px}
-.gift .lyrn{font-size:.95rem;color:#5a6b85;margin-top:6px}
 .gift .vic{margin-top:14px;background:#fff;border:2px solid #1c2b4a;border-radius:18px;padding:12px;text-align:start}
 .gift .vic h4{margin:0 0 8px;font-size:1.2rem;text-align:center;color:#1c2b4a}
-.gift .vic ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.gift .vic ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}#vicW{grid-template-columns:1fr 1fr}#vicW li{padding:6px 8px;gap:8px}#vicW li button{width:38px;height:38px;font-size:1rem}
 .gift .vic li{display:flex;align-items:center;gap:10px;background:#f2f8ff;border-radius:14px;padding:8px 10px}
 .gift .vic li button{flex:none;width:44px;height:44px;border-radius:50%;border:2px solid #1c2b4a;background:#ffcf4d;font-size:1.2rem;cursor:pointer}
 .gift .vic .en{direction:ltr;text-align:left;font-family:Lexend,Tajawal,sans-serif;font-weight:600;font-size:1.12rem;color:#3f7fe8;display:block}
@@ -231,10 +228,10 @@ small.wct{display:inline-block;margin-inline-start:6px;background:#fff3c4;color:
       <div class="sc" id="giftBox" hidden></div>
       <div class="gm" id="giftMsg" aria-live="polite"></div>
       <a class="alt" id="giftAlt" href="https://music.youtube.com/watch?v=uhsocBHpuaA" target="_blank" rel="noopener">اسمعها في يوتيوب ميوزك ↗</a>
-      <div class="lyr"><a href="https://genius.com/search?q=I%20Made%20It%20Kimo%20Sounds" target="_blank" rel="noopener">📝 الكلمات في Genius ↗</a><a href="https://www.musixmatch.com/search?query=I%20Made%20It%20Kimo%20Sounds" target="_blank" rel="noopener">📝 الكلمات في Musixmatch ↗</a></div>
-      <div class="lyrn">تُفتح الكلمات في موقع مرخّص؛ اقرأها هناك واستمع هنا.</div>
       <div class="vic">
-        <h4>🏆 عبارات النصر</h4>
+        <h4>🏆 كلمات النصر</h4>
+        <ul id="vicW"></ul>
+        <h4 style="margin-top:14px">💬 عبارات النصر</h4>
         <ul id="vicL"></ul>
       </div>
     </div>
@@ -385,19 +382,32 @@ function renderBoard() {
 }
 
 
+const VICTORY_W = [
+  ['victory', 'نصر، فوز'], ['champion', 'بطل'], ['winner', 'فائز'], ['trophy', 'كأس، جائزة'],
+  ['achieve', 'يُحقّق'], ['succeed', 'ينجح'], ['effort', 'جُهد'], ['goal', 'هدف'],
+  ['proud', 'فخور'], ['determined', 'عازم، مُصمّم'], ['first place', 'المركز الأول'], ['celebrate', 'يحتفل'],
+];
 const VICTORY = [
   ['I made it!', 'وصلتُ! نجحتُ!'],
   ['I did it!', 'فعلتُها!'],
+  ['We won!', 'فُزنا!'],
   ['All the way to the top.', 'حتى القمة.'],
   ['Hard work pays off.', 'التعب يُثمر في النهاية.'],
   ['Never give up.', 'لا تستسلم أبداً.'],
+  ['Dreams come true.', 'الأحلام تتحقّق.'],
+  ['I am proud of myself.', 'أنا فخور بنفسي.'],
+  ['Practice makes perfect.', 'التمرين يصنع الإتقان.'],
+  ['Every step counts.', 'كل خطوة لها قيمة.'],
+  ['Well done, champion!', 'أحسنت يا بطل!'],
+  ['You deserve it.', 'أنت تستحقها.'],
+  ['The best is yet to come.', 'الأفضل لم يأتِ بعد.'],
   ['Champion of the week!', 'بطل الأسبوع!'],
 ];
 function sayEn(t) { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = 'en-US'; u.rate = .9; speechSynthesis.speak(u); } catch (e) {} }
-(function () { const ul = $('vicL'); if (!ul) return;
-  ul.innerHTML = VICTORY.map((v, i) => `<li><button type="button" data-say="${i}" aria-label="استمع">🔊</button><span class="tx"><span class="en">${v[0]}</span><span class="ar">${v[1]}</span></span></li>`).join('');
-  ul.addEventListener('click', e => { const b = e.target.closest('[data-say]'); if (b) sayEn(VICTORY[+b.dataset.say][0]); });
-})();
+[['vicW', VICTORY_W], ['vicL', VICTORY]].forEach(([id, L]) => { const ul = $(id); if (!ul) return;
+  ul.innerHTML = L.map((v, i) => `<li><button type="button" data-say="${i}" aria-label="استمع">🔊</button><span class="tx"><span class="en">${v[0]}</span><span class="ar">${v[1]}</span></span></li>`).join('');
+  ul.addEventListener('click', e => { const b = e.target.closest('[data-say]'); if (b) sayEn(L[+b.dataset.say][0]); });
+});
 const GIFT_YT = 'uhsocBHpuaA';
 function renderGift() {
   const g = $('champGift'), c = ROWS[0];
