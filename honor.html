@@ -165,6 +165,23 @@ body.gate .idbox{background:none;border:0;padding:0}
 body.gate .idbox>.lock{font-size:.9rem}
 body.gate #mePanel input[type=text],body.gate #mePanel select{font-size:1.2rem;min-height:54px}
 body.gate #jb{width:100%;min-height:60px;font-size:1.3rem}
+
+/* هدية البطل (19 Nov 2026): a song gift under the first-place card — SoundCloud widget loaded on tap */
+.gift{margin:16px auto 0;max-width:560px;background:linear-gradient(160deg,#fff6d6,#ffe9c7);border:2.5px solid #1c2b4a;border-radius:24px;box-shadow:0 4px 0 #ffcf4d;padding:18px;text-align:center;position:relative}
+.gift .gt{display:inline-block;background:#ff9a4a;color:#fff;font-weight:800;font-size:1.05rem;border:2px solid #1c2b4a;border-radius:999px;padding:3px 16px;margin-top:-34px;position:relative}
+.gift h3{margin:10px 0 2px;font-size:1.45rem;color:#1c2b4a}
+.gift .who{font-size:1.15rem;color:#3f7fe8;font-weight:800}
+.gift .song{font-family:Lexend,Tajawal,sans-serif;direction:ltr;font-size:1.2rem;font-weight:600;margin:10px 0 2px;color:#1c2b4a}
+.gift .by{direction:ltr;color:#5a6b85;font-size:1rem}
+.gift .mean{margin:12px 0;background:#fff;border:2px dashed #ffcf4d;border-radius:18px;padding:12px 14px;font-size:1.12rem;line-height:1.8}
+.gift .mean b{font-family:Lexend,Tajawal,sans-serif;color:#ff7a1a}
+.gift .play{font:inherit;font-weight:800;font-size:1.2rem;border:2.5px solid #1c2b4a;border-bottom-width:5px;border-radius:999px;background:#ffcf4d;color:#1c2b4a;padding:12px 28px;cursor:pointer}
+.gift .play:active{transform:translateY(2px);border-bottom-width:3px}
+.gift .sc{margin-top:12px;border-radius:16px;overflow:hidden;border:2px solid #1c2b4a;background:#fff}
+.gift .sc iframe{display:block;width:100%;height:166px;border:0}
+.gift .alt{display:inline-block;margin-top:10px;font-weight:800;color:#ff5500;text-decoration:none;font-size:1.05rem}
+.gift .gm{margin-top:8px;font-size:1.02rem;color:#7a4b00;font-weight:700}
+.gift.mine{box-shadow:0 0 0 4px #ffcf4d,0 4px 0 #ff9a4a}
 @media (max-width:520px){.podium{gap:6px}.pl .nm{font-size:1.15rem}.pl .medal{font-size:2.8rem}.me .pts{width:100%}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pl,.list li{opacity:1;transform:none}}
 small.wct{display:inline-block;margin-inline-start:6px;background:#fff3c4;color:#8a6100;border-radius:999px;padding:0 8px;font-weight:800;font-size:.8rem}
@@ -192,6 +209,18 @@ small.wct{display:inline-block;margin-inline-start:6px;background:#fff3c4;color:
     <p class="note" id="seasonNote" style="text-align:center;margin-top:6px"></p>
     <div style="text-align:center;margin-top:10px"><button class="btn soft" id="rb" type="button">حدّث الترتيب</button><div class="note" id="rbNote" style="margin-top:6px;font-size:.95rem" aria-live="polite"></div></div>
     <div class="podium" id="podium"></div>
+    <div class="gift" id="champGift" hidden>
+      <span class="gt">🎁 هدية البطل</span>
+      <h3>أغنية الصدارة 🎵</h3>
+      <div class="who" id="giftWho"></div>
+      <div class="song">I Made It · DIAZ Remix</div>
+      <div class="by">Kimo Sounds</div>
+      <div class="mean"><b>I made it</b> = <strong>لقد وصلتُ! نجحتُ!</strong><br>عبارة يقولها من بلغ القمة بعد تعب. وصاحب المركز الأول قالها هذا الأسبوع بنقاطه 🏆</div>
+      <button class="play" id="giftPlay" type="button">▶ شغّل هدية البطل</button>
+      <div class="sc" id="giftBox" hidden></div>
+      <div class="gm" id="giftMsg" aria-live="polite"></div>
+      <a class="alt" id="giftAlt" href="https://on.soundcloud.com/H94NmOl7JXkLTHVCJt" target="_blank" rel="noopener">اسمعها في ساوند كلاود ↗</a>
+    </div>
     <ol class="list" id="list"></ol>
   </section>
 
@@ -335,7 +364,41 @@ function renderBoard() {
   }).join('');
   $('list').innerHTML = rest.map((r, i) => `<li class="${ME && r.id===ME.id?'mine':''}${i < 7 ? ' top10' : ''}" style="animation-delay:${Math.min(i,12)*40}ms"><span class="rk">${i+4}</span><span class="nm">${esc(r.nick)}${regTag(r)}</span><span class="sc">${fmt(r.score)}</span></li>`).join('')
     || (ROWS.length ? '' : `<li class="empty-board" style="opacity:1;transform:none;border:0;background:none">لا أحد في اللوحة بعد — كن أول اسم يظهر هنا!</li>`);
+  renderGift();
 }
+
+
+const GIFT_URL = 'https://on.soundcloud.com/H94NmOl7JXkLTHVCJt';
+function renderGift() {
+  const g = $('champGift'), c = ROWS[0];
+  if (!g) return;
+  g.hidden = !c;
+  if (!c) return;
+  const mine = ME && c.id === ME.id;
+  g.classList.toggle('mine', !!mine);
+  $('giftWho').textContent = mine ? 'مبروك يا بطل! هذه هديتك 🎉' : 'لصاحب المركز الأول: ' + c.nick;
+}
+function playGift() {
+  const box = $('giftBox'), msg = $('giftMsg');
+  if (box.firstChild) return;
+  box.hidden = false; msg.textContent = 'جارٍ تحميل الأغنية…';
+  const f = document.createElement('iframe');
+  f.title = 'I Made It — SoundCloud'; f.allow = 'autoplay'; f.loading = 'eager';
+  f.src = 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(GIFT_URL) + '&color=%23ff9a4a&auto_play=true&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false';
+  box.appendChild(f);
+  $('giftPlay').hidden = true;
+  let ok = false;
+  const fail = () => { if (!ok) msg.textContent = 'لم يظهر المشغّل هنا؟ اضغط «اسمعها في ساوند كلاود» بالأسفل.'; };
+  const t = setTimeout(fail, 12000);
+  const bind = () => { try { const w = SC.Widget(f);
+      w.bind(SC.Widget.Events.READY, () => { ok = true; clearTimeout(t); msg.textContent = ''; w.play(); });
+      w.bind(SC.Widget.Events.PLAY, () => { ok = true; msg.textContent = '🎶 استمتع يا بطل!'; });
+      w.bind(SC.Widget.Events.ERROR, () => { ok = false; fail(); });
+    } catch (e) {} };
+  if (window.SC && SC.Widget) bind();
+  else { const sc = document.createElement('script'); sc.src = 'https://w.soundcloud.com/player/api.js'; sc.onload = bind; sc.onerror = () => { msg.textContent = ''; }; document.head.appendChild(sc); }
+}
+document.addEventListener('click', e => { if (e.target.closest && e.target.closest('#giftPlay')) playGift(); });
 
 function rankOf(id, score) {
   const i = ROWS.findIndex(r => r.id === id);
