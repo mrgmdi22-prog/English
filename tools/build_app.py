@@ -74,7 +74,7 @@ def sub(rel, old, new, count=1, regex=False, need=True):
 GATE = """// App edition: no registration gate. Only loads the site sounds (sfx.js), which also registers the service worker.
 (function(){
   try { var me = document.currentScript && document.currentScript.src;
-    if (me) { var s = document.createElement('script'); s.src = new URL('sfx.js?v=10', me).href; document.head.appendChild(s); } } catch (e) {}
+    if (me) { var s = document.createElement('script'); s.src = new URL('sfx.js?v=11', me).href; document.head.appendChild(s); } } catch (e) {}
 })();
 """
 
