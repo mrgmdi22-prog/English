@@ -575,7 +575,7 @@ function idFields(p) {
   const g = H.GRADES.concat([H.EXTERNAL]).map(x => `<option value="${x}"${p.grade===x?' selected':''}>${x === H.EXTERNAL ? 'مشارك من خارج المدرسة' : x}</option>`).join('');
   const sec = Array.from({length:5}, (_, i) => String(i+1)).map(x => `<option${p.section===x?' selected':''}>${x}</option>`).join('');
   return `<div class="idbox"><p class="lock">🔒 هذه البيانات لا يراها إلا المعلم، وتُستخدم للتكريم في نهاية العام فقط.</p>
-    <label for="rn">اسمك الثلاثي</label><input id="rn" type="text" maxlength="60" placeholder="مثل: فهد محمد الغامدي" autocomplete="name" value="${esc(p.name||'')}">
+    <label for="rn">اسمك الثلاثي</label><input id="rn" type="text" maxlength="60" placeholder="مثل: أحمد حمد الأحمد" autocomplete="name" value="${esc(p.name||'')}">
     <div class="row2"><div><label for="gr">الصف</label><select id="gr"><option value="">اختر</option>${g}</select></div>
     <div id="scBox"><label for="sc">الشعبة</label><select id="sc"><option value="">اختر</option>${sec}</select></div></div>
     <div id="exBox" hidden style="margin-top:10px"><label for="ex">اسم مدرستك أو جهتك ومدينتك</label><input id="ex" type="text" maxlength="60" placeholder="مثل: ثانوية الملك فهد · الباحة" value="${esc(p.school||'')}">
