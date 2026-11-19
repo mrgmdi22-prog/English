@@ -175,20 +175,40 @@ body.gate #jb{width:100%;min-height:60px;font-size:1.3rem}
 .gift .by{direction:ltr;color:#5a6b85;font-size:1rem}
 .gift .mean{margin:12px 0;background:#fff;border:2px dashed #ffcf4d;border-radius:18px;padding:12px 14px;font-size:1.12rem;line-height:1.8}
 .gift .mean b{font-family:Lexend,Tajawal,sans-serif;color:#ff7a1a}
-.gift .play{font:inherit;font-weight:800;font-size:1.2rem;border:2.5px solid #1c2b4a;border-bottom-width:5px;border-radius:999px;background:#ffcf4d;color:#1c2b4a;padding:12px 28px;cursor:pointer}
-.gift .play:active{transform:translateY(2px);border-bottom-width:3px}
-.gift .sc{margin-top:12px;border-radius:16px;overflow:hidden;border:2px solid #1c2b4a;background:#fff}
-.gift .sc{aspect-ratio:16/9}.gift .sc iframe,.gift .sc>div{display:block;width:100%;height:100%;border:0}
+.gift .mus{margin-top:4px;background:linear-gradient(150deg,#3f7fe8,#4fb0ea);border:2.5px solid #1c2b4a;border-radius:22px;padding:16px;color:#fff;box-shadow:0 4px 0 #1c2b4a}
+.gift .mrow{display:flex;align-items:center;gap:14px;justify-content:center}
+.gift .disc{width:64px;height:64px;border-radius:50%;background:radial-gradient(circle,#ffcf4d 0 22%,#1c2b4a 23% 100%);display:grid;place-items:center;font-size:1.5rem;border:3px solid #fff;flex:none}
+.gift .mus.on .disc{animation:spin 4s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.gift .minfo{text-align:left;direction:ltr}
+.gift .mus .song{font-family:Lexend,Tajawal,sans-serif;font-size:1.45rem;font-weight:600;color:#fff;margin:0}
+.gift .mus .by{color:#e6f2ff;font-size:1.05rem}
+.gift .mctl{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:14px;direction:ltr}
+.gift .mb{width:52px;height:52px;border-radius:50%;border:2.5px solid #1c2b4a;background:#fff;color:#1c2b4a;font-size:1.3rem;cursor:pointer;display:grid;place-items:center}
+.gift .mb.big{width:72px;height:72px;font-size:2rem;background:#ffcf4d;border-bottom-width:5px}
+.gift .mb:active{transform:translateY(2px)}
+.gift .mbar{margin-top:14px;height:8px;border-radius:99px;background:rgba(255,255,255,.35);overflow:hidden;direction:ltr}
+.gift .mbar i{display:block;height:100%;width:0;background:#ffcf4d;border-radius:99px;transition:width .4s linear}
+.gift .mtime{margin-top:6px;font-size:1rem;color:#fff;font-weight:700}
+.gift .yt{width:200px;height:200px;margin:12px auto 0;border-radius:14px;overflow:hidden;border:2px solid #1c2b4a;background:#000}
+.gift .yt iframe,.gift .yt>div{display:block;width:100%;height:100%;border:0}
 .gift .alt{display:inline-block;margin-top:10px;font-weight:800;color:#ff5500;text-decoration:none;font-size:1.05rem}
 .gift .gm{margin-top:8px;font-size:1.02rem;color:#7a4b00;font-weight:700}
-.gift .vic{margin-top:14px;background:#fff;border:2px solid #1c2b4a;border-radius:18px;padding:12px;text-align:start}
-.gift .vic h4{margin:0 0 8px;font-size:1.2rem;text-align:center;color:#1c2b4a}
-.gift .vic ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}#vicW{grid-template-columns:1fr 1fr}#vicW li{padding:6px 8px;gap:8px}#vicW li button{width:38px;height:38px;font-size:1rem}
-.gift .vic li{display:flex;align-items:center;gap:10px;background:#f2f8ff;border-radius:14px;padding:8px 10px}
-.gift .vic li button{flex:none;width:44px;height:44px;border-radius:50%;border:2px solid #1c2b4a;background:#ffcf4d;font-size:1.2rem;cursor:pointer}
-.gift .vic .en{direction:ltr;text-align:left;font-family:Lexend,Tajawal,sans-serif;font-weight:600;font-size:1.12rem;color:#3f7fe8;display:block}
-.gift .vic .ar{font-size:1.05rem;color:#1c2b4a;display:block}
-.gift .vic .tx{flex:1;min-width:0}
+.gift .vic{margin-top:14px;background:#fff;border:2px solid #1c2b4a;border-radius:18px;padding:14px 12px}
+.gift .vic h4{margin:0 0 4px;font-size:1.3rem;text-align:center;color:#1c2b4a}.gift .vic h4.h2{margin-top:22px}
+.gift .vg{margin-top:12px}.gift .vg h5{margin:0 0 8px;font-size:1.08rem;color:#ff7a1a;text-align:start}
+.gift .wg{display:grid;grid-template-columns:1fr 1fr;gap:8px}.gift .wc:last-child:nth-child(odd){grid-column:1/-1}
+.gift .wc{position:relative;background:#f2f8ff;border:2px solid #d6e6fb;border-radius:16px;padding:38px 8px 12px;text-align:center;cursor:pointer}
+.gift .wc .en{direction:ltr;font-family:Lexend,Tajawal,sans-serif;font-weight:600;font-size:1.25rem;color:#3f7fe8;display:block;white-space:nowrap}
+.gift .wc .ar{font-size:1.05rem;color:#1c2b4a;display:block;margin-top:2px}
+.gift .say{position:absolute;top:6px;left:50%;margin-left:-15px;width:30px;height:30px;border-radius:50%;border:1.5px solid #1c2b4a;background:#ffcf4d;font-size:.85rem;display:grid;place-items:center;cursor:pointer;padding:0}
+.gift .pl2{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.gift .pl2 li{display:flex;align-items:center;gap:10px;background:#f2f8ff;border-radius:14px;padding:8px 10px;cursor:pointer}
+.gift .pl2 .n{flex:none;width:30px;height:30px;border-radius:50%;background:#3f7fe8;color:#fff;font-weight:800;display:grid;place-items:center;font-size:.95rem}
+.gift .pl2 .tx{flex:1;min-width:0;text-align:start}
+.gift .pl2 .en{direction:ltr;text-align:left;font-family:Lexend,Tajawal,sans-serif;font-weight:600;font-size:1.12rem;color:#3f7fe8;display:block}
+.gift .pl2 .ar{font-size:1.05rem;color:#1c2b4a;display:block}
+.gift .pl2 .say{position:static;flex:none;width:40px;height:40px;font-size:1.05rem}
+.gift .wc.sp,.gift .pl2 li.sp{background:#fff3d6}
 .gift.mine{box-shadow:0 0 0 4px #ffcf4d,0 4px 0 #ff9a4a}
 @media (max-width:520px){.podium{gap:6px}.pl .nm{font-size:1.15rem}.pl .medal{font-size:2.8rem}.me .pts{width:100%}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.pl,.list li{opacity:1;transform:none}}
@@ -221,18 +241,25 @@ small.wct{display:inline-block;margin-inline-start:6px;background:#fff3c4;color:
       <span class="gt">🎁 هدية البطل</span>
       <h3>أغنية الصدارة 🎵</h3>
       <div class="who" id="giftWho"></div>
-      <div class="song">I Made It</div>
-      <div class="by">Kimo Sounds</div>
       <div class="mean"><b>I made it</b> = <strong>لقد وصلتُ! نجحتُ!</strong><br>عبارة يقولها من بلغ القمة بعد تعب. وصاحب المركز الأول قالها هذا الأسبوع بنقاطه 🏆</div>
-      <button class="play" id="giftPlay" type="button">▶ شغّل هدية البطل</button>
-      <div class="sc" id="giftBox" hidden></div>
+      <div class="mus" id="mus">
+        <div class="mrow"><div class="disc" aria-hidden="true">🎵</div><div class="minfo"><div class="song">I Made It</div><div class="by">Kimo Sounds</div></div></div>
+        <div class="mctl">
+          <button type="button" class="mb" id="mRe" aria-label="من البداية">⏮</button>
+          <button type="button" class="mb big" id="mPlay" aria-label="تشغيل">▶</button>
+          <button type="button" class="mb" id="mStop" aria-label="إيقاف">⏹</button>
+        </div>
+        <div class="mbar"><i id="mFill"></i></div>
+        <div class="mtime" id="mTime">اضغط ▶ لتشغيل هدية البطل</div>
+        <div class="yt" id="giftBox" hidden></div>
+      </div>
       <div class="gm" id="giftMsg" aria-live="polite"></div>
       <a class="alt" id="giftAlt" href="https://music.youtube.com/watch?v=uhsocBHpuaA" target="_blank" rel="noopener">اسمعها في يوتيوب ميوزك ↗</a>
       <div class="vic">
         <h4>🏆 كلمات النصر</h4>
-        <ul id="vicW"></ul>
-        <h4 style="margin-top:14px">💬 عبارات النصر</h4>
-        <ul id="vicL"></ul>
+        <div id="vicW"></div>
+        <h4 class="h2">💬 عبارات النصر</h4>
+        <div id="vicL"></div>
       </div>
     </div>
     <ol class="list" id="list"></ol>
@@ -383,31 +410,25 @@ function renderBoard() {
 
 
 const VICTORY_W = [
-  ['victory', 'نصر، فوز'], ['champion', 'بطل'], ['winner', 'فائز'], ['trophy', 'كأس، جائزة'],
-  ['achieve', 'يُحقّق'], ['succeed', 'ينجح'], ['effort', 'جُهد'], ['goal', 'هدف'],
-  ['proud', 'فخور'], ['determined', 'عازم، مُصمّم'], ['first place', 'المركز الأول'], ['celebrate', 'يحتفل'],
+  ['🥇 الفوز', [['victory', 'نصر، فوز'], ['champion', 'بطل'], ['winner', 'فائز'], ['trophy', 'كأس، جائزة'], ['first place', 'المركز الأول']]],
+  ['💪 الطريق إليه', [['effort', 'جُهد'], ['goal', 'هدف'], ['achieve', 'يُحقّق'], ['succeed', 'ينجح'], ['determined', 'عازم، مُصمّم']]],
+  ['🎉 بعد الفوز', [['proud', 'فخور'], ['celebrate', 'يحتفل']]],
 ];
 const VICTORY = [
-  ['I made it!', 'وصلتُ! نجحتُ!'],
-  ['I did it!', 'فعلتُها!'],
-  ['We won!', 'فُزنا!'],
-  ['All the way to the top.', 'حتى القمة.'],
-  ['Hard work pays off.', 'التعب يُثمر في النهاية.'],
-  ['Never give up.', 'لا تستسلم أبداً.'],
-  ['Dreams come true.', 'الأحلام تتحقّق.'],
-  ['I am proud of myself.', 'أنا فخور بنفسي.'],
-  ['Practice makes perfect.', 'التمرين يصنع الإتقان.'],
-  ['Every step counts.', 'كل خطوة لها قيمة.'],
-  ['Well done, champion!', 'أحسنت يا بطل!'],
-  ['You deserve it.', 'أنت تستحقها.'],
-  ['The best is yet to come.', 'الأفضل لم يأتِ بعد.'],
-  ['Champion of the week!', 'بطل الأسبوع!'],
+  ['🏆 عند الفوز', [['I made it!', 'وصلتُ! نجحتُ!'], ['I did it!', 'فعلتُها!'], ['We won!', 'فُزنا!'], ['All the way to the top.', 'حتى القمة.'],
+    ['I am proud of myself.', 'أنا فخور بنفسي.'], ['Well done, champion!', 'أحسنت يا بطل!'], ['You deserve it.', 'أنت تستحقها.'], ['Champion of the week!', 'بطل الأسبوع!']]],
+  ['🔥 للتحفيز', [['Never give up.', 'لا تستسلم أبداً.'], ['Hard work pays off.', 'التعب يُثمر في النهاية.'], ['Practice makes perfect.', 'التمرين يصنع الإتقان.'],
+    ['Every step counts.', 'كل خطوة لها قيمة.'], ['Dreams come true.', 'الأحلام تتحقّق.'], ['The best is yet to come.', 'الأفضل لم يأتِ بعد.']]],
 ];
-function sayEn(t) { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = 'en-US'; u.rate = .9; speechSynthesis.speak(u); } catch (e) {} }
-[['vicW', VICTORY_W], ['vicL', VICTORY]].forEach(([id, L]) => { const ul = $(id); if (!ul) return;
-  ul.innerHTML = L.map((v, i) => `<li><button type="button" data-say="${i}" aria-label="استمع">🔊</button><span class="tx"><span class="en">${v[0]}</span><span class="ar">${v[1]}</span></span></li>`).join('');
-  ul.addEventListener('click', e => { const b = e.target.closest('[data-say]'); if (b) sayEn(L[+b.dataset.say][0]); });
-});
+function sayEn(t, el) { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = 'en-US'; u.rate = .9;
+  if (el) { el.classList.add('sp'); u.onend = u.onerror = () => el.classList.remove('sp'); } speechSynthesis.speak(u); } catch (e) {} }
+(function () {
+  const W = $('vicW'), P = $('vicL'); if (!W || !P) return;
+  W.innerHTML = VICTORY_W.map(([h, L]) => `<div class="vg"><h5>${h}</h5><div class="wg">${L.map(v => `<div class="wc" data-t="${v[0]}"><button type="button" class="say" aria-label="استمع">🔊</button><span class="en">${v[0]}</span><span class="ar">${v[1]}</span></div>`).join('')}</div></div>`).join('');
+  let n = 0;
+  P.innerHTML = VICTORY.map(([h, L]) => `<div class="vg"><h5>${h}</h5><ol class="pl2">${L.map(v => `<li data-t="${v[0]}"><span class="n">${++n}</span><span class="tx"><span class="en">${v[0]}</span><span class="ar">${v[1]}</span></span><button type="button" class="say" aria-label="استمع">🔊</button></li>`).join('')}</ol></div>`).join('');
+  [W, P].forEach(x => x.addEventListener('click', e => { const it = e.target.closest('[data-t]'); if (it) sayEn(it.dataset.t, it); }));
+})();
 const GIFT_YT = 'uhsocBHpuaA';
 function renderGift() {
   const g = $('champGift'), c = ROWS[0];
@@ -418,27 +439,43 @@ function renderGift() {
   g.classList.toggle('mine', !!mine);
   $('giftWho').textContent = mine ? 'مبروك يا بطل! هذه هديتك 🎉' : 'لصاحب المركز الأول: ' + c.nick;
 }
-let giftP = null;
-function playGift() {
+let giftP = null, giftReady = false, giftTick = 0;
+const mmss = x => { x = Math.max(0, Math.floor(x || 0)); return Math.floor(x / 60) + ':' + String(x % 60).padStart(2, '0'); };
+function giftUI(state) {
+  const on = state === 1; $('mus').classList.toggle('on', on);
+  $('mPlay').textContent = on ? '⏸' : '▶'; $('mPlay').setAttribute('aria-label', on ? 'إيقاف مؤقت' : 'تشغيل');
+  clearInterval(giftTick);
+  const upd = () => { try { const t = giftP.getCurrentTime(), d = giftP.getDuration();
+    if (d) { $('mFill').style.width = (t / d * 100) + '%'; $('mTime').textContent = mmss(t) + ' / ' + mmss(d); } } catch (e) {} };
+  upd(); if (on) giftTick = setInterval(upd, 500);
+}
+function giftFail() { $('giftBox').hidden = true; $('mTime').textContent = ''; $('giftMsg').textContent = 'لم تشتغل الأغنية هنا؟ اضغط «اسمعها في يوتيوب ميوزك» بالأسفل.'; }
+function loadGift() {
   const box = $('giftBox'), msg = $('giftMsg');
-  if (giftP) return;
-  box.hidden = false; $('giftPlay').hidden = true; msg.textContent = 'جارٍ تحميل الأغنية…';
+  box.hidden = false; $('mTime').textContent = 'جارٍ تحميل الأغنية…';
   box.innerHTML = '<div id="giftYT"></div>';
-  let ok = false;
-  const fail = () => { if (!ok) { msg.textContent = 'لم تشتغل الأغنية هنا؟ اضغط «اسمعها في يوتيوب ميوزك» بالأسفل.'; } };
-  const t = setTimeout(fail, 12000);
-  const make = () => { giftP = new YT.Player('giftYT', { videoId: GIFT_YT, host: 'https://www.youtube-nocookie.com',
-    playerVars: { autoplay: 1, playsinline: 1, rel: 0, modestbranding: 1 },
+  const t = setTimeout(() => { if (!giftReady) giftFail(); }, 12000);
+  const make = () => { giftP = new YT.Player('giftYT', { videoId: GIFT_YT, host: 'https://www.youtube-nocookie.com', width: 200, height: 200,
+    playerVars: { autoplay: 1, playsinline: 1, rel: 0, modestbranding: 1, controls: 0 },
     events: {
-      onReady: e => { ok = true; clearTimeout(t); msg.textContent = ''; try { e.target.playVideo(); } catch (x) {} },
-      onStateChange: e => { if (e.data === 1) msg.textContent = '🎶 استمتع يا بطل!'; },
-      onError: () => { ok = false; clearTimeout(t); box.hidden = true; fail(); }
+      onReady: e => { giftReady = true; clearTimeout(t); msg.textContent = ''; try { e.target.playVideo(); } catch (x) {} giftUI(-1); },
+      onStateChange: e => { giftUI(e.data); if (e.data === 1) msg.textContent = '🎶 استمتع يا بطل!'; if (e.data === 0) { msg.textContent = ''; $('mFill').style.width = '100%'; } },
+      onError: () => { clearTimeout(t); giftFail(); }
     } }); };
   if (window.YT && YT.Player) make();
   else { const prev = window.onYouTubeIframeAPIReady; window.onYouTubeIframeAPIReady = () => { prev && prev(); make(); };
-    const sc = document.createElement('script'); sc.src = 'https://www.youtube.com/iframe_api'; sc.onerror = () => { box.hidden = true; fail(); }; document.head.appendChild(sc); }
+    const sc = document.createElement('script'); sc.src = 'https://www.youtube.com/iframe_api'; sc.onerror = () => { clearTimeout(t); giftFail(); }; document.head.appendChild(sc); }
 }
-document.addEventListener('click', e => { if (e.target.closest && e.target.closest('#giftPlay')) playGift(); });
+document.addEventListener('click', e => {
+  const b = e.target.closest && e.target.closest('#mPlay,#mRe,#mStop'); if (!b) return;
+  if (!giftP) { if (b.id !== 'mStop') loadGift(); return; }
+  if (!giftReady) return;
+  try {
+    if (b.id === 'mPlay') { giftP.getPlayerState() === 1 ? giftP.pauseVideo() : giftP.playVideo(); }
+    else if (b.id === 'mRe') { giftP.seekTo(0, true); giftP.playVideo(); }
+    else { giftP.stopVideo(); giftP.seekTo(0, false); giftP.pauseVideo(); $('mFill').style.width = '0'; giftUI(2); }
+  } catch (x) {}
+});
 
 function rankOf(id, score) {
   const i = ROWS.findIndex(r => r.id === id);
