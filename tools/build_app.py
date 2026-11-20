@@ -83,7 +83,7 @@ export default {};
 """
 
 APP_CSS = """/* App edition: things the public app does not have (honor boards, Kids Club, install card). */
-.hline,#kids,.kidsban,#install,.app-gone{display:none!important}
+.hline,#kids,.kidsban,#install,#installKids,.app-gone{display:none!important}
 """
 
 APP_JS = """// App edition helper: hides links to pages the app does not have (honor board, Kids Club, teacher page, Core Quest),
