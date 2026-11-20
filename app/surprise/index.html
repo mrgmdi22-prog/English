@@ -349,7 +349,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
     listen: { ic:'🎧', ar:'صندوق الاستماع', d:'اسمع ولا ترى! 10 جمل تسمعها فقط، ثم تختار معناها أو الرد المناسب.' },
     speed:  { ic:'⚡', ar:'صندوق السرعة', d:'90 ثانية فقط! أجب عن أكبر عدد ممكن: 6 صحيحة = 70، و10 = 100، و13 = 150.' },
     level:  { ic:'📏', ar:'صندوق المستوى المصغّر', d:'12 سؤالاً تتدرّج من A1 إلى B2، وفي النهاية ترى مستواك التقريبي اليوم.' },
-    talk:   { ic:'💬', ar:'صندوق المحادثة', d:'10 مواقف من الحياة اليومية: اختر الرد المناسب في كل موقف.' },
+    talk:   { ic:'💬', ar:'صندوق المحادثة', d:'10 عبارات من الحياة اليومية: اختر الرد المناسب أو المعنى الصحيح.' },
     spell:  { ic:'✍️', ar:'صندوق الإملاء والترتيب', d:'اكتب الكلمة الناقصة بنفسك، ثم رتّب كلمات الجمل الإنجليزية.' }
   };
   var TKEYS = ['classic', 'story', 'listen', 'speed', 'level', 'talk', 'spell'];
@@ -361,6 +361,7 @@ h1 .gt{background:linear-gradient(90deg,var(--vio),var(--teal),var(--sky),var(--
   function mcq(k, it, r, more){
     var o = { s:k, q:it[1], qa:it[4], w:it[3], x:it[5], o:shuffle(it[2].map(function(t, i){ return { t:t, ok:i === 0 }; }), r) };
     for (var m in more) o[m] = more[m];
+    if (k === 'ev' && /معنى/.test(it[4] || '') && more && more.qa) o.qa = more.k === 'listen' ? '🎧 استمع، ثم اختر المعنى' : '💬 ما معنى هذه العبارة؟';
     return o;
   }
   function picker(r){
