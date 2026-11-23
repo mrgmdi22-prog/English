@@ -178,7 +178,7 @@ canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:40}
 .wkl li.ok .bar i{background:#34b77e}
 .wkl a{flex:none;background:#ffcf4d;color:#1c2b4a;font-weight:800;text-decoration:none;border-radius:12px;padding:6px 14px;box-shadow:0 3px 0 #e0a92a}
 </style>
-<link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
+<link rel="stylesheet" href="../assets/vivid-ex.css?v=4">
 </head>
 <body class="v-ex" data-xs="w">
 <canvas id="fx"></canvas>
@@ -420,7 +420,7 @@ function drawQ() {
     document.querySelectorAll('.opt').forEach((o, k) => { o.disabled = true; if (opts[k].ok) o.classList.add('right'); });
     if (x.ok) { Q.right++; sfx('good'); } else { b.classList.add('wrong'); sfx('bad'); }
     if (en) speak(it[1]); else { const r = opts.find(o => o.ok); if (isEn(r.o)) speak(r.o); }
-    $('after').innerHTML = `${it[3] ? `<div class="why">💡 ${esc(it[3])}</div>` : ''}<div class="next"><button class="btn" id="nx">${Q.i + 1 < QN ? 'التالي →' : 'النتيجة 🏁'}</button></div>`;
+    $('after').innerHTML = `${it[3] ? `<div class="why">💡 ${esc(it[3])}</div>` : ''}<div class="next"><button class="btn" id="nx">${Q.i + 1 < QN ? 'التالي' : 'النتيجة 🏁'}</button></div>`;
     $('nx').onclick = () => { Q.i++; if (Q.i < QN) drawQ(); else endQuiz(); };
     $('nx').focus({ preventScroll: true });
   });

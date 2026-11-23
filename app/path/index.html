@@ -445,7 +445,7 @@ function vWizard(){
   }
   var last = step === N - 1;
   // English-style navigation: previous on the left, next on the right.
-  h += '<div class="nav"><button class="btn ghost" id="prev">← السابق</button><button class="btn' + (last ? ' teal' : '') + '" id="next"' + (ok ? '' : ' disabled') + '>' + (last ? 'صمّم مساري 📐' : 'التالي →') + '</button></div></section>';
+  h += '<div class="nav"><button class="btn ghost" id="prev">السابق</button><button class="btn' + (last ? ' teal' : '') + '" id="next"' + (ok ? '' : ' disabled') + '>' + (last ? 'صمّم مساري 📐' : 'التالي') + '</button></div></section>';
   app.innerHTML = h;
   app.querySelectorAll('[data-g]').forEach(function(b){ b.onclick = function(){ A.goal = b.dataset.g; vWizard(); }; });
   app.querySelectorAll('[data-l]').forEach(function(b){ b.onclick = function(){ A.lvl = +b.dataset.l; vWizard(); }; });

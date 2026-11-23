@@ -55,7 +55,7 @@ input.t:focus{outline:none;border-color:var(--accent)}
 .big{font-size:64px}
 .fw{font-size:18px;color:var(--mute);margin-top:30px;text-align:center}
 </style>
-<link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
+<link rel="stylesheet" href="../assets/vivid-ex.css?v=4">
 </head>
 <body class="v-ex" data-xs="f2">
 <div class="wrap" id="app"></div>
@@ -94,7 +94,7 @@ function shell(inner){app.innerHTML=head()+`<button class="back" onclick="zone($
 function learn(){S.step=0;const w=S.g[S.idx];
   shell(`<div class="count">Word ${S.idx+1} of ${S.g.length}</div><div class="word">${esc(w.w)}</div><div class="sent">${esc(w.s)}</div>
   <div class="row"><button class="btn ghost" onclick="speak(S.g[S.idx].w)">🔊 Word</button><button class="btn ghost" onclick="speak(S.g[S.idx].s)">🔊 Sentence</button></div>
-  <div class="row">${S.idx>0?'<button class="btn ghost" onclick="S.idx--;learn()">← Previous</button>':''}<button class="btn" onclick="${S.idx<S.g.length-1?'S.idx++;learn()':'startChoose()'}">${S.idx<S.g.length-1?'Next →':'Start practice →'}</button></div>`)}
+  <div class="row">${S.idx>0?'<button class="btn ghost" data-nav="prev" onclick="S.idx--;learn()">Previous</button>':''}<button class="btn" data-nav="next" onclick="${S.idx<S.g.length-1?'S.idx++;learn()':'startChoose()'}">${S.idx<S.g.length-1?'Next':'Start practice'}</button></div>`)}
 // STEP 2
 function startChoose(){S.step=1;S.q=shuffle(S.g.map(x=>x));S.idx=0;choose()}
 function blank(w){return esc(w.s).replace(new RegExp(esc(w.a).replace(/[.*+?^${}()|[\]\\]/g,'\\$&')),'<u>&nbsp;</u>')}
@@ -134,7 +134,7 @@ function finish(){
   if(first){got=PTS;store.done[key]=1;store.pts+=PTS;save();
     try{window.dispatchEvent(new CustomEvent('coreQuestPoints',{detail:{points:PTS,zone:S.z,set:S.i+1}}))}catch(e){}}
   S.step=3;
-  const next=sets[S.z][S.i+1]?`<button class="btn" onclick="run(${S.z},${S.i+1})">Next set →</button>`:'';
+  const next=sets[S.z][S.i+1]?`<button class="btn" onclick="run(${S.z},${S.i+1})">Next set</button>`:'';
   app.innerHTML=head()+`<div class="panel"><div class="big">🎉</div><h2>Set ${S.i+1} complete!</h2>
   <p>${first?`You earned <b>+${PTS} points</b>.`:'Practice again any time. Points are given only the first time.'}</p>
   <p>Words learned: <b>${S.g.length}</b> · Mistakes fixed: <b>${S.miss}</b></p>${window.clubCombo?clubCombo.line():''}

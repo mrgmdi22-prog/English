@@ -202,7 +202,7 @@ footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
 .cp-foot{display:flex;justify-content:space-between;font-size:7.5pt;color:#8790A8}
 .cp-foot .ar{font-family:var(--ar);font-weight:700;direction:rtl}
 </style>
-<link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
+<link rel="stylesheet" href="../assets/vivid-ex.css?v=4">
 <link rel="stylesheet" href="../assets/app.css?v=1"><script src="../assets/app.js?v=1"></script>
 </head>
 <body class="v-ex" data-xs="f3">
@@ -432,7 +432,7 @@ function openSheet(id){
     <div class="sec-h">🔑 كلمات دالّة</div>
     <div class="sig">${x.sig.map(s=>`<span>${esc(s)}</span>`).join('')}</div>
     ${x.id==='fus'?`<div class="note"><b>${GOING.ar}:</b> <span class="en">${esc(nb(GOING.f))}</span><br>${GOING.uses.map(u=>`${u[0]}: <span class="en">${md(u[1])}</span>`).join('<br>')}</div>`:''}
-    <div class="sh-nav" dir="ltr"><button class="btn soft" id="shPrev"><bdi>←</bdi> <bdi>السابق</bdi></button><button class="btn soft" id="shNext"><bdi>التالي</bdi> <bdi>→</bdi></button></div>`;
+    <div class="sh-nav" dir="ltr"><button class="btn soft" data-nav="prev" id="shPrev"><bdi>السابق</bdi></button><button class="btn soft" data-nav="next" id="shNext"><bdi>التالي</bdi></button></div>`;
   $('sheetBg').hidden=false;document.body.style.overflow='hidden';
   $('shX').onclick=closeSheet;$('shPrev').onclick=()=>openSheet(T[(cur+T.length-1)%T.length].id);$('shNext').onclick=()=>openSheet(T[(cur+1)%T.length].id);
   S.scrollTop=0;$('shX').focus();

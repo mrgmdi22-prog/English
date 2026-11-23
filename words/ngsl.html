@@ -1,5 +1,5 @@
 <!doctype html><html data-theme="light" lang="ar"><head><meta charset="utf-8"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=5"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png?v=5"><meta name="apple-mobile-web-app-title" content="English Club"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
-<script src="../assets/gate.js?v=11"></script><script src="../assets/combo.js?v=4"></script><script src="../assets/spellhelp.js?v=4"></script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
+<script src="../assets/gate.js?v=11"></script><script src="../assets/combo.js?v=4"></script><script src="../assets/spellhelp.js?v=4"></script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/vivid-ex.css?v=4">
 </head><body class="v-ex" data-xs="f2">
 <title>General Words Quest</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -525,7 +525,7 @@ function learnDeck(H){
   H.innerHTML=`<div class="deck">
     <div class="dk-top"><span class="dk-count" id="dkCount"></span><div class="dk-bar" aria-hidden="true"><i id="dkBar"></i></div></div>
     <div class="dk-stage" id="dkStage"><button class="dk-card" id="dkCard"></button></div>
-    <div class="dk-nav"><button class="btn alt" id="dkPrev" aria-label="البطاقة السابقة">← السابق</button><button class="btn" id="dkFlip">🔄 اقلب</button><button class="btn alt" id="dkNext">التالي →</button></div>
+    <div class="dk-nav" dir="ltr"><button class="btn alt" data-nav="prev" id="dkPrev" aria-label="البطاقة السابقة">السابق</button><button class="btn" id="dkFlip">🔄 اقلب</button><button class="btn alt" data-nav="next" id="dkNext">التالي</button></div>
     <div class="dk-extra" id="dkExtra"></div><div class="dk-cmp" id="dkCmp"></div>
     <div class="dk-dots" id="dkDots"></div></div>`;
   const card=$("dkCard");
@@ -539,7 +539,7 @@ function learnDeck(H){
     $("dkCount").textContent=(deckI+1)+" / "+n;
     $("dkBar").style.width=Math.round(deckSeen.size/n*100)+"%";
     $("dkPrev").disabled=deckI===0;
-    $("dkNext").textContent=deckI===n-1?"✓ إلى التدريب":"التالي →";
+    $("dkNext").textContent=deckI===n-1?"✓ إلى التدريب":"التالي";
     $("dkExtra").innerHTML=sayBtn(x.w+"||"+x.ex,x.w,"we","card")+camLink(x.w,"")+(CAN_REC?`<button class="mic" id="dkRec" aria-label="Record yourself saying ${esc(x.w)}" title="سجّل صوتك واسمعه">🎙️</button>`:"");
     $("dkCmp").innerHTML="";if($("dkRec"))$("dkRec").onclick=()=>recordMe($("dkRec"),url=>{$("dkCmp").innerHTML="";$("dkCmp").appendChild(compareBar(x.w,url))});
     $("dkDots").innerHTML=list.map((_,i)=>`<button class="${i===deckI?"now":deckSeen.has(i)?"seen":""}" data-i="${i}" aria-label="Card ${i+1}"></button>`).join("");

@@ -189,7 +189,7 @@ ol.rest li.me{background:var(--gold-soft);border-radius:12px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
-<link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
+<link rel="stylesheet" href="../assets/vivid-ex.css?v=4">
 <link rel="stylesheet" href="../assets/app.css?v=1"><script src="../assets/app.js?v=1"></script>
 </head>
 <body class="v-ex" data-xs="f6">
@@ -551,7 +551,7 @@ function run(u) {
           return `<button class="opt ${c}" data-o="${esc(o)}" ${done ? 'disabled' : ''}><span class="L">${'ABCD'[j]}</span>${esc(o)}</button>`;
         }).join('')}</div>
         <div id="fb">${done ? `<div class="fb ${p.ok ? 'ok' : 'bad'}"><b>${p.ok ? p.praise : 'ليست صحيحة'}</b> · ${esc(it.e)}</div>` : ''}</div>
-        <div class="pnav"><button class="btn" id="next" ${done ? '' : 'disabled'}>${i === N - 1 ? 'النتيجة 🏁' : 'التالي →'}</button></div>
+        <div class="pnav"><button class="btn" id="next" ${done ? '' : 'disabled'}>${i === N - 1 ? 'النتيجة 🏁' : 'التالي'}</button></div>
       </div>`;
     $('quit').onclick = () => { if (ans.some(x => x) && !confirm('هل تريد الخروج؟ لن تُحسب هذه المحاولة.')) return; home(); };
     $('play').querySelectorAll('.opt').forEach(b => b.onclick = () => pickAns(b, it));
@@ -598,7 +598,7 @@ function run(u) {
       </div>
       <p class="muted" style="margin:6px 0 0">${pc === 1 ? 'عشر من عشر! أنت من النخبة فعلاً 👑' : pc >= .8 ? 'أداء رائع! قريب جداً من الكمال.' : pc >= .5 ? 'جيد! راجع أخطاءك ثم أعد المحاولة لنجمة أكثر.' : 'لا بأس، كل محاولة تقرّبك. راجع الإجابات الصحيحة وأعد الوحدة.'}</p>
       <div class="rbtns">
-        ${nextU && isOpen(nextU.id) && u.id !== 'daily' ? `<button class="btn gold" id="goNext">المحطة التالية ←</button>` : ''}
+        ${nextU && isOpen(nextU.id) && u.id !== 'daily' ? `<button class="btn gold" id="goNext">المحطة التالية</button>` : ''}
         <button class="btn soft" id="again">${u.id === 'daily' ? 'تدرّب مرة أخرى' : 'أعد المحاولة'}</button>
         <button class="btn soft" id="toMap">🗺️ الخريطة</button>
       </div>

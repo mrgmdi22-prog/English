@@ -10,7 +10,7 @@
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 .topnav{max-width:860px;margin:0 auto;padding-block:14px 0;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
 .topnav a{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.05rem}</style>
-<link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
+<link rel="stylesheet" href="../assets/vivid-ex.css?v=4">
 </head>
 <body class="v-ex" data-xs="f1">
 <title>ميدان الحروف والأصوات</title>
@@ -224,10 +224,10 @@ footer{text-align:center;color:var(--muted);font-size:.95rem}
       </div>
       <div class="fb" id="tr-msg" aria-live="polite"></div>
       <div class="actions" dir="ltr">
-        <button class="btn" id="tr-prev"><bdi>←</bdi> <bdi>السابق</bdi></button>
+        <button class="btn" data-nav="prev" id="tr-prev"><bdi>السابق</bdi></button>
         <button class="btn" id="tr-retry">أعد المحاولة</button>
         <button class="btn main" id="tr-demo">شاهد الطريقة</button>
-        <button class="btn" id="tr-next"><bdi>التالي</bdi> <bdi>→</bdi></button>
+        <button class="btn" data-nav="next" id="tr-next"><bdi>التالي</bdi></button>
       </div>
     </section>
 

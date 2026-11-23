@@ -200,7 +200,7 @@ body.riding #clubMB{bottom:calc(84px + env(safe-area-inset-bottom,0px))!importan
 @media (max-width:560px){body{font-size:19px}.how{grid-template-columns:repeat(3,minmax(0,1fr))}.panel{padding:14px}.stop{font-size:.72rem}.stop i{width:38px;height:38px;font-size:1.1rem}.ride::before{top:18px}.bub{max-width:94%}.cbt{grid-template-columns:1fr 1fr}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
-<link rel="stylesheet" href="../../assets/vivid-ex.css?v=3">
+<link rel="stylesheet" href="../../assets/vivid-ex.css?v=4">
 <link rel="stylesheet" href="../../assets/app.css?v=1"><script src="../../assets/app.js?v=1"></script>
 </head>
 <body class="v-ex" data-xs="f6">
@@ -251,7 +251,7 @@ body.riding #clubMB{bottom:calc(84px + env(safe-area-inset-bottom,0px))!importan
   </main>
 </div>
 
-<div class="nav" id="nav" hidden><div class="in"><button id="prev" dir="ltr"><bdi>←</bdi> <bdi id="prevL">السابق</bdi></button><button class="nx" id="next" dir="ltr"><bdi id="nextL">التالي</bdi> <bdi>→</bdi></button></div></div>
+<div class="nav" id="nav" hidden><div class="in"><button id="prev" data-nav="prev" dir="ltr"><bdi id="prevL">السابق</bdi></button><button class="nx" data-nav="next" id="next" dir="ltr"><bdi id="nextL">التالي</bdi></button></div></div>
 <div class="toast" id="toast" role="status" hidden></div>
 
 <script src="data.js?v=1"></script>

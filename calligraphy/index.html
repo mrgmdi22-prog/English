@@ -58,6 +58,9 @@ input[type=range]{width:100%;height:36px;accent-color:#E0A800}
 .nav .wl{flex:1 1 60px;text-align:center;font-weight:800;font-size:22px}
 .pr.fsw{position:fixed;inset:0;z-index:2147483000;border-radius:0;margin:0;padding:6px 6px 140px;background:var(--bg);overflow:auto}
 @media (max-width:640px){body{padding-left:8px;padding-right:8px}.card{padding:8px;border-radius:16px}.pr .board{border-width:2px}}
+/* Prev / Next: words only, Next stands out (23 Nov 2026) */
+[data-nav=next]:not(:disabled){background:#ffcf4d!important;color:#1c2b4a!important;border:2px solid #1c2b4a!important;box-shadow:0 3px 0 #1c2b4a!important;font-weight:800!important}
+[data-nav=prev]{background:#fff!important;color:#1c2b4a!important;border:2px solid #c9d6ea!important;box-shadow:none!important}
 </style>
 </head>
 <body>
@@ -67,9 +70,9 @@ input[type=range]{width:100%;height:36px;accent-color:#E0A800}
 
   <div class="card pr">
     <div class="row nav">
-      <button class="btn" id="prev">◀ Prev <small>السابق</small></button>
+      <button class="btn" data-nav="prev" id="prev">Prev <small>السابق</small></button>
       <div class="wl" id="wlbl">1 / 10</div>
-      <button class="btn" id="next">Next ▶ <small>التالي</small></button>
+      <button class="btn" data-nav="next" id="next">Next <small>التالي</small></button>
       <button class="btn" id="fsb" aria-label="Full screen">⛶ <small>ملء الشاشة</small></button>
     </div>
     <div class="board" id="board"><canvas id="paper"></canvas><canvas id="ink"></canvas></div>

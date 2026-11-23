@@ -165,7 +165,7 @@ footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
   .card{break-inside:avoid;border-width:1px;padding:10px 12px;margin-bottom:8px}
   .sent,.step,.use,table.tt td,.v3grid button{background:#F4F6FA!important}}
 </style>
-<link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
+<link rel="stylesheet" href="../assets/vivid-ex.css?v=4">
 <link rel="stylesheet" href="../assets/app.css?v=1"><script src="../assets/app.js?v=1"></script>
 </head>
 <body class="v-ex" data-xs="f3">
@@ -430,7 +430,7 @@ function drawGame(){
    <div style="text-align:center;font-weight:800;font-size:1.1rem">حوّل الجملة إلى المبني للمجهول <span style="color:var(--muted);font-weight:700">(${c.t.ar})</span></div>
    ${line(c.act,0,LA)}
    <div class="slots" id="slots"></div><div class="bank" id="bank"></div>
-   <div class="gbtns"><button class="btn" id="gchk" type="button">تحقّق ✔</button><button class="btn ghost" id="gclr" type="button">مسح</button><button class="btn soft" id="gnext" type="button" hidden>التالية ←</button></div>
+   <div class="gbtns"><button class="btn" id="gchk" type="button">تحقّق ✔</button><button class="btn ghost" id="gclr" type="button">مسح</button><button class="btn soft" id="gnext" type="button" hidden>التالية</button></div>
    <div class="gfb" id="gfb" aria-live="polite"></div>`;
   const drawChips=()=>{
     $('bank').innerHTML=c.chips.map((w,i)=>`<button type="button" class="chip${c.put.includes(i)?' used':''}" data-i="${i}">${esc(w)}</button>`).join('');

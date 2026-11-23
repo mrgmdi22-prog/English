@@ -148,7 +148,7 @@ h2{font-size:1.45rem;margin:0 0 6px}
 .sign{text-align:center;color:var(--muted);font-size:1rem;margin-top:24px}
 @media (prefers-reduced-motion:reduce){.hero .gem,.pop{animation:none}}
 </style>
-<link rel="stylesheet" href="../../assets/vivid-ex.css?v=3">
+<link rel="stylesheet" href="../../assets/vivid-ex.css?v=4">
 </head>
 <body class="v-ex" data-xs="f6">
 <canvas id="fx" aria-hidden="true"></canvas>
@@ -461,7 +461,7 @@ function answer(right, btn, typed) {
   if (q.ar && q.t !== 'err') fb += `<br><span class="muted">${esc(q.ar)}</span>`;
   fb += '</div>';
   const last = R.mode === 'endless' ? R.lives <= 0 || R.i + 1 >= R.list.length : R.i + 1 >= R.list.length;
-  fb += `<div class="navrow"><button class="btn" id="nx">${last ? 'النتيجة 🏁' : 'Next →'}</button></div>`;
+  fb += `<div class="navrow"><button class="btn" id="nx">${last ? 'النتيجة 🏁' : 'Next'}</button></div>`;
   $('fb').innerHTML = fb;
   $('nx').onclick = () => { R.locked = false; if (last) return finish(); R.i++; render(); };
   setTimeout(() => $('nx').scrollIntoView({ behavior: 'smooth', block: 'center' }), 80);

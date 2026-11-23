@@ -103,7 +103,7 @@ header.top p{margin:0 auto;max-width:34em;color:var(--muted);font-size:1.1rem}
 footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
-<link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
+<link rel="stylesheet" href="../assets/vivid-ex.css?v=4">
 </head>
 <body class="v-ex" data-xs="f1">
 <a class="club-home" href="../index.html">🏠 الرئيسية</a>
@@ -191,7 +191,7 @@ function drawQ(){
   if(Q.i>=Q.qs.length){const b=Math.max(best(cur),Q.right);store.set('tb-best-'+cur.id,String(b));
     const m=Q.right===5?'ممتاز! أتقنت هذه المواقف 🏆':Q.right>=3?'جيد جداً 👏 راجع العبارات وحاول مرة أخرى':'راجع العبارات والمحادثة ثم أعد المحاولة 💪';
     const nx=U.indexOf(cur)+1<U.length;
-    Z.innerHTML=`<div class="qend"><div class="big" dir="ltr">${Q.right} / 5</div><p style="font-weight:800;font-size:1.2rem;margin:6px 0">${m}</p><p style="color:var(--muted)">أفضل نتيجة لك في هذه الوحدة: ${b}/5 · كل إجابة صحيحة تمنحك 5 نقاط في لوحة الشرف</p>${window.clubCombo?clubCombo.line():''}<button class="btn" id="again">🔁 مرة أخرى</button> ${nx?'<button class="btn soft" id="nextU">الوحدة التالية ←</button>':''}</div>`;
+    Z.innerHTML=`<div class="qend"><div class="big" dir="ltr">${Q.right} / 5</div><p style="font-weight:800;font-size:1.2rem;margin:6px 0">${m}</p><p style="color:var(--muted)">أفضل نتيجة لك في هذه الوحدة: ${b}/5 · كل إجابة صحيحة تمنحك 5 نقاط في لوحة الشرف</p>${window.clubCombo?clubCombo.line():''}<button class="btn" id="again">🔁 مرة أخرى</button> ${nx?'<button class="btn soft" id="nextU">الوحدة التالية</button>':''}</div>`;
     $('again').onclick=newQuiz;if(nx)$('nextU').onclick=()=>openUnit(U.indexOf(cur)+1);return;}
   const q=Q.qs[Q.i],opts=shuffle(q.slice(1));
   Z.innerHTML=`<div class="qtop"><span>الموقف ${Q.i+1} من 5</span><span>✅ ${Q.right}</span></div><div class="qbar"><i style="width:${Q.i/5*100}%"></i></div>

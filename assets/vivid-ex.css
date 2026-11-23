@@ -18,3 +18,10 @@ body.v-ex::after{content:"";position:absolute;z-index:-1;top:0;left:0;width:240p
 .v-ex .club-home,.v-ex a.home,.v-ex .homebtn{background:#fff!important;color:#1c2b4a!important;border:0!important;border-radius:999px!important;box-shadow:0 6px 16px -8px rgba(40,80,150,.45)!important;font-weight:800}
 /* links and focus in the club palette */
 .v-ex :focus-visible{outline-color:var(--xa)}
+/* Prev / Next (23 Nov 2026, Ahmed: arrows confused students on a two-language site):
+   words only, no arrows; «التالي» stands out by colour, «السابق» stays quiet.
+   Places stay as in English: Previous on the left, Next on the right. */
+[data-nav]{min-height:48px;font-size:1.1rem!important}
+[data-nav=next]:not(:disabled){background:#ffcf4d!important;color:#1c2b4a!important;border:2px solid #1c2b4a!important;box-shadow:0 3px 0 #1c2b4a!important;font-weight:800!important}
+[data-nav=prev]{background:#fff!important;color:#1c2b4a!important;border:2px solid #c9d6ea!important;box-shadow:none!important;font-weight:700!important}
+[data-nav]:disabled{opacity:.4!important}

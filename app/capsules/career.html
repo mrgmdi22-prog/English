@@ -1,4 +1,4 @@
-<!doctype html><html data-theme="light"><head><meta charset=utf8><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=5"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png?v=5"><script src="../assets/gate.js?v=11"></script><script src="../assets/combo.js?v=4"></script><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
+<!doctype html><html data-theme="light"><head><meta charset=utf8><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../assets/icons/apple-180.png?v=5"><link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png?v=5"><script src="../assets/gate.js?v=11"></script><script src="../assets/combo.js?v=4"></script><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><link rel="stylesheet" href="../assets/vivid-ex.css?v=4">
 <link rel="stylesheet" href="../assets/app.css?v=1"><script src="../assets/app.js?v=1"></script>
 </head><body class="v-ex" data-xs="f5">
 <title>كبسولة المسيرة</title>
@@ -479,7 +479,7 @@
       <div class="choices" id="choices"></div>
       <div class="feedback" id="feedback"></div>
       <div class="actions">
-        <button class="next-btn" id="nextBtn" dir="ltr">المشهد التالي ▶</button>
+        <button class="next-btn" id="nextBtn" dir="ltr">المشهد التالي</button>
       </div>
     </div>
   </div>
@@ -497,7 +497,7 @@
       <div class="stage-stat"><b id="ovRight">0</b><span>إجابات صحيحة</span></div>
       <div class="stage-stat"><b id="ovDays">0</b><span>🔥 أيام متتالية</span></div>
     </div>
-    <button class="stage-continue-btn" id="stageContinueBtn" type="button" dir="ltr">المرحلة التالية ▶</button>
+    <button class="stage-continue-btn" id="stageContinueBtn" type="button" dir="ltr">المرحلة التالية</button>
     <button class="ghost-btn" id="ovAgain" type="button">↻ أعد المرحلة للحصول على ★★★</button>
     <button class="ghost-btn" id="ovMap" type="button">العودة إلى الخريطة</button>
   </div>
@@ -921,7 +921,7 @@
     for (var i=0;i<run.qs.length;i++){ var d = document.createElement('span'); if (i < run.i) d.className = 'filled'; dots.appendChild(d); }
     $('comboNum').textContent = run.combo;
     $('feedback').textContent = ''; $('feedback').className = 'feedback';
-    $('nextBtn').disabled = true; $('nextBtn').textContent = run.i < run.qs.length-1 ? 'التالي ▶' : 'النتيجة ▶';
+    $('nextBtn').disabled = true; $('nextBtn').textContent = run.i < run.qs.length-1 ? 'التالي' : 'النتيجة';
     renderMedia(q.s);
     $('levelTag').innerHTML = '<span class="badge lvl-' + (s.level||'') + '">' + (LEVEL_LABEL[s.level] || s.level || '') + '</span>' + (s.tag ? '<span class="badge grammar-tag">' + esc(s.tag) + '</span>' : '') + '<span class="badge type-tag">' + TYPE_CHIP[q.t] + '</span>';
     $('questionText').textContent = TYPE_LABEL[q.t];
@@ -1012,7 +1012,7 @@
     $('ovRight').textContent = run.right + ' من ' + run.qs.length;
     $('ovDays').textContent = liveDays();
     var nx = $('stageContinueBtn'), again = $('ovAgain');
-    if (run.mode === 'stage' && run.stage + 1 < NSTAGE){ nx.hidden = false; nx.textContent = 'المرحلة التالية ▶'; nx.onclick = function(){ ov.hidden = true; startStage(run.stage + 1); }; } else nx.hidden = true;
+    if (run.mode === 'stage' && run.stage + 1 < NSTAGE){ nx.hidden = false; nx.textContent = 'المرحلة التالية'; nx.onclick = function(){ ov.hidden = true; startStage(run.stage + 1); }; } else nx.hidden = true;
     again.hidden = !(run.mode === 'stage' && st < 3); again.onclick = function(){ ov.hidden = true; startStage(run.stage); };
     $('ovMap').onclick = function(){ ov.hidden = true; renderMap(); };
     ov.hidden = false; playWin(); confetti();

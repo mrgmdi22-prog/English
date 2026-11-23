@@ -73,7 +73,7 @@ h1 .en{display:block;font-size:.5em;color:var(--pri);letter-spacing:.06em;font-w
 .note{background:var(--warn-soft);color:#6b3d00;border-radius:16px;padding:10px 14px;margin-top:14px;font-size:1rem}
 [hidden]{display:none!important}
 </style>
-<link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
+<link rel="stylesheet" href="../assets/vivid-ex.css?v=4">
 </head>
 <body class="v-ex" data-xs="w">
 <a class="club-home" href="../index.html">🏠 الرئيسية</a>
@@ -303,7 +303,7 @@ function start(kind){
       ${ex.say ? `<div class="listen"><button class="btn" id="play" ${plays >= 2 ? 'disabled' : ''}>🔊 استمع</button><span class="muted" id="pl">${plays >= 2 ? 'انتهت مرات الاستماع' : plays === 1 ? 'باقي مرة واحدة' : 'تستطيع الاستماع مرتين'}</span></div>` : ''}
       <p class="qtext">${esc(it[2])}</p><p class="qar">${esc(it[3])}</p>
       <div class="opts">${d.order[i].map((o, k) => `<button class="opt" data-o="${esc(o)}" aria-pressed="${d.ans[i] === o}"><span class="k">${'ABCD'[k]}</span><span>${esc(o)}</span></button>`).join('')}</div>
-      <div class="nav" dir="ltr"><button class="btn soft" id="back" ${i === 0 ? 'disabled' : ''}><bdi>←</bdi> <bdi>السابق</bdi></button><button class="btn" id="next" ${d.ans[i] ? '' : 'disabled'}>${i === N - 1 ? '<bdi>إنهاء الاختبار</bdi> ✓' : '<bdi>التالي</bdi> <bdi>→</bdi>'}</button></div></div>
+      <div class="nav" dir="ltr"><button class="btn soft" data-nav="prev" id="back" ${i === 0 ? 'disabled' : ''}><bdi>السابق</bdi></button><button class="btn" data-nav="next" id="next" ${d.ans[i] ? '' : 'disabled'}>${i === N - 1 ? '<bdi>إنهاء الاختبار</bdi> ✓' : '<bdi>التالي</bdi>'}</button></div></div>
       <p class="muted" style="text-align:center;font-size:1rem">تُحفظ إجاباتك أولاً بأول، فإن خرجت تستطيع أن تكمل من حيث توقفت.</p>`;
     if (ex.say) $('play').onclick = () => { if ((d.plays[i] || 0) >= 2) return; if (!say(ex.say)) { $('pl').textContent = 'الصوت غير متاح على هذا الجهاز'; return; } d.plays[i] = (d.plays[i] || 0) + 1; keep();
       const left = 2 - d.plays[i]; $('pl').textContent = left ? 'باقي مرة واحدة' : 'انتهت مرات الاستماع'; if (!left) $('play').disabled = true; };

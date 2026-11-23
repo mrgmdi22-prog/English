@@ -92,7 +92,7 @@ footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.98rem}
 @media (max-width:520px){.grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}.card .id{font-size:1rem}.card .hint{display:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
-<link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
+<link rel="stylesheet" href="../assets/vivid-ex.css?v=4">
 </head>
 <body class="v-ex" data-xs="f4">
 <a class="club-home" href="../index.html">🏠 الرئيسية</a>
@@ -190,7 +190,7 @@ function openSheet(id){
     <div class="box real"><span class="lb">✅ المعنى الحقيقي</span><span class="m">${esc(x.ar)}</span><span class="men">${esc(x.men)}</span></div>
     <div class="box eq"><span class="lb">🔁 يقابله بالعربية</span><span class="m">${esc(x.eq)}</span></div>
     <div class="box exb"><span class="lb">💬 مثال</span><div class="s">${sayBtn(x.ex)}<span>${md(x.ex)}</span></div><div class="t">${esc(x.exAr)}</div></div>
-    <div class="sh-nav" dir="ltr"><button class="btn soft" id="shPrev"><bdi>←</bdi> <bdi>السابق</bdi></button><button class="btn soft" id="shNext"><bdi>التالي</bdi> <bdi>→</bdi></button></div>`;
+    <div class="sh-nav" dir="ltr"><button class="btn soft" data-nav="prev" id="shPrev"><bdi>السابق</bdi></button><button class="btn soft" data-nav="next" id="shNext"><bdi>التالي</bdi></button></div>`;
   $('sheetBg').hidden=false;document.body.style.overflow='hidden';
   $('shX').onclick=closeSheet;$('shPrev').onclick=()=>openSheet(ID[(cur+ID.length-1)%ID.length].id);$('shNext').onclick=()=>openSheet(ID[(cur+1)%ID.length].id);
   $('sheet').scrollTop=0;$('shX').focus();

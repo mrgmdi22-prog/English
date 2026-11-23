@@ -104,7 +104,7 @@ footer{margin-top:44px;text-align:center;color:var(--muted);font-size:.98rem;lin
 @media (max-width:560px){.page{padding:22px 18px 30px}.shelf{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 12px}.cover .ic{font-size:3rem}.nav .arrow{min-width:84px;padding:10px 12px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
-<link rel="stylesheet" href="../assets/vivid-ex.css?v=3">
+<link rel="stylesheet" href="../assets/vivid-ex.css?v=4">
 <link rel="stylesheet" href="../assets/app.css?v=1"><script src="../assets/app.js?v=1"></script>
 </head>
 <body class="v-ex" data-xs="f4">
@@ -141,9 +141,9 @@ footer{margin-top:44px;text-align:center;color:var(--muted);font-size:.98rem;lin
   </div>
   <div class="stage"><article class="page" id="rPage"></article></div>
   <div class="nav" dir="ltr">
-    <button class="arrow" id="rPrev"><bdi>←</bdi> <bdi>السابق</bdi></button>
+    <button class="arrow" data-nav="prev" id="rPrev"><bdi>السابق</bdi></button>
     <div class="dots" id="rDots"></div>
-    <button class="arrow" id="rNext"><bdi>التالي</bdi> <bdi>→</bdi></button>
+    <button class="arrow" data-nav="next" id="rNext"><bdi>التالي</bdi></button>
   </div>
 </div>
 
@@ -223,7 +223,7 @@ const STORIES = [{"id": "lion-mouse", "title": "The Lion and the Mouse", "src": 
     page.scrollTop = 0;
     if (dir) { page.classList.remove('turn-next','turn-prev'); void page.offsetWidth; page.classList.add(dir>0?'turn-next':'turn-prev'); }
     $('#rDots').innerHTML = Array.from({length: total()}, (_, i) => `<i class="${i===pg?'on':''}"></i>`).join('');
-    $('#rPrev').disabled = pg === 0; $('#rNext').innerHTML = last ? '<bdi>إنهاء</bdi> ✓' : (pg === S.pages.length-1 ? '<bdi>الحكمة والأسئلة</bdi> <bdi>→</bdi>' : '<bdi>التالي</bdi> <bdi>→</bdi>');
+    $('#rPrev').disabled = pg === 0; $('#rNext').innerHTML = last ? '<bdi>إنهاء</bdi> ✓' : (pg === S.pages.length-1 ? '<bdi>الحكمة والأسئلة</bdi>' : '<bdi>التالي</bdi>');
     $('#rListen').hidden = last;
     page.querySelectorAll('.g').forEach(g => { g.onclick = e => { e.stopPropagation(); showPop(g); }; g.onkeydown = e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); showPop(g); } }; });
   }
