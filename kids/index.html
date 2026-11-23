@@ -295,7 +295,7 @@ footer{text-align:center;color:var(--muted);font-size:.95rem;margin-top:26px}
 .jmodal button.alt{background:#fff}
 
 /* بطاقات التحفيز والشكر والتقدير: name kept on this device only (kd-me), one card per finished station / full station / land */
-.jlinks.top{grid-template-columns:repeat(4,1fr)}
+.jlinks.top{grid-template-columns:repeat(3,1fr)}
 .nmform{display:grid;gap:12px;text-align:center}
 .nmform input{font:inherit;font-weight:800;font-size:1.5rem;text-align:center;border:3px solid var(--ink);border-radius:18px;padding:10px;width:100%;box-sizing:border-box;background:#FFFBEA;color:var(--ink)}
 .nmform .gg{display:flex;gap:10px;justify-content:center}
@@ -306,12 +306,47 @@ footer{text-align:center;color:var(--muted);font-size:.95rem;margin-top:26px}
 .kcgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:6px 0 14px}
 .kcgrid button{all:unset;cursor:pointer;background:var(--t);border:3px solid var(--ink);border-radius:16px;padding:8px 4px;text-align:center;font-weight:800;font-size:.95rem;line-height:1.3;box-shadow:2px 2px 0 var(--ink)}
 .kcgrid button span{display:block;font-size:2rem}
+/* 🎒 حقيبة الرحلة + 🧭 لعبة المسار (23 Nov 2026) */
+.bagBtn{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:4px;background:#FFD23F;border:3px solid var(--ink);border-radius:999px;padding:4px 14px;font-weight:800;font-size:1.1rem;box-shadow:2px 2px 0 var(--ink)}
+.bagBtn span{font-size:1.4rem;line-height:1}
+.pathchip{display:inline-block;margin-top:6px;background:#E3F7E5;border:2px solid #2E8B47;color:#1E6B33;border-radius:999px;padding:0 12px;font-weight:800;font-size:1rem}
+.pl{background:#fff;border:3px solid var(--ink);border-radius:26px;padding:16px;box-shadow:0 6px 0 var(--ink);margin-top:10px}
+.plhd{display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:1.15rem;color:#1D6FD6}
+.pldots{display:flex;gap:5px;direction:ltr;margin:8px 0 14px}.pldots i{flex:1;height:12px;border-radius:6px;background:#E6EEF5}.pldots i.d{background:#3FA9F5}.pldots i.c{background:#FFD23F}
+.plsay{display:flex;align-items:flex-end;gap:8px;margin-bottom:10px}.plsay .l{font-size:3rem;line-height:1}
+.plsay .b{flex:1;background:#F4FBFF;border:2px solid #CFE8FA;border-radius:20px 20px 20px 6px;padding:8px 12px;font-weight:700;font-size:1.1rem;line-height:1.5}
+.plq{direction:ltr;text-align:center;font-family:var(--en);font-weight:800;font-size:1.7rem;line-height:1.3;margin:4px 0 6px}
+.plq small{display:block;direction:rtl;font-family:var(--ar);font-size:1.05rem;color:var(--muted);font-weight:700}
+.plear{display:block;margin:0 auto 12px;font:inherit;font-weight:800;font-size:1.15rem;border:3px solid var(--ink);background:#E3F3FF;border-radius:999px;padding:6px 18px;cursor:pointer;box-shadow:2px 2px 0 var(--ink);color:var(--ink)}
+.plopts{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;direction:ltr}
+.plopts button{all:unset;box-sizing:border-box;cursor:pointer;min-height:112px;background:#fff;border:3px solid var(--ink);border-radius:22px;display:grid;place-items:center;text-align:center;font-size:3.4rem;line-height:1.1;box-shadow:0 5px 0 var(--ink);padding:6px}
+.plopts button.w{font-family:var(--en);font-size:1.7rem;font-weight:800}
+.plopts button.ok{background:#DFF7E8;border-color:#22A060}.plopts button.no{background:#FDECEC}
+.plnote{margin-top:14px;background:#FFF6D6;border-radius:16px;padding:8px 12px;text-align:center;font-weight:700;font-size:1.02rem;color:#6B5A10}
+.plres{text-align:center}.plres .big{font-size:4rem;line-height:1.1}.plres h2{margin:4px 0 0;font-size:1.9rem}.plres p{margin:2px 0 12px;color:var(--muted);font-weight:700}
+.pcard{display:flex;align-items:center;gap:12px;text-align:right;background:#fff;border:3px solid #E3E0D4;border-radius:22px;padding:10px 14px;margin:10px 0;opacity:.6}
+.pcard .pi{font-size:2.4rem;width:58px;height:58px;border-radius:50%;background:var(--t);display:grid;place-items:center;flex:none}
+.pcard b{display:block;font-size:1.3rem}.pcard small{display:block;color:var(--muted);font-weight:700;font-size:1rem}
+.pcard.me{opacity:1;position:relative;border:4px solid #2E8B47;background:#EAF8EC;box-shadow:0 5px 0 #BFE6C6;padding:16px 14px}
+.pcard.me::before{content:"مسارك";position:absolute;top:-15px;left:14px;background:#2E8B47;color:#fff;font-size:.95rem;font-weight:800;border-radius:12px;padding:0 12px}
+.plbtn{all:unset;box-sizing:border-box;cursor:pointer;display:block;width:100%;text-align:center;background:#2E8B47;color:#fff;border:3px solid var(--ink);border-radius:22px;padding:12px;font-weight:800;font-size:1.45rem;box-shadow:0 6px 0 var(--ink);margin-top:8px}
+.plbtn.alt{background:#fff;color:#1D6FD6;font-size:1.15rem;box-shadow:0 4px 0 var(--ink);padding:9px}
+.baghd{display:flex;align-items:center;gap:10px;background:#FFF3C4;border:3px solid var(--ink);border-radius:24px;padding:12px 14px;box-shadow:0 5px 0 var(--ink);margin-top:10px}
+.baghd .bi{font-size:2.8rem;line-height:1}.baghd h1{margin:0;font-size:1.7rem;line-height:1.2}.baghd small{display:block;color:var(--muted);font-weight:700;font-size:1rem}
+.bagsec{font-weight:800;font-size:1.3rem;margin:18px 0 8px;color:#1E6B33}.bagsec.o{color:var(--muted);font-size:1.12rem}
+.bagt{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.bagt button{all:unset;box-sizing:border-box;cursor:pointer;position:relative;background:#fff;border:3px solid #2E8B47;border-radius:22px;padding:12px 10px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;box-shadow:0 5px 0 #BFE6C6}
+.bagt button .i{font-size:2.4rem;line-height:1.1}.bagt button b{font-size:1.15rem;line-height:1.3}.bagt button .en{font-size:.95rem;color:var(--muted);font-weight:700}
+.bagt button.here{background:#FFFBEA;border-color:#D99A00;box-shadow:0 5px 0 #F3D88A}
+.bagt button.here::before{content:"أنت هنا";position:absolute;top:-13px;left:10px;background:#FFD23F;border:2px solid var(--ink);border-radius:10px;padding:0 8px;font-size:.85rem;font-weight:800}
+.bago{display:flex;flex-wrap:wrap;gap:8px}
+.bago button{font:inherit;font-weight:700;font-size:1rem;border:2px dashed #D9CFAF;background:#FFFDF5;color:var(--muted);border-radius:16px;padding:6px 12px;cursor:pointer}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="top"><a class="homeBtn" id="topBtn" href="../index.html">🏠 النادي</a><span class="stars" id="stars">⭐ 0</span></div>
+  <div class="top"><a class="homeBtn" id="topBtn" href="../index.html">🏠 النادي</a><button type="button" class="bagBtn" id="bagBtn" aria-label="حقيبة الرحلة: كل الأقسام"><span aria-hidden="true">🎒</span>حقيبتي</button><span class="stars" id="stars">⭐ 0</span></div>
   <main id="app"></main>
   <div id="jbar" hidden></div>
   <p class="voicetip" id="voiceTip" hidden>🔈 لا يوجد صوت إنجليزي في جهازك، فقد يُقرأ النطق بلكنة عربية. ثبّت الصوت الإنجليزي من: الإعدادات ← تحويل النص إلى كلام ← محرك Google ← تثبيت بيانات الصوت ← English.</p>
@@ -487,7 +522,7 @@ function doInstall(){
 function home(){journeyMap();}
 /* all sections, free browsing (the old home) */
 function allSections(){
-  JDOOR=null;jBar();push({v:'all'},'all');backBtn();
+  JDOOR=null;ROAM=1;SEC=null;jBar();push({v:'all'},'all');backBtn();
   const LC=['','#EDE4FF','#D9F5EC','#FFE6CC','#DCE6FF'],LT=['','⭐','⭐⭐','⭐⭐⭐','🚀'];
   const day=Math.floor(Date.now()/864e5),tn=day%STORIES.length,ts=STORIES[tn];
   const cov=(st,i)=>`<button class="cov" data-st="${i}" style="background:${LC[st.lv||1]}"><span class="lv">${LT[st.lv||1]}</span><span class="ic">${st.ic}</span><b>${esc(st.ar)}</b></button>`;
@@ -536,9 +571,9 @@ let SEC=null,MODE='learn',NAV=false;
 function push(st,h){if(NAV)return;try{if(JSON.stringify(history.state)===JSON.stringify(st))return;history.pushState(st,'','#'+h);if(JDOOR)JSTACK++;}catch(e){}}
 function goBack(e){if(e)e.preventDefault();speechSynthesis&&speechSynthesis.cancel();const st=history.state;if(st&&st.v&&st.v!=='home')history.back();else home();}
 function backBtn(){$('topBtn').innerHTML='<bdi>←</bdi> <bdi>رجوع</bdi>';$('topBtn').dir='ltr';$('topBtn').href='#';$('topBtn').onclick=goBack;}
-function render(st){NAV=true;try{speechSynthesis&&speechSynthesis.cancel();jClose();if(!st||!st.v||st.v==='home')home();else if(st.v==='all')allSections();else if(st.v==='st'&&ST[st.i])station(st.i);else if(st.v==='sec'&&SECTIONS.some(x=>x.id===st.id))open(st.id);else if(st.v==='story'&&STORIES[st.n]){open('sto');story(st.n);}else home();}finally{NAV=false;}}
+function render(st){NAV=true;try{speechSynthesis&&speechSynthesis.cancel();jClose();if(!st||!st.v||st.v==='home')home();else if(st.v==='all')allSections();else if(st.v==='bag')bag();else if(st.v==='pl')home();else if(st.v==='st'&&ST[st.i])station(st.i);else if(st.v==='sec'&&SECTIONS.some(x=>x.id===st.id))open(st.id);else if(st.v==='story'&&STORIES[st.n]){open('sto');story(st.n);}else home();}finally{NAV=false;}}
 addEventListener('popstate',e=>{if(JSTACK>0)JSTACK--;render(e.state);});
-function open(id){SEC=SECTIONS.find(s=>s.id===id);MODE='learn';push({v:'sec',id},id);backBtn();
+function open(id){SEC=SECTIONS.find(s=>s.id===id);MODE='learn';push({v:'sec',id},id);backBtn();if(!JDOOR)jBar();
   if(id==='sto4')return storyShelf(4);
   if(id==='spl2')return spell(SPELL2,'spl2');
   if(id==='ord')return order();
@@ -1069,7 +1104,7 @@ const jOpen=i=>i===0||jCount(i-1)>0||(ST[i].L<=JR.j&&ST[i-1].L!==ST[i].L);
 const jCur=()=>{for(let i=ST.length-1;i>=0;i--)if(jOpen(i)&&!jCount(i))return i;return ST.length-1;};
 const landDone=L=>ST.filter(s=>s.L===L).every(s=>jCount(s.i)>0);
 const jStars=i=>'⭐'.repeat(jCount(i))+'☆'.repeat(ST[i].doors.length-jCount(i));
-let JDOOR=null,JSTACK=0,JUST=null;
+let JDOOR=null,JSTACK=0,JUST=null,ROAM=0;
 function doorInfo(d){const m=DOOR[d[0]];
   if(d[0]==='story'){const n=SI(d[1]),st=STORIES[n],lv=st.lv||1;return {ic:st.ic,ar:'قصة: '+st.ar,en:st.t,sub:['','قصة قصيرة سهلة','قصة فيها مشكلة وحل','قصة أطول فيها درس','قصة للأبطال المتقدمين'][lv]+' ثم أسئلة',t:m[5]};}
   if(d[0]==='learn'&&(d[1]==='phr'||d[1]==='cls'))return {ic:'💬',ar:'تعلّم الجمل',en:'Learn',sub:'اضغط الجملة واسمعها ثم قلها',t:m[5]};
@@ -1077,7 +1112,7 @@ function doorInfo(d){const m=DOOR[d[0]];
   return {ic:m[0],ar:m[1],en:m[2],sub:m[3],t:m[5]};}
 function jx(r){return Math.round(50+27*Math.sin(r*1.2+.2));}
 function journeyMap(){
-  JDOOR=null;jBar();jClose();
+  JDOOR=null;ROAM=0;jBar();jClose();
   $('topBtn').textContent='🏠 النادي';$('topBtn').dir='rtl';$('topBtn').href='../index.html';$('topBtn').onclick=null;
   const cur=jCur(),done=ST.filter(s=>jCount(s.i)).length,c=ST[cur],allDone=done===ST.length;
   const hr=new Date().getHours(),hi=hr<12?'صباح الخير':'مساء الخير',curL=ST[cur].L,stk=Math.min(STICKERS.length,Math.floor(STARS/5));
@@ -1096,12 +1131,12 @@ function journeyMap(){
         <path d="M206 300 C200 262 250 250 236 226 S190 196 214 172" fill="none" stroke="#E9D59F" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>
         <g font-size="18"><text x="300" y="186">🌳</text><text x="40" y="220">🌷</text><text x="340" y="232">🌼</text><text x="208" y="166">🚩</text></g>
       </svg>
-      <div class="jttl"><h1>مسيرة البطل</h1><span class="en">Hero Journey</span></div>
+      <div class="jttl"><h1>مسيرة البطل</h1><span class="en">Hero Journey</span>${PL?`<span class="pathchip">${PATHS[PL.p].ic} ${PATHS[PL.p].ar}</span>`:''}</div>
       <div class="jstage"><span class="jlion" aria-hidden="true">🦁</span><div class="jsay"><b>${hi} ${esc(callYa())}! 👋</b>${allDone?'أنهيت المسيرة كلها! 🏆':done?'هيا نكمل من حيث توقفنا':'هيا نبدأ مغامرة الإنجليزية'}<span class="nx">${c.ic} المحطة ${cur+1}: ${esc(c.ar)}</span></div></div>
       <div class="jtrail"><div class="tls">${trail}</div><div class="jstat"><span>🚩 ${done} / ${ST.length}</span><span>⭐ ${STARS}</span><span>🎁 ${stk}</span></div></div>
     </div>
-    <button class="jgo" data-go="${cur}"><span>${allDone?'🏆 اجمع ⭐⭐⭐ في كل محطة':done?'تابع المسيرة 🚀':'هيا ننطلق! 🚀'}<small>${LANDS[curL].ic} ${LANDS[curL].ar} · المحطة ${cur+1}</small></span><span class="ic">${c.ic}</span></button>
-    <div class="jlinks top"><button data-x="crd"><span>💌</span>بطاقاتي</button><button data-x="stk"><span>🎁</span>ملصقاتي</button><button data-x="adv"><span>🚀</span>متقدم؟</button><button data-x="all"><span>🗂️</span>كل الأقسام</button></div>${reviewBox()}`;
+    <button class="jgo" data-go="${cur}"><span>${allDone?'🏆 اجمع ⭐⭐⭐ في كل محطة':'خطوتك التالية ▶'}<small>${c.ic} المحطة ${cur+1}: ${esc(c.ar)} · ${LANDS[curL].ic} ${LANDS[curL].ar}</small></span><span class="ic">${c.ic}</span></button>
+    <div class="jlinks top"><button data-x="bag"><span>🎒</span>حقيبتي</button><button data-x="crd"><span>💌</span>بطاقاتي</button><button data-x="stk"><span>🎁</span>ملصقاتي</button></div>${reviewBox()}`;
   LANDS.forEach((L,li)=>{
     const sts=ST.filter(s=>s.L===li),lp=sts.filter(s=>jCount(s.i)).length;
     const deco=L.deco.map((e,k)=>`<span style="top:${90+k*(sts.length*170)/L.deco.length}px;${k%2?'left':'right'}:${6+(k*7)%14}px">${e}</span>`).join('');
@@ -1115,13 +1150,13 @@ function journeyMap(){
       <div class="lhead" style="--c:${L.c}"><span class="li">${L.ic}</span><div><b>المرحلة ${li+1}: ${L.ar}</b><span class="en">${L.en}</span></div><span class="lp">${lp} / ${sts.length}</span></div>
       <div class="jpath" data-l="${li}"><svg class="jline" aria-hidden="true"></svg>${rows}</div></section>`;
   });
-  html+=instCard()+`<div class="jlinks" style="margin-top:14px"><button data-x="all">🗂️ تصفّح كل الأقسام بحرية</button></div>`;
+  html+=instCard()+`<div class="jlinks" style="margin-top:14px"><button data-x="bag">🎒 افتح حقيبتي: كل الأقسام</button></div>`;
   $('app').innerHTML=html;
   LANDS.forEach((L,li)=>{document.querySelectorAll(`.jpath[data-l="${li}"] .jn`).forEach(b=>b.style.setProperty('--t',L.t));});
   $('app').querySelectorAll('[data-st]').forEach(b=>b.onclick=()=>{const i=+b.dataset.st;if(jOpen(i))station(i);else jLocked(i);});
   $('app').querySelectorAll('[data-ch]').forEach(b=>b.onclick=()=>chest(+b.dataset.ch));
   $('app').querySelector('[data-go]').onclick=()=>station(cur);
-  $('app').querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>b.dataset.x==='all'?allSections():b.dataset.x==='adv'?jAdvanced():b.dataset.x==='crd'?myCards():open('stk'));
+  $('app').querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>b.dataset.x==='all'?allSections():b.dataset.x==='bag'?bag():b.dataset.x==='adv'?jAdvanced():b.dataset.x==='crd'?myCards():open('stk'));
   $('app').querySelectorAll('[data-rv]').forEach(b=>b.onclick=()=>{const v=b.dataset.rv;
     if(['spl','spl2','ord','grm','opp'].includes(v))return open(v);
     if(v.startsWith('sto:')){const n=+v.slice(4);open('sto');return storyQuiz(n,fixDue('sto').filter(k=>k.split(':')[0]===String(n)).map(k=>+k.split(':')[1]),true);}
@@ -1130,7 +1165,8 @@ function journeyMap(){
   const y=+(sessionStorage.getItem('kd-jy')||-1);
   window.scrollTo(0,y>=0?y:0);
   if(INSTALL_GO&&!window._instGo){window._instGo=1;setTimeout(()=>{const c=$('inst');if(c){c.scrollIntoView({behavior:'smooth',block:'center'});c.classList.add('go');}},400);}
-  else if(!ME.ask&&!ME.n)setTimeout(()=>{if(document.querySelector('.jpath')&&!$('jmodal'))askName(()=>journeyMap());},600);
+  else if(!ME.ask&&!ME.n)setTimeout(()=>{if(document.querySelector('.jpath')&&!$('jmodal'))askName(()=>plNeeded()?plIntro():journeyMap());},600);
+  else if(plNeeded()&&!window._plAsk){window._plAsk=1;setTimeout(()=>{if(document.querySelector('.jpath')&&!$('jmodal'))plIntro();},600);}
 }
 /* the dotted road between stations; the walked part is coloured */
 function jLines(){
@@ -1156,6 +1192,89 @@ function jAdvanced(){
   box.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{const li=+b.dataset.l;jClose();if(li<1)return;
     if(li>JR.j){JR.j=li;jSave();}window.clubSfx&&clubSfx('win');station(ST.find(s=>s.L===li).i);});
 }
+/* ---------- 🧭 لعبة المسار (23 Nov 2026): 8 short picture questions after the name pick the child's path and starting land.
+   kd-pl {p:'seed'|'bud'|'tree', L: land, at} — this device only. Advanced kids can still jump higher (jAdvanced). ---------- */
+const PATHS={seed:{ic:'🌱',ar:'مسار البذرة',sub:'الحروف والأصوات والكلمات الأولى',t:'#FFF1D2'},
+  bud:{ic:'🌿',ar:'مسار البرعم',sub:'الكلمات والجمل والقصص القصيرة',t:'#E3F7E5'},
+  tree:{ic:'🌳',ar:'مسار الشجرة',sub:'الجمل والقصص الأطول',t:'#E3F3FF'}};
+let PL=null;try{const p=JSON.parse(store.get('kd-pl')||'null');if(p&&PATHS[p.p])PL={p:p.p,L:+p.L||0,at:p.at||0};}catch(e){}
+const plNeeded=()=>!PL&&!Object.keys(JR.d).length;
+/* q: [band, prompt (English), Arabic hint, say (audio text or ''), options, right index, words?] band 0 = basics, 1 = words, 2 = sentences */
+const PLQ=[
+ [0,'Listen and choose','اسمع الكلمة واختر صورتها','cat',['🐶','🐱','🐟','🐄'],1],
+ [0,'Which letter is B?','أيّ حرف هو B؟','B',['D','P','B','R'],2,1],
+ [0,'Listen and choose','اسمع اللون واختر','green',['🔴','🔵','🟢','🟡'],2],
+ [1,'apple','اقرأ الكلمة واختر صورتها','',['🍌','🍎','🍇','🍊'],1],
+ [1,'school bag','اقرأ واختر الصورة','',['🎒','✏️','📏','📖'],0],
+ [2,'The fish is in the water.','اقرأ الجملة واختر الصورة','',['🐟🌊','🐱🛏️','🐦🌳','🐶🏠'],0],
+ [2,'She is happy.','اقرأ الجملة واختر الصورة','',['😢','😠','😊','😴'],2],
+ [2,'Tom has a red ball. What color is Tom\'s ball?','اقرأ ثم أجب','',['blue','red','green','yellow'],1,1]];
+function plIntro(){
+  jModal('🧭',ME.n?'هيا نلعب '+esc(callYa())+'!':'لعبة الاستكشاف','8 أسئلة قصيرة بالصور، نعرف بها من أين تبدأ رحلتك.<br>لا بأس إن أخطأت، هذه لعبة وليست اختباراً 😊',
+    [['هيا نلعب 🎮',()=>plGame()],['أبدأ من الأول',()=>{plSave('seed',0);journeyMap();},'alt']]);
+}
+function plSave(p,L){PL={p,L,at:Date.now()};store.set('kd-pl',JSON.stringify(PL));}
+function plGame(){
+  JDOOR=null;ROAM=0;SEC=null;jBar();jClose();push({v:'pl'},'path');backBtn();
+  let k=0;const got=[0,0,0];
+  function q(){
+    const Q=PLQ[k];let locked=false;
+    $('app').innerHTML=`<div class="pl"><div class="plhd"><span>🧭 رحلة الاستكشاف</span><span>${k+1} من ${PLQ.length}</span></div>
+      <div class="pldots">${PLQ.map((_,i)=>`<i class="${i<k?'d':i===k?'c':''}"></i>`).join('')}</div>
+      <div class="plsay"><span class="l" aria-hidden="true">🦁</span><div class="b">${esc(callYa())}، ${Q[2]}</div></div>
+      <div class="plq">${esc(Q[1])}</div>${Q[3]?'<button type="button" class="plear" id="plEar">🔊 استمع</button>':''}
+      <div class="plopts">${Q[4].map((o,i)=>`<button type="button" data-i="${i}" class="${Q[6]?'w':''}">${esc(o)}</button>`).join('')}</div>
+      <div class="plnote">لا بأس إن أخطأت، هذه لعبة وليست اختباراً</div></div>`;
+    if(Q[3]){$('plEar').onclick=()=>say(Q[3],.8);setTimeout(()=>say(Q[3],.8),350);}
+    $('app').querySelectorAll('.plopts button').forEach(b=>b.onclick=()=>{if(locked)return;locked=true;const i=+b.dataset.i,ok=i===Q[5];
+      b.classList.add(ok?'ok':'no');if(!ok)$('app').querySelector(`.plopts [data-i="${Q[5]}"]`).classList.add('ok');
+      if(ok){got[Q[0]]++;window.clubSfx&&clubSfx('good');}else window.clubSfx&&clubSfx('bad');
+      setTimeout(()=>{k++;if(k<PLQ.length)q();else plResult(got);},ok?700:1300);});
+    window.scrollTo(0,0);
+  }
+  q();
+}
+function plResult(got){
+  let p,L;
+  if(got[0]<2){p='seed';L=0;}else if(got[1]<2){p='bud';L=1;}else if(got[2]<2){p='bud';L=2;}else if(got[2]<3){p='tree';L=3;}else{p='tree';L=4;}
+  plSave(p,L);if(L>JR.j){JR.j=L;jSave();}
+  window.clubSfx&&clubSfx('win');burst(innerWidth/2,180);
+  $('app').innerHTML=`<div class="pl plres"><div class="big">🌟</div><h2>${G('أحسنت','أحسنتِ')} ${esc(callYa())}!</h2><p>وجدنا لك المسار المناسب</p>
+    ${['seed','bud','tree'].map(x=>`<div class="pcard${x===p?' me':''}" style="--t:${PATHS[x].t}"><span class="pi">${PATHS[x].ic}</span><span><b>${PATHS[x].ar}</b><small>${PATHS[x].sub}</small></span></div>`).join('')}
+    <p style="margin:10px 0 0">تبدأ من: ${LANDS[L].ic} المرحلة ${L+1}: ${LANDS[L].ar}</p>
+    <button type="button" class="plbtn" id="plGo">ابدأ رحلتي 🚀</button>
+    <button type="button" class="plbtn alt" id="plUp">أريد أن أبدأ من مرحلة أعلى</button></div>`;
+  $('plGo').onclick=()=>station(ST.find(s=>s.L===L).i);
+  $('plUp').onclick=()=>jAdvanced();
+  window.scrollTo(0,0);
+}
+
+/* ---------- 🎒 حقيبة الرحلة (23 Nov 2026): every section under one icon. The sections of the child's current land come first
+   (the current station's are marked «أنت هنا»), the rest are quieter; one big button always leads back to the next step. ---------- */
+const doorSec=d=>d[0]==='story'?'sto':d[0]==='write'?'wr':['learn','play','read'].includes(d[0])?d[1]:d[0];
+function bag(){
+  JDOOR=null;ROAM=1;SEC=null;jBar();jClose();push({v:'bag'},'bag');backBtn();
+  const cur=jCur(),c=ST[cur],L=c.L,here=new Set(c.doors.map(doorSec)),mine=[];
+  ST.filter(s=>s.L===L).forEach(s=>s.doors.forEach(d=>{const id=doorSec(d);if(!mine.includes(id))mine.push(id);}));
+  if(!mine.includes('sto'))mine.push('sto');
+  const sec=id=>SECTIONS.find(x=>x.id===id),others=SECTIONS.filter(x=>!mine.includes(x.id)&&x.id!=='stk');
+  $('app').innerHTML=`<div class="baghd"><span class="bi" aria-hidden="true">🎒</span><div><h1>حقيبة رحلتي</h1><small>${PL?PATHS[PL.p].ic+' '+PATHS[PL.p].ar+' · ':''}${LANDS[L].ic} المرحلة ${L+1}: ${LANDS[L].ar}</small></div></div>
+    ${reviewBox()}
+    <div class="bagsec">${LANDS[L].ic} أقسام مسارك الآن</div>
+    <div class="bagt">${mine.map(sec).filter(Boolean).map(s=>`<button type="button" data-id="${s.id}" class="${here.has(s.id)?'here':''}"><span class="i" aria-hidden="true">${s.ic}</span><b>${s.ar}</b><span class="en">${s.en}</span></button>`).join('')}</div>
+    <button class="jgo" data-b="go" style="margin:18px 0 0"><span>ارجع إلى خطوتك التالية ▶<small>${c.ic} المحطة ${cur+1}: ${esc(c.ar)}</small></span><span class="ic">${c.ic}</span></button>
+    <div class="bagsec o">أقسام أخرى تستطيع زيارتها</div>
+    <div class="bago">${others.map(s=>`<button type="button" data-id="${s.id}">${s.ic} ${s.ar}</button>`).join('')}</div>
+    <div class="jlinks" style="margin-top:16px"><button data-b="all">🗂️ كل الأقسام والقصص</button><button data-b="adv">🚀 أنا بطل متقدم</button><button data-b="pl">🧭 لعبة المسار</button></div>
+    `;
+  $('app').querySelectorAll('[data-id]').forEach(b=>b.onclick=()=>{ROAM=1;open(b.dataset.id);});
+  $('app').querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{const x=b.dataset.b;if(x==='go')return station(jCur());if(x==='all')return allSections();if(x==='adv')return jAdvanced();plIntro();});
+  $('app').querySelectorAll('[data-rv]').forEach(b=>b.onclick=()=>{const v=b.dataset.rv;
+    if(['spl','spl2','ord','grm','opp'].includes(v))return open(v);
+    if(v.startsWith('sto:')){const n=+v.slice(4);open('sto');return storyQuiz(n,fixDue('sto').filter(k=>k.split(':')[0]===String(n)).map(k=>+k.split(':')[1]),true);}
+    const rd=v.startsWith('r-'),id=rd?v.slice(2):v;open(id);MODE=rd?'read':'play';draw();});
+  window.scrollTo(0,0);
+}
 function jLocked(i){const p=ST[i-1];window.clubSfx&&clubSfx('bad');
   jModal('🔒','هذه المحطة مقفلة',`أنجز مهمة واحدة في المحطة ${i}: «${esc(p.ar)}» لتفتحها 🗝️`,[[`اذهب إلى «${esc(p.ar)}» ${p.ic}`,()=>station(jOpen(i-1)?i-1:jCur())],['حسناً',null,'alt']]);}
 function chest(li){
@@ -1168,7 +1287,7 @@ function chest(li){
 }
 function station(i){
   const s=ST[i],L=LANDS[s.L];if(!jOpen(i))return jLocked(i);
-  JDOOR=null;jBar();jClose();push({v:'st',i},'st-'+(i+1));JSTACK=0;backBtn();
+  JDOOR=null;ROAM=0;jBar();jClose();push({v:'st',i},'st-'+(i+1));JSTACK=0;backBtn();
   const n=jCount(i),nx=ST[i+1];let win='';
   if(JUST&&JUST.i===i){win=JUST.next&&nx?`<div class="jwin">🎉 رائع! فتحت المحطة التالية: ${nx.ic} ${esc(nx.ar)}<br><button data-j="next">انطلق إليها 🚀</button></div>`
     :n===s.doors.length?'<div class="jwin">🏆 ممتاز! جمعت ⭐⭐⭐ في هذه المحطة</div>':'<div class="jwin">⭐ أحسنت! أنجزت مهمة جديدة</div>';win=win.replace('أحسنت!',G('أحسنتَ','أحسنتِ')+' '+esc(callYa())+'!').replace('رائع!','رائع '+esc(callYa())+'!').replace('ممتاز!','ممتاز '+esc(callYa())+'!');
@@ -1190,7 +1309,7 @@ function jLaunch(i,k){
 }
 function jBack(){const n=JSTACK;JSTACK=0;const i=JDOOR?JDOOR.i:jCur();if(n>0){try{history.go(-n);return;}catch(e){}}station(i);}
 function jBar(){
-  const b=$('jbar');if(!b)return;if(!JDOOR){b.hidden=true;b.className='';return;}
+  const b=$('jbar');if(!b)return;if(!JDOOR){if(ROAM&&SEC&&SEC.id!=='stk'){const c=ST[jCur()];b.hidden=false;b.className='';b.innerHTML=`<span class="tx"><b>🎒 ${SEC.ic} ${esc(SEC.ar)}</b>خطوتك التالية: ${c.ic} ${esc(c.ar)}</span><button type="button">▶ خطوتك التالية</button>`;b.querySelector('button').onclick=()=>station(jCur());return;}b.hidden=true;b.className='';return;}
   const s=ST[JDOOR.i],D=doorInfo(s.doors[JDOOR.k]);let hint;
   if(JDOOR.t==='learn'){const need=Math.min(6,items(s.doors[JDOOR.k][1]).length);hint=`اضغط ${need} بطاقات واسمعها (${Math.min(JDOOR.taps.size,need)} / ${need}) 🔊`;}
   else if(JDOOR.t==='write')hint=`اكتب 3 حروف (${JDOOR.w} / 3) ✍️`;
@@ -1353,6 +1472,7 @@ function myCards(){
   bt.querySelector('[data-a="x"]').onclick=()=>jClose();
 }
 
+$('bagBtn').onclick=()=>{speechSynthesis&&speechSynthesis.cancel();bag();};
 try{if(history.state&&history.state.v)render(history.state);else{history.replaceState({v:'home'},'',location.pathname+location.search);home();}}catch(e){home();}
 </script>
 </body>
