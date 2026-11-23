@@ -20,7 +20,7 @@ body{color:var(--ink);font-family:var(--ar);font-size:20px;line-height:1.6;paddi
   background-image:radial-gradient(#FBE7B4 1.4px,transparent 1.4px);background-size:26px 26px}
 [hidden]{display:none!important}
 .en{font-family:var(--en);direction:ltr;unicode-bidi:isolate}
-.wrap{max-width:980px;margin:0 auto;padding:16px 14px 90px}
+.wrap{max-width:980px;margin:0 auto;padding:16px 14px calc(140px + env(safe-area-inset-bottom,0px))}
 .top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
 .homeBtn,.backBtn{font:inherit;font-weight:800;border:3px solid var(--ink);background:#fff;border-radius:999px;padding:6px 16px;cursor:pointer;color:var(--ink);text-decoration:none;box-shadow:3px 3px 0 var(--ink);font-size:1rem}
 .stars{font-family:var(--en);font-weight:800;font-size:1.3rem;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:2px 16px;box-shadow:3px 3px 0 var(--ink)}
