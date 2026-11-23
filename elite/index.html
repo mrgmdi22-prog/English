@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-title" content="English Club">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<script src="../assets/gate.js?v=11"></script><script src="../assets/combo.js?v=4"></script>
+<script src="../assets/gate.js?v=12"></script><script src="../assets/combo.js?v=4"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>مسار النخبة · Elite Track</title>
 <meta name="description" content="مسار النخبة: رحلة من قمة B1 إلى قمة B2، بنجوم وألقاب وأوسمة وتحدٍّ يومي ولوحة خاصة.">
@@ -476,7 +476,7 @@ function home() {
     </div>
     <div class="next">${nx ? `باقٍ لك <b>${nx[0] - st}</b> ${nx[0] - st === 1 ? 'نجمة' : 'نجوم'} لتصبح <b>${nx[2]} ${nx[1]}</b>` : '👑 بلغت أعلى لقب في المسار!'}
       <div class="pbar"><i style="width:${nx ? Math.round((st - t[0]) / (nx[0] - t[0]) * 100) : 100}%"></i></div></div>`
-    : `<p class="muted" style="margin:8px 0 0">رحلة من قمة B1 إلى قمة B2: 10 محطات، 30 نجمة، وألقاب وأوسمة.</p>`;
+    : `<p class="muted" style="margin:8px 0 0">رحلة من قمة <bdi>B1</bdi> إلى قمة <bdi>B2</bdi> في 10 محطات، 30 نجمة، وألقاب وأوسمة.</p>`;
   if (!ok) { window.scrollTo(0, 0); return; }
 
   // daily challenge

@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Tajawal:wght@500;700;800&display=swap" media="print" onload="this.media='all'">
-<script src="../assets/sfx.js?v=11"></script>
+<script src="../assets/sfx.js?v=12"></script>
 <style>
 /* Kids club: big picture cards, sound on every tap, short "listen and touch" games with stars and stickers. */
 :root{color-scheme:light;--bg:#FFF9EC;--card:#fff;--ink:#2A2440;--muted:#6B6585;--line:#F1E6CC;--ok:#22A060;--bad:#E5484D;
@@ -21,7 +21,10 @@ body{color:var(--ink);font-family:var(--ar);font-size:20px;line-height:1.6;paddi
 [hidden]{display:none!important}
 .en{font-family:var(--en);direction:ltr;unicode-bidi:isolate}
 .wrap{max-width:980px;margin:0 auto;padding:16px 14px calc(140px + env(safe-area-inset-bottom,0px))}
-.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.top>*{white-space:nowrap;flex:none}.top .bagBtn{flex:0 1 auto;min-width:0}
+.top .homeBtn{font-size:min(1rem,4.4vw);padding:6px 12px}.top .stars{font-size:min(1.3rem,5.4vw);padding:2px 12px}.top .bagBtn{font-size:min(1.1rem,4.6vw);padding:4px 10px}.top .bagBtn span{font-size:min(1.4rem,5.8vw)}
+.nw{white-space:nowrap}
 .homeBtn,.backBtn{font:inherit;font-weight:800;border:3px solid var(--ink);background:#fff;border-radius:999px;padding:6px 16px;cursor:pointer;color:var(--ink);text-decoration:none;box-shadow:3px 3px 0 var(--ink);font-size:1rem}
 .stars{font-family:var(--en);font-weight:800;font-size:1.3rem;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:2px 16px;box-shadow:3px 3px 0 var(--ink)}
 .hero{text-align:center;margin:8px 0 18px}
@@ -1147,10 +1150,10 @@ function journeyMap(){
         <g font-size="18"><text x="300" y="186">🌳</text><text x="40" y="220">🌷</text><text x="340" y="232">🌼</text><text x="208" y="166">🚩</text></g>
       </svg>
       <div class="jttl"><h1>مسيرة البطل</h1><span class="en">Hero Journey</span>${PL?`<span class="pathchip">${PATHS[PL.p].ic} ${PATHS[PL.p].ar}</span>`:''}</div>
-      <div class="jstage"><span class="jlion" aria-hidden="true">🦁</span><div class="jsay"><b>${hi} ${esc(callYa())}! 👋</b>${allDone?'أنهيت المسيرة كلها! 🏆':done?'هيا نكمل من حيث توقفنا':'هيا نبدأ مغامرة الإنجليزية'}<span class="nx">${c.ic} المحطة ${cur+1}: ${esc(c.ar)}</span></div></div>
+      <div class="jstage"><span class="jlion" aria-hidden="true">🦁</span><div class="jsay"><b>${hi} <span class="nw">${esc(callYa())}! 👋</span></b>${allDone?'أنهيت المسيرة كلها! 🏆':done?'هيا نكمل من حيث توقفنا':'هيا نبدأ مغامرة الإنجليزية'}<span class="nx"><span class="nw">${c.ic} المحطة ${cur+1}:</span> ${esc(c.ar)}</span></div></div>
       <div class="jtrail"><div class="tls">${trail}</div><div class="jstat"><span>🚩 ${done} / ${ST.length}</span><span>⭐ ${STARS}</span><span>🎁 ${stk}</span></div></div>
     </div>
-    <button class="jgo" data-go="${cur}"><span>${allDone?'🏆 اجمع ⭐⭐⭐ في كل محطة':'خطوتك التالية ▶'}<small>${c.ic} المحطة ${cur+1}: ${esc(c.ar)} · ${LANDS[curL].ic} ${LANDS[curL].ar}</small></span><span class="ic">${c.ic}</span></button>
+    <button class="jgo" data-go="${cur}"><span>${allDone?'🏆 اجمع ⭐⭐⭐ في كل محطة':'خطوتك التالية ▶'}<small><span class="nw">${c.ic} المحطة ${cur+1}: ${esc(c.ar)}</span> <span class="nw">· ${LANDS[curL].ic} ${LANDS[curL].ar}</span></small></span><span class="ic">${c.ic}</span></button>
     <div class="jlinks top"><button data-x="bag"><span>🎒</span>حقيبتي</button><button data-x="crd"><span>💌</span>بطاقاتي</button><button data-x="stk"><span>🎁</span>ملصقاتي</button></div>${reviewBox()}`;
   LANDS.forEach((L,li)=>{
     const sts=ST.filter(s=>s.L===li),lp=sts.filter(s=>jCount(s.i)).length;

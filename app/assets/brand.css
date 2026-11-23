@@ -168,3 +168,6 @@ a.b-pill{text-decoration:none}
 .fire-pill.due{animation:fpulse 1.6s ease-in-out infinite;background:#fff1e8}
 @keyframes fpulse{50%{box-shadow:0 0 0 6px rgba(255,107,53,.22)}}
 @media (prefers-reduced-motion:reduce){.fire-pill.due{animation:none}}
+
+/* typesetting (23 Nov 2026): no orphan words/emoji, balanced titles and buttons */
+html{text-wrap:pretty}h1,h2,h3,h4,h5,figcaption,label,button,small{text-wrap:balance}

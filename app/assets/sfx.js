@@ -1,6 +1,13 @@
 // Soft sound effects for the whole site (synthesised with Web Audio, no files):
 // a light tap on every button or link, a bright chime for a right answer, a gentle low tone for a wrong one,
 // and one 🔊 switch (bottom-left) that turns all page sounds on or off. Spoken words are never muted.
+// Typesetting for the whole site (23 Nov 2026, Ahmed: text broke badly inside frames on phones with large text):
+// no single word or emoji left alone on the last line of a paragraph, and short titles/buttons split into even lines.
+(function(){
+  try { var s = document.createElement('style'); s.id = 'clubType';
+    s.textContent = 'html{text-wrap:pretty}h1,h2,h3,h4,h5,figcaption,label,button,small{text-wrap:balance}';
+    (document.head || document.documentElement).appendChild(s); } catch (e) {}
+})();
 // Register the app's service worker (assets/../sw.js) so the site can be installed and opened offline.
 (function(){
   try {
