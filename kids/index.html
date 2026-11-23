@@ -80,7 +80,7 @@ h2.sec{font-size:1.4rem;margin:26px 4px 12px}
 .done h3{font-size:1.8rem;margin:6px 0}
 .burst{position:fixed;pointer-events:none;font-size:2rem;z-index:50;animation:fly 1s ease-out forwards}
 @keyframes fly{to{transform:translate(var(--dx),var(--dy)) scale(.6);opacity:0}}
-.pgnav,.pgnav button,.wbtns,.wbtns button{direction:ltr}
+.pgnav,.pgnav button,.wbtns,.wbtns button{direction:rtl}
 .voicetip{background:#FFF1DC;color:#6b3d00;border-radius:16px;padding:10px 14px;font-size:1rem;margin-top:16px}
 .book{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:10px}
 .book span{background:#fff;border:3px dashed #E8D9B5;border-radius:18px;font-size:2.6rem;display:grid;place-items:center;aspect-ratio:1}
@@ -278,7 +278,7 @@ footer{text-align:center;color:var(--muted);font-size:.95rem;margin-top:26px}
 .door .en{text-align:right}
 .door .dgo{margin-inline-start:auto;font-size:1.9rem;flex:none}
 .door.ok{background:#E2F7EA}
-.jnav{display:flex;justify-content:space-between;gap:8px;max-width:560px;margin:20px auto 0;direction:ltr}
+.jnav{display:flex;justify-content:space-between;gap:8px;max-width:560px;margin:20px auto 0;direction:rtl}
 .jnav button{font:inherit;font-weight:800;font-size:1.1rem;border:3px solid var(--ink);background:#fff;border-radius:999px;padding:8px 14px;cursor:pointer;color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
 .jnav button:disabled{opacity:.35;cursor:default}
 .jwin{background:#FFF3C4;border:3px dashed #D99A00;border-radius:22px;padding:10px 14px;text-align:center;font-weight:800;font-size:1.25rem;margin:14px auto 0;max-width:560px}
@@ -738,7 +738,7 @@ function story(n){
     return `<div class="pg${en.length>48?' long':''}"><div class="pic" aria-hidden="true">${pic}</div><p class="s en">${words(en)}</p><p class="ta" dir="rtl">${esc(ar)}</p><button class="spk" data-say="1" aria-label="اسمع">🔊</button><span class="no">${i}</span></div>`;
   }
   $('pn').innerHTML=`<div class="bookwrap"><div class="sbook" id="book" dir="ltr"><div class="leaf" id="leaf"></div></div></div>
-    <div class="pgnav" dir="ltr"><button id="pv"><bdi>←</bdi> <bdi>السابق</bdi></button><span style="font-weight:800" id="pnum"></span><button id="nx"><bdi>التالي</bdi> <bdi>→</bdi></button></div>`;
+    <div class="pgnav" dir="rtl"><button id="pv"><bdi>→</bdi> <bdi>السابق</bdi></button><span style="font-weight:800" id="pnum"></span><button id="nx"><bdi>التالي</bdi> <bdi>←</bdi></button></div>`;
   const book=$('book'),leaf=$('leaf');
   function readPage(){const P=pages[pg];if(P.p)say(P.p[1],.75);}
   function show(){
@@ -958,7 +958,7 @@ function writer(){
     <div class="wrow" id="wChips" dir="ltr"></div>
     <div class="wboard" id="wBoard"><canvas id="wG"></canvas><canvas id="wI"></canvas><div class="wpic" id="wPic"></div></div>
     <p class="wmsg" id="wMsg"></p>
-    <div class="wbtns" dir="ltr"><button id="wPrev"><bdi>←</bdi> <bdi>السابق</bdi></button><button id="wDemo">👀 شاهد</button><button id="wSay">🔊 اسمع</button><button id="wRe">🔁 من جديد</button><button id="wNext"><bdi>التالي</bdi> <bdi>→</bdi></button></div></div>`;
+    <div class="wbtns" dir="rtl"><button id="wPrev"><bdi>→</bdi> <bdi>السابق</bdi></button><button id="wDemo">👀 شاهد</button><button id="wSay">🔊 اسمع</button><button id="wRe">🔁 من جديد</button><button id="wNext"><bdi>التالي</bdi> <bdi>←</bdi></button></div></div>`;
   const board=$('wBoard'),gc=$('wG'),ic=$('wI'),g=gc.getContext('2d'),k=ic.getContext('2d');
   let W=0,H=0,dpr=1,u=60,ty=0,penW=16,R=30,strokes=[],si=0,miss=0,active=false,cpi=0,live=[],lastP=null,noProg=0,demoing=false,raf=0;
   const cur=()=>sets[WSET][WIDX],d2=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
@@ -1295,7 +1295,7 @@ function station(i){
   $('app').innerHTML=`<div class="shead" style="--t:${L.bg};--c:${L.c};background:${L.bg}"><span class="lv">${L.ic} المرحلة ${s.L+1} · المحطة ${i+1} من ${ST.length}</span><span class="bigic" aria-hidden="true">${s.ic}</span><h2>${esc(s.ar)}<span class="en">${esc(s.en)}</span></h2><div class="js">${jStars(i)}</div></div>${win}
     <p class="jpick">اختر مهمتك 👇<small>${n?'أنجز المهام الباقية لتجمع ⭐⭐⭐':'أنجز مهمة واحدة لتفتح المحطة التالية'}</small></p>
     <div class="doors">${s.doors.map((d,k)=>{const D=doorInfo(d),ok=JR.d[i+'.'+k];return `<button class="door${ok?' ok':''}" data-k="${k}" style="--t:${D.t};--c:${L.c}"><span class="dic">${D.ic}</span><span><b>${esc(D.ar)}</b><span class="en">${esc(D.en)}</span><small>${esc(D.sub)}</small></span><span class="dgo">${ok?'✅':'▶️'}</span></button>`;}).join('')}</div>
-    <div class="jnav"><button data-j="prev" ${i?'':'disabled'}><bdi>←</bdi> <bdi>السابقة</bdi></button><button data-j="map">🗺️ الخريطة</button><button data-j="next" ${nx&&jOpen(i+1)?'':'disabled'}><bdi>التالية</bdi> <bdi>→</bdi></button></div>`;
+    <div class="jnav"><button data-j="prev" ${i?'':'disabled'}><bdi>→</bdi> <bdi>السابقة</bdi></button><button data-j="map">🗺️ الخريطة</button><button data-j="next" ${nx&&jOpen(i+1)?'':'disabled'}><bdi>التالية</bdi> <bdi>←</bdi></button></div>`;
   $('app').querySelectorAll('.door').forEach(b=>b.onclick=()=>jLaunch(i,+b.dataset.k));
   $('app').querySelectorAll('[data-j]').forEach(b=>b.onclick=()=>{const j=b.dataset.j;if(j==='map')return goBack();if(j==='prev')return station(i-1);if(nx&&jOpen(i+1))station(i+1);});
   window.scrollTo(0,0);
