@@ -281,6 +281,20 @@ footer{text-align:center;color:var(--muted);font-size:.95rem;margin-top:26px}
 .jnav{display:flex;justify-content:space-between;gap:8px;max-width:560px;margin:20px auto 0;direction:rtl}
 .jnav button{font:inherit;font-weight:800;font-size:1.1rem;border:3px solid var(--ink);background:#fff;border-radius:999px;padding:8px 14px;cursor:pointer;color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
 .jnav button:disabled{opacity:.35;cursor:default}
+/* unified nav & tool buttons (23 Nov 2026): prev/next the same size, next = yellow like the main buttons */
+.pgnav,.jnav{display:flex;justify-content:space-between;align-items:center;gap:10px;max-width:560px}
+.pgnav button,.jnav button,.wbtns button{display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;
+  font:inherit;font-weight:800;font-size:1.15rem;line-height:1.2;min-height:54px;padding:8px 12px;border:3px solid var(--ink);border-radius:999px;
+  background:#fff;color:var(--ink);box-shadow:0 4px 0 var(--ink);cursor:pointer;transition:transform .1s,box-shadow .1s}
+.pgnav button,.jnav button{flex:1 1 0;max-width:170px;min-width:0}
+.pgnav #nx:not(:disabled),.wnav #wNext,.jnav [data-j=next]:not(:disabled){background:#FFD23F}
+.jnav [data-j=map]{background:#FFFBEA}
+.pgnav button:active:not(:disabled),.jnav button:active:not(:disabled),.wbtns button:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.pgnav button:disabled,.jnav button:disabled{opacity:.35;cursor:default;box-shadow:0 4px 0 var(--ink)}
+#pnum{flex:none;min-width:54px;text-align:center;font-size:1.15rem}
+.wbtns{display:flex;gap:10px;max-width:560px;margin:0 auto;flex-wrap:nowrap}
+.wbtns button{flex:1 1 0;min-width:0;min-height:50px;font-size:1.08rem;padding:6px 8px}
+.wnav{margin-top:14px}
 .jwin{background:#FFF3C4;border:3px dashed #D99A00;border-radius:22px;padding:10px 14px;text-align:center;font-weight:800;font-size:1.25rem;margin:14px auto 0;max-width:560px}
 .jwin button{font:inherit;font-weight:800;font-size:1.15rem;border:3px solid var(--ink);background:#FFD23F;border-radius:999px;padding:8px 18px;cursor:pointer;color:var(--ink);box-shadow:3px 3px 0 var(--ink);margin-top:8px}
 #jbar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#FFFBEA;border-top:3px solid var(--ink);padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px)) 88px;display:flex;align-items:center;gap:10px}
@@ -958,7 +972,8 @@ function writer(){
     <div class="wrow" id="wChips" dir="ltr"></div>
     <div class="wboard" id="wBoard"><canvas id="wG"></canvas><canvas id="wI"></canvas><div class="wpic" id="wPic"></div></div>
     <p class="wmsg" id="wMsg"></p>
-    <div class="wbtns" dir="rtl"><button id="wPrev"><bdi>→</bdi> <bdi>السابق</bdi></button><button id="wDemo">👀 شاهد</button><button id="wSay">🔊 اسمع</button><button id="wRe">🔁 من جديد</button><button id="wNext"><bdi>التالي</bdi> <bdi>←</bdi></button></div></div>`;
+    <div class="wbtns" dir="rtl"><button id="wDemo">👀 شاهد</button><button id="wSay">🔊 اسمع</button><button id="wRe">🔁 من جديد</button></div>
+    <div class="pgnav wnav" dir="rtl"><button id="wPrev"><bdi>→</bdi> <bdi>السابق</bdi></button><button id="wNext"><bdi>التالي</bdi> <bdi>←</bdi></button></div></div>`;
   const board=$('wBoard'),gc=$('wG'),ic=$('wI'),g=gc.getContext('2d'),k=ic.getContext('2d');
   let W=0,H=0,dpr=1,u=60,ty=0,penW=16,R=30,strokes=[],si=0,miss=0,active=false,cpi=0,live=[],lastP=null,noProg=0,demoing=false,raf=0;
   const cur=()=>sets[WSET][WIDX],d2=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);

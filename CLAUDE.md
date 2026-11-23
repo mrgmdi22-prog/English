@@ -7,7 +7,7 @@ Live: https://mrgmdi22-prog.github.io/English/ · repo mrgmdi22-prog/English (Gi
 - Reply in Arabic, short and clear. Sign materials «أ. أحمد بن سالم». Tanween on the alif (كثيراً).
 - Large fonts, light colours. Never «ملائكة الرحمة».
 - English content always left-to-right: Previous ← on the left, Next → on the right; letters A→Z from the left.
-- EXCEPTION (23 Nov 2026, Ahmed: «لغة الموقع العربية»): in Kids Club (`kids/`) the Prev/Next buttons are Arabic RTL — «→ السابق» on the RIGHT, «التالي ←» on the LEFT (storybook `.pgnav`, letter writing `.wbtns`, journey stations `.jnav`).
+- EXCEPTION (23 Nov 2026, Ahmed: «لغة الموقع العربية»): in Kids Club (`kids/`) the Prev/Next buttons are Arabic RTL — «→ السابق» on the RIGHT, «التالي ←» on the LEFT (storybook `.pgnav`, letter writing `.wnav` under the tools row `.wbtns`, journey stations `.jnav`). Unified style: prev/next equal width (flex 1, max 170px, 54px tall, 4px bottom ink shadow), «التالي» yellow #FFD23F, map button cream.
 - Commit as `-c user.name="Ahmed Ben Salim" -c user.email="mr.gmdi22@gmail.com"`; `git fetch -q origin && git rebase -q FETCH_HEAD` before push. Changes go live ~10 min after push.
 - Test locally: `python3 -m http.server 8765` + Playwright (Google fonts/gstatic are blocked in the sandbox; stub `assets/gate.js` to skip registration).
 
